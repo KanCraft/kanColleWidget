@@ -1,6 +1,6 @@
 (function(){
     var aspect = 0.6;
-    var conf_list = {"l": 1200,"m": 720,"s": 600,"xs": 400};
+    var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
     document.forms[0].elements['launch'].addEventListener('click', function(){
         //var mode = document.forms[0].elements['mode'].value;
         var mode = 'm';
