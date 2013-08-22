@@ -1,7 +1,5 @@
 (function(){
-    var q = window.location.search;
-    //alert(dump(parse(q)));
-    getMode();
+    var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
     var wrapper = document.getElementById('flashWrap');
     wrapper.style.margin = 0;
     setTimeout(function(){
@@ -26,12 +24,12 @@
     return s;
 }
 
-/* mode: string */function getMode(){
+/* mode: string */function getZoom(){
     var mapWidthZoom = {
         '1200': '1.5',
         '800' : '1',
         '600' : '0.75',
         '400' : '0.5'
     }
-    alert('in getMode window.innerWidth:' + window.innerWidth + "\n" + 'ZOOM : ' + mapWidthZoom[window.innerWidth]);
+    return mapWidthZoom[window.innerWidth];
 }
