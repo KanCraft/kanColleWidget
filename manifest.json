@@ -14,10 +14,21 @@
     "content_scripts": [
         {
             "matches" : [
-                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?widget=true&mode=*"
+                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode=*"
             ],
             "js" : [
-                "src/js/style.js"
+                "src/js/proxy.js"
+            ]
+        },
+        {
+            "matches" : [
+                "http://osapi.dmm.com/gadgets/ifr*"
+            ],
+            "js" : [
+                "src/js/resize.js"
+            ],
+            "css" : [
+                "src/css/resize.css"
             ]
         }
     ]
