@@ -6,7 +6,7 @@
     "icons" : {
         "128" : "src/img/icon.png"
     },
-    "version": "1.0",
+    "version": "0.4",
     "browser_action": {
         "default_icon": "src/img/icon.png",
         "default_popup": "src/html/select.html"
@@ -17,7 +17,17 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode=*"
             ],
             "js" : [
+                "src/js/_util.js",
                 "src/js/proxy.js"
+            ]
+        },
+        {
+            "matches" : [
+                "http://osapi.dmm.com/gadgets/ifr?*"
+            ],
+            "js" : [
+                "src/js/_util.js",
+                "src/js/proxy2.js"
             ]
         },
         {
