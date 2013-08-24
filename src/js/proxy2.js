@@ -11,6 +11,8 @@
             var w1 = window;
             var w2 = window.open(src, "_blank", "width="+width+",height="+height+",menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40");
             w1.close();
+        }else{
+            alert("ウィジェット化に失敗しました。が、ふつうにプレーできます。");
         }
     },1000);
 })();
