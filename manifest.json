@@ -2,11 +2,14 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
+    "version": "0.1.0",
+
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
-        "128" : "src/img/icon.png"
+        "48"  : "src/img/icon.48.png",
+        "128" : "src/img/icon.128.png"
     },
-    "version": "0.4",
+
     "browser_action": {
         "default_icon": "src/img/icon.png",
         "default_popup": "src/html/select.html"
