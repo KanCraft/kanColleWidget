@@ -2,7 +2,8 @@
 
 rm -rf release/kanColleWidget
 mkdir release/kanColleWidget
-
 cp -r src release/kanColleWidget/
 mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
 cp manifest.json release/kanColleWidget/
+
+zip -r release/kanColleWidget.zip release/kanColleWidget/*
