@@ -18,4 +18,5 @@
 
 # for develop
 do `sh cli/build`
-and read package release/kanColleWidget on Chrome
+
+and read package `release/kanColleWidget` on Chrome
