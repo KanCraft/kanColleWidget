@@ -38,6 +38,7 @@
                 "http://osapi.dmm.com/gadgets/ifr*"
             ],
             "js" : [
+                "src/js/_util.js",
                 "src/js/resize.js"
             ],
             "css" : [
