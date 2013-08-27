@@ -2,14 +2,26 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.1.1",
+    "version": "0.1.9",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
         "48"  : "icon.48.png",
         "128" : "icon.128.png"
     },
-
+    "permissions" : [
+        "tabs",
+        //"bookmarks",
+        "webRequest",
+        "http://125.6.188.25/*"//これ多分リンガ泊地なだけ
+    ],
+    "background" : {
+        "persistent" : true,
+        "scripts" : [
+            "src/js/background.js"
+        ]
+        //"page" : "src/html/bg.html" cannot be used in the same time
+    },
     "browser_action": {
         "default_icon": "icon.png",
         "default_popup": "src/html/select.html"
