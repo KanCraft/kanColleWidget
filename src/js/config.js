@@ -5,8 +5,17 @@
             chrome.tabs.create({url:this.getAttribute('href')});
         });
     }
-    //var checkbox = document.getElementById('doAlert');
-    //checkbox.addEventListener('change',function(e){
-    //    localStorage.setItem('config_showAlert', this.checked);
-    //});
+    var checkbox = document.getElementById('doAlert');
+    updateChecked();
+    checkbox.addEventListener('change',function(e){
+        localStorage.setItem('config_showAlert', this.checked);
+        updateChecked();
+    });
 })();
+
+function updateChecked(){
+    console.log(localStorage.getItem('config_showAlert'));
+    var checkbox = document.getElementById('doAlert');
+    if(localStorage.getItem('config_showAlert') == 'true') checkbox.setAttribute('checked');
+    else checkbox.removeAttribute('checked');
+}

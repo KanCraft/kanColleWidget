@@ -11,16 +11,21 @@
     },
     "permissions" : [
         "tabs",
-        //"bookmarks",
         "webRequest",
+        // 横須賀
+        // 呉
+        // 佐世保
+        // 舞鶴
+        // 大湊
+        // トラック泊地
         "http://125.6.188.25/*"//これ多分リンガ泊地なだけ
+        // ラバウル基地
     ],
     "background" : {
         "persistent" : true,
         "scripts" : [
             "src/js/background.js"
         ]
-        //"page" : "src/html/bg.html" cannot be used in the same time
     },
     "browser_action": {
         "default_icon": "icon.png",

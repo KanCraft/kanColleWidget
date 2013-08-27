@@ -31,17 +31,19 @@ chrome.webRequest.onBeforeRequest.addListener(function(data,hoge,fuga){
         if(match[1].match('start')){
             // x分後にバッジをつける
             var mission_id = data.requestBody.formData.api_mission_id[0];
-            console.log("ふなでだぞー\nこれが終わるのは" + missionId_SpentTimeMin_Map[mission_id] + "分後ですね");
+            if(localStorage.getItem('config_showAlert') == 'true')
+                alert("ふなでだぞー\nこれが終わるのは" + missionId_SpentTimeMin_Map[mission_id] + "分後ですね");
             setTimeout(function(){
                 chrome.browserAction.getBadgeText({},function(val){
                     if(val == '') val = 0;
-                    var text = String(val + 1);
+                    var text = String(parseInt(val) + 1);
                     chrome.browserAction.setBadgeText({text:text});
                 })
             },missionId_SpentTimeMin_Map[mission_id]*60*1000);
         }
         else if(match[1].match('result')){
-            console.log('かえってきたぞー');
+            if(localStorage.getItem('config_showAlert') == 'true')
+                alert('かえってきたぞー');
             chrome.browserAction.setBadgeText({text:''});
         }
     }
