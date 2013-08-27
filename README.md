@@ -15,3 +15,7 @@
 
 # 予定
 - 遠征終わった通知とか欲しいよ！
+
+# for develop
+do `sh cli/build`
+and read package release/kanColleWidget on Chrome
