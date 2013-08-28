@@ -20,3 +20,9 @@
 do `sh cli/build`
 
 and read package `release/kanColleWidget` on Chrome
+
+# Release Note
+
+- 2013/08/28 : 遠征完了通知の実装
+- 2013/08/27 : 表示の修正
+- 2013/08/24 : 公開
