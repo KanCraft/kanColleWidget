@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.1.9",
+    "version": "0.2.0",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -12,14 +12,7 @@
     "permissions" : [
         "tabs",
         "webRequest",
-        // 横須賀
-        // 呉
-        // 佐世保
-        // 舞鶴
-        // 大湊
-        // トラック泊地
-        "http://125.6.188.25/*"//これ多分リンガ泊地なだけ
-        // ラバウル基地
+        "http://*/kcsapi/*"
     ],
     "background" : {
         "persistent" : true,
