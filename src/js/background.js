@@ -24,8 +24,8 @@ var missionId_SpentTimeMin_Map = {
     "27" : 1200
 };
 
-chrome.webRequest.onBeforeRequest.addListener(function(data,hoge,fuga){
-    // TODO: 本来はここを指定のアドレスにすべき(今はリンガ泊地しかない)
+chrome.webRequest.onBeforeRequest.addListener(function(data){
+    // TODO: 本来はここを指定のアドレスにすべき(今はリンガ泊地しかない) (いや待て、果たしてそうか？)
     var match = data.url.match(/http:\/\/[0-9\.]+\/(.*)/);
     if(data.method == 'POST' && match[1].match(/kcsapi\/api_req_mission/)){
         if(match[1].match('start')){
