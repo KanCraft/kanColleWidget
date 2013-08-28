@@ -24,24 +24,24 @@ var missionId_SpentTimeMin_Map = {
     "27" : 1200
 };
 
-function writeMissionInfo(fleetNumber, finishTime) {
+function writeMissionInfo(deck_id, finishTime) {
     if(localStorage.missions == undefined) {
-        var initialValue = [{fleetNumber: 2, finish: null}, {fleetNumber: 3, finish: null}, {fleetNumber: 4, finish: null}];
+        var initialValue = [{deck_id: 2, finish: null}, {deck_id: 3, finish: null}, {deck_id: 4, finish: null}];
         localStorage.missions = JSON.stringify(initialValue);
     }
     var missions = JSON.parse(localStorage.missions);
     for(var i = 0;i < missions.length;i++) {
-        if(missions[i].fleetNumber == fleetNumber)
+        if(missions[i].deck_id == deck_id)
             missions[i].finish = finishTime;
     }
     localStorage.missions = JSON.stringify(missions);
 }
 
-function clearMissionInfo(fleetNumber) {
+function clearMissionInfo(deck_id) {
     if(localStorage.missions == undefined) return;
     var missions = JSON.parse(localStorage.missions);
     for(var i = 0;i < missions.length;i++) {
-        if(missions[i].fleetNumber == fleetNumber)
+        if(missions[i].deck_id == deck_id)
             missions[i].finish = null;
     }
     localStorage.missions = JSON.stringify(missions);
@@ -54,8 +54,8 @@ function checkMissions() {
     for(var i = 0;i < (missions.length);i++) {
         if(missions[i].finish == null) continue;
         if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
-            clearMissionInfo(missions[i].fleetNumber);
-            alert("第" + missions[i].fleetNumber + "艦隊が遠征より帰還しました。");
+            clearMissionInfo(missions[i].deck_id);
+            alert("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
         }
     }
 }
@@ -68,13 +68,13 @@ chrome.webRequest.onBeforeRequest.addListener(function(data,hoge,fuga){
         if(match[1].match('start')){
             // x分後にバッジをつける
             var mission_id = data.requestBody.formData.api_mission_id[0];
-            var fleetNumber = data.requestBody.formData.api_deck_id[0]
+            var deck_id = data.requestBody.formData.api_deck_id[0]
 
             if(localStorage.getItem('config_showAlert') == 'true'){
                 alert("ふなでだぞー\nこれが終わるのは" + missionId_SpentTimeMin_Map[mission_id] + "分後ですね");
                 var d = new Date();
                 var finish = new Date(d.setMinutes(d.getMinutes() + missionId_SpentTimeMin_Map[mission_id]));
-                writeMissionInfo(fleetNumber, finish);
+                writeMissionInfo(deck_id, finish);
             }
 
         }
