@@ -24,11 +24,58 @@ var missionId_SpentTimeMin_Map = {
     "27" : 1200
 };
 
-/***** Main Listener 01 : ウィジェットウィンドウがフォーカスされた時 *****/
-chrome.windows.onFocusChanged.addListener(function(id){
-    _isKCWWindow(function(isKCW){
-        if(isKCW){
-            chrome.browserAction.setBadgeText({text:''});
+function writeMissionInfo(fleetNumber, finishTime) {
+    if(localStorage.missions == undefined) {
+        var initialValue = [{fleetNumber: 2, finish: null}, {fleetNumber: 3, finish: null}, {fleetNumber: 4, finish: null}];
+        localStorage.missions = JSON.stringify(initialValue);
+    }
+    var missions = JSON.parse(localStorage.missions);
+    for(var i = 0;i < missions.length;i++) {
+        if(missions[i].fleetNumber == fleetNumber)
+            missions[i].finish = finishTime;
+    }
+    localStorage.missions = JSON.stringify(missions);
+}
+
+function clearMissionInfo(fleetNumber) {
+    if(localStorage.missions == undefined) return;
+    var missions = JSON.parse(localStorage.missions);
+    for(var i = 0;i < missions.length;i++) {
+        if(missions[i].fleetNumber == fleetNumber)
+            missions[i].finish = null;
+    }
+    localStorage.missions = JSON.stringify(missions);
+}
+
+function checkMissions() {
+    if(localStorage.getItem('config_showAlert') == 'false') return;
+    if(localStorage.missions == undefined) return;
+    var missions = JSON.parse(localStorage.missions);
+    for(var i = 0;i < (missions.length);i++) {
+        if(missions[i].finish == null) continue;
+        if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
+            clearMissionInfo(missions[i].fleetNumber);
+            alert("第" + missions[i].fleetNumber + "艦隊が遠征より帰還しました。");
+        }
+    }
+}
+
+chrome.webRequest.onBeforeRequest.addListener(function(data,hoge,fuga){
+    // TODO: 本来はここを指定のアドレスにすべき(今はリンガ泊地しかない)
+    var match = data.url.match(/http:\/\/[0-9\.]+\/(.*)/);
+    if(data.method == 'POST' && match[1].match(/kcsapi\/api_req_mission/)){
+        
+        if(match[1].match('start')){
+            // x分後にバッジをつける
+            var mission_id = data.requestBody.formData.api_mission_id[0];
+            var fleetNumber = data.requestBody.formData.api_deck_id[0]
+
+            if(localStorage.getItem('config_showAlert') == 'true'){
+                alert("ふなでだぞー\nこれが終わるのは" + missionId_SpentTimeMin_Map[mission_id] + "分後ですね");
+                var d = new Date();
+                var finish = new Date(d.setMinutes(d.getMinutes() + missionId_SpentTimeMin_Map[mission_id]));
+                writeMissionInfo(fleetNumber, finish);
+            }
         }
     });
 });
@@ -116,3 +163,5 @@ Schedule.prototype.set = function(){
     }
     return res;
 }
+
+setInterval(function(){checkMissions();}, 5 * 1000);
