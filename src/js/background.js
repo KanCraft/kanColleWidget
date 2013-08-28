@@ -48,37 +48,22 @@ function clearMissionInfo(deck_id) {
 }
 
 function checkMissions() {
-    if(localStorage.getItem('config_showAlert') == 'false') return;
+    console.log('Fire checkMissions');
     if(localStorage.missions == undefined) return;
     var missions = JSON.parse(localStorage.missions);
     for(var i = 0;i < (missions.length);i++) {
         if(missions[i].finish == null) continue;
         if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
             clearMissionInfo(missions[i].deck_id);
-            alert("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
+            _presentation("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
         }
     }
 }
 
-chrome.webRequest.onBeforeRequest.addListener(function(data,hoge,fuga){
-    // TODO: 本来はここを指定のアドレスにすべき(今はリンガ泊地しかない)
-    var match = data.url.match(/http:\/\/[0-9\.]+\/(.*)/);
-    if(data.method == 'POST' && match[1].match(/kcsapi\/api_req_mission/)){
-        
-        if(match[1].match('start')){
-            // x分後にバッジをつける
-            var mission_id = data.requestBody.formData.api_mission_id[0];
-            var deck_id = data.requestBody.formData.api_deck_id[0]
-
-            if(localStorage.getItem('config_showAlert') == 'true'){
-                alert("ふなでだぞー\nこれが終わるのは" + missionId_SpentTimeMin_Map[mission_id] + "分後ですね");
-                var d = new Date();
-                var finish = new Date(d.setMinutes(d.getMinutes() + missionId_SpentTimeMin_Map[mission_id]));
-                writeMissionInfo(deck_id, finish);
-            }
-        }
-    });
-});
+/***** JSがロードされたとき *****/
+(function(){
+    setInterval(function(){checkMissions();}, 5 * 1000);
+})();
 
 /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
 chrome.webRequest.onBeforeRequest.addListener(function(data){
@@ -86,9 +71,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(data){
     var action     = new Action();
     switch(dispatcher.keyword){
         case 'api_req_mission/start':
+            console.log('Do Something for api_req_mission/start');
             action.forMissionStart(dispatcher.params);
             break;
         case 'api_req_mission/result':
+            console.log('Do Something for api_req_mission/result');
             action.forMissionResult(dispatcher.params);
             break;
         default:
@@ -102,9 +89,11 @@ function Action(){/** APIが叩かれるときのアクション **/}
 Action.prototype.forMissionStart = function(params){
     var min = missionId_SpentTimeMin_Map[params.api_mission_id[0]];
     _presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね");
-    var schedule = new Schedule(min);
-    schedule.incrementRedBadge({}).set();
+    var d = new Date();
+    var finish = new Date(d.setMinutes(d.getMinutes() + min));
+    writeMissionInfo(params.api_deck_id[0], finish);
 }
+
 //----- mission result -----
 Action.prototype.forMissionResult = function(){
     _presentation('かえってきたぞー');
@@ -128,11 +117,6 @@ Schedule.prototype.incrementRedBadge = function(option){
 }
 Schedule.prototype.set = function(){
     return setTimeout(this.execution, this.msec);
-}
-
-/* void */function _presentation(text){
-    if(localStorage.getItem('config_showAlert') == 'true')
-        alert(text);
 }
 
 /***** utilities *****/
@@ -164,4 +148,8 @@ Schedule.prototype.set = function(){
     return res;
 }
 
-setInterval(function(){checkMissions();}, 5 * 1000);
+//----- 設定を見たうえでalertする -----
+/* void */function _presentation(text){
+    if(localStorage.getItem('config_showAlert') == 'true')
+        alert(text);
+}
