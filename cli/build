@@ -1,9 +1,49 @@
 #!/bin/sh
 
-rm -rf release/kanColleWidget
-mkdir release/kanColleWidget
-cp -r src release/kanColleWidget/
-mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
-cp manifest.json release/kanColleWidget/
+print_help()
+{
+  echo "\tstg\tステージングビルド"
+  echo "\tprod\tプロダクションビルド"
+  echo "\tall\tりょうほう"
+  exit 0
+}
 
-zip -r release/kanColleWidget.zip release/kanColleWidget/*
+build_prod(){
+  rm -rf release/kanColleWidget
+  mkdir release/kanColleWidget
+  cp -r src release/kanColleWidget/
+  mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
+  cp manifest.json release/kanColleWidget/
+  zip -r release/kanColleWidget.zip release/kanColleWidget/*
+}
+
+build_stg(){
+  rm -rf release/stg.kanColleWidget
+  mkdir release/stg.kanColleWidget
+  cp -r src release/stg.kanColleWidget/
+  mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
+  cp manifest.stg.json release/stg.kanColleWidget/manifest.json
+  zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
+}
+
+if [ $# -lt 1 ]; then
+  print_help
+fi
+
+case $1 in
+  "prod" )
+    build_prod
+    break;;
+  "stg" )
+    build_stg
+    break;;
+  "all" )
+    build_prod
+    build_stg
+    break;;
+  "help" )
+    print_help
+    break;;
+  * )
+    print_help
+esac
