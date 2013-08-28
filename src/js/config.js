@@ -14,7 +14,6 @@
 })();
 
 function updateChecked(){
-    console.log(localStorage.getItem('config_showAlert'));
     var checkbox = document.getElementById('doAlert');
     if(localStorage.getItem('config_showAlert') == 'true') checkbox.setAttribute('checked');
     else checkbox.removeAttribute('checked');

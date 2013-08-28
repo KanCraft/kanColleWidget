@@ -12,7 +12,10 @@
     "permissions" : [
         "tabs",
         "webRequest",
-        "http://*/kcsapi/*"
+        "*://*/*"
+        //"proxy"
+        //"<all_urls>"
+        //"http://*/kcsapi"
     ],
     "background" : {
         "persistent" : true,
