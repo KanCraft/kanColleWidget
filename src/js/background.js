@@ -119,8 +119,12 @@ function checkMissions() {
 }
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text){
-    if(localStorage.getItem('config_showAlert') == 'true')
+    if(localStorage.getItem('config_showAlert') == 'false') return;
+    if(_getChromeVersion() >= 28) {
         webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
+    } else {
+        alert(title);
+    }
 }
 //----- バッジの色とかテキストを変える -----
 /* void */function _updateBadge(params){
@@ -138,4 +142,7 @@ function checkMissions() {
 }
 /* void */function _log(value){
     if(myStorage.get('isDebug')) console.log(value);
+}
+/* int */function _getChromeVersion() {
+    return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
 }
