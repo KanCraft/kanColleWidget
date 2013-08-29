@@ -39,12 +39,46 @@ Missions.prototype.check = function(){
     _log('Continual Mission Status Check');
     if(this.get('missions') == undefined) return;
     var missions = this.get('missions');
-    for(var i = 0;i < (missions.length);i++) {
-        if(missions[i].finish == null) continue;
-        if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
-            this.clear(missions[i].deck_id);
-            _incrementBadge();
-            _presentation("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
+    var self = this;
+    this.each(function(mjson){
+        if(mjson.finish == null) return;
+        var m = new SoloMission(mjson);
+        if(m.isUpToTime()){
+            self.clear(m.deck_id);
+            m.notify();
         }
+    });
+}
+
+Missions.prototype.each = function(iterator){
+    var missions = this.get('missions');
+    for(var i = 0;i < missions.length;i++) {
+        iterator(missions[i]);
     }
+}
+
+/***** class definitions *****/
+function SoloMission(missionJson){
+    this.deck_id = missionJson.deck_id;
+    this.finish  = missionJson.finish;
+}
+
+SoloMission.prototype.isUpToTime = function(){
+    console.log((new Now()).isToNotify(this.finish));
+    return ((new Now()).isToNotify(this.finish));
+}
+
+SoloMission.prototype.notify = function(){
+    _incrementBadge();
+    _presentation("第" + this.deck_id + "艦隊がまもなく帰還します。");
+}
+
+/***** class definitions *****/
+function Now(){
+    this.time = (new Date()).getTime();
+};
+Now.prototype.isToNotify = function(finish_time){
+    var ahead_msec = (1 * 60 - 20) * 1000;//TODO: 設定から拾う
+    var when_to_notify = (new Date(finish_time)).getTime() - ahead_msec;
+    return (this.time > when_to_notify);
 }
