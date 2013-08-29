@@ -17,6 +17,8 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
+            "src/js/definitions/MyStorage.js",
+            "src/js/definitions/Action.js",
             "src/js/background.js"
         ]
     },
