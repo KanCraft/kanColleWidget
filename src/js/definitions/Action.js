@@ -22,3 +22,12 @@ Action.prototype.forMissionStart = function(params){
 Action.prototype.forMissionResult = function(){
     chrome.browserAction.setBadgeText({text:''});
 }
+
+//----- get master payitem -----
+Action.prototype.forMasterPayitem = function(){
+    this._forPaymentRelatedApi();
+}
+
+Action.prototype._forPaymentRelatedApi = function(){
+    _presentation("！！！注意！！！\nポイント決済など課金の関わる操作は、ウィジェットを閉じてブラウザから行って下さい");
+}
