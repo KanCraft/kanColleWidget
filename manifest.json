@@ -18,7 +18,10 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
+            "src/js/definitions/ConstantMapping.js",
+            "src/js/definitions/Util.js",
             "src/js/definitions/MyStorage.js",
+            "src/js/definitions/Missions.js",
             "src/js/definitions/Action.js",
             "src/js/background.js"
         ]
