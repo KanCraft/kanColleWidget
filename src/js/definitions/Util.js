@@ -21,9 +21,12 @@
         _updateBadge({text:text});
     });
 }
-/* void */function _log(value){
+/* void */function _log(value, useStyle){
     var myStorage = new MyStorage();
-    if(myStorage.get('isDebug')) console.log(value);
+    if(myStorage.get('isDebug')){
+        if(useStyle) console.log(value, 'font-size: 1.2em; font-weight: bold;','');
+        else console.log(value);
+    }
 }
 
 //----- ウィジェットウィンドウかどうかを調べる -----
