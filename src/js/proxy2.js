@@ -4,8 +4,15 @@
         var embed = document.getElementById('externalswf');
         if(embed) src = embed.getAttribute('src');
         if(src){
-            var diffWidth = window.outerWidth - window.innerWidth;
-            var diffHeight = window.outerHeight - window.innerHeight;
+            var ua = navigator.userAgent;
+            var diffWidth = 0;
+            var diffHeight = 0;
+            if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
+            {
+                // Windows版でのみサイズがおかしくなるそうなので
+                diffWidth = window.outerWidth - window.innerWidth;
+                diffHeight = window.outerHeight - window.innerHeight;
+            }
             var width = window.outerWidth + diffWidth;
             var height= window.outerHeight + diffHeight;
             window.resizeTo(width,height);
