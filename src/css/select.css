@@ -6,3 +6,23 @@ small {
     color: #3f3fdf;
     text-decoration: none;
 }
+div#mission-time-left {
+    font-size: 0.8em;
+    color: #333;
+}
+ul {
+    padding-left: 20px;
+}
+
+.twincle.sec {
+    -webkit-animation-name: twincle_sec;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-
+}
+@-webkit-keyframes twincle_sec {
+    0% { color: #f0f0f0; }
+    49% { color: #f0f0f0; }
+    50% { color: #000; }
+    100% { color: #000; }
+}
