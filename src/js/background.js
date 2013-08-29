@@ -34,6 +34,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(data){
             break;
         case 'api_get_master/payitem':
             _log('%c[ACTION DISPATCHED]%c for api_get_master/payitem',true);
+            action.forMasterPayitem(dispatcher.params);
         default:
             _log('%c[ACTION]%c Do Nothing for this request',true);
     }
