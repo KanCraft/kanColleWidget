@@ -5,6 +5,8 @@ print_help()
   echo "\tstg\tステージングビルド"
   echo "\tprod\tプロダクションビルド"
   echo "\tall\tりょうほう"
+  echo "\tなし\tりょうほう"
+  echo "\n\thelp\tこれです"
   exit 0
 }
 
@@ -26,8 +28,18 @@ build_stg(){
   zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
 }
 
+build_all(){
+  build_prod
+  build_stg
+}
+
+show_manifest_diff(){
+  diff manifest.stg.json manifest.json
+}
+
 if [ $# -lt 1 ]; then
-  print_help
+  build_all
+  show_manifest_diff
 fi
 
 case $1 in
@@ -40,10 +52,10 @@ case $1 in
   "all" )
     build_prod
     build_stg
+    show_manifest_diff
     break;;
   "help" )
     print_help
     break;;
   * )
-    print_help
 esac
