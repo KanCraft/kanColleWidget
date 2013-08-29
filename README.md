@@ -17,8 +17,15 @@
 - 遠征終わった通知とか欲しいよ！
 
 # for develop
-do `sh cli/build`
+### debug
+in browser console, set `localStorage.isDebug`
 
+```javascript
+localStorage.isDebug = true;
+```
+
+### build
+do `sh cli/build`
 and read package `release/kanColleWidget` on Chrome
 
 # Release Note
