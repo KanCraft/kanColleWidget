@@ -13,6 +13,5 @@ Action.prototype.forMissionStart = function(params){
 
 //----- mission result -----
 Action.prototype.forMissionResult = function(){
-    _presentation('かえってきたぞー');
     chrome.browserAction.setBadgeText({text:''});
 }
