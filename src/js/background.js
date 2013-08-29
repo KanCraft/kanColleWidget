@@ -123,7 +123,7 @@ function checkMissions() {
     if(_getChromeVersion() >= 28) {
         webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
     } else {
-        alert(title);
+        alert(text);
     }
 }
 //----- バッジの色とかテキストを変える -----
