@@ -9,8 +9,7 @@ function Missions(){/** localStorageにあるmissionsにアクセスするクラ
 Missions.prototype = Object.create(MyStorage.prototype);
 Missions.prototype.constructor = Missions;
 
-/* saved: Dict */
-Missions.prototype.add = function(deck_id, finishTime){
+/* saved: Dict */Missions.prototype.add = function(deck_id, finishTime){
     if(this.get('missions') == undefined) {
         var initialValue = [{deck_id: 2, finish: null}, {deck_id: 3, finish: null}, {deck_id: 4, finish: null}];
         this.set('missions', initialValue);
@@ -23,8 +22,7 @@ Missions.prototype.add = function(deck_id, finishTime){
     this.set('missions', missions);
 }
 
-/* success: Boolean */
-Missions.prototype.clear = function(deck_id){
+/* success: Boolean */Missions.prototype.clear = function(deck_id){
     if(this.get('missions') == undefined) return;
     var missions = this.get('missions');
     for(var i = 0;i < missions.length;i++) {
@@ -34,8 +32,7 @@ Missions.prototype.clear = function(deck_id){
     this.set('missions', missions);
 }
 
-/* void */
-Missions.prototype.check = function(){
+/* void */Missions.prototype.check = function(){
     _log('Continual Mission Status Check');
     if(this.get('missions') == undefined) return;
     var missions = this.get('missions');
@@ -50,7 +47,7 @@ Missions.prototype.check = function(){
     });
 }
 
-Missions.prototype.each = function(iterator){
+/* f(SoloMission) */Missions.prototype.each = function(iterator){
     var missions = this.get('missions');
     for(var i = 0;i < missions.length;i++) {
         iterator(missions[i]);
@@ -63,22 +60,12 @@ function SoloMission(missionJson){
     this.finish  = missionJson.finish;
 }
 
-SoloMission.prototype.isUpToTime = function(){
-    console.log((new Now()).isToNotify(this.finish));
+/* Boolean */SoloMission.prototype.isUpToTime = function(){
+    _log("isUpToTime?\t" + (new Now()).isToNotify(this.finish));
     return ((new Now()).isToNotify(this.finish));
 }
 
-SoloMission.prototype.notify = function(){
+/* void */SoloMission.prototype.notify = function(){
     _incrementBadge();
     _presentation("第" + this.deck_id + "艦隊がまもなく帰還します。");
-}
-
-/***** class definitions *****/
-function Now(){
-    this.time = (new Date()).getTime();
-};
-Now.prototype.isToNotify = function(finish_time){
-    var ahead_msec = (1 * 60 - 20) * 1000;//TODO: 設定から拾う
-    var when_to_notify = (new Date(finish_time)).getTime() - ahead_msec;
-    return (this.time > when_to_notify);
 }
