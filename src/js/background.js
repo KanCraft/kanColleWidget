@@ -120,7 +120,7 @@ function checkMissions() {
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text){
     if(localStorage.getItem('config_showAlert') == 'true')
-        alert(text);
+        webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
 }
 //----- バッジの色とかテキストを変える -----
 /* void */function _updateBadge(params){
