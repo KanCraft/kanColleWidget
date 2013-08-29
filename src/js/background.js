@@ -24,113 +24,83 @@ var missionId_SpentTimeMin_Map = {
     "27" : 1200
 };
 
-function writeMissionInfo(deck_id, finishTime) {
-    if(localStorage.missions == undefined) {
-        var initialValue = [{deck_id: 2, finish: null}, {deck_id: 3, finish: null}, {deck_id: 4, finish: null}];
-        localStorage.missions = JSON.stringify(initialValue);
-    }
-    var missions = JSON.parse(localStorage.missions);
-    for(var i = 0;i < missions.length;i++) {
-        if(missions[i].deck_id == deck_id)
-            missions[i].finish = finishTime;
-    }
-    localStorage.missions = JSON.stringify(missions);
-}
-
-function clearMissionInfo(deck_id) {
-    if(localStorage.missions == undefined) return;
-    var missions = JSON.parse(localStorage.missions);
-    for(var i = 0;i < missions.length;i++) {
-        if(missions[i].deck_id == deck_id)
-            missions[i].finish = null;
-    }
-    localStorage.missions = JSON.stringify(missions);
-}
-
-function checkMissions() {
-    console.log('Fire checkMissions');
-    if(localStorage.missions == undefined) return;
-    var missions = JSON.parse(localStorage.missions);
-    for(var i = 0;i < (missions.length);i++) {
-        if(missions[i].finish == null) continue;
-        if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
-            clearMissionInfo(missions[i].deck_id);
-            _presentation("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
-        }
-    }
-}
+var myStorage = new MyStorage();
 
 /***** JSがロードされたとき *****/
 (function(){
     setInterval(function(){checkMissions();}, 5 * 1000);
 })();
 
+/***** Main Listener 01 : ウィジェットウィンドウがフォーカスされた時 *****/
+chrome.windows.onFocusChanged.addListener(function(id){
+    _isKCWWindow(function(isKCW){
+        if(isKCW){
+            _clearBadge();
+        }
+    });
+ });
 /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
 chrome.webRequest.onBeforeRequest.addListener(function(data){
     var dispatcher = _parseRequestData(data);
     var action     = new Action();
     switch(dispatcher.keyword){
         case 'api_req_mission/start':
-            console.log('Do Something for api_req_mission/start');
+            _log('Action for api_req_mission/start');
             action.forMissionStart(dispatcher.params);
             break;
         case 'api_req_mission/result':
-            console.log('Do Something for api_req_mission/result');
+            _log('Action for api_req_mission/result');
             action.forMissionResult(dispatcher.params);
             break;
         default:
-            console.log('Do Nothing for this request');
+            _log('Do Nothing for this request');
     }
 },{'urls':[]},['requestBody']);
 
-/***** class definitions *****/
-function Action(){/** APIが叩かれるときのアクション **/}
-//----- mission start -----
-Action.prototype.forMissionStart = function(params){
-    var min = missionId_SpentTimeMin_Map[params.api_mission_id[0]];
-    _presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね");
-    var d = new Date();
-    var finish = new Date(d.setMinutes(d.getMinutes() + min));
-    writeMissionInfo(params.api_deck_id[0], finish);
-}
-
-//----- mission result -----
-Action.prototype.forMissionResult = function(){
-    _presentation('かえってきたぞー');
-    chrome.browserAction.setBadgeText({text:''});
-}
-
-/***** class definitions *****/
-function Schedule(minute){/** タイマー的に引きおこすアクション **/
-    this.msec      = minute*60*1000;
-}
-//----- increment red badge -----
-Schedule.prototype.incrementRedBadge = function(option){
-    this.execution = function(){
-        chrome.browserAction.getBadgeText({},function(val){
-            if(val == '') val = 0;
-            var text = String(parseInt(val) + 1);
-            chrome.browserAction.setBadgeText({text:text});
-        });
-    }
-    return this;
-}
-Schedule.prototype.set = function(){
-    return setTimeout(this.execution, this.msec);
-}
-
 /***** utilities *****/
+function writeMissionInfo(deck_id, finishTime) {
+    if(myStorage.get('missions') == undefined) {
+        var initialValue = [{deck_id: 2, finish: null}, {deck_id: 3, finish: null}, {deck_id: 4, finish: null}];
+        myStorage.set('missions', initialValue);
+    }
+    var missions = myStorage.get('missions');
+    for(var i = 0;i < missions.length;i++) {
+        if(missions[i].deck_id == deck_id)
+            missions[i].finish = finishTime;
+    }
+    myStorage.set('missions', missions);
+}
+
+function clearMissionInfo(deck_id) {
+    if(myStorage.get('missions') == undefined) return;
+    var missions = myStorage.get('missions');
+    for(var i = 0;i < missions.length;i++) {
+        if(missions[i].deck_id == deck_id)
+            missions[i].finish = null;
+    }
+    myStorage.set('missions', missions);
+}
+
+function checkMissions() {
+    _log('Continual Mission Status Check');
+    if(myStorage.get('missions') == undefined) return;
+    var missions = myStorage.get('missions');
+    for(var i = 0;i < (missions.length);i++) {
+        if(missions[i].finish == null) continue;
+        if((new Date()).getTime() > new Date(missions[i].finish).getTime()) {
+            clearMissionInfo(missions[i].deck_id);
+            _incrementBadge();
+            _presentation("第" + missions[i].deck_id + "艦隊が遠征より帰還しました。");
+        }
+    }
+}
+
 //----- ウィジェットウィンドウかどうかを調べる -----
 /* f(Boolean) */function _isKCWWindow(cb){
     chrome.windows.onFocusChanged.addListener(function(id){
-       chrome.windows.getCurrent({populate:true},function(d){
-           var is_kc_window = (d.tabs[0].url.match(/http[s]?:\/\/[0-9\.]+\/kcs/) != null);
-           if(is_kc_window){
-               cb(true);
-           }else{
-               cb(false);
-           }
-       });
+        chrome.windows.getCurrent({populate:true},function(d){
+            cb((d.tabs[0].url.match(/http[s]?:\/\/[0-9\.]+\/kcs/) != null));
+        });
     });
 }
 //----- HTTPRequestを解析してフォーマット整ったキーワードとパラメータにする -----
@@ -147,9 +117,25 @@ Schedule.prototype.set = function(){
     }
     return res;
 }
-
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text){
     if(localStorage.getItem('config_showAlert') == 'true')
         alert(text);
+}
+//----- バッジの色とかテキストを変える -----
+/* void */function _updateBadge(params){
+    chrome.browserAction.setBadgeText(params);
+}
+/* void */function _clearBadge(){
+    _updateBadge({text:''});
+}
+/* void */function _incrementBadge(){
+    chrome.browserAction.getBadgeText({},function(val){
+        if(val == '') val = 0;
+        var text = String(parseInt(val) + 1);
+        _updateBadge({text:text});
+    });
+}
+/* void */function _log(value){
+    if(myStorage.get('isDebug')) console.log(value);
 }
