@@ -21,9 +21,13 @@
             "src/js/definitions/ConstantMapping.js",
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
-            "src/js/definitions/MyStorage.js",
-            "src/js/definitions/Missions.js",
-            "src/js/definitions/Action.js",
+            "src/js/definitions/models/MyStorage.js",
+            "src/js/definitions/models/missions/Mission.js",
+            "src/js/definitions/models/missions/Missions.js",
+            "src/js/definitions/observer.js",
+            "src/js/definitions/actions/Mission.js",
+            "src/js/definitions/actions/Payment.js",
+            "src/js/definitions/actions/Action.js",
             "src/js/background.js"
         ]
     },
