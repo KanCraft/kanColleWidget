@@ -16,6 +16,6 @@ MissionAction.prototype.forStart = function(params){
     this.missions.add(params.api_deck_id[0], finish);
 }
 
-MissionAction.prototype.forResult = function(){
+MissionAction.prototype.forResult = function(params){
     chrome.browserAction.setBadgeText({text:''});
 }

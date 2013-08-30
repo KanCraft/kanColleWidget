@@ -15,7 +15,7 @@ Action.prototype.forMissionStart = function(params){
 }
 
 //----- mission result -----
-Action.prototype.forMissionResult = function(){
+Action.prototype.forMissionResult = function(params){
     this.missionAction.forResult(params);
 }
 
