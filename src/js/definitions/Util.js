@@ -3,8 +3,9 @@
  */
 
 //----- 設定を見たうえでalertする -----
-/* void */function _presentation(text){
-    if(localStorage.getItem('config_showAlert') == 'true')
+/* void */function _presentation(text, force){
+    var myStorage = new MyStorage();
+    if(force || myStorage.get('config_showAlert'))
         webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
 }
 //----- バッジの色とかテキストを変える -----
@@ -27,30 +28,4 @@
         if(useStyle) console.log(value, 'font-size: 1.2em; font-weight: bold;','');
         else console.log(value);
     }
-}
-
-//----- ウィジェットウィンドウかどうかを調べる -----
-/* f(Boolean) */function _isKCWWindow(cb){
-    chrome.windows.getCurrent({populate:true},function(d){
-        if(typeof d == 'undefined') cb(false);//windows.getCurrent: No current window
-        else cb((d.tabs[0].url.match(/http[s]?:\/\/[0-9\.]+\/kcs/) != null));
-    });
-}
-//----- HTTPRequestを解析してフォーマット整ったキーワードとパラメータにする -----
-/* dict */function _parseRequestData(data){
-    var res = {
-        keyword: null,
-        params : null
-    };
-    if(data.url.match(/\/kcsapi\//)){
-        res.keyword = data.url.match(/\/kcsapi\/(.*)/)[1];
-        if(data.method == 'POST'){
-            res.params = data.requestBody.formData;
-        }
-    }
-    return new Dispatcher(res);
-}
-function Dispatcher(parsed){/** パースの結果をラップします **/
-    this.keyword = parsed.keyword;
-    this.params  = parsed.params;
 }
