@@ -23,19 +23,19 @@ chrome.windows.onFocusChanged.addListener(function(id){
 chrome.webRequest.onBeforeRequest.addListener(function(data){
     var dispatcher = _parseRequestData(data);
     var action     = new Action();
+    // dispatcher.bind(actions).execute(); みたいなインターフェースがいい
+    // となると、Dispatcher.jsが必要になるか
     switch(dispatcher.keyword){
         case 'api_req_mission/start':
-            _log('%c[ACTION DISPATCHED]%c for api_req_mission/start',true);
             action.forMissionStart(dispatcher.params);
             break;
         case 'api_req_mission/result':
-            _log('%c[ACTION DISPATCHED]%c for api_req_mission/result',true);
             action.forMissionResult(dispatcher.params);
             break;
         case 'api_get_master/payitem':
-            _log('%c[ACTION DISPATCHED]%c for api_get_master/payitem',true);
             action.forMasterPayitem(dispatcher.params);
         default:
             _log('%c[ACTION]%c Do Nothing for this request',true);
+            _log(dispatcher);
     }
 },{'urls':[]},['requestBody']);
