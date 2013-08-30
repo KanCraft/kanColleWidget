@@ -32,7 +32,8 @@
 //----- ウィジェットウィンドウかどうかを調べる -----
 /* f(Boolean) */function _isKCWWindow(cb){
     chrome.windows.getCurrent({populate:true},function(d){
-        cb((d.tabs[0].url.match(/http[s]?:\/\/[0-9\.]+\/kcs/) != null));
+        if(typeof d == 'undefined') cb(false);//windows.getCurrent: No current window
+        else cb((d.tabs[0].url.match(/http[s]?:\/\/[0-9\.]+\/kcs/) != null));
     });
 }
 //----- HTTPRequestを解析してフォーマット整ったキーワードとパラメータにする -----
@@ -47,5 +48,9 @@
             res.params = data.requestBody.formData;
         }
     }
-    return res;
+    return new Dispatcher(res);
+}
+function Dispatcher(parsed){/** パースの結果をラップします **/
+    this.keyword = parsed.keyword;
+    this.params  = parsed.params;
 }
