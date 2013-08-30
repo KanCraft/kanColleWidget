@@ -18,11 +18,16 @@ ul {
     -webkit-animation-name: twincle_sec;
     -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: infinite;
-    -webkit-animation-
 }
 @-webkit-keyframes twincle_sec {
     0% { color: #f0f0f0; }
     49% { color: #f0f0f0; }
     50% { color: #000; }
     100% { color: #000; }
+}
+div.select {
+    cursor: pointer;
+}
+input {
+    cursor: pointer;
 }

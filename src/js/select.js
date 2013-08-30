@@ -58,6 +58,13 @@ function toggleTimeLeftArea(switcher){
     return text.slice(order*(-1));
 }
 
+/* void */function uncheckAll(){
+    var checkboxes = document.getElementsByTagName('input');
+    for(var i= 0,len=checkboxes.length;i<len;i++){
+        checkboxes[i].checked = false;
+    }
+}
+
 (function(){
     updateTimeLeft();
     var aspect = 0.6;
@@ -69,4 +76,11 @@ function toggleTimeLeftArea(switcher){
         var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
         window.open(kanColleUrl,"_blank_new", options)
     });
+    var divs = document.getElementsByClassName('select');
+    for(var i= 0,len=divs.length; i<len; i++){
+        divs[i].addEventListener('click',function(){
+            uncheckAll();
+            this.childNodes[1].checked = true;
+        });
+    }
 })();
