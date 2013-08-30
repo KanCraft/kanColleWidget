@@ -16,8 +16,39 @@ var aa_string = "" +
 "                /   | |_|\n"+
 "               ⊂ノ⊂ノ ｣.|\n";
 
+var proxy_html_string = ''+
+'<html><head>'+
+'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'+
+'<script type="text/javascript">'+
+'   document.addEventListener("DOMContentLoaded", function(){'+
+'       var onResize = function() {'+
+'           $("iframe").css("height", window.innerHeight);'+
+'           $("iframe").css("width", window.innerWidth);'+
+'       };'+
+'       onResize();'+
+'       $(window).resize(onResize);'+
+'   });'+
+'</script>'+
+'<title>{title}</title>'+
+'</head>'+
+'<body style="margin:0;">'+
+'<iframe id="kancolle" src="{src}" frameborder="0" scrolling="no" width="800" height="480"></iframe>'+
+'</body>'+
+'</html>';
+
+function getTitle(){
+    var titles = [
+        "艦これウィジェット",
+        "艦これウィジェット",
+        "艦これウィジェット",
+        "あかつきの水平線に勝利を刻むのです"
+    ];
+    var _i = Math.floor(Math.random() * titles.length);
+    return titles[_i];
+}
+
 (function(){
-    //------------------------->>>
+
     var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
     var wrapper = document.getElementById('flashWrap');
     wrapper.style.margin = 0;
@@ -26,7 +57,7 @@ var aa_string = "" +
         var div = document.getElementById('spacing_top');
         if(div) div.style.display = 'none';
     },1000);
-    //-----------------------<<<
+
     var src = null;
     setTimeout(function(){
         var embed = document.getElementById('externalswf');
@@ -46,24 +77,8 @@ var aa_string = "" +
             window.resizeTo(width,height);
             var doc = window.document;
             doc.open();
-            //doc.write(proxy_html_string);
-                doc.write('<html><head>');
-                doc.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>');
-                doc.write('<script type="text/javascript">');
-                doc.write('$(function() {var onResize = function() {');
-                doc.write('$("iframe").css("height", window.innerHeight);');
-                doc.write('$("iframe").css("width", window.innerWidth);');
-                doc.write('};');
-                doc.write('onResize();');
-                doc.write('$(window).resize(onResize);');
-                doc.write('});');
-                doc.write('</script>');
-                doc.write('<title>艦これウィジェット</title>');
-                doc.write('</head>');
-                doc.write('<body style="margin:0;">');
-                doc.write('<iframe id="kancolle" src='+src+' frameborder="0" scrolling="no" width="800" height="480"></iframe>');
-                doc.write('</body>');
-                doc.write('</html>');
+            proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}',getTitle());
+            doc.write(proxy_html_string);
             doc.close();
         }else{
             alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
