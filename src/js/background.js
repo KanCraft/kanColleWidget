@@ -3,11 +3,11 @@
  * ここはなるべくイベントのバインドしか書かない
  */
 
-var missions = new Missions();
+var observer = new Observer();
 
 /***** JSがロードされたとき *****/
 (function(){
-    setInterval(function(){missions.check();}, 5 * 1000);
+    observer.start();
 })();
 
 /***** Main Listener 01 : ウィジェットウィンドウがフォーカスされた時 *****/
