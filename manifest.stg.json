@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "stg.艦これウィジェット",
-    "version": "0.2.3",
+    "version": "0.2.4",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -18,8 +18,17 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
-            "src/js/definitions/MyStorage.js",
-            "src/js/definitions/Action.js",
+            "src/js/definitions/ConstantMapping.js",
+            "src/js/definitions/Util.js",
+            "src/js/definitions/Now.js",
+            "src/js/definitions/models/MyStorage.js",
+            "src/js/definitions/models/missions/Mission.js",
+            "src/js/definitions/models/missions/Missions.js",
+            "src/js/definitions/Dispatcher.js",
+            "src/js/definitions/Observer.js",
+            "src/js/definitions/actions/Mission.js",
+            "src/js/definitions/actions/Payment.js",
+            "src/js/definitions/actions/Action.js",
             "src/js/background.js"
         ]
     },
@@ -44,18 +53,9 @@
             "js" : [
                 "src/js/_util.js",
                 "src/js/proxy2.js"
-            ]
-        },
-        {
-            "matches" : [
-                "http://osapi.dmm.com/gadgets/ifr*"
-            ],
-            "js" : [
-                "src/js/_util.js",
-                "src/js/resize.js"
             ],
             "css" : [
-                "src/css/resize.css"
+                "src/css/proxy2.css"
             ]
         }
     ]
