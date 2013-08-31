@@ -34,7 +34,8 @@ build_all(){
 }
 
 show_manifest_diff(){
-  diff manifest.stg.json manifest.json
+  echo "\nstgバージョンとのdiffを表示"
+  diff --recursive release/kanColleWidget release/stg.kanColleWidget
 }
 
 if [ $# -lt 1 ]; then
