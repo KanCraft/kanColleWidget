@@ -5,8 +5,13 @@
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text, force){
     var myStorage = new MyStorage();
-    if(force || myStorage.get('config_showAlert'))
-        webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
+    if(force || myStorage.get('config_showAlert')) {
+        if(_getChromeVersion() >= 28) {
+            webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
+        } else {
+            alert(title);
+        }
+    }
 }
 //----- バッジの色とかテキストを変える -----
 /* void */function _updateBadge(params){
@@ -28,4 +33,7 @@
         if(useStyle) console.log(value, 'font-size: 1.2em; font-weight: bold;','');
         else console.log(value);
     }
+}
+/* int */function _getChromeVersion() {
+    return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
 }
