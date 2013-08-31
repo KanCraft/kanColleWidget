@@ -2,7 +2,7 @@
 
 function MyStorage(){/** localStorageにアクセスするクラス **/}
 
-MyStorage.prototype.get = function(key){
+/* dict */MyStorage.prototype.get = function(key){
     try{
         return JSON.parse(localStorage.getItem(key));
     }catch(e){
@@ -10,6 +10,6 @@ MyStorage.prototype.get = function(key){
     }
 }
 
-MyStorage.prototype.set = function(key,value){
+/* void (でいいのか？) */MyStorage.prototype.set = function(key,value){
     localStorage.setItem(key,JSON.stringify(value));
 }

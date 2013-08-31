@@ -1,18 +1,87 @@
+var aa_string = "" +
+"                 __＿___＿\n"+
+"          ／                  ＼\n"+
+"       /    ,.．  -‐‐-   、       ＼\n"+
+"       }∠,.. 艦 __ これ _    ＼       ＼\n"+
+"      /.:.:.:./＼|＼:.:.:.      ＼      ＼,\n"+
+"     ,′ ｉ : / ｎ       ｎ  ＼ i:.:.:.:.i‘   }\n"+
+"     i :人   | U        U    ｌ :.:.: Λ :‘ ，/\n"+
+"    <人  （                  ,' :.:./__):.∠ニZ\n"+
+"     /:.个:.   __▽___    ,./:∠:._｛>o<｝\n"+
+"     {:.:.:‘.( ) ( )__L/´     /:.:.|\n"+
+"     人:.:.:.:(･x ･l ト--{〉  ノi:.:./\n"+
+"       ｀ ¨¨´|    |___,.{     ､_,.ノ\n"+
+"                |    |     ＼\n"+
+"                |    |___ __／\n"+
+"                /   | |_|\n"+
+"               ⊂ノ⊂ノ ｣.|\n";
+
+var proxy_html_string = ''+
+'<html><head>'+
+'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'+
+'<script type="text/javascript">'+
+'   document.addEventListener("DOMContentLoaded", function(){'+
+'       var onResize = function() {'+
+'           $("iframe").css("height", window.innerHeight);'+
+'           $("iframe").css("width", window.innerWidth);'+
+'       };'+
+'       onResize();'+
+'       $(window).resize(onResize);'+
+'   });'+
+'</script>'+
+'<title>{title}</title>'+
+'</head>'+
+'<body style="margin:0;">'+
+'<iframe id="kancolle" src="{src}" frameborder="0" scrolling="no" width="800" height="480"></iframe>'+
+'</body>'+
+'</html>';
+
+function getTitle(){
+    var titles = [
+        "艦これウィジェット",
+        "艦これウィジェット",
+        "艦これウィジェット",
+        "あかつきの水平線に勝利を刻むのです"
+    ];
+    var _i = Math.floor(Math.random() * titles.length);
+    return titles[_i];
+}
+
 (function(){
+
+    var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
+    var wrapper = document.getElementById('flashWrap');
+    wrapper.style.margin = 0;
+    setTimeout(function(){
+        document.getElementById('sectionWrap').style.display = 'none';
+        var div = document.getElementById('spacing_top');
+        if(div) div.style.display = 'none';
+    },1000);
+
     var src = null;
     setTimeout(function(){
         var embed = document.getElementById('externalswf');
         if(embed) src = embed.getAttribute('src');
         if(src){
-            var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
-            var mode = getMode();
-            var width = parseInt(conf_list[mode]);
-            var height= width*0.6;
-            var w1 = window;
-            var w2 = window.open(src, "_blank", "width="+width+",height="+height+",menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40");
-            w1.close();
+            var ua = navigator.userAgent;
+            var diffWidth = 0;
+            var diffHeight = 0;
+            if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
+            {
+                // Windows版でのみサイズがおかしくなるそうなので
+                diffWidth = window.outerWidth - window.innerWidth;
+                diffHeight = window.outerHeight - window.innerHeight;
+            }
+            var width = window.outerWidth + diffWidth;
+            var height= window.outerHeight + diffHeight;
+            window.resizeTo(width,height);
+            var doc = window.document;
+            doc.open();
+            proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}',getTitle());
+            doc.write(proxy_html_string);
+            doc.close();
         }else{
-            alert("ウィジェット化に失敗しました。が、ふつうにプレーできます。");
+            alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
         }
     },1000);
 })();

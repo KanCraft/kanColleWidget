@@ -2,3 +2,4 @@
 kanColleWidget.iml
 release/*
 .DS_Store
+!*.gitkeep
