@@ -53,18 +53,9 @@
             "js" : [
                 "src/js/_util.js",
                 "src/js/proxy2.js"
-            ]
-        },
-        {
-            "matches" : [
-                "http://osapi.dmm.com/gadgets/ifr*"
-            ],
-            "js" : [
-                "src/js/_util.js",
-                "src/js/resize.js"
             ],
             "css" : [
-                "src/css/resize.css"
+                "src/css/proxy2.css"
             ]
         }
     ]
