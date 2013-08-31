@@ -4,8 +4,12 @@
 
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text){
-    if(localStorage.getItem('config_showAlert') == 'true')
+    if(localStorage.getItem('config_showAlert') == 'false') return;
+    if(_getChromeVersion() >= 28) {
         webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
+    } else {
+        alert(text);
+    }
 }
 //----- バッジの色とかテキストを変える -----
 /* void */function _updateBadge(params){
@@ -53,4 +57,8 @@
 function Dispatcher(parsed){/** パースの結果をラップします **/
     this.keyword = parsed.keyword;
     this.params  = parsed.params;
+}
+
+/* int */function _getChromeVersion() {
+    return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
 }
