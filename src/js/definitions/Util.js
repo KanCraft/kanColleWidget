@@ -7,9 +7,16 @@
     var myStorage = new MyStorage();
     if(force || myStorage.get('config_showAlert')) {
         if(_getChromeVersion() >= 28) {
-            webkitNotifications.createNotification("icon.png", "艦これウィジェット", text).show();
+            var params = {
+                type: "basic",
+                title: "艦これウィジェット",
+                message: text,
+                iconUrl: "./icon.png"
+            }
+            chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
+            chrome.notifications.onClicked.addListener(focusKCWidgetWindow);
         } else {
-            alert(title);
+            alert(text);
         }
     }
 }
@@ -36,4 +43,16 @@
 }
 /* int */function _getChromeVersion() {
     return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
+}
+
+/* void */function focusKCWidgetWindow(){
+    chrome.windows.getAll({populate:true},function(windows){
+        for(var i in windows){
+            var w = windows[i];
+            if(!w.tabs || w.tabs.length < 1) return;
+            if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                chrome.windows.update(w.id,{focused:true});
+            }
+        }
+    });
 }
