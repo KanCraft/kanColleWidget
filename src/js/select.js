@@ -1,17 +1,3 @@
-/***** class definitions *****/
-function MyStorage(){/** localStorageにアクセスするクラス **/}
-MyStorage.prototype.get = function(key){
-    try{
-        return JSON.parse(localStorage.getItem(key));
-    }catch(e){
-        return localStorage.getItem(key);
-    }
-};
-MyStorage.prototype.set = function(key,value){
-    localStorage.setItem(key,JSON.stringify(value));
-};
-/***** ここで書かなきゃいけないのつらい(´・ω・`) *****/
-
 var myStorage = new MyStorage();
 
 function updateTimeLeft(){
@@ -66,6 +52,7 @@ function toggleTimeLeftArea(switcher){
 }
 
 (function(){
+    focusKCWidgetWindow();
     updateTimeLeft();
     var aspect = 0.6;
     var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
