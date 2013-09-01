@@ -56,3 +56,16 @@
         }
     });
 }
+
+/* f() */function ifCurrentIsKCWidgetWindow(isCallback,notCallback){
+    if(!notCallback) notCallback = function(){};
+    chrome.windows.getCurrent({populate:true},function(w){
+        if(!w.tabs || w.tabs.length < 1){
+            notCallback();
+        }else if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+            isCallback();
+        }else{
+            notCallback();
+        }
+    });
+}
