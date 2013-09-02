@@ -1,0 +1,22 @@
+html {
+    background-color: #f0f0f0;
+}
+body *:not(h3) {
+    font-size: 1em;
+}
+ul {
+    padding-left: 20px;
+}
+td {
+    border-bottom: thin dotted #333;
+    width: 300px;
+}
+h4 {
+    margin-bottom: 0;
+}
+.clickable {
+    cursor: pointer;
+}
+.clickable:hover {
+    text-decoration: underline;
+}
