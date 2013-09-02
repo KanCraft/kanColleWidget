@@ -32,24 +32,36 @@ Missions.prototype.constructor = Missions;
     this.set('missions', missions);
 }
 
-/* void */Missions.prototype.check = function(){
+/* dict{nearestEndMission, upToTimeMission} */Missions.prototype.check = function(){
     _log('Continual Mission Status Check');
-    if(this.get('missions') == undefined) return;
+    var result = {
+        nearestEnd : null,
+        upToTime   : []
+    };
+    if(this.get('missions') == undefined) return result;
     var missions = this.get('missions');
-    var self = this;
-    this.each(function(mjson){
-        if(mjson.finish == null) return;
+    for(var i= 0,len=missions.length; i<len;i++){
+        var mjson = missions[i];
+        if(mjson.finish == null) continue;
         var m = new SoloMission(mjson);
         if(m.isUpToTime()){
-            self.clear(m.deck_id);
-            m.notify();
+            this.clear(m.deck_id);
+            result.upToTime.push(m);
         }
-    });
+        if(result.nearestEnd == null){
+            result.nearestEnd = m;
+        }else if(m.getEndTime() < result.nearestEnd.getEndTime()){
+            result.nearestEnd = m;
+        }else{
+            // do nothing
+        }
+    }
+    return result;
 }
 
-/* f(SoloMission) */Missions.prototype.each = function(iterator){
-    var missions = this.get('missions');
-    for(var i = 0;i < missions.length;i++) {
-        iterator(missions[i]);
-    }
-}
+///* f(SoloMission) */Missions.prototype.each = function(iterator){
+//    var missions = this.get('missions');
+//    for(var i = 0;i < missions.length;i++) {
+//        iterator(missions[i]);
+//    }
+//}
