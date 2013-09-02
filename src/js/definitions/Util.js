@@ -45,13 +45,16 @@
     return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
 }
 
-/* void */function focusKCWidgetWindow(){
+/* void */function focusKCWidgetWindow(cb){
+    if(!cb) cb = function(){};
     chrome.windows.getAll({populate:true},function(windows){
         for(var i in windows){
             var w = windows[i];
             if(!w.tabs || w.tabs.length < 1) return;
             if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                chrome.windows.update(w.id,{focused:true});
+                chrome.windows.update(w.id,{focused:true}, function(){
+                    cb();
+                });
             }
         }
     });
@@ -67,5 +70,17 @@
         }else{
             notCallback();
         }
+    });
+}
+/* f() */function ifThereIsAlreadyKCWidgetWindow(isCallback, notCallback){
+    chrome.windows.getAll({populate:true},function(windows){
+        for(var i in windows){
+            var w = windows[i];
+            if(!w.tabs || w.tabs.length < 1) continue;
+            if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                return isCallback();
+            }
+        }
+        return notCallback();
     });
 }
