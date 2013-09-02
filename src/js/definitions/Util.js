@@ -14,7 +14,9 @@
                 iconUrl: "./icon.png"
             }
             chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
-            chrome.notifications.onClicked.addListener(focusKCWidgetWindow);
+            chrome.notifications.onClicked.addListener(function(){
+                focusKCWidgetWindow();
+            });
         } else {
             alert(text);
         }
@@ -24,9 +26,18 @@
 /* void */function _updateBadge(params){
     chrome.browserAction.setBadgeText(params);
 }
-/* void */function _clearBadge(){
-    _updateBadge({text:''});
+//----- バッジテキストを変える -----
+/* void */function updateBadgeText(text){
+    chrome.browserAction.setBadgeText({text:text});
 }
+//----- バッジ色を変える -----
+/* void */function updateBadgeColor(color){
+    chrome.browserAction.setBadgeBackgroundColor({color:color});
+}
+/* void */function clearBadge(){
+    updateBadgeText({text:''});
+}
+
 /* void */function _incrementBadge(){
     chrome.browserAction.getBadgeText({},function(val){
         if(val == '') val = 0;
@@ -46,7 +57,7 @@
 }
 
 /* void */function focusKCWidgetWindow(cb){
-    if(!cb) cb = function(){};
+    if(typeof cb == 'undefined') cb = function(){};
     chrome.windows.getAll({populate:true},function(windows){
         for(var i in windows){
             var w = windows[i];
@@ -83,4 +94,35 @@
         }
         return notCallback();
     });
+}
+
+/* void */function badgeLeftTime(/* epoch */msec){
+    var params = _getBadgeParamsFromLeftTime(msec);
+    console.log(params);
+    updateBadgeText(params.text);
+    updateBadgeColor(params.color);
+}
+/* dict */function _getBadgeParamsFromLeftTime(/* epoch */endtime){
+    var msec = endtime - (new Date()).getTime();
+    var params = {
+        text  : '10m',
+        color : '#0FABB1',
+    };
+    var sec = Math.floor(msec / 1000);
+    console.log('sec',sec);
+    if(sec < 60){
+        params.text  = '0';
+        params.color = '#F00';
+        return params;
+    }
+    var min = Math.floor(sec / 60);
+    console.log('min',min);
+    if(min < 60){
+        params.text = min + 'm';
+        return params;
+    }
+    var hour = Math.floor(min / 60);
+    console.log('hour',hour);
+    params.text = hour + 'h' + '+';
+    return params;
 }
