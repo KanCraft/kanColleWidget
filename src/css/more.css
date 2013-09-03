@@ -1,0 +1,41 @@
+html {
+    background-color: #f0f0f0;
+}
+body *:not(h3) {
+    font-size: 1em;
+}
+ul {
+    padding-left: 20px;
+}
+td {
+    border-bottom: thin dotted #333;
+    width: 400px;
+}
+h4 {
+    margin-bottom: 0;
+}
+.clickable {
+    cursor: pointer;
+}
+.clickable:hover {
+    text-decoration: underline;
+}
+tr.yet>td:before {
+    content: '開発中!';
+    color: #0FABB1;
+    font-size: x-small;
+    font-weight: bold;
+}
+tr.yet>td:hover, tr.yet>td>input:hover{
+    cursor: not-allowed;
+}
+
+td.sorry {
+    background-image: url("http://pbs.twimg.com/media/BTNZwAmCcAEZ1xd.png");
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+span.xsmall {
+    font-size: x-small;
+}
