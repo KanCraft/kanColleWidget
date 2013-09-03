@@ -20,9 +20,12 @@ h4 {
 .clickable:hover {
     text-decoration: underline;
 }
-.yet:before {
+tr.yet>td:before {
     content: '開発中!';
     color: #0FABB1;
     font-size: x-small;
     font-weight: bold;
+}
+tr.yet>td:hover, tr.yet>td>input:hover{
+    cursor: not-allowed;
 }
