@@ -12,6 +12,8 @@ div#mission-time-left, div#achievements {
 }
 ul {
     padding-left: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .twincle.sec {
@@ -30,4 +32,9 @@ div.select {
 }
 input {
     cursor: pointer;
+}
+
+div.content {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

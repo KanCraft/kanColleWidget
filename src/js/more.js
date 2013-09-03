@@ -35,7 +35,6 @@ function bindConfigChangedAction(){
             var config = myStorage.get('config');
             config[this.id] = this.checked;
             myStorage.set('config',config);
-            console.log(myStorage.get('config'));
         });
     }
 }
