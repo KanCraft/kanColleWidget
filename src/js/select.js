@@ -27,13 +27,18 @@ function render(params){
 
 function toggleTimeLeftArea(switcher){
     var div = document.getElementById('mission-time-left');
-    if(switcher == true){
-        console.log(1);
-        div.style.display = '';
+    _toggleArea(div,switcher);
+}
+function toggleAchievementsArea(switcher){
+    var div = document.getElementById('achievements');
+    _toggleArea(div,switcher);
+}
+function _toggleArea(e, sw){
+    if(sw == true){
+        e.style.display = '';
     }
-    if(switcher == false){
-        console.log(2);
-        div.style.display = 'none';
+    if(sw == false){
+        e.style.display = 'none';
     }
 }
 
@@ -52,17 +57,23 @@ function toggleTimeLeftArea(switcher){
 }
 
 /* void */function updateAchievements(){
+    var config = myStorage.get('config');
+    if(config['record-achievemets'] == false) return toggleAchievementsArea(false);
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
-        var html = '<li class="'+key+' small">' + key + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
         document.getElementById('achievements-daily').innerHTML += html;
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + key + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
         document.getElementById('achievements-weekly').innerHTML += html;
     }
 }
+
+var map_key_lang = {
+    'mission_count' : '遠征'
+};
 
 (function(){
     updateTimeLeft();

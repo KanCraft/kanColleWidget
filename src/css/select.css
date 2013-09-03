@@ -6,7 +6,7 @@ small {
     color: #3f3fdf;
     text-decoration: none;
 }
-div#mission-time-left {
+div#mission-time-left, div#achievements {
     font-size: 0.8em;
     color: #333;
 }
