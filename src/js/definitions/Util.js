@@ -14,7 +14,9 @@
                 iconUrl: "./icon.png"
             }
             chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
-            chrome.notifications.onClicked.addListener(focusKCWidgetWindow);
+            chrome.notifications.onClicked.addListener(function(){
+                focusKCWidgetWindow();
+            });
         } else {
             alert(text);
         }
@@ -24,13 +26,24 @@
 /* void */function _updateBadge(params){
     chrome.browserAction.setBadgeText(params);
 }
-/* void */function _clearBadge(){
-    _updateBadge({text:''});
+//----- バッジテキストを変える -----
+/* void */function updateBadgeText(text){
+    chrome.browserAction.setBadgeText({text:text});
 }
-/* void */function _incrementBadge(){
+//----- バッジ色を変える -----
+/* void */function updateBadgeColor(color){
+    chrome.browserAction.setBadgeBackgroundColor({color:color});
+}
+/* void */function clearBadge(){
+    updateBadgeText({text:''});
+}
+
+/* void */function incrementBadge(num){
+    if(typeof num == 'undefined') num = 1;
     chrome.browserAction.getBadgeText({},function(val){
         if(val == '') val = 0;
-        var text = String(parseInt(val) + 1);
+        var text = String(parseInt(val) + parseInt(num));
+        if(text == '0') text = '';
         _updateBadge({text:text});
     });
 }
@@ -46,7 +59,7 @@
 }
 
 /* void */function focusKCWidgetWindow(cb){
-    if(!cb) cb = function(){};
+    if(typeof cb == 'undefined') cb = function(){};
     chrome.windows.getAll({populate:true},function(windows){
         for(var i in windows){
             var w = windows[i];
@@ -83,4 +96,31 @@
         }
         return notCallback();
     });
+}
+
+/* void */function badgeLeftTime(/* epoch */msec){
+    var params = _getBadgeParamsFromLeftTime(msec);
+    updateBadgeText(params.text);
+    updateBadgeColor(params.color);
+}
+/* dict */function _getBadgeParamsFromLeftTime(/* epoch */endtime){
+    var msec = endtime - (new Date()).getTime();
+    var params = {
+        text  : '10m',
+        color : '#0FABB1',
+    };
+    var sec = Math.floor(msec / 1000);
+    if(sec < 60){
+        params.text  = '0';
+        params.color = '#F00';
+        return params;
+    }
+    var min = Math.floor(sec / 60);
+    if(min < 60){
+        params.text = min + 'm';
+        return params;
+    }
+    var hour = Math.floor(min / 60);
+    params.text = hour + 'h' + '+';
+    return params;
 }
