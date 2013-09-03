@@ -35,3 +35,7 @@ td.sorry {
     background-repeat: no-repeat;
     background-position: right;
 }
+
+span.xsmall {
+    font-size: x-small;
+}

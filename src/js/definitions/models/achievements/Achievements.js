@@ -9,8 +9,9 @@ function Achievements(){/** localStorageにあるachievementsにアクセスす�
 Achievements.prototype = Object.create(MyStorage.prototype);
 Achievements.prototype.constructor = Achievements;
 
-/* this */Achievements.prototype.update = function(force){
+/* this */Achievements.prototype.update = function(force, target){
     if(typeof force == 'undefined') force = false;
+    if(typeof target == 'undefined') target = 'all';
     var initial_achievements = {
         'daily' : {
             'lastUpdated' : getNearestDailyAchievementResetTime(),
@@ -31,7 +32,13 @@ Achievements.prototype.constructor = Achievements;
         achievements_json.weekly.contents = {};
     }
     if(force == true){
-        achievements_json = initial_achievements;
+        if(target == 'all'){
+            achievements_json = initial_achievements;
+        }else if(target == 'daily'){
+            achievements_json.daily = initial_achievements.daily;
+        }else if(target == 'weekly'){
+            achievements_json.weekly = initial_achievements.weekly;
+        }
     }
     this.set('achievements', achievements_json);
     return this;
