@@ -6,6 +6,7 @@
 
 function MissionAction(){/*** mission系のAPIが叩かれたときのアクション ***/
     this.missions = new Missions();
+    this.achievements = new Achievements();
 }
 
 MissionAction.prototype.forStart = function(params){
@@ -14,6 +15,7 @@ MissionAction.prototype.forStart = function(params){
     var d = new Date();
     var finish = new Date(d.setMinutes(d.getMinutes() + min));
     this.missions.add(params.api_deck_id[0], finish);
+    this.achievements.update().incrementMissionCount();
 }
 
 MissionAction.prototype.forResult = function(params){
