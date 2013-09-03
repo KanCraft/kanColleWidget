@@ -35,6 +35,9 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_hokyu/charge':
             this.action.forHokyuCharge(this.params);
             break;
+        case 'api_req_kaisou/powerup':
+            this.action.forKaisouPowerup(this.params);
+            break;
         default:
             _log('%c[ACTION]%c Do Nothing for this request',true);
             _log(this);

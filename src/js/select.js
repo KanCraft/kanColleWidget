@@ -75,6 +75,7 @@ var map_key_lang = {
     'mission_count'  : '遠征',
     'map_count'      : '出撃',
     'hokyu_count'    : '補給',
+    'kaisou_count'   : '近改',
     'practice_count' : '演習'
 };
 
