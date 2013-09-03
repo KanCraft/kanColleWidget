@@ -27,6 +27,7 @@
             "src/js/definitions/models/missions/Missions.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
+            "src/js/definitions/actions/Map.js",
             "src/js/definitions/actions/Practice.js",
             "src/js/definitions/actions/Mission.js",
             "src/js/definitions/actions/Payment.js",

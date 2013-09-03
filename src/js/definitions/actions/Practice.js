@@ -4,7 +4,7 @@
 
 /***** class definitions *****/
 
-function PracticeAction(){/*** pay系のAPIが叩かれたときのアクション ***/
+function PracticeAction(){/*** 演習系のAPIが叩かれたときのアクション ***/
     this.achievements = new Achievements();
 }
 
