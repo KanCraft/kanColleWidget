@@ -36,30 +36,30 @@ Observer.prototype.checkAll = function(){
         }
         this.UpToTimeEvents = this.UpToTimeEvents.concat(result.upToTime);
     }
-    _log('%c直近で終わるイベント%c',true);
-    _log(this.NearestEndEvent);
-    //---> で、ここでこれらを消化してクリアする
     this.updateBadgeContext();
     this.digestUpToTimeEvents();
 }
 
 Observer.prototype.digestUpToTimeEvents = function(){
-    _log('%c終わったイベント%c',true);
     for(var i= 0,len=this.UpToTimeEvents.length; i<len; i++){
         var e = this.UpToTimeEvents[i];
-        _log(e);
         e.notify();
     }
-    if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
+    this.unsetNearestEndEvent();
     this.UpToTimeEvents = [];
 }
 
+Observer.prototype.unsetNearestEndEvent = function(){
+    if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
+}
+
 Observer.prototype.updateBadgeContext = function(){
-    if(true){ // nearestをひょうじするか？
+    var config = (new MyStorage()).get('config');
+    if(config['badge-left-time']){
         if(this.NearestEndEvent){
             badgeLeftTime(this.NearestEndEvent.getEndTime());
         }
-    }else{ // upToTImeの数を表示するか？
-        console.log('ここでupToTimeの数をだな');
+    }else{
+        incrementBadge(this.UpToTimeEvents.length);
     }
 }

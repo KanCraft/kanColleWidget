@@ -38,10 +38,12 @@
     updateBadgeText({text:''});
 }
 
-/* void */function _incrementBadge(){
+/* void */function incrementBadge(num){
+    if(typeof num == 'undefined') num = 1;
     chrome.browserAction.getBadgeText({},function(val){
         if(val == '') val = 0;
-        var text = String(parseInt(val) + 1);
+        var text = String(parseInt(val) + parseInt(num));
+        if(text == '0') text = '';
         _updateBadge({text:text});
     });
 }
@@ -98,7 +100,6 @@
 
 /* void */function badgeLeftTime(/* epoch */msec){
     var params = _getBadgeParamsFromLeftTime(msec);
-    console.log(params);
     updateBadgeText(params.text);
     updateBadgeColor(params.color);
 }
@@ -109,20 +110,17 @@
         color : '#0FABB1',
     };
     var sec = Math.floor(msec / 1000);
-    console.log('sec',sec);
     if(sec < 60){
         params.text  = '0';
         params.color = '#F00';
         return params;
     }
     var min = Math.floor(sec / 60);
-    console.log('min',min);
     if(min < 60){
         params.text = min + 'm';
         return params;
     }
     var hour = Math.floor(min / 60);
-    console.log('hour',hour);
     params.text = hour + 'h' + '+';
     return params;
 }
