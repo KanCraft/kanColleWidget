@@ -11,7 +11,6 @@ function initConfig(){
     var initial_config = {
         'badge-left-time' : false
     };
-    console.log(myStorage.get('config'));
     var config = myStorage.get('config') || initial_config;
     myStorage.set('config',config);
 }
