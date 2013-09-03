@@ -28,6 +28,7 @@
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/Map.js",
+            "src/js/definitions/actions/Hokyu.js",
             "src/js/definitions/actions/Practice.js",
             "src/js/definitions/actions/Mission.js",
             "src/js/definitions/actions/Payment.js",
