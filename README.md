@@ -30,6 +30,12 @@ and read package `release/kanColleWidget` on Chrome
 
 # Release Note
 
+- 2013/09/04 v0.2.5
+    - 通知をクリックしたら前面に
+    - 既にある場合LAUNCHしたら前面に
+    - 残り時間をバッジにする設定の追加
+    - 補給回数など任務に関係ある回数を記録
+    - その他バグ修正
 - 2013/08/31 v0.2.4
     - Windowsの絶妙なスキマを殲滅
     - payment系API叩こうとしたらalert
