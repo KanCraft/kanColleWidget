@@ -51,8 +51,22 @@ function toggleTimeLeftArea(switcher){
     }
 }
 
+/* void */function updateAchievements(){
+    var achievements = new Achievements();
+    var achievements_json = achievements.update().toJson();
+    for(var key in achievements_json.daily.contents){
+        var html = '<li class="'+key+' small">' + key + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        document.getElementById('achievements-daily').innerHTML += html;
+    }
+    for(var key in achievements_json.weekly.contents){
+        var html = '<li class="'+key+' small">' + key + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        document.getElementById('achievements-weekly').innerHTML += html;
+    }
+}
+
 (function(){
     updateTimeLeft();
+    updateAchievements();
     var aspect = 0.6;
     var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
     document.forms[0].elements['launch'].addEventListener('click', function(){
