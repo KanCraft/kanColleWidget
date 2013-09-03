@@ -22,6 +22,7 @@
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
+            "src/js/definitions/models/achievements/Achievements.js",
             "src/js/definitions/models/missions/Mission.js",
             "src/js/definitions/models/missions/Missions.js",
             "src/js/definitions/Dispatcher.js",
