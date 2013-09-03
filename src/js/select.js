@@ -58,7 +58,7 @@ function _toggleArea(e, sw){
 
 /* void */function updateAchievements(){
     var config = myStorage.get('config');
-    if(config['record-achievemets'] == false) return toggleAchievementsArea(false);
+    if(config['record-achievements'] == false) return toggleAchievementsArea(false);
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
@@ -66,7 +66,7 @@ function _toggleArea(e, sw){
         document.getElementById('achievements-daily').innerHTML += html;
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
+        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.weekly.contents[key] + '</li>';
         document.getElementById('achievements-weekly').innerHTML += html;
     }
 }
@@ -102,6 +102,13 @@ var map_key_lang = {
         divs[i].addEventListener('click',function(){
             uncheckAll();
             this.childNodes[1].checked = true;
+        });
+    }
+    var resets = document.getElementsByClassName('reset-achievements');
+    for(var i= 0,len=resets.length;i<len; i++){
+        resets[i].addEventListener('click',function(){
+            var achievements = new Achievements();
+            achievements.update(true, this.getAttribute('target'));
         });
     }
 })();
