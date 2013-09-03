@@ -124,3 +124,21 @@
     params.text = hour + 'h' + '+';
     return params;
 }
+
+// 直近のデイリーリセットがサーバサイドで発火したであろうepochタイムを返す
+/* epoch: int */function getNearestDailyAchievementResetTime(){
+    var now = new Date();
+    var diff_hours = (now.getHours() + 19) % 24;
+    var _1hour_msec = 1*60*60*1000;
+    var last_5am = new Date(now - diff_hours * _1hour_msec);
+    return (new Date(1900 + last_5am.getYear(), last_5am.getMonth(), last_5am.getDate(), 5, 0)).getTime();
+}
+
+// 直近のウィークリーリセットがサーバサイドで発火したであろうepochタイムを返す
+/* epoch: int */function getNearestWeeklyAchievementResetTime(){
+    var now = new Date();
+    var diff_days = (now.getDay() + 6) % 7;
+    var _1day_msec = 1*24*60*60*1000;
+    var last_monday = new Date(now - diff_days * _1day_msec);
+    return (new Date(1900 + last_monday.getYear(), last_monday.getMonth(), last_monday.getDate(), 5, 0)).getTime();
+}

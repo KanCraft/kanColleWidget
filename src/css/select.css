@@ -6,12 +6,14 @@ small {
     color: #3f3fdf;
     text-decoration: none;
 }
-div#mission-time-left {
+div#mission-time-left, div#achievements {
     font-size: 0.8em;
     color: #333;
 }
 ul {
     padding-left: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .twincle.sec {
@@ -30,4 +32,9 @@ div.select {
 }
 input {
     cursor: pointer;
+}
+
+div.content {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
