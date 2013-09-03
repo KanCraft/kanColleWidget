@@ -9,6 +9,7 @@ function Action(){/** APIが叩かれるときのアクション **/
     this.paymentAction = new PaymentAction();
     this.practiceAction = new PracticeAction();
     this.mapAction = new MapAction();
+    this.hokyuAction = new HokyuAction();
 }
 
 //----- mission start -----
@@ -33,4 +34,8 @@ Action.prototype.forPracticeBattle = function(params){
 
 Action.prototype.forMapStart = function(params){
     this.mapAction.forStart(params);
+}
+
+Action.prototype.forHokyuCharge = function(params){
+    this.hokyuAction.forCharge(params);
 }
