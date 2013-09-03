@@ -3,6 +3,7 @@
 function Dispatcher(data){/** パースの結果をラップします **/
     this.keyword = null;
     this.params  = null;
+    this.rawData = data;
     if(data.url.match(/\/kcsapi\//)){
         this.keyword = data.url.match(/\/kcsapi\/(.*)/)[1];
         if(data.method == 'POST'){
@@ -24,6 +25,10 @@ function Dispatcher(data){/** パースの結果をラップします **/
             break;
         case 'api_get_master/payitem':
             this.action.forMasterPayitem(this.params);
+            break;
+        case 'api_req_practice/battle':
+            this.action.forPracticeBattle(this.params);
+            break;
         default:
             _log('%c[ACTION]%c Do Nothing for this request',true);
             _log(this);
