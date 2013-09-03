@@ -9,7 +9,7 @@ ul {
 }
 td {
     border-bottom: thin dotted #333;
-    width: 300px;
+    width: 400px;
 }
 h4 {
     margin-bottom: 0;
@@ -28,4 +28,10 @@ tr.yet>td:before {
 }
 tr.yet>td:hover, tr.yet>td>input:hover{
     cursor: not-allowed;
+}
+
+td.sorry {
+    background-image: url("http://pbs.twimg.com/media/BTNZwAmCcAEZ1xd.png");
+    background-repeat: no-repeat;
+    background-position: right;
 }
