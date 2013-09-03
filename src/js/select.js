@@ -58,7 +58,7 @@ function _toggleArea(e, sw){
 
 /* void */function updateAchievements(){
     var config = myStorage.get('config');
-    if(config['record-achievements'] == false) return toggleAchievementsArea(false);
+    if(!config|| !config['record-achievements']) return toggleAchievementsArea(false);
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
