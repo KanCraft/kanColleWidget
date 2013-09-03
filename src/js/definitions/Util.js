@@ -35,7 +35,7 @@
     chrome.browserAction.setBadgeBackgroundColor({color:color});
 }
 /* void */function clearBadge(){
-    updateBadgeText({text:''});
+    updateBadgeText('');
 }
 
 /* void */function incrementBadge(num){
