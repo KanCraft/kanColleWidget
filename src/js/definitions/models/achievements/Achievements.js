@@ -57,6 +57,17 @@ Achievements.prototype.constructor = Achievements;
     return this;
 }
 
+// TODO: DRY
+/* this */Achievements.prototype.incrementMapCount = function(){
+    var achievement_json = this.get('achievements');
+    var daily_map_count = achievement_json.daily.contents.map_count || 0;
+    achievement_json.daily.contents.map_count = parseInt(daily_map_count) + 1;
+    var weekly_map_count = achievement_json.weekly.contents.map_count || 0;
+    achievement_json.weekly.contents.map_count = parseInt(weekly_map_count) + 1;
+    this.set('achievements',achievement_json);
+    return this;
+}
+
 /* dict */Achievements.prototype.toJson = function(){
     return this.get('achievements');
 }

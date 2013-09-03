@@ -8,6 +8,7 @@ function Action(){/** APIが叩かれるときのアクション **/
     this.missionAction = new MissionAction();
     this.paymentAction = new PaymentAction();
     this.practiceAction = new PracticeAction();
+    this.mapAction = new MapAction();
 }
 
 //----- mission start -----
@@ -28,4 +29,8 @@ Action.prototype.forMasterPayitem = function(){
 //----- api_req_practice/battle -----
 Action.prototype.forPracticeBattle = function(params){
     this.practiceAction.forBattle(params);
+}
+
+Action.prototype.forMapStart = function(params){
+    this.mapAction.forStart(params);
 }

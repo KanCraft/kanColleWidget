@@ -29,6 +29,9 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_practice/battle':
             this.action.forPracticeBattle(this.params);
             break;
+        case 'api_req_map/start':
+            this.action.forMapStart(this.params);
+            break;
         default:
             _log('%c[ACTION]%c Do Nothing for this request',true);
             _log(this);
