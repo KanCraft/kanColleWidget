@@ -47,6 +47,16 @@ Achievements.prototype.constructor = Achievements;
     return this;
 }
 
+/* this */Achievements.prototype.incrementPracticeCount = function(){
+    var achievement_json = this.get('achievements');
+    var daily_practice_count = achievement_json.daily.contents.practice_count || 0;
+    achievement_json.daily.contents.practice_count = parseInt(daily_practice_count) + 1;
+    var weekly_practice_count = achievement_json.weekly.contents.practice_count || 0;
+    achievement_json.weekly.contents.practice_count = parseInt(weekly_practice_count) + 1;
+    this.set('achievements',achievement_json);
+    return this;
+}
+
 /* dict */Achievements.prototype.toJson = function(){
     return this.get('achievements');
 }
