@@ -53,6 +53,10 @@ Achievements.prototype.constructor = Achievements;
     return this._incrementByKey('hokyu_count');
 }
 
+/* this */Achievements.prototype.incrementKaisouCount = function(){
+    return this._incrementByKey('kaisou_count');
+}
+
 /* this */Achievements.prototype._incrementByKey = function(key){
     var achievement_json = this.get('achievements');
     var daily_count = achievement_json.daily.contents[key] || 0;
