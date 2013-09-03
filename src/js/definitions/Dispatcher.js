@@ -16,6 +16,7 @@ function Dispatcher(data){/** パースの結果をラップします **/
     return this;
 }
 /* void (でいいのか？) */Dispatcher.prototype.execute = function(){
+    _log(this);
     switch(this.keyword){
         case 'api_req_mission/start':
             this.action.forMissionStart(this.params);
@@ -39,7 +40,6 @@ function Dispatcher(data){/** パースの結果をラップします **/
             this.action.forKaisouPowerup(this.params);
             break;
         default:
-            _log('%c[ACTION]%c Do Nothing for this request',true);
-            _log(this);
+            //_log('%c[ACTION]%c Do Nothing for this request',true);
     }
 }
