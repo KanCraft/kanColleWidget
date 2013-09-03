@@ -9,7 +9,6 @@ function SoloMission(missionJson){
 }
 
 /* Boolean */SoloMission.prototype.isUpToTime = function(){
-    _log("isUpToTime?\t" + (new Now()).isToNotify(this.finish));
     return ((new Now()).isToNotify(this.finish));
 }
 

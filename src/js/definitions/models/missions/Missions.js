@@ -33,7 +33,6 @@ Missions.prototype.constructor = Missions;
 }
 
 /* dict{nearestEndMission, upToTimeMission} */Missions.prototype.check = function(){
-    _log('Continual Mission Status Check');
     var result = {
         nearestEnd : null,
         upToTime   : []
