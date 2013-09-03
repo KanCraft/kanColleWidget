@@ -62,17 +62,18 @@ function _toggleArea(e, sw){
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
-        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
         document.getElementById('achievements-daily').innerHTML += html;
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents.mission_count + '</li>';
+        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
         document.getElementById('achievements-weekly').innerHTML += html;
     }
 }
 
 var map_key_lang = {
-    'mission_count' : '遠征'
+    'mission_count'  : '遠征',
+    'practice_count' : '演習'
 };
 
 (function(){
