@@ -73,6 +73,7 @@ function _toggleArea(e, sw){
 
 var map_key_lang = {
     'mission_count'  : '遠征',
+    'map_count'      : '出撃',
     'practice_count' : '演習'
 };
 
