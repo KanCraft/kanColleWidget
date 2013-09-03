@@ -38,32 +38,23 @@ Achievements.prototype.constructor = Achievements;
 }
 
 /* this */Achievements.prototype.incrementMissionCount = function(){
-    var achievement_json = this.get('achievements');
-    var daily_mission_count = achievement_json.daily.contents.mission_count || 0;
-    achievement_json.daily.contents.mission_count = parseInt(daily_mission_count) + 1;
-    var weekly_mission_count = achievement_json.weekly.contents.mission_count || 0;
-    achievement_json.weekly.contents.mission_count = parseInt(weekly_mission_count) + 1;
-    this.set('achievements',achievement_json);
-    return this;
+    this._incrementByKey('mission_count');
 }
 
 /* this */Achievements.prototype.incrementPracticeCount = function(){
-    var achievement_json = this.get('achievements');
-    var daily_practice_count = achievement_json.daily.contents.practice_count || 0;
-    achievement_json.daily.contents.practice_count = parseInt(daily_practice_count) + 1;
-    var weekly_practice_count = achievement_json.weekly.contents.practice_count || 0;
-    achievement_json.weekly.contents.practice_count = parseInt(weekly_practice_count) + 1;
-    this.set('achievements',achievement_json);
-    return this;
+    this._incrementByKey('practice_count');
 }
 
-// TODO: DRY
 /* this */Achievements.prototype.incrementMapCount = function(){
+    return this._incrementByKey('map_count');
+}
+
+/* this */Achievements.prototype._incrementByKey = function(key){
     var achievement_json = this.get('achievements');
-    var daily_map_count = achievement_json.daily.contents.map_count || 0;
-    achievement_json.daily.contents.map_count = parseInt(daily_map_count) + 1;
-    var weekly_map_count = achievement_json.weekly.contents.map_count || 0;
-    achievement_json.weekly.contents.map_count = parseInt(weekly_map_count) + 1;
+    var daily_count = achievement_json.daily.contents[key] || 0;
+    achievement_json.daily.contents[key] = parseInt(daily_count) + 1;
+    var weekly_count = achievement_json.weekly.contents[key] || 0;
+    achievement_json.weekly.contents[key] = parseInt(weekly_count) + 1;
     this.set('achievements',achievement_json);
     return this;
 }
