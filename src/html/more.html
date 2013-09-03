@@ -18,28 +18,28 @@
                     <td>0.2.5</td>
                 </tr>
                 <tr>
-                    <td>残り時間をバッチ表示する</td>
-                    <td><input type="checkbox" checked></td>
+                    <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
+                    <td><input id="badge-left-time" type="checkbox"></td>
                 </tr>
-                <tr>
+                <tr class="yet">
+                    <td>入渠時・建造時のリマインダ手動設定機能を有効にする</td>
+                    <td><input type="checkbox" disabled></td>
+                </tr>
+                <tr class="yet">
                     <td>最初に出てくる文字</td>
-                    <td><input type="text" size="50" placeholder="提督 仕事しろ"></td>
+                    <td><input type="text" size="50" placeholder="提督 仕事しろ" disabled></td>
                 </tr>
-                <tr>
-                    <td>入渠時・建造時の任意リマインダ機能を有効にする</td>
-                    <td><input type="checkbox" checked></td>
-                </tr>
-                <tr>
+                <tr class="yet">
                     <td>デイリー実績(遠征回数とか)を表示する</td>
-                    <td><input type="checkbox" checked></td>
+                    <td><input type="checkbox" disabled></td>
                 </tr>
-                <tr>
+                <tr class="yet">
                     <td>建造レシピメモ</td>
-                    <td><input type="text" size="50" placeholder="400/10/600/10 とか"></td>
+                    <td><input type="text" size="50" placeholder="400/10/600/10 とか" disabled></td>
                 </tr>
-                <tr>
+                <tr class="yet">
                     <td>開発レシピメモ</td>
-                    <td><input type="text" size="50" placeholder="20/60/10/110 とか"> </td>
+                    <td><input type="text" size="50" placeholder="20/60/10/110 とか" disabled> </td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>おしらせ</h4></td>
@@ -72,6 +72,7 @@
         </table>
         <h4><span id="close-config" class="clickable">[とじる]</span></h4>
     </div>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
     <script type="text/javascript" src="../js/more.js"></script>
 </body>
 </html>
