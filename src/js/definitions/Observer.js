@@ -55,7 +55,7 @@ Observer.prototype.unsetNearestEndEvent = function(){
 
 Observer.prototype.updateBadgeContext = function(){
     var config = (new MyStorage()).get('config');
-    if(config['badge-left-time']){
+    if(config && config['badge-left-time']){
         if(this.NearestEndEvent){
             badgeLeftTime(this.NearestEndEvent.getEndTime());
         }
