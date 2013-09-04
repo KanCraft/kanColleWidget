@@ -12,7 +12,7 @@
         </div>
         <div id="materials">
             <span>
-                <span id="api_item1">400</span>/<span id="api_item2">30</span>/<span id="api_item3">600</span>/<span id="api_item4">30</span>
+                &gt; <span id="api_item1">400</span>/<span id="api_item2">30</span>/<span id="api_item3">600</span>/<span id="api_item4">30</span>
             </span>
         </div>
     </div>
@@ -23,21 +23,21 @@
                 <table id="input-container">
                     <tbody>
                         <tr class="carret-container">
-                            <td><div class="carret up">&lt;</div></td>
+                            <td><div target="input-hour"   class="carret up">&lt;</div></td>
                             <td></td>
-                            <td><div class="carret up">&lt;</div></td>
+                            <td><div target="input-minute" class="carret up">&lt;</div></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td><input type="text" size="2" value="03" readonly></td>
+                            <td><input id="input-hour"   type="text" size="2" value="03" readonly></td>
                             <td>:</td>
-                            <td><input type="text" size="2" value="45" readonly></td>
+                            <td><input id="input-minute" type="text" size="2" value="45" readonly></td>
                             <td>後</td>
                        </tr>
                        <tr class="carret-container">
-                            <td><div class="carret down">&gt;</div></td>
+                            <td><div target="input-hour" class="carret down">&gt;</div></td>
                             <td></td>
-                            <td><div class="carret down">&gt;</div></td>
+                            <td><div target="input-minute" class="carret down">&gt;</div></td>
                             <td></td>
                        </tr>
                     </tbody>
@@ -49,6 +49,7 @@
     <div id="footer" class="content">
         <button id="register-cancel" class="btn">今回はいいです</button><button id="register-commit" class="btn">登録</button>
     </div>
+    <script type="text/javascript" src="../js/pages/util.js"></script>
     <script type="text/javascript" src="../js/pages/set_manual_timer_base.js"></script>
     <script type="text/javascript" src="../js/pages/set_createship.js"></script>
 </body>
