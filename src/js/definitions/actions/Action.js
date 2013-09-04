@@ -50,6 +50,6 @@ Action.prototype.forKousyouCreateship = function(params){
     this.kousyouAction.forCreateship(params);
 }
 
-Action.prototype.forKousyouCreateshipSpeedchange = function(params){
-    this.kousyouAction.forCreateshipSpeedchange(params);
+Action.prototype.forKousyouGetship = function(params){
+    this.kousyouAction.forGetship(params);
 }
