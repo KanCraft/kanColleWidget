@@ -4,8 +4,10 @@
     delegateCarretActions();
     delegateCommitAction(function(finish_time){
         params.finish = finish_time;
-        console.log('params', params);
-        // TODO: Createshipsモデルを呼び出してaddする
+        // Createshipsモデルを呼び出してaddする
+        var createships = new Createships();
+        createships.add(params.api_kdock_id, params.finish);
+        window.close();
     });
     delegateCancelAction();
 })();
