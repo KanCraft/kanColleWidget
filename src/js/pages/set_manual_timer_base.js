@@ -50,7 +50,9 @@
         var num = parseInt(target.value);
         if(!num) num = 0;
         if(doIncrement == true) num = num + range;
-        else if(num > range) num = num - range;
+        else if(0 <= (num - range)) num = num - range;
+        else num = 60 - range;
+
         if(num >= 60) num = 0;
         target.value = zP(2, num);
     });
