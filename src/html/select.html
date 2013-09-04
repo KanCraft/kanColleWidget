@@ -7,45 +7,66 @@
     <div id="main">
         <h2>提督 仕事しろ</h2>
         <form id="config">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="select">
-                                <input type="radio" name="mode" value="l"><span>大型</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="select">
-                                <input type="radio" name="mode" value="m" checked><span>中型</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="select">
-                                <input type="radio" name="mode" value="s"><span>小型</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="select">
-                                <input type="radio" name="mode" value="xs"><span>極小型</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input name="launch" type="submit" value="LAUNCH APP" /></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="content">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="select">
+                                    <input type="radio" name="mode" value="l"><span>大型</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="select">
+                                    <input type="radio" name="mode" value="m" checked><span>中型</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="select">
+                                    <input type="radio" name="mode" value="s"><span>小型</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="select">
+                                    <input type="radio" name="mode" value="xs"><span>極小型</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input name="launch" type="submit" value="LAUNCH APP" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </form>
         <div id="mission-time-left">
-            <span> -- 遠征隊帰投予定時刻 -- </span>
-            <ul id="time-list-container">
-            </ul>
+            <div class="content">
+                <span> -- 遠征隊帰投予定時刻 -- </span>
+                <ul id="time-list-container">
+                </ul>
+            </div>
+        </div>
+        <div id="achievements">
+            <div class="content">
+                <span> -- 本日任務実績 -- </span>
+                <ul id="achievements-daily">
+                </ul>
+                <input name="reset-daily" class="reset-achievements" target="daily" type="submit" value="reset"><br>
+            </div>
+            <div class="content">
+                <span> -- 今週任務実績 -- </span>
+                <ul id="achievements-weekly">
+                </ul>
+                <input name="reset-weekly" class="reset-achievements" target="weekly" type="submit" value="reset"><br>
+            </div>
         </div>
         <a href="/src/html/config.html"><small>これの設定など</small></a>
     </div>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/achievements/Achievements.js"></script>
+    <script type="text/javascript" src="../js/definitions/Util.js"></script>
     <script type="text/javascript" src="../js/select.js"></script>
 </body>
 </html>
