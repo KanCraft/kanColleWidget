@@ -3,16 +3,16 @@
  */
 
 /***** class definitions *****/
-function SoloCreatesihp(createshipJson){
+function SoloCreateship(createshipJson){
     this.api_kdock_id = createshipJson.api_kdock_id;
     this.finish  = createshipJson.finish;
 }
 
-/* Boolean */SoloCreatesihp.prototype.isUpToTime = function(){
+/* Boolean */SoloCreateship.prototype.isUpToTime = function(){
     return ((new Now()).isToNotify(this.finish));
 }
 
-/* void */SoloCreatesihp.prototype.notify = function(){
+/* void */SoloCreateship.prototype.notify = function(){
     _presentation("第" + this.api_kdock_id + "建造ドックでの作業がまもなく終了します");
 }
 
