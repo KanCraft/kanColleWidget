@@ -25,6 +25,8 @@
             "src/js/definitions/models/achievements/Achievements.js",
             "src/js/definitions/models/missions/Mission.js",
             "src/js/definitions/models/missions/Missions.js",
+            "src/js/definitions/models/createships/Createship.js",
+            "src/js/definitions/models/createships/Createships.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/Map.js",
