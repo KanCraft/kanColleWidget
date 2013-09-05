@@ -6,7 +6,8 @@
 function Observer(){/*** 時間管理をします ***/
     this.targets = [
         new Missions(), // 遠征
-        new Createships() // 建造
+        new Createships(), // 建造
+        new Nyukyos() // 入渠
     ];
     this.NearestEndEvent = null; /* SoloEvent */
     this.UpToTimeEvents   = []; /* SoloEvent[] */
