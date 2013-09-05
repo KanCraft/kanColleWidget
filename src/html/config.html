@@ -21,15 +21,18 @@
                     <td>通知時に音声を再生</td>
                     <td>
                     	<input id="play-sound-at-alert" type="checkbox" />
-                    	<input id="file-sound-at-alert" type="file" accept="audio/*"/>
-                    	ボリューム&nbsp;(0<input id="volume-sound-at-alert" type="range" min="0" max="100" value="100" />100)<br/>
+                    	<input id="file-sound-at-alert" type="text" size="50" placeholder="ここに選択されたファイル名が表示されます" readonly>
+                    	ボリューム&nbsp;(0<input id="volume-sound-at-alert" type="range" min="0" max="100" value="100" />100)
+                    	<button>Play</button><br/>
+                    	ファイル変更<input id="upload-sound-at-alert" type="file" accept="audio/*"/>(5MBまで)
                     </td>
                 </tr>
                 <tr>
                     <td>通知時の画像</td>
                     <td>
                     	<input id="disp-image-at-alert" type="checkbox" />
-                    	<input id="file-image-at-alert" type="file" accept="image/*"/>
+                    	<input id="file-sound-at-alert" type="text" size="50" placeholder="ここに選択されたファイル名が表示されます" readonly>
+                    	ファイル変更<input id="upload-image-at-alert" type="file" accept="image/*"/>(5MBまで)
                     </td>
                 </tr>
                 <tr>
@@ -88,6 +91,7 @@
         <h4><span id="close-config" class="clickable">[とじる]</span></h4>
     </div>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/FileReaderWriter.js"></script>
     <script type="text/javascript" src="../js/config.js"></script>
 </body>
 </html>
