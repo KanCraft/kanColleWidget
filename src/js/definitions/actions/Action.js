@@ -51,6 +51,10 @@ Action.prototype.forKousyouCreateship = function(params){
     this.kousyouAction.forCreateship(params);
 }
 
+Action.prototype.forKousyouCreateitem = function(params){
+    this.kousyouAction.forCreateitem(params);
+}
+
 Action.prototype.forKousyouGetship = function(params){
     this.kousyouAction.forGetship(params);
 }

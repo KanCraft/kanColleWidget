@@ -4,9 +4,13 @@
 
 /***** class definitions *****/
 
-function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/}
+function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/
+    this.achievements = new Achievements();
+}
 
 KousyouAction.prototype.forCreateship = function(params){
+
+    this.achievements.update().incrementCreateshipCount();
 
     if(!Config.get('enable-manual-reminder')) return; // 設定されていない
     if(params.api_highspeed == 1) return; // 高速建造を使用する
@@ -22,4 +26,7 @@ KousyouAction.prototype.forCreateship = function(params){
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();
     createships.clear(params.api_kdock_id);
+}
+KousyouAction.prototype.forCreateitem = function(params){
+    this.achievements.update().incrementCreateitemCount();
 }
