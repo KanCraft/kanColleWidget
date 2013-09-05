@@ -9,8 +9,9 @@ var myStorage = new MyStorage();
 
 function initConfig(){
     var initial_config = {
-        'badge-left-time' : false,
-        'record-achievements' : false
+        'badge-left-time'        : false,
+        'record-achievements'    : false,
+        'enable-manual-reminder' : false
     };
     var config = myStorage.get('config') || initial_config;
     myStorage.set('config',config);
