@@ -28,5 +28,38 @@ var Constants = {/** constantアクセサ的なアレ **/
             "26" : 4800,
             "27" : 1200
         }
+    },
+    widget : {
+        titles : [
+            "艦これウィジェット",
+            "艦これウィジェット",
+            "艦これウィジェット",
+            "あかつきの水平線に勝利を刻むのです"
+        ],
+        width : {
+            '1200': {
+                zoom : '1.5',
+                mode : 'l'
+            },
+            '800' : {
+                zoom : '1',
+                mode : 'm'
+            },
+            '600' : {
+                zoom : '0.75',
+                mode : 's'
+            },
+            '400' : {
+                zoom : '0.5',
+                mode : 'xs'
+            }
+        }
+    },
+    ahievements : {
+        'mission_count'  : '遠征',
+        'map_count'      : '出撃',
+        'hokyu_count'    : '補給',
+        'kaisou_count'   : '近改',
+        'practice_count' : '演習'
     }
 };
