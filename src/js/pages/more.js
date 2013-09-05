@@ -12,6 +12,9 @@ function affectConfigInView(){
         if(typeof config[key] == 'boolean'){
             input.checked = config[key];
         }
+        if(typeof config[key] == 'string'){
+            input.value = config[key];
+        }
     }
 }
 function bindCloseAction(){
@@ -22,8 +25,17 @@ function bindCloseAction(){
 function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
-        inputs[i].addEventListener('change',function(){
-            Config.set(this.id, this.checked);
-        });
+        console.log(inputs[i]);
+        console.log(inputs[i].type);
+        if(inputs[i].type == 'checkbox'){
+            inputs[i].addEventListener('change',function(){
+                Config.set(this.id, this.checked);
+            });
+        }
+        if(inputs[i].type == 'text'){
+            inputs[i].addEventListener('keydown',function(){
+                Config.set(this.id, this.value);
+            });
+        }
     }
 }
