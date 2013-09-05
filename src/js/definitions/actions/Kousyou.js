@@ -7,7 +7,10 @@
 function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/}
 
 KousyouAction.prototype.forCreateship = function(params){
-    if(params.api_highspeed == 1) return;
+
+    if(!Config.get('enable-manual-reminder')) return; // 設定されていない
+    if(params.api_highspeed == 1) return; // 高速建造を使用する
+
     var path = chrome.extension.getURL('/') + 'src/html/set_createship.html';
     var qstr = '?' + dict2hashString(params);
     // レスポンスが帰って来て建造時間が可視化されるまで待つ
