@@ -2,8 +2,7 @@ var myStorage = new MyStorage();
 
 function updateTimeLeft(){
     var renderParams = [];
-    var missions = myStorage.get('missions');
-    if(missions == null) return renderMissions(renderParams);
+    var missions = myStorage.get('missions') || [];
     missions.map(function(m){
         if(m.finish == null) return;
         var d = new Date(m.finish);
@@ -15,8 +14,7 @@ function updateTimeLeft(){
     renderMissions(renderParams);
 
     var renderParamsCreateships = [];
-    var createships = myStorage.get('createships');
-    if(createships == null) return renderCreateships(renderParamsCreateships);
+    var createships = myStorage.get('createships') || [];
     createships.map(function(c){
         if(c.finish == null) return;
         var d = new Date(c.finish);
@@ -26,9 +24,6 @@ function updateTimeLeft(){
         });
     });
     renderCreateships(renderParamsCreateships);
-
-    // そもそも何も無かったら全部消す
-    if(renderParams.length == 0 && renderParamsCreateships.length == 0) toggleTimeLeftArea(false);
 }
 
 function renderMissions(params){
@@ -42,7 +37,6 @@ function renderMissions(params){
     if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-missions'), false);
 }
 function renderCreateships(params){
-    console.log(params);
     var template = '<li id="kdock{api_kdock_id}"><span id="time-left-createships-kdock{api_kdock_id}">{time}</span> <span class="kdock-id">第{api_kdock_id}建造ドック</span></li>';
     var ul = document.getElementById('time-list-container-createships');
     params.map(function(p){
@@ -53,10 +47,6 @@ function renderCreateships(params){
     if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-createships'), false);
 }
 
-function toggleTimeLeftArea(switcher){
-    var div = document.getElementById('time-left');
-    _toggleArea(div,switcher);
-}
 function toggleAchievementsArea(switcher){
     var div = document.getElementById('achievements');
     _toggleArea(div,switcher);
