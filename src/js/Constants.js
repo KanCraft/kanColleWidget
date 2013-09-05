@@ -55,7 +55,7 @@ var Constants = {/** constantアクセサ的なアレ **/
             }
         }
     },
-    ahievements : {
+    achievements : {
         'mission_count'  : '遠征',
         'map_count'      : '出撃',
         'hokyu_count'    : '補給',
