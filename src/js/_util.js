@@ -1,3 +1,7 @@
+/***
+ * このファイルはusageを確認しつつpages/util.jsに機能移動して生きます
+ */
+
 /* dict */function parse(query_str){
     var params = {};
     query_str.replace(/^\?/,'').split('&').map(function(k_v){
