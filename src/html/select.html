@@ -6,36 +6,36 @@
 <body>
     <div id="main">
         <h2 id="popup-select-title">提督 仕事しろ</h2>
-        <form id="config">
+        <form id="config" name="mode">
             <div class="content">
                 <table>
                     <tbody>
                         <tr>
                             <td>
                                 <div class="select">
-                                    <input type="radio" name="mode" value="l"><span>大型</span>
+                                    <input id="mode-l" class="mode-select" type="radio" name="mode" value="l"><span>大型</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="select">
-                                    <input type="radio" name="mode" value="m" checked><span>中型</span>
+                                    <input id="mode-m" class="mode-select" type="radio" name="mode" value="m"><span>中型</span>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <div class="select">
-                                    <input type="radio" name="mode" value="s"><span>小型</span>
+                                    <input id="mode-s" class="mode-select" type="radio" name="mode" value="s"><span>小型</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="select">
-                                    <input type="radio" name="mode" value="xs"><span>極小型</span>
+                                    <input id="mode-xs" class="mode-select" type="radio" name="mode" value="xs"><span>極小型</span>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2"><input name="launch" type="submit" value="LAUNCH APP" /></td>
+                            <td colspan="2"><input id="launch" name="launch" type="submit" value="LAUNCH APP" tabindex="0"/></td>
                         </tr>
                     </tbody>
                 </table>
