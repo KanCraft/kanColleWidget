@@ -14,6 +14,10 @@ html {
     height: 100%;
 }
 
+::selection {
+    background: rgba(1,1,1,0);
+}
+
 div.content {
     width: 300px;
     margin: 0 auto;
