@@ -1,8 +1,9 @@
 (function(){
     var params = parseQueryString();
     applyView(params);
+    affectInputTracking('createship');
     delegateCarretActions();
-    delegateCommitAction(function(finish_time){
+    delegateCommitAction('createship', function(finish_time){
         params.finish = finish_time;
         // Createshipsモデルを呼び出してaddする
         var createships = new Createships();
