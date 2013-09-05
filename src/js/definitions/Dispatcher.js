@@ -39,6 +39,12 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_kaisou/powerup':
             this.action.forKaisouPowerup(this.params);
             break;
+        case 'api_req_kousyou/createship':
+            this.action.forKousyouCreateship(this.params);
+            break;
+        case 'api_req_kousyou/getship':
+            this.action.forKousyouGetship(this.params);
+            break;
         default:
             //_log('%c[ACTION]%c Do Nothing for this request',true);
     }
