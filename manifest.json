@@ -51,7 +51,7 @@
             ],
             "js" : [
                 "src/js/_util.js",
-                "src/js/proxy.js"
+                "src/js/pages/proxy.js"
             ]
         },
         {
@@ -60,7 +60,7 @@
             ],
             "js" : [
                 "src/js/_util.js",
-                "src/js/proxy2.js"
+                "src/js/pages/proxy2.js"
             ],
             "css" : [
                 "src/css/proxy2.css"
