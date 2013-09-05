@@ -18,7 +18,7 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
-            "src/js/definitions/ConstantMapping.js",
+            "src/js/Constants.js",
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
