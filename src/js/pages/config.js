@@ -8,13 +8,13 @@
     var checkbox = document.getElementById('doAlert');
     updateChecked();
     checkbox.addEventListener('change',function(e){
-        localStorage.setItem('config_showAlert', this.checked);
+        Config.set('enable-notification', this.checked);
         updateChecked();
     });
 })();
 
 function updateChecked(){
     var checkbox = document.getElementById('doAlert');
-    if(localStorage.getItem('config_showAlert') == 'true') checkbox.setAttribute('checked');
+    if(Config.get('enable-notification')) checkbox.setAttribute('checked');
     else checkbox.removeAttribute('checked');
 }
