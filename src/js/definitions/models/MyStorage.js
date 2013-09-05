@@ -29,7 +29,6 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         return this.storage.get('config') || this.initial;
     },
     /* public: bool */updateAll : function(dict){
-        console.log('MyStorage',dict);
         this.storage.set('config', dict);
     },
     /* public: * */get : function(key){
@@ -40,6 +39,35 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         var config = this.storage.get('config') || this.initial;
         config[key] = value;
         this.storage.set('config', config);
+        return true;
+    }
+}
+
+/* static */var Tracking = {/** localStorage.inputTrackingにアクセスするstaticなクラス **/
+
+    /* private */storage : new MyStorage(),
+    /* private */initial : {
+        mode : 'm',
+        createship : {
+            hour   :  1,
+            minute : 30
+        }
+    },
+
+    /* public: dict */getJSON : function(){
+        return this.storage.get('inputTracking') || this.initial;
+    },
+    /* public: bool */updateAll : function(dict){
+        this.storage.set('inputTracking', dict);
+    },
+    /* public: * */get : function(key){
+        var tracking = this.storage.get('inputTracking') || this.initial;
+        return tracking[key];
+    },
+    /* public: bool */set : function(key,value){
+        var tracking = this.storage.get('inputTracking') || this.initial;
+        tracking[key] = value;
+        this.storage.set('inputTracking', tracking);
         return true;
     }
 }

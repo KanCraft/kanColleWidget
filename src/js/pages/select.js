@@ -116,6 +116,15 @@ function _toggleArea(e, sw){
     var title = Config.get('popup-select-title') || Constants.popup.title;
     document.getElementById('popup-select-title').innerHTML = title;
 }
+/* void */function affectTracking(){
+    var trackedMode = Tracking.get('mode');
+    var inputs = document.getElementsByClassName('mode-select');
+    for(var i=0;i<inputs.length;i++){
+        inputs[i].checked = false;
+    }
+    var input = document.getElementById('mode-' + trackedMode);
+    input.checked = true;
+}
 
 (function(){
     updateTimeLeft();
@@ -124,11 +133,12 @@ function _toggleArea(e, sw){
     var aspect = 0.6;
     var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
     document.forms[0].elements['launch'].addEventListener('click', function(){
+        var mode = document.forms[0].elements['mode'].value;
+        Tracking.set('mode',mode);
         ifThereIsAlreadyKCWidgetWindow(function(){
             focusKCWidgetWindow();
             window.close();
         },function(){
-            var mode = document.forms[0].elements['mode'].value;
             var w = conf_list[mode];
             var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', w).replace('{h}', String(w * aspect));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
@@ -150,4 +160,5 @@ function _toggleArea(e, sw){
             achievements.update(true, this.getAttribute('target'));
         });
     }
+    affectTracking();
 })();
