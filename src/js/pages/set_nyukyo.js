@@ -1,8 +1,9 @@
 (function(){
     var params = parseQueryString();
     applyView(params);
+    affectInputTracking('nyukyo');
     delegateCarretActions();
-    delegateCommitAction(function(finish_time){
+    delegateCommitAction('nyukyo', function(finish_time){
         params.finish = finish_time;
         // Nyukyosモデルを呼び出してaddする
         var nyukyos = new Nyukyos();

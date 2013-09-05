@@ -63,9 +63,15 @@
         callback();
     });
 }
-/* void */function delegateCommitAction(callback){
+/* void */function delegateCommitAction(trackingKey, callback){
+
     if(!callback) throw new Error('delegateCommitAction requires 1 parameter');
+
     document.getElementById('register-commit').addEventListener('click',function(){
+        Tracking.set(trackingKey,{
+            hour   : document.getElementById('input-hour').value,
+            minute : document.getElementById('input-minute').value
+        });
         var finish_time = generateEpochTime();
         callback(finish_time);
     });
@@ -78,4 +84,10 @@
     var hours      = parseInt(document.getElementById('input-hour').value);
     var minutes    = parseInt(document.getElementById('input-minute').value);
     return (hours * 60 + minutes) * 60 * 1000;
+}
+
+/* void */function affectInputTracking(trackingKey){
+    var inputTracking = Tracking.get(trackingKey);
+    document.getElementById('input-hour').value   = inputTracking.hour;
+    document.getElementById('input-minute').value = inputTracking.minute;
 }

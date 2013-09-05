@@ -51,6 +51,10 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         createship : {
             hour   :  1,
             minute : 30
+        },
+        nyukyo : {
+            hour   :  1,
+            minute : 30
         }
     },
 
