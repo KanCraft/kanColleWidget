@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/set_manual_timer.css">
+    <title>入渠修復完了通知設定画面</title>
+</head>
+<body>
+    <div id="header" class="content">
+        <div id="reminder-title">
+            第<span id="api_kdock_id">1</span>入渠ドック完了通知登録しますか？
+        </div>
+    </div>
+    <div id="main" class="content">
+        <div id="time-input">
+            <div id="table-wrapper">
+                <div id="left-top-lack"></div>
+                <table id="input-container">
+                    <tbody>
+                        <tr class="carret-container">
+                            <td><div target="input-hour"   class="carret up">&lt;</div></td>
+                            <td></td>
+                            <td><div target="input-minute" class="carret up">&lt;</div></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input id="input-hour"   type="text" size="2" value="03" readonly></td>
+                            <td>:</td>
+                            <td><input id="input-minute" type="text" size="2" value="45" readonly></td>
+                            <td>後</td>
+                       </tr>
+                       <tr class="carret-container">
+                            <td><div target="input-hour" class="carret down">&gt;</div></td>
+                            <td></td>
+                            <td><div target="input-minute" class="carret down">&gt;</div></td>
+                            <td></td>
+                       </tr>
+                    </tbody>
+                </table>
+                <div id="right-bottom-lack"></div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="content">
+        <button id="register-cancel" class="btn">今回はいいです</button><button id="register-commit" class="btn">登録</button>
+    </div>
+    <script type="text/javascript" src="../js/pages/util.js"></script>
+    <script type="text/javascript" src="../js/pages/set_manual_timer_base.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/EventsBase.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyo.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyos.js"></script>
+    <script type="text/javascript" src="../js/pages/set_nyukyo.js"></script>
+</body>
+</html>
