@@ -1,24 +1,14 @@
-var myStorage = new MyStorage();
 (function(){
-    initConfig();
-    var config = myStorage.get('config');
-    affectConfigInView(config);
+    affectConfigInView();
     bindCloseAction();
     bindConfigChangedAction();
 })();
 
-function initConfig(){
-    var initial_config = {
-        'badge-left-time'        : false,
-        'record-achievements'    : false,
-        'enable-manual-reminder' : false
-    };
-    var config = myStorage.get('config') || initial_config;
-    myStorage.set('config',config);
-}
-function affectConfigInView(config){
+function affectConfigInView(){
+    var config = Config.getJSON();
     for(var key in config){
         var input = document.getElementById(key);
+        if(input == null) continue;
         if(typeof config[key] == 'boolean'){
             input.checked = config[key];
         }
@@ -33,9 +23,7 @@ function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
         inputs[i].addEventListener('change',function(){
-            var config = myStorage.get('config');
-            config[this.id] = this.checked;
-            myStorage.set('config',config);
+            Config.set(this.id, this.checked);
         });
     }
 }
