@@ -57,10 +57,3 @@ Missions.prototype.constructor = Missions;
     }
     return result;
 }
-
-///* f(SoloMission) */Missions.prototype.each = function(iterator){
-//    var missions = this.get('missions');
-//    for(var i = 0;i < missions.length;i++) {
-//        iterator(missions[i]);
-//    }
-//}

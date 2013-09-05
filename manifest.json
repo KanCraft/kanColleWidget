@@ -50,6 +50,7 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode=*"
             ],
             "js" : [
+                "src/js/Constants.js",
                 "src/js/_util.js",
                 "src/js/pages/proxy.js"
             ]
@@ -59,6 +60,7 @@
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [
+                "src/js/Constants.js",
                 "src/js/_util.js",
                 "src/js/pages/proxy2.js"
             ],
