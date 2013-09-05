@@ -3,7 +3,7 @@ var myStorage = new MyStorage();
 function updateTimeLeft(){
     var renderParams = [];
     var missions = myStorage.get('missions');
-    if(missions == null) return render(renderParams);
+    if(missions == null) return renderMissions(renderParams);
     missions.map(function(m){
         if(m.finish == null) return;
         var d = new Date(m.finish);
@@ -12,21 +12,49 @@ function updateTimeLeft(){
             time    : zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + zP(2,String(d.getMinutes()))
         });
     });
-    return render(renderParams);
+    renderMissions(renderParams);
+
+    var renderParamsCreateships = [];
+    var createships = myStorage.get('createships');
+    if(createships == null) return renderCreateships(renderParamsCreateships);
+    createships.map(function(c){
+        if(c.finish == null) return;
+        var d = new Date(c.finish);
+        renderParamsCreateships.push({
+            api_kdock_id : String(c.api_kdock_id),
+            time         : zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + zP(2,String(d.getMinutes()))
+        });
+    });
+    renderCreateships(renderParamsCreateships);
+
+    // そもそも何も無かったら全部消す
+    if(renderParams.length == 0 && renderParamsCreateships.length == 0) toggleTimeLeftArea(false);
 }
 
-function render(params){
+function renderMissions(params){
     var template = '<li id="deck{deck_id}"><span id="time-left-deck2">{time}</span> <span class="deck-id">第{deck_id}艦隊</span></li>';
     var ul = document.getElementById('time-list-container');
     params.map(function(p){
         var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time);
         ul.innerHTML += dom;
     });
-    if(params.length == 0) toggleTimeLeftArea(false);
+    // 表示すべき任務リストが無いなら領域から消す
+    if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-missions'), false);
+}
+function renderCreateships(params){
+    console.log(params);
+    var template = '<li id="kdock{api_kdock_id}"><span id="time-left-createships-kdock{api_kdock_id}">{time}</span> <span class="kdock-id">第{api_kdock_id}建造ドック</span></li>';
+    var ul = document.getElementById('time-list-container-createships');
+    params.map(function(p){
+        var dom = template.replace(/\{api_kdock_id\}/g, p.api_kdock_id).replace('{time}', p.time);
+        ul.innerHTML += dom;
+    });
+    // 表示すべき建造リストが無いなら領域から消す
+    if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-createships'), false);
 }
 
 function toggleTimeLeftArea(switcher){
-    var div = document.getElementById('mission-time-left');
+    var div = document.getElementById('time-left');
     _toggleArea(div,switcher);
 }
 function toggleAchievementsArea(switcher){
