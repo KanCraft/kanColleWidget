@@ -5,7 +5,7 @@
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text, force){
     var myStorage = new MyStorage();
-    if(force || myStorage.get('config_showAlert')) {
+    if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var params = {
                 type: "basic",
