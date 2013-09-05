@@ -37,14 +37,8 @@ var proxy_html_string = ''+
 '</html>';
 
 function getTitle(){
-    var titles = [
-        "艦これウィジェット",
-        "艦これウィジェット",
-        "艦これウィジェット",
-        "あかつきの水平線に勝利を刻むのです"
-    ];
-    var _i = Math.floor(Math.random() * titles.length);
-    return titles[_i];
+    var _i = Math.floor(Math.random() * Constants.widget.titles.length);
+    return Constants.widget.titles[_i];
 }
 
 (function(){
@@ -63,7 +57,6 @@ function getTitle(){
         var embed = document.getElementById('externalswf');
         if(embed) src = embed.getAttribute('src');
         if(src){
-            var ua = navigator.userAgent;
             var diffWidth = 0;
             var diffHeight = 0;
             if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)

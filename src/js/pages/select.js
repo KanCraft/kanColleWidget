@@ -2,8 +2,7 @@ var myStorage = new MyStorage();
 
 function updateTimeLeft(){
     var renderParams = [];
-    var missions = myStorage.get('missions');
-    if(missions == null) return renderMissions(renderParams);
+    var missions = myStorage.get('missions') || [];
     missions.map(function(m){
         if(m.finish == null) return;
         var d = new Date(m.finish);
@@ -15,8 +14,7 @@ function updateTimeLeft(){
     renderMissions(renderParams);
 
     var renderParamsCreateships = [];
-    var createships = myStorage.get('createships');
-    if(createships == null) return renderCreateships(renderParamsCreateships);
+    var createships = myStorage.get('createships') || [];
     createships.map(function(c){
         if(c.finish == null) return;
         var d = new Date(c.finish);
@@ -26,9 +24,6 @@ function updateTimeLeft(){
         });
     });
     renderCreateships(renderParamsCreateships);
-
-    // そもそも何も無かったら全部消す
-    if(renderParams.length == 0 && renderParamsCreateships.length == 0) toggleTimeLeftArea(false);
 }
 
 function renderMissions(params){
@@ -42,7 +37,6 @@ function renderMissions(params){
     if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-missions'), false);
 }
 function renderCreateships(params){
-    console.log(params);
     var template = '<li id="kdock{api_kdock_id}"><span id="time-left-createships-kdock{api_kdock_id}">{time}</span> <span class="kdock-id">第{api_kdock_id}建造ドック</span></li>';
     var ul = document.getElementById('time-list-container-createships');
     params.map(function(p){
@@ -53,10 +47,6 @@ function renderCreateships(params){
     if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-createships'), false);
 }
 
-function toggleTimeLeftArea(switcher){
-    var div = document.getElementById('time-left');
-    _toggleArea(div,switcher);
-}
 function toggleAchievementsArea(switcher){
     var div = document.getElementById('achievements');
     _toggleArea(div,switcher);
@@ -85,27 +75,20 @@ function _toggleArea(e, sw){
 }
 
 /* void */function updateAchievements(){
-    var config = myStorage.get('config');
-    if(!config|| !config['record-achievements']) return toggleAchievementsArea(false);
+
+    if(!Config.get('record-achievements')) return toggleAchievementsArea(false);
+
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
-        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
+        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
         document.getElementById('achievements-daily').innerHTML += html;
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + map_key_lang[key] + ' : ' + achievements_json.weekly.contents[key] + '</li>';
+        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.weekly.contents[key] + '</li>';
         document.getElementById('achievements-weekly').innerHTML += html;
     }
 }
-
-var map_key_lang = {
-    'mission_count'  : '遠征',
-    'map_count'      : '出撃',
-    'hokyu_count'    : '補給',
-    'kaisou_count'   : '近改',
-    'practice_count' : '演習'
-};
 
 (function(){
     updateTimeLeft();
