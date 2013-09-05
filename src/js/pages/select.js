@@ -112,9 +112,15 @@ function _toggleArea(e, sw){
     }
 }
 
+/* void */function changeTitle(){
+    var title = Config.get('popup-select-title') || Constants.popup.title;
+    document.getElementById('popup-select-title').innerHTML = title;
+}
+
 (function(){
     updateTimeLeft();
     updateAchievements();
+    changeTitle();
     var aspect = 0.6;
     var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
     document.forms[0].elements['launch'].addEventListener('click', function(){

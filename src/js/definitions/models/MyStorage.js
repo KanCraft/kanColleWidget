@@ -21,7 +21,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'badge-left-time'        : false,
         'record-achievements'    : false,
         'enable-manual-reminder' : true,
-        'enable-notification'    : true
+        'enable-notification'    : true,
+        'popup-select-title'     : ''
     },
 
     /* public: dict */getJSON : function(){
@@ -37,7 +38,6 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     },
     /* public: bool */set : function(key,value){
         var config = this.storage.get('config') || this.initial;
-        if(typeof config[key] == 'undefined') return false;// throw new Error('cannot set on undefined');
         config[key] = value;
         this.storage.set('config', config);
         return true;
