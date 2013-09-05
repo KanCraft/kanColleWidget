@@ -38,7 +38,7 @@ EventsBase.prototype.add = function(id, finishTime){
 EventsBase.prototype.clear = function(id){
     var events = this.get(this.storageName) || this.initialValue;
     for(var i=0;i<events.length;i++){
-        if(events[i][this.primaryidName] == id)
+        if(events[i][this.primaryIdName] == id)
             events[i].finish = null;
     }
     this.set(this.storageName, events);
