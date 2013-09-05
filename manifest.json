@@ -13,6 +13,7 @@
         "tabs",
         "notifications",
         "webRequest",
+        "unlimitedStorage",
         "*://*/*"
     ],
     "background" : {
@@ -41,6 +42,7 @@
         "default_icon": "icon.png",
         "default_popup": "src/html/select.html"
     },
+    "options_page": "src/html/config.html",
     "content_scripts": [
         {
             "matches" : [

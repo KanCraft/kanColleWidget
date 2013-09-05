@@ -1,40 +1,93 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="../css/config.css">
-    </head>
-    <body>
-        <h3>艦これウィジェット<br>ver0.2.6</h3>
-        <ul>
-            <li>設定
-                <ul>
-                    <li>遠征発着のポップアップするならチェック:<input type="checkbox" name="doAlert" id="doAlert"></li>
-                    <li><a href="src/html/more.html">もっとリッチな設定する！</a></li>
-                </ul>
-            </li>
-            <li>これについて
-                <ul>
-                    <li>Chromeブラウザの拡張なので鯖へのリクエスト増やしてないと思う</li>
-                    <li>運営さん、いつもありがとう。たのしく遊んでます、艦これ</li>
-                </ul>
-            </li>
-            <li>お問い合わせ・苦情
-                <ul>
-                    <li>
-                        バグ、機能改善は<a href="https://github.com/otiai10/kanColleWidget/issues/new">GitHub</a>か<a href="https://twitter.com/otiai10">Twitter</a>まで
-                    </li>
-                    <li>その他のお問い合わせは otiai10@gmail.com までお願いします</li>
-                </ul>
-            </li>
-            <li>リンク
-                <ul>
-                    <li>公式:<a href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/">艦隊これくしょん</a></li>
-                    <li>このChrome拡張:<a href="https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol">艦これウィジェット</a></li>
-                </ul>
-
-            </li>
-        </ul>
-        <script type="text/javascript" src="../js/config.js"></script>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>オプション - 艦これウィジェット</title>
+    <link rel="stylesheet" href="../css/config.css">
+</head>
+<body>
+    <h3>艦これウィジェット<br>ver0.2.6</h3>
+    <div class="main">
+        <table id="configs">
+            <tbody>
+                <tr>
+                    <td colspan="2"><h4>設定メニュー (※リッチなのは現在ベータ版です！)</h4></td>
+                </tr>
+                <tr>
+                    <td>遠征発着にポップアップで通知</td>
+                    <td><input id="alert-campaign" type="checkbox" ></td>
+                </tr>
+                <tr>
+                    <td>通知時に音声を再生</td>
+                    <td>
+                    	<input id="play-sound-at-alert" type="checkbox" />
+                    	<input id="file-sound-at-alert" type="file" accept="audio/*"/>
+                    	ボリューム&nbsp;(0<input id="volume-sound-at-alert" type="range" min="0" max="100" value="100" />100)<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>通知時の画像</td>
+                    <td>
+                    	<input id="disp-image-at-alert" type="checkbox" />
+                    	<input id="file-image-at-alert" type="file" accept="image/*"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
+                    <td><input id="badge-left-time" type="checkbox"></td>
+                </tr>
+                <tr class="yet">
+                    <td>入渠時・建造時のリマインダ手動設定機能を有効にする<br><span class="xsmall">注意：やっぱり手動設定です！ しょうがないじゃん固定値じゃないんだもん</span></td>
+                    <td><input type="checkbox" disabled></td>
+                </tr>
+                <tr>
+                    <td>任務実績(遠征回数とか)を記録・表示する<br><span class="xsmall">デイリーは毎朝5時、ウィークリーは毎月曜日朝5時にリセットらしいです</span></td>
+                    <td><input id="record-achievements" type="checkbox"></td>
+                </tr>
+                <tr class="yet">
+                    <td>最初に出てくる文字</td>
+                    <td><input type="text" size="50" placeholder="提督 仕事しろ" disabled></td>
+                </tr>
+                <tr class="yet">
+                    <td>建造レシピメモ</td>
+                    <td><input type="text" size="50" placeholder="400/10/600/10 とか" disabled></td>
+                </tr>
+                <tr class="yet">
+                    <td>開発レシピメモ</td>
+                    <td><input type="text" size="50" placeholder="20/60/10/110 とか" disabled> </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h4>おしらせ</h4></td>
+                </tr>
+                <tr>
+                    <td>現在までに報告されている「ウィジェット内でできないこと」</td>
+                    <td class="sorry">
+                        <ul>
+                            <li>× アイテム課金とかする</li>
+                            <li>× 艦隊名の変更</li>
+                            <li>× 戦績表示</li>
+                            <li>× 演習で提督の名前とか表示</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>リリースバージョンの詳細</td>
+                    <td><a href="https://github.com/otiai10/kanColleWidget/issues/milestones">https://github.com/otiai10/kanColleWidget/issues/milestones</a></td>
+                </tr>
+                <tr>
+                    <td>機能改善・バグ報告はここ</td>
+                    <td>
+                        <a href="https://github.com/otiai10/kanColleWidget/issues/new">GitHub</a>
+                        か
+                        <a href="https://twitter.com/otiai10">Twitter</a>
+                        まで
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><span id="close-config" class="clickable">[とじる]</span></h4>
+    </div>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/config.js"></script>
+</body>
 </html>
