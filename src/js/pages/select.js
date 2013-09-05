@@ -24,6 +24,18 @@ function updateTimeLeft(){
         });
     });
     renderCreateships(renderParamsCreateships);
+
+    var renderParamsNyukyos = [];
+    var nyukyos = myStorage.get('nyukyos') || [];
+    nyukyos.map(function(n){
+        if(n.finish == null) return;
+        var d = new Date(n.finish);
+        renderParamsNyukyos.push({
+            api_ndock_id : String(n.api_ndock_id),
+            time         : zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + zP(2,String(d.getMinutes()))
+        });
+    });
+    renderNyukyos(renderParamsNyukyos);
 }
 
 function renderMissions(params){
@@ -45,6 +57,16 @@ function renderCreateships(params){
     });
     // 表示すべき建造リストが無いなら領域から消す
     if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-createships'), false);
+}
+function renderNyukyos(params){
+    var template = '<li id="ndock{api_ndock_id}"><span id="time-left-nyukyos-ndock{api_ndock_id}">{time}</span> <span class="ndock-id">第{api_ndock_id}入渠ドック</span></li>';
+    var ul = document.getElementById('time-list-container-nyukyos');
+    params.map(function(p){
+        var dom = template.replace(/\{api_ndock_id\}/g, p.api_ndock_id).replace('{time}', p.time);
+        ul.innerHTML += dom;
+    });
+    // 表示すべき建造リストが無いなら領域から消す
+    if(params.length == 0) _toggleArea(document.getElementById('time-list-wrapper-nyukyos'), false);
 }
 
 function toggleAchievementsArea(switcher){
