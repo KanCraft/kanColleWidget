@@ -59,10 +59,12 @@ var Constants = {/** constantアクセサ的なアレ **/
       title : "提督 仕事しろ"
     },
     achievements : {
-        'mission_count'  : '遠征',
-        'map_count'      : '出撃',
-        'hokyu_count'    : '補給',
-        'kaisou_count'   : '近改',
-        'practice_count' : '演習'
+        'mission_count'   : '遠征',
+        'createship_count': '建造',
+        'createitem_count': '開発',
+        'map_count'       : '出撃',
+        'hokyu_count'     : '補給',
+        'kaisou_count'    : '近改',
+        'practice_count'  : '演習'
     }
 };
