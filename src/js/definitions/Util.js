@@ -142,3 +142,11 @@
     var last_monday = new Date(now - diff_days * _1day_msec);
     return (new Date(1900 + last_monday.getYear(), last_monday.getMonth(), last_monday.getDate(), 5, 0)).getTime();
 }
+
+/* string */function dict2hashString(dict){
+    var arr = [];
+    for(var i in dict){
+        arr.push(i + '=' + dict[i]);
+    }
+    return arr.join('&');
+}

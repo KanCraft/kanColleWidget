@@ -5,7 +5,8 @@
 /***** class definitions *****/
 function Observer(){/*** 時間管理をします ***/
     this.targets = [
-        new Missions()//missions
+        new Missions(), // 遠征
+        new Createships() // 建造
     ];
     this.NearestEndEvent = null; /* SoloEvent */
     this.UpToTimeEvents   = []; /* SoloEvent[] */
