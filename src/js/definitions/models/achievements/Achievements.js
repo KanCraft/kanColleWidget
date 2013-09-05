@@ -64,6 +64,14 @@ Achievements.prototype.constructor = Achievements;
     return this._incrementByKey('kaisou_count');
 }
 
+/* this */Achievements.prototype.incrementCreateshipCount = function(){
+    return this._incrementByKey('createship_count');
+}
+
+/* this */Achievements.prototype.incrementCreateitemCount = function(){
+    return this._incrementByKey('createitem_count');
+}
+
 /* this */Achievements.prototype._incrementByKey = function(key){
     var achievement_json = this.get('achievements');
     var daily_count = achievement_json.daily.contents[key] || 0;
