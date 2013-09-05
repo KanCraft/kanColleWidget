@@ -12,6 +12,7 @@ function Action(){/** APIが叩かれるときのアクション **/
     this.hokyuAction = new HokyuAction();
     this.kaisouAction = new KaisouAction();
     this.kousyouAction = new KousyouAction();
+    this.nyukyoAction = new NyukyoAction();
 }
 
 //----- mission start -----
@@ -52,4 +53,12 @@ Action.prototype.forKousyouCreateship = function(params){
 
 Action.prototype.forKousyouGetship = function(params){
     this.kousyouAction.forGetship(params);
+}
+
+Action.prototype.forNyukyoStart = function(params){
+    this.nyukyoAction.forStart(params);
+}
+
+Action.prototype.forNyukyoSpeedchange = function(params){
+    this.nyukyoAction.forSpeedchange(params);
 }
