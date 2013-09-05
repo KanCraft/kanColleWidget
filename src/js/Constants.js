@@ -55,6 +55,9 @@ var Constants = {/** constantアクセサ的なアレ **/
             }
         }
     },
+    popup : {
+      title : "提督 仕事しろ"
+    },
     achievements : {
         'mission_count'  : '遠征',
         'map_count'      : '出撃',
