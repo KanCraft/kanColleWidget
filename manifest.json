@@ -51,7 +51,7 @@
             ],
             "js" : [
                 "src/js/Constants.js",
-                "src/js/_util.js",
+                "src/js/pages/util.js",
                 "src/js/pages/proxy.js"
             ]
         },
@@ -61,7 +61,7 @@
             ],
             "js" : [
                 "src/js/Constants.js",
-                "src/js/_util.js",
+                "src/js/pages/util.js",
                 "src/js/pages/proxy2.js"
             ],
             "css" : [
