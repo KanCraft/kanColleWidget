@@ -17,14 +17,26 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
 /* static */var Config = {/** localStorage.configにアクセスするstaticなクラス **/
 
     /* private */storage : new MyStorage(),
+    /* private */initial : {
+        'badge-left-time'        : false,
+        'record-achievements'    : false,
+        'enable-manual-reminder' : false,
+        'enable-notification'    : false
+    },
 
-    /* public: dict */get : function(key){
-        var config = this.storage.get('config');
-        if(typeof config[key] == 'undefined') return;
+    /* public: dict */getJSON : function(){
+        return this.storage.get('config') || this.initial;
+    },
+    /* public: bool */updateAll : function(dict){
+        console.log('MyStorage',dict);
+        this.storage.set('config', dict);
+    },
+    /* public: * */get : function(key){
+        var config = this.storage.get('config') || this.initial;
         return config[key];
     },
     /* public: bool */set : function(key,value){
-        var config = this.storage.get('config');
+        var config = this.storage.get('config') || this.initial;
         if(typeof config[key] == 'undefined') return false;// throw new Error('cannot set on undefined');
         config[key] = value;
         this.storage.set('config', config);
