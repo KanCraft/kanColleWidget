@@ -23,6 +23,7 @@
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
+            "src/js/definitions/models/events/EventsBase.js",
             "src/js/definitions/models/events/missions/Mission.js",
             "src/js/definitions/models/events/missions/Missions.js",
             "src/js/definitions/models/events/createships/Createship.js",
