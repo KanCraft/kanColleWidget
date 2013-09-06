@@ -5,13 +5,14 @@
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text, force){
     var myStorage = new MyStorage();
-    if(force || myStorage.get('config_showAlert')) {
+    if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
+            var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
             var params = {
                 type: "basic",
                 title: "艦これウィジェット",
                 message: text,
-                iconUrl: "./icon.png"
+                iconUrl: iconUrl
             }
             chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
             chrome.notifications.onClicked.addListener(function(){
@@ -141,4 +142,12 @@
     var _1day_msec = 1*24*60*60*1000;
     var last_monday = new Date(now - diff_days * _1day_msec);
     return (new Date(1900 + last_monday.getYear(), last_monday.getMonth(), last_monday.getDate(), 5, 0)).getTime();
+}
+
+/* string */function dict2hashString(dict){
+    var arr = [];
+    for(var i in dict){
+        arr.push(i + '=' + dict[i]);
+    }
+    return arr.join('&');
 }
