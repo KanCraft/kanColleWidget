@@ -3,18 +3,21 @@
  */
 
 //----- 設定を見たうえでalertする -----
-/* void */function _presentation(text, force, createdCallBack){
-    if(typeof createdCallBack == 'undefined') createdCallBack = function(){/* do nothing */};
+/* void */function _presentation(text, force, opt){
+    if(typeof opt != 'object') opt = {};
+    if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
-            var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
+            var default_url = chrome.extension.getURL('/') + Constants.notification.img;
+            var iconUrl = Config.get('notification-img-url') || default_url;
+            if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
             var params = {
                 type: "basic",
                 title: "艦これウィジェット",
                 message: text,
                 iconUrl: iconUrl
             }
-            chrome.notifications.create(String((new Date()).getTime()), params, function(){ createdCallBack(); });
+            chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
             });
