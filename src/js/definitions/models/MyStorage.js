@@ -22,7 +22,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'record-achievements'    : false,
         'enable-manual-reminder' : true,
         'enable-notification'    : true,
-        'popup-select-title'     : ''
+        'popup-select-title'     : '',
+        'notification-img-url'   : ''
     },
 
     /* public: dict */getJSON : function(){

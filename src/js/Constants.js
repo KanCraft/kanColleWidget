@@ -58,6 +58,9 @@ var Constants = {/** constantアクセサ的なアレ **/
     popup : {
       title : "提督 仕事しろ"
     },
+    notification : {
+        img : './icon.png'
+    },
     achievements : {
         'mission_count'   : '遠征',
         'createship_count': '建造',
