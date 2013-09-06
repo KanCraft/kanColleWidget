@@ -63,15 +63,11 @@
         callback();
     });
 }
-/* void */function delegateCommitAction(trackingKey, callback){
+/* void */function delegateCommitAction(callback){
 
     if(!callback) throw new Error('delegateCommitAction requires 1 parameter');
 
     document.getElementById('register-commit').addEventListener('click',function(){
-        Tracking.set(trackingKey,{
-            hour   : document.getElementById('input-hour').value,
-            minute : document.getElementById('input-minute').value
-        });
         var finish_time = generateEpochTime();
         callback(finish_time);
     });
@@ -90,4 +86,10 @@
     var inputTracking = Tracking.get(trackingKey);
     document.getElementById('input-hour').value   = inputTracking.hour;
     document.getElementById('input-minute').value = inputTracking.minute;
+}
+/* void */function updateInputTracking(trackingKey){
+    var inputTracking = Tracking.get(trackingKey);
+    inputTracking.hour   = document.getElementById('input-hour').value;
+    inputTracking.minute = document.getElementById('input-minute').value;
+    Tracking.set(trackingKey,inputTracking);
 }
