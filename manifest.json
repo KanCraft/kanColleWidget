@@ -72,5 +72,6 @@
                 "src/css/proxy2.css"
             ]
         }
-    ]
+    ],
+    "options_page" : "src/html/more.html"
 }
