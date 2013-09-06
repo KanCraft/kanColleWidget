@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "stg.艦これウィジェット",
-    "version": "0.2.5.1",
+    "version": "0.2.5.2",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -19,6 +19,7 @@
         "persistent" : true,
         "scripts" : [
             "src/js/Constants.js",
+            "src/js/pages/util.js",
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
