@@ -3,7 +3,8 @@
  */
 
 //----- 設定を見たうえでalertする -----
-/* void */function _presentation(text, force){
+/* void */function _presentation(text, force, createdCallBack){
+    if(typeof createdCallBack == 'undefined') createdCallBack = function(){/* do nothing */};
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
@@ -22,9 +23,8 @@
 					audio.volume = volume/100.0;
 				}
 				audio.play();
-            }
-
-            chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
+			}
+            chrome.notifications.create(String((new Date()).getTime()), params, function(){ createdCallBack(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
             });
