@@ -39,3 +39,7 @@ td.sorry {
 span.xsmall {
     font-size: x-small;
 }
+
+span.validation-message {
+    color: red;
+}
