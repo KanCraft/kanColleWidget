@@ -28,6 +28,21 @@ localStorage.isDebug = true;
 do `sh cli/build`
 and read package `release/kanColleWidget` on Chrome
 
+### if you can
+```
+npm install -g testem
+```
+and just run
+```
+testem
+```
+Something will happen.
+
+Please see
+- https://github.com/airportyh/testem
+- http://pivotal.github.io/jasmine/
+
+
 # Release Note
 
 - 2013/09/04 v0.2.5
