@@ -9,8 +9,8 @@
         var createships = new Createships();
         createships.add(params.api_kdock_id, params.finish);
         updateInputTracking('createship');
-        _presentation('建造作業完了通知を登録しときました',false,function(){
-            window.close();
+        _presentation('建造作業完了通知を登録しときました',false,{
+            callback : function(){ window.close(); }
         });
     });
     delegateCancelAction();
