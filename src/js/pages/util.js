@@ -34,3 +34,17 @@
     });
     return params;
 }
+
+function collectWindowSize(win){
+    // Windows版でのみサイズがおかしくなるそうなのでページがロードされたら修正
+	if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
+	{
+		win.onload = (function(_win){
+			return function(){
+			    var diffWidth = _win.outerWidth - _win.innerWidth;
+			    var diffHeight = _win.outerHeight - _win.innerHeight;
+				_win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+			};
+		})(win);
+	}
+}
