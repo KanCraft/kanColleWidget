@@ -13,7 +13,17 @@
                 title: "艦これウィジェット",
                 message: text,
                 iconUrl: iconUrl
-            }
+            };
+            // 指定があれば音声を再生
+        	var url = Config.get('notification-sound-url');
+            if( Config.get('notification-sound') && url ){
+				var audio = new Audio(url);
+				var volume = Config.get('notification-sound-volume');
+				if( volume != undefined ){
+					audio.volume = volume/100.0;
+				}
+				audio.play();
+			}
             chrome.notifications.create(String((new Date()).getTime()), params, function(){ createdCallBack(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();

@@ -13,6 +13,7 @@
         "tabs",
         "notifications",
         "webRequest",
+        "unlimitedStorage",
         "*://*/*"
     ],
     "background" : {
@@ -22,6 +23,7 @@
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
+            "src/js/definitions/models/FileSystem.js",
             "src/js/definitions/models/achievements/Achievements.js",
             "src/js/definitions/models/events/EventsBase.js",
             "src/js/definitions/models/events/missions/Mission.js",
