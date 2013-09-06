@@ -57,6 +57,7 @@ div#time-input {
 
 button.btn {
     font-family: "Times New Roman";
+    font-size: 12px;
     background-color: #239e9f;
     box-shadow: 0 0 10px #f4f0f6 inset;
     color: #fff7f3;
