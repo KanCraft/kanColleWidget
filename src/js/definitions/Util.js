@@ -3,8 +3,8 @@
  */
 
 //----- 設定を見たうえでalertする -----
-/* void */function _presentation(text, force){
-    var myStorage = new MyStorage();
+/* void */function _presentation(text, force, createdCallBack){
+    if(typeof createdCallBack == 'undefined') createdCallBack = function(){/* do nothing */};
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
@@ -14,7 +14,7 @@
                 message: text,
                 iconUrl: iconUrl
             }
-            chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
+            chrome.notifications.create(String((new Date()).getTime()), params, function(){ createdCallBack(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
             });
