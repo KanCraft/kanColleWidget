@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.2.5",
+    "version": "0.2.6",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -18,16 +18,24 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
-            "src/js/definitions/ConstantMapping.js",
+            "src/js/Constants.js",
+            "src/js/pages/util.js",
             "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
-            "src/js/definitions/models/missions/Mission.js",
-            "src/js/definitions/models/missions/Missions.js",
+            "src/js/definitions/models/events/EventsBase.js",
+            "src/js/definitions/models/events/missions/Mission.js",
+            "src/js/definitions/models/events/missions/Missions.js",
+            "src/js/definitions/models/events/nyukyos/Nyukyo.js",
+            "src/js/definitions/models/events/nyukyos/Nyukyos.js",
+            "src/js/definitions/models/events/createships/Createship.js",
+            "src/js/definitions/models/events/createships/Createships.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/Map.js",
+            "src/js/definitions/actions/Nyukyo.js",
+            "src/js/definitions/actions/Kousyou.js",
             "src/js/definitions/actions/Kaisou.js",
             "src/js/definitions/actions/Hokyu.js",
             "src/js/definitions/actions/Practice.js",
@@ -47,8 +55,9 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode=*"
             ],
             "js" : [
-                "src/js/_util.js",
-                "src/js/proxy.js"
+                "src/js/Constants.js",
+                "src/js/pages/util.js",
+                "src/js/pages/proxy.js"
             ]
         },
         {
@@ -56,12 +65,14 @@
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [
-                "src/js/_util.js",
-                "src/js/proxy2.js"
+                "src/js/Constants.js",
+                "src/js/pages/util.js",
+                "src/js/pages/proxy2.js"
             ],
             "css" : [
                 "src/css/proxy2.css"
             ]
         }
-    ]
+    ],
+    "options_page" : "src/html/more.html"
 }

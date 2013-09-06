@@ -1,3 +1,40 @@
+## 2013/09/04
+```sh
+# 一部順番を入れ替えています
+% tree src/js
+src/js
+├── background.js # メイン。拡張が読み込まれた時に発火し、削除されるまで生きている
+├── definitions # クラスの定義なるべく"OOP & DDD"したい
+│   ├── ConstantMapping.js # 定数定義（のつもり。TODO: ここに集めてくる）
+│   ├── Now.js # 現在時刻やその判定ロジックを持つクラスをOOPっぽく作りたかったが、なんかコイツ微妙な
+│   ├── Util.js # definitionsの中で用いられるUtilたち。このままじゃここは肥大化するわ...！！
+│   ├── Observer.js # 5秒ごとにリマインダータスクを確認する奴
+│   ├── Dispatcher.js # 各リクエストを解析してアクションを振り分ける奴
+│   ├── actions # 各HTTPリクエストpathに対応するアクションを定義する
+│   │   ├── Action.js # actionsを司るクラス
+│   │   ├── Hokyu.js
+│   │   ├── Kaisou.js
+│   │   ├── Map.js
+│   │   ├── Mission.js
+│   │   ├── Payment.js
+│   │   └── Practice.js
+│   └── models # データ(loaclStorage)の実体へのアクセスや操作、最終的なプレゼンテーション(はまだ受け持ってるかな？Observerにぜんぶ渡したっけな？)
+│       ├── MyStorage.js # loaclStorageにアクセスする基底くらす。interfaceキーワード欲しぃょ...
+│       ├── achievements # 任務達成情報を管理する奴
+│       │   └── Achievements.js
+│       └── missions # 遠征情報を管理する奴。これと同階層に"Nyukyo"ディレクトリなどがつくられるはず
+│           ├── Mission.js
+│           └── Missions.js
+├── _util.js # ページスクリプトが利用するutils。もっとここを使わせたい
+├── more.js # ページスクリプト。「リッチな設定」に対応
+├── proxy.js # ページスクリプト。LAUNCHでまず始めに開かれたページに対応
+├── proxy2.js # ページスクリプト。proxy.jsによって抽出されたiframe内抜粋ページに対応
+├── config.js # ページスクリプト。「これの設定など」に対応
+└── select.js # ページスクリプト。アイコン押下（おしげ）時に出てくる小さいアレに対応
+
+5 directories, 23 files
+```
+
 ## 2013/08/30
 ```
  % tree src/js

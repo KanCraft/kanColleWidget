@@ -1,0 +1,170 @@
+html {
+    color: #fff7f3;
+    font-family: "Times New Roman";
+    background-image: -webkit-gradient(
+        linear,
+        right top,
+        left bottom,
+        color-stop(1, rgb(40,40,40)),
+        color-stop(0.75, rgb(63,63,63)),
+        color-stop(0.25, rgb(63,63,63)),
+        color-stop(0, rgb(30,30,30))
+    );
+    width:  100%;
+    height: 100%;
+}
+
+::selection {
+    background: rgba(1,1,1,0);
+}
+
+div.content {
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(1, rgb(19,19,19)),
+        color-stop(0.75, rgb(63,63,63)),
+        color-stop(0.25, rgb(63,63,63)),
+        color-stop(0, rgb(19,19,19))
+    );
+    font-family: "Times New Roman";
+    color: #fff7f3;
+    font-size: 1.6em;
+    text-align: right;
+    width: 70px;
+    text-align: center;
+}
+table#input-container {
+    margin: 0 auto;
+}
+table>tbody>tr>td {
+    position: relative;
+}
+table>tbody>tr.carret-container>td {
+    height: 20px;
+}
+div#time-input {
+    font-family: "Times New Roman";
+    font-size: 1.6em;
+}
+
+button.btn {
+    font-family: "Times New Roman";
+    font-size: 12px;
+    background-color: #239e9f;
+    box-shadow: 0 0 10px #f4f0f6 inset;
+    color: #fff7f3;
+    border-radius: 30px;
+    padding: 5px;
+    width: 100px;
+    cursor: pointer;
+    text-shadow: 0 0 1px #000;
+}
+
+div.carret {
+    -webkit-transform: rotate(90deg) scale(1,2);
+    width: 15px;
+    height: 20px;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: rgb(124, 168, 132);
+    text-shadow: 0 0 1px yellow;
+    cursor: pointer;
+}
+div.carret:hover {
+    color: rgb(222, 255, 65);
+    text-shadow: 0 0 1px yellow inset,
+                 0 0 3px yellow;
+}
+div.carret:active {
+    color: rgb(124, 168, 132);
+    text-shadow: 0 0 1px yellow inset,
+                 0 0 3px yellow;
+}
+div.carret.up {
+    position: relative;
+    bottom: -18px;
+    z-index: 1;
+}
+div.carret.down {
+    position: relative;
+    top: -15px;
+    z-index: 1;
+}
+
+div#table-wrapper {
+    padding: 0;
+    border: thin solid #d0d0d0;
+    width: 300px;
+    border-radius: 2px;
+    position: relative;
+}
+div#table-wrapper:before {
+    content: '';
+    border-top: 20px solid #3f3f3f;
+    border-left: 20px solid #3f3f3f;
+    border-bottom: 20px solid #3f3f3f;
+    border-right: 20px solid #3f3f3f;
+    position: absolute;
+    top:  -1px;
+    left: -1px;
+}
+div#table-wrapper:after {
+    content: '';
+    border-top: 20px solid #3f3f3f;
+    border-left: 20px solid #3f3f3f;
+    border-bottom: 20px solid #3f3f3f;
+    border-right: 20px solid #3f3f3f;
+    position: absolute;
+    bottom:  -1px;
+    right: -1px;
+}
+
+div#left-top-lack {
+    position: absolute;
+    width: 1px;
+    height: 56px;
+    background-color: #d0d0d0;
+    -webkit-transform: rotate(45deg);
+    top:  -9px;
+    left: 19px;
+    z-index: 1;
+}
+
+div#right-bottom-lack {
+    position: absolute;
+    width: 1px;
+    height: 56px;
+    background-color: #d0d0d0;
+    -webkit-transform: rotate(45deg);
+    bottom:  -9px;
+    right: 19px;
+    z-index: 1;
+}
+div#materials {
+    text-align: right;
+}
+
+button#register-cancel {
+    float: left;
+}
+button#register-cancel:hover {
+    cursor: pointer;
+    background-color: #ff1719;
+}
+button#register-commit {
+    float: right;
+}
+button#register-commit:hover {
+    cursor: pointer;
+    background-color: #ff9736;
+}

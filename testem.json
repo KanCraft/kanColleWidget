@@ -1,0 +1,15 @@
+{
+    "framework" : "jasmine",
+    "src_files" : [
+        "tests/DummyChrome.js",
+        "src/js/definitions/*.js",
+        "src/js/definitions/**/*.js",
+        "src/js/definitions/**/**/*.js",
+        "src/js/definitions/**/**/**/*.js",
+        "src/js/*.js",
+        "tests/SampleSpec.js"
+    ],
+    "launch_in_dev" : [
+        "Chrome"
+    ]
+}
