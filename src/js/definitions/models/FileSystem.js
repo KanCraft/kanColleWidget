@@ -23,7 +23,7 @@ function readFile(fileName, callbackFunc){
 					console.log("read completed. "+ fileEntry.toURL());
 					console.log("read filename="+file.name);
 					if( callbackFunc ){
-						callbackFunc(file);
+						callbackFunc(fileEntry);
 					}
 				};
 				reader.onerror = function(error){
@@ -47,14 +47,17 @@ function deleteFile(file){
 	}, onFileError);
 }
 
-function writeFile(file) {
+function writeFile(file, callbackFunc) {
 	console.log("writeFile " + file.name);
 	requestFileSystem(PERSISTENT, SIZE_LIMIT, function(fileSystem) {
 		console.log("writeFile: initFileSystem");
-		fileSystem.root.getFile(file.name, { create: true, exclusive: true }, function(fileEntry) {
+		fileSystem.root.getFile(file.name, { create: true, exclusive: false }, function(fileEntry) {
 			fileEntry.createWriter(function(fileWriter) {
-				fileWriter.onwriteend = function(entry) {
+				fileWriter.onwriteend = function(event) {
 					console.log("write completed. " + fileEntry.toURL());
+					if( callbackFunc ){
+						callbackFunc(fileEntry);
+					}
 				};
 				fileWriter.onerror = function(error) {
 					alert("write failed : " + error);
@@ -66,8 +69,8 @@ function writeFile(file) {
 	return true;
 }
 
-function writeLocalFile(file, id, accept) {
-	console.log("writeLocalFile: " + file.name + "," + id);
+function writeLocalFile(file, accept, callbackFunc) {
+	console.log("writeLocalFile: " + file.name);
 	for ( var key in file) {
 		console.log(key + "=" + file[key]);
 	}
@@ -79,5 +82,5 @@ function writeLocalFile(file, id, accept) {
 		alert("ファイルサイズが大きすぎます。"+SIZE_LIMIT/(1024*1024)+"MB未満のファイルにしてください。");
 		return false;
 	}
-	return writeFile(file);
+	return writeFile(file, callbackFunc);
 }

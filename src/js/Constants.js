@@ -59,7 +59,7 @@ var Constants = {/** constantアクセサ的なアレ **/
       title : "提督 仕事しろ"
     },
     notification : {
-        img : './icon.png'
+        img : '/icon.png'
     },
     achievements : {
         'mission_count'   : '遠征',

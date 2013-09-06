@@ -4,7 +4,6 @@
 
 //----- 設定を見たうえでalertする -----
 /* void */function _presentation(text, force){
-    var myStorage = new MyStorage();
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
@@ -13,7 +12,18 @@
                 title: "艦これウィジェット",
                 message: text,
                 iconUrl: iconUrl
+            };
+            // 指定があれば音声を再生
+        	var url = Config.get('notification-sound-url');
+            if( Config.get('notification-sound') && url ){
+				var audio = new Audio(url);
+				var volume = Config.get('notification-sound-volume');
+				if( volume != undefined ){
+					audio.volume = volume/100.0;
+				}
+				audio.play();
             }
+
             chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
