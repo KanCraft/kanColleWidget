@@ -51,6 +51,13 @@ function bindConfigChangedAction(){
 /* private void */function commitNotificationImg(target, display){
     validationMessage();
     var img_url = target.value;
+
+    if(img_url == ''){
+        displayImgSrc(display, chrome.extension.getURL('/') + Constants.notification.img);
+        commitImgUrlToConfig(img_url);
+        return validationMessage('デフォルトに戻しました')
+    }
+
     if(!validURL(img_url)) {
         return validationMessage('URLが不正っぽいです');
     }
@@ -61,10 +68,10 @@ function bindConfigChangedAction(){
         if(validImageSrc(request)){
             commitImgUrlToConfig(img_url);
             displayImgSrc(display, img_url);
+            return validationMessage(request.statusText);
         }
-    }else{
-        return validationMessage(request.status + ' ' + request.statusText);
     }
+    return validationMessage(request.status + ' ' + request.statusText);
 }
 /* private void */function commitImgUrlToConfig(img_url){
     Config.set('notification-img-url', img_url);
@@ -85,6 +92,6 @@ function bindConfigChangedAction(){
 /* void */function validationMessage(text, id, kao){
     if(typeof text == 'undefined') text = '';
     if(typeof   id == 'undefined') id = 'notification-img-validation';
-    if(typeof  kao == 'undefined') kao = '(ﾟ⊿ﾟ) < ';
+    if(typeof  kao == 'undefined') kao = ' .｡oO（  ';
     document.getElementById(id).innerHTML = kao + text;
 }
