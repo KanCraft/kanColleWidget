@@ -7,11 +7,12 @@
     var myStorage = new MyStorage();
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
+            var iconUrl = Config.get('notification-img-url') || Constants.notification.img;
             var params = {
                 type: "basic",
                 title: "艦これウィジェット",
                 message: text,
-                iconUrl: "./icon.png"
+                iconUrl: iconUrl
             }
             chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
             chrome.notifications.onClicked.addListener(function(){
