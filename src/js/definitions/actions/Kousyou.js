@@ -20,7 +20,8 @@ KousyouAction.prototype.forCreateship = function(params){
     // レスポンスが帰って来て建造時間が可視化されるまで待つ
     setTimeout(function(){
         // TODO: left,topは動的に欲しい。screenLeftが謎に0
-        window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
+        var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
+        collectWindowSize(win);
     },1000);
 }
 KousyouAction.prototype.forGetship = function(params){

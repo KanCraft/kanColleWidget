@@ -43,7 +43,7 @@ function getTitle(){
 
 (function(){
 
-    var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
+    //var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
     var wrapper = document.getElementById('flashWrap');
     wrapper.style.margin = 0;
     setTimeout(function(){
@@ -57,22 +57,12 @@ function getTitle(){
         var embed = document.getElementById('externalswf');
         if(embed) src = embed.getAttribute('src');
         if(src){
-            var diffWidth = 0;
-            var diffHeight = 0;
-            if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
-            {
-                // Windows版でのみサイズがおかしくなるそうなので
-                diffWidth = window.outerWidth - window.innerWidth;
-                diffHeight = window.outerHeight - window.innerHeight;
-            }
-            var width = window.outerWidth + diffWidth;
-            var height= window.outerHeight + diffHeight;
-            window.resizeTo(width,height);
             var doc = window.document;
             doc.open();
             proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}',getTitle());
             doc.write(proxy_html_string);
             doc.close();
+        	collectWindowSize(window);
         }else{
             alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
         }
