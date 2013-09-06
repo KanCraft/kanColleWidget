@@ -28,8 +28,27 @@ localStorage.isDebug = true;
 do `sh cli/build`
 and read package `release/kanColleWidget` on Chrome
 
-# Release Note
+### if you can
+```
+npm install -g testem
+```
+and just run
+```
+testem
+```
+Something will happen.
 
+Please see
+- https://github.com/airportyh/testem
+- http://pivotal.github.io/jasmine/
+
+
+# Release Note
+- 2013/09/07 v0.2.6
+    - 入渠修復完了通知! (半自動)
+    - 建造完了通知! (半自動)
+    - 通知アイコン変更設定を追加
+    - 「提督 仕事しろ」変更設定を追加
 - 2013/09/04 v0.2.5
     - 通知をクリックしたら前面に
     - 既にある場合LAUNCHしたら前面に

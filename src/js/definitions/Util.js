@@ -3,17 +3,21 @@
  */
 
 //----- 設定を見たうえでalertする -----
-/* void */function _presentation(text, force){
-    var myStorage = new MyStorage();
-    if(force || myStorage.get('config_showAlert')) {
+/* void */function _presentation(text, force, opt){
+    if(typeof opt != 'object') opt = {};
+    if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
+    if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
+            var default_url = chrome.extension.getURL('/') + Constants.notification.img;
+            var iconUrl = Config.get('notification-img-url') || default_url;
+            if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
             var params = {
                 type: "basic",
                 title: "艦これウィジェット",
                 message: text,
-                iconUrl: "./icon.png"
+                iconUrl: iconUrl
             }
-            chrome.notifications.create(String((new Date()).getTime()), params, function(){/* do nothing */});
+            chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
             });
@@ -141,4 +145,12 @@
     var _1day_msec = 1*24*60*60*1000;
     var last_monday = new Date(now - diff_days * _1day_msec);
     return (new Date(1900 + last_monday.getYear(), last_monday.getMonth(), last_monday.getDate(), 5, 0)).getTime();
+}
+
+/* string */function dict2hashString(dict){
+    var arr = [];
+    for(var i in dict){
+        arr.push(i + '=' + dict[i]);
+    }
+    return arr.join('&');
 }
