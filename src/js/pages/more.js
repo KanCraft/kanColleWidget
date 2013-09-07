@@ -14,6 +14,9 @@ function affectConfigInView(){
         }
         if(typeof config[key] == 'string'){
             input.value = config[key];
+			if( key == 'notification-sound-volume' ){
+				document.getElementById('notification-sound-volume-text').innerHTML = config[key];
+			}
         }
     }
     if(config['notification-img-url']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-url']);
@@ -26,25 +29,52 @@ function bindCloseAction(){
 function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
-        console.log(inputs[i]);
-        console.log(inputs[i].type);
-        if(inputs[i].type == 'checkbox'){
+    	switch(inputs[i].type){
+    	case 'checkbox':
             inputs[i].addEventListener('change',function(){
                 Config.set(this.id, this.checked);
             });
-        }
-        if(inputs[i].type == 'text'){
+    		break;
+    	case 'text':
             inputs[i].addEventListener('keydown',function(){
                 Config.set(this.id, this.value);
             });
-        }
-        if(inputs[i].type == 'submit'){
+            break;
+    	case 'submit':
             inputs[i].addEventListener('click',function(){
-                var target  = document.getElementById(this.getAttribute('target'));
-                var display = document.getElementById(this.getAttribute('display'));
-                commitNotificationImg(target,display);
-            })
-        }
+            	if( this.id == 'notification-sound-url-commit' ){
+            		_presentation("通知テスト",true);
+            	} else {
+	                var target  = document.getElementById(this.getAttribute('target'));
+	                var display = document.getElementById(this.getAttribute('display'));
+	                commitNotificationImg(target,display);
+            	}
+            });
+            break;
+    	case 'file':
+        	inputs[i].addEventListener('change',function(){
+                var target = document.getElementById(this.getAttribute('target'));
+                var id = this.id;
+    			writeLocalFile(this.files[0], this.accept, function(fileEntry){
+					var url = fileEntry.toURL();
+    				target.value = url;
+    				Config.set(target.id, url);
+    				if( id == 'notification-img-file' ){
+    					displayImgSrc(document.getElementById('notification-img'), url);
+    				}
+    			});
+        	});
+        	break;
+    	case 'range':
+        	inputs[i].addEventListener('change',function(){
+                var target = document.getElementById(this.getAttribute('target'));
+                target.innerText = this.value;
+                Config.set(this.id, this.value);
+        	});
+    		break;
+    	default:
+    		break;
+    	}
     }
 }
 
