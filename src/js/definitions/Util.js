@@ -30,6 +30,8 @@
         } else {
             alert(text);
         }
+    }else{
+        opt.callback();
     }
 }
 //----- バッジの色とかテキストを変える -----
