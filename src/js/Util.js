@@ -106,9 +106,11 @@ var Util = {
                 if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
                     chrome.windows.update(w.id,{focused:true}, function(){
                         cb();
+                        return;
                     });
                 }
             }
+            return;
         });
     },
     ifCurrentIsKCWidgetWindow : function(isCallback,notCallback){
@@ -116,10 +118,13 @@ var Util = {
         chrome.windows.getCurrent({populate:true},function(w){
             if(!w.tabs || w.tabs.length < 1){
                 notCallback();
+                return;
             }else if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
                 isCallback();
+                return;
             }else{
                 notCallback();
+                return;
             }
         });
     },
@@ -129,10 +134,12 @@ var Util = {
                 var w = windows[i];
                 if(!w.tabs || w.tabs.length < 1) continue;
                 if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                    return isCallback();
+                    isCallback(w);
+                    return;
                 }
             }
-            return notCallback();
+            notCallback();
+            return;
         });
     },
 
