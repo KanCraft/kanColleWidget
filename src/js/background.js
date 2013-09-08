@@ -12,8 +12,8 @@ var observer = new Observer();
 
 /***** Main Listener 01 : ウィンドウのフォーカスが変わるとき *****/
 chrome.windows.onFocusChanged.addListener(function(windowId){
-    ifCurrentIsKCWidgetWindow(function(){
-       clearBadge();
+    Util.ifCurrentIsKCWidgetWindow(function(){
+        Util.badge.clear();
     });
 });
 
