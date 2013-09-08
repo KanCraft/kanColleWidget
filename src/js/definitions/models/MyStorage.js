@@ -26,7 +26,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-img-file'  : '',
 		'notification-sound-file': '',
         //'notification-sound-volume' : '100', 今後使うかも
-        'enable-screen-shot'     : false
+        'enable-screen-shot'     : false,
+        'launch-on-click-notification' : false,
     },
 
     /* public: dict */repair : function(){
