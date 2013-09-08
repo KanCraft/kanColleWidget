@@ -139,12 +139,14 @@ function _toggleArea(e, sw){
     updateTimeLeft();
     updateAchievements();
     changeTitle();
-    var aspect = 0.6;
-    var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
+    var this_select_window = window;
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        Util.focusOrLaunchIfNotExists(mode);
+        Util.focusOrLaunchIfNotExists(mode, function(){
+            // とりあえず全部closeしてみる
+            this_select_window.close();
+        });
     });
 	//スクリーンショット
     document.forms[0].elements['screen-shot'].addEventListener('click', function(){
