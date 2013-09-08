@@ -5,6 +5,8 @@
  * 注意: トップレベル以外で`chrome`文言を書かない
  */
 
+"use strict";
+
 var observer = new Observer();
 
 /***** JSがロードされたとき *****/
