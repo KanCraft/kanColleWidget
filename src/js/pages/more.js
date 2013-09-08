@@ -7,19 +7,20 @@
 function affectConfigInView(){
     var config = Config.getJSON();
     for(var key in config){
+
         var input = document.getElementById(key);
+        if(key.match(/^notification.*file$/)) input = document.getElementById(key + '-already-set');
+
         if(input == null) continue;
         if(typeof config[key] == 'boolean'){
             input.checked = config[key];
         }
         if(typeof config[key] == 'string'){
-            input.value = config[key];
-			if( key == 'notification-sound-volume' ){
-				document.getElementById('notification-sound-volume-text').innerHTML = config[key];
-			}
+            if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
+            else input.value = config[key];
         }
     }
-    if(config['notification-img-url']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-url']);
+    if(config['notification-img-file']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-file']);
 }
 function bindCloseAction(){
     document.getElementById('close-config').addEventListener('click', function(){
@@ -29,6 +30,7 @@ function bindCloseAction(){
 function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
+        // TODO: typeでディスパッチするのではなく、idでディスパッチする -> otiai10
     	switch(inputs[i].type){
     	case 'checkbox':
             inputs[i].addEventListener('change',function(){
@@ -42,26 +44,22 @@ function bindConfigChangedAction(){
             break;
     	case 'submit':
             inputs[i].addEventListener('click',function(){
-            	if( this.id == 'notification-sound-url-commit' ){
-            		_presentation("通知テスト",true);
-            	} else {
-	                var target  = document.getElementById(this.getAttribute('target'));
-	                var display = document.getElementById(this.getAttribute('display'));
-	                commitNotificationImg(target,display);
-            	}
+                    testNotificationSound();
             });
             break;
     	case 'file':
         	inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
-                var id = this.id;
-    			writeLocalFile(this.files[0], this.accept, function(fileEntry){
-					var url = fileEntry.toURL();
-    				target.value = url;
-    				Config.set(target.id, url);
-    				if( id == 'notification-img-file' ){
-    					displayImgSrc(document.getElementById('notification-img'), url);
-    				}
+                var purpose = this.id;
+                Fs.update(purpose, this.files[0], this.accept, function(res){
+                    if(res.status == 0){
+                        Config.set(res.purpose, '');
+                        validationMessage(res.message + '、デフォルトに戻しました', purpose + '-validation');
+                    }else if(res.status == 1){
+                        Config.set(res.purpose, res.entry.toURL());
+                        validationMessage( res.origin.name + 'に設定しました', purpose + '-validation');
+                    }
+                    affectConfigInView();
     			});
         	});
         	break;
@@ -78,31 +76,10 @@ function bindConfigChangedAction(){
     }
 }
 
-/* private void */function commitNotificationImg(target, display){
-    validationMessage();
-    var img_url = target.value;
-
-    if(img_url == ''){
-        displayImgSrc(display, chrome.extension.getURL('/') + Constants.notification.img);
-        commitImgUrlToConfig(img_url);
-        return validationMessage('デフォルトに戻しました')
-    }
-
-    if(!validURL(img_url)) {
-        return validationMessage('URLが不正っぽいです');
-    }
-    var request = new XMLHttpRequest();
-    request.open('GET', img_url, false);
-    request.send();
-    if(request.status === 200){
-        if(validImageSrc(request)){
-            commitImgUrlToConfig(img_url);
-            displayImgSrc(display, img_url);
-            return validationMessage(request.statusText);
-        }
-    }
-    return validationMessage(request.status + ' ' + request.statusText);
+/* private void */function testNotificationSound(){
+    _presentation("通知テスト",true);
 }
+
 /* private void */function commitImgUrlToConfig(img_url){
     Config.set('notification-img-url', img_url);
 }
@@ -110,7 +87,6 @@ function bindConfigChangedAction(){
     display.src = img_url;
 }
 /* private bool */function validImageSrc(request_ok){
-    console.log(request_ok.getResponseHeader('Content-Type'));
     if(request_ok.getResponseHeader('Content-Type').match(/^image.*/)) return true;
     return false;
 }
@@ -119,9 +95,11 @@ function bindConfigChangedAction(){
     if(!url.match(/^http[s]?:\/\/.*\.jpg|jpeg|JPG|gif|GIF|png|PNG$/)) return false;
     return true;
 }
-/* void */function validationMessage(text, id, kao){
+/* void */function validationMessage(text, id, opt){
     if(typeof text == 'undefined') text = '';
-    if(typeof   id == 'undefined') id = 'notification-img-validation';
-    if(typeof  kao == 'undefined') kao = ' .｡oO（  ';
-    document.getElementById(id).innerHTML = kao + text;
+    if(typeof   id == 'undefined') id = 'notification-img-file-validation';
+    document.getElementById(id).innerHTML = text;
+}
+/* string */function hideFileRootFromPath(path){
+    return path.replace(/^filesystem:chrome-extension:\/\/[a-zA-Z]*\/persistent\//, '');
 }
