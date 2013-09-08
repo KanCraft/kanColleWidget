@@ -53,7 +53,8 @@ var Constants = {/** constantアクセサ的なアレ **/
                 zoom : '0.5',
                 mode : 'xs'
             }
-        }
+        },
+        aspect : 0.6
     },
     popup : {
       title : "提督 仕事しろ"
