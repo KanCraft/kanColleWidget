@@ -37,7 +37,7 @@ var Util = {
                 };
                 // 指定があれば音声を再生
                 var url = Config.get('notification-sound-file');
-                if(url){
+                if(url && !force){
                     var audio = new Audio(url);
                     audio.play();
                 }
