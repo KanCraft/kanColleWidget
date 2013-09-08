@@ -9,7 +9,7 @@
         var nyukyos = new Nyukyos();
         nyukyos.add(params.api_ndock_id, params.finish);
         updateInputTracking('nyukyo');
-        _presentation('入渠修復作業完了通知を登録しときました',false,{
+        Util.presentation('入渠修復作業完了通知を登録しときました',false,{
             callback : function(){ window.close(); }
         });
     });
