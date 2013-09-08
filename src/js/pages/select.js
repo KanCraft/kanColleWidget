@@ -135,18 +135,11 @@ function _toggleArea(e, sw){
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        chrome.windows.getAll({populate:true},function(windows){
-	        for(var i in windows){
-	            var w = windows[i];
-	            if(!w.tabs || w.tabs.length < 1){
-	            	continue;
-	            }
-	            if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-    				chrome.windows.update(w.id, {focused:true});
-	                window.close();
-	                return;
-	            }
-	        }
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            Util.focusKCWidgetWindow();
+            window.close();
+            return;
+        },function(){
 	        var w = conf_list[mode];
 	        var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', w).replace('{h}', String(w * aspect));
 	        var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
@@ -156,16 +149,9 @@ function _toggleArea(e, sw){
     });
 	//スクリーンショット
     document.forms[0].elements['screen-shot'].addEventListener('click', function(){
-        chrome.windows.getAll({populate:true},function(windows){
-        	for(var i=0; i<windows.length; i++){
-                var w = windows[i];
-                if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                	// 実際のキャプチャはバックグラウンドで行わせないとうまくいかない
-            		chrome.runtime.sendMessage({winId: w.id});
-                	window.close();
-            		break;
-                }
-        	}
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            chrome.runtime.sendMessage({winId: widgetWindow.id});
+            window.close();
         });
     });
     var divs = document.getElementsByClassName('select');
