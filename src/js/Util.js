@@ -3,6 +3,25 @@
  */
 
 var Util = {
+    focusOrLaunchIfNotExists : function(mode){
+        var width = '800';
+        for(key in Constants.widget.width){
+            if(Constants.widget.width[key].mode == mode){
+                width = key;
+                break;
+            }
+        }
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            Util.focusKCWidgetWindow();
+            window.close();
+            return;
+        },function(){
+            var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
+            var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
+            window.open(kanColleUrl,"_blank", options);
+            window.close();
+        });
+    },
     /* public 設定を見たうえでnotificationする */
     presentation : /* void */function(text, force, opt){
         if(typeof opt != 'object') opt = {};
@@ -26,7 +45,11 @@ var Util = {
                 }
                 chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
                 chrome.notifications.onClicked.addListener(function(){
-                    Util.focusKCWidgetWindow();
+                    if(Config.get('launch-on-click-notification')){
+                        Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
+                    }else{
+                        Util.focusKCWidgetWindow();
+                    }
                 });
             } else {
                 alert(text);

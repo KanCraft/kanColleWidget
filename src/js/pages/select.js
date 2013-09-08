@@ -141,17 +141,7 @@ function _toggleArea(e, sw){
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            Util.focusKCWidgetWindow();
-            window.close();
-            return;
-        },function(){
-	        var w = conf_list[mode];
-	        var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', w).replace('{h}', String(w * aspect));
-	        var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
-	        window.open(kanColleUrl,"_blank", options);
-	        window.close();
-        });
+        Util.focusOrLaunchIfNotExists(mode);
     });
 	//スクリーンショット
     document.forms[0].elements['screen-shot'].addEventListener('click', function(){
