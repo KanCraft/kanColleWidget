@@ -12,7 +12,7 @@ var Util = {
             }
         }
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            Util.focusKCWidgetWindow();
+            Util.focusKCWidgetWindow(widgetWindow);
             window.close();
             return;
         },function(){
@@ -120,21 +120,27 @@ var Util = {
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
         }
     },
-    focusKCWidgetWindow : function(){
-        if(typeof cb == 'undefined') cb = function(){};
-        chrome.windows.getAll({populate:true},function(windows){
-            for(var i in windows){
-                var w = windows[i];
-                if(!w.tabs || w.tabs.length < 1) return;
-                if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                    chrome.windows.update(w.id,{focused:true}, function(){
-                        cb();
-                        return;
-                    });
+    focusKCWidgetWindow : function(widgetWindow){
+
+        if(typeof widgetWindow != 'undefined'){
+            chrome.windows.update(widgetWindow.id, {focused:true}, function(){
+               /* do something */
+            });
+        }else{
+            chrome.windows.getAll({populate:true},function(windows){
+                for(var i in windows){
+                    var w = windows[i];
+                    if(!w.tabs || w.tabs.length < 1) continue;
+                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                        chrome.windows.update(w.id,{focused:true}, function(){
+                            /* do something */
+                            return;
+                        });
+                        break;
+                    }
                 }
-            }
-            return;
-        });
+            });
+        }
     },
     ifCurrentIsKCWidgetWindow : function(isCallback,notCallback){
         if(!notCallback) notCallback = function(){};
