@@ -9,7 +9,7 @@
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var default_url = chrome.extension.getURL('/') + Constants.notification.img;
-            var iconUrl = Config.get('notification-img-url') || default_url;
+            var iconUrl = Config.get('notification-img-file') || default_url;
             if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
             var params = {
                 type: "basic",
@@ -18,13 +18,9 @@
                 iconUrl: iconUrl
             };
             // 指定があれば音声を再生
-        	var url = Config.get('notification-sound-url');
-            if( Config.get('notification-sound') && url ){
+        	var url = Config.get('notification-sound-file');
+            if(url){
 				var audio = new Audio(url);
-				var volume = Config.get('notification-sound-volume');
-				if( volume != undefined ){
-					audio.volume = volume/100.0;
-				}
 				audio.play();
 			}
             chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
