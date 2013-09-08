@@ -54,7 +54,7 @@
         else num = 60 - range;
 
         if(num >= 60) num = 0;
-        target.value = Uitl.zP(2, num);
+        target.value = Util.zP(2, num);
     });
 }
 /* void */function delegateCancelAction(callback){
