@@ -12,20 +12,19 @@ var Util = {
             }
         }
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            Util.focusKCWidgetWindow();
-            window.close();
+            Util.focusKCWidgetWindow(widgetWindow);
             return;
         },function(){
-            var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
+            var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             window.open(kanColleUrl,"_blank", options);
-            window.close();
         });
     },
     /* public 設定を見たうえでnotificationする */
     presentation : /* void */function(text, force, opt){
         if(typeof opt != 'object') opt = {};
         if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
+        if(typeof opt.sound != 'boolean') opt.sound = true;
         if(force || Config.get('enable-notification')) {
             if(Util.system.getChromeVersion() >= 28) {
                 var default_url = chrome.extension.getURL('/') + Constants.notification.img;
@@ -39,18 +38,11 @@ var Util = {
                 };
                 // 指定があれば音声を再生
                 var url = Config.get('notification-sound-file');
-                if(url){
+                if(url && opt.sound){
                     var audio = new Audio(url);
                     audio.play();
                 }
                 chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
-                chrome.notifications.onClicked.addListener(function(){
-                    if(Config.get('launch-on-click-notification')){
-                        Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
-                    }else{
-                        Util.focusKCWidgetWindow();
-                    }
-                });
             } else {
                 alert(text);
             }
@@ -120,21 +112,27 @@ var Util = {
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
         }
     },
-    focusKCWidgetWindow : function(){
-        if(typeof cb == 'undefined') cb = function(){};
-        chrome.windows.getAll({populate:true},function(windows){
-            for(var i in windows){
-                var w = windows[i];
-                if(!w.tabs || w.tabs.length < 1) return;
-                if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                    chrome.windows.update(w.id,{focused:true}, function(){
-                        cb();
-                        return;
-                    });
+    focusKCWidgetWindow : function(widgetWindow){
+
+        if(typeof widgetWindow != 'undefined'){
+            chrome.windows.update(widgetWindow.id, {focused:true}, function(){
+               /* do something */
+            });
+        }else{
+            chrome.windows.getAll({populate:true},function(windows){
+                for(var i in windows){
+                    var w = windows[i];
+                    if(!w.tabs || w.tabs.length < 1) continue;
+                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                        chrome.windows.update(w.id,{focused:true}, function(){
+                            /* do something */
+                            return;
+                        });
+                        break;
+                    }
                 }
-            }
-            return;
-        });
+            });
+        }
     },
     ifCurrentIsKCWidgetWindow : function(isCallback,notCallback){
         if(!notCallback) notCallback = function(){};
