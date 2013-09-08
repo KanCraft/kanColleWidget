@@ -127,6 +127,9 @@ function _toggleArea(e, sw){
 }
 /* void */function prepareForScreenShot(){
     Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+        if(!Config.get('enable-screen-shot')){
+            document.getElementById('screen-shot').style.display = 'none';
+        }
     },function(){
         document.getElementById('screen-shot').style.display = 'none';
     });
