@@ -62,7 +62,7 @@ function getTitle(){
             proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}',getTitle());
             doc.write(proxy_html_string);
             doc.close();
-        	Uitl.adjustSizeOfWindowsOS(window);
+        	Util.adjustSizeOfWindowsOS(window);
         }else{
             alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
         }
