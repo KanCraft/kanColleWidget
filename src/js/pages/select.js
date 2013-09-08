@@ -125,6 +125,12 @@ function _toggleArea(e, sw){
     var input = document.getElementById('mode-' + trackedMode);
     input.checked = true;
 }
+/* void */function prepareForScreenShot(){
+    Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+    },function(){
+        document.getElementById('screen-shot').style.display = 'none';
+    });
+}
 
 (function(){
     updateTimeLeft();
@@ -169,4 +175,5 @@ function _toggleArea(e, sw){
         });
     }
     affectTracking();
+    prepareForScreenShot();
 })();
