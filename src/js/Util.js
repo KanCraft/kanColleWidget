@@ -17,13 +17,14 @@ var Util = {
         },function(){
             var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
-            void window.open(kanColleUrl,"_blank", options);
+            window.open(kanColleUrl,"_blank", options);
         });
     },
     /* public 設定を見たうえでnotificationする */
     presentation : /* void */function(text, force, opt){
         if(typeof opt != 'object') opt = {};
         if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
+        if(typeof opt.sound != 'boolean') opt.sound = true;
         if(force || Config.get('enable-notification')) {
             if(Util.system.getChromeVersion() >= 28) {
                 var default_url = chrome.extension.getURL('/') + Constants.notification.img;
@@ -37,7 +38,7 @@ var Util = {
                 };
                 // 指定があれば音声を再生
                 var url = Config.get('notification-sound-file');
-                if(url && !force){
+                if(url && opt.sound){
                     var audio = new Audio(url);
                     audio.play();
                 }
