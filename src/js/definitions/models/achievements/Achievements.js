@@ -14,20 +14,20 @@ Achievements.prototype.constructor = Achievements;
     if(typeof target == 'undefined') target = 'all';
     var initial_achievements = {
         'daily' : {
-            'lastUpdated' : getNearestDailyAchievementResetTime(),
+            'lastUpdated' : Util.getNearestDailyAchievementResetTime(),
             'contents' : {}
         },
         'weekly' : {
-            'lastUpdated' : getNearestWeeklyAchievementResetTime(),
+            'lastUpdated' : Util.getNearestWeeklyAchievementResetTime(),
             'contents' : {}
         }
     };
     var achievements_json = this.get('achievements') || initial_achievements;
-    if(achievements_json.daily.lastUpdated < getNearestDailyAchievementResetTime()){
+    if(achievements_json.daily.lastUpdated < Util.getNearestDailyAchievementResetTime()){
         achievements_json.daily.lastUpdated = (new Date()).getTime();
         achievements_json.daily.contents = {};
     }
-    if(achievements_json.weekly.lastUpdated < getNearestWeeklyAchievementResetTime()){
+    if(achievements_json.weekly.lastUpdated < Util.getNearestWeeklyAchievementResetTime()){
         achievements_json.weekly.lastUpdated = (new Date()).getTime();
         achievements_json.weekly.contents = {};
     }
