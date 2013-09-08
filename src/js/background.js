@@ -26,14 +26,8 @@ chrome.webRequest.onBeforeRequest.addListener(function(data){
 
 /***** Main Listener 03 : メッセージの受信 *****/
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
-	if( message.winId != undefined ){
-		chrome.tabs.captureVisibleTab(message.winId, {'format':'png'}, function(dataUrl){
-			var win = window.open();
-			var img = document.createElement('img');
-			img.src = dataUrl;
-			var date = new Date().toLocaleString();
-			win.document.title = date;
-			win.document.body.appendChild(img);
-		});
-	}
+
+	if( message.winId == undefined ) return;
+
+    Util.openCapturedPage(message.winId);
 });

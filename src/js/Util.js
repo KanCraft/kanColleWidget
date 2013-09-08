@@ -142,6 +142,19 @@ var Util = {
             return;
         });
     },
+    openCapturedPage : function(window_id, doneCallback){
+        if(doneCallback == undefined) doneCallback = function(){/* do nothing */};
+        chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataUrl){
+            var win = window.open();
+            var img = document.createElement('img');
+            img.src = dataUrl;
+            var date = new Date().toLocaleString();
+            win.document.title = date;
+            win.document.body.appendChild(img);
+            doneCallback();
+            return;
+        });
+    },
 
     getNearestDailyAchievementResetTime : function(){
         var now = new Date();
