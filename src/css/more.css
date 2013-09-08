@@ -43,3 +43,7 @@ span.xsmall {
 span.validation-message {
     color: red;
 }
+
+hr {
+    margin: 0 auto;
+}
