@@ -21,7 +21,7 @@ KousyouAction.prototype.forCreateship = function(params){
     setTimeout(function(){
         // TODO: left,topは動的に欲しい。screenLeftが謎に0
         var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
-        collectWindowSize(win);
+        adjustSizeOfWindowsOS(win);
     },1000);
 }
 KousyouAction.prototype.forGetship = function(params){

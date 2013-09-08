@@ -162,3 +162,24 @@
     }
     return arr.join('&');
 }
+
+function adjustSizeOfWindowsOS(win){
+    // Windows版でのみサイズがおかしくなるそうなのでページがロードされたら修正
+    if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
+    {
+        win.onload = (function(_win){
+            return function(){
+                var diffWidth = _win.outerWidth - _win.innerWidth;
+                var diffHeight = _win.outerHeight - _win.innerHeight;
+                _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+            };
+        })(win);
+    }
+}
+
+/* zero_padding: string */function zP(order, text){
+    for(var i=0;i<order;i++){
+        text = '0' + text;
+    }
+    return text.slice(order*(-1));
+}
