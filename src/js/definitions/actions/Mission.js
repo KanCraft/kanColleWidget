@@ -11,7 +11,7 @@ function MissionAction(){/*** mission系のAPIが叩かれたときのアクシ�
 
 MissionAction.prototype.forStart = function(params){
     var min = Constants.time.mission[params.api_mission_id[0]];
-    _presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね");
+    Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね");
     var d = new Date();
     var finish = new Date(d.setMinutes(d.getMinutes() + min));
     this.missions.add(params.api_deck_id[0], finish);

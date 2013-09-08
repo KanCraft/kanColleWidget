@@ -77,7 +77,7 @@ function bindConfigChangedAction(){
 }
 
 /* private void */function testNotificationSound(){
-    _presentation("通知テスト",true);
+    Util.presentation("通知テスト",true);
 }
 
 /* private void */function commitImgUrlToConfig(img_url){

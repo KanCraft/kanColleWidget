@@ -2,38 +2,42 @@
  * dependency: MyStorage
  */
 
-//----- 設定を見たうえでalertする -----
-/* void */function _presentation(text, force, opt){
-    if(typeof opt != 'object') opt = {};
-    if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
-    if(force || Config.get('enable-notification')) {
-        if(_getChromeVersion() >= 28) {
-            var default_url = chrome.extension.getURL('/') + Constants.notification.img;
-            var iconUrl = Config.get('notification-img-file') || default_url;
-            if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
-            var params = {
-                type: "basic",
-                title: "艦これウィジェット",
-                message: text,
-                iconUrl: iconUrl
-            };
-            // 指定があれば音声を再生
-        	var url = Config.get('notification-sound-file');
-            if(url){
-				var audio = new Audio(url);
-				audio.play();
-			}
-            chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
-            chrome.notifications.onClicked.addListener(function(){
-                focusKCWidgetWindow();
-            });
-        } else {
-            alert(text);
+var Util = {
+    /* public 設定を見たうえでnotificationする */
+    presentation : /* void */function(text, force, opt){
+        if(typeof opt != 'object') opt = {};
+        if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
+        if(force || Config.get('enable-notification')) {
+            if(_getChromeVersion() >= 28) {
+                var default_url = chrome.extension.getURL('/') + Constants.notification.img;
+                var iconUrl = Config.get('notification-img-file') || default_url;
+                if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
+                var params = {
+                    type: "basic",
+                    title: "艦これウィジェット",
+                    message: text,
+                    iconUrl: iconUrl
+                };
+                // 指定があれば音声を再生
+                var url = Config.get('notification-sound-file');
+                if(url){
+                    var audio = new Audio(url);
+                    audio.play();
+                }
+                chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+                chrome.notifications.onClicked.addListener(function(){
+                    focusKCWidgetWindow();
+                });
+            } else {
+                alert(text);
+            }
+        }else{
+            opt.callback();
         }
-    }else{
-        opt.callback();
     }
 }
+
+
 //----- バッジの色とかテキストを変える -----
 /* void */function _updateBadge(params){
     chrome.browserAction.setBadgeText(params);
