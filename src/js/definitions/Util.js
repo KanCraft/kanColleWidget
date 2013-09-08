@@ -9,14 +9,20 @@
     if(force || Config.get('enable-notification')) {
         if(_getChromeVersion() >= 28) {
             var default_url = chrome.extension.getURL('/') + Constants.notification.img;
-            var iconUrl = Config.get('notification-img-url') || default_url;
+            var iconUrl = Config.get('notification-img-file') || default_url;
             if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
             var params = {
                 type: "basic",
                 title: "艦これウィジェット",
                 message: text,
                 iconUrl: iconUrl
-            }
+            };
+            // 指定があれば音声を再生
+        	var url = Config.get('notification-sound-file');
+            if(url){
+				var audio = new Audio(url);
+				audio.play();
+			}
             chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
             chrome.notifications.onClicked.addListener(function(){
                 focusKCWidgetWindow();
