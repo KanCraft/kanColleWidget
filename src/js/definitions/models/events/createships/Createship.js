@@ -13,7 +13,7 @@ function SoloCreateship(createshipJson){
 }
 
 /* void */SoloCreateship.prototype.notify = function(){
-    _presentation("第" + this.api_kdock_id + "建造ドックでの作業がまもなく終了します");
+    Util.presentation("第" + this.api_kdock_id + "建造ドックでの作業がまもなく終了します");
 }
 
 /* int: Epoch */SoloCreateship.prototype.getEndTime = function(){

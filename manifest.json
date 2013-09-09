@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.2.6",
+    "version": "0.2.7",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -13,14 +13,14 @@
         "tabs",
         "notifications",
         "webRequest",
+        "unlimitedStorage",
         "*://*/*"
     ],
     "background" : {
         "persistent" : true,
         "scripts" : [
+            "src/js/Util.js",
             "src/js/Constants.js",
-            "src/js/pages/util.js",
-            "src/js/definitions/Util.js",
             "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
@@ -55,8 +55,8 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode=*"
             ],
             "js" : [
+                "src/js/Util.js",
                 "src/js/Constants.js",
-                "src/js/pages/util.js",
                 "src/js/pages/proxy.js"
             ]
         },
@@ -65,8 +65,8 @@
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [
+                "src/js/Util.js",
                 "src/js/Constants.js",
-                "src/js/pages/util.js",
                 "src/js/pages/proxy2.js"
             ],
             "css" : [

@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td>0.2.6</td>
+                    <td>0.2.7</td>
                 </tr>
                 <tr>
                     <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
@@ -30,6 +30,14 @@
                     <td><input id="record-achievements" type="checkbox"></td>
                 </tr>
                 <tr>
+                    <td>スクショボタン表示<br><span class="xsmall">スク水とは違います</span></td>
+                    <td><input id="enable-screen-shot" type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td>通知ポップアップをクリックしたらLAUNCHする</td>
+                    <td><input id="launch-on-click-notification" type="checkbox"></td>
+                </tr>
+                <tr>
                     <td>最初に出てくる文字</td>
                     <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
                 </tr>
@@ -42,12 +50,23 @@
                     <td><input type="text" size="50" placeholder="20/60/10/110 とか" disabled> </td>
                 </tr>
                 <tr>
+                    <td>通知時に音声を再生</td>
+                    <td>
+                        <input type="submit" id="notification-test" value="テスト"/><span id="notification-sound-file-already-set"></span>
+                        <hr>
+                        <input id="notification-sound-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
+                        <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
+                    </td>
+                </tr>
+                <tr>
                     <td>通知時アイコン画像</td>
                     <td>
-                        <input id="notification-img-url" type="url" size="50" placeholder="http://otiai10.com/public/img/kagasan.jpg" value="">
-                        <input type="submit" id="notification-img-url-commit" target="notification-img-url" display="notification-img" value="→">
-                        <img width="100" id="notification-img">
-                        <span id="notification-img-validation" class="validation-message"></span>
+                        <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
+                        <hr>
+                        <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
+                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
+                        <span id="notification-img-file-validation" class="xsmall validation-message"></span>
                     </td>
                 </tr>
                 <tr>
@@ -106,6 +125,8 @@
     </div>
     <script type="text/javascript" src="../js/Constants.js"></script>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/FileSystem.js"></script>
+    <script type="text/javascript" src="../js/Util.js"></script>
     <script type="text/javascript" src="../js/pages/more.js"></script>
 </body>
 </html>

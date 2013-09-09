@@ -41,7 +41,7 @@
         if(!num) num = 0;
         if(doIncrement == true) num++;
         else if(num != 0) num--;
-        target.value = zP(2, num);
+        target.value = Util.zP(2, num);
     });
 }
 /* private void */function bindEditByRange(trigger, doIncrement, target){
@@ -54,7 +54,7 @@
         else num = 60 - range;
 
         if(num >= 60) num = 0;
-        target.value = zP(2, num);
+        target.value = Util.zP(2, num);
     });
 }
 /* void */function delegateCancelAction(callback){

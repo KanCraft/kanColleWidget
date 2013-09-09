@@ -125,24 +125,33 @@ function _toggleArea(e, sw){
     var input = document.getElementById('mode-' + trackedMode);
     input.checked = true;
 }
+/* void */function prepareForScreenShot(){
+    Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+        if(!Config.get('enable-screen-shot')){
+            document.getElementById('screen-shot').style.display = 'none';
+        }
+    },function(){
+        document.getElementById('screen-shot').style.display = 'none';
+    });
+}
 
 (function(){
     updateTimeLeft();
     updateAchievements();
     changeTitle();
-    var aspect = 0.6;
-    var conf_list = {"l": 1200,"m": 800,"s": 600,"xs": 400};
+    var this_select_window = window;
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        ifThereIsAlreadyKCWidgetWindow(function(){
-            focusKCWidgetWindow();
-            window.close();
-        },function(){
-            var w = conf_list[mode];
-            var options = "width={w},height={h},menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', w).replace('{h}', String(w * aspect));
-            var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
-            window.open(kanColleUrl,"_blank_new", options)
+        Util.focusOrLaunchIfNotExists(mode, function(){
+            // とりあえず全部closeしてみる
+            this_select_window.close();
+        });
+    });
+	//スクリーンショット
+    document.forms[0].elements['screen-shot'].addEventListener('click', function(){
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            chrome.runtime.sendMessage({winId: widgetWindow.id});
             window.close();
         });
     });
@@ -161,4 +170,5 @@ function _toggleArea(e, sw){
         });
     }
     affectTracking();
+    prepareForScreenShot();
 })();
