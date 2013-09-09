@@ -15,7 +15,6 @@ function updateNow(){
 }
 function applyIconImg(){
     if(!Config.get('notification-img-file')) return;
-    alert(Config.get('notification-img-file'));
     document.getElementById('seconds-wrapper').style.backgroundImage = 'url("' + Config.get('notification-img-file') + '")';
 }
 
