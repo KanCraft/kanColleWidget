@@ -223,5 +223,17 @@ var Util = {
             text = '0' + text;
         }
         return text.slice(order*(-1));
+    },
+
+    getWidgetTitle : function(){
+        var index = Math.random();
+        if(index < Constants.widget.title.rate){
+            var _i = Math.floor(Math.random() * Constants.widget.title.default.length);
+            return Constants.widget.title.default[_i];
+        }else{
+            // スペシャルは全部セリフなのでカギカッコつけます
+            var _i = Math.floor(Math.random() * Constants.widget.title.special.length);
+            return "「" + Constants.widget.title.special[_i] + "」";
+        }
     }
 }
