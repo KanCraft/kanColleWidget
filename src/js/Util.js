@@ -3,7 +3,10 @@
  */
 
 var Util = {
-    focusOrLaunchIfNotExists : function(mode){
+    focusOrLaunchIfNotExists : function(mode, callback){
+
+        if(typeof callback == 'undefined') callback = function(){/* do nothing */}
+
         var width = '800';
         for(key in Constants.widget.width){
             if(Constants.widget.width[key].mode == mode){
@@ -13,11 +16,13 @@ var Util = {
         }
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
             Util.focusKCWidgetWindow(widgetWindow);
+            callback();
             return;
         },function(){
             var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             window.open(kanColleUrl,"_blank", options);
+            callback();
         });
     },
     /* public 設定を見たうえでnotificationする */
