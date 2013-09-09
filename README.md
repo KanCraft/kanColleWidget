@@ -7,7 +7,8 @@
 
 # つかいかた
 - 適当な場所にKanColleWidgetをcloneします
-- Chromeのツール→拡張機能→パッケージ化されていない拡張機能を読み込む からcloneしてきたディレクトリを選択します
+- `sh cli/build` します（というのはこれです-> https://github.com/otiai10/kanColleWidget#for-develop ）
+- Chromeのツール→拡張機能→パッケージ化されていない拡張機能を読み込む から/release/kanColleWidgetディレクトリを選択します
 - ブラウザ右上に追加されたアイコンをクリックします
 
 # 背景
