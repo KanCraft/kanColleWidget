@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <title>「お仕事お疲れさまです」</title>
+</head>
+<body>
+    <div id="main-clock" class="contents boxy">
+        <div id="clock-left">
+            <div id="date-wrapper">
+                <span id="month">09</span>
+                <span id="char-month">月</span>
+                <span id="date">09</span>
+                <span id="char-date">日</span>
+            </div>
+            <div id="seconds-wrapper">
+                <div id="seconds-position">
+                    <span id="seconds">00</span>
+                </div>
+            </div>
+        </div>
+        <div id="clock-right">
+            <div id="day-wrapper">
+                <span id="day0">日</span>
+                <span id="day1">月</span>
+                <span id="day2">火</span>
+                <span id="day3">水</span>
+                <span id="day4">木</span>
+                <span id="day5">金</span>
+                <span id="day6">土</span>
+            </div>
+            <div id="main-clock-wrapper">
+                <span id="hour">19</span>
+                <span id="colon">:</span>
+                <span id="minute">30</span>
+            </div>
+        </div>
+    </div>
+    <div id="time-left" class="contents boxy">
+        <div id="time-list-wrapper-missions" class="time-list">
+            <p class="list-title">- 遠征隊帰投予定時刻</p>
+            <ul id="time-list-container"></ul>
+        </div>
+        <div id="time-list-wrapper-nyukyos" class="time-list">
+            <p class="list-title">- 入渠完了予定時刻</p>
+            <ul id="time-list-container-nyukyos"></ul>
+        </div>
+        <div id="time-list-wrapper-createships" class="time-list">
+            <p class="list-title">- 建造完了予定時刻</p>
+            <ul id="time-list-container-createships"></ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/Util.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/pages/dashboard.js"></script>
+</body>
+</html>
