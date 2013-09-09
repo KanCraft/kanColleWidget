@@ -1,0 +1,83 @@
+html {
+    /*
+    font-family: "times new roman";
+    */
+    font-family: "Meiryo";
+    background-color: #f0f0f0;
+}
+ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.boxy {
+    display: -webkit-box;
+}
+
+.time-list {
+    width: 33%;
+    /*
+    background-color: #0FABB1;
+    */
+    font-size: 0.6em;
+}
+
+.list-title {
+    /*
+    text-align: center;
+    */
+    /*
+    color: #3f3fdf;
+    */
+}
+
+#seconds-wrapper {
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width:  90px;
+    height: 90px;
+    position: relative;
+    bottom: 0;
+}
+#seconds-position {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+#seconds {
+    text-shadow: 0 0 2px #f0f0f0;
+}
+
+#day-wrapper {
+    text-align: center;
+}
+#day-wrapper>span {
+    padding: 0 0.3em;
+}
+
+#main-clock-wrapper {
+    text-align: center;
+    height: 100px;
+}
+#main-clock-wrapper>span {
+    font-size: 5em;
+}
+
+.contents {
+    width: 350px;
+    margin: 0 auto;
+}
+
+#clock-left {
+    width: 100px;
+    position: relative;
+}
+#clock-right {
+    width: 250px;
+    position: relative;
+}
+#time-left {
+    margin-top: 0.6em;
+}
