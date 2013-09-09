@@ -28,6 +28,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         //'notification-sound-volume' : '100', 今後使うかも
         'enable-screen-shot'     : false,
         'launch-on-click-notification' : false,
+        'show-clockmode-button'  : false
     },
 
     /* public: dict */repair : function(){
@@ -77,7 +78,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* public: dict */repair : function(){
         var tracking = this.storage.get('inputTracking') || this.initial;
         for(var key in this.initial){
-            if(tracking[key] == undefined){
+            if(!tracking[key]){
                 tracking[key] = this.initial[key];
             }
         }
