@@ -38,3 +38,12 @@ div.content {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+#screen-shot {
+    background-image: url('../img/screenshot.png');
+    background-repeat: no-repeat;
+    width: 26px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}

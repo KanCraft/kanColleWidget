@@ -36,11 +36,6 @@ var proxy_html_string = ''+
 '</body>'+
 '</html>';
 
-function getTitle(){
-    var _i = Math.floor(Math.random() * Constants.widget.titles.length);
-    return Constants.widget.titles[_i];
-}
-
 (function(){
 
     //var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
@@ -58,11 +53,12 @@ function getTitle(){
         if(embed) src = embed.getAttribute('src');
         if(src){
             var doc = window.document;
+            var title = Util.getWidgetTitle();
             doc.open();
-            proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}',getTitle());
+            proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}', title);
             doc.write(proxy_html_string);
             doc.close();
-        	collectWindowSize(window);
+        	Util.adjustSizeOfWindowsOS(window);
         }else{
             alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
         }

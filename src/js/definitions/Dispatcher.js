@@ -16,7 +16,7 @@ function Dispatcher(data){/** パースの結果をラップします **/
     return this;
 }
 /* void (でいいのか？) */Dispatcher.prototype.execute = function(){
-    _log(this);
+    Util.system.log(this);
     switch(this.keyword){
         case 'api_req_mission/start':
             this.action.forMissionStart(this.params);
