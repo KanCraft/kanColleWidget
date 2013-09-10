@@ -169,6 +169,20 @@ function _toggleArea(e, sw){
             achievements.update(true, this.getAttribute('target'));
         });
     }
+
+    if(Config.get('show-clockmode-button')){
+        var clockmodeBtn = document.getElementById('show-clockmode-button');
+        clockmodeBtn.addEventListener('click',function(){
+            // {{{ TODO: Utilへ移動
+            var options = "width=420,height=240,location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=200,top=200";
+            var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", options);
+            // }}} TODO
+        });
+    }else{
+        var clockmodeBtn = document.getElementById('show-clockmode-button');
+        clockmodeBtn.style.display = 'none';
+    }
+
     affectTracking();
     prepareForScreenShot();
 })();
