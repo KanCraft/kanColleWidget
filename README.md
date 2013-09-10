@@ -7,7 +7,8 @@
 
 # つかいかた
 - 適当な場所にKanColleWidgetをcloneします
-- Chromeのツール→拡張機能→パッケージ化されていない拡張機能を読み込む からcloneしてきたディレクトリを選択します
+- `sh cli/build` します（というのはこれです-> https://github.com/otiai10/kanColleWidget#for-develop ）
+- Chromeのツール→拡張機能→パッケージ化されていない拡張機能を読み込む から/release/kanColleWidgetディレクトリを選択します
 - ブラウザ右上に追加されたアイコンをクリックします
 
 # 背景
@@ -44,6 +45,8 @@ Please see
 
 
 # Release Note
+- 2013/09/10 v0.2.7.1
+    - ちょっとした機能(時計モード)の追加
 - 2013/09/09 v0.2.7
     - スクリーンショットとれます
     - 通知音声設定を追加
