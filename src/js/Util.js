@@ -235,5 +235,9 @@ var Util = {
             var _i = Math.floor(Math.random() * Constants.widget.title.special.length);
             return "「" + Constants.widget.title.special[_i] + "」";
         }
+    },
+
+    sortReminderParamsByEndtime : function(params){
+        return params.sort(function(f,l){ return (f.rawtime > l.rawtime);});
     }
 }
