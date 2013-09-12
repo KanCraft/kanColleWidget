@@ -210,6 +210,17 @@ var Util = {
                 a.click();
             }
 
+            // トリミング
+            var trimmingURL = Util.trimCapture(dataUrl);
+            var trimImg = new Image();
+            trimImg.src = trimmingURL;
+            win.document.body.appendChild(trimImg);
+
+            // ここはURLって書いてあるけど、data:image/png;base64,XXXXXXXXXXXXXXXXXXXXXXXXX...
+            // で始まるバイナリ文字列が入ってる。この形式を扱いたい
+            console.log(trimmingURL);
+            //Util.sendServer(trimmingURL);
+
             doneCallback(dataUrl);
         });
     },
@@ -239,6 +250,24 @@ var Util = {
         Util.ifThereIsAlreadyKCWidgetWindow(function(w){
             Util.openCapturedPage(w.id);
         });
+    },
+
+    trimCapture: function(dataUrl) {
+        var canvas = document.createElement('canvas');
+        canvas.id = "canvas";
+        canvas.width = "82";
+        canvas.height = "20";
+        var ctx = canvas.getContext('2d');
+        var img = new Image();
+        img.src = dataUrl;
+        ctx.drawImage(img, 620,162,82,20, 0,0,canvas.width,canvas.height);
+
+        // トリミングした画像を PNG32 から PNG24 に変換する
+        var png24 = new CanvasTool.PngEncoder(canvas, {
+            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+        }).convert();
+
+        return 'data:image/png;base64,' + btoa(png24);
     },
 
     getFormattedDateString : function(format){
