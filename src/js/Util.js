@@ -177,9 +177,24 @@ var Util = {
             var date = new Date().toLocaleString();
             win.document.title = date;
             win.document.body.appendChild(img);
-            doneCallback();
-            return;
+
+            // メソッド切り分けしない
+            if(Config.get('download-on-screenshot')){
+                var a = win.document.createElement('a');
+                a.href = dataUrl;
+                a.download = Util.getFormattedDateString();
+                a.click();
+            }
+
+            doneCallback(dataUrl);
         });
+    },
+
+    getFormattedDateString : function(format){
+        if(typeof format == 'undefined') format = null;
+        var d = new Date();
+        var s = d.getFullYear() + Util.zP(2, d.getMonth() + 1) + Util.zP(2, d.getDate()) + Util.zP(2, d.getHours()) + Util.zP(2, d.getMinutes() + Util.zP(2, d.getSeconds()));
+        return s;
     },
 
     getNearestDailyAchievementResetTime : function(){
@@ -235,5 +250,9 @@ var Util = {
             var _i = Math.floor(Math.random() * Constants.widget.title.special.length);
             return "「" + Constants.widget.title.special[_i] + "」";
         }
+    },
+
+    sortReminderParamsByEndtime : function(params){
+        return params.sort(function(f,l){ return (f.rawtime > l.rawtime);});
     }
 }
