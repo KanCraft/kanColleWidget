@@ -178,8 +178,27 @@ var Util = {
             win.document.title = date;
             win.document.body.appendChild(img);
             doneCallback();
+
+            if(Config.get('download-on-screenshot')) Util.downloadImage(dataUrl);
+
             return;
         });
+    },
+
+    downloadImage : function(dataString, fileName, ext){
+        if(typeof ext == 'undefined') ext = '.png';
+        if(typeof fileName == 'undefined') fileName = Util.getFormattedDateString();
+        var a = document.createElement('a');
+        a.href = dataString;
+        a.download = fileName + ext;
+        a.click();
+    },
+
+    getFormattedDateString : function(format){
+        if(typeof format == 'undefined') format = null;
+        var d = new Date();
+        var s = d.getFullYear() + Util.zP(2, d.getMonth() + 1) + Util.zP(2, d.getDate()) + Util.zP(2, d.getHours()) + Util.zP(2, d.getMinutes() + Util.zP(2, d.getSeconds()));
+        return s;
     },
 
     getNearestDailyAchievementResetTime : function(){
