@@ -42,7 +42,8 @@
             "src/js/definitions/actions/Mission.js",
             "src/js/definitions/actions/Payment.js",
             "src/js/definitions/actions/Action.js",
-            "src/js/background.js"
+            "src/js/background.js",
+            "src/js/pngencoder.min.js"
         ]
     },
     "browser_action": {
