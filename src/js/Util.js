@@ -177,21 +177,17 @@ var Util = {
             var date = new Date().toLocaleString();
             win.document.title = date;
             win.document.body.appendChild(img);
-            doneCallback();
 
-            if(Config.get('download-on-screenshot')) Util.downloadImage(dataUrl);
+            // メソッド切り分けしない
+            if(Config.get('download-on-screenshot')){
+                var a = win.document.createElement('a');
+                a.href = dataUrl;
+                a.download = Util.getFormattedDateString();
+                a.click();
+            }
 
-            return;
+            doneCallback(dataUrl);
         });
-    },
-
-    downloadImage : function(dataString, fileName, ext){
-        if(typeof ext == 'undefined') ext = '.png';
-        if(typeof fileName == 'undefined') fileName = Util.getFormattedDateString();
-        var a = document.createElement('a');
-        a.href = dataString;
-        a.download = fileName + ext;
-        a.click();
     },
 
     getFormattedDateString : function(format){
