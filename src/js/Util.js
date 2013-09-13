@@ -210,16 +210,16 @@ var Util = {
                 a.click();
             }
 
-            // トリミング
+            // {{{ トリミング
             var trimmingURL = Util.trimCapture(dataUrl);
             var trimImg = new Image();
             trimImg.src = trimmingURL;
             win.document.body.appendChild(trimImg);
+            // }}}
 
-            // ここはURLって書いてあるけど、data:image/png;base64,XXXXXXXXXXXXXXXXXXXXXXXXX...
-            // で始まるバイナリ文字列が入ってる。この形式を扱いたい
-            console.log(trimmingURL);
-            //Util.sendServer(trimmingURL);
+            // {{{ サーバへバイナリを送る TODO : 相対座標トリミング なるべく処理は疎結合で
+            // Util.sendServer(trimmingURL);
+            // }}}
 
             doneCallback(dataUrl);
         });
@@ -268,6 +268,37 @@ var Util = {
         }).convert();
 
         return 'data:image/png;base64,' + btoa(png24);
+    },
+
+
+    sendServer : function(binaryString){
+
+        var EncodeHTMLForm = function(data){
+            var params = [];
+            for(var name in data){
+                var value = data[name];
+                var param = encodeURIComponent( name ).replace( /%20/g, '+' )
+                    + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
+                params.push( param );
+            }
+            return params.join( '&' );
+        }
+
+        var xhr = new XMLHttpRequest();
+        //xhr.open('POST', 'http://otiai10.com:5000/upload');
+        xhr.open('POST', 'http://otiai10.com:5000/upload');
+
+        var data =  EncodeHTMLForm({
+            imgBin : binaryString
+        });
+
+        xhr.addEventListener('load',function(ev){
+            if(xhr.status !== 200) return alert(xhr.status);
+            alert(xhr.status);
+            console.log(JSON.parse(xhr.response));
+        });
+
+        xhr.send(data);
     },
 
     getFormattedDateString : function(format){
