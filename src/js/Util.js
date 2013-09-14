@@ -35,9 +35,10 @@ var Util = {
                 var default_url = chrome.extension.getURL('/') + Constants.notification.img;
                 var iconUrl = Config.get('notification-img-file') || default_url;
                 if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
+                var title = Constants.notification.title;
                 var params = {
                     type: "basic",
-                    title: "艦これウィジェット",
+                    title: title,
                     message: text,
                     iconUrl: iconUrl
                 };
