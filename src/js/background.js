@@ -49,16 +49,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
 	if( message.winId == undefined ) return;
 
-    if(message.purpose){
-        Util.extractFinishTimeFromCapture(
-            message.winId,
-            message.purpose,
-            message.spaceId,
-            message.callback
-        );
-    }else{
-        Util.openCapturedPage(message.winId);
-    }
+    Util.openCapturedPage(message.winId);
 });
 
 /***** Main Listener 04 : 通知クリックされたとき *****/
