@@ -76,7 +76,20 @@ var Constants = {/** constantアクセサ的なアレ **/
       title : "提督 仕事しろ"
     },
     notification : {
-        img : './icon.png'
+        title : "艦これウィジェット",
+        img : './icon.png',
+        mission : {
+            end_prefix : "第",
+            end_suffix : "艦隊がまもなく帰投します"
+        },
+        createship : {
+            end_prefix : "第",
+            end_suffix : "建造ドックでの建造作業がまもなく完了します"
+        },
+        nyukyo : {
+            end_prefix : "第",
+            end_suffix : "入渠ドックの修復作業がまもなく完了します"
+        }
     },
     achievements : {
         'mission_count'   : '遠征',
