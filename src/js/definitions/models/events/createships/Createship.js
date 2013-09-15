@@ -13,8 +13,8 @@ function SoloCreateship(createshipJson){
 }
 
 /* void */SoloCreateship.prototype.notify = function(){
-	var prefix = Constants.notification.createship.end_prefix;
-	var suffix = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
+    var prefix = Constants.notification.createship.end_prefix;
+    var suffix = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
     Util.presentation(prefix + this.api_kdock_id + suffix);
 }
 

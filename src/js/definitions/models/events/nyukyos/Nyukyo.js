@@ -9,8 +9,8 @@ function SoloNyukyo(json){
 }
 
 /* void */SoloNyukyo.prototype.notify = function(){
-	var prefix = Constants.notification.nyukyo.end_prefix;
-	var suffix = Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
+    var prefix = Constants.notification.nyukyo.end_prefix;
+    var suffix = Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
     Util.presentation(prefix + this.api_ndock_id + suffix);
 }
 
