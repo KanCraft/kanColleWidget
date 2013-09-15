@@ -210,18 +210,32 @@ var Util = {
                 a.click();
             }
 
-            // {{{ トリミング
-            var trimmingURL = Util.trimCapture(dataUrl);
-            var trimImg = new Image();
-            trimImg.src = trimmingURL;
-            win.document.body.appendChild(trimImg);
-            // }}}
-
-            // {{{ サーバへバイナリを送る TODO : 相対座標トリミング なるべく処理は疎結合で
-            //Util.sendServer(trimmingURL);
-            // }}}
-
             doneCallback(dataUrl);
+        });
+    },
+
+    /* public */
+    extractFinishTimeFromCapture : /* string: formattedTime */function(window_id, purpose, spaceId, callback){
+        if(callback == undefined) callback = function(){/* do nothing */};
+        chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataURI){
+
+                // トリミングする
+                var trimmedURI = Util.trimCapture(dataURI);
+
+                // デバッグモードならトリミング後の画像を出す
+                if(localStorage.isDebug == 'true'){
+                    var trimmedImg = new Image();
+                    trimmedImg.src = trimmedURI;
+                    var win = window.open();
+                    win.document.title = new Date().toLocaleDateString();
+                    win.document.body.appendChild(trimmedImg);
+                }
+
+                // OCRサーバへ送る
+                Util.sendServer(trimmedURI, function(res){
+                    console.log(res);
+                    callback(res);
+                });
         });
     },
     resizeImage : function(dataURI, mode){
@@ -257,24 +271,9 @@ var Util = {
         var img = new Image();
         img.src = dataUrl;
 
-        //>>>>>>>>>>>>>>>> LAB
-        //console.log("------- this is lab --------");
-        //console.log(img.width);
-        //console.log(img.height);
-        /**
-         * ウィンドウ全体キャプチャのサイズを記録する
-         *
-         *               height  |   width
-         *  Retina.l     2400    |   1440
-         *  Retina.m     1600    |    960
-         *  Retina.s     1200    |    720
-         *  Retina.xs     800    |    480  //たぶんこれ非Retinaの場合のmサイズ
-         *
-         *  TODO : 相対的にトリミング領域（建造時間表示領域）を決定するロジックを持ったメソッド
-         */
         //<<<<<<<<<<<<<<<<
         // ハードコーディング TODO : ソフト化
-        var params = Util.defineTrimmingCoordsAndSize(img, 'createship', 0);
+        var params = Util.defineTrimmingCoordsAndSize(img, 'createship', 1);
 
         var canvas = document.createElement('canvas');
         canvas.id = "canvas";
@@ -317,21 +316,22 @@ var Util = {
                     }
                 ]
             }
-        }
+        };
+        var arrayIndex = parseInt(spaceId) - 1;
         var res = {
             size : {
                 width  : constantMap[purpose].size.width  * wholeImage.width,
                 height : constantMap[purpose].size.height * wholeImage.width
             },
             coords : {
-                left : constantMap[purpose].coords[spaceId].left * wholeImage.width,
-                top  : constantMap[purpose].coords[spaceId].top  * wholeImage.width
+                left : constantMap[purpose].coords[arrayIndex].left * wholeImage.width,
+                top  : constantMap[purpose].coords[arrayIndex].top  * wholeImage.width
             }
         }
         return res;
     },
 
-    sendServer : function(binaryString){
+    sendServer : function(binaryString, callback){
 
         var EncodeHTMLForm = function(data){
             var params = [];
@@ -355,7 +355,8 @@ var Util = {
         xhr.addEventListener('load',function(ev){
             if(xhr.status !== 200) return alert(xhr.status);
             var response = JSON.parse(xhr.response);
-            alert(xhr.status + ' : ' + response.result);
+            response.status = xhr.status;
+            callback(response);
         });
 
         xhr.send(data);

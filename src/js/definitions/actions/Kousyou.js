@@ -12,6 +12,24 @@ KousyouAction.prototype.forCreateship = function(params){
 
     this.achievements.update().incrementCreateshipCount();
 
+    if(params.api_highspeed == 1) return; // 高速建造を使用する
+
+    setTimeout(function(){
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            chrome.runtime.sendMessage({
+                winId   : widgetWindow.id,
+                purpose : 'createship',
+                spaceId : 1, // TODO : ソフト化
+                callback : function(res){
+                    console.log(res);
+                    alert(res.status);
+                    alert(res.result);
+                }
+            });
+        });
+    },4000);// Thanks to about518
+
+    /***** とりあえず手動は置いとく
     if(!Config.get('enable-manual-reminder')) return; // 設定されていない
     if(params.api_highspeed == 1) return; // 高速建造を使用する
 
@@ -23,6 +41,7 @@ KousyouAction.prototype.forCreateship = function(params){
         var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
         Util.adjustSizeOfWindowsOS(win);
     },1000);
+    *****/
 }
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();

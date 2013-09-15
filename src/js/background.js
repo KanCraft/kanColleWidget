@@ -24,6 +24,8 @@ chrome.windows.onFocusChanged.addListener(function(windowId){
 
 /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
 chrome.webRequest.onBeforeRequest.addListener(function(data){
+    // これふと思ったんだけどListenerのなかでインスタンス化しなくてよくね？
+    // executeがdataを受け取るようにしようぜ
     var dispatcher = new Dispatcher(data);
     var action     = new Action();
     dispatcher.bind(action).execute();
@@ -47,7 +49,16 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
 	if( message.winId == undefined ) return;
 
-    Util.openCapturedPage(message.winId);
+    if(message.purpose){
+        Util.extractFinishTimeFromCapture(
+            message.winId,
+            message.purpose,
+            message.spaceId,
+            message.callback
+        );
+    }else{
+        Util.openCapturedPage(message.winId);
+    }
 });
 
 /***** Main Listener 04 : 通知クリックされたとき *****/
