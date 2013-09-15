@@ -13,7 +13,9 @@ function SoloMission(missionJson){
 }
 
 /* void */SoloMission.prototype.notify = function(){
-    Util.presentation("第" + this.deck_id + "艦隊がまもなく帰還します。");
+    var prefix = Constants.notification.mission.end_prefix;
+    var suffix = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
+    Util.presentation(prefix + this.deck_id + suffix);
 }
 
 /* int: Epoch */SoloMission.prototype.getEndTime = function(){

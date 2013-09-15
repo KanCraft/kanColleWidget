@@ -13,7 +13,9 @@ function SoloCreateship(createshipJson){
 }
 
 /* void */SoloCreateship.prototype.notify = function(){
-    Util.presentation("第" + this.api_kdock_id + "建造ドックでの作業がまもなく終了します");
+    var prefix = Constants.notification.createship.end_prefix;
+    var suffix = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
+    Util.presentation(prefix + this.api_kdock_id + suffix);
 }
 
 /* int: Epoch */SoloCreateship.prototype.getEndTime = function(){
