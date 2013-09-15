@@ -14,18 +14,20 @@ KousyouAction.prototype.forCreateship = function(params){
 
     if(params.api_highspeed == 1) return; // 高速建造を使用する
 
+    var callback = function(res){
+        alert("In KousyouAction.forCreateship\n"+res.status+"\n"+res.message+"\n"+res.result);
+        console.log(res);
+    };
+
     setTimeout(function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            chrome.runtime.sendMessage({
-                winId   : widgetWindow.id,
-                purpose : 'createship',
-                spaceId : 1, // TODO : ソフト化
-                callback : function(res){
-                    console.log(res);
-                    alert(res.status);
-                    alert(res.result);
-                }
-            });
+            //chrome.runtime.sendMessage(message);
+            Util.extractFinishTimeFromCapture(
+                widgetWindow.id,
+                'createship',
+                params.api_kdock_id[0],
+                callback
+            );
         });
     },4000);// Thanks to about518
 

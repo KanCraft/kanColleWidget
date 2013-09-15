@@ -210,17 +210,27 @@ var Util = {
                 a.click();
             }
 
+            /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>>
+            for(var i =1; i<5; i++){
+                win.document.body.appendChild(document.createElement('br'));
+                var trimmedURI = Util.trimCapture(dataUrl, 'createship', i);
+                var trimmedImg = new Image();
+                trimmedImg.src = trimmedURI;
+                win.document.body.appendChild(trimmedImg);
+            }
+            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+
             doneCallback(dataUrl);
         });
     },
 
     /* public */
-    extractFinishTimeFromCapture : /* string: formattedTime */function(window_id, purpose, spaceId, callback){
+    extractFinishTimeFromCapture : /* string: formattedTime */function(window_id, purpose, dockId, callback){
         if(callback == undefined) callback = function(){/* do nothing */};
         chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataURI){
 
                 // トリミングする
-                var trimmedURI = Util.trimCapture(dataURI);
+                var trimmedURI = Util.trimCapture(dataURI, purpose, dockId);
 
                 // デバッグモードならトリミング後の画像を出す
                 if(localStorage.isDebug == 'true'){
@@ -233,8 +243,8 @@ var Util = {
 
                 // OCRサーバへ送る
                 Util.sendServer(trimmedURI, function(res){
-                    console.log(res);
-                    res.response.result = Util.ensureTimeString(res.response.result);
+                    res.result = Util.ensureTimeString(res.result);
+                    res.dataURI = dataURI;
                     callback(res);
                 });
         });
@@ -267,14 +277,12 @@ var Util = {
         });
     },
 
-    trimCapture: function(dataUrl) {
+    trimCapture: function(dataUrl, purpose, dockId) {
 
         var img = new Image();
         img.src = dataUrl;
 
-        //<<<<<<<<<<<<<<<<
-        // ハードコーディング TODO : ソフト化
-        var params = Util.defineTrimmingCoordsAndSize(img, 'createship', 1);
+        var params = Util.defineTrimmingCoordsAndSize(img, purpose, dockId);
 
         var canvas = document.createElement('canvas');
         canvas.id = "canvas";
@@ -302,9 +310,9 @@ var Util = {
         return 'data:image/png;base64,' + btoa(png24);
     },
 
-    defineTrimmingCoordsAndSize : function(wholeImage, purpose, spaceId){
-        var map = Config.trimmingParamsMapping;
-        var arrayIndex = parseInt(spaceId) - 1;
+    defineTrimmingCoordsAndSize : function(wholeImage, purpose, dockId){
+        var map = Constants.trimmingParamsMapping;
+        var arrayIndex = parseInt(dockId) - 1;
         var res = {
             size : {
                 width  : map[purpose].size.width  * wholeImage.width,
