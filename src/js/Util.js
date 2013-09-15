@@ -218,7 +218,7 @@ var Util = {
             // }}}
 
             // {{{ サーバへバイナリを送る TODO : 相対座標トリミング なるべく処理は疎結合で
-            // Util.sendServer(trimmingURL);
+            //Util.sendServer(trimmingURL);
             // }}}
 
             doneCallback(dataUrl);
@@ -253,14 +253,46 @@ var Util = {
     },
 
     trimCapture: function(dataUrl) {
-        var canvas = document.createElement('canvas');
-        canvas.id = "canvas";
-        canvas.width = "82";
-        canvas.height = "20";
-        var ctx = canvas.getContext('2d');
+
         var img = new Image();
         img.src = dataUrl;
-        ctx.drawImage(img, 620,162,82,20, 0,0,canvas.width,canvas.height);
+
+        //>>>>>>>>>>>>>>>> LAB
+        //console.log("------- this is lab --------");
+        //console.log(img.width);
+        //console.log(img.height);
+        /**
+         * ウィンドウ全体キャプチャのサイズを記録する
+         *
+         *               height  |   width
+         *  Retina.l     2400    |   1440
+         *  Retina.m     1600    |    960
+         *  Retina.s     1200    |    720
+         *  Retina.xs     800    |    480  //たぶんこれ非Retinaの場合のmサイズ
+         *
+         *  TODO : 相対的にトリミング領域（建造時間表示領域）を決定するロジックを持ったメソッド
+         */
+        //<<<<<<<<<<<<<<<<
+        // ハードコーディング TODO : ソフト化
+        var params = Util.defineTrimmingCoordsAndSize(img, 'createship', 0);
+
+        var canvas = document.createElement('canvas');
+        canvas.id = "canvas";
+        canvas.width = params.size.width;
+        canvas.height = params.size.height;
+        var ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+            img,
+            params.coords.left,
+            params.coords.top,
+            params.size.width,
+            params.size.height,
+            0, // offset left in destination Image
+            0, // offset top in destination Image
+            canvas.width,
+            canvas.height
+        );
 
         // トリミングした画像を PNG32 から PNG24 に変換する
         var png24 = new CanvasTool.PngEncoder(canvas, {
@@ -270,6 +302,34 @@ var Util = {
         return 'data:image/png;base64,' + btoa(png24);
     },
 
+    defineTrimmingCoordsAndSize : function(wholeImage, purpose, spaceId){
+        // TODO : Constantsへ集約
+        var constantMap = {
+            'createship' : {
+                size : {
+                    width  : (1/8),
+                    height : (1/32)
+                },
+                coords : [
+                    {
+                        left : (0.49),
+                        top : (0.225)
+                    }
+                ]
+            }
+        }
+        var res = {
+            size : {
+                width  : constantMap[purpose].size.width  * wholeImage.width,
+                height : constantMap[purpose].size.height * wholeImage.width
+            },
+            coords : {
+                left : constantMap[purpose].coords[spaceId].left * wholeImage.width,
+                top  : constantMap[purpose].coords[spaceId].top  * wholeImage.width
+            }
+        }
+        return res;
+    },
 
     sendServer : function(binaryString){
 
@@ -294,8 +354,8 @@ var Util = {
 
         xhr.addEventListener('load',function(ev){
             if(xhr.status !== 200) return alert(xhr.status);
-            alert(xhr.status);
-            console.log(JSON.parse(xhr.response));
+            var response = JSON.parse(xhr.response);
+            alert(xhr.status + ' : ' + response.result);
         });
 
         xhr.send(data);
