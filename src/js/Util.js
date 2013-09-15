@@ -48,7 +48,16 @@ var Util = {
                     var audio = new Audio(url);
                     audio.play();
                 }
-                chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+                if(Config.get('notification-stay-visible')){
+                    var notification = webkitNotifications.createNotification(iconUrl, title, text);
+                    if(!Config.get('launch-on-click-notification')) return notification.show();
+                    notification.addEventListener('click', function(){
+                        Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
+                    });
+                    notification.show();
+                }else{
+                    chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+                }
             } else {
                 alert(text);
             }
