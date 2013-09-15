@@ -100,5 +100,30 @@ var Constants = {/** constantアクセサ的なアレ **/
         'hokyu_count'     : '補給',
         'kaisou_count'    : '近改',
         'practice_count'  : '演習'
+    },
+
+    trimmingParamsMapping : {
+        'createship' : {
+            size : {
+                width  : (1/8),
+                height : (1/32)
+            },
+            coords : [
+                {
+                    left : (0.49),
+                    top : (0.225)
+                }
+            ]
+        }
+    },
+
+    ensurementMap : {
+        '()' : '0',
+        'O'  : '0',
+        'I'  : '1',
+        'i'  : '1',
+        'Z'  : '2',
+        'S'  : '5',
+        'q'  : '9'
     }
 };

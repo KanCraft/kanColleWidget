@@ -303,30 +303,16 @@ var Util = {
     },
 
     defineTrimmingCoordsAndSize : function(wholeImage, purpose, spaceId){
-        // TODO : Constantsへ集約
-        var constantMap = {
-            'createship' : {
-                size : {
-                    width  : (1/8),
-                    height : (1/32)
-                },
-                coords : [
-                    {
-                        left : (0.49),
-                        top : (0.225)
-                    }
-                ]
-            }
-        };
+        var map = Config.trimmingParamsMapping;
         var arrayIndex = parseInt(spaceId) - 1;
         var res = {
             size : {
-                width  : constantMap[purpose].size.width  * wholeImage.width,
-                height : constantMap[purpose].size.height * wholeImage.width
+                width  : map[purpose].size.width  * wholeImage.width,
+                height : map[purpose].size.height * wholeImage.width
             },
             coords : {
-                left : constantMap[purpose].coords[arrayIndex].left * wholeImage.width,
-                top  : constantMap[purpose].coords[arrayIndex].top  * wholeImage.width
+                left : map[purpose].coords[arrayIndex].left * wholeImage.width,
+                top  : map[purpose].coords[arrayIndex].top  * wholeImage.width
             }
         }
         return res;
@@ -443,18 +429,9 @@ var Util = {
 
     ensureTimeString : function(str){
         if(typeof str != 'string') str = '';
-        // TODO : Constantsに集約
-        var constantMapEnsurement = {
-            '()' : '0',
-            'O'  : '0',
-            'I'  : '1',
-            'i'  : '1',
-            'Z'  : '2',
-            'S'  : '5',
-            'q'  : '9'
-        };
-        for(var key in constantMapEnsurement){
-            str = str.replace(key,constantMapEnsurement[key]);
+        var map = Constants.ensurementMap;
+        for(var vagueString in map){
+            str = str.replace(vagueString,map[vagueString]);
         }
         return str;
     }
