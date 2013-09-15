@@ -15,8 +15,14 @@ KousyouAction.prototype.forCreateship = function(params){
     if(params.api_highspeed == 1) return; // 高速建造を使用する
 
     var callback = function(res){
-        alert("In KousyouAction.forCreateship\n"+res.status+"\n"+res.message+"\n"+res.result);
         console.log(res);
+        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
+        if(!finishTimeMsec){
+            alert('建造終了時間の取得に失敗しました。マニュアル有効にしているひとは出す');
+            return;
+        }
+        var createships = new Createships();
+        createships.add(params.api_kdock_id[0], finishTimeMsec);
     };
 
     setTimeout(function(){
@@ -29,7 +35,7 @@ KousyouAction.prototype.forCreateship = function(params){
                 callback
             );
         });
-    },4000);// Thanks to about518
+    },5000);// Thanks to about518
 
     /***** とりあえず手動は置いとく
     if(!Config.get('enable-manual-reminder')) return; // 設定されていない
