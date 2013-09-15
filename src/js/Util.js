@@ -234,6 +234,7 @@ var Util = {
                 // OCRサーバへ送る
                 Util.sendServer(trimmedURI, function(res){
                     console.log(res);
+                    res.response.result = Util.ensureTimeString(res.response.result);
                     callback(res);
                 });
         });
@@ -438,5 +439,23 @@ var Util = {
 
     sortReminderParamsByEndtime : function(params){
         return params.sort(function(f,l){ return (f.rawtime > l.rawtime);});
+    },
+
+    ensureTimeString : function(str){
+        if(typeof str != 'string') str = '';
+        // TODO : Constantsに集約
+        var constantMapEnsurement = {
+            '()' : '0',
+            'O'  : '0',
+            'I'  : '1',
+            'i'  : '1',
+            'Z'  : '2',
+            'S'  : '5',
+            'q'  : '9'
+        };
+        for(var key in constantMapEnsurement){
+            str = str.replace(key,constantMapEnsurement[key]);
+        }
+        return str;
     }
 }
