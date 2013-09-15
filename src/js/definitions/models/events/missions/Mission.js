@@ -13,8 +13,8 @@ function SoloMission(missionJson){
 }
 
 /* void */SoloMission.prototype.notify = function(){
-	var prefix = Constants.notification.mission.end_prefix;
-	var suffix = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
+    var prefix = Constants.notification.mission.end_prefix;
+    var suffix = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
     Util.presentation(prefix + this.deck_id + suffix);
 }
 
