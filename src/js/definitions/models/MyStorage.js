@@ -32,7 +32,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'enable-screen-shot'     : false,
         'launch-on-click-notification' : false,
         'show-clockmode-button'  : false,
-        'download-on-screenshot' : false
+        'download-on-screenshot' : false,
+        'notification-stay-visible' : false
     },
 
     /* public: dict */repair : function(){
