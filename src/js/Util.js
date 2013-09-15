@@ -448,9 +448,18 @@ var Util = {
     timeStr2finishEpochMsec : function(str){
         var match = str.match(/([0-9]{2}):([0-9]{2}):([0-9]{2})/);
         if(!match || match.length < 4) return null;
-        var diffMinute = parseInt(match[1]) * 60 + parseInt(match[2]);
+        var diffMinute = parseInt(match[1]) * 60 + parseInt(match[2]) + 2/*なんか微妙な誤差*/;
         var diffMsec = diffMinute * 60 * 1000;
         var finishTime = new Date((new Date()).getTime() + diffMsec);
         return finishTime.getTime();
+    },
+
+    // 時間の手動入力
+    enterTimeManually : function(params,url){
+        var path = chrome.extension.getURL('/') + url;
+        var qstr = '?' + Util.dict2hashString(params);
+        // TODO: left,topは動的に欲しい。screenLeftが謎に0
+        var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
+        Util.adjustSizeOfWindowsOS(win);
     }
 }
