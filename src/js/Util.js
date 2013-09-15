@@ -243,7 +243,7 @@ var Util = {
 
                 // OCRサーバへ送る
                 Util.sendServer(trimmedURI, function(res){
-                    res.result = Util.ensureTimeString(res.result);
+                    res.result = Util.assureTimeString(res.result);
                     res.dataURI = dataURI;
                     callback(res);
                 });
@@ -435,12 +435,22 @@ var Util = {
         return params.sort(function(f,l){ return (f.rawtime > l.rawtime);});
     },
 
-    ensureTimeString : function(str){
+    assureTimeString : function(str){
         if(typeof str != 'string') str = '';
-        var map = Constants.ensurementMap;
+        var map = Constants.assuranceStringMap;
         for(var vagueString in map){
             str = str.replace(vagueString,map[vagueString]);
         }
+        if(str === '00200200') str = '00:00:00';
         return str;
+    },
+
+    timeStr2finishEpochMsec : function(str){
+        var match = str.match(/([0-9]{2}):([0-9]{2}):([0-9]{2})/);
+        if(!match || match.length < 4) return null;
+        var diffMinute = parseInt(match[1]) * 60 + parseInt(match[2]);
+        var diffMsec = diffMinute * 60 * 1000;
+        var finishTime = new Date((new Date()).getTime() + diffMsec);
+        return finishTime.getTime();
     }
 }
