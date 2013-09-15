@@ -9,7 +9,9 @@ function SoloNyukyo(json){
 }
 
 /* void */SoloNyukyo.prototype.notify = function(){
-    Util.presentation("第" + this.api_ndock_id + "番入渠ドックの修復作業がまもなく完了します");
+    var prefix = Constants.notification.nyukyo.end_prefix;
+    var suffix = Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
+    Util.presentation(prefix + this.api_ndock_id + suffix);
 }
 
 /* int: Epoch */SoloNyukyo.prototype.getEndTime = function(){
