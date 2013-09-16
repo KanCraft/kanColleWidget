@@ -181,9 +181,13 @@ var Util = {
     openCapturedPage : function(window_id, doneCallback){
         if(doneCallback == undefined) doneCallback = function(){/* do nothing */};
         chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataUrl){
+
+            var imgTitle = Util.getFormattedDateString();
+
             var win = window.open();
             var img = document.createElement('img');
             img.src = dataUrl;
+            img.alt = imgTitle;
             var date = new Date().toLocaleString();
             win.document.title = date;
             win.document.body.appendChild(img);
@@ -192,7 +196,7 @@ var Util = {
             if(Config.get('download-on-screenshot')){
                 var a = win.document.createElement('a');
                 a.href = dataUrl;
-                a.download = Util.getFormattedDateString();
+                a.download = imgTitle;
                 a.click();
             }
 
