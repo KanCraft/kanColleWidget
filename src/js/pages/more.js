@@ -77,7 +77,9 @@ function bindConfigChangedAction(){
 }
 
 /* private void */function testNotificationSound(){
-    Util.presentation("通知テスト",true);
+    var d = new Date();
+    var text = "通知テスト\n" + d.toLocaleDateString() + " " + d.toLocaleTimeString();
+    Util.presentation(text, true);
 }
 
 /* private void */function commitImgUrlToConfig(img_url){
