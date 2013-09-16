@@ -48,7 +48,16 @@ var Util = {
                     var audio = new Audio(url);
                     audio.play();
                 }
-                chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+                if(Config.get('notification-stay-visible')){
+                    var notification = webkitNotifications.createNotification(iconUrl, title, text);
+                    if(!Config.get('launch-on-click-notification')) return notification.show();
+                    notification.addEventListener('click', function(){
+                        Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
+                    });
+                    notification.show();
+                }else{
+                    chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+                }
             } else {
                 alert(text);
             }
@@ -172,9 +181,13 @@ var Util = {
     openCapturedPage : function(window_id, doneCallback){
         if(doneCallback == undefined) doneCallback = function(){/* do nothing */};
         chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataUrl){
+
+            var imgTitle = Util.getFormattedDateString();
+
             var win = window.open();
             var img = document.createElement('img');
             img.src = dataUrl;
+            img.alt = imgTitle;
             var date = new Date().toLocaleString();
             win.document.title = date;
             win.document.body.appendChild(img);
@@ -183,7 +196,7 @@ var Util = {
             if(Config.get('download-on-screenshot')){
                 var a = win.document.createElement('a');
                 a.href = dataUrl;
-                a.download = Util.getFormattedDateString();
+                a.download = imgTitle;
                 a.click();
             }
 

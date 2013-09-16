@@ -15,22 +15,34 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td>0.2.7.2</td>
+                    <td>0.2.7.3</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
                 </tr>
                 <tr>
                     <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
                     <td><input id="badge-left-time" type="checkbox"></td>
                 </tr>
                 <tr>
-                    <td>入渠時・建造時のリマインダ手動登録機能を有効にする<br><span class="xsmall">注意：やっぱり手動設定です！ しょうがないじゃん固定値じゃないんだもん</span></td>
+                    <td>入渠時・建造時のリマインダ手動登録機能を有効にする<br><span class="xsmall">注意：現在自動取得を開発中です！近いうちにリリースします</span></td>
                     <td><input id="enable-manual-reminder" type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h4>[アイコンツール関係]</h4></td>
                 </tr>
                 <tr>
                     <td>任務実績(遠征回数とか)を記録・表示する<br><span class="xsmall">デイリーは毎朝5時、ウィークリーは毎月曜日朝5時にリセットらしいです</span></td>
                     <td><input id="record-achievements" type="checkbox"></td>
                 </tr>
                 <tr>
-                    <td>スクショボタン表示<br><span class="xsmall">スク水とは違います</span></td>
+                    <td>
+                        スクショボタン表示<br>
+                        <span class="xsmall">
+                            注意：一部ブラウザで画像が松崎しげるになる現象が確認されています。
+                            詳しくは<a href="https://github.com/otiai10/kanColleWidget/issues/106">ここ</a>
+                        </span>
+                    </td>
                     <td><input id="enable-screen-shot" type="checkbox"></td>
                 </tr>
                 <tr>
@@ -42,12 +54,29 @@
                     <td><input id="show-clockmode-button" type="checkbox"></td>
                 </tr>
                 <tr>
+                    <td>最初に出てくる文字</td>
+                    <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h4>[通知関係]</h4></td>
+                </tr>
+                <tr>
+                    <td>
+                        通知ポップアップが自動で消えずに見えるまんまにする<br>
+                        <span class="xsmall">デフォルトで放っておくとウィンドウがエラー娘だらけになるということ</span>
+                    </td>
+                    <td><input id="notification-stay-visible" type="checkbox"></td>
+                </tr>
+                <tr>
                     <td>通知ポップアップをクリックしたらLAUNCHする</td>
                     <td><input id="launch-on-click-notification" type="checkbox"></td>
                 </tr>
                 <tr>
-                    <td>最初に出てくる文字</td>
-                    <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
+                    <td>通知ポップアップするタイミング</td>
+                    <td>
+                        <input id="notification-on-reminder-set" type="checkbox">登録時ポップアップ<br>
+                        <input id="notification-on-reminder-finish" type="checkbox">終了時ポップアップ
+                    </td>
                 </tr>
                 <tr>
                     <td>遠征通知時に出てくる文字<br><span class="xsmall">艦隊をタスクとかに変えたらより自然に</span></td>
@@ -56,14 +85,6 @@
                         入渠完了時：<input id="notification-nyukyo-end-suffix" type="text" size="35" placeholder="入渠ドックの修復作業がまもなく完了します"><br>
                         建造完了時：<input id="notification-createship-end-suffix" type="text" size="35" placeholder="建造ドックでの建造作業がまもなく完了します"><br>
                     </td>
-                </tr>
-                <tr class="yet">
-                    <td>建造レシピメモ</td>
-                    <td><input type="text" size="50" placeholder="400/10/600/10 とか" disabled></td>
-                </tr>
-                <tr class="yet">
-                    <td>開発レシピメモ</td>
-                    <td><input type="text" size="50" placeholder="20/60/10/110 とか" disabled> </td>
                 </tr>
                 <tr>
                     <td>通知時に音声を再生</td>
@@ -86,7 +107,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><h4>おしらせ</h4></td>
+                    <td colspan="2"><h4>[その他、開発中のもの]</h4></td>
+                </tr>
+                <tr class="yet">
+                    <td>建造レシピメモ</td>
+                    <td><input type="text" size="50" placeholder="400/10/600/10 とか" disabled></td>
+                </tr>
+                <tr class="yet">
+                    <td>開発レシピメモ</td>
+                    <td><input type="text" size="50" placeholder="20/60/10/110 とか" disabled> </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"><h4>[おしらせ]</h4></td>
                 </tr>
                 <tr>
                     <td>現在までに報告されている「ウィジェット内でできないこと」</td>
@@ -122,7 +155,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><h4>謝辞</h4></td>
+                    <td colspan="2"><h4>[謝辞]</h4></td>
                 </tr>
                 <tr>
                     <td><a href="https://twitter.com/KanColle_STAFF">「艦これ」公式</a>殿</td>

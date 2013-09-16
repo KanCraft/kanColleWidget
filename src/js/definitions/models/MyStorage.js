@@ -29,10 +29,13 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-mission-end-suffix': '',
         'notification-nyukyo-end-suffix': '',
         'notification-createship-end-suffix': '',
+        'notification-on-reminder-set'    : true,
+        'notification-on-reminder-finish' : true,
         'enable-screen-shot'     : false,
         'launch-on-click-notification' : false,
         'show-clockmode-button'  : false,
-        'download-on-screenshot' : false
+        'download-on-screenshot' : false,
+        'notification-stay-visible' : false
     },
 
     /* public: dict */repair : function(){
