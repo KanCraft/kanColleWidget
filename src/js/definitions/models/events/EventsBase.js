@@ -56,7 +56,7 @@ EventsBase.prototype.check = function(){
         if(json.finish == null) continue;
         var e = new this.soloModel(json);
         if(e.isUpToTime()){
-            this.clear(e[this.primaryIdName]);
+            this.clear(e.primaryId);
             result.upToTime.push(e);
         }
         if(result.nearestEnd == null){
