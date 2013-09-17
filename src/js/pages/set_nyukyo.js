@@ -11,7 +11,7 @@
         nyukyos.add(params.api_ndock_id, params.finish);
         updateInputTracking('nyukyo');
 
-        if(!Config.get('notification-on-reminder-set')) return;
+        if(!Config.get('notification-on-reminder-set')) return window.close();
 
         Util.presentation('入渠修復作業完了通知を登録しときました',false,{
             callback : function(){ window.close(); }
