@@ -131,6 +131,9 @@ var Util = {
         },
         getChromeVersion : function(){
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
+        },
+        debug : function(){
+            localStorage.isDebug = true;
         }
     },
     focusKCWidgetWindow : function(widgetWindow){
