@@ -210,15 +210,16 @@ var Util = {
                 a.click();
             }
 
-            /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>>
+            /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>> */
             for(var i =1; i<5; i++){
                 win.document.body.appendChild(document.createElement('br'));
-                var trimmedURI = Util.trimCapture(dataUrl, 'createship', i);
+                var trimmedURI = Util.trimCapture(dataUrl, 'nyukyo', i);
                 var trimmedImg = new Image();
                 trimmedImg.src = trimmedURI;
+                Util.sendServer(trimmedURI, function(res){console.log(res.result +"\t"+ Util.assureTimeString(res.result));});
                 win.document.body.appendChild(trimmedImg);
             }
-            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+            /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
             doneCallback(dataUrl);
         });
@@ -444,8 +445,8 @@ var Util = {
         if(typeof str != 'string') str = '';
         var map = Constants.assuranceStringMap;
         for(var vagueString in map){
-            var pattern = '/' + vagueString + '/g';
-            str = str.replace(pattern,map[vagueString]);
+            var regex = new RegExp(vagueString, "g");
+            str = str.replace(regex, map[vagueString]);
         }
         if(str === '00200200') str = '00:00:00';
         return str;
