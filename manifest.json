@@ -21,9 +21,9 @@
         "scripts" : [
             "src/js/Util.js",
             "src/js/Constants.js",
-            "src/js/definitions/Now.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
+            "src/js/definitions/models/events/SoloEventBase.js",
             "src/js/definitions/models/events/EventsBase.js",
             "src/js/definitions/models/events/missions/Mission.js",
             "src/js/definitions/models/events/missions/Missions.js",
