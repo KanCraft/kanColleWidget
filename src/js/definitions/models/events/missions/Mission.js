@@ -1,26 +1,9 @@
-/**
- * dependency: MyStorage
- */
-
 /***** class definitions *****/
 function SoloMission(missionJson){
-    this.deck_id = missionJson.deck_id;
-    this.finish  = missionJson.finish;
+    this.primaryId = missionJson.deck_id;
+    this.finish    = missionJson.finish;
+    this.prefix    = Constants.notification.mission.end_prefix;
+    this.suffix    = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
 }
-
-/* Boolean */SoloMission.prototype.isUpToTime = function(){
-    return ((new Now()).isToNotify(this.finish));
-}
-
-/* void */SoloMission.prototype.notify = function(){
-
-    if(!Config.get('notification-on-reminder-finish')) return;
-
-    var prefix = Constants.notification.mission.end_prefix;
-    var suffix = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
-    Util.presentation(prefix + this.deck_id + suffix);
-}
-
-/* int: Epoch */SoloMission.prototype.getEndTime = function(){
-    return (new Date(this.finish)).getTime();
-}
+SoloMission.prototype = Object.create(SoloEventBase.prototype);
+SoloMission.prototype.constructor = SoloMission;
