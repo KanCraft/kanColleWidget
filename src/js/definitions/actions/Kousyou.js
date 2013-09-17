@@ -13,12 +13,12 @@ KousyouAction.prototype.forCreateship = function(params){
     this.achievements.update().incrementCreateshipCount();
 
     if(params.api_highspeed == 1) return; // 高速建造を使用する
+    if(!Config.get('enable-dynamic-reminder')) return; // 動的リマインダ機能を使ってないひとはスルー
 
     var callback = function(res){
         var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
         console.log(res);
         if(!finishTimeMsec){
-            if(!Config.get('enable-manual-reminder')) return;
             if(!window.confirm("建造終了時間の取得に失敗しました\n手動登録しますか？")) return;
             return Util.enterTimeManually(params,'src/html/set_createship.html');
         }

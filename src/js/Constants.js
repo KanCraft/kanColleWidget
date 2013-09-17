@@ -141,5 +141,16 @@ var Constants = {/** constantアクセサ的なアレ **/
         'S'  : '5',
         'q'  : '9',
         ';'  : ':'
+    },
+
+    ocr : {
+        servers : [
+            '173.255.124.247:5000' //GCE instance 001
+        ],
+        upload : {
+            protocol: 'http://',
+            path    : '/upload',
+            method  : 'POST'
+        }
     }
 };
