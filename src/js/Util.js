@@ -339,16 +339,21 @@ var Util = {
             return params.join( '&' );
         }
 
+        var selectURL = function(){
+            var servers = Constants.ocr.servers;
+            var _i = Math.floor(Math.random() * servers.length);
+            return Constants.ocr.upload.protocol + servers[_i] + Constants.ocr.upload.path;
+        }
+
         var xhr = new XMLHttpRequest();
-        //xhr.open('POST', 'http://otiai10.com:5000/upload');
-        xhr.open('POST', 'http://otiai10.com:5000/upload');
+        xhr.open(Constants.ocr.upload.method , selectURL());
 
         var data =  EncodeHTMLForm({
             imgBin : binaryString
         });
 
         xhr.addEventListener('load',function(ev){
-            if(xhr.status !== 200) return alert(xhr.status);
+            if(xhr.status !== 200) return alert("status : " + xhr.status + "\ntext : " + xhr.statusText);
             var response = JSON.parse(xhr.response);
             response.status = xhr.status;
             callback(response);
@@ -439,7 +444,8 @@ var Util = {
         if(typeof str != 'string') str = '';
         var map = Constants.assuranceStringMap;
         for(var vagueString in map){
-            str = str.replace(vagueString,map[vagueString]);
+            var pattern = '/' + vagueString + '/g';
+            str = str.replace(pattern,map[vagueString]);
         }
         if(str === '00200200') str = '00:00:00';
         return str;

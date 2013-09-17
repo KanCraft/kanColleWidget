@@ -20,8 +20,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* private */initial : {
         'badge-left-time'        : false,
         'record-achievements'    : false,
-        'enable-manual-reminder' : false,
-        //'enable-notification'    : false,
+        //'enable-manual-reminder' : false, //Obsolete!!
+        'enable-dynamic-reminder': false,
         'popup-select-title'     : '',
         'notification-img-file'  : '',
         'notification-sound-file': '',
