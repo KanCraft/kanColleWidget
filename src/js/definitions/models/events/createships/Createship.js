@@ -1,21 +1,9 @@
-/**
- * dependency: MyStorage
- */
-
 /***** class definitions *****/
 function SoloCreateship(createshipJson){
-    this.api_kdock_id = createshipJson.api_kdock_id;
-    this.finish  = createshipJson.finish;
+    this.primaryId = createshipJson.api_kdock_id;
+    this.finish    = createshipJson.finish;
+    this.prefix    = Constants.notification.createship.end_prefix;
+    this.suffix    = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
 }
-
-/* Boolean */SoloCreateship.prototype.isUpToTime = function(){
-    return ((new Now()).isToNotify(this.finish));
-}
-
-/* void */SoloCreateship.prototype.notify = function(){
-    Util.presentation("第" + this.api_kdock_id + "建造ドックでの作業がまもなく終了します");
-}
-
-/* int: Epoch */SoloCreateship.prototype.getEndTime = function(){
-    return (new Date(this.finish)).getTime();
-}
+SoloCreateship.prototype = Object.create(SoloEventBase.prototype);
+SoloCreateship.prototype.constructor = SoloCreateship;

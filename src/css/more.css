@@ -13,6 +13,7 @@ td {
 }
 h4 {
     margin-bottom: 0;
+    margin-top: 30px;
 }
 .clickable {
     cursor: pointer;
@@ -38,6 +39,7 @@ td.sorry {
 
 span.xsmall {
     font-size: x-small;
+    color: #666;
 }
 
 span.validation-message {
@@ -46,4 +48,8 @@ span.validation-message {
 
 hr {
     margin: 0 auto;
+}
+
+s {
+    font-weight: normal;
 }
