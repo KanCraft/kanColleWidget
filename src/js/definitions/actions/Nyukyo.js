@@ -8,9 +8,16 @@ function NyukyoAction(){/*** 工廠系のAPIが叩かれたときのアクショ
 
 NyukyoAction.prototype.forStart = function(params){
 
-    if(params.api_highspeed == 1) return; // 高速修復を使用する
-    if(!Config.get('enable-dynamic-reminder')) return; // 動的リマインダ機能を使ってないひとはスルー
+    // 高速修復材を使用している場合
+    if(params.api_highspeed == 1) return;
 
+    // 何もしないひと
+    if(!Config.get('dynamic-reminder-type') || Config.get('dynamic-reminder-type') == 0) return;
+
+    // 常にマニュアル登録のひと
+    if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_nyukyo.html');
+
+    // 他、自動取得しようとするひと
     var callback = function(res){
         var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
         console.log(res);
