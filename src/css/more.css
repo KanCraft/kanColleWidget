@@ -41,7 +41,10 @@ span.xsmall {
     font-size: x-small;
     color: #666;
 }
-
+p.xsmall {
+    font-size: x-small;
+    color: #666;
+}
 span.validation-message {
     color: red;
 }
