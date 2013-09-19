@@ -4,7 +4,7 @@
 
 /***** class definitions *****/
 
-function NyukyoAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/}
+function NyukyoAction(){/*** 入渠系のAPIが叩かれたときのアクション ***/}
 
 NyukyoAction.prototype.forStart = function(params){
 
@@ -27,6 +27,10 @@ NyukyoAction.prototype.forStart = function(params){
         }
         var nyukyos = new Nyukyos();
         nyukyos.add(params.api_ndock_id[0], finishTimeMsec);
+
+        if(!Config.get('notification-on-reminder-set')) return;
+
+        Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー');
     };
 
     setTimeout(function(){
