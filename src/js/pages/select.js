@@ -109,12 +109,10 @@ function _toggleArea(e, sw){
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
-        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
-        document.getElementById('achievements-daily').innerHTML += html;
+        document.getElementById('daily-' + key).innerHTML  = achievements_json.daily.contents[key];
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.weekly.contents[key] + '</li>';
-        document.getElementById('achievements-weekly').innerHTML += html;
+        document.getElementById('weekly-' + key).innerHTML  = achievements_json.weekly.contents[key];
     }
 }
 
