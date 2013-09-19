@@ -8,10 +8,19 @@ function updateNow(){
     var seconds= Util.zP(2, d.getSeconds());
     document.getElementById('month').innerHTML = month;
     document.getElementById('date').innerHTML = date;
-    document.getElementById('day' + day).style.fontWeight = 'bold';
     document.getElementById('hour').innerHTML = hour;
     document.getElementById('minute').innerHTML = minute;
     document.getElementById('seconds').innerHTML = seconds;
+
+    if(parseInt(hour) == 0 || parseInt(minute) == 0){
+        // clear all
+        var days = document.getElementsByClass('days');
+        for(var i=0,len=days.length;i<len;i++){
+            days[i].style.fontWeight = 'normal';
+        }
+    }
+    // bold target
+    document.getElementById('day' + day).style.fontWeight = 'bold';
 }
 function applyIconImg(){
     if(!Config.get('notification-img-file')) return;

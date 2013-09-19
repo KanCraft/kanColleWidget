@@ -109,12 +109,10 @@ function _toggleArea(e, sw){
     var achievements = new Achievements();
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
-        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.daily.contents[key] + '</li>';
-        document.getElementById('achievements-daily').innerHTML += html;
+        document.getElementById('daily-' + key).innerHTML  = achievements_json.daily.contents[key];
     }
     for(var key in achievements_json.weekly.contents){
-        var html = '<li class="'+key+' small">' + Constants.achievements[key] + ' : ' + achievements_json.weekly.contents[key] + '</li>';
-        document.getElementById('achievements-weekly').innerHTML += html;
+        document.getElementById('weekly-' + key).innerHTML  = achievements_json.weekly.contents[key];
     }
 }
 
@@ -182,6 +180,7 @@ function _toggleArea(e, sw){
             // {{{ TODO: Utilへ移動
             var options = "width=420,height=240,location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=200,top=200";
             var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", options);
+            Util.adjustSizeOfWindowsOS(dashboardWindow);
             // }}} TODO
         });
     }else{

@@ -15,11 +15,27 @@ Achievements.prototype.constructor = Achievements;
     var initial_achievements = {
         'daily' : {
             'lastUpdated' : Util.getNearestDailyAchievementResetTime(),
-            'contents' : {}
+            'contents' : {
+                mission_count   : 0,
+                practice_count : 0,
+                map_count       : 0,
+                hokyu_count     : 0,
+                kaisou_count    : 0,
+                createitem_count: 0,
+                createship_count: 0
+            }
         },
         'weekly' : {
             'lastUpdated' : Util.getNearestWeeklyAchievementResetTime(),
-            'contents' : {}
+            'contents' : {
+                mission_count   : 0,
+                practice_count : 0,
+                map_count       : 0,
+                hokyu_count     : 0,
+                kaisou_count    : 0,
+                createitem_count: 0,
+                createship_count: 0
+            }
         }
     };
     var achievements_json = this.get('achievements') || initial_achievements;
