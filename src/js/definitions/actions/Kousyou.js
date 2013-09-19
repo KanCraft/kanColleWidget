@@ -31,6 +31,10 @@ KousyouAction.prototype.forCreateship = function(params){
         }
         var createships = new Createships();
         createships.add(params.api_kdock_id[0], finishTimeMsec);
+
+        if(!Config.get('notification-on-reminder-set')) return;
+
+        Util.presentation(res.result + 'で建造完了通知を登録しときました');
     };
 
     setTimeout(function(){
