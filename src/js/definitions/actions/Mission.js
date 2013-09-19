@@ -11,8 +11,10 @@ function MissionAction(){/*** mission系のAPIが叩かれたときのアクシ�
 
 MissionAction.prototype.forStart = function(params){
     var min = Constants.time.mission[params.api_mission_id[0]];
-    var d = new Date();
-    var finish = new Date(d.setMinutes(d.getMinutes() + min));
+
+    // new format : epoch msec
+    var finish = (new Date()).getTime() + (min * 60 * 1000);
+
     this.missions.add(params.api_deck_id[0], finish);
     this.achievements.update().incrementMissionCount();
 
