@@ -1,14 +1,30 @@
 html {
     width: 200px;
     background-color: #f0f0f0;
+    /*
+    font-family: "Meiryo";
+    font-family: "times new roman";
+    */
+}
+h2 {
+    margin-bottom: 0;
 }
 small {
     color: #3f3fdf;
     text-decoration: none;
 }
-div#time-left, div#achievements {
+div#time-left, div#achievements, div#achievements-table {
     font-size: 0.8em;
     color: #333;
+}
+div#achievements-table {
+    margin-top: 0;
+}
+div#achievements-table>table>tbody>tr>td {
+    font-size:   0.8em;
+    line-height: 0.9em;
+    color:        #333;
+    text-align: center;
 }
 ul {
     padding-left: 20px;
@@ -35,8 +51,8 @@ input {
 }
 
 div.content {
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 8px;
 }
 
 #screen-shot {
