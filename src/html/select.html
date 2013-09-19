@@ -61,17 +61,29 @@
             </div>
         </div>
         <div id="achievements">
-            <div class="content">
-                <span> -- 本日任務実績 -- </span>
-                <ul id="achievements-daily">
-                </ul>
-                <input name="reset-daily" class="reset-achievements" target="daily" type="submit" value="reset"><br>
-            </div>
-            <div class="content">
-                <span> -- 今週任務実績 -- </span>
-                <ul id="achievements-weekly">
-                </ul>
-                <input name="reset-weekly" class="reset-achievements" target="weekly" type="submit" value="reset"><br>
+            <span> -- 提督任務実績 -- </span>
+            <div class="content" id="achievements-table">
+                <table border="0">
+                <tbody>
+                    <tr><td></td><td>本日</td><td>今週</td></tr>
+                    <tr><td>補給</td><td id="daily-hokyu_count">1</td><td id="weekly-hokyu_count">3</td></tr>
+                    <tr><td>遠征</td><td id="daily-mission_count">1</td><td id="weekly-mission_count">3</td></tr>
+                    <tr><td>出撃</td><td id="daily-map_count">1</td><td id="weekly-map_count">3</td></tr>
+                    <tr><td>開発</td><td id="daily-createitem_count">1</td><td id="weekly-createitem_count">3</td></tr>
+                    <tr><td>建造</td><td id="daily-createship_count">1</td><td id="weekly-createship_count">3</td></tr>
+                    <tr><td>演習</td><td id="daily-practice_count">1</td><td id="weekly-practice_count">3</td></tr>
+                    <tr><td>近改</td><td id="daily-kaisou_count">1</td><td id="weekly-kaisou_count">3</td></tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input name="reset-daily" class="reset-achievements" target="daily" type="submit" value="reset"><br>
+                        </td>
+                        <td>
+                            <input name="reset-weekly" class="reset-achievements" target="weekly" type="submit" value="reset"><br>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
             </div>
         </div>
         <button id="show-clockmode-button">clock mode</button><br>
