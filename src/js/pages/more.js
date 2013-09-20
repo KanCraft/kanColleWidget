@@ -79,7 +79,7 @@ function bindConfigChangedAction(){
 /* private void */function testNotificationSound(){
     var d = new Date();
     var text = "通知テスト\n" + d.toLocaleDateString() + " " + d.toLocaleTimeString();
-    Util.presentation(text, true);
+    Util.presentation(text);
 }
 
 /* private void */function commitImgUrlToConfig(img_url){

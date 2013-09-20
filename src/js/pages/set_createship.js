@@ -13,7 +13,7 @@
 
         if(!Config.get('notification-on-reminder-set')) return window.close();
 
-        Util.presentation('建造作業完了通知を登録しときました',false,{
+        Util.presentation('建造作業完了通知を登録しときました',{
             callback : function(){ window.close(); }
         });
     });

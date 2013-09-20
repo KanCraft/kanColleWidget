@@ -25,43 +25,41 @@ var Util = {
             callback();
         });
     },
-    /* public 設定を見たうえでnotificationする */
-    presentation : /* void */function(text, force, opt){
+    // public notificationを作ってイベントバインドしたうえでshowする
+    // ここに来るときは既にnotificationすべきかどうかの判定が済んでいるものとする
+    presentation : /* void */function(text, opt){
         if(typeof opt != 'object') opt = {};
         if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
         if(typeof opt.sound != 'boolean') opt.sound = true;
-        if(force || Config.get('enable-notification')) {
-            if(Util.system.getChromeVersion() >= 28) {
-                var default_url = chrome.extension.getURL('/') + Constants.notification.img;
-                var iconUrl = Config.get('notification-img-file') || default_url;
-                if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
-                var title = Constants.notification.title;
-                var params = {
-                    type: "basic",
-                    title: title,
-                    message: text,
-                    iconUrl: iconUrl
-                };
-                // 指定があれば音声を再生
-                var url = Config.get('notification-sound-file');
-                if(url && opt.sound){
-                    var audio = new Audio(url);
-                    audio.play();
-                }
-                if(Config.get('notification-stay-visible')){
-                    var notification = webkitNotifications.createNotification(iconUrl, title, text);
-                    if(!Config.get('launch-on-click-notification')) return notification.show();
-                    notification.addEventListener('click', function(){
-                        Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
-                    });
-                    notification.show();
-                }else{
-                    chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
-                }
-            } else {
-                alert(text);
+        if(Util.system.getChromeVersion() >= 28) {
+            var default_url = chrome.extension.getURL('/') + Constants.notification.img;
+            var iconUrl = Config.get('notification-img-file') || default_url;
+            if(opt && opt.iconUrl) iconUrl = opt.iconUrl;
+            var title = Constants.notification.title;
+            var params = {
+                type: "basic",
+                title: title,
+                message: text,
+                iconUrl: iconUrl
+            };
+            // 指定があれば音声を再生
+            var url = Config.get('notification-sound-file');
+            if(url && opt.sound){
+                var audio = new Audio(url);
+                audio.play();
             }
-        }else{
+            if(Config.get('notification-stay-visible')){
+                var notification = webkitNotifications.createNotification(iconUrl, title, text);
+                if(!Config.get('launch-on-click-notification')) return notification.show();
+                notification.addEventListener('click', function(){
+                    Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
+                });
+                notification.show();
+            }else{
+                chrome.notifications.create(String((new Date()).getTime()), params, function(){ opt.callback(); });
+            }
+        } else {
+            alert(text);
             opt.callback();
         }
     },
