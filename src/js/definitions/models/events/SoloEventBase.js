@@ -2,11 +2,20 @@
 function SoloEventBase(){}
 /* boolean */SoloEventBase.prototype.isUpToTime = function(){
     var now    = (new Date()).getTime();
-    var finish = (new Date(this.finish)).getTime();
+
+    // migration : mission.finish (date object -> epoch msec)
+    if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
+
+    var finish = this.finish;
+
     return (finish < now);
 }
 /* int: Epoch */SoloEventBase.prototype.getEndTime = function(){
-    return (new Date(this.finish)).getTime();
+
+    // migration : mission.finish (date object -> epoch msec)
+    if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
+
+    return this.finish;
 }
 /* void */SoloEventBase.prototype.notify = function(){
 
