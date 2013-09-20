@@ -60,8 +60,8 @@ var Util = {
             }
         } else {
             alert(text);
-            opt.callback();
         }
+        opt.callback();
     },
     badge : {
         clear : function(){
