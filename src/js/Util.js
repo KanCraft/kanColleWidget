@@ -19,7 +19,12 @@ var Util = {
             callback();
             return;
         },function(){
-            var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
+            var pos = Tracking.get('widget').position;
+            var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}"
+                .replace('{w}', String(width))
+                .replace('{h}', String(width * Constants.widget.aspect))
+                .replace('{l}', String(pos.left))
+                .replace('{t}', String(pos.top));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             window.open(kanColleUrl,"_blank", options);
             callback();
@@ -46,6 +51,9 @@ var Util = {
             var url = Config.get('notification-sound-file');
             if(url && opt.sound){
                 var audio = new Audio(url);
+                if(Config.get('notification-sound-volume')){
+                    audio.volume = Config.get('notification-sound-volume') / 100;
+                }
                 audio.play();
             }
             if(Config.get('notification-stay-visible')){
@@ -60,8 +68,8 @@ var Util = {
             }
         } else {
             alert(text);
-            opt.callback();
         }
+        opt.callback();
     },
     badge : {
         clear : function(){
@@ -237,9 +245,11 @@ var Util = {
         {
             win.onload = (function(_win){
                 return function(){
-                    var diffWidth = _win.outerWidth - _win.innerWidth;
-                    var diffHeight = _win.outerHeight - _win.innerHeight;
-                    _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+                    setTimeout(function(){
+                        var diffWidth = _win.outerWidth - _win.innerWidth;
+                        var diffHeight = _win.outerHeight - _win.innerHeight;
+                        _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+                    }, 1000);
                 };
             })(win);
         }

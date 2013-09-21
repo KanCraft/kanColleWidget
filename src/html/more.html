@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td>0.2.7.3</td>
+                    <td>0.2.7.7</td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
@@ -87,6 +87,16 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>通知時アイコン画像</td>
+                    <td>
+                        <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
+                        <hr>
+                        <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
+                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
+                        <span id="notification-img-file-validation" class="xsmall validation-message"></span>
+                    </td>
+                </tr>
+                <tr>
                     <td>通知時に音声を再生</td>
                     <td>
                         <input type="submit" id="notification-test" value="テスト"/><span id="notification-sound-file-already-set"></span>
@@ -97,13 +107,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>通知時アイコン画像</td>
+                    <td>通知時音声音量</td>
                     <td>
-                        <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
-                        <hr>
-                        <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
-                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                        <span id="notification-img-file-validation" class="xsmall validation-message"></span>
+                        <input id="notification-sound-volume" type="range" target="notification-sound-volume-text" min="0" max="100" value="100" />
+                        <span id="notification-sound-volume-text" class="xsmall"></span>
                     </td>
                 </tr>
                 <tr>
