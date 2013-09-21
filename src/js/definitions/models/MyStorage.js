@@ -25,7 +25,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'popup-select-title'     : '',
         'notification-img-file'  : '',
 		'notification-sound-file': '',
-        //'notification-sound-volume' : '100', 今後使うかも
+        'notification-sound-volume' : '100',
         'notification-mission-end-suffix': '',
         'notification-nyukyo-end-suffix': '',
         'notification-createship-end-suffix': '',
@@ -72,6 +72,16 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* private */storage : new MyStorage(),
     /* private */initial : {
         mode : 'm',
+        widget : {
+            position : {
+                left : 50,
+                top  : 50
+            },
+            size : {
+                height: 0,
+                width : 0
+            }
+        },
         createship : {
             hour   :  1,
             minute : 30
