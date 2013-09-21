@@ -46,6 +46,9 @@ var Util = {
             var url = Config.get('notification-sound-file');
             if(url && opt.sound){
                 var audio = new Audio(url);
+                if(Config.get('notification-sound-volume')){
+                    audio.volume = Config.get('notification-sound-volume') / 100;
+                }
                 audio.play();
             }
             if(Config.get('notification-stay-visible')){
