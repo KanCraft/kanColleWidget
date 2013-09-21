@@ -63,4 +63,17 @@ var proxy_html_string = ''+
             alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
         }
     },1000);
+    setInterval(function(){
+        chrome.runtime.sendMessage({
+            purpose  : 'positionTracking',
+            position : {
+                top  : window.screenTop,
+                left : window.screenLeft
+            },
+            size : {
+                width : window.innerWidth,
+                height: window.innerHeight
+            }
+        });
+    }, 10 * 1000);
 })();
