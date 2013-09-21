@@ -72,6 +72,16 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* private */storage : new MyStorage(),
     /* private */initial : {
         mode : 'm',
+        widget : {
+            position : {
+                left : 50,
+                top  : 50
+            },
+            size : {
+                height: 0,
+                width : 0
+            }
+        },
         createship : {
             hour   :  1,
             minute : 30
