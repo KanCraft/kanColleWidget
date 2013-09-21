@@ -19,7 +19,12 @@ var Util = {
             callback();
             return;
         },function(){
-            var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left=40,top=40".replace('{w}', String(width)).replace('{h}', String(width * Constants.widget.aspect));
+            var pos = Tracking.get('widget').position;
+            var options = "width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}"
+                .replace('{w}', String(width))
+                .replace('{h}', String(width * Constants.widget.aspect))
+                .replace('{l}', String(pos.left))
+                .replace('{t}', String(pos.top));
             var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             window.open(kanColleUrl,"_blank", options);
             callback();
