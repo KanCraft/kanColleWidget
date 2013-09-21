@@ -237,9 +237,11 @@ var Util = {
         {
             win.onload = (function(_win){
                 return function(){
-                    var diffWidth = _win.outerWidth - _win.innerWidth;
-                    var diffHeight = _win.outerHeight - _win.innerHeight;
-                    _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+                    setTimeout(function(){
+                        var diffWidth = _win.outerWidth - _win.innerWidth;
+                        var diffHeight = _win.outerHeight - _win.innerHeight;
+                        _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
+                    }, 1000);
                 };
             })(win);
         }
