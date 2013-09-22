@@ -16,7 +16,7 @@ var Util = {
         }
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
             Util.focusKCWidgetWindow(widgetWindow);
-            callback();
+            callback(widgetWindow,parseInt(width));
             return;
         },function(){
             var pos = Tracking.get('widget').position;
