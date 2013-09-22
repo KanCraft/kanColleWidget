@@ -71,8 +71,10 @@ var proxy_html_string = ''+
                 left : window.screenLeft
             },
             size : {
-                width : window.innerWidth,
-                height: window.innerHeight
+                innerWidth  : window.innerWidth,
+                innerHeight : window.innerHeight,
+                outerWidth  : window.outerWidth,
+                outerHeight : window.outerHeight
             }
         });
     }, 10 * 1000);
