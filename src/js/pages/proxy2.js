@@ -21,9 +21,28 @@ var proxy_html_string = ''+
 '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'+
 '<script type="text/javascript">'+
 '   document.addEventListener("DOMContentLoaded", function(){'+
+'       var timer = false;'+
 '       var onResize = function() {'+
-'           $("iframe").css("height", window.innerHeight);'+
-'           $("iframe").css("width", window.innerWidth);'+
+'           if( timer != false ){'+
+'               clearTimeout(timer);'+
+'           }'+
+'           timer = setTimeout(function(){'+
+'               var width = window.innerWidth;'+
+'               var height = window.innerHeight;'+
+'               var aspect = height / width;'+
+'               if( aspect > 0.6 ){'+
+'                   height = width * 0.6;'+
+'               } else if( aspect < 0.6 ){'+
+'                   width = height / 0.6;'+
+'               }'+
+'               $("iframe").css("height", height);'+
+'               $("iframe").css("width", width);'+
+'               $("iframe").css("position", "absolute");'+
+'               $("iframe").css("top", "50%");'+
+'               $("iframe").css("left", "50%");'+
+'               $("iframe").css("margin-top", -height/2);'+
+'               $("iframe").css("margin-left", -width/2);'+
+'           }, 200);'+
 '       };'+
 '       onResize();'+
 '       $(window).resize(onResize);'+
@@ -31,7 +50,7 @@ var proxy_html_string = ''+
 '</script>'+
 '<title>{title}</title>'+
 '</head>'+
-'<body style="margin:0;">'+
+'<body style="margin:0;background-color:black;">'+
 '<iframe id="kancolle" src="{src}" frameborder="0" scrolling="no" width="800" height="480"></iframe>'+
 '</body>'+
 '</html>';
@@ -71,8 +90,10 @@ var proxy_html_string = ''+
                 left : window.screenLeft
             },
             size : {
-                width : window.innerWidth,
-                height: window.innerHeight
+                innerWidth  : window.innerWidth,
+                innerHeight : window.innerHeight,
+                outerWidth  : window.outerWidth,
+                outerHeight : window.outerHeight
             }
         });
     }, 10 * 1000);

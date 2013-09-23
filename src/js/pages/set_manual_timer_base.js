@@ -79,6 +79,10 @@
 /* int */function value2msec(){
     var hours      = parseInt(document.getElementById('input-hour').value);
     var minutes    = parseInt(document.getElementById('input-minute').value);
+
+    if(typeof hours   != 'number') hours   = 0;
+    if(typeof minutes != 'number') minutes = 0;
+
     return (hours * 60 + minutes) * 60 * 1000;
 }
 
@@ -92,4 +96,24 @@
     inputTracking.hour   = document.getElementById('input-hour').value;
     inputTracking.minute = document.getElementById('input-minute').value;
     Tracking.set(trackingKey,inputTracking);
+}
+/* void */function delegateValidation(){
+    var allInputs = document.getElementsByTagName('input');
+    for(var i= 0,len=allInputs.length;i<len;i++){
+        validateTimeInput(allInputs[i]);
+    }
+}
+/* void */function validateTimeInput(inputDOM){
+    inputDOM.addEventListener('change',function(e){
+
+        // truncate heading
+        if(2 < inputDOM.value.length){
+            inputDOM.value = inputDOM.value.slice(-2);
+        }
+
+        // validate
+        if(inputDOM.value.match(/^[0-9]*$/)) return;
+
+        alert('oh...');
+    });
 }
