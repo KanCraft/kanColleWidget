@@ -50,7 +50,7 @@ var proxy_html_string = ''+
 '</script>'+
 '<title>{title}</title>'+
 '</head>'+
-'<body style="margin:0;">'+
+'<body style="margin:0;background-color:black;">'+
 '<iframe id="kancolle" src="{src}" frameborder="0" scrolling="no" width="800" height="480"></iframe>'+
 '</body>'+
 '</html>';
