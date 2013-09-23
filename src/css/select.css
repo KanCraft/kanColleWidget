@@ -1,11 +1,22 @@
 html {
     width: 200px;
+    /*
     background-color: #f0f0f0;
+    */
+    background-repeat: no-repeat;
+    background-image: url('');
+    background-size: cover;
     /*
     font-family: "Meiryo";
     font-family: "times new roman";
     */
 }
+body {
+    margin: 0;
+    padding: 8px;
+    background-color: rgba(240,240,240,0.7);
+}
+
 h2 {
     margin-bottom: 0;
 }
