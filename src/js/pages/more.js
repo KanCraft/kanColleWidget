@@ -17,10 +17,11 @@ function affectConfigInView(){
         }
         if(typeof config[key] == 'string'){
             if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
-            else input.value = config[key];
+            //else input.value = config[key];
         }
     }
     if(config['notification-img-file']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-file']);
+    if(config['popup-bg-img-file']) displayImgSrc(document.getElementById('popup-bg-img'), config['popup-bg-img-file']);
 }
 function bindCloseAction(){
     document.getElementById('close-config').addEventListener('click', function(){
@@ -60,7 +61,7 @@ function bindConfigChangedAction(){
                         validationMessage( res.origin.name + 'に設定しました', purpose + '-validation');
                     }
                     affectConfigInView();
-    			});
+                });
         	});
         	break;
     	case 'range':
