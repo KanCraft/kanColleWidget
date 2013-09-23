@@ -2,6 +2,7 @@
     var params = parseQueryString();
     applyView(params);
     affectInputTracking('createship');
+    delegateValidation();
     delegateCarretActions();
     delegateCancelAction();
     delegateCommitAction(function(finish_time){
