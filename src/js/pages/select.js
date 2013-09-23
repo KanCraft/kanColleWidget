@@ -138,16 +138,36 @@ function _toggleArea(e, sw){
         document.getElementById('screen-shot').style.display = 'none';
     });
 }
+/* void */function affectPopupBackground(){
+    if(!Config.get('popup-bg-img-file')) return;
+
+    var html = document.getElementsByTagName('html')[0];
+    html.style.backgroundImage = "url('" + Config.get('popup-bg-img-file') + "')";
+}
 
 (function(){
     updateTimeLeft();
     updateAchievements();
     changeTitle();
+
+    affectPopupBackground();
+
     var this_select_window = window;
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        Util.focusOrLaunchIfNotExists(mode, function(){
+        Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
+            if(typeof widgetWindow != 'undefined'){
+                // 指定のサイズに修正
+                var size = Tracking.get('widget').size;
+                var frameWidth = size.outerWidth - size.innerWidth;
+                var frameHeight = size.outerHeight - size.innerHeight;
+                var updateInfo = {
+                    width: newWidth + frameWidth,
+                    height: newWidth * Constants.widget.aspect + frameHeight
+                };
+                chrome.windows.update(widgetWindow.id, updateInfo);
+            }
             // とりあえず全部closeしてみる
             this_select_window.close();
         });
