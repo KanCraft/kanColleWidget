@@ -147,7 +147,18 @@ function _toggleArea(e, sw){
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
-        Util.focusOrLaunchIfNotExists(mode, function(){
+        Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
+            if(typeof widgetWindow != 'undefined'){
+                // 指定のサイズに修正
+                var size = Tracking.get('widget').size;
+                var frameWidth = size.outerWidth - size.innerWidth;
+                var frameHeight = size.outerHeight - size.innerHeight;
+                var updateInfo = {
+                    width: newWidth + frameWidth,
+                    height: newWidth * Constants.widget.aspect + frameHeight
+                };
+                chrome.windows.update(widgetWindow.id, updateInfo);
+            }
             // とりあえず全部closeしてみる
             this_select_window.close();
         });
