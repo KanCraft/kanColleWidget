@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "stg.艦これウィジェット",
-    "version": "0.2.7.10",
+    "version": "0.2.7.11",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -65,6 +65,7 @@
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [
+                "src/js/jquery.min.js",
                 "src/js/Util.js",
                 "src/js/Constants.js",
                 "src/js/pages/proxy2.js"
