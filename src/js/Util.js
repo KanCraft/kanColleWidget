@@ -239,19 +239,15 @@ var Util = {
         return arr.join('&');
     },
 
+    /**
+     * Windows版でのみサイズがおかしくなるそうなのでページがロードされたらこれを呼んで修正する
+     * @param win {Object} windowオブジェクト
+     */
     adjustSizeOfWindowsOS : function(win){
-        // Windows版でのみサイズがおかしくなるそうなのでページがロードされたら修正
-        if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1)
-        {
-            win.onload = (function(_win){
-                return function(){
-                    setTimeout(function(){
-                        var diffWidth = _win.outerWidth - _win.innerWidth;
-                        var diffHeight = _win.outerHeight - _win.innerHeight;
-                        _win.resizeTo(_win.outerWidth + diffWidth, _win.outerHeight + diffHeight);
-                    }, 1000);
-                };
-            })(win);
+        if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1) {
+            var diffWidth = win.outerWidth - win.innerWidth;
+            var diffHeight = win.outerHeight - win.innerHeight;
+            win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
         }
     },
 

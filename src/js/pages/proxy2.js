@@ -1,100 +1,113 @@
-var aa_string = "" +
-"                 __＿___＿\n"+
-"          ／                  ＼\n"+
-"       /    ,.．  -‐‐-   、       ＼\n"+
-"       }∠,.. 艦 __ これ _    ＼       ＼\n"+
-"      /.:.:.:./＼|＼:.:.:.      ＼      ＼,\n"+
-"     ,′ ｉ : / ｎ       ｎ  ＼ i:.:.:.:.i‘   }\n"+
-"     i :人   | U        U    ｌ :.:.: Λ :‘ ，/\n"+
-"    <人  （                  ,' :.:./__):.∠ニZ\n"+
-"     /:.个:.   __▽___    ,./:∠:._｛>o<｝\n"+
-"     {:.:.:‘.( ) ( )__L/´     /:.:.|\n"+
-"     人:.:.:.:(･x ･l ト--{〉  ノi:.:./\n"+
-"       ｀ ¨¨´|    |___,.{     ､_,.ノ\n"+
-"                |    |     ＼\n"+
-"                |    |___ __／\n"+
-"                /   | |_|\n"+
-"               ⊂ノ⊂ノ ｣.|\n";
+/* jshint browser:true, jquery:true */
+/* global Util, chrome */
 
-var proxy_html_string = ''+
-'<html><head>'+
-'<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>'+
-'<script type="text/javascript">'+
-'   document.addEventListener("DOMContentLoaded", function(){'+
-'       var timer = false;'+
-'       var onResize = function() {'+
-'           if( timer != false ){'+
-'               clearTimeout(timer);'+
-'           }'+
-'           timer = setTimeout(function(){'+
-'               var width = window.innerWidth;'+
-'               var height = window.innerHeight;'+
-'               var aspect = height / width;'+
-'               if( aspect > 0.6 ){'+
-'                   height = width * 0.6;'+
-'               } else if( aspect < 0.6 ){'+
-'                   width = height / 0.6;'+
-'               }'+
-'               $("iframe").css("height", height);'+
-'               $("iframe").css("width", width);'+
-'               $("iframe").css("position", "absolute");'+
-'               $("iframe").css("top", "50%");'+
-'               $("iframe").css("left", "50%");'+
-'               $("iframe").css("margin-top", -height/2);'+
-'               $("iframe").css("margin-left", -width/2);'+
-'           }, 200);'+
-'       };'+
-'       onResize();'+
-'       $(window).resize(onResize);'+
-'   });'+
-'</script>'+
-'<title>{title}</title>'+
-'</head>'+
-'<body style="margin:0;background-color:black;">'+
-'<iframe id="kancolle" src="{src}" frameborder="0" scrolling="no" width="800" height="480"></iframe>'+
-'</body>'+
-'</html>';
+$(function() {
+  'use strict';
 
-(function(){
+  var aa_string = '' +
+        '                 __＿___＿\n'+
+        '          ／                  ＼\n'+
+        '       /    ,.．  -‐‐-   、       ＼\n'+
+        '       }∠,.. 艦 __ これ _    ＼       ＼\n'+
+        '      /.:.:.:./＼|＼:.:.:.      ＼      ＼,\n'+
+        '     ,′ ｉ : / ｎ       ｎ  ＼ i:.:.:.:.i‘   }\n'+
+        '     i :人   | U        U    ｌ :.:.: Λ :‘ ，/\n'+
+        '    <人  （                  ,\' :.:./__):.∠ニZ\n'+
+        '     /:.个:.   __▽___    ,./:∠:._｛>o<｝\n'+
+        '     {:.:.:‘.( ) ( )__L/´     /:.:.|\n'+
+        '     人:.:.:.:(･x ･l ト--{〉  ノi:.:./\n'+
+        '       ｀ ¨¨´|    |___,.{     ､_,.ノ\n'+
+        '                |    |     ＼\n'+
+        '                |    |___ __／\n'+
+        '                /   | |_|\n'+
+        '               ⊂ノ⊂ノ ｣.|\n';
 
-    //var body = document.getElementsByTagName('body').item().style.zoom = getZoom();
-    var wrapper = document.getElementById('flashWrap');
-    wrapper.style.margin = 0;
-    setTimeout(function(){
-        document.getElementById('sectionWrap').style.display = 'none';
-        var div = document.getElementById('spacing_top');
-        if(div) div.style.display = 'none';
-    },1000);
+  // ウィジェットウィンドウのタイトルをセット
+  var $title = $('<title></title>');
+  $title.text(Util.getWidgetTitle());
+  $('head').append($title);
 
-    var src = null;
-    setTimeout(function(){
-        var embed = document.getElementById('externalswf');
-        if(embed) src = embed.getAttribute('src');
-        if(src){
-            var doc = window.document;
-            var title = Util.getWidgetTitle();
-            doc.open();
-            proxy_html_string = proxy_html_string.replace('{src}',src).replace('{title}', title);
-            doc.write(proxy_html_string);
-            doc.close();
-        	Util.adjustSizeOfWindowsOS(window);
-        }else{
-            alert(aa_string + "Flashのロードに時間がかかりウィジェット化を諦めました。が、ふつうにプレーできます。");
+  // 背景を黒に
+  $('body').css('background-color', 'black');
+
+  /**
+   * 主にリサイズ関係のセットアップを行う
+   * @param $externalswf $('#externalswf')を渡す
+   */
+  var setupWidget = function($externalswf) {
+    // Flash 以外の余計な div を削除
+    $('div:not(#flashWrap)').remove();
+
+    // Flash の embed とその親 div を交換
+    $('#flashWrap').replaceWith($externalswf);
+
+    // リサイズ周りの挙動
+    $externalswf.css('position', 'absolute');
+    $externalswf.css('top', '50%');
+    $externalswf.css('left', '50%');
+
+    /**
+     * ウィンドウがリサイズされた時、アスペクト比を維持しつついい感じに追随するように
+     */
+    var onResize = function() {
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+      var aspect = height / width;
+      if( aspect > 0.6 ){
+        height = width * 0.6;
+      } else if( aspect < 0.6 ){
+        width = height / 0.6;
+      }
+      $externalswf.attr('height', height);
+      $externalswf.attr('width', width);
+      $externalswf.css('margin-top', -height/2);
+      $externalswf.css('margin-left', -width/2);
+    };
+    onResize();
+    $(window).resize(onResize);
+
+    Util.adjustSizeOfWindowsOS(window);
+  };
+
+  /**
+   * Flash の embed 要素取得を試みる
+   * あったら setupWidget() を呼ぶ
+   * なかったら1秒毎に試す
+   */
+  var getFlash = (function() {
+    var count = 0;
+    return function() {
+      // Flash の embed 要素あるかな？
+      var $externalswf = $('#externalswf');
+      if($externalswf.length === 0) {
+        // ないやん。1秒後にまた試すわ
+        count = count + 1;
+        if(count >= 5) {
+          alert(aa_string + 'エラー。一回閉じてもう一回試してみてください。');
         }
-    },1000);
-    setInterval(function(){
-        chrome.runtime.sendMessage({
-            purpose  : 'positionTracking',
-            position : {
-                top  : window.screenTop,
-                left : window.screenLeft
-            },
-            size : {
-                innerWidth  : window.innerWidth,
-                innerHeight : window.innerHeight,
-                outerWidth  : window.outerWidth,
-                outerHeight : window.outerHeight
-            }
-        });
-    }, 10 * 1000);
-})();
+        setTimeout(getFlash, 1000);
+      } else {
+        // あった
+        setupWidget($externalswf);
+      }
+    };
+  })();
+  setTimeout(getFlash, 1000);
+
+  // ウィンドウ位置記憶かなにか？
+  setInterval(function(){
+    chrome.runtime.sendMessage({
+      purpose  : 'positionTracking',
+      position : {
+        top  : window.screenTop,
+        left : window.screenLeft
+      },
+      size : {
+        innerWidth  : window.innerWidth,
+        innerHeight : window.innerHeight,
+        outerWidth  : window.outerWidth,
+        outerHeight : window.outerHeight
+      }
+    });
+  }, 10 * 1000);
+});
