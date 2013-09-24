@@ -214,6 +214,7 @@ var Util = {
             }
 
             /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>> */
+            if(localStorage.isDebug){
             for(var i =1; i<5; i++){
                 win.document.body.appendChild(document.createElement('br'));
                 var trimmedURI = Util.trimCapture(dataUrl, 'nyukyo', i);
@@ -221,6 +222,7 @@ var Util = {
                 trimmedImg.src = trimmedURI;
                 Util.sendServer(trimmedURI, function(res){console.log(res.result +"\t"+ Util.assureTimeString(res.result));});
                 win.document.body.appendChild(trimmedImg);
+            }
             }
             /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
