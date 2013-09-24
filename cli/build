@@ -34,13 +34,30 @@ build_all(){
 }
 
 show_manifest_diff(){
-  echo "\nstgバージョンとのdiffを表示"
+  echo "\nstgパッケージとのdiffを表示"
   diff --recursive release/kanColleWidget release/stg.kanColleWidget
+}
+
+get_ver_in_manifest(){
+  echo `grep version manifest.json | grep -v manifest_version | tr -d " "`
+}
+get_ver_in_config(){
+  echo `grep version src/html/config.html | sed -e 's/<[^>]*>//g' | sed -e 's/ver//' | tr -d " "`
+}
+get_ver_in_more(){
+  echo `grep version src/html/more.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
+}
+version_check(){
+  echo "\nバージョン情報のチェック"
+  echo "manifest.json\t"`get_ver_in_manifest`
+  echo "config.html\t"`get_ver_in_config`
+  echo "more.html\t"`get_ver_in_more`
 }
 
 if [ $# -lt 1 ]; then
   build_all
   show_manifest_diff
+  version_check
 fi
 
 case $1 in
@@ -54,6 +71,7 @@ case $1 in
     build_prod
     build_stg
     show_manifest_diff
+    version_check
     break;;
   "help" )
     print_help
