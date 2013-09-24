@@ -14,7 +14,7 @@ function updateNow(){
 
     if(parseInt(hour) == 0 || parseInt(minute) == 0){
         // clear all
-        var days = document.getElementsByClass('days');
+        var days = document.getElementsByClassName('days');
         for(var i=0,len=days.length;i<len;i++){
             days[i].style.fontWeight = 'normal';
         }
