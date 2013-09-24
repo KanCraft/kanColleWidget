@@ -42,8 +42,7 @@ NyukyoAction.prototype.forStart = function(params){
                 callback
             );
         });
-    }, 5000);// Thanks to about518
-    // Observerのサイクルが5000msecなので、次のcheckに反映させる
+    }, Constants.ocr.delay);
 }
 NyukyoAction.prototype.forSpeedchange = function(params){
     var nyukyos = new Nyukyos();

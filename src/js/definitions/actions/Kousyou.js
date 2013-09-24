@@ -47,8 +47,7 @@ KousyouAction.prototype.forCreateship = function(params){
                 callback
             );
         });
-    }, 5000);// Thanks to about518
-    // Observerのサイクルが5000msecなので、次のcheckに反映させる
+    }, Constants.ocr.delay);
 }
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();

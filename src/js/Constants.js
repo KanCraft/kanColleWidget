@@ -199,9 +199,10 @@ var Constants = {/** constantアクセサ的なアレ **/
 
     ocr : {
         servers : [
-            //'173.255.124.247:5000' //GCE instance 001
-            'otiai10.com:5000' //GCE instance 001
+            '173.255.121.121:5000' //GCE instance 001
+            //'otiai10.com:5000'
         ],
+        delay : 1000 * 5, // msec
         upload : {
             protocol: 'http://',
             path    : '/upload',
