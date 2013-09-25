@@ -207,6 +207,17 @@ var Constants = {/** constantアクセサ的なアレ **/
             protocol: 'http://',
             path    : '/upload',
             method  : 'POST'
+        },
+        loader : {
+            images : {
+                normal : [
+                    'src/img/loader/0.gif',
+                    'src/img/loader/1.gif',
+                    'src/img/loader/2.gif',
+                    'src/img/loader/3.gif',
+                    'src/img/loader/4.gif'
+                ]
+            }
         }
     }
 };

@@ -22,7 +22,9 @@ KousyouAction.prototype.forCreateship = function(params){
     if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_createship.html');
 
     // 他、自動取得しようとするひと
+    var loadingWindow = Util.openLoaderWindow();
     var callback = function(res){
+        loadingWindow.close();
         var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
         console.log(res);
         if(!finishTimeMsec){

@@ -473,5 +473,16 @@ var Util = {
         // TODO: left,topは動的に欲しい。screenLeftが謎に0
         var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
         Util.adjustSizeOfWindowsOS(win);
+    },
+
+    openLoaderWindow : function(){
+        var pageURL = chrome.extension.getURL('/') + 'src/html/loader.html';
+        var loadingWindow = window.open(pageURL, "_blank", "width=180,height=200,top=50,left=50");
+        return loadingWindow;
+    },
+    getLoaderBackgroundImage : function(){
+        var imgList = Constants.ocr.loader.images.normal;
+        var _i = Math.floor(Math.random() * imgList.length);
+        return imgList[_i];
     }
 }
