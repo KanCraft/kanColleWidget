@@ -30,6 +30,13 @@ $(function() {
   // 背景を黒に
   $('body').css('background-color', 'black');
 
+  // キーバインド登録
+  $(document).on('keydown',function(e){
+    if(e.shiftKey && e.ctrlKey && e.keyCode == 48){
+      chrome.runtime.sendMessage({purpose: 'screenshot'});
+    }
+  });
+
   /**
    * 主にリサイズ関係のセットアップを行う
    * @param $externalswf $('#externalswf')を渡す
@@ -66,7 +73,7 @@ $(function() {
     onResize();
     $(window).resize(onResize);
 
-    Util.adjustSizeOfWindowsOS(window);
+    Util.adjustSizeOfWindowsOSImmediately(window);
   };
 
   /**
@@ -82,8 +89,10 @@ $(function() {
       if($externalswf.length === 0) {
         // ないやん。1秒後にまた試すわ
         count = count + 1;
-        if(count >= 5) {
+        if(count >= 10) {
           alert(aa_string + 'エラー。一回閉じてもう一回試してみてください。');
+          window.close();
+          return;
         }
         setTimeout(getFlash, 1000);
       } else {
