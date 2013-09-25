@@ -210,6 +210,12 @@ var Util = {
         });
     },
 
+    detectAndCapture : function(){
+        Util.ifThereIsAlreadyKCWidgetWindow(function(w){
+            Util.openCapturedPage(w.id);
+        });
+    },
+
     getFormattedDateString : function(format){
         if(typeof format == 'undefined') format = null;
         var d = new Date();
