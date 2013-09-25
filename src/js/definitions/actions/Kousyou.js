@@ -23,6 +23,7 @@ KousyouAction.prototype.forCreateship = function(params){
 
     // 他、自動取得しようとするひと
     var loadingWindow = Util.openLoaderWindow();
+    Util.adjustSizeOfWindowsOS(loadingWindow);
     var callback = function(res){
         loadingWindow.close();
         var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
