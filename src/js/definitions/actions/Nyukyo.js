@@ -24,7 +24,7 @@ NyukyoAction.prototype.forStart = function(params){
         var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
         console.log(res);
         if(!finishTimeMsec){
-            if(!window.confirm("入渠終了時間の取得に失敗しました\n手動登録しますか？")) return;
+            if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
             return Util.enterTimeManually(params,'src/html/set_nyukyo.html');
         }
         var nyukyos = new Nyukyos();

@@ -199,10 +199,20 @@ var Constants = {/** constantアクセサ的なアレ **/
 
     ocr : {
         servers : [
-            '173.255.121.121:5000' //GCE instance 001
-            //'otiai10.com:5000'
+            { //GCE instance 001
+                name : '173.255.121.121',
+                port : ':5000'
+            }
+            /*
+            ,
+            {
+                name : 'otiai10.com',
+                port : ':5000'
+            }
+             */
         ],
         delay : 1000 * 5, // msec
+        failureCause : "\n（画面が小さい・解像度が低い・回線が遅いなどの環境で失敗しやすいです）",
         upload : {
             protocol: 'http://',
             path    : '/upload',
