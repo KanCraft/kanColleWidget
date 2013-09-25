@@ -345,21 +345,24 @@ var Util = {
             return params.join( '&' );
         }
 
+        var server = {};
+        var upload = Constants.ocr.upload;
         var selectURL = function(){
             var servers = Constants.ocr.servers;
             var _i = Math.floor(Math.random() * servers.length);
-            return Constants.ocr.upload.protocol + servers[_i] + Constants.ocr.upload.path;
+            server = servers[_i];
+            return upload.protocol + server.name + server.port + upload.path;
         }
 
         var xhr = new XMLHttpRequest();
-        xhr.open(Constants.ocr.upload.method , selectURL());
+        xhr.open(upload.method , selectURL());
 
         var data =  EncodeHTMLForm({
             imgBin : binaryString
         });
 
         xhr.addEventListener('load',function(ev){
-            if(xhr.status !== 200) return alert("status : " + xhr.status + "\ntext : " + xhr.statusText);
+            if(xhr.status !== 200) return alert("server : " + server.name + "\nstatus : " + xhr.status + "\ntext : " + xhr.statusText + ",サーバエラーっぽい");
             var response = JSON.parse(xhr.response);
             response.status = xhr.status;
             callback(response);
@@ -477,7 +480,8 @@ var Util = {
 
     openLoaderWindow : function(){
         var pageURL = chrome.extension.getURL('/') + 'src/html/loader.html';
-        var loadingWindow = window.open(pageURL, "_blank", "width=180,height=200,top=50,left=50");
+        var pos = Tracking.get('widget').position;
+        var loadingWindow = window.open(pageURL, "_blank", "width=180,height=200,top=" + pos.top + ",left=" + pos.left);
         return loadingWindow;
     },
     getLoaderBackgroundImage : function(){
