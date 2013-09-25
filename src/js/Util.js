@@ -240,10 +240,24 @@ var Util = {
     },
 
     /**
-     * Windows版でのみサイズがおかしくなるそうなのでページがロードされたらこれを呼んで修正する
+     * Windows版でのみサイズがおかしくなるのでこれを呼んでおくと onload イベントで修正される
      * @param win {Object} windowオブジェクト
      */
-    adjustSizeOfWindowsOS : function(win){
+    adjustSizeOfWindowsOS: function(win) {
+        win.onload = (function(_win) {
+            return function() {
+                setTimeout(function() {
+                    Util.adjustSizeOfWindowsOSImmediately(_win);
+                }, 100);
+            };
+        })(win);
+    },
+
+    /**
+     * adjustSizeOfWindowsOS の即時実行版
+     * @param win {Object} windowオブジェクト
+     */
+    adjustSizeOfWindowsOSImmediately: function(win){
         if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf("Win") != -1) {
             var diffWidth = win.outerWidth - win.innerWidth;
             var diffHeight = win.outerHeight - win.innerHeight;
