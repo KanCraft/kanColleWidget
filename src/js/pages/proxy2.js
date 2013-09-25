@@ -30,6 +30,13 @@ $(function() {
   // 背景を黒に
   $('body').css('background-color', 'black');
 
+  // キーバインド登録
+  $(document).on('keydown',function(e){
+    if(e.shiftKey && e.ctrlKey && e.keyCode == 48){
+      chrome.runtime.sendMessage({purpose: 'screenshot'});
+    }
+  });
+
   /**
    * 主にリサイズ関係のセットアップを行う
    * @param $externalswf $('#externalswf')を渡す
