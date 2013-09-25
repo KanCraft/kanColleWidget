@@ -34,8 +34,8 @@ build_all(){
 }
 
 show_manifest_diff(){
-  echo "\nstgパッケージとのdiffを表示"
-  diff --recursive release/kanColleWidget release/stg.kanColleWidget
+  echo "\nstgパッケージとのmanifestのdiffを表示"
+  diff release/kanColleWidget release/stg.kanColleWidget
 }
 
 get_ver_in_manifest(){
@@ -55,7 +55,7 @@ version_check(){
 }
 
 if [ $# -lt 1 ]; then
-  build_all
+  build_all >> /dev/null
   show_manifest_diff
   version_check
 fi

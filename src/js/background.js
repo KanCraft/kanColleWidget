@@ -32,6 +32,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(data){
 /***** Main Listener 03 : メッセージの受信 *****/
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
+    if(message.purpose == 'screenshot'){
+        Util.detectAndCapture();
+        return;
+    }
+
     if(message.purpose == 'positionTracking'){
         var widgetInfo = Tracking.get('widget');
         widgetInfo.position = message.position;
