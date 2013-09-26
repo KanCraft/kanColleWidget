@@ -24,6 +24,8 @@ chrome.windows.onFocusChanged.addListener(function(windowId){
 
 /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
 chrome.webRequest.onBeforeRequest.addListener(function(data){
+    // これふと思ったんだけどListenerのなかでインスタンス化しなくてよくね？
+    // executeがdataを受け取るようにしようぜ
     var dispatcher = new Dispatcher(data);
     var action     = new Action();
     dispatcher.bind(action).execute();

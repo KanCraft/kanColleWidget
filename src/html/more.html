@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td id="version">0.2.8.3</td>
+                    <td id="version">0.2.9.0</td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
@@ -24,13 +24,7 @@
                     <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
                     <td><input id="badge-left-time" type="checkbox"></td>
                 </tr>
-                <tr>
-                    <td>入渠時・建造時のリマインダ手動登録機能を有効にする</td>
-                    <td>
-                        <input id="enable-manual-reminder" type="checkbox">
-                        <span class="xsmall">注意：現在自動取得を開発中です！近日リリース！</span>
-                    </td>
-                </tr>
+
                 <tr>
                     <td colspan="2"><h4>[アイコンツール関係]</h4></td>
                 </tr>
@@ -151,7 +145,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><h4>[その他、開発中のもの]</h4></td>
+                    <td colspan="2"><h4>[その他、開発中のもの]<span class="xsmall">ご意見お待ちしております</span></h4></td>
+                </tr>
+                <tr>
+                    <td>
+                        入渠・建造時リマインダー登録機能を有効にする<br>
+                        <p class="xsmall">
+                            艦これウィジェットでは、艦これ本家のサーバへ迷惑をかけないために、自前のサーバにブラウザのキャプチャ画像を送り画像解析をして時間を取得しています。
+                            そのため、回線が遅い/画面解像度が低い/ウィジェットが小さい、と失敗することが多いです。普通以上の大きな画面で、通信速度に問題の無い環境でプレーされるひと向けです。
+                            <br>詳しい実装はこちら : [<a href="https://github.com/otiai10/kanColleWidget">クライアント(JavaScript)</a>] [<a href="https://github.com/otiai10/ocrServer">サーバ(Python)</a>]
+                        </p>
+                    </td>
+                    <td>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="0">何もしない <span class="xsmall">入渠・建造のリマインダは使わないというひと</span><br>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="1">常にマニュアル登録ウィンドウを出す <span class="xsmall">自動取得失敗とかウザいってひと</span><br>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="2">自動取得 <span class="xsmall">決定ボタンを押してから数秒放置してください。失敗したらマニュアル登録ウィンドウが出ます</span><br>
+                    </td>
                 </tr>
                 <tr class="yet">
                     <td>建造レシピメモ</td>

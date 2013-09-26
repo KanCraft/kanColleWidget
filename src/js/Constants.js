@@ -100,5 +100,134 @@ var Constants = {/** constantアクセサ的なアレ **/
         'hokyu_count'     : '補給',
         'kaisou_count'    : '近改',
         'practice_count'  : '演習'
+    },
+
+    trimmingParamsMapping : {
+        'createship' : {
+            size : {
+                width  : (1/8),
+                height : (1/32)
+            },
+            coords : [
+                {// kdock_id == 1
+                    left : (0.49),
+                    top : (0.225)
+                },
+                {// kdock_id == 2
+                    left : (0.49),
+                    top : (0.322)
+                },
+                {// kdock_id == 3
+                    left : (0.49),
+                    top : (0.419)
+                },
+                {// kdock_id == 4
+                    left : (0.49),
+                    top : (0.516)
+                }
+            ]
+        },
+        'nyukyo' : {
+            size : {
+                width  : (1/9),
+                height : (1/28)
+            },
+            coords : [
+                {// ndock_id == 1
+                    left : (0.772),
+                    top : (0.1925)
+                },
+                {// ndock_id == 2
+                    left : (0.772),
+                    top : (0.2935)
+                },
+                {// ndock_id == 3
+                    left : (0.772),
+                    top : (0.394)
+                },
+                {// ndock_id == 4
+                    left : (0.772),
+                    top : (0.498)
+                }
+            ]
+        }
+    },
+
+    assuranceStringMap : {
+        // Basic
+        '\\s'    : '',
+        ';'      : ':',
+        // Triplet
+        'll1:'   : '02:',
+        // Doublet
+        'lll!'   : '00',
+        'Ill!'   : '00',
+        'Illl'   : '00',
+        '0\\]'   : '03',
+        '\\(H'   : '04',
+        '\\{1\\-1':'04',
+        '0\\-1'  : '04',
+        '11\\-1' : '04',
+        'Il\\-1' : '04',
+        'Il4'    : '04',
+        'M'      : '14',
+        '1\\-0'  : '34',
+        '%'      : '36',
+        // Singlet
+        '\\(l'   : '0',
+        '\\(1'   : '0',
+        'l\\)'   : '0',
+        '\\(\\)' : '0',
+        'O'      : '0',
+        'U'      : '0',
+        'I'      : '1',
+        'i'      : '1',
+        '\\|'    : '1',
+        'l'      : '1',
+        '\\['    : '1',
+        '\\]'    : '1',
+        'Z'      : '2',
+        'K'      : '3',
+        '\\}'    : '3',
+        'J'      : '3',
+        'S'      : '5',
+        '\\$'    : '5',
+        'R'      : '8',
+        'B'      : '8',
+        'q'      : '9'
+    },
+
+    ocr : {
+        servers : [
+            { //GCE instance 001
+                name : '173.255.121.121',
+                port : ':5000'
+            }
+            /*
+            ,
+            {
+                name : 'otiai10.com',
+                port : ':5000'
+            }
+             */
+        ],
+        delay : 1000 * 5, // msec
+        failureCause : "\n（画面が小さい・解像度が低い・回線が遅いなどの環境で失敗しやすいです）",
+        upload : {
+            protocol: 'http://',
+            path    : '/upload',
+            method  : 'POST'
+        },
+        loader : {
+            images : {
+                normal : [
+                    'src/img/loader/0.gif',
+                    'src/img/loader/1.gif',
+                    'src/img/loader/2.gif',
+                    'src/img/loader/3.gif',
+                    'src/img/loader/4.gif'
+                ]
+            }
+        }
     }
 };

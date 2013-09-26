@@ -12,17 +12,45 @@ KousyouAction.prototype.forCreateship = function(params){
 
     this.achievements.update().incrementCreateshipCount();
 
-    if(!Config.get('enable-manual-reminder')) return; // 設定されていない
-    if(params.api_highspeed == 1) return; // 高速建造を使用する
+    // 高速建造を使用する
+    if(params.api_highspeed == 1) return;
 
-    var path = chrome.extension.getURL('/') + 'src/html/set_createship.html';
-    var qstr = '?' + Util.dict2hashString(params);
-    // レスポンスが帰って来て建造時間が可視化されるまで待つ
+    // 何もしないひと
+    if(!Config.get('dynamic-reminder-type') || Config.get('dynamic-reminder-type') == 0) return;
+
+    // 常にマニュアル登録のひと
+    if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_createship.html');
+
+    // 他、自動取得しようとするひと
+    var loadingWindow = Util.openLoaderWindow();
+    Util.adjustSizeOfWindowsOS(loadingWindow);
+    var callback = function(res){
+        loadingWindow.close();
+        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
+        console.log(res);
+        if(!finishTimeMsec){
+            if(!window.confirm("建造終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
+            return Util.enterTimeManually(params,'src/html/set_createship.html');
+        }
+        var createships = new Createships();
+        createships.add(params.api_kdock_id[0], finishTimeMsec);
+
+        if(!Config.get('notification-on-reminder-set')) return;
+
+        Util.presentation(res.result + 'で建造完了通知を登録しときました');
+    };
+
     setTimeout(function(){
-        // TODO: left,topは動的に欲しい。screenLeftが謎に0
-        var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
-        Util.adjustSizeOfWindowsOS(win);
-    },1000);
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            //chrome.runtime.sendMessage(message);
+            Util.extractFinishTimeFromCapture(
+                widgetWindow.id,
+                'createship',
+                params.api_kdock_id[0],
+                callback
+            );
+        });
+    }, Constants.ocr.delay);
 }
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();

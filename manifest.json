@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.2.8.3",
+    "version": "0.2.9.0",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -42,7 +42,8 @@
             "src/js/definitions/actions/Mission.js",
             "src/js/definitions/actions/Payment.js",
             "src/js/definitions/actions/Action.js",
-            "src/js/background.js"
+            "src/js/background.js",
+            "src/js/pngencoder.min.js"
         ]
     },
     "browser_action": {
