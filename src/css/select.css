@@ -6,6 +6,7 @@ html {
     background-repeat: no-repeat;
     background-image: url('');
     background-size: cover;
+    background-position: left bottom;
     /*
     font-family: "Meiryo";
     font-family: "times new roman";
