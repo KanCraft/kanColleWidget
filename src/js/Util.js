@@ -188,6 +188,10 @@ var Util = {
         if(doneCallback == undefined) doneCallback = function(){/* do nothing */};
         chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataUrl){
 
+            if(Config.get('capture-destination-size') == true){
+                dataUrl = Util.resizeImage(dataUrl);
+            }
+
             var imgTitle = Util.getFormattedDateString();
 
             var win = window.open();
@@ -209,7 +213,28 @@ var Util = {
             doneCallback(dataUrl);
         });
     },
+    resizeImage : function(dataURI, mode){
+        //mode = 'm';
+        var img = new Image();
+        img.src = dataURI;
 
+        var canvas = document.createElement('canvas');
+        canvas.id = 'resize';
+        // とりあえずハードでいいや
+        canvas.width  = 800;
+        canvas.height = 480;
+        var context = canvas.getContext('2d');
+
+        context.drawImage(
+            img,
+            0,0,
+            img.width, img.height,
+            0,0,
+            canvas.width, canvas.height
+        );
+
+        return canvas.toDataURL();
+    },
     detectAndCapture : function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(w){
             Util.openCapturedPage(w.id);
