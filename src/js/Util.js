@@ -36,9 +36,6 @@ var Util = {
         if(typeof opt != 'object') opt = {};
         if(typeof opt.callback != 'function') opt.callback = function(){/* do nothing */};
         if(typeof opt.sound != 'boolean') opt.sound = true;
-
-        if(Config.get('mute-notification-sound')) opt.sound = false;
-
         if(Util.system.getChromeVersion() >= 28) {
             var default_url = chrome.extension.getURL('/') + Constants.notification.img;
             var iconUrl = Config.get('notification-img-file') || default_url;

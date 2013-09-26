@@ -138,26 +138,6 @@ function _toggleArea(e, sw){
         document.getElementById('screen-shot').style.display = 'none';
     });
 }
-
-/* void */function affectMuteSetting(){
-    if(Config.get('mute-notification-sound')){
-        return document.getElementById('mute').className = '';
-    }
-    document.getElementById('mute').className = 'off';
-}
-
-/* void */function delegateMuteButton(){
-
-    if(!Config.get('enable-mute-button')) return document.getElementById('mute').style.display = 'none';
-
-    document.getElementById('mute').addEventListener('click',function(){
-        console.log(Config.get('mute-notification-sound'));
-        var prev = Config.get('mute-notification-sound')
-        Config.set('mute-notification-sound', !prev);
-        affectMuteSetting();
-    });
-}
-
 /* void */function affectPopupBackground(){
     if(!Config.get('popup-bg-img-file')) return;
 
@@ -169,9 +149,6 @@ function _toggleArea(e, sw){
     updateTimeLeft();
     updateAchievements();
     changeTitle();
-
-    delegateMuteButton();
-    affectMuteSetting();
 
     affectPopupBackground();
 
