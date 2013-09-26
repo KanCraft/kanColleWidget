@@ -37,6 +37,11 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
         return;
     }
 
+    if(message.purpose == 'mute'){
+        Config.set('mute-notification-sound', true);
+        return;
+    }
+
     if(message.purpose == 'positionTracking'){
         var widgetInfo = Tracking.get('widget');
         widgetInfo.position = message.position;
