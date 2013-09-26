@@ -33,7 +33,6 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-on-reminder-set'    : true,
         'notification-on-reminder-finish' : true,
         'enable-screen-shot'     : false,
-        'enable-mute-button'     : false,
         'launch-on-click-notification' : false,
         'show-clockmode-button'  : false,
         'download-on-screenshot' : false,

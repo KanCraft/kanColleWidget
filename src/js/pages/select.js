@@ -147,9 +147,6 @@ function _toggleArea(e, sw){
 }
 
 /* void */function delegateMuteButton(){
-
-    if(!Config.get('enable-mute-button')) return document.getElementById('mute').style.display = 'none';
-
     document.getElementById('mute').addEventListener('click',function(){
         console.log(Config.get('mute-notification-sound'));
         var prev = Config.get('mute-notification-sound')
