@@ -27,7 +27,8 @@ var Constants = {/** constantアクセサ的なアレ **/
             "25" : 2400,
             "26" : 4800,
             "27" : 1200
-        }
+        },
+        notifyOffset : 50 * 1000 //50秒
     },
     widget : {
         title : {
