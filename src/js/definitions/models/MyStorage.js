@@ -26,7 +26,6 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-img-file'  : '',
         'notification-sound-file': '',
         'notification-sound-volume' : '100',
-        'mute-notification-sound' : false,
         'notification-mission-end-suffix': '',
         'notification-nyukyo-end-suffix': '',
         'notification-createship-end-suffix': '',
