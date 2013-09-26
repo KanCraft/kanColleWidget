@@ -32,8 +32,11 @@ $(function() {
 
   // キーバインド登録
   $(document).on('keydown',function(e){
-    if(e.shiftKey && e.ctrlKey && e.keyCode == 48){
+    if(e.shiftKey && e.ctrlKey && e.keyCode == 48){// shift + ctrl + 0
       chrome.runtime.sendMessage({purpose: 'screenshot'});
+    }
+    if(e.shiftKey && e.ctrlKey && e.keyCode == 77){// shift + ctrl + m
+      chrome.runtime.sendMessage({purpose: 'mute'});
     }
   });
 
