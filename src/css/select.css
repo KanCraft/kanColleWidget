@@ -69,25 +69,8 @@ div.content {
 #screen-shot {
     background-image: url('../img/screenshot.png');
     background-repeat: no-repeat;
-    background-size: contain;
-    background-position: bottom;
-    width: 20px;
+    width: 26px;
     border: none;
     cursor: pointer;
     background-color: transparent;
-}
-
-#mute {
-    background-image: url('../img/mute.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: bottom;
-    width: 20px;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-}
-
-.off {
-    -webkit-opacity: 0.3;
 }
