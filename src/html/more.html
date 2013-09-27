@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td id="version">0.2.8.3</td>
+                    <td id="version">0.3.0.0</td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
@@ -25,12 +25,20 @@
                     <td><input id="badge-left-time" type="checkbox"></td>
                 </tr>
                 <tr>
-                    <td>入渠時・建造時のリマインダ手動登録機能を有効にする</td>
                     <td>
-                        <input id="enable-manual-reminder" type="checkbox">
-                        <span class="xsmall">注意：現在自動取得を開発中です！近日リリース！</span>
+                        入渠・建造時リマインダー登録機能を有効にする<br>
+                        <p class="xsmall">
+                            画像キャプチャの時間表時部分をサーバに送って画像解析してます。画面解像度が低い/ウィジェットが小さいなどの環境では失敗することが多いです。
+                            <br>詳しい実装はこちら : [<a href="https://github.com/otiai10/kanColleWidget">クライアント(JavaScript)</a>] [<a href="https://github.com/otiai10/ocrServer">サーバ(Python)</a>]
+                        </p>
+                    </td>
+                    <td>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="0">何もしない <span class="xsmall">入渠・建造のリマインダは使わないというひと</span><br>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="1">常に手動登録ウィンドウを出す <span class="xsmall">自動取得失敗とかウザいってひと</span><br>
+                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="2">自動取得 <span class="xsmall">失敗したら手動登録ウィンドウが出ます</span><br>
                     </td>
                 </tr>
+
                 <tr>
                     <td colspan="2"><h4>[アイコンツール関係]</h4></td>
                 </tr>
@@ -151,8 +159,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><h4>[その他、開発中のもの]</h4></td>
+                    <td colspan="2"><h4>[その他、開発中のもの]<span class="xsmall">ご意見お待ちしております</span></h4></td>
                 </tr>
+
                 <tr class="yet">
                     <td>建造レシピメモ</td>
                     <td><input type="text" size="50" placeholder="400/10/600/10 とか" disabled></td>
