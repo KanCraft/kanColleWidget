@@ -8,6 +8,16 @@ function affectConfigInView(){
     var config = Config.getJSON();
     for(var key in config){
 
+        if(typeof config[key] == 'number'){
+            var inputs = document.getElementsByClassName(key);
+            for(var i= 0,len=inputs.length;i<len;i++){
+                if(inputs[i].value == config[key]){
+                    inputs[i].checked = true;
+                    break;
+                }
+            }
+        }
+
         var input = document.getElementById(key);
         if(key.match(/^notification.*file$/)) input = document.getElementById(key + '-already-set');
 
@@ -31,13 +41,17 @@ function bindCloseAction(){
 function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
-        // TODO: typeでディスパッチするのではなく、idでディスパッチする -> otiai10
     	switch(inputs[i].type){
     	case 'checkbox':
             inputs[i].addEventListener('change',function(){
                 Config.set(this.id, this.checked);
             });
     		break;
+        case 'radio':
+            inputs[i].addEventListener('change',function(){
+                Config.set(this.name, parseInt(this.value));
+            });
+            break;
     	case 'text':
             inputs[i].addEventListener('keydown',function(){
                 Config.set(this.id, this.value);

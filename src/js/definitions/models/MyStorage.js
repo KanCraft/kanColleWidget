@@ -20,8 +20,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* private */initial : {
         'badge-left-time'        : false,
         'record-achievements'    : false,
-        'enable-manual-reminder' : false,
-        //'enable-notification'    : false,
+        //'enable-manual-reminder' : false, //Obsolete!!
+        'enable-dynamic-reminder': false,
         'popup-select-title'     : '',
         'notification-img-file'  : '',
         'notification-sound-file': '',
@@ -29,6 +29,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-mission-end-suffix': '',
         'notification-nyukyo-end-suffix': '',
         'notification-createship-end-suffix': '',
+        //'enable-notification'    : false, // Obsolete!!
         'notification-on-reminder-set'    : true,
         'notification-on-reminder-finish' : true,
         'enable-screen-shot'     : false,
@@ -36,7 +37,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'launch-on-click-notification' : false,
         'show-clockmode-button'  : false,
         'download-on-screenshot' : false,
-        'notification-stay-visible' : false
+        'notification-stay-visible' : false,
+        'dynamic-reminder-type' : 0
     },
 
     /* public: dict */repair : function(){
