@@ -33,6 +33,9 @@ NyukyoAction.prototype.forSpeedchange = function(params){
 // Completed
 NyukyoAction.prototype.forStartCompleted = function(){
 
+    // 高速修復材を使用している場合
+    if(Stash.params.api_highspeed == 1) return;
+
     // 何もしないひと
     if(Config.get('dynamic-reminder-type') == 0) return;
     // 常にマニュアル登録のひと

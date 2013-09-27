@@ -40,6 +40,9 @@ KousyouAction.prototype.forCreateitem = function(params){
 // Completed
 KousyouAction.prototype.forCreateshipCompleted = function(){
 
+    // 高速建造を使用する
+    if(Stash.params.api_highspeed == 1) return;
+
     // 何もしないひと
     if(Config.get('dynamic-reminder-type') == 0) return;
     // 常にマニュアル登録のひと
