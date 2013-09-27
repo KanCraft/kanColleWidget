@@ -7,6 +7,8 @@
 
 "use strict";
 
+var Stash = {};
+
 var observer = new Observer();
 
 /***** JSがロードされたとき *****/
@@ -30,6 +32,12 @@ chrome.webRequest.onBeforeRequest.addListener(function(data){
     var action     = new Action();
     dispatcher.bind(action).execute();
 },{'urls':[]},['requestBody']);
+
+var completeDispatcher = new CompleteDispatcher();
+completeDispatcher.bind(new Action());
+chrome.webRequest.onCompleted.addListener(function(detail){
+    completeDispatcher.eat(detail).execute();
+},{'urls':[]});
 
 /***** Main Listener 03 : メッセージの受信 *****/
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){

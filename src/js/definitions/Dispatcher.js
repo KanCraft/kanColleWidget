@@ -58,3 +58,35 @@ function Dispatcher(data){/** パースの結果をラップします **/
             //_log('%c[ACTION]%c Do Nothing for this request',true);
     }
 }
+
+function CompleteDispatcher(){/** webRequest.onCompletedの結果をラップします **/
+    this.recordCount = 6;
+    this.requestSequence = new Array(this.recordCount);
+}
+CompleteDispatcher.prototype.bind = function(_action){
+    this.action = _action;
+    return this;
+}
+CompleteDispatcher.prototype.eat = function(detail){
+    if(detail.url.match('kcsapi/api')){
+        var path = detail.url.match(/kcsapi\/(.*)$/)[1];
+        this.requestSequence.unshift(path);
+    }else{
+        this.requestSequence.unshift(undefined);
+    }
+    this.requestSequence = this.requestSequence.slice(0,this.recordCount);
+    return this;
+}
+CompleteDispatcher.prototype.execute = function(){
+    // TODO : リファクタ -> 判定をどっかに押し込める
+    // TODO : 条件厳しくする -> https://gist.github.com/otiai10/6724596
+    if(
+        this.requestSequence[3] == 'api_req_nyukyo/start'
+    ){
+        this.action.forNyukyoStartCompleted();
+    }else if(
+        this.requestSequence[5] == 'api_req_kousyou/createship'
+    ){
+        this.action.forKousyouCreateshipCompleted();
+    }
+}
