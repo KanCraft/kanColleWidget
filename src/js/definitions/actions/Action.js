@@ -51,6 +51,10 @@ Action.prototype.forKousyouCreateship = function(params){
     this.kousyouAction.forCreateship(params);
 }
 
+Action.prototype.forKousyouCreateshipCompleted = function(){
+    this.kousyouAction.forCreateshipCompleted();
+}
+
 Action.prototype.forKousyouCreateitem = function(params){
     this.kousyouAction.forCreateitem(params);
 }
@@ -61,6 +65,9 @@ Action.prototype.forKousyouGetship = function(params){
 
 Action.prototype.forNyukyoStart = function(params){
     this.nyukyoAction.forStart(params);
+}
+Action.prototype.forNyukyoStartCompleted = function(){
+    this.nyukyoAction.forStartCompleted();
 }
 
 Action.prototype.forNyukyoSpeedchange = function(params){
