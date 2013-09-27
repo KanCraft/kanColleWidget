@@ -211,8 +211,7 @@ var Constants = {/** constantアクセサ的なアレ **/
             }
              */
         ],
-        delay : 1000 * 5, // msec
-        failureCause : "\n（画面が小さい・解像度が低い・回線が遅いなどの環境で失敗しやすいです）",
+        failureCause : "\n（画面が小さい・解像度が低いなどの環境で失敗しやすいです）",
         upload : {
             protocol: 'http://',
             path    : '/upload',
