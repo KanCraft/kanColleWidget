@@ -4,23 +4,69 @@
 
 /***** class definitions *****/
 
-function NyukyoAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/}
+function NyukyoAction(){/*** 入渠系のAPIが叩かれたときのアクション ***/}
 
 NyukyoAction.prototype.forStart = function(params){
 
-    if(!Config.get('enable-manual-reminder')) return; // 設定されていない
-    if(params.api_highspeed == 1) return; // 高速建造を使用する
+    Stash.params = params;
 
-    var path = chrome.extension.getURL('/') + 'src/html/set_nyukyo.html';
-    var qstr = '?' + Util.dict2hashString(params);
-    // レスポンスが帰って来て建造時間が可視化されるまで待つ
-    setTimeout(function(){
-        // TODO: left,topは動的に欲しい。screenLeftが謎に0
-        var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
-        Util.adjustSizeOfWindowsOS(win);
-    },1000);
+    // 高速修復材を使用している場合
+    if(params.api_highspeed == 1) return;
+
+    // 何もしないひと
+    if(Config.get('dynamic-reminder-type') == 0) return;
+    // 常にマニュアル登録のひと
+    if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_nyukyo.html');
+
+    // 他、自動取得しようとするひと
+    var loadingWindow = Util.openLoaderWindow();
+
+    Stash.loadingWindow = loadingWindow;
+    Util.adjustSizeOfWindowsOS(loadingWindow);
+
 }
 NyukyoAction.prototype.forSpeedchange = function(params){
     var nyukyos = new Nyukyos();
     nyukyos.clear(params.api_ndock_id);
+}
+
+// Completed
+NyukyoAction.prototype.forStartCompleted = function(){
+
+    // 何もしないひと
+    if(Config.get('dynamic-reminder-type') == 0) return;
+    // 常にマニュアル登録のひと
+    if(Config.get('dynamic-reminder-type') == 1) return;
+
+    var callback = function(res){
+
+        // 遅らせてローディング画面を閉じる
+        setTimeout(function(){
+            Stash.loadingWindow.close();
+        },600);
+
+        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
+        console.log(res);
+        if(!finishTimeMsec){
+            if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
+            return Util.enterTimeManually(Stash.params,'src/html/set_nyukyo.html');
+        }
+        var nyukyos = new Nyukyos();
+        nyukyos.add(Stash.params.api_ndock_id[0], finishTimeMsec);
+
+        if(!Config.get('notification-on-reminder-set')) return;
+
+        Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー');
+    };
+
+    setTimeout(function(){
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            Util.extractFinishTimeFromCapture(
+                widgetWindow.id,
+                'nyukyo',
+                Stash.params.api_ndock_id[0],
+                callback
+            );
+        });
+    },400); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ
 }

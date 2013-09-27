@@ -7,6 +7,8 @@
 
 "use strict";
 
+var Stash = {};
+
 var observer = new Observer();
 
 /***** JSがロードされたとき *****/
@@ -24,10 +26,18 @@ chrome.windows.onFocusChanged.addListener(function(windowId){
 
 /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
 chrome.webRequest.onBeforeRequest.addListener(function(data){
+    // これふと思ったんだけどListenerのなかでインスタンス化しなくてよくね？
+    // executeがdataを受け取るようにしようぜ
     var dispatcher = new Dispatcher(data);
     var action     = new Action();
     dispatcher.bind(action).execute();
 },{'urls':[]},['requestBody']);
+
+var completeDispatcher = new CompleteDispatcher();
+completeDispatcher.bind(new Action());
+chrome.webRequest.onCompleted.addListener(function(detail){
+    completeDispatcher.eat(detail).execute();
+},{'urls':[]});
 
 /***** Main Listener 03 : メッセージの受信 *****/
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){

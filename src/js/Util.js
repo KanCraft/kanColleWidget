@@ -131,6 +131,9 @@ var Util = {
         },
         getChromeVersion : function(){
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
+        },
+        debug : function(){
+            localStorage.isDebug = true;
         }
     },
     focusKCWidgetWindow : function(widgetWindow){
@@ -210,7 +213,46 @@ var Util = {
                 a.click();
             }
 
+            /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>> */
+            if(localStorage.isDebug){
+            for(var i =1; i<5; i++){
+                win.document.body.appendChild(document.createElement('br'));
+                var trimmedURI = Util.trimCapture(dataUrl, 'nyukyo', i);
+                var trimmedImg = new Image();
+                trimmedImg.src = trimmedURI;
+                Util.sendServer(trimmedURI, function(res){console.log(res.result +"\t"+ Util.assureTimeString(res.result));});
+                win.document.body.appendChild(trimmedImg);
+            }
+            }
+            /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+
             doneCallback(dataUrl);
+        });
+    },
+
+    /* public */
+    extractFinishTimeFromCapture : /* string: formattedTime */function(window_id, purpose, dockId, callback){
+        if(callback == undefined) callback = function(){/* do nothing */};
+        chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataURI){
+
+                // トリミングする
+                var trimmedURI = Util.trimCapture(dataURI, purpose, dockId);
+
+                // デバッグモードならトリミング後の画像を出す
+                if(localStorage.isDebug == 'true'){
+                    var trimmedImg = new Image();
+                    trimmedImg.src = trimmedURI;
+                    var win = window.open();
+                    win.document.title = new Date().toLocaleDateString();
+                    win.document.body.appendChild(trimmedImg);
+                }
+
+                // OCRサーバへ送る
+                Util.sendServer(trimmedURI, function(res){
+                    res.result = Util.assureTimeString(res.result);
+                    res.dataURI = dataURI;
+                    callback(res);
+                });
         });
     },
     resizeImage : function(dataURI, mode){
@@ -239,6 +281,94 @@ var Util = {
         Util.ifThereIsAlreadyKCWidgetWindow(function(w){
             Util.openCapturedPage(w.id);
         });
+    },
+
+    trimCapture: function(dataUrl, purpose, dockId) {
+
+        var img = new Image();
+        img.src = dataUrl;
+
+        var params = Util.defineTrimmingCoordsAndSize(img, purpose, dockId);
+
+        var canvas = document.createElement('canvas');
+        canvas.id = "canvas";
+        canvas.width = params.size.width;
+        canvas.height = params.size.height;
+        var ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+            img,
+            params.coords.left,
+            params.coords.top,
+            params.size.width,
+            params.size.height,
+            0, // offset left in destination Image
+            0, // offset top in destination Image
+            canvas.width,
+            canvas.height
+        );
+
+        // トリミングした画像を PNG32 から PNG24 に変換する
+        var png24 = new CanvasTool.PngEncoder(canvas, {
+            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+        }).convert();
+
+        return 'data:image/png;base64,' + btoa(png24);
+    },
+
+    defineTrimmingCoordsAndSize : function(wholeImage, purpose, dockId){
+        var map = Constants.trimmingParamsMapping;
+        var arrayIndex = parseInt(dockId) - 1;
+        var res = {
+            size : {
+                width  : map[purpose].size.width  * wholeImage.width,
+                height : map[purpose].size.height * wholeImage.width
+            },
+            coords : {
+                left : map[purpose].coords[arrayIndex].left * wholeImage.width,
+                top  : map[purpose].coords[arrayIndex].top  * wholeImage.width
+            }
+        }
+        return res;
+    },
+
+    sendServer : function(binaryString, callback){
+
+        var EncodeHTMLForm = function(data){
+            var params = [];
+            for(var name in data){
+                var value = data[name];
+                var param = encodeURIComponent( name ).replace( /%20/g, '+' )
+                    + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
+                params.push( param );
+            }
+            return params.join( '&' );
+        }
+
+        var server = {};
+        var upload = Constants.ocr.upload;
+        var selectURL = function(){
+            var servers = Constants.ocr.servers;
+            var _i = Math.floor(Math.random() * servers.length);
+            server = servers[_i];
+            return upload.protocol + server.name + server.port + upload.path;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open(upload.method , selectURL());
+
+        var data =  EncodeHTMLForm({
+            imgBin : binaryString
+        });
+
+        xhr.addEventListener('load',function(ev){
+            if(xhr.status !== 200) return alert("server : " + server.name + "\nstatus : " + xhr.status + "\ntext : " + xhr.statusText + ",サーバエラーっぽい");
+            var response = JSON.parse(xhr.response);
+            response.status = xhr.status;
+            callback(response);
+        });
+
+        xhr.send(data);
     },
 
     getFormattedDateString : function(format){
@@ -317,5 +447,46 @@ var Util = {
 
     sortReminderParamsByEndtime : function(params){
         return params.sort(function(f,l){ return (f.rawtime > l.rawtime);});
+    },
+
+    assureTimeString : function(str){
+        if(typeof str != 'string') str = '';
+        var map = Constants.assuranceStringMap;
+        for(var vagueString in map){
+            var regex = new RegExp(vagueString, "g");
+            str = str.replace(regex, map[vagueString]);
+        }
+        if(str === '00200200') str = '00:00:00';
+        return str;
+    },
+
+    timeStr2finishEpochMsec : function(str){
+        var match = str.match(/([0-9]{2}):([0-9]{2}):([0-9]{2})/);
+        if(!match || match.length < 4) return null;
+        var diffMinute = parseInt(match[1]) * 60 + parseInt(match[2]) + 2/*なんか微妙な誤差*/;
+        var diffMsec = diffMinute * 60 * 1000;
+        var finishTime = new Date((new Date()).getTime() + diffMsec);
+        return finishTime.getTime();
+    },
+
+    // 時間の手動入力
+    enterTimeManually : function(params,url){
+        var path = chrome.extension.getURL('/') + url;
+        var qstr = '?' + Util.dict2hashString(params);
+        // TODO: left,topは動的に欲しい。screenLeftが謎に0
+        var win = window.open(path + qstr, "_blank", "width=400,height=250,left=600,top=200");
+        Util.adjustSizeOfWindowsOS(win);
+    },
+
+    openLoaderWindow : function(){
+        var pageURL = chrome.extension.getURL('/') + 'src/html/loader.html';
+        var pos = Tracking.get('widget').position;
+        var loadingWindow = window.open(pageURL, "_blank", "width=180,height=200,top=" + pos.top + ",left=" + pos.left);
+        return loadingWindow;
+    },
+    getLoaderBackgroundImage : function(){
+        var imgList = Constants.ocr.loader.images.normal;
+        var _i = Math.floor(Math.random() * imgList.length);
+        return imgList[_i];
     }
 }
