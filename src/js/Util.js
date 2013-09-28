@@ -239,7 +239,7 @@ var Util = Util || {};
             if(Config.get('capture-destination-size') === true){
                 dataUrl = Util.resizeImage(dataUrl);
             }
-            
+
             var imgTitle = Util.getFormattedDateString();
 
             var win = window.open();
@@ -442,7 +442,12 @@ var Util = Util || {};
     Util.getFormattedDateString = function(format){
         if(typeof format === 'undefined') { format = null; }
         var d = new Date();
-        var s = d.getFullYear() + Util.zP(2, d.getMonth() + 1) + Util.zP(2, d.getDate()) + Util.zP(2, d.getHours()) + Util.zP(2, d.getMinutes() + Util.zP(2, d.getSeconds()));
+        var s = d.getFullYear() +
+                Util.zP(2, d.getMonth() + 1) +
+                Util.zP(2, d.getDate()) +
+                Util.zP(2, d.getHours()) +
+                Util.zP(2, d.getMinutes()) +
+                Util.zP(2, d.getSeconds());
         return s;
     };
 
