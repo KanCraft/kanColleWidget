@@ -38,7 +38,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'show-clockmode-button'  : false,
         'download-on-screenshot' : false,
         'notification-stay-visible' : false,
-        'dynamic-reminder-type' : 0
+        'dynamic-reminder-type' : 0,
+        'allow-ocr-result-log' : false
     },
 
     /* public: dict */repair : function(){
