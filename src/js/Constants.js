@@ -201,17 +201,10 @@ var Constants = {/** constantアクセサ的なアレ **/
 
     ocr : {
         servers : [
-            { //GCE instance 001
-                name : '173.255.121.121',
-                port : ':5000'
-            }
-            /*
-            ,
             {
-                name : 'otiai10.com',
+                name : 'ocr-kcwidget.oti10.com',
                 port : ':5000'
             }
-             */
         ],
         failureCause : "\n（画面が小さい・解像度が低いなどの環境で失敗しやすいです）",
         upload : {
