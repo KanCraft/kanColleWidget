@@ -50,7 +50,7 @@ var kanColleWidget = kanColleWidget || {};
         }
 
         // 通知の種類 'docking' or 'expedition' or 'construction' or undefined
-        var kind = options.kind;
+        var kind = options.sound && options.sound.kind;
 
         var icon  = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
         var title = this.constants.notification.title;
@@ -71,16 +71,23 @@ var kanColleWidget = kanColleWidget || {};
                 notification.cancel();
             }, 5000);
         }
-        
-        this.playSound(kind);
+
+        if(options.sound) {
+            this.playSound(kind, options.sound.force);
+        }
         notification.show();
 
         callback();
     };
 
-    Notifier.prototype.playSound = function(kind) {
+    /**
+     * 音声の再生。一度再生したものはキャッシュする
+     * @param kind {String}
+     * @param force {Boolean} true で強制リロード
+     */
+    Notifier.prototype.playSound = function(kind, force) {
         kind = kind || 'default';
-        var audio = this.sounds[kind];
+        var audio = force ? null : this.sounds[kind];
         
         if(audio == null) {
             var soundUrl = this.assetManager.getNotificationSoundUrl(kind);

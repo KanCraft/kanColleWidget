@@ -12,7 +12,7 @@ print_help()
 
 build_prod(){
   rm -rf release/kanColleWidget
-  mkdir release/kanColleWidget
+  mkdir -p release/kanColleWidget
   cp -r src release/kanColleWidget/
   mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
   cp manifest.json release/kanColleWidget/
@@ -21,7 +21,7 @@ build_prod(){
 
 build_stg(){
   rm -rf release/stg.kanColleWidget
-  mkdir release/stg.kanColleWidget
+  mkdir -p release/stg.kanColleWidget
   cp -r src release/stg.kanColleWidget/
   mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
   cp manifest.json release/stg.kanColleWidget/manifest.json

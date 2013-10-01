@@ -20,7 +20,11 @@ MissionAction.prototype.forStart = function(params){
 
     if(!Config.get('notification-on-reminder-set')) return;
 
-    Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね");
+    Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね", {
+        sound: {
+            kind: 'expedition-start'
+        }
+    });
 }
 
 MissionAction.prototype.forResult = function(params){

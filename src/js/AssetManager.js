@@ -36,13 +36,19 @@ var kanColleWidget = kanColleWidget || {};
      * @return {String} icon URL or cat.
      */
     AssetManager.prototype.getNotificationIconUrl = function(kind) {
-        var key = 'notification-img-file';
+        var forDefault = 'notification-img-file';
+        var forKinds   = 'notification-img-';
         
         if(this.notificationKinds.indexOf(kind) >= 0) {
-            key += '-' + kind;
+            forKinds += kind + '-file';
         }
 
-        var iconUrl = this.config.get(key);
+        var iconUrl = this.config.get(forKinds);
+        
+        if(!iconUrl) {
+            iconUrl = this.config.get(forDefault);
+        }
+        
         if(!iconUrl) {
             iconUrl = this.chrome.extension.getURL(this.constants.notification.img);
         }
@@ -58,15 +64,18 @@ var kanColleWidget = kanColleWidget || {};
      */
     AssetManager.prototype.getNotificationSoundUrl = function(kind) {
         var forDefault = 'notification-sound-file';
-        var forKinds   = forDefault;
+        var forKinds   = 'notification-sound';
 
         if(this.notificationKinds.indexOf(kind) >= 0) {
-            forKinds += '-' + kind;
+            forKinds += '-' + kind + '-file';
         }
         
-        var soundUrlForDefault = this.config.get(forDefault);
-        var soundUrlForKinds   = this.config.get(forKinds);
+        var soundUrl = this.config.get(forKinds);
+
+        if(!soundUrl) {
+            soundUrl = this.config.get(forDefault);
+        }
         
-        return soundUrlForKinds || soundUrlForDefault;
+        return soundUrl;
     };
 })();
