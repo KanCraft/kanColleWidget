@@ -61,7 +61,7 @@ NyukyoAction.prototype.forStartCompleted = function(){
 
         Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー', {
             sound: {
-                kind: 'docking-start'
+                kind: 'nyukyo-start'
             }
         });
     };
