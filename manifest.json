@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.3.0.1",
+    "version": "0.3.0.2",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -19,6 +19,8 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
+            "src/js/AssetManager.js",
+            "src/js/Notifier.js",
             "src/js/Util.js",
             "src/js/Constants.js",
             "src/js/definitions/models/MyStorage.js",
@@ -66,6 +68,8 @@
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [
+                "src/js/AssetManager.js",
+                "src/js/Notifier.js",
                 "src/js/jquery.min.js",
                 "src/js/Util.js",
                 "src/js/Constants.js",

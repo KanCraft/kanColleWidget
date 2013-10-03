@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td id="version">0.3.0.1</td>
+                    <td id="version">0.3.0.2</td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
@@ -151,9 +151,32 @@
                 <tr>
                     <td>通知時に音声を再生</td>
                     <td>
-                        <input type="submit" id="notification-test" value="テスト"/><span id="notification-sound-file-already-set"></span>
-                        <hr>
+
+                        <hr/>
+                        <span>デフォルト：<span id="notification-sound-file-already-set"></span><input type="submit" id="notification-test" value="テスト"/></span><br/>
                         <input id="notification-sound-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <button id="open-notification-sound-extend">もっと細かく設定したいのです！</button>
+                        <hr/>
+                        <div id="notification-sound-extend" style="display:none;">
+                            <span>遠征出発：<span id="notification-sound-expedition-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="expedition-start" value="テスト"/></span><br/>
+                            <input id="notification-sound-expedition-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                            <span>遠征帰投：<span id="notification-sound-expedition-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="expedition-finish" value="テスト"/></span><br/>
+                            <input id="notification-sound-expedition-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                            <span>入渠開始：<span id="notification-sound-docking-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="docking-start" value="テスト"/></span><br/>
+                            <input id="notification-sound-docking-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                            <span>入渠終了：<span id="notification-sound-docking-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="docking-finish" value="テスト"/></span><br/>
+                            <input id="notification-sound-docking-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                            <span>建造開始：<span id="notification-sound-construction-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="construction-start" value="テスト"/></span><br/>
+                            <input id="notification-sound-construction-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                            <span>建造終了：<span id="notification-sound-construction-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="construction-finish" value="テスト"/></span><br/>
+                            <input id="notification-sound-construction-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                            <hr/>
+                        </div>
                         <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
                         <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
                     </td>
@@ -228,6 +251,9 @@
         </table>
         <h4><span id="close-config" class="clickable">[とじる]</span></h4>
     </div>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/AssetManager.js"></script>
+    <script type="text/javascript" src="../js/Notifier.js"></script>
     <script type="text/javascript" src="../js/Constants.js"></script>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
     <script type="text/javascript" src="../js/definitions/models/FileSystem.js"></script>
