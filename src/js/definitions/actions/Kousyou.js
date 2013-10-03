@@ -66,7 +66,11 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
 
         if(!Config.get('notification-on-reminder-set')) return;
 
-        Util.presentation(res.result + 'で建造完了通知を登録しときました');
+        Util.presentation(res.result + 'で建造完了通知を登録しときました', {
+            sound: {
+                kind: 'construction-start'
+            }
+        });
     };
 
     setTimeout(function(){
@@ -81,3 +85,14 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         });
     }, 400); //単に描画時間を待つ
 }
+
+
+
+
+
+
+
+
+
+
+
