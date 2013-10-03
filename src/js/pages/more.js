@@ -136,4 +136,8 @@ $(function() {
         $('#notification-sound-extend').slideDown();
         $(this).css('display', 'none');
     });
+    $('#close-notification-sound-extend').click(function() {
+        $('#notification-sound-extend').slideUp();
+        $('#open-notification-sound-extend').css('display','');
+    });
 });
