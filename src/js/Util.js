@@ -506,8 +506,8 @@ var Util = Util || {};
     Util.timeStr2finishEpochMsec = function(str) {
         var match = str.match(/([0-9]{2}):([0-9]{2}):([0-9]{2})/);
         if(!match || match.length < 4) { return null; }
-        var diffMinute = (match[1] | 0) * 60 + (match[2] | 0) + 2/*なんか微妙な誤差*/;
-        var diffMsec = diffMinute * 60 * 1000;
+        var diffMinute = (match[1] | 0) * 60 + (match[2] | 0);
+        var diffMsec = diffMinute * 60 * 1000 + (match[3] | 0) * 1000;
         var finishTime = new Date((new Date()).getTime() + diffMsec);
         return finishTime.getTime();
     };
