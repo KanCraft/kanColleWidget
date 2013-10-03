@@ -49,7 +49,7 @@ var kanColleWidget = kanColleWidget || {};
             return;
         }
 
-        // 通知の種類 'docking' or 'expedition' or 'construction' or undefined
+        // 通知の種類 'nyukyo' or 'mission' or 'createship' or undefined
         var kind = options.sound && options.sound.kind;
 
         var icon  = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
