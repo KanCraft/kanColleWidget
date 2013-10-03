@@ -1,5 +1,5 @@
 /* jshint browser:true, indent: 4 */
-/* global chrome, Constants, Tracking, Config, webkitNotifications, MyStorage, CanvasTool */
+/* global kanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
 /**
  * dependency: MyStorage
  */
@@ -37,12 +37,12 @@ var Util = Util || {};
             return;
         }, function() {
             var pos = Tracking.get('widget').position;
-            var options = 'width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}'
-                    .replace('{w}', width + '')
-                    .replace('{h}', (width * Constants.widget.aspect) + '')
-                    .replace('{l}', pos.left + '')
-                    .replace('{t}', pos.top + '');
-            var kanColleUrl = 'https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
+            var options = 'width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}';
+            options = options.replace('{w}', width + '')
+                             .replace('{h}', (width * Constants.widget.aspect) + '')
+                             .replace('{l}', pos.left + '')
+                             .replace('{t}', pos.top + '');
+            var kanColleUrl = 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             window.open(kanColleUrl, '_blank', options);
             callback();
         });
@@ -51,53 +51,13 @@ var Util = Util || {};
     /**
      * public notificationを作ってイベントバインドしたうえでshowする
      * ここに来るときは既にnotificationすべきかどうかの判定が済んでいるものとする
-     * @return void
      */
     Util.presentation = function(text, opt) {
-        // check options
-        if(typeof(opt)          !== 'object')   { opt = {}; }
-        if(typeof(opt.callback) !== 'function') { opt.callback = function(){/* do nothing */}; }
-        if(typeof(opt.sound)    !== 'boolean')  { opt.sound = true; }
-
-        // Chrome のバージョン的に 通知できない場合
-        if(Util.system.getChromeVersion() < 28) {
-            alert(text);
-            opt.callback();
-            return;
+        if(Util.notifier == null) {
+            var assetManager = new kanColleWidget.AssetManager(chrome, Config, Constants);
+            Util.notifier    = new kanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
         }
-
-        var default_url = chrome.extension.getURL('/') + Constants.notification.img;
-        var iconUrl = Config.get('notification-img-file') || default_url;
-        if(opt && opt.iconUrl) { iconUrl = opt.iconUrl; }
-        var title = Constants.notification.title;
-        var notificationParams = {
-            type    : 'basic',
-            title   : title,
-            message : text,
-            iconUrl : iconUrl
-        };
-        // 指定があれば音声を再生
-        var url = Config.get('notification-sound-file');
-        if(url && opt.sound){
-            var audio = new Audio(url);
-            if(Config.get('notification-sound-volume')){
-                audio.volume = Config.get('notification-sound-volume') / 100;
-            }
-            audio.play();
-        }
-
-        if(Config.get('notification-stay-visible')) {
-            var notification = webkitNotifications.createNotification(iconUrl, title, text);
-            if(!Config.get('launch-on-click-notification')) { notification.show(); return; }
-            notification.addEventListener('click', function() {
-                Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
-            });
-            notification.show();
-        } else {
-            chrome.notifications.create(String((new Date()).getTime()), notificationParams, function(){ opt.callback(); });
-        }
-
-        opt.callback();
+        Util.notifier.giveNotice(text, opt);
     };
 
     /**
@@ -232,10 +192,10 @@ var Util = Util || {};
         });
     };
 
-    Util.openCapturedPage = function(window_id, doneCallback) {
+    Util.openCapturedPage = function(windowId, doneCallback) {
         if(doneCallback == null) { doneCallback = function(){/* do nothing */}; }
 
-        chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataUrl) {
+        chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataUrl) {
             if(Config.get('capture-destination-size') === true){
                 dataUrl = Util.resizeImage(dataUrl);
             }
@@ -283,10 +243,10 @@ var Util = Util || {};
      * 入渠、建造の残り時間をキャプチャしてトリミングしてOCRサーバに送る。
      * 返ってきたOCR結果は callback に渡す
      */
-    Util.extractFinishTimeFromCapture = function(window_id, purpose, dockId, callback){
+    Util.extractFinishTimeFromCapture = function(windowId, purpose, dockId, callback){
         if(callback == null) { callback = function(){/* do nothing */}; }
 
-        chrome.tabs.captureVisibleTab(window_id, {'format':'png'}, function(dataURI){
+        chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataURI){
 
             // トリミングする
             var trimmedURI = Util.trimCapture(dataURI, purpose, dockId);
@@ -401,7 +361,7 @@ var Util = Util || {};
                 if(data.hasOwnProperty(name)) {
                     var value = data[name];
                     var param = encodeURIComponent( name ).replace( /%20/g, '+' )
-                            + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
+                              + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
                     params.push( param );
                 }
             }
@@ -453,18 +413,18 @@ var Util = Util || {};
 
     Util.getNearestDailyAchievementResetTime = function(){
         var now = new Date();
-        var diff_hours = (now.getHours() + 19) % 24;
-        var _1hour_msec = 1*60*60*1000;
-        var last_5am = new Date(now - diff_hours * _1hour_msec);
-        return (new Date(1900 + last_5am.getYear(), last_5am.getMonth(), last_5am.getDate(), 5, 0)).getTime();
+        var diffHours = (now.getHours() + 19) % 24;
+        var _1hourMsec = 1*60*60*1000;
+        var last5am = new Date(now - diffHours * _1hourMsec);
+        return (new Date(1900 + last5am.getYear(), last5am.getMonth(), last5am.getDate(), 5, 0)).getTime();
     };
 
     Util.getNearestWeeklyAchievementResetTime = function(){
         var now = new Date();
-        var diff_days = (now.getDay() + 6) % 7;
-        var _1day_msec = 1*24*60*60*1000;
-        var last_monday = new Date(now - diff_days * _1day_msec);
-        return (new Date(1900 + last_monday.getYear(), last_monday.getMonth(), last_monday.getDate(), 5, 0)).getTime();
+        var diffDays = (now.getDay() + 6) % 7;
+        var _1dayMsec = 1*24*60*60*1000;
+        var lastMonday = new Date(now - diffDays * _1dayMsec);
+        return (new Date(1900 + lastMonday.getYear(), lastMonday.getMonth(), lastMonday.getDate(), 5, 0)).getTime();
     };
 
     Util.dict2hashString = function(dict){
