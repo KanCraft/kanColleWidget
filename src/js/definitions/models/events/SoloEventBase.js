@@ -21,5 +21,9 @@ function SoloEventBase(){}
 
     if(!Config.get('notification-on-reminder-finish')) return;
 
-    Util.presentation(this.prefix + this.primaryId + this.suffix);
+    Util.presentation(this.prefix + this.primaryId + this.suffix, {
+        sound: {
+            kind: this.kind
+        }
+    });
 }

@@ -15,7 +15,10 @@
         if(!Config.get('notification-on-reminder-set')) return window.close();
 
         Util.presentation('入渠修復作業完了通知を登録しときました',{
-            callback : function(){ setTimeout(window.close, 200); }
+            callback : function(){ setTimeout(window.close, 200); },
+            sound: {
+                kind: 'nyukyo-start'
+            }
         });
     });
 })();

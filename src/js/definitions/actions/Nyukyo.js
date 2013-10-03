@@ -59,7 +59,11 @@ NyukyoAction.prototype.forStartCompleted = function(){
 
         if(!Config.get('notification-on-reminder-set')) return;
 
-        Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー');
+        Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー', {
+            sound: {
+                kind: 'nyukyo-start'
+            }
+        });
     };
 
     setTimeout(function(){

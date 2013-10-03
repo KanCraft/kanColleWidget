@@ -19,14 +19,17 @@ function affectConfigInView(){
         }
 
         var input = document.getElementById(key);
-        if(key.match(/^notification.*file$/)) input = document.getElementById(key + '-already-set');
+        if(key.match(/^notification.*file$/)) {
+            input = document.getElementById(key + '-already-set');
+        }
 
         if(input == null) continue;
         if(typeof config[key] == 'boolean'){
             input.checked = config[key];
         }
         if(typeof config[key] == 'string'){
-            if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
+            //if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
+            if(typeof input.value == 'undefined') input.innerHTML = '設定済み';
             //else input.value = config[key];
         }
     }
@@ -41,29 +44,30 @@ function bindCloseAction(){
 function bindConfigChangedAction(){
     var inputs = document.getElementsByTagName('input');
     for(var i= 0,len=inputs.length;i<len;i++){
-    	switch(inputs[i].type){
-    	case 'checkbox':
+    	  switch(inputs[i].type){
+    	  case 'checkbox':
             inputs[i].addEventListener('change',function(){
                 Config.set(this.id, this.checked);
             });
-    		break;
+    		    break;
         case 'radio':
             inputs[i].addEventListener('change',function(){
                 Config.set(this.name, parseInt(this.value));
             });
             break;
-    	case 'text':
+    	  case 'text':
             inputs[i].addEventListener('keydown',function(){
                 Config.set(this.id, this.value);
             });
             break;
-    	case 'submit':
-            inputs[i].addEventListener('click',function(){
-                    testNotificationSound();
+    	  case 'submit':
+            inputs[i].addEventListener('click', function() {
+                var kind = $(this).attr('data-kind');
+                testNotificationSound(kind);
             });
             break;
-    	case 'file':
-        	inputs[i].addEventListener('change',function(){
+    	  case 'file':
+        	  inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
                 var purpose = this.id;
                 Fs.update(purpose, this.files[0], this.accept, function(res){
@@ -72,29 +76,35 @@ function bindConfigChangedAction(){
                         validationMessage(res.message + '、デフォルトに戻しました', purpose + '-validation');
                     }else if(res.status == 1){
                         Config.set(res.purpose, res.entry.toURL());
+                        Config.set(res.purpose + '-force', true);
                         validationMessage( res.origin.name + 'に設定しました', purpose + '-validation');
                     }
                     affectConfigInView();
                 });
-        	});
-        	break;
-    	case 'range':
-        	inputs[i].addEventListener('change',function(){
+        	  });
+        	  break;
+    	  case 'range':
+        	  inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
                 target.innerText = this.value;
                 Config.set(this.id, this.value);
-        	});
-    		break;
-    	default:
-    		break;
-    	}
+        	  });
+    		    break;
+    	  default:
+    		    break;
+    	  }
     }
 }
 
-/* private void */function testNotificationSound(){
+/* private void */function testNotificationSound(kind) {
     var d = new Date();
     var text = "通知テスト\n" + d.toLocaleDateString() + " " + d.toLocaleTimeString();
-    Util.presentation(text);
+    Util.presentation(text, {
+        sound: {
+            kind  : kind,
+            force : true
+        }
+    });
 }
 
 /* private void */function commitImgUrlToConfig(img_url){
@@ -120,3 +130,14 @@ function bindConfigChangedAction(){
 /* string */function hideFileRootFromPath(path){
     return path.replace(/^filesystem:chrome-extension:\/\/[a-zA-Z]*\/persistent\//, '');
 }
+
+$(function() {
+    $('#open-notification-sound-extend').click(function() {
+        $('#notification-sound-extend').slideDown();
+        $(this).css('display', 'none');
+    });
+    $('#close-notification-sound-extend').click(function() {
+        $('#notification-sound-extend').slideUp();
+        $('#open-notification-sound-extend').css('display','');
+    });
+});
