@@ -58,3 +58,8 @@ hr {
 s {
     font-weight: normal;
 }
+
+#open-notification-sound-extend, #close-notification-sound-extend {
+    color : #0FABB1;
+    cursor: pointer;
+}
