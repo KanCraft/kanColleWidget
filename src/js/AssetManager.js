@@ -20,19 +20,19 @@ var kanColleWidget = kanColleWidget || {};
 
         // 通知の種類
         this.notificationKinds = [
-            'docking-start',      // 入渠した
-            'docking-finish',     // 修理オワタ
-            'expedition-start',   // 遠征行った
-            'expedition-finish',  // 戻ってきたぞ
-            'construction-start', // 建造開始
-            'construction-finish' // ﾅｶﾁｬﾝﾀﾞﾖｰ
+            'nyukyo-start',      // 入渠した
+            'nyukyo-finish',     // 修理オワタ
+            'mission-start',     // 遠征行った
+            'mission-finish',    // 戻ってきたぞ
+            'createship-start',  // 建造開始
+            'createship-finish'  // ﾅｶﾁｬﾝﾀﾞﾖｰ
         ];
     };
 
     /**
      * 通知に使用するアイコンのURLを取得する
      * 特に設定していない場合は、猫を返す
-     * @param kind {String} 種類: 'docking' or 'expedition' or 'construction' or undefined
+     * @param kind {String} 種類: 'nyukyo' or 'mission' or 'createship' or undefined
      * @return {String} icon URL or cat.
      */
     AssetManager.prototype.getNotificationIconUrl = function(kind) {
@@ -59,7 +59,7 @@ var kanColleWidget = kanColleWidget || {};
     /**
      * 通知に使用するサウンドのURLを取得する
      * 遠征/入渠/建造は設定してあればそれを使用、なければデフォルトを使用する
-     * @param kind {String} 種類: 'docking' or 'expedition' or 'construction' or undefined
+     * @param kind {String} 種類: 'nyukyo' or 'mission' or 'createship' or undefined
      * @return {String} audio URL or cat.
      */
     AssetManager.prototype.getNotificationSoundUrl = function(kind) {

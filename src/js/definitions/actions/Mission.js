@@ -22,7 +22,7 @@ MissionAction.prototype.forStart = function(params){
 
     Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね", {
         sound: {
-            kind: 'expedition-start'
+            kind: 'mission-start'
         }
     });
 }
