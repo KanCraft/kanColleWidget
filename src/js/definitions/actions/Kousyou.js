@@ -85,14 +85,3 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         });
     }, 400); //単に描画時間を待つ
 }
-
-
-
-
-
-
-
-
-
-
-
