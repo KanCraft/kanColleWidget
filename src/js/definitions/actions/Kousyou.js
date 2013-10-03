@@ -68,7 +68,7 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
 
         Util.presentation(res.result + 'で建造完了通知を登録しときました', {
             sound: {
-                kind: 'construction-start'
+                kind: 'createship-start'
             }
         });
     };
