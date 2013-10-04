@@ -26,6 +26,7 @@
             "src/js/definitions/process/DetectTime.js",
             "src/js/definitions/models/server/ServerBase.js",
             "src/js/definitions/models/server/LogServer.js",
+            "src/js/definitions/models/server/OcrServer.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
             "src/js/definitions/models/events/SoloEventBase.js",
