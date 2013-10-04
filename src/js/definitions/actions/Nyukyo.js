@@ -68,12 +68,8 @@ NyukyoAction.prototype.forStartCompleted = function(){
 
     setTimeout(function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            Util.extractFinishTimeFromCapture(
-                widgetWindow.id,
-                'nyukyo',
-                Stash.params.api_ndock_id[0],
-                callback
-            );
+            var proc = new Process.DetectTime(chrome, Constants);
+            proc.forNyukyo(widgetWindow.id, Stash.params.api_ndock_id[0], callback);
         });
     },400); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ
 }
