@@ -85,7 +85,7 @@ $(function() {
     var count = 0;
     return function() {
       // Flash の embed 要素あるかな？
-      var $externalswf = $('#externalswf');
+      var $externalswf = $('#externalswf') || $('#maintenanceswf');
       if($externalswf.length === 0) {
         // ないやん。1秒後にまた試すわ
         count = count + 1;
