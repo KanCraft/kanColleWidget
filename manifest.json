@@ -23,6 +23,7 @@
             "src/js/Notifier.js",
             "src/js/Util.js",
             "src/js/Constants.js",
+            "src/js/definitions/process/DetectTime.js",
             "src/js/definitions/models/server/ServerBase.js",
             "src/js/definitions/models/server/LogServer.js",
             "src/js/definitions/models/MyStorage.js",

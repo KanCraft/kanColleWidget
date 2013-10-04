@@ -75,13 +75,8 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
 
     setTimeout(function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            //chrome.runtime.sendMessage(message);
-            Util.extractFinishTimeFromCapture(
-                widgetWindow.id,
-                'createship',
-                Stash.params.api_kdock_id[0],
-                callback
-            );
+            var proc = new Process.DetectTime(chrome, Constants);
+            proc.forCreateship(widgetWindow.id, Stash.params.api_kdock_id[0], callback);
         });
     }, 400); //単に描画時間を待つ
 }
