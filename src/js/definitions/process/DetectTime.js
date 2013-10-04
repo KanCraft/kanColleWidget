@@ -67,7 +67,7 @@ var Process = Process || {};
             }
 
             // OCRサーバへ送る
-            Util.sendServer(trimmedURI, function(res){
+            kanColleWidget.Ocr.send(trimmedURI, function(res){
                 res.result = self._assure(res.result);
                 res.dataURI = dataURI;
                 callback(res);

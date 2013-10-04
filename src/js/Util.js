@@ -257,52 +257,6 @@ var Util = Util || {};
         });
     };
 
-    Util.sendServer = function(binaryString, callback){
-
-        var encodeHTMLForm = function(data){
-            var params = [];
-            for(var name in data){
-                if(data.hasOwnProperty(name)) {
-                    var value = data[name];
-                    var param = encodeURIComponent( name ).replace( /%20/g, '+' )
-                              + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
-                    params.push( param );
-                }
-            }
-            return params.join( '&' );
-        };
-
-        var server = {};
-        var upload = Constants.ocr.upload;
-        var selectURL = function(){
-            var servers = Constants.ocr.servers;
-            var _i = Math.floor(Math.random() * servers.length);
-            server = servers[_i];
-            return upload.protocol + server.name + server.port + upload.path;
-        };
-
-        var xhr = new XMLHttpRequest();
-        xhr.open(upload.method , selectURL());
-
-        var data = encodeHTMLForm({ imgBin : binaryString });
-
-        xhr.addEventListener('load', function() {
-            if(xhr.status !== 200) {
-                alert('server : ' + server.name + '\n' +
-                      'status : ' + xhr.status + '\n' +
-                      'text : ' + xhr.statusText + ',サーバエラーっぽい');
-                return;
-            }
-
-            var response = JSON.parse(xhr.response);
-            response.status = xhr.status;
-            callback(response);
-            return;
-        });
-
-        xhr.send(data);
-    };
-
     Util.getFormattedDateString = function(format){
         if(typeof format === 'undefined') { format = null; }
         var d = new Date();
