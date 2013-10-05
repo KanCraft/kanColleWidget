@@ -8,12 +8,12 @@ var kanColleWidget = kanColleWidget || {};
 
     /**
      * 通知周りの制御をする
-     * @param win          {Object} ブラウザのウィンドウオブジェクト
-     * @param assetManager {Object} src/js/assetmanager.js
-     * @param config       {Object} src/js/definitions/models/MyStorage.js
-     * @param constants    {Object} src/js/Constants.js
-     * @param tracking     {Object} src/js/definitions/models/MyStorage.js
-     * @param util         {Object} src/js/Util.js
+     * @param {Object} win          ブラウザのウィンドウオブジェクト
+     * @param {Object} assetManager src/js/assetmanager.js
+     * @param {Object} config       src/js/definitions/models/MyStorage.js
+     * @param {Object} constants    src/js/Constants.js
+     * @param {Object} tracking     src/js/definitions/models/MyStorage.js
+     * @param {Object} util         src/js/Util.js
      */
     var Notifier = kanColleWidget.Notifier = function(window,
                                                       assetManager,
@@ -35,8 +35,8 @@ var kanColleWidget = kanColleWidget || {};
      * notificationを作ってイベントバインドしたうえでshowする
      * ここに来るときは既にnotificationすべきかどうかの判定が済んでいるものとする
      * Chromeのバージョンが古い場合は alert で代用する
-     * @param message {String} Message
-     * @param options {Object}
+     * @param {String} message Message
+     * @param {Object} options
      */
     Notifier.prototype.giveNotice = function(message, options) {
         options = options || {};
@@ -82,13 +82,13 @@ var kanColleWidget = kanColleWidget || {};
 
     /**
      * 音声の再生。一度再生したものはキャッシュする
-     * @param kind {String}
-     * @param force {Boolean} true で強制リロード
+     * @param {String}  kind
+     * @param {Boolean} force true で強制リロード
      */
     Notifier.prototype.playSound = function(kind, force) {
         kind = kind || 'default';
         var audio = force ? null : this.sounds[kind];
-        
+
         if(audio == null) {
             var soundUrl = this.assetManager.getNotificationSoundUrl(kind);
             if(soundUrl == null) {
