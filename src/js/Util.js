@@ -1,4 +1,4 @@
-/* jshint browser:true, indent: 4 */
+/* jshint browser:true */
 /* global kanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
 /**
  * dependency: MyStorage
@@ -218,54 +218,7 @@ var Util = Util || {};
                 a.click();
             }
 
-            /* >>>>>>>>>>> 座標決定検証用ブロック >>>>>>>>>>>> */
-            if(localStorage.isDebug){
-                var callback = function(res) {
-                    console.log(res.result +'\t'+ Util.assureTimeString(res.result));
-                };
-                for(var i =1; i<5; i+=1){
-                    win.document.body.appendChild(document.createElement('br'));
-                    var trimmedURI = Util.trimCapture(dataUrl, 'nyukyo', i);
-                    var trimmedImg = new Image();
-                    trimmedImg.src = trimmedURI;
-                    Util.sendServer(trimmedURI, callback);
-                    win.document.body.appendChild(trimmedImg);
-                }
-            }
-            /* <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
-
             doneCallback(dataUrl);
-        });
-    };
-
-    /**
-     * public
-     * 入渠、建造の残り時間をキャプチャしてトリミングしてOCRサーバに送る。
-     * 返ってきたOCR結果は callback に渡す
-     */
-    Util.extractFinishTimeFromCapture = function(windowId, purpose, dockId, callback){
-        if(callback == null) { callback = function(){/* do nothing */}; }
-
-        chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataURI){
-
-            // トリミングする
-            var trimmedURI = Util.trimCapture(dataURI, purpose, dockId);
-
-            // デバッグモードならトリミング後の画像を出す
-            if(localStorage.isDebug === true){
-                var trimmedImg = new Image();
-                trimmedImg.src = trimmedURI;
-                var win = window.open();
-                win.document.title = new Date().toLocaleDateString();
-                win.document.body.appendChild(trimmedImg);
-            }
-
-            // OCRサーバへ送る
-            Util.sendServer(trimmedURI, function(res){
-                res.result = Util.assureTimeString(res.result);
-                res.dataURI = dataURI;
-                callback(res);
-            });
         });
     };
 
@@ -302,112 +255,6 @@ var Util = Util || {};
         Util.ifThereIsAlreadyKCWidgetWindow(function(w){
             Util.openCapturedPage(w.id);
         });
-    };
-
-    Util.trimCapture = function(dataUrl, purpose, dockId) {
-
-        var img = new Image();
-        img.src = dataUrl;
-
-        var params = Util.defineTrimmingCoordsAndSize(img, purpose, dockId);
-
-        var canvas = document.createElement('canvas');
-        canvas.id = 'canvas';
-        canvas.width = params.size.width;
-        canvas.height = params.size.height;
-        var ctx = canvas.getContext('2d');
-
-        ctx.drawImage(
-            img,
-            params.coords.left,
-            params.coords.top,
-            params.size.width,
-            params.size.height,
-            0, // offset left in destination Image
-            0, // offset top in destination Image
-            canvas.width,
-            canvas.height
-        );
-
-        // トリミングした画像を PNG32 から PNG24 に変換する
-        var png24 = new CanvasTool.PngEncoder(canvas, {
-            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
-        }).convert();
-
-        return 'data:image/png;base64,' + btoa(png24);
-    };
-
-    Util.defineTrimmingCoordsAndSize = function(wholeImage, purpose, dockId){
-        var map = Constants.trimmingParamsMapping;
-        var arrayIndex = +dockId - 1;
-        var screen = {width:wholeImage.width, height:wholeImage.height};
-        var aspect = 0.6;
-        var blank = {top:0, left:0, height:0, width:0};
-        if (screen.height / screen.width < aspect) {
-            blank.width = screen.width - (screen.height / aspect);
-            blank.left = blank.width / 2;
-        } else {
-            blank.height = screen.height - (screen.width * aspect);
-            blank.top = blank.height / 2;
-        }
-        var content = {width:(screen.width - blank.width), height:(screen.height - blank.height)};
-        var res = {
-            size : {
-                width  : map[purpose].size.width  * content.width,
-                height : map[purpose].size.height * content.width
-            },
-            coords : {
-                left : map[purpose].coords[arrayIndex].left * content.width + blank.left,
-                top  : map[purpose].coords[arrayIndex].top  * content.width + blank.top
-            }
-        };
-        return res;
-    };
-
-    Util.sendServer = function(binaryString, callback){
-
-        var encodeHTMLForm = function(data){
-            var params = [];
-            for(var name in data){
-                if(data.hasOwnProperty(name)) {
-                    var value = data[name];
-                    var param = encodeURIComponent( name ).replace( /%20/g, '+' )
-                              + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
-                    params.push( param );
-                }
-            }
-            return params.join( '&' );
-        };
-
-        var server = {};
-        var upload = Constants.ocr.upload;
-        var selectURL = function(){
-            var servers = Constants.ocr.servers;
-            var _i = Math.floor(Math.random() * servers.length);
-            server = servers[_i];
-            return upload.protocol + server.name + server.port + upload.path;
-        };
-
-        var xhr = new XMLHttpRequest();
-        xhr.open(upload.method , selectURL());
-
-        var data = encodeHTMLForm({ imgBin : binaryString });
-
-        xhr.addEventListener('load', function() {
-            if(xhr.status !== 200) {
-                alert('server : ' + server.name + '\n' +
-                      'status : ' + xhr.status + '\n' +
-                      'text : ' + xhr.statusText + ',サーバエラーっぽい');
-                return;
-            }
-
-            var response = JSON.parse(xhr.response);
-            response.status = xhr.status;
-            callback(response);
-            return;
-        });
-
-        xhr.send(data);
     };
 
     Util.getFormattedDateString = function(format){
@@ -498,20 +345,6 @@ var Util = Util || {};
         return params.sort(function(f, l) {
             return (f.rawtime > l.rawtime);
         });
-    };
-
-    Util.assureTimeString = function(str) {
-        if(typeof(str) !== 'string') { str = ''; }
-
-        var map = Constants.assuranceStringMap;
-        for(var vagueString in map){
-            if(map.hasOwnProperty(vagueString)) {
-                var regex = new RegExp(vagueString, 'g');
-                str = str.replace(regex, map[vagueString]);
-            }
-        }
-        if(str === '00200200') { str = '00:00:00'; }
-        return str;
     };
 
     Util.timeStr2finishEpochMsec = function(str) {

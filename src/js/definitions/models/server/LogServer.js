@@ -15,7 +15,7 @@ Log.prototype = new ServerBase(Constants);
  * @param callback
  */
 Log.prototype.send = function(data, callback){
-    this.url = this.baseurl + '/test/upload';
+    this.url = this.baseurl + '/ocr/upload';
     this._post(data, callback);
 };
 

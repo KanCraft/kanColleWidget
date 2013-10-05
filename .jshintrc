@@ -1,0 +1,22 @@
+{
+  "bitwise"   : false, // `&` や `|` のビット演算を許可しない
+  "camelcase" : true,  // 変数名はキャメルケース以外を許可しない
+  "curly"     : true,  // if 文などで {} なしを許可しない
+  "eqeqeq"    : true,  // == や != を許可しない
+  "eqnull"    : true,  //  == や != は null との比較時のみ許可する
+  "forin"     : true,  // for in 文で `hasOwnProperty` 確認を必須にする
+  "immed"     : true,  // 括弧で囲まれていない関数の即時実行を禁止する
+  "indent"    : 4,     // インデント幅を指定する
+  "latedef"   : true,  // 変数を定義する前に使用することを禁止する
+  "laxbreak"  : true,  // 安全でない可能性がある改行に警告を出さない
+  "newcap"    : true,  // コンストラクタ関数の1文字目を大文字にしなければならない
+  "noarg"     : true,  // `arguments.caller` と `arguments.callee` の使用を禁止する
+  "noempty"   : true,  // 空ブロックを許可しない
+  "plusplus"  : true,  // `++` と `--` 演算子の使用を禁止する
+  "quotmark"  : true,  // 文字列でのシングルクォートとダブルクォートを統一させる
+  "regexp"    : true,  // 正規表現で安全でない `.` の使用を禁止する
+  "strict"    : true,  // 'use strict' の使用を強制する
+  "trailing"  : true,  // 行末の空白を禁止する
+  "undef"     : true,  // 宣言されていない変数の使用を禁止する
+  "unused"    : true   // 宣言のみで使われていない変数に警告を出す
+}
