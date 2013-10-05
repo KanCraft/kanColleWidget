@@ -35,7 +35,12 @@ ServerBase.prototype._post = function(dict, callback){
         return callback(response);
     });
 
-    xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+    // TODO : Flaskサーバはx-www-form-urlencodeをdecodeする必要がある
+    // TODO : とりあえず今はこちらからencodeせずに送る
+    // FIXME: うんこーど
+    if (this.url.match('log-kcwidget')) {
+        xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+    }
     xhr.send(this.dict2ParamStr(dict));
 };
 
