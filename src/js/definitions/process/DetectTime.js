@@ -162,14 +162,25 @@ var Process = Process || {};
                                                            dockId){
         var map = this.constants.trimmingParamsMapping;
         var arrayIndex = +dockId - 1;
+        var screen = {width:wholeImage.width, height:wholeImage.height};
+        var aspect = 0.6;
+        var blank = {top:0, left:0, height:0, width:0};
+        if (screen.height / screen.width < aspect) {
+            blank.width = screen.width - (screen.height / aspect);
+            blank.left = blank.width / 2;
+        } else {
+            blank.height = screen.height - (screen.width * aspect);
+            blank.top = blank.height / 2;
+        }
+        var content = {width:(screen.width - blank.width), height:(screen.height - blank.height)};
         var res = {
             size : {
-                width  : map[purpose].size.width  * wholeImage.width,
-                height : map[purpose].size.height * wholeImage.width
+                width  : map[purpose].size.width  * content.width,
+                height : map[purpose].size.height * content.width
             },
             coords : {
-                left : map[purpose].coords[arrayIndex].left * wholeImage.width,
-                top  : map[purpose].coords[arrayIndex].top  * wholeImage.width
+                left : map[purpose].coords[arrayIndex].left * content.width + blank.left,
+                top  : map[purpose].coords[arrayIndex].top  * content.width + blank.top
             }
         };
         return res;
