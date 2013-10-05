@@ -48,18 +48,18 @@ NyukyoAction.prototype.forStartCompleted = function(){
             Stash.loadingWindow.close();
         },600);
 
-        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
-        console.log(res);
-        if(!finishTimeMsec){
+        if(!res.result){
             if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
             return Util.enterTimeManually(Stash.params,'src/html/set_nyukyo.html');
         }
+
+        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);
         var nyukyos = new Nyukyos();
         nyukyos.add(Stash.params.api_ndock_id[0], finishTimeMsec);
 
         if(!Config.get('notification-on-reminder-set')) return;
 
-        Util.presentation(res.result + 'で入渠修復完了通知を登録しときましたー', {
+        Util.presentation(res.assuredText + 'で入渠修復完了通知を登録しときましたー', {
             sound: {
                 kind: 'nyukyo-start'
             }
@@ -68,12 +68,8 @@ NyukyoAction.prototype.forStartCompleted = function(){
 
     setTimeout(function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            Util.extractFinishTimeFromCapture(
-                widgetWindow.id,
-                'nyukyo',
-                Stash.params.api_ndock_id[0],
-                callback
-            );
+            var proc = new Process.DetectTime(chrome, Constants, Config);
+            proc.forNyukyo(widgetWindow.id, Stash.params.api_ndock_id[0], callback);
         });
     },400); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ
 }
