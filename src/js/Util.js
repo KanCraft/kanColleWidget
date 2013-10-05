@@ -1,4 +1,4 @@
-/* jshint browser:true, indent: 4 */
+/* jshint browser:true */
 /* global kanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
 /**
  * dependency: MyStorage

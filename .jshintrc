@@ -1,0 +1,22 @@
+{
+  "bitwise"   : false,
+  "camelcase" : true,
+  "curly"     : true,
+  "eqeqeq"    : true,
+  "eqnull"    : true,
+  "forin"     : true,
+  "immed"     : true, // test
+  "indent"    : 4,
+  "latedef"   : true,
+  "laxbreak"  : true,
+  "newcap"    : true,
+  "noarg"     : true,
+  "noempty"   : true,
+  "plusplus"  : true,
+  "quotmark"  : true,
+  "regexp"    : true,
+  "strict"    : true,
+  "trailing"  : false,
+  "undef"     : true,
+  "unused"    : true
+}
