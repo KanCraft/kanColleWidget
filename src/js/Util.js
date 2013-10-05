@@ -361,6 +361,7 @@ var Util = Util || {};
                 top  : map[purpose].coords[arrayIndex].top  * content.width + blank.top
             }
         };
+        return res;
     };
 
     Util.sendServer = function(binaryString, callback){
