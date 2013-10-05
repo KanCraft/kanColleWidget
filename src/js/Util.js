@@ -340,6 +340,7 @@ var Util = Util || {};
     Util.defineTrimmingCoordsAndSize = function(wholeImage, purpose, dockId){
         var map = Constants.trimmingParamsMapping;
         var arrayIndex = +dockId - 1;
+        var verticalBlankHeight = (wholeImage.height - (wholeImage.width * 0.6)) / 2;
         var res = {
             size : {
                 width  : map[purpose].size.width  * wholeImage.width,
@@ -347,7 +348,7 @@ var Util = Util || {};
             },
             coords : {
                 left : map[purpose].coords[arrayIndex].left * wholeImage.width,
-                top  : map[purpose].coords[arrayIndex].top  * wholeImage.width
+                top  : map[purpose].coords[arrayIndex].top  * wholeImage.width + verticalBlankHeight
             }
         };
         return res;
