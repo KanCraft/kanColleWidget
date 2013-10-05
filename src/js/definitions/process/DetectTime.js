@@ -10,9 +10,11 @@ var Process = Process || {};
      * @constructor
      */
     var DetectTime = Process.DetectTime = function(chrome,
-                                                   constants) {
+                                                   constants,
+                                                   config) {
         this.chrome    = chrome;
         this.constants = constants;
+        this.config    = config;
     };
 
     /**
@@ -58,7 +60,7 @@ var Process = Process || {};
             var trimmedURI = self._trim(dataURI, purpose, dockId);
 
             // デバッグモードならトリミング後の画像を出す
-            if(localStorage.isDebug === true){
+            if(localStorage.isDebug == 'true'){
                 var trimmedImg = new Image();
                 trimmedImg.src = trimmedURI;
                 var win = window.open();
@@ -68,8 +70,18 @@ var Process = Process || {};
 
             // OCRサーバへ送る
             kanColleWidget.Ocr.send(trimmedURI, function(res){
-                res.result = self._assure(res.result);
-                res.dataURI = dataURI;
+                res.imgURI      = trimmedURI;
+                res.createdTime = Date.now();
+                res.userAgent   = navigator.userAgent;
+                res.rawText     = res.result;
+                res.assuredText = self._assure(res.result);
+                res.result      = self._isSucceeded(res.assuredText);
+
+                // Logサーバへ送る
+                if(!res.result && this.config.get('allow-ocr-result-log')) {
+                    kanColleWidget.Log.send(res, function(){/* */});
+                }
+
                 callback(res);
             });
         });
@@ -161,5 +173,11 @@ var Process = Process || {};
             }
         };
         return res;
+    };
+
+    DetectTime.prototype._isSucceeded = function(resultString) {
+        var match = resultString.match(/([0-9]{2}):([0-9]{2}):([0-9]{2})/);
+        if(!match || match.length < 4) { return false; }
+        return true;
     };
 })();

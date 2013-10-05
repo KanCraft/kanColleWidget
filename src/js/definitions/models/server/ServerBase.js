@@ -41,7 +41,6 @@ ServerBase.prototype._post = function(dict, callback){
     if (this.url.match('log-kcwidget')) {
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
     }
-    console.log(this.dict2ParamStr(dict));
     xhr.send(this.dict2ParamStr(dict));
 };
 
