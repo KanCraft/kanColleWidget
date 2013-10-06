@@ -78,7 +78,7 @@ var Process = Process || {};
                 res.result      = self._isSucceeded(res.assuredText);
 
                 // Logサーバへ送る
-                if(!res.result && this.config.get('allow-ocr-result-log')) {
+                if(!res.result && self.config.get('allow-ocr-result-log')) {
                     kanColleWidget.Log.send(res, function(){/* */});
                 }
 
