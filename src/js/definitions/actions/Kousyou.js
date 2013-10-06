@@ -55,18 +55,18 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
             Stash.loadingWindow.close();
         },600);
 
-        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.result);
-        console.log(res);
-        if(!finishTimeMsec){
+        if(!res.result){
             if(!window.confirm("建造終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
             return Util.enterTimeManually(Stash.params,'src/html/set_createship.html');
         }
+
+        var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);
         var createships = new Createships();
         createships.add(Stash.params.api_kdock_id[0], finishTimeMsec);
 
         if(!Config.get('notification-on-reminder-set')) return;
 
-        Util.presentation(res.result + 'で建造完了通知を登録しときました', {
+        Util.presentation(res.assuredText + 'で建造完了通知を登録しときました', {
             sound: {
                 kind: 'createship-start'
             }
@@ -75,13 +75,8 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
 
     setTimeout(function(){
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            //chrome.runtime.sendMessage(message);
-            Util.extractFinishTimeFromCapture(
-                widgetWindow.id,
-                'createship',
-                Stash.params.api_kdock_id[0],
-                callback
-            );
+            var proc = new Process.DetectTime(chrome, Constants, Config);
+            proc.forCreateship(widgetWindow.id, Stash.params.api_kdock_id[0], callback);
         });
     }, 400); //単に描画時間を待つ
 }
