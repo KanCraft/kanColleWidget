@@ -5,7 +5,7 @@
  * @constructor
  */
 function Ocr(){
-    this.baseurl = 'http://ocr-kcwidget.oti10.com:5000';
+    this.baseurl = 'http://ocr-kcwidget.oti10.com';
 };
 Ocr.prototype = new ServerBase(Constants);
 
