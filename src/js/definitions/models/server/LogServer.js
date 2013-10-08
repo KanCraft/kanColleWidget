@@ -5,7 +5,7 @@
  * @constructor
  */
 function Log(){
-    this.baseurl = 'http://log-kcwidget.oti10.com:7777';
+    this.baseurl = 'http://log-kcwidget.oti10.com';
 };
 Log.prototype = new ServerBase(Constants);
 
