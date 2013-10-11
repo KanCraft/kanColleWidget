@@ -269,22 +269,6 @@ var Util = Util || {};
         return s;
     };
 
-    Util.getNearestDailyAchievementResetTime = function(){
-        var now = new Date();
-        var diffHours = (now.getHours() + 19) % 24;
-        var _1hourMsec = 1*60*60*1000;
-        var last5am = new Date(now - diffHours * _1hourMsec);
-        return (new Date(1900 + last5am.getYear(), last5am.getMonth(), last5am.getDate(), 5, 0)).getTime();
-    };
-
-    Util.getNearestWeeklyAchievementResetTime = function(){
-        var now = new Date();
-        var diffDays = (now.getDay() + 6) % 7;
-        var _1dayMsec = 1*24*60*60*1000;
-        var lastMonday = new Date(now - diffDays * _1dayMsec);
-        return (new Date(1900 + lastMonday.getYear(), lastMonday.getMonth(), lastMonday.getDate(), 5, 0)).getTime();
-    };
-
     Util.dict2hashString = function(dict){
         var arr = [];
         for(var i in dict) {
