@@ -2,6 +2,7 @@
     affectConfigInView();
     bindCloseAction();
     bindConfigChangedAction();
+    bindResetButtons();
 })();
 
 function affectConfigInView(){
@@ -28,9 +29,7 @@ function affectConfigInView(){
             input.checked = config[key];
         }
         if(typeof config[key] == 'string'){
-            //if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
-            if(typeof input.value == 'undefined') input.innerHTML = '設定済み';
-            //else input.value = config[key];
+            if(config[key]) input.innerHTML = '設定済み';
         }
     }
     if(config['notification-img-file']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-file']);
@@ -96,6 +95,17 @@ function bindConfigChangedAction(){
     }
 }
 
+function bindResetButtons(){
+    $('.reset').each(function(index){
+        $(this).on('click',function(e){
+            var target = $(this).attr('target');
+            Config.set(target, '');
+            $('span#'+target+'-already-set').html('');
+            $('#'+target+'-validation').html('デフォルトに戻しました');
+        });
+    });
+}
+
 /* private void */function testNotificationSound(kind) {
     var d = new Date();
     var text = "通知テスト\n" + d.toLocaleDateString() + " " + d.toLocaleTimeString();
@@ -125,7 +135,8 @@ function bindConfigChangedAction(){
 /* void */function validationMessage(text, id, opt){
     if(typeof text == 'undefined') text = '';
     if(typeof   id == 'undefined') id = 'notification-img-file-validation';
-    document.getElementById(id).innerHTML = text;
+    var mess = document.getElementById(id);
+    if(mess) mess.innerHTML = text;
 }
 /* string */function hideFileRootFromPath(path){
     return path.replace(/^filesystem:chrome-extension:\/\/[a-zA-Z]*\/persistent\//, '');

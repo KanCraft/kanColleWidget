@@ -53,6 +53,15 @@ span.validation-message {
 
 hr {
     margin: 0 auto;
+    clear: both;
+}
+.reset {
+    float: right;
+}
+.reset>img {
+    width : 10px;
+    cursor : pointer;
+    opacity: 0.6;
 }
 
 s {
