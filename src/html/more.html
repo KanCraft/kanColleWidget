@@ -152,8 +152,9 @@
                 <tr>
                     <td>通知時に音声を再生</td>
                     <td>
+                        <div class="reset" target="notification-sound-file"><img src="../img/remove.png"></div>
                         <span>デフォルト：<span id="notification-sound-file-already-set"></span><input type="submit" id="notification-test" value="テスト"/></span><br/>
-                        <input id="notification-sound-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <input id="notification-sound-file" target="notification-sound-file" type="file" accept="audio/*"/><br/>
 
                         <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
                     </td>
@@ -163,21 +164,27 @@
                     <td>
                         <a id="open-notification-sound-extend">開く</a>
                         <div id="notification-sound-extend" style="display:none;">
+                            <div class="reset" target="notification-sound-mission-start-file"><img src="../img/remove.png"></div>
                             <span>遠征出発：<span id="notification-sound-mission-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-start" value="テスト"/></span><br/>
                             <input id="notification-sound-mission-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
+                            <div class="reset" target="notification-sound-mission-finish-file"><img src="../img/remove.png"></div>
                             <span>遠征帰投：<span id="notification-sound-mission-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-finish" value="テスト"/></span><br/>
                             <input id="notification-sound-mission-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
+                            <div class="reset" target="notification-sound-nyukyo-start-file"><img src="../img/remove.png"></div>
                             <span>入渠開始：<span id="notification-sound-nyukyo-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-start" value="テスト"/></span><br/>
                             <input id="notification-sound-nyukyo-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
+                            <div class="reset" target="notification-sound-nyukyo-finish-file"><img src="../img/remove.png"></div>
                             <span>入渠終了：<span id="notification-sound-nyukyo-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-finish" value="テスト"/></span><br/>
                             <input id="notification-sound-nyukyo-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
+                            <div class="reset" target="notification-sound-createship-start-file"><img src="../img/remove.png"></div>
                             <span>建造開始：<span id="notification-sound-createship-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-start" value="テスト"/></span><br/>
                             <input id="notification-sound-createship-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
+                            <div class="reset" target="notification-sound-createship-finish-file"><img src="../img/remove.png"></div>
                             <span>建造終了：<span id="notification-sound-createship-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-finish" value="テスト"/></span><br/>
                             <input id="notification-sound-createship-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
                             <hr/>
