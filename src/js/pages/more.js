@@ -28,9 +28,7 @@ function affectConfigInView(){
             input.checked = config[key];
         }
         if(typeof config[key] == 'string'){
-            //if(typeof input.value == 'undefined') input.innerHTML = hideFileRootFromPath(config[key]);
-            if(typeof input.value == 'undefined') input.innerHTML = '設定済み';
-            //else input.value = config[key];
+            if(config[key]) input.innerHTML = '設定済み';
         }
     }
     if(config['notification-img-file']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-file']);
