@@ -121,11 +121,11 @@ var Constants = {/** constantアクセサ的なアレ **/
                 },
                 {// kdock_id == 3
                     left : (0.492),
-                    top : (0.419)
+                    top : (0.421)
                 },
                 {// kdock_id == 4
                     left : (0.492),
-                    top : (0.516)
+                    top : (0.520)
                 }
             ]
         },
@@ -231,6 +231,7 @@ var Constants = {/** constantアクセサ的なアレ **/
             path    : '/upload',
             method  : 'POST'
         },
+        delay : 900, //mili sec
         loader : {
             images : {
                 normal : [

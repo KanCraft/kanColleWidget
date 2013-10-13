@@ -78,5 +78,5 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
             var proc = new Process.DetectTime(chrome, Constants, Config);
             proc.forCreateship(widgetWindow.id, Stash.params.api_kdock_id[0], callback);
         });
-    }, 400); //単に描画時間を待つ
+    }, Constants.ocr.delay); //単に描画時間を待つ
 }
