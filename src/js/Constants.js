@@ -220,7 +220,7 @@ var Constants = {/** constantアクセサ的なアレ **/
 
     ocr : {
         failureCause : "\n（画面が小さい・解像度が低いなどの環境で失敗しやすいです）",
-        delay : 900, //mili sec
+        delay : 850, //mili sec
         loader : {
             images : {
                 normal : [
