@@ -107,7 +107,7 @@ var Constants = {/** constantアクセサ的なアレ **/
     trimmingParamsMapping : {
         'createship' : {
             size : {
-                width  : (1/8),
+                width  : (10/83),
                 height : (1/32)
             },
             coords : [
@@ -199,6 +199,7 @@ var Constants = {/** constantアクセサ的なアレ **/
         'R'      : '8',
         'B'      : '8',
         'q'      : '9',
+        'n'      : '0',
         'o'      : '0',
         'O'      : '0',
         'D'      : '0',
