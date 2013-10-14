@@ -81,3 +81,20 @@ ul {
 #time-left {
     margin-top: 0.6em;
 }
+#edit-timer {
+    margin: 0;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-right: 5px;
+    opacity: 0.2;
+}
+#edit-timer:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+#validation-message {
+  font-size: x-small;
+  color: red;
+}

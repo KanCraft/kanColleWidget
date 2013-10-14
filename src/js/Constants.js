@@ -107,7 +107,7 @@ var Constants = {/** constantアクセサ的なアレ **/
     trimmingParamsMapping : {
         'createship' : {
             size : {
-                width  : (1/8),
+                width  : (10/83),
                 height : (1/32)
             },
             coords : [
@@ -121,11 +121,11 @@ var Constants = {/** constantアクセサ的なアレ **/
                 },
                 {// kdock_id == 3
                     left : (0.492),
-                    top : (0.419)
+                    top : (0.421)
                 },
                 {// kdock_id == 4
                     left : (0.492),
-                    top : (0.516)
+                    top : (0.520)
                 }
             ]
         },
@@ -170,12 +170,20 @@ var Constants = {/** constantアクセサ的なアレ **/
         '0\\-1'  : '04',
         // Doublet pattern
         '\\(l'   : '0',
-        '\\(\\|' : '0',
         '\\(1'   : '0',
-        'l\\)'   : '0',
+        '\\(\\]' : '0',
+        '\\(\\|' : '0',
         '\\(\\)' : '0',
-        '0\\]'   : '03',
+        '\\[l'   : '0',
+        '\\[1'   : '0',
+        '\\[\\]' : '0',
+        '\\[\\|' : '0',
+        '\\[\\)' : '0',
+        'l\\)'   : '0',
+        '1\\)'   : '0',
         '\\|\\)' : '0',
+        '\\(\\x' : '6',
+        '0\\]'   : '03',
         '\\(H'   : '04',
         '-\\|'   : '4',
         '7\\.'   : '2',
@@ -191,8 +199,10 @@ var Constants = {/** constantアクセサ的なアレ **/
         'R'      : '8',
         'B'      : '8',
         'q'      : '9',
+        'n'      : '0',
         'o'      : '0',
         'O'      : '0',
+        'D'      : '0',
         'U'      : '0',
         'I'      : '1',
         'i'      : '1',
@@ -209,18 +219,8 @@ var Constants = {/** constantアクセサ的なアレ **/
     },
 
     ocr : {
-        servers : [
-            {
-                name : 'ocr-kcwidget.oti10.com',
-                port : ':5000'
-            }
-        ],
         failureCause : "\n（画面が小さい・解像度が低いなどの環境で失敗しやすいです）",
-        upload : {
-            protocol: 'http://',
-            path    : '/upload',
-            method  : 'POST'
-        },
+        delay : 850, //mili sec
         loader : {
             images : {
                 normal : [

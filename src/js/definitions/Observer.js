@@ -33,6 +33,10 @@ Observer.prototype.checkAll = function(){
         }
         else if(result.nearestEnd.getEndTime() < this.NearestEndEvent.getEndTime()){
             this.NearestEndEvent = result.nearestEnd;
+        }
+        else if(result.nearestEnd.primaryId == this.NearestEndEvent.primaryId){
+            // 事後編集されたっぽい
+            this.NearestEndEvent = result.nearestEnd;
         }else{
             // do nothing
         }
