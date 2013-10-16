@@ -1,74 +1,46 @@
-![猫](src/img/icon.png)
-# 仕事中に艦これをするためにウィジェット化するChrome拡張
-仕事用のブラウザウィンドウでやるより後ろめたさが軽減するというアレ
+# 艦これウィジェット
+艦これウィジェットは推奨環境であるChromeを艦これに最適化させるChrome拡張です
 
-# 注意
-ポイント決済はふつうにブラウザからやってね
+# 使い方
+インストールはこちらから。で、準備完了
 
-# つかいかた
-- 適当な場所にKanColleWidgetをcloneします
-- `sh cli/build` します（というのはこれです-> https://github.com/otiai10/kanColleWidget#for-develop ）
-- Chromeのツール→拡張機能→パッケージ化されていない拡張機能を読み込む から/release/kanColleWidgetディレクトリを選択します
-- ブラウザ右上に追加されたアイコンをクリックします
+[Chrome ウェブストア - 艦これウィジェット](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol)
 
-# 背景
-- MacのFluidってアプリ使えばいいんだろうけど使いこなせないのでてへ
+# 機能
+- 機能概要
+    - 艦これだけの別窓を開いてくれます
+    - 遠征・入渠・建造のタイマーを自動で設定してくれます
+    - 通知します
+    - その他艦娘ぺろぺろ
 
-# 予定
-- 遠征終わった通知とか欲しいよ！
+参考資料 [加賀さんと僕〜艦これウィジェットの紹介と説明〜](http://www.slideshare.net/otiai10/ss-26631311)
 
-# for develop
-### debug
-in browser console, set `localStorage.isDebug`
+# よくある質問
 
-```javascript
-localStorage.isDebug = true;
-```
+- 専ブラなんすか？
+    - 専ブラではありません！Chrome(推奨環境)です！
+- 規約違反なんすか？
+    - Chromeなので、`（8）不正な方法（特殊なプログラムを介しての）でのアクセスを試みる行為`には該当しないと考えております
+- チートできないんすか？
+    - チート要素は一切実装しておりません。ｻーｾﾝ
+- その他頂いている機能改善やバグ報告など
+    - [issues/question/open](https://github.com/otiai10/kanColleWidget/issues?labels=question&page=1&state=open) 
 
-### build
-do `sh cli/build`
-and read package `release/kanColleWidget` on Chrome
+# お問い合わせ/機能要望/バグ報告
+- Twitterから
+    - [twitter.com/otiai10](https://twitter.com/otiai10)
+- GitHubから
+    - [github.com/otiai10/kanColleWidget/issues/new](https://github.com/otiai10/kanColleWidget/issues/new) 
 
-### if you can
-```
-npm install -g testem
-```
-and just run
-```
-testem
-```
-Something will happen.
+# 実装
+- 以下の3点に最大限配慮して実装しています
+    - 艦これの規約に違反しないこと
+    - 艦これサーバに負荷をかけないこと
+    - 艦これの面白さを損なわないこと
 
-Please see
-- https://github.com/airportyh/testem
-- http://pivotal.github.io/jasmine/
+参考資料 [加賀さんと僕（実装編）〜艦これウィジェットの課題と実装〜](http://www.slideshare.net/otiai10/ss-26908975)
 
+# 開発
 
-# Release Note
-- 2013/09/10 v0.2.7.1
-    - ちょっとした機能(時計モード)の追加
-- 2013/09/09 v0.2.7
-    - スクリーンショットとれます
-    - 通知音声設定を追加
-    - その他バグ修正
-- 2013/09/07 v0.2.6
-    - 入渠修復完了通知! (半自動)
-    - 建造完了通知! (半自動)
-    - 通知アイコン変更設定を追加
-    - 「提督 仕事しろ」変更設定を追加
-- 2013/09/04 v0.2.5
-    - 通知をクリックしたら前面に
-    - 既にある場合LAUNCHしたら前面に
-    - 残り時間をバッジにする設定の追加
-    - 補給回数など任務に関係ある回数を記録
-    - その他バグ修正
-- 2013/08/31 v0.2.4
-    - Windowsの絶妙なスキマを殲滅
-    - payment系API叩こうとしたらalert
-    - ウィジェットタイトルを設定
-- 2013/08/28 v0.2.3
-    - 遠征完了通知の実装
-- 2013/08/27 v0.1.1
-    - 表示の修正
-- 2013/08/24 v0.1.0
-    - 公開
+以下のレポジトリでOSS開発をしております。ForkするなりPRするなりご自由にどうぞ！
+https://github.com/otiai10/kanColleWidget
