@@ -1,0 +1,12 @@
+html,body {
+    background-color: #f3f3f3;
+    text-shadow: 0 1px 0 #fcfcfc;
+}
+h1 {
+    /* border-bottom: thin solid #999; */
+}
+#twitter-stream {
+    clear: both;
+    float: right;
+    width:400px;
+}
