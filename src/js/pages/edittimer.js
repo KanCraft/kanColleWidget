@@ -81,6 +81,9 @@ function updateTimer() {
 }
 
 function generateNewTimestamp(timestr, finishts){
+    if (! finishts) {
+        finishts = Date.now();
+    }
     var finishDate = new Date(finishts);
     var hour = timestr.split(':')[0];
     var minute = timestr.split(':')[1];
