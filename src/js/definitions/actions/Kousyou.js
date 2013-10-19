@@ -67,6 +67,7 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         if(!Config.get('notification-on-reminder-set')) return;
 
         Util.presentation(res.assuredText + 'で建造完了通知を登録しときました', {
+            startOrFinish: 'start',
             sound: {
                 kind: 'createship-start'
             }

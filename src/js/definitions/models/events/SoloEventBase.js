@@ -24,6 +24,7 @@ function SoloEventBase(){}
     if(!Config.get('notification-on-reminder-finish')) return;
 
     Util.presentation(this.prefix + this.primaryId + this.suffix, {
+        startOrFinish: 'finish',
         sound: {
             kind: this.kind
         }

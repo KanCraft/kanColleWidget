@@ -4,9 +4,9 @@ $(function(){
     bindConfigChangedAction();
     bindResetButtons();
 
-    var key = "notification-offset-millisec";
-    $("#" + key).val(parseInt(Config.get(key)));
-    $("#" + key).on('change',function(){
+    var key = 'notification-offset-millisec';
+    $('#' + key).val(parseInt(Config.get(key), 10));
+    $('#' + key).on('change',function(){
         Config.set(key, $(this).val());
     });
 });
@@ -14,8 +14,7 @@ $(function(){
 function affectConfigInView(){
     var config = Config.getJSON();
     for(var key in config){
-
-        if(typeof config[key] == 'number'){
+        if(typeof config[key] === 'number'){
             var inputs = document.getElementsByClassName(key);
             for(var i= 0,len=inputs.length;i<len;i++){
                 if(inputs[i].value == config[key]){
@@ -30,17 +29,23 @@ function affectConfigInView(){
             input = document.getElementById(key + '-already-set');
         }
 
-        if(input == null) continue;
-        if(typeof config[key] == 'boolean'){
+        if(input == null) { continue; }
+        if(typeof config[key] === 'boolean'){
             input.checked = config[key];
-        }
-        if(typeof config[key] == 'string'){
+        } else if(typeof config[key] === 'string') {
+            if(key.match('notification-stay-visible')) { continue; }
             if(key.match('offset-millisec')) { continue; }
-            if(config[key]) input.innerHTML = '設定済み';
+            if(config[key]) { input.innerHTML = '設定済み'; }
         }
     }
     if(config['notification-img-file']) displayImgSrc(document.getElementById('notification-img'), config['notification-img-file']);
     if(config['popup-bg-img-file']) displayImgSrc(document.getElementById('popup-bg-img'), config['popup-bg-img-file']);
+
+    $('select').each(function() {
+        var sel = $(this);
+        var val = Config.get(sel.attr('id'));
+        sel.val(val);
+    });
 }
 function bindCloseAction(){
     document.getElementById('close-config').addEventListener('click', function(){
@@ -100,6 +105,13 @@ function bindConfigChangedAction(){
     		    break;
     	  }
     }
+
+    // select要素に対してのバインド
+    $('select').each(function(select) {
+        $(this).change(function() {
+            Config.set(this.id, this.value);
+        });
+    });
 }
 
 function bindResetButtons(){

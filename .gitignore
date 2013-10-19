@@ -3,4 +3,8 @@ kanColleWidget.iml
 release/*
 .DS_Store
 !*.gitkeep
+.projectile
 TAGS
+GPATH
+GRTAGS
+GTAGS
