@@ -44,12 +44,7 @@ function affectConfigInView(){
     $('select').each(function() {
         var sel = $(this);
         var val = Config.get(sel.attr('id'));
-        sel.children().each(function() {
-            var opt = $(this);
-            if(opt.val() === val) {
-                opt.attr('selected', '');
-            }
-        });
+        sel.val(val);
     });
 }
 function bindCloseAction(){
