@@ -1,9 +1,15 @@
-(function(){
+$(function(){
     affectConfigInView();
     bindCloseAction();
     bindConfigChangedAction();
     bindResetButtons();
-})();
+
+    var key = "notification-offset-millisec";
+    $("#" + key).val(parseInt(Config.get(key)));
+    $("#" + key).on('change',function(){
+        Config.set(key, $(this).val());
+    });
+});
 
 function affectConfigInView(){
     var config = Config.getJSON();
@@ -29,6 +35,7 @@ function affectConfigInView(){
             input.checked = config[key];
         }
         if(typeof config[key] == 'string'){
+            if(key.match('offset-millisec')) { continue; }
             if(config[key]) input.innerHTML = '設定済み';
         }
     }
