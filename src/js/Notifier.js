@@ -66,9 +66,13 @@ var kanColleWidget = kanColleWidget || {};
 
         // 居座る判定
         (function(self) {
-            var startOrFinish = options.startOrFinish;
             var key = 'notification-stay-visible';
-            if(startOrFinish) { key += '-' + startOrFinish; }
+
+            var startOrFinish = options.startOrFinish;
+            if(startOrFinish === 'start' || startOrFinish === 'finish') {
+                key += '-' + startOrFinish;
+            }
+
             var isStay = self.config.get(key);
 
             // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
