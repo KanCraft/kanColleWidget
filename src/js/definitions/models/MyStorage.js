@@ -32,6 +32,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         //'enable-notification'              : false, // Obsolete!!
         'notification-on-reminder-set'       : true,
         'notification-on-reminder-finish'    : true,
+        'notification-offset-millisec'       : 60*1000,//デフォルトでは1分前
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
         'launch-on-click-notification'       : false,
