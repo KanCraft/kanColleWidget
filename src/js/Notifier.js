@@ -72,7 +72,7 @@ var kanColleWidget = kanColleWidget || {};
             var isStay = self.config.get(key);
 
             // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
-            if(isStay === false) {
+            if(isStay === false || isStay == null) {
                 self.window.setTimeout(function() {
                     notification.cancel();
                 }, 5000);
