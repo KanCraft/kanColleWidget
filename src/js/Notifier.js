@@ -69,7 +69,7 @@ var kanColleWidget = kanColleWidget || {};
             var startOrFinish = options.startOrFinish;
             var isStay = self.config.get('notification-stay-visible');
 
-            if(typeof isStay === 'boolean') {
+            if(typeof isStay !== 'string') {
                 isStay = isStay ? 'start-finish' : '';
                 self.config.set('notification-stay-visible', isStay);
             }
