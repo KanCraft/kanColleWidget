@@ -69,6 +69,11 @@ var kanColleWidget = kanColleWidget || {};
             var startOrFinish = options.startOrFinish;
             var isStay = self.config.get('notification-stay-visible');
 
+            if(typeof isStay === 'boolean') {
+                isStay = isStay ? 'start-finish' : '';
+                self.config.set('notification-stay-visible', isStay);
+            }
+
             // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
             if(isStay == null || isStay.indexOf(startOrFinish) === -1) {
                 self.window.setTimeout(function() {
