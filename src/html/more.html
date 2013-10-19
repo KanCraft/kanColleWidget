@@ -22,7 +22,21 @@
                 </tr>
                 <tr>
                     <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
-                    <td><input id="badge-left-time" type="checkbox"></td>
+                    <td>
+                        <input id="badge-left-time" type="checkbox">
+                        <span class="xsmall">残り時間を表示しない場合は、終了件数が表示されます</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>数分前通知する</td>
+                    <td>
+                        <select id="notification-offset-millisec" name="notification-offset-millisec">
+                            <option value="0">時間ちょうど</option>
+                            <option value="60000">一分前</option>
+                            <option value="120000">二分前</option>
+                            <option value="180000">三分前</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>

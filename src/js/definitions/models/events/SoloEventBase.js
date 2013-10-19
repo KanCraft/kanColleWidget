@@ -6,7 +6,9 @@ function SoloEventBase(){}
     // migration : mission.finish (date object -> epoch msec)
     if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
 
-    var finish = this.finish - Constants.time.notifyOffset;
+    var notifyOffset = Config.get('notification-offset-millisec');
+
+    var finish = this.finish - notifyOffset;
 
     return (finish < now);
 }
