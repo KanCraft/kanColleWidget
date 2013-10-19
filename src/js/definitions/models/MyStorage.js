@@ -18,28 +18,30 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
 
     /* private */storage : new MyStorage(),
     /* private */initial : {
-        'badge-left-time'        : false,
-        'record-achievements'    : false,
-        //'enable-manual-reminder' : false, //Obsolete!!
-        'enable-dynamic-reminder': false,
-        'popup-select-title'     : '',
-        'notification-img-file'  : '',
-        'notification-sound-file': '',
-        'notification-sound-volume' : '100',
-        'notification-mission-end-suffix': '',
-        'notification-nyukyo-end-suffix': '',
-        'notification-createship-end-suffix': '',
-        //'enable-notification'    : false, // Obsolete!!
-        'notification-on-reminder-set'    : true,
-        'notification-on-reminder-finish' : true,
-        'enable-screen-shot'     : false,
-        'capture-destination-size' : true, // とりあえず今はbool
-        'launch-on-click-notification' : false,
-        'show-clockmode-button'  : false,
-        'download-on-screenshot' : false,
-        'notification-stay-visible' : false,
-        'dynamic-reminder-type' : 0,
-        'allow-ocr-result-log' : false
+        'badge-left-time'                    : false,
+        'record-achievements'                : false,
+        //'enable-manual-reminder'           : false, //Obsolete!!
+        'enable-dynamic-reminder'            : false,
+        'popup-select-title'                 : '',
+        'notification-img-file'              : '',
+        'notification-sound-file'            : '',
+        'notification-sound-volume'          : '100',
+        'notification-mission-end-suffix'    : '',
+        'notification-nyukyo-end-suffix'     : '',
+        'notification-createship-end-suffix' : '',
+        //'enable-notification'              : false, // Obsolete!!
+        'notification-on-reminder-set'       : true,
+        'notification-on-reminder-finish'    : true,
+        'enable-screen-shot'                 : false,
+        'capture-destination-size'           : true, // とりあえず今はbool
+        'launch-on-click-notification'       : false,
+        'show-clockmode-button'              : false,
+        'download-on-screenshot'             : false,
+        'notification-stay-visible-start'    : false,
+        'notification-stay-visible-finish'   : false,
+        'notification-stay-visible'          : false,
+        'dynamic-reminder-type'              : 0,
+        'allow-ocr-result-log'               : false
     },
 
     /* public: dict */repair : function(){
