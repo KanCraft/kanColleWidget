@@ -66,17 +66,11 @@ var kanColleWidget = kanColleWidget || {};
 
         // 居座る判定
         (function(self) {
-            var key = 'notification-stay-visible';
-
             var startOrFinish = options.startOrFinish;
-            if(startOrFinish === 'start' || startOrFinish === 'finish') {
-                key += '-' + startOrFinish;
-            }
-
-            var isStay = self.config.get(key);
+            var isStay = self.config.get('notification-stay-visible');
 
             // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
-            if(isStay === false || isStay == null) {
+            if(isStay == null || isStay.indexOf(startOrFinish) === -1) {
                 self.window.setTimeout(function() {
                     notification.cancel();
                 }, 5000);

@@ -115,9 +115,12 @@
                         通知ポップアップが自動で消えずに見えるまんまにする
                     </td>
                     <td>
-                        <input id="notification-stay-visible-start" type="checkbox">登録時
-                        <input id="notification-stay-visible-finish" type="checkbox">終了時
-                        <input id="notification-stay-visible" type="checkbox">その他<br>
+                        <select id="notification-stay-visible">
+                            <option value="">無効</option>
+                            <option value="start">登録時のみ</option>
+                            <option value="finish">終了時のみ</option>
+                            <option value="start-finish">両方とも</option>
+                        </select>
                         <span class="xsmall">デフォルトで放っておくとウィンドウがエラー娘だらけになるということ</span>
                     </td>
                 </tr>

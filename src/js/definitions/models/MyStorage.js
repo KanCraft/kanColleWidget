@@ -37,9 +37,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'launch-on-click-notification'       : false,
         'show-clockmode-button'              : false,
         'download-on-screenshot'             : false,
-        'notification-stay-visible-start'    : false,
-        'notification-stay-visible-finish'   : false,
-        'notification-stay-visible'          : false,
+        'notification-stay-visible'          : '',
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false
     },
@@ -47,7 +45,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
     /* public: dict */repair : function(){
         var config = this.storage.get('config') || this.initial;
         for(var key in this.initial){
-            if(config[key] == undefined){
+            if(config[key] == null){
                 config[key] = this.initial[key];
             }
         }
