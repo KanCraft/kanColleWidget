@@ -181,7 +181,8 @@ var Util = Util || {};
                 if(windows.hasOwnProperty(i)) {
                     var w = windows[i];
                     if(!w.tabs || w.tabs.length < 1) { continue; }
-                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/) ||
+                       w.tabs[0].url.match(/^http:\/\/www.dmm.com\/.+\/app_id=854854/)) {
                         isCallback(w);
                         return;
                     }
