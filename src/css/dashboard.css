@@ -98,3 +98,9 @@ ul {
   font-size: x-small;
   color: red;
 }
+a.editor {
+  cursor: pointer;
+}
+a.editor:hover {
+  text-decoration: underline;
+}
