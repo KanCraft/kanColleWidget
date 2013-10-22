@@ -1,5 +1,5 @@
 html,body {
-  background-color: #f3f3f3;
+  /* background-color: #f3f3f3; */
   text-shadow: 0 1px 0 #fcfcfc;
   font-family: "Trebuchet MS";
 }
@@ -9,6 +9,12 @@ html {
 }
 
 body {
+
+  width: 960px;
+  margin-right: auto;
+  margin-left: auto;
+
+  background-color: #f3f3f3;
   background-image: url("../img/kagasan.png");
   background-repeat: no-repeat;
   background-position: left bottom;
@@ -46,6 +52,7 @@ p.copyright {
 div#info-band {
   /* position */
   position: absolute;
+  z-index: 1;
   right: -135px;
   top: 50px;
   /* inner text */
