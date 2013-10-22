@@ -4,6 +4,10 @@ html,body {
   font-family: "Trebuchet MS";
 }
 
+html {
+  min-width: 1060px;
+}
+
 body {
   background-image: url("../img/kagasan.png");
   background-repeat: no-repeat;
