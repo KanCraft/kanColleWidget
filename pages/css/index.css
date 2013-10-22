@@ -51,7 +51,7 @@ p.copyright {
 
 div#info-band {
   /* position */
-  position: absolute;
+  position: fixed;
   z-index: 1;
   right: -135px;
   top: 50px;
@@ -61,6 +61,7 @@ div#info-band {
   /* shadow */
   text-shadow: 0 0 0 #000;
   box-shadow: 0 2px 2px #bbb;
+  -webkit-opacity: 0.8;
   /* size */
   box-sizing: border-box;
   width: 400px;
