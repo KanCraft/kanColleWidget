@@ -38,3 +38,29 @@ p.copyright {
   float: right;
   color: #999;
 }
+
+div#info-band {
+  /* position */
+  position: absolute;
+  right: -135px;
+  top: 50px;
+  /* inner text */
+  background-color: yellow;
+  font-weight: bold;
+  /* shadow */
+  text-shadow: 0 0 0 #000;
+  box-shadow: 0 2px 2px #bbb;
+  /* size */
+  box-sizing: border-box;
+  width: 400px;
+  height: 40px;
+  /* inner position */
+  text-align: center;
+  padding: 10px;
+  /* transforming */
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+}
+div#info-band>a {
+  text-decoration: none;
+}

@@ -14,6 +14,11 @@
   -- 開発スピードが遅くてご迷惑おかけしているかとは思いますが、
   -- 那珂ちゃんのことは嫌いにならないで下さい。
 -->
+<div id="info-band">
+  <a href="https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol">
+    感謝! 2万インストール
+  </a>
+</div>
 <div id="header">
   <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja">ツイート</a>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -217,9 +222,24 @@ Chrome ウェブストア - 艦これウィジェット
     "良い作戦指揮でした。"
   ];
   var gratitude = document.getElementById("gratitude");
-  console.log(gratitude);
-  console.log(gratTexts[Math.floor(Math.random(gratTexts.length))]);
-  gratitude.innerText = gratTexts[Math.floor(Math.random()*gratTexts.length)];
+  var changeKagasanText = function(){
+    gratitude.innerText = gratTexts[Math.floor(Math.random()*gratTexts.length)];
+  }
+  var throttleScroll = function(func){
+    var lastFired = Date.now();
+    window.onscroll = function(ev){
+      if(Date.now() - lastFired < 500) return;
+      func();
+      lastFired = Date.now();
+    }
+  }
+  var onScroll = function(){
+    if (window.innerHeight < window.scrollY
+        && window.scrollY < window.innerHeight * 3) {
+      changeKagasanText();
+    }
+  }
+  throttleScroll(onScroll);
 })();
 </script>
 </html>
