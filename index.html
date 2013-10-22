@@ -196,7 +196,24 @@ Chrome ウェブストア - 艦これウィジェット
 </pre>
 <div id="footer">
     <p class="copyright">Copyright otiai10. All Right Reserved.</p>
-    <span>Thank you all, 提督!</span>
+    <span id="gratitude">Thank you all, 提督!</span>
 </div>
 </body>
+<script>
+(function(){
+  var gratTexts = [
+    "Thank you all, 提督!","Thank you all, 提督!","Thank you all, 提督!","Thank you all, 提督!",
+    "それなりに期待はしているわ。",
+    "何か相談？いいけれど",
+    "私の顔に何かついていて？",
+    "ここは譲れません",
+    "やりました",
+    "良い作戦指揮でした。"
+  ];
+  var gratitude = document.getElementById("gratitude");
+  console.log(gratitude);
+  console.log(gratTexts[Math.floor(Math.random(gratTexts.length))]);
+  gratitude.innerText = gratTexts[Math.floor(Math.random()*gratTexts.length)];
+})();
+</script>
 </html>
