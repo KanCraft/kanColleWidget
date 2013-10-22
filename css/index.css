@@ -1,12 +1,25 @@
 html,body {
-    background-color: #f3f3f3;
-    text-shadow: 0 1px 0 #fcfcfc;
+  background-color: #f3f3f3;
+  text-shadow: 0 1px 0 #fcfcfc;
+  font-family: "Trebuchet MS";
 }
 h1 {
-    /* border-bottom: thin solid #999; */
+  /* border-bottom: thin solid #999; */
 }
 #twitter-stream {
-    clear: both;
-    float: right;
-    width:400px;
+  clear: both;
+  float: right;
+  width:400px;
+}
+
+.xlarge {
+  font-size: 4em;
+}
+
+h1.xlarge>img {
+  width: 0.8em;
+}
+
+pre.inline {
+  width: 50%;
 }
