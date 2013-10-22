@@ -3,6 +3,15 @@ html,body {
   text-shadow: 0 1px 0 #fcfcfc;
   font-family: "Trebuchet MS";
 }
+
+body {
+  background-image: url("../img/kagasan.png");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-attachment: fixed;
+  background-size: 38px;
+  margin-bottom: 0;
+}
 h1 {
   /* border-bottom: thin solid #999; */
 }
@@ -22,4 +31,10 @@ h1.xlarge>img {
 
 pre.inline {
   width: 50%;
+}
+
+p.copyright {
+  text-align: right;
+  float: right;
+  color: #999;
 }
