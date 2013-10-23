@@ -39,15 +39,17 @@ function updateTimeLeft(){
     missions.map(function(m){
         var d = new Date(m.finish);
         var style = '';
+        var padding = '';//くそ
         if(m.finish == null) {
             d = dummyDate;
             style = "color:#bbb";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParams.push({
             deck_id : String(m.deck_id),
             rawtime : d,
             style   : style,
-            time    : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
+            time    : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes())) + padding
         });
     });
     renderMissions(renderParams);
@@ -58,15 +60,17 @@ function updateTimeLeft(){
     createships.map(function(c){
         var d = new Date(c.finish);
         var style = '';
+        var padding = '';//くそ
         if(c.finish == null){
             d = dummyDate;
             style = "color:#bbb";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParamsCreateships.push({
             api_kdock_id : String(c.api_kdock_id),
             rawtime      : d,
             style        : style,
-            time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
+            time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes())) + padding
         });
     });
     renderCreateships(renderParamsCreateships);
@@ -77,15 +81,17 @@ function updateTimeLeft(){
     nyukyos.map(function(n){
         var d = new Date(n.finish);
         var style = '';
+        var padding = '';//くそ
         if(n.finish == null){
             d = dummyDate;
             style = "color:#bbb";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParamsNyukyos.push({
             api_ndock_id : String(n.api_ndock_id),
             rawtime      : d,
             style        : style,
-            time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
+            time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes())) + padding
         });
     });
     renderNyukyos(renderParamsNyukyos);
@@ -98,7 +104,7 @@ function renderMissions(params){
     var ul = document.getElementById('time-list-container');
     ul.innerHTML = '';
     // Missionsだけ、第一艦隊が無いので、デザインのためにつけたしちゃう
-    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--</span> 第1艦隊</li>';
+    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--&nbsp;&nbsp;&nbsp;&nbsp;</span> 第1艦隊</li>';
     params.map(function(p){
         var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time).replace('{style}', p.style);
         ul.innerHTML += dom;
