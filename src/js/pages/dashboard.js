@@ -27,11 +27,15 @@ function applyIconImg(){
     document.getElementById('seconds-wrapper').style.backgroundImage = 'url("' + Config.get('notification-img-file') + '")';
 }
 
-var myStorage = new MyStorage();
+var dummyDate = {
+  getHours   : function() { return "--"; },
+  getMinutes : function() { return "--"; }
+};
 
 function updateTimeLeft(){
     var renderParams = [];
-    var missions = myStorage.get('missions') || [];
+    var evMissions = new Missions();
+    var missions = evMissions.getAll();
     missions.map(function(m){
         if(m.finish == null) return;
         var d = new Date(m.finish);
@@ -44,26 +48,28 @@ function updateTimeLeft(){
     renderMissions(renderParams);
 
     var renderParamsCreateships = [];
-    var createships = myStorage.get('createships') || [];
+    var evCreateshiips = new Createships();
+    var createships = evCreateshiips.getAll();
     createships.map(function(c){
-        if(c.finish == null) return;
         var d = new Date(c.finish);
+        if(c.finish == null) d = dummyDate;
         renderParamsCreateships.push({
             api_kdock_id : String(c.api_kdock_id),
-            rawtime : d,
+            rawtime      : d,
             time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
         });
     });
     renderCreateships(renderParamsCreateships);
 
     var renderParamsNyukyos = [];
-    var nyukyos = myStorage.get('nyukyos') || [];
+    var evNyukyos = new Nyukyos();
+    var nyukyos = evNyukyos.getAll();
     nyukyos.map(function(n){
-        if(n.finish == null) return;
         var d = new Date(n.finish);
+        if(n.finish == null) d = dummyDate;
         renderParamsNyukyos.push({
             api_ndock_id : String(n.api_ndock_id),
-            rawtime : d,
+            rawtime      : d,
             time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
         });
     });
