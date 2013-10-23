@@ -15,14 +15,28 @@
                 </tr>
                 <tr>
                     <td>バージョン</td>
-                    <td id="version">0.3.2.11</td>
+                    <td id="version">0.3.3.0</td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
                 </tr>
                 <tr>
                     <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
-                    <td><input id="badge-left-time" type="checkbox"></td>
+                    <td>
+                        <input id="badge-left-time" type="checkbox">
+                        <span class="xsmall">残り時間を表示しない場合は、終了件数が表示されます</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>数分前通知する</td>
+                    <td>
+                        <select id="notification-offset-millisec" name="notification-offset-millisec">
+                            <option value="0">時間ちょうど</option>
+                            <option value="60000">一分前</option>
+                            <option value="120000">二分前</option>
+                            <option value="180000">三分前</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -115,7 +129,12 @@
                         通知ポップアップが自動で消えずに見えるまんまにする
                     </td>
                     <td>
-                        <input id="notification-stay-visible" type="checkbox">
+                        <select id="notification-stay-visible">
+                            <option value="">無効</option>
+                            <option value="start">登録時のみ</option>
+                            <option value="finish">終了時のみ</option>
+                            <option value="start-finish">両方とも</option>
+                        </select>
                         <span class="xsmall">デフォルトで放っておくとウィンドウがエラー娘だらけになるということ</span>
                     </td>
                 </tr>

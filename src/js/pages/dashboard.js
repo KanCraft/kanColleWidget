@@ -84,7 +84,7 @@ function renderMissions(params){
 }
 function renderCreateships(params){
     params = Util.sortReminderParamsByEndtime(params);
-    var template = '<li id="kdock{api_kdock_id}"><span id="time-left-createships-kdock{api_kdock_id}">{time}</span> <span class="kdock-id">第{api_kdock_id}建造ドック</span></li>';
+    var template = '<li id="kdock{api_kdock_id}"><a class="editor" target="createship" key="api_kdock_id" data="{api_kdock_id}">{time} 第{api_kdock_id}建造ドック</a></li>';
     var ul = document.getElementById('time-list-container-createships');
     ul.innerHTML = '';
     params.map(function(p){
@@ -96,7 +96,7 @@ function renderCreateships(params){
 }
 function renderNyukyos(params){
     params = Util.sortReminderParamsByEndtime(params);
-    var template = '<li id="ndock{api_ndock_id}"><span id="time-left-nyukyos-ndock{api_ndock_id}">{time}</span> <span class="ndock-id">第{api_ndock_id}入渠ドック</span></li>';
+    var template = '<li id="ndock{api_ndock_id}"><a class="editor" target="nyukyo" key="api_ndock_id" data="{api_ndock_id}">{time} 第{api_ndock_id}入渠ドック</a></li>';
     var ul = document.getElementById('time-list-container-nyukyos');
     ul.innerHTML = '';
     params.map(function(p){
@@ -115,14 +115,25 @@ function _toggleArea(e, sw){
     }
 }
 
+function bindEditor() {
+    $('a.editor').on('click',function(){
+        var path = "src/html/set_" + $(this).attr("target") + ".html";
+        var params = {};
+        params[$(this).attr("key")] = $(this).attr("data");
+        Util.enterTimeManually(params,path);
+    });
+}
+
 (function(){
     updateNow();
     applyIconImg();
     updateTimeLeft();
+    bindEditor();
     var clock = setInterval(function(){
         updateNow();
     },1000);
     var updating = setInterval(function(){
         updateTimeLeft();
+        bindEditor();
     },5000);
 })();

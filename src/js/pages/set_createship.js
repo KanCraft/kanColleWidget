@@ -16,6 +16,7 @@
 
         Util.presentation('建造作業完了通知を登録しときました', {
             callback : function(){ setTimeout(window.close, 200); },
+            startOrFinish: 'start',
             sound: {
                 kind: 'createship-start'
             }

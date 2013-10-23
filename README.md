@@ -45,7 +45,7 @@
 以下のレポジトリでOSS開発をしております。ForkするなりPRするなりご自由にどうぞ！
 https://github.com/otiai10/kanColleWidget
 
-[README4DEV.md]() （建設中）
+[README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
 

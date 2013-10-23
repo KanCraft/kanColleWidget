@@ -1,4 +1,3 @@
-/* jshint indent: 4 */
 // Comment Style is JSDuck
 
 var kanColleWidget = kanColleWidget || {};
@@ -65,12 +64,23 @@ var kanColleWidget = kanColleWidget || {};
             };
         }
 
-        // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
-        if(!this.config.get('notification-stay-visible')) {
-            this.window.setTimeout(function() {
-                notification.cancel();
-            }, 5000);
-        }
+        // 居座る判定
+        (function(self) {
+            var startOrFinish = options.startOrFinish;
+            var isStay = self.config.get('notification-stay-visible');
+
+            if(typeof isStay !== 'string') {
+                isStay = isStay ? 'start-finish' : '';
+                self.config.set('notification-stay-visible', isStay);
+            }
+
+            // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
+            if(isStay == null || isStay.indexOf(startOrFinish) === -1) {
+                self.window.setTimeout(function() {
+                    notification.cancel();
+                }, 5000);
+            }
+        })(this);
 
         if(options.sound) {
             this.playSound(kind, options.sound.force);

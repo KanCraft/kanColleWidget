@@ -16,6 +16,7 @@
 
         Util.presentation('入渠修復作業完了通知を登録しときました',{
             callback : function(){ setTimeout(window.close, 200); },
+            startOrFinish: 'start',
             sound: {
                 kind: 'nyukyo-start'
             }
