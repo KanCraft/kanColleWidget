@@ -28,8 +28,8 @@ function applyIconImg(){
 }
 
 var dummyDate = {
-  getHours   : function() { return "--"; },
-  getMinutes : function() { return "--"; }
+  getHours   : function() { return '--'; },
+  getMinutes : function() { return '--'; }
 };
 
 function updateTimeLeft(){
@@ -37,11 +37,16 @@ function updateTimeLeft(){
     var evMissions = new Missions();
     var missions = evMissions.getAll();
     missions.map(function(m){
-        if(m.finish == null) return;
         var d = new Date(m.finish);
+        var style = '';
+        if(m.finish == null) {
+            d = dummyDate;
+            style = "color:#bbb";
+        }
         renderParams.push({
             deck_id : String(m.deck_id),
             rawtime : d,
+            style   : style,
             time    : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
         });
     });
@@ -52,10 +57,15 @@ function updateTimeLeft(){
     var createships = evCreateshiips.getAll();
     createships.map(function(c){
         var d = new Date(c.finish);
-        if(c.finish == null) d = dummyDate;
+        var style = '';
+        if(c.finish == null){
+            d = dummyDate;
+            style = "color:#bbb";
+        }
         renderParamsCreateships.push({
             api_kdock_id : String(c.api_kdock_id),
             rawtime      : d,
+            style        : style,
             time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
         });
     });
@@ -66,10 +76,15 @@ function updateTimeLeft(){
     var nyukyos = evNyukyos.getAll();
     nyukyos.map(function(n){
         var d = new Date(n.finish);
-        if(n.finish == null) d = dummyDate;
+        var style = '';
+        if(n.finish == null){
+            d = dummyDate;
+            style = "color:#bbb";
+        }
         renderParamsNyukyos.push({
             api_ndock_id : String(n.api_ndock_id),
             rawtime      : d,
+            style        : style,
             time         : Util.zP(2,String(d.getHours())) + '<span class="twincle sec">:</span>' + Util.zP(2,String(d.getMinutes()))
         });
     });
@@ -78,11 +93,14 @@ function updateTimeLeft(){
 
 function renderMissions(params){
     params = Util.sortReminderParamsByEndtime(params);
-    var template = '<li id="deck{deck_id}"><span id="time-left-deck2">{time}</span> <span class="deck-id">第{deck_id}艦隊</span></li>';
+    var template = '<li id="deck{deck_id}"><a class="editor" target="mission" key="deck_id" data="{deck_id}">'
+        + '<span style="{style}">{time}</span> 第{deck_id}艦隊</a></li>';
     var ul = document.getElementById('time-list-container');
     ul.innerHTML = '';
+    // Missionsだけ、第一艦隊が無いので、デザインのためにつけたしちゃう
+    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--</span> 第1艦隊</li>';
     params.map(function(p){
-        var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time);
+        var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time).replace('{style}', p.style);
         ul.innerHTML += dom;
     });
     // 表示すべき任務リストが無いなら領域から消す
@@ -90,11 +108,12 @@ function renderMissions(params){
 }
 function renderCreateships(params){
     params = Util.sortReminderParamsByEndtime(params);
-    var template = '<li id="kdock{api_kdock_id}"><a class="editor" target="createship" key="api_kdock_id" data="{api_kdock_id}">{time} 第{api_kdock_id}建造ドック</a></li>';
+    var template = '<li id="kdock{api_kdock_id}"><a class="editor" target="createship" key="api_kdock_id" data="{api_kdock_id}">'
+        + '<span style="{style}">{time}</span> 第{api_kdock_id}建造d</a></li>';
     var ul = document.getElementById('time-list-container-createships');
     ul.innerHTML = '';
     params.map(function(p){
-        var dom = template.replace(/\{api_kdock_id\}/g, p.api_kdock_id).replace('{time}', p.time);
+        var dom = template.replace(/\{api_kdock_id\}/g, p.api_kdock_id).replace('{time}', p.time).replace('{style}',p.style);
         ul.innerHTML += dom;
     });
     // 表示すべき建造リストが無いなら領域から消す
@@ -102,11 +121,12 @@ function renderCreateships(params){
 }
 function renderNyukyos(params){
     params = Util.sortReminderParamsByEndtime(params);
-    var template = '<li id="ndock{api_ndock_id}"><a class="editor" target="nyukyo" key="api_ndock_id" data="{api_ndock_id}">{time} 第{api_ndock_id}入渠ドック</a></li>';
+    var template = '<li id="ndock{api_ndock_id}"><a class="editor" target="nyukyo" key="api_ndock_id" data="{api_ndock_id}">'
+        + '<span style="{style}">{time}</span> 第{api_ndock_id}入渠d</a></li>';
     var ul = document.getElementById('time-list-container-nyukyos');
     ul.innerHTML = '';
     params.map(function(p){
-        var dom = template.replace(/\{api_ndock_id\}/g, p.api_ndock_id).replace('{time}', p.time);
+        var dom = template.replace(/\{api_ndock_id\}/g, p.api_ndock_id).replace('{time}', p.time).replace('{style}',p.style);
         ul.innerHTML += dom;
     });
     // 表示すべき建造リストが無いなら領域から消す
