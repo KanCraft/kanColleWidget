@@ -327,6 +327,17 @@ var Util = Util || {};
     };
 
     Util.sortReminderParamsByEndtime = function(params) {
+        if (! Config.get('sort-by-finishtime')) {
+            return params.sort(function(f, l) {
+                for (var k in f) {
+                    var key = '';
+                    if(k.match('_id')){
+                        key = k;
+                    }
+                }
+                return (f[key] > l[key]);
+            });
+        }
         return params.sort(function(f, l) {
             return (f.rawtime > l.rawtime);
         });

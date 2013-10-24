@@ -40,7 +40,8 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
         'dynamic-reminder-type'              : 0,
-        'allow-ocr-result-log'               : false
+        'allow-ocr-result-log'               : false,
+        'sort-by-finishtime'                 : true
     },
 
     /* public: dict */repair : function(){
