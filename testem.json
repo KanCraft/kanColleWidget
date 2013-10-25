@@ -1,11 +1,19 @@
 {
     "framework" : "jasmine",
     "src_files" : [
-        "tests/DummyChrome.js",
-        "src/**/*.js"
+        "src/js/definitions/**/*.js"
     ],
     "serve_files" : [
-        "tests/SampleSpec.js"
+        "tests/DummyChrome.js",
+        "tests/**/*.js",
+        "src/js/*.js",
+        "src/js/definitions/models/MyStorage.js",
+        "src/js/definitions/models/events/**/*.js",
+        "src/js/definitions/models/events/missions/Mission.js",
+        "src/js/definitions/models/events/missions/Missions.js",
+        "src/js/definitions/Observer.js",
+        "src/js/definitions/models/server/ServerBase.js",
+        "src/js/definitions/**/*.js"
     ],
     "launch_in_dev" : [
         "Chrome"
