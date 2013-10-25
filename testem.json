@@ -5,8 +5,9 @@
     ],
     "serve_files" : [
         "tests/DummyChrome.js",
+        "tests/fixture/*.js",
         "tests/**/*.js",
-        "src/js/*.js",
+        "src/js/Constants.js",
         "src/js/definitions/models/MyStorage.js",
         "src/js/definitions/models/events/**/*.js",
         "src/js/definitions/models/events/missions/Mission.js",
