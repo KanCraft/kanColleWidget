@@ -76,6 +76,7 @@ var Process = Process || {};
                 res.rawText     = res.result;
                 res.assuredText = self._assure(res.result);
                 res.result      = self._isSucceeded(res.assuredText);
+                res.extVer      = self.chrome.app.getDetails().version;
 
                 // Logサーバへ送る
                 console.log(res);

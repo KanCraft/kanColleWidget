@@ -33,18 +33,14 @@ EventsBase.prototype.add = function(id, finishTime){
     }
     this.set(this.storageName, events);
 }
-
-// ドックだかデッキだかで指定したイベントを取得したいの 
-EventsBase.prototype.find= function(id){
-    if(this.get(this['storageName']) == 'undefined'){
-        this.set(this['storageName'], this.initialValue);
-    }
-    var events = this.get(this.storageName) || this.initialValue;
-    for(var i = 0;i<events.length; i++){
-        if(events[i][this.primaryIdName] == id)
-            return events[i];
-    }
+/**
+ * 自分のeventsを返す
+ * @returns {*|Array}
+ */
+EventsBase.prototype.getAll = function(){
+    return this.get(this.storageName) || this.initialValue;
 }
+
 
 // プライマリーキーを受け取って、終了時間をnullにする
 EventsBase.prototype.clear = function(id){
