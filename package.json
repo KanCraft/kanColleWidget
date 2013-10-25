@@ -18,5 +18,8 @@
     "艦これウィジェット"
   ],
   "author": "otiai10",
-  "license": "BSD"
+  "license": "BSD",
+  "dependencies": {
+    "testem": "*"
+  }
 }

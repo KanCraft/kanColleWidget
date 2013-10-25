@@ -8,3 +8,5 @@ TAGS
 GPATH
 GRTAGS
 GTAGS
+node_modules/*
+!*.gitkeep
