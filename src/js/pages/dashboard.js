@@ -43,7 +43,7 @@ function updateTimeLeft(){
         if(m.finish == null) {
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;";
         }
         renderParams.push({
             deck_id : String(m.deck_id),
@@ -64,7 +64,7 @@ function updateTimeLeft(){
         if(c.finish == null){
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;";
         }
         renderParamsCreateships.push({
             api_kdock_id : String(c.api_kdock_id),
@@ -85,7 +85,7 @@ function updateTimeLeft(){
         if(n.finish == null){
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;";
         }
         renderParamsNyukyos.push({
             api_ndock_id : String(n.api_ndock_id),
@@ -104,7 +104,7 @@ function renderMissions(params){
     var ul = document.getElementById('time-list-container');
     ul.innerHTML = '';
     // Missionsだけ、第一艦隊が無いので、デザインのためにつけたしちゃう
-    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--&nbsp;&nbsp;&nbsp;&nbsp;</span> 第1艦隊</li>';
+    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--&nbsp;&nbsp;&nbsp;</span> 第1艦隊</li>';
     params.map(function(p){
         var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time).replace('{style}', p.style);
         ul.innerHTML += dom;
