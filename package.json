@@ -1,0 +1,22 @@
+{
+  "name": "kanColleWidget",
+  "version": "0.3.3",
+  "description": "艦これウィジェット",
+  "main": "src/js/background.js",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "testem"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/otiai10/kanColleWidget.git"
+  },
+  "keywords": [
+    "艦これウィジェット"
+  ],
+  "author": "otiai10",
+  "license": "BSD"
+}
