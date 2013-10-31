@@ -2,6 +2,7 @@
 =========
 
 ```sh
+npm install
 sh cli/build
 ```
 
@@ -14,5 +15,5 @@ sh cli/build
 テスト(ぜんぜん書いてない)
 =========
 ```
-testem
+npm run-script test
 ```
