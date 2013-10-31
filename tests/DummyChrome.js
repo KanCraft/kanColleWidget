@@ -43,4 +43,3 @@ var chrome = {
         /* event object */onClicked : defaultEventObject
     }
 }
-
