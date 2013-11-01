@@ -1,6 +1,13 @@
 /* jshint browser:true, jquery:true */
 /* global Util, chrome */
 
+// Flash結構いろいろあるっぽいので発見し次第追加していく
+var targetFlashes = [
+    '#externalswf',
+    '#maintenanceswf',
+    '#entranceswf'
+];
+
 $(function() {
     'use strict';
 
@@ -85,20 +92,34 @@ $(function() {
         var count = 0;
         return function() {
             // Flash の embed 要素あるかな？
-            var $embedElement = $('#externalswf') || $('#maintenanceswf');
-            if($embedElement.length === 0) {
-                // ないやん。1秒後にまた試すわ
-                count = count + 1;
-                if(count >= 10) {
-                    alert(aaString + 'エラー。一回閉じてもう一回試してみてください。');
-                    window.close();
+            var $embedElement = null;
+
+            try {
+                targetFlashes.forEach(function(elem) {
+                    $embedElement = $(elem);
+                    if($embedElement.length > 0) {
+                        // ループを止めるために例外を投げる
+                        throw true;
+                    }
+                });
+            } catch (e) {
+                if(e === true) {
+                    // 発見した
+                    setupWidget($embedElement);
                     return;
                 }
-                window.setTimeout(getFlash, 1000);
-            } else {
-                // あった
-                setupWidget($embedElement);
+                // 想定外の例外は投げ直す
+                throw e;
             }
+
+            // ないやん。1秒後にまた試すわ
+            count = count + 1;
+            if(count >= 10) {
+                alert(aaString + 'エラー。一回閉じてもう一回試してみてください。');
+                window.close();
+                return;
+            }
+            window.setTimeout(getFlash, 1000);
         };
     })();
     setTimeout(getFlash, 1000);
