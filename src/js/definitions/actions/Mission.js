@@ -12,6 +12,11 @@ function MissionAction(){/*** mission系のAPIが叩かれたときのアクシ�
 MissionAction.prototype.forStart = function(params){
     var min = Constants.time.mission[params.api_mission_id[0]];
 
+    if (typeof min == "undefined") {
+        Util.presentation("遠征ID[" + params.api_mission_id[0] + "]？知らない子ですね...");
+        return;
+    }
+
     // new format : epoch msec
     var finish = (new Date()).getTime() + (min * 60 * 1000);
 
