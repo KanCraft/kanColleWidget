@@ -9,3 +9,6 @@ QuestAction.prototype.forStart = function(params){
 QuestAction.prototype.forClear = function(params){
     this.quests.done(params['api_quest_id'][0]);
 }
+QuestAction.prototype.forStop = function(params){
+    this.quests.cancel(params['api_quest_id'][0]);
+}

@@ -81,3 +81,6 @@ Action.prototype.forQuestStart = function(params){
 Action.prototype.forQuestClear = function(params){
     this.questAction.forClear(params);
 }
+Action.prototype.forQuestStop = function(params){
+    this.questAction.forStop(params);
+}

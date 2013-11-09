@@ -60,6 +60,9 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_quest/clearitemget':
             this.action.forQuestClear(this.params);
             break;
+        case 'api_req_quest/stop':
+            this.action.forQuestStop(this.params);
+            break;
         default:
             //_log('%c[ACTION]%c Do Nothing for this request',true);
     }

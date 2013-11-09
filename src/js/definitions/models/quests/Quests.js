@@ -17,6 +17,9 @@ Quests.prototype.embark = function(questId){
 Quests.prototype.done = function(questId){
   return this._updateStateById(questId, Quests.state.DONE);
 };
+Quests.prototype.cancel = function(questId){
+  return this._updateStateById(questId, Quests.state.YET);
+};
 Quests.prototype._updateStateById = function(questId, newState){
     var quests = this.get("quests") || this.init();
     if ( ! quests.map[questId]) return this;
