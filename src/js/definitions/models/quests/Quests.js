@@ -36,11 +36,13 @@ Quests.prototype.getAll = function(){
 };
 
 Quests.prototype.init = function(){
-    this.set("quests", this.initialValue);
+    var initialValue = this.initialValue;
+    initialValue.lastUpdated = Date.now();
+    this.set("quests", initialValue);
     return this.get("quests");
 };
 Quests.prototype.initialValue = {
-    lastUpdated : Date.now(),
+    lastUpdated : 0,//Date.now(),prototype定義内でのDate.nowはインスタンス化された時点が入る
     map : {
         // initDailyとか今後やらなあかんっぽいよなぁ
         // TODO: デイリーかウィークリーか判別するアレ =>  (　ﾟ∀ﾟ)o彡° YAGNI！YAGNI！
