@@ -112,3 +112,6 @@ h5 {
 table.table {
     font-size: 0.6em;
 }
+textarea {
+    resize: vertical;
+}

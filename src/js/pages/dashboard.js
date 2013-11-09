@@ -184,12 +184,60 @@ QuestsView.prototype._getStateString = function(stateNumber){
     return "完了";
 };
 
+function MemoView() {
+    this.tpl = '<textarea>{{memoContents}}</textarea>';
+    this.parent = "div#recipe-memo-container";
+    this.events = {
+      "keyup #recipe-memo" : "saveRecipeMemo"
+    };
+    this.attrs = {
+      id : "recipe-memo",
+      cols : "45",
+      rows : "10",
+      placeholder : "何かメモるの？いいけれど..."
+    };
+}
+MemoView.prototype.render = function() {
+    var $target = $(this.parent);
+    var htmlString = "";
+    $target.html("");
+
+    var params = {memoContents:""};
+    htmlString = this.apply(params, this.tpl);
+    $(htmlString).attr(this.attrs).appendTo($target);
+    this.bindEvent();
+};
+MemoView.prototype.apply = function(params, tpl){
+    var prefix = "{{";
+    var suffix = "}}";
+    for (var i in params) {
+      var key = prefix + i + suffix;
+      tpl = tpl.replace(key, params[i]);
+    }
+    return tpl;
+};
+MemoView.prototype.saveRecipeMemo = function(ev) {
+    console.log($(ev.target).val());
+};
+MemoView.prototype.bindEvent = function() {
+    var self = this;
+    for (var i in self.events) {
+      var _evName_selector = i.split(' ');
+      var evName = _evName_selector[0];
+      var selector = _evName_selector[1];
+      $(selector).on(evName, self[self.events[i]]);
+    }
+};
+
 (function(){
 
     var quests = new Quests();
     var lastUpdate = Date.now();
     var questsView = new QuestsView();
     questsView.updateAll(quests.getAll().map);
+
+    var memoView = new MemoView();
+    memoView.render();
 
     updateNow();
     applyIconImg();
