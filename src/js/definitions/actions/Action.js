@@ -78,3 +78,6 @@ Action.prototype.forNyukyoSpeedchange = function(params){
 Action.prototype.forQuestStart = function(params){
     this.questAction.forStart(params);
 }
+Action.prototype.forQuestClear = function(params){
+    this.questAction.forClear(params);
+}
