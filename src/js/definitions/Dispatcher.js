@@ -54,6 +54,9 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_nyukyo/speedchange':
             this.action.forNyukyoSpeedchange(this.params);
             break;
+        case 'api_req_quest/start':
+            this.action.forQuestStart(this.params);
+            break;
         default:
             //_log('%c[ACTION]%c Do Nothing for this request',true);
     }

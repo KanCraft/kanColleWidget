@@ -13,6 +13,7 @@ function Action(){/** APIが叩かれるときのアクション **/
     this.kaisouAction = new KaisouAction();
     this.kousyouAction = new KousyouAction();
     this.nyukyoAction = new NyukyoAction();
+    this.questAction = new QuestAction();
 }
 
 //----- mission start -----
@@ -72,4 +73,8 @@ Action.prototype.forNyukyoStartCompleted = function(){
 
 Action.prototype.forNyukyoSpeedchange = function(params){
     this.nyukyoAction.forSpeedchange(params);
+}
+
+Action.prototype.forQuestStart = function(params){
+    this.questAction.forStart(params);
 }
