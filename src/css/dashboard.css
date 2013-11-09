@@ -105,3 +105,10 @@ a.editor {
 a.editor:hover {
   text-decoration: underline;
 }
+
+h5 {
+    margin-bottom: 0;
+}
+table.table {
+    font-size: 0.6em;
+}
