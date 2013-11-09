@@ -157,6 +157,10 @@ function bindEditor() {
 }
 
 (function(){
+
+    var quests = new Quests();
+    console.log(quests);
+
     updateNow();
     applyIconImg();
     updateTimeLeft();
