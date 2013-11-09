@@ -21,6 +21,7 @@ Quests.prototype.cancel = function(questId){
   return this._updateStateById(questId, Quests.state.YET);
 };
 Quests.prototype._updateStateById = function(questId, newState){
+    this._resetDailyIfOutdated();
     var quests = this.get("quests") || this.init();
     if ( ! quests.map[questId]) return this;
     quests.map[questId].state = newState;
@@ -28,13 +29,24 @@ Quests.prototype._updateStateById = function(questId, newState){
     this.set("quests", quests);
     return this;
 };
-
+Quests.prototype._resetDailyIfOutdated = function() {
+    return this._resetOutdatedByKey("daily");
+};
+Quests.prototype._resetOutdatedByKey = function(key){
+    var criteriaRestTime = Util.getDailyResetTimestamp();
+    var quests = this.get("quests") || this.init();
+    if (criteriaRestTime <  quests.lastUpdated) return false;
+    quests = this.init();
+    this.set("quests", quests);
+    return true;
+};
 Quests.prototype.haveUpdate = function(criteriaTime){
     var quests = this.get("quests") || this.init();
     if (criteriaTime < quests.lastUpdated) return true;
     return false;
 };
 Quests.prototype.getAll = function(){
+    this._resetDailyIfOutdated();
     return this.get("quests") || this.init();
 };
 
