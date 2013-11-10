@@ -29,6 +29,10 @@ function affectConfigInView(){
             input = document.getElementById(key + '-already-set');
         }
 
+        if(key.match(/volume/)) {
+            input.value = config[key];
+        }
+
         if(input == null) { continue; }
         if(typeof config[key] === 'boolean'){
             input.checked = config[key];
