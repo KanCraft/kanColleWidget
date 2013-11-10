@@ -13,5 +13,5 @@ Memo.prototype.save = function(value){
     return this.set('recipememo', json);
 };
 Memo.prototype.initialValue = {
-  value : ""
+    value : ""
 };
