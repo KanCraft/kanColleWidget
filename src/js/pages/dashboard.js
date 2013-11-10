@@ -196,13 +196,16 @@ function MemoView() {
       rows : "10",
       placeholder : "何かメモるの？いいけれど..."
     };
+    // this.accessor = new Memo(); うーん...
 }
 MemoView.prototype.render = function() {
     var $target = $(this.parent);
     var htmlString = "";
     $target.html("");
 
-    var params = {memoContents:""};
+    // TODO: ここのエスケープはここでやるべきか？
+    var params = {memoContents: memo.toJson().value.replace(/</g,"&lt").replace(/>/g,"&gt") };
+
     htmlString = this.apply(params, this.tpl);
     $(htmlString).attr(this.attrs).appendTo($target);
     this.bindEvent();
@@ -217,7 +220,7 @@ MemoView.prototype.apply = function(params, tpl){
     return tpl;
 };
 MemoView.prototype.saveRecipeMemo = function(ev) {
-    console.log($(ev.target).val());
+    return memo.save($(ev.target).val());
 };
 MemoView.prototype.bindEvent = function() {
     var self = this;
@@ -229,6 +232,8 @@ MemoView.prototype.bindEvent = function() {
     }
 };
 
+// うーん...
+var memo = new Memo();
 (function(){
 
     var quests = new Quests();
