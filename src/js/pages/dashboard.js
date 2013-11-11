@@ -1,32 +1,3 @@
-function updateNow(){
-    var d = new Date();
-    var month  = Util.zP(2, d.getMonth() + 1);
-    var date   = Util.zP(2, d.getDate());
-    var day    = d.getDay();
-    var hour   = Util.zP(2, d.getHours());
-    var minute = Util.zP(2, d.getMinutes());
-    var seconds= Util.zP(2, d.getSeconds());
-    document.getElementById('month').innerHTML = month;
-    document.getElementById('date').innerHTML = date;
-    document.getElementById('hour').innerHTML = hour;
-    document.getElementById('minute').innerHTML = minute;
-    document.getElementById('seconds').innerHTML = seconds;
-
-    if(parseInt(hour) == 0 || parseInt(minute) == 0){
-        // clear all
-        var days = document.getElementsByClassName('days');
-        for(var i=0,len=days.length;i<len;i++){
-            days[i].style.fontWeight = 'normal';
-        }
-    }
-    // bold target
-    document.getElementById('day' + day).style.fontWeight = 'bold';
-}
-function applyIconImg(){
-    if(!Config.get('notification-img-file')) return;
-    document.getElementById('seconds-wrapper').style.backgroundImage = 'url("' + Config.get('notification-img-file') + '")';
-}
-
 var dummyDate = {
   getHours   : function() { return '--'; },
   getMinutes : function() { return '--'; }
@@ -166,13 +137,15 @@ function bindEditor() {
     var memoView = new MemoView();
     $("div#recipe-memo-container").append(memoView.render());
 
-    updateNow();
-    applyIconImg();
+    var mainClockView = new MainClockView();
+    $("div#main-clock").append(mainClockView.render());
+    mainClockView.dateIconView.update(new Date());
+    mainClockView.daysTimeView.update(new Date());
+    setInterval(function(){mainClockView.ticktack();}, 1000);
+
+
     updateTimeLeft();
     bindEditor();
-    var clock = setInterval(function(){
-        updateNow();
-    },1000);
     var updating = setInterval(function(){
         updateTimeLeft();
         bindEditor();

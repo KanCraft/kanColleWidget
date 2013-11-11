@@ -26,6 +26,7 @@ var widgetPages = widgetPages || {};
         return this;
     };
     View.prototype.__applyAttrs = function() {
+        this.attrs = this.attrs || {};
         this.$el.attr(this.attrs);
         return this;
     };
