@@ -184,56 +184,6 @@ QuestsView.prototype._getStateString = function(stateNumber){
     return "完了";
 };
 
-function MemoView() {
-    this.tpl = '<textarea>{{memoContents}}</textarea>';
-    this.parent = "div#recipe-memo-container";
-    this.events = {
-        "keyup #recipe-memo" : "saveRecipeMemo"
-    };
-    this.attrs = {
-        id : "recipe-memo",
-        cols : "45",
-        rows : "10",
-        placeholder : "何かメモるの？いいけれど..."
-    };
-    // this.accessor = new Memo(); うーん...
-}
-MemoView.prototype.render = function() {
-    var $target = $(this.parent);
-    var htmlString = "";
-    $target.html("");
-
-    // TODO: ここのエスケープはここでやるべきか？
-    var params = {memoContents: memo.toJson().value.replace(/</g,"&lt").replace(/>/g,"&gt") };
-
-    htmlString = this.apply(params, this.tpl);
-    $(htmlString).attr(this.attrs).appendTo($target);
-    this.bindEvent();
-};
-MemoView.prototype.apply = function(params, tpl){
-    var prefix = "{{";
-    var suffix = "}}";
-    for (var i in params) {
-        var key = prefix + i + suffix;
-        tpl = tpl.replace(key, params[i]);
-    }
-    return tpl;
-};
-MemoView.prototype.saveRecipeMemo = function(ev) {
-    return memo.save($(ev.target).val());
-};
-MemoView.prototype.bindEvent = function() {
-    var self = this;
-    for (var i in self.events) {
-        var _evName_selector = i.split(' ');
-        var evName = _evName_selector[0];
-        var selector = _evName_selector[1];
-        $(selector).on(evName, self[self.events[i]]);
-    }
-};
-
-// うーん...
-var memo = new Memo();
 (function(){
 
     var quests = new Quests();
@@ -242,7 +192,7 @@ var memo = new Memo();
     questsView.updateAll(quests.getAll().map);
 
     var memoView = new MemoView();
-    memoView.render();
+    $("div#recipe-memo-container").append(memoView.render());
 
     updateNow();
     applyIconImg();

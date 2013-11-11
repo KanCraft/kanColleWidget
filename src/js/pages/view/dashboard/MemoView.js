@@ -1,0 +1,25 @@
+// TMP : MemoViewはwidgetPagesモジュールに属するべきか
+var MemoView = function() {
+    this.tpl = '<textarea>{{memoContents}}</textarea>';
+    this.parent = "div#recipe-memo-container";
+    this.events = {
+        "keyup #recipe-memo" : "saveRecipeMemo"
+    };
+    this.attrs = {
+        id : "recipe-memo",
+        cols : "45",
+        rows : "10",
+        placeholder : "何かメモるの？いいけれど..."
+    };
+};
+MemoView.prototype = Object.create(widgetPages.View.prototype);
+MemoView.prototype.constructor = MemoView;
+MemoView.prototype.render = function(){
+    var memo = new Memo();
+    var params = {memoContents: memo.toJson().value };
+    return this.apply(params)._render();
+};
+MemoView.prototype.saveRecipeMemo = function(ev) {
+    var memo = new Memo();
+    return memo.save($(ev.target).val());
+};
