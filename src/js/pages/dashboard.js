@@ -156,40 +156,12 @@ function bindEditor() {
     });
 }
 
-// FIXME: このViewクラスをDRYにしてViewクラスつくってもいいかも
-function QuestsView() {
-    this.tpl = '<tr id="{{id}}"><td>{{title}}</td><td>[{{state}}]</td></tr>';
-    this.parent = "table#quests";
-}
-QuestsView.prototype.updateAll = function(mapping){
-    var htmlString = "";
-    var $target = $(this.parent);
-    $target.html("");
-    for (var i in mapping) {
-        if (mapping[i].state == 2) continue;
-        htmlString += this.apply(mapping[i], this.tpl);
-    }
-    $target.append($(htmlString));
-};
-QuestsView.prototype.apply = function(param, tpl){
-    tpl = tpl.replace("{{title}}", param.title);
-    tpl = tpl.replace("{{id}}", param.id);
-    tpl = tpl.replace("{{state}}", this._getStateString(param.state));
-    return tpl;
-};
-QuestsView.prototype._getStateString = function(stateNumber){
-    if (stateNumber == 0) return " ";
-    if (stateNumber == 1) return "遂行中";
-    //if (stateNumber == 2) return "完了";
-    return "完了";
-};
-
 (function(){
 
     var quests = new Quests();
     var lastUpdate = Date.now();
-    var questsView = new QuestsView();
-    questsView.updateAll(quests.getAll().map);
+    var questListView = new QuestListView(quests.getAll().map);
+    $("div#quest-list-container").append(questListView.render()); 
 
     var memoView = new MemoView();
     $("div#recipe-memo-container").append(memoView.render());
@@ -206,7 +178,7 @@ QuestsView.prototype._getStateString = function(stateNumber){
         bindEditor();
         if (quests.haveUpdate(lastUpdate)) {
             var questsJson = quests.getAll();
-            questsView.updateAll(questsJson.map);
+            $("div#quest-list-container").html('').append(questListView.render(questsJson.map));
             lastUpdate = questsJson.lastUpdated;
         };
     },5000);

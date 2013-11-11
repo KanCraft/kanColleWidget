@@ -13,6 +13,7 @@ var widgetPages = widgetPages || {};
     View.prototype.$el = null;
 
     View.prototype.apply = function(params) {
+        params = params || {};
         var htmlString = this.tpl;
         for (var key in params) {
             var delimiter = this._delimiterPrefix + key + this._delimiterSuffix;
