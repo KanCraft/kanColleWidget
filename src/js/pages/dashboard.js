@@ -131,13 +131,13 @@ function bindEditor() {
 
     var quests = new Quests();
     var lastUpdate = Date.now();
-    var questListView = new QuestListView(quests.getAll().map);
+    var questListView = new widgetPages.QuestListView(quests.getAll().map);
     $("div#quest-list-container").append(questListView.render()); 
 
-    var memoView = new MemoView();
+    var memoView = new widgetPages.MemoView();
     $("div#recipe-memo-container").append(memoView.render());
 
-    var mainClockView = new MainClockView();
+    var mainClockView = new widgetPages.MainClockView();
     $("div#main-clock").append(mainClockView.render());
     mainClockView.dateIconView.update(new Date());
     mainClockView.daysTimeView.update(new Date());
