@@ -86,6 +86,8 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
 KousyouAction.prototype.forCreateitemComplete = function(){
     if (! Stash.createItem) return;
 
+    if (! Config.get("share-kousyo-result")) return;
+
     var twitter = new kanColleWidget.Twitter();
     twitter.shareCreateItem(Stash.createItem);
 };

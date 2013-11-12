@@ -41,6 +41,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-stay-visible'          : '',
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
+        'share-kousyo-result'                : false,
         'sort-by-finishtime'                 : true
     },
 
