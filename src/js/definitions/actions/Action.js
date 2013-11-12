@@ -55,9 +55,11 @@ Action.prototype.forKousyouCreateship = function(params){
 Action.prototype.forKousyouCreateshipCompleted = function(){
     this.kousyouAction.forCreateshipCompleted();
 }
-
 Action.prototype.forKousyouCreateitem = function(params){
     this.kousyouAction.forCreateitem(params);
+}
+Action.prototype.forKousyouCreateitemComplete = function(params){
+    this.kousyouAction.forCreateitemComplete(params);
 }
 
 Action.prototype.forKousyouGetship = function(params){

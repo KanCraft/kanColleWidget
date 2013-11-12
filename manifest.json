@@ -50,6 +50,7 @@
             "src/js/definitions/actions/Payment.js",
             "src/js/definitions/actions/Quest.js",
             "src/js/definitions/actions/Action.js",
+            "src/js/definitions/share/Share.js",
             "src/js/background.js",
             "src/js/pngencoder.min.js"
         ]

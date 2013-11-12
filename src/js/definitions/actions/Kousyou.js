@@ -35,13 +35,7 @@ KousyouAction.prototype.forGetship = function(params){
 }
 KousyouAction.prototype.forCreateitem = function(params){
     this.achievements.update().incrementCreateitemCount();
-
-    // {{{ TODO: どっかにちゃんと書く
-    var tweet_body = "[開発しました] #kancolle_dev\n";
-    tweet_body += "資材 => : " + params.api_item1[0] + "/" + params.api_item2[0] + "/" + params.api_item3[0] + "/" + params.api_item4[0] + "\n";
-    tweet_body += "結果 => : ";
-    window.open("https://twitter.com/intent/tweet/update?text=" + encodeURIComponent(tweet_body),"_blank","width=550,height=260");
-    // }}}
+    Stash.createItem = params;
 }
 
 // Completed
@@ -88,3 +82,10 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         });
     }, Constants.ocr.delay); //単に描画時間を待つ
 }
+
+KousyouAction.prototype.forCreateitemComplete = function(){
+    if (! Stash.createItem) return;
+
+    var twitter = new kanColleWidget.Twitter();
+    twitter.shareCreateItem(Stash.createItem);
+};

@@ -89,13 +89,11 @@ CompleteDispatcher.prototype.eat = function(detail){
 CompleteDispatcher.prototype.execute = function(){
     // TODO : リファクタ -> 判定をどっかに押し込める
     // TODO : 条件厳しくする -> https://gist.github.com/otiai10/6724596
-    if(
-        this.requestSequence[3] == 'api_req_nyukyo/start'
-    ){
+    if (this.requestSequence[2] == 'api_req_kousyou/createitem') {
+        this.action.forKousyouCreateitemComplete();
+    } else if (this.requestSequence[3] == 'api_req_nyukyo/start') {
         this.action.forNyukyoStartCompleted();
-    }else if(
-        this.requestSequence[5] == 'api_req_kousyou/createship'
-    ){
+    } else if (this.requestSequence[5] == 'api_req_kousyou/createship') {
         this.action.forKousyouCreateshipCompleted();
     }
 }
