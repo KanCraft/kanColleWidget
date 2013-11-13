@@ -9,7 +9,6 @@
 
 var Stash = {
     createItem : null,
-    /* YAGNI
     // TODO : 建造報告の実装
     createShip : {
         1 : {},
@@ -17,7 +16,6 @@ var Stash = {
         3 : {},
         4 : {}
     }
-    */
 };
 
 var observer = new Observer();

@@ -12,7 +12,8 @@ KousyouAction.prototype.forCreateship = function(params){
 
     this.achievements.update().incrementCreateshipCount();
 
-    Stash.params = params;
+    Stash.params = params;// tmp
+    Stash.createShip[params['api_kdock_id'][0]] = params;
 
     // 高速建造を使用する
     if(params.api_highspeed == 1) return;
@@ -32,6 +33,10 @@ KousyouAction.prototype.forCreateship = function(params){
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();
     createships.clear(params.api_kdock_id);
+
+    var twitter = new kanColleWidget.Twitter();
+    var createshipParams = Stash.createShip[params['api_kdock_id'][0]];
+    twitter.shareCreateShip(createshipParams);
 }
 KousyouAction.prototype.forCreateitem = function(params){
     this.achievements.update().incrementCreateitemCount();
