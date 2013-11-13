@@ -34,6 +34,9 @@ KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();
     createships.clear(params.api_kdock_id);
 
+    // 後方バージョン対応
+    if (! Stash.createShip || ! Stash.createShip[params['api_kdock_id'][0]]) return;
+
     var twitter = new kanColleWidget.Twitter();
     var createshipParams = Stash.createShip[params['api_kdock_id'][0]];
     twitter.shareCreateShip(createshipParams);
