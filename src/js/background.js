@@ -9,7 +9,6 @@
 
 var Stash = {
     createItem : null,
-    // TODO : 建造報告の実装
     createShip : {
         1 : {},
         2 : {},
