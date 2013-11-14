@@ -42,7 +42,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
-        'sort-by-finishtime'                 : true
+        'sort-by-finishtime'                 : false
     },
 
     /* public: dict */repair : function(){
