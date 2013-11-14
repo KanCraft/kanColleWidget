@@ -67,6 +67,7 @@ Quests.prototype.initialValue = {
         210 : { title : "敵艦隊を10回邀撃せよ！",         id : 210, state : Quests.state.YET},
         211 : { title : "敵空母を3隻撃沈せよ",            id : 211, state : Quests.state.YET},
         218 : { title : "敵補給艦を3隻撃沈せよ！",        id : 218, state : Quests.state.YET},
+        226 : { title : "南西諸島海域の制海権を握れ！",   id : 226, state : Quests.state.YET},
         230 : { title : "敵潜水艦を制圧せよ！",           id : 230, state : Quests.state.YET},
         303 : { title : "「演習」で練度向上！",           id : 303, state : Quests.state.YET},
         304 : { title : "「演習」で他提督を圧倒せよ！",   id : 304, state : Quests.state.YET},
