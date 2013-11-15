@@ -107,15 +107,13 @@ var kanColleWidget = kanColleWidget || {};
             audio = new this.window.Audio(soundUrl);
             this.sounds[kind] = audio;
         }
-        audio.volume = this.getSoundVolume() || 1.0;
+        audio.volume = this.getSoundVolume();
         audio.play();
     };
 
     Notifier.prototype.getSoundVolume = function() {
         var volume = this.config.get('notification-sound-volume');
-        if(volume) {
-            volume = volume / 100;
-        }
+        volume = parseInt(volume) / 100;
         return volume;
     };
 })();
