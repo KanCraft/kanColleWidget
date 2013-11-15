@@ -375,4 +375,72 @@ var Util = Util || {};
         var _i = Math.floor(Math.random() * imgList.length);
         return imgList[_i];
     };
+
+    /**
+     * 直近朝5時のタイムスタンプを返す
+     * @returns {number}
+     */
+    Util.getDailyResetTimestamp = function() {
+
+        var theDay, today;
+        theDay = today = new Date();
+
+        if (today.getHours() < 5) {
+            // 直近の5時とは昨日のことです
+            theDay.setDate(today.getDate() - 1);
+        }
+
+        // その日の朝5時を取得します
+        var year   = theDay.getUTCFullYear();
+        var month  = theDay.getMonth();
+        var date   = theDay.getDate();
+        var hour   = 5;// 5時です
+        var minute = 0;// 5時ちょうどです
+
+        var theTime = new Date(year, month, date, hour, minute);
+
+        return theTime.getTime();
+    };
+
+    /**
+     * 直近月曜日朝5時のタイムスタンプを返す
+     * @returns {number}
+     */
+    Util.getWeeklyResetTimestamp = function() {
+        var theDay, now;
+        theDay = now = new Date();
+
+        if (now.getDay() < 1) {
+            // 今日は日曜日なので
+            // 直近の月曜日とは今から6日前のことです
+            theDay.setDate(now.getDate() - 6);
+        } else if (now.getDay() == 1) {
+            // 今日は月曜日ですが
+            if (now.getHours() < 5) {
+                // まだ5時より前なのだから
+                // 直近の月曜日とは7日前のことです
+                theDay.setDate(now.getDate() - 7);
+            } else {
+                // 5時すぎてるので、
+                // 直近の月曜日とは今日のことです
+            }
+        } else { // if (1 < now.getDay())
+            // 今日は火曜日、水曜日、木曜日、金曜日、土曜日なので
+            // 直近の月曜日とは、 {now.getDay() - 1}日前のことです
+            var diffDays = now.getDay() - 1;
+            theDay.setDate(now.getDate() - diffDays);
+        }
+
+        // その日の朝5時を取得します
+        var year   = theDay.getFullYear();
+        var month  = theDay.getMonth();
+        var date   = theDay.getDate();
+        var hour   = 5;// 5時です
+        var minute = 0;// 5時ちょうどです
+
+        var theTime = new Date(year, month, date, hour, minute);
+
+        return theTime.getTime();
+    };
+
 })();

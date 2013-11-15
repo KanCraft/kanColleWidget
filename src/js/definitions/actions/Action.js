@@ -13,6 +13,7 @@ function Action(){/** APIが叩かれるときのアクション **/
     this.kaisouAction = new KaisouAction();
     this.kousyouAction = new KousyouAction();
     this.nyukyoAction = new NyukyoAction();
+    this.questAction = new QuestAction();
 }
 
 //----- mission start -----
@@ -54,9 +55,11 @@ Action.prototype.forKousyouCreateship = function(params){
 Action.prototype.forKousyouCreateshipCompleted = function(){
     this.kousyouAction.forCreateshipCompleted();
 }
-
 Action.prototype.forKousyouCreateitem = function(params){
     this.kousyouAction.forCreateitem(params);
+}
+Action.prototype.forKousyouCreateitemComplete = function(params){
+    this.kousyouAction.forCreateitemComplete(params);
 }
 
 Action.prototype.forKousyouGetship = function(params){
@@ -72,4 +75,14 @@ Action.prototype.forNyukyoStartCompleted = function(){
 
 Action.prototype.forNyukyoSpeedchange = function(params){
     this.nyukyoAction.forSpeedchange(params);
+}
+
+Action.prototype.forQuestStart = function(params){
+    this.questAction.forStart(params);
+}
+Action.prototype.forQuestClear = function(params){
+    this.questAction.forClear(params);
+}
+Action.prototype.forQuestStop = function(params){
+    this.questAction.forStop(params);
 }

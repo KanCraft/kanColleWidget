@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.3.4.5",
+    "version": "0.5.0.3",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -29,6 +29,7 @@
             "src/js/definitions/models/server/OcrServer.js",
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
+            "src/js/definitions/models/quests/Quests.js",
             "src/js/definitions/models/events/SoloEventBase.js",
             "src/js/definitions/models/events/EventsBase.js",
             "src/js/definitions/models/events/missions/Mission.js",
@@ -47,7 +48,9 @@
             "src/js/definitions/actions/Practice.js",
             "src/js/definitions/actions/Mission.js",
             "src/js/definitions/actions/Payment.js",
+            "src/js/definitions/actions/Quest.js",
             "src/js/definitions/actions/Action.js",
+            "src/js/definitions/share/Share.js",
             "src/js/background.js",
             "src/js/pngencoder.min.js"
         ]

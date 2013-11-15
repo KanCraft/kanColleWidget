@@ -7,35 +7,6 @@
 </head>
 <body>
     <div id="main-clock" class="contents boxy">
-        <div id="clock-left">
-            <div id="date-wrapper">
-                <span id="month">09</span>
-                <span id="char-month">月</span>
-                <span id="date">09</span>
-                <span id="char-date">日</span>
-            </div>
-            <div id="seconds-wrapper">
-                <div id="seconds-position">
-                    <span id="seconds">00</span>
-                </div>
-            </div>
-        </div>
-        <div id="clock-right">
-            <div id="day-wrapper">
-                <span class="days" id="day0">日</span>
-                <span class="days" id="day1">月</span>
-                <span class="days" id="day2">火</span>
-                <span class="days" id="day3">水</span>
-                <span class="days" id="day4">木</span>
-                <span class="days" id="day5">金</span>
-                <span class="days" id="day6">土</span>
-            </div>
-            <div id="main-clock-wrapper">
-                <span id="hour">19</span>
-                <span id="colon">:</span>
-                <span id="minute">30</span>
-            </div>
-        </div>
     </div>
     <div id="time-left" class="contents boxy">
         <div id="time-list-wrapper-missions" class="time-list">
@@ -51,6 +22,16 @@
             <ul id="time-list-container-createships"></ul>
         </div>
     </div>
+    <div class="contents">
+        <h5 style="margin-top:20px">デイリー任務消化状況</h5>
+        <div id="quest-list-container">
+        </div>
+    </div>
+    <div class="contents">
+        <h5>レシピメモ</h5>
+        <div id="recipe-memo-container">
+        </div>
+    </div>
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/Util.js"></script>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
@@ -62,6 +43,15 @@
     <script type="text/javascript" src="../js/definitions/models/events/createships/Createship.js"></script>
     <script type="text/javascript" src="../js/definitions/models/events/missions/Missions.js"></script>
     <script type="text/javascript" src="../js/definitions/models/events/missions/Mission.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/quests/Quests.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/memo/Memo.js"></script>
+    <script type="text/javascript" src="../js/pages/view/View.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/MainClockView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/DateIconView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/DaysTimeView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/QuestView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/QuestListView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/MemoView.js"></script>
     <script type="text/javascript" src="../js/pages/dashboard.js"></script>
 </body>
 </html>

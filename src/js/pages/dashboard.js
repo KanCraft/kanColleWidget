@@ -1,32 +1,3 @@
-function updateNow(){
-    var d = new Date();
-    var month  = Util.zP(2, d.getMonth() + 1);
-    var date   = Util.zP(2, d.getDate());
-    var day    = d.getDay();
-    var hour   = Util.zP(2, d.getHours());
-    var minute = Util.zP(2, d.getMinutes());
-    var seconds= Util.zP(2, d.getSeconds());
-    document.getElementById('month').innerHTML = month;
-    document.getElementById('date').innerHTML = date;
-    document.getElementById('hour').innerHTML = hour;
-    document.getElementById('minute').innerHTML = minute;
-    document.getElementById('seconds').innerHTML = seconds;
-
-    if(parseInt(hour) == 0 || parseInt(minute) == 0){
-        // clear all
-        var days = document.getElementsByClassName('days');
-        for(var i=0,len=days.length;i<len;i++){
-            days[i].style.fontWeight = 'normal';
-        }
-    }
-    // bold target
-    document.getElementById('day' + day).style.fontWeight = 'bold';
-}
-function applyIconImg(){
-    if(!Config.get('notification-img-file')) return;
-    document.getElementById('seconds-wrapper').style.backgroundImage = 'url("' + Config.get('notification-img-file') + '")';
-}
-
 var dummyDate = {
   getHours   : function() { return '--'; },
   getMinutes : function() { return '--'; }
@@ -43,7 +14,7 @@ function updateTimeLeft(){
         if(m.finish == null) {
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParams.push({
             deck_id : String(m.deck_id),
@@ -64,7 +35,7 @@ function updateTimeLeft(){
         if(c.finish == null){
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParamsCreateships.push({
             api_kdock_id : String(c.api_kdock_id),
@@ -85,7 +56,7 @@ function updateTimeLeft(){
         if(n.finish == null){
             d = dummyDate;
             style = "color:#bbb";
-            padding = "&nbsp;&nbsp;&nbsp;";
+            padding = "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
         renderParamsNyukyos.push({
             api_ndock_id : String(n.api_ndock_id),
@@ -104,7 +75,7 @@ function renderMissions(params){
     var ul = document.getElementById('time-list-container');
     ul.innerHTML = '';
     // Missionsだけ、第一艦隊が無いので、デザインのためにつけたしちゃう
-    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--&nbsp;&nbsp;&nbsp;</span> 第1艦隊</li>';
+    ul.innerHTML += '<li id="deck1"><span style="color:#bbb">--:--&nbsp;&nbsp;&nbsp;&nbsp;</span> 第1艦隊</li>';
     params.map(function(p){
         var dom = template.replace(/\{deck_id\}/g, p.deck_id).replace('{time}', p.time).replace('{style}', p.style);
         ul.innerHTML += dom;
@@ -157,15 +128,31 @@ function bindEditor() {
 }
 
 (function(){
-    updateNow();
-    applyIconImg();
+
+    var quests = new Quests();
+    var lastUpdate = Date.now();
+    var questListView = new widgetPages.QuestListView(quests.getAll().map);
+    $("div#quest-list-container").append(questListView.render()); 
+
+    var memoView = new widgetPages.MemoView();
+    $("div#recipe-memo-container").append(memoView.render());
+
+    var mainClockView = new widgetPages.MainClockView();
+    $("div#main-clock").append(mainClockView.render());
+    mainClockView.dateIconView.update(new Date());
+    mainClockView.daysTimeView.update(new Date());
+    setInterval(function(){mainClockView.ticktack();}, 1000);
+
+
     updateTimeLeft();
     bindEditor();
-    var clock = setInterval(function(){
-        updateNow();
-    },1000);
     var updating = setInterval(function(){
         updateTimeLeft();
         bindEditor();
+        if (quests.haveUpdate(lastUpdate)) {
+            var questsJson = quests.getAll();
+            $("div#quest-list-container").html('').append(questListView.render(questsJson.map));
+            lastUpdate = questsJson.lastUpdated;
+        };
     },5000);
 })();

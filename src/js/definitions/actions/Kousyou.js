@@ -12,7 +12,8 @@ KousyouAction.prototype.forCreateship = function(params){
 
     this.achievements.update().incrementCreateshipCount();
 
-    Stash.params = params;
+    Stash.params = params;// tmp
+    Stash.createShip[params['api_kdock_id'][0]] = params;
 
     // 高速建造を使用する
     if(params.api_highspeed == 1) return;
@@ -32,9 +33,20 @@ KousyouAction.prototype.forCreateship = function(params){
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();
     createships.clear(params.api_kdock_id);
+
+    // 後方バージョン対応
+    if (! Stash.createShip || ! Stash.createShip[params['api_kdock_id'][0]]) return;
+
+    // 設定を見る
+    if (! Config.get("share-kousyo-result")) return;
+
+    var twitter = new kanColleWidget.Twitter();
+    var createshipParams = Stash.createShip[params['api_kdock_id'][0]];
+    twitter.shareCreateShip(createshipParams);
 }
 KousyouAction.prototype.forCreateitem = function(params){
     this.achievements.update().incrementCreateitemCount();
+    Stash.createItem = params;
 }
 
 // Completed
@@ -81,3 +93,12 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         });
     }, Constants.ocr.delay); //単に描画時間を待つ
 }
+
+KousyouAction.prototype.forCreateitemComplete = function(){
+    if (! Stash.createItem) return;
+
+    if (! Config.get("share-kousyo-result")) return;
+
+    var twitter = new kanColleWidget.Twitter();
+    twitter.shareCreateItem(Stash.createItem);
+};
