@@ -15,7 +15,7 @@ Quests._true = function(){
     return true;
 };
 // 日付の一の位が3,7,0の時にtrueを返す
-Quests._370 = function(){
+Quests._date370 = function(){
     var today = Util.getTodayOfKanColle();
     switch(today.getDate() % 10){
         case 0:
@@ -26,7 +26,7 @@ Quests._370 = function(){
     return false;
 };
 // 日付の一の位が2,8の時にtrueを返す
-Quests._28 = function(){
+Quests._date28 = function(){
     var today = Util.getTodayOfKanColle();
     switch(today.getDate() % 10){
         case 2:
@@ -123,7 +123,8 @@ Quests.prototype.initialValue = {
         216 : { title : "敵艦隊主力を撃滅せよ！",         id : 216, required : 201,  state : Quests.state.YET, type : "_true" },
         210 : { title : "敵艦隊を10回邀撃せよ！",         id : 210, required : 216,  state : Quests.state.YET, type : "_true" },
         211 : { title : "敵空母を3隻撃沈せよ",            id : 211, required : 201,  state : Quests.state.YET, type : "_true" },
-        218 : { title : "敵補給艦を3隻撃沈せよ！",        id : 218, required : 216,  state : Quests.state.YET, type : "_370" },
+        211 : { title : "敵輸送船団を叩け！",             id : 212, required : 201,  state : Quests.state.YET, type : "_date28" },
+        218 : { title : "敵補給艦を3隻撃沈せよ！",        id : 218, required : 216,  state : Quests.state.YET, type : "_date370" },
         226 : { title : "南西諸島海域の制海権を握れ！",   id : 226, required : 218,  state : Quests.state.YET, type : "_true" },
         230 : { title : "敵潜水艦を制圧せよ！",           id : 230, required : 226,  state : Quests.state.YET, type : "_true" },
         // 演習
