@@ -133,6 +133,7 @@ function bindEditor() {
     var lastUpdate = Date.now();
     var questListView = new widgetPages.QuestListView(quests.getAll().map);
     $("div#quest-list-container").append(questListView.render()); 
+    $("span#progress-percentage").text(questListView.progress);
 
     var memoView = new widgetPages.MemoView();
     $("div#recipe-memo-container").append(memoView.render());
@@ -152,6 +153,7 @@ function bindEditor() {
         if (quests.haveUpdate(lastUpdate)) {
             var questsJson = quests.getAll();
             $("div#quest-list-container").html('').append(questListView.render(questsJson.map));
+            $("span#progress-percentage").text(questListView.progress);
             lastUpdate = questsJson.lastUpdated;
         };
     },5000);
