@@ -78,6 +78,12 @@ Quests.prototype.getAll = function(){
     var actives = {};
     for (var i in all) {
         var q = all[i];
+        // {{{ 後方互換保証
+        if (! q.type) {
+            actives[q.id] = q;
+            continue;
+        }
+        // }}}
         if (Quests[q.type]()) {
             actives[q.id] = q;
         }
