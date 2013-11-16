@@ -21,10 +21,9 @@ var widgetPages = widgetPages || {};
     DateIconView.prototype = Object.create(widgetPages.View.prototype);
     DateIconView.prototype.constructor = DateIconView;
     DateIconView.prototype.render = function(){
-        var iconUrl = Config.get("notification-img-url") || "";
-        this.apply({
-          iconUrl : iconUrl
-        })._render();
+        var iconUrl = Config.get("notification-img-file") || "";
+        this.apply()._render();
+        this.$el.find("#seconds-wrapper").css({backgroundImage:'url("' + iconUrl + '")'});
         return this.$el;
     };
     DateIconView.prototype.update = function(d){

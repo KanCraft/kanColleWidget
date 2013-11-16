@@ -377,6 +377,19 @@ var Util = Util || {};
     };
 
     /**
+     * 艦これ的な"今日"の日付を返します
+     * 5:00~24:00なら今日の日付、0:00~4:59の間なら昨日の日付を返す
+     */
+    Util.getTodayOfKanColle = function() {
+        var theDay = new Date();
+        if (theDay.getHours() < 5) {
+            // 艦これ的には"今日"は昨日のことです
+            theDay.setDate(theDay.getDate() - 1);
+        }
+        return theDay;
+    };
+
+    /**
      * 直近朝5時のタイムスタンプを返す
      * @returns {number}
      */

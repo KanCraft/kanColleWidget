@@ -129,10 +129,10 @@ function bindEditor() {
 
 (function(){
 
-    var quests = new Quests();
-    var lastUpdate = Date.now();
-    var questListView = new widgetPages.QuestListView(quests.getAll().map);
+    //var questListView = new widgetPages.QuestListView(quests.getAll().map);
+    var questListView = new widgetPages.QuestListView(new Quests());
     $("div#quest-list-container").append(questListView.render()); 
+    $("span#progress").text(questListView.getProgress());
 
     var memoView = new widgetPages.MemoView();
     $("div#recipe-memo-container").append(memoView.render());
@@ -149,10 +149,8 @@ function bindEditor() {
     var updating = setInterval(function(){
         updateTimeLeft();
         bindEditor();
-        if (quests.haveUpdate(lastUpdate)) {
-            var questsJson = quests.getAll();
-            $("div#quest-list-container").html('').append(questListView.render(questsJson.map));
-            lastUpdate = questsJson.lastUpdated;
-        };
+        if (! questListView.haveUpdate()) return;//アップデート無いならひっこんでな
+        $("div#quest-list-container").html('').append(questListView.refresh());
+        $("span#progress").text(questListView.getProgress());
     },5000);
 })();
