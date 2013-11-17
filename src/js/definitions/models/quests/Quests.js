@@ -93,7 +93,7 @@ Quests.prototype.getAll = function(){
 };
 Quests.prototype.availables = function(){
     this._resetDailyIfOutdated();
-    var all = this.get("quests").map || this.init().map;
+    var all = this.getAll().map || this.init().map;
     var availables = {};
     for (var i in all) {
         var q = all[i];
@@ -128,9 +128,9 @@ Quests.prototype.initialValue = {
         201 : { title : "敵艦隊を撃破せよ！",             id : 201, required : null, state : Quests.state.YET, type : "_true" },
         216 : { title : "敵艦隊主力を撃滅せよ！",         id : 216, required : 201,  state : Quests.state.YET, type : "_true" },
         210 : { title : "敵艦隊を10回邀撃せよ！",         id : 210, required : 216,  state : Quests.state.YET, type : "_true" },
-        211 : { title : "敵空母を3隻撃沈せよ",            id : 211, required : 201,  state : Quests.state.YET, type : "_true" },
-        211 : { title : "敵輸送船団を叩け！",             id : 212, required : 201,  state : Quests.state.YET, type : "_date28" },
-        218 : { title : "敵補給艦を3隻撃沈せよ！",        id : 218, required : 216,  state : Quests.state.YET, type : "_date370" },
+        211 : { title : "敵空母を3隻撃沈せよ",            id : 211, required : 201,  state : Quests.state.YET, type : "_date370" },
+        212 : { title : "敵輸送船団を叩け！",             id : 212, required : 201,  state : Quests.state.YET, type : "_date28" },
+        218 : { title : "敵補給艦を3隻撃沈せよ！",        id : 218, required : 216,  state : Quests.state.YET, type : "_true" },
         226 : { title : "南西諸島海域の制海権を握れ！",   id : 226, required : 218,  state : Quests.state.YET, type : "_true" },
         230 : { title : "敵潜水艦を制圧せよ！",           id : 230, required : 226,  state : Quests.state.YET, type : "_true" },
         // 演習
