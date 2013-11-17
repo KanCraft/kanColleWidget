@@ -36,7 +36,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
         'launch-on-click-notification'       : false,
-        'show-clockmode-button'              : false,
+        'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
         'enable-mission-reminder'            : true,
