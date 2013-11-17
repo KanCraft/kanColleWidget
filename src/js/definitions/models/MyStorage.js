@@ -39,6 +39,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'show-clockmode-button'              : false,
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
+        'enable-mission-reminder'            : true,
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
