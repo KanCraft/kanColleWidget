@@ -18,7 +18,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
 
     /* private */storage : new MyStorage(),
     /* private */initial : {
-        'badge-left-time'                    : false,
+        'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
         'enable-dynamic-reminder'            : false,
