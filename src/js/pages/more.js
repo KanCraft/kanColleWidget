@@ -71,7 +71,7 @@ function bindConfigChangedAction(){
             });
             break;
     	  case 'text':
-            inputs[i].addEventListener('keydown',function(){
+            inputs[i].addEventListener('keyup',function(){
                 Config.set(this.id, this.value);
             });
             break;

@@ -18,7 +18,7 @@ var widgetPages = widgetPages || {};
         for (var key in params) {
             var delimiter = this._delimiterPrefix + key + this._delimiterSuffix;
             // とりまここでエスケープ
-            var value = params[key].replace(/</g,"&lt").replace(/>/g,"&gt");
+            var value = String(params[key]).replace(/</g,"&lt").replace(/>/g,"&gt");
             htmlString = htmlString.split(delimiter).join(value);
         }
         this.$el = $(htmlString);
@@ -44,7 +44,9 @@ var widgetPages = widgetPages || {};
             var _evName_selector = i.split(self._eventSeparator);
             var evName = _evName_selector[0];
             var selector = _evName_selector[1];
-            this.$el.delegate(selector, evName, self[self.events[i]]);
+            this.$el.delegate(selector, evName, function(ev){
+                self[self.events[i]](ev, self);
+            });
         }
     };
 })();

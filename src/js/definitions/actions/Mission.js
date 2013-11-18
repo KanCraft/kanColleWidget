@@ -10,6 +10,9 @@ function MissionAction(){/*** mission系のAPIが叩かれたときのアクシ�
 }
 
 MissionAction.prototype.forStart = function(params){
+
+    if (Config.get("enable-mission-reminder") === false) return;
+
     var min = Constants.time.mission[params.api_mission_id[0]];
 
     if (typeof min == "undefined") {

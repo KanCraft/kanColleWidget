@@ -18,7 +18,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
 
     /* private */storage : new MyStorage(),
     /* private */initial : {
-        'badge-left-time'                    : false,
+        'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
         'enable-dynamic-reminder'            : false,
@@ -36,9 +36,10 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
         'launch-on-click-notification'       : false,
-        'show-clockmode-button'              : false,
+        'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
+        'enable-mission-reminder'            : true,
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,

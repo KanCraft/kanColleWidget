@@ -5,7 +5,9 @@ var widgetPages = widgetPages || {};
         this.lastUpdate = 0;
         this.quests = quests;
         this.tpl = '<table></table>';
-        this.events = {};
+        this.events = {
+            'click .hide-quest' : "hideQuest"
+        };
         this.attrs = {
             id : "quests",
             class : "table"
@@ -21,7 +23,7 @@ var widgetPages = widgetPages || {};
         this.apply()._render();
         this.completed = 0;//init
         for (var i in questList) {
-            if (questList[i].state == 2) this.completed++;
+            if (Quests.state.NOW < questList[i].state) this.completed++;
             var questView = widgetPages.QuestViewFactory(questList[i]);
             this.$el.append(questView.render());
         }
@@ -36,5 +38,8 @@ var widgetPages = widgetPages || {};
     };
     QuestListView.prototype.getProgress = function(){
         return "達成" + String(this.completed) + "/全" + String(this.total);
+    };
+    QuestListView.prototype.hideQuest = function(ev, self){
+        self.quests.hide($(ev.target).attr("quest-id"));
     };
 })();
