@@ -117,7 +117,7 @@ Quests.prototype.availables = function(){
             continue;
         }
         // {{{ TODO: 後方互換 あとで消せる
-        if (typeof all[q.required].state == 'undefined') {
+        if (typeof all[q.required] == 'undefined') {
             continue;
         }
         // }}}
