@@ -48,7 +48,7 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/11/18 v0.5.0.6, v0.5.0.7
+- 2013/11/18 v0.5.0.6, v0.5.0.7, v0.5.0.8
     - 「提督仕事しろ」文言変更設定の修正
     - ウィジェット化時のブラウザバック制御
     - デイリー任務のid間違ってたよ
