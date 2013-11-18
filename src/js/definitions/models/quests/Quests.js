@@ -116,6 +116,11 @@ Quests.prototype.availables = function(){
             availables[q.id] = q;
             continue;
         }
+        // {{{ TODO: 後方互換 あとで消せる
+        if (typeof all[q.required] == 'undefined') {
+            continue;
+        }
+        // }}}
         // 依存する任務が終わっていればavailablesである
         if (Quests.state.NOW < all[q.required].state) {
             availables[q.id] = q;
