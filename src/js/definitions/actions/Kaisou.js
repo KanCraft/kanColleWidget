@@ -5,7 +5,7 @@
 /***** class definitions *****/
 
 function KaisouAction(){/*** 改装系のAPIが叩かれたときのアクション ***/
-    this.achievements = new Achievements(new MyStorage());
+    this.achievements = new kanColleWidget.Achievements(new MyStorage());
 }
 
 KaisouAction.prototype.forPowerup= function(params){

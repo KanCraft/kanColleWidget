@@ -5,7 +5,7 @@
 /***** class definitions *****/
 
 function MapAction(){/*** Map出撃系のAPIが叩かれたときのアクション ***/
-    this.achievements = new Achievements(new MyStorage());
+    this.achievements = new kanColleWidget.Achievements(new MyStorage());
 }
 
 MapAction.prototype.forStart= function(){
