@@ -61,6 +61,7 @@ MyStorage.prototype.tearDown = function(){
         'notification-offset-millisec'       : 60*1000,//デフォルトでは1分前
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
+        'capture-image-format'               : 'png',
         'launch-on-click-notification'       : false,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,

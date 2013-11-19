@@ -196,7 +196,11 @@ var Util = Util || {};
     Util.openCapturedPage = function(windowId, doneCallback) {
         if(doneCallback == null) { doneCallback = function(){/* do nothing */}; }
 
-        chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataUrl) {
+        var opt = {
+            format  : Config.get('capture-image-format') || 'png'
+        };
+
+        chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
             if(Config.get('capture-destination-size') === true){
                 dataUrl = Util.resizeImage(dataUrl);
             }
@@ -249,7 +253,10 @@ var Util = Util || {};
             canvas.width, canvas.height
         );
 
-        return canvas.toDataURL();
+        var format = Config.get('capture-image-format') || 'png';
+        format = "image/" + format;
+
+        return canvas.toDataURL(format);
     };
 
     Util.detectAndCapture = function() {
