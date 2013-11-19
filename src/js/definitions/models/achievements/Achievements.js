@@ -20,7 +20,7 @@ Achievements.prototype.update = function(force, target){
     if(typeof target == 'undefined') target = 'all';
     var initial_achievements = {
         'daily' : {
-            'lastUpdated' : this.getNearestDailyAchievementResetTime(),
+            'lastUpdated' : this._getNearestDailyAchievementResetTime(),
             'contents' : {
                 mission_count   : 0,
                 practice_count  : 0,
@@ -32,7 +32,7 @@ Achievements.prototype.update = function(force, target){
             }
         },
         'weekly' : {
-            'lastUpdated' : this.getNearestWeeklyAchievementResetTime(),
+            'lastUpdated' : this._getNearestWeeklyAchievementResetTime(),
             'contents' : {
                 mission_count   : 0,
                 practice_count  : 0,
@@ -47,11 +47,11 @@ Achievements.prototype.update = function(force, target){
 
     var achievements_json = this.storage.get('achievements') || initial_achievements;
 
-    if(achievements_json.daily.lastUpdated < this.getNearestDailyAchievementResetTime()){
+    if(achievements_json.daily.lastUpdated < this._getNearestDailyAchievementResetTime()){
         achievements_json.daily.lastUpdated = Date.now();
         achievements_json.daily.contents = initial_achievements.daily.contents;
     }
-    if(achievements_json.weekly.lastUpdated < this.getNearestWeeklyAchievementResetTime()){
+    if(achievements_json.weekly.lastUpdated < this._getNearestWeeklyAchievementResetTime()){
         achievements_json.weekly.lastUpdated = Date.now();
         achievements_json.weekly.contents = initial_achievements.weekly.contents;
     }
@@ -143,7 +143,7 @@ Achievements.prototype.toJson = function(){
 /**
  * @returns {number}
  */
-Achievements.prototype.getNearestDailyAchievementResetTime = function(){
+Achievements.prototype._getNearestDailyAchievementResetTime = function(){
     var now = new Date();
     var diffHours = (now.getHours() + 19) % 24;
     var _1hourMsec = 1*60*60*1000;
@@ -154,7 +154,7 @@ Achievements.prototype.getNearestDailyAchievementResetTime = function(){
 /**
  * @returns {number}
  */
-Achievements.prototype.getNearestWeeklyAchievementResetTime = function(){
+Achievements.prototype._getNearestWeeklyAchievementResetTime = function(){
     var now = new Date();
     var diffDays = (now.getDay() + 6) % 7;
     var _1dayMsec = 1*24*60*60*1000;
