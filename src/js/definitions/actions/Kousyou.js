@@ -5,7 +5,7 @@
 /***** class definitions *****/
 
 function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/
-    this.achievements = new kanColleWidget.Achievements(new MyStorage());
+    this.achievements = new KanColleWidget.Achievements(new MyStorage());
 }
 
 KousyouAction.prototype.forCreateship = function(params){
@@ -40,7 +40,7 @@ KousyouAction.prototype.forGetship = function(params){
     // 設定を見る
     if (! Config.get("share-kousyo-result")) return;
 
-    var twitter = new kanColleWidget.Twitter();
+    var twitter = new KanColleWidget.Twitter();
     var createshipParams = Stash.createShip[params['api_kdock_id'][0]];
     twitter.shareCreateShip(createshipParams);
 }
@@ -99,6 +99,6 @@ KousyouAction.prototype.forCreateitemComplete = function(){
 
     if (! Config.get("share-kousyo-result")) return;
 
-    var twitter = new kanColleWidget.Twitter();
+    var twitter = new KanColleWidget.Twitter();
     twitter.shareCreateItem(Stash.createItem);
 };

@@ -1,5 +1,5 @@
 /* jshint browser:true */
-/* global kanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
+/* global KanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
 /**
  * dependency: MyStorage
  */
@@ -54,8 +54,8 @@ var Util = Util || {};
      */
     Util.presentation = function(text, opt) {
         if(Util.notifier == null) {
-            var assetManager = new kanColleWidget.AssetManager(chrome, Config, Constants);
-            Util.notifier    = new kanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
+            var assetManager = new KanColleWidget.AssetManager(chrome, Config, Constants);
+            Util.notifier    = new KanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
         }
         Util.notifier.giveNotice(text, opt);
     };

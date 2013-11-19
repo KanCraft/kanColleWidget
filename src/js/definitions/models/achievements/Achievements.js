@@ -1,12 +1,12 @@
 // module KanColleWidget
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 
 (function(){
     /**
      * @param storage
      * @constructor
      */
-    var Achievements = kanColleWidget.Achievements = function(storage){
+    var Achievements = KanColleWidget.Achievements = function(storage){
         this.storage = storage;
     }
 

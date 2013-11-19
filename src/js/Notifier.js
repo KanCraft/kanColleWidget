@@ -1,6 +1,6 @@
 // Comment Style is JSDuck
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 
 (function() {
     'use strict';
@@ -14,7 +14,7 @@ var kanColleWidget = kanColleWidget || {};
      * @param {Object} tracking     src/js/definitions/models/MyStorage.js
      * @param {Object} util         src/js/Util.js
      */
-    var Notifier = kanColleWidget.Notifier = function(window,
+    var Notifier = KanColleWidget.Notifier = function(window,
                                                       assetManager,
                                                       config,
                                                       constants,

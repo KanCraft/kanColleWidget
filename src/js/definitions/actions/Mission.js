@@ -6,7 +6,7 @@
 
 function MissionAction(){/*** mission系のAPIが叩かれたときのアクション ***/
     this.missions = new Missions();
-    this.achievements = new kanColleWidget.Achievements(new MyStorage());
+    this.achievements = new KanColleWidget.Achievements(new MyStorage());
 }
 
 MissionAction.prototype.forStart = function(params){

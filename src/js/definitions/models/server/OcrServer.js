@@ -20,7 +20,7 @@ Ocr.prototype.send = function(imgURI, callback){
     this._post(data, callback);
 };
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 (function(){
-    kanColleWidget.Ocr = new Ocr();
+    KanColleWidget.Ocr = new Ocr();
 })();
