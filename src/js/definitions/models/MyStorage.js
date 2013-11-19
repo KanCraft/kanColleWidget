@@ -23,7 +23,7 @@ MyStorage.prototype.ofTest = function(){
 };
 MyStorage.prototype.tearDown = function(){
     if (this.isTest) {
-        this.storage = null;
+        this.storage.clear();
         return true;
     }
     return false;
