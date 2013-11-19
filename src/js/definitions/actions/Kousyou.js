@@ -5,7 +5,7 @@
 /***** class definitions *****/
 
 function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/
-    this.achievements = new Achievements();
+    this.achievements = new Achievements(new MyStorage());
 }
 
 KousyouAction.prototype.forCreateship = function(params){

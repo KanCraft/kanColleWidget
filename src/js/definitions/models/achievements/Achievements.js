@@ -2,14 +2,20 @@
  * dependency: MyStorage
  */
 
-/***** class definitions *****/
-function Achievements(){/** localStorageにあるachievementsにアクセスするクラス **/}
+/**
+ * @param storage
+ * @constructor
+ */
+function Achievements(storage){
+    this.storage = storage;
+}
 
-// extend
-Achievements.prototype = Object.create(MyStorage.prototype);
-Achievements.prototype.constructor = Achievements;
-
-/* this */Achievements.prototype.update = function(force, target){
+/**
+ * @param force
+ * @param target
+ * @returns this
+ */
+Achievements.prototype.update = function(force, target){
     if(typeof force == 'undefined') force = false;
     if(typeof target == 'undefined') target = 'all';
     var initial_achievements = {
@@ -39,7 +45,7 @@ Achievements.prototype.constructor = Achievements;
         }
     };
 
-    var achievements_json = this.get('achievements') || initial_achievements;
+    var achievements_json = this.storage.get('achievements') || initial_achievements;
 
     if(achievements_json.daily.lastUpdated < this.getNearestDailyAchievementResetTime()){
         achievements_json.daily.lastUpdated = Date.now();
@@ -59,60 +65,96 @@ Achievements.prototype.constructor = Achievements;
             achievements_json.weekly = initial_achievements.weekly;
         }
     }
-    this.set('achievements', achievements_json);
+    this.storage.set('achievements', achievements_json);
     return this;
 }
 
-/* this */Achievements.prototype.incrementMissionCount = function(){
-    this._incrementByKey('mission_count');
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementMissionCount = function(){
+    return this._incrementByKey('mission_count');
 }
 
-/* this */Achievements.prototype.incrementPracticeCount = function(){
-    this._incrementByKey('practice_count');
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementPracticeCount = function(){
+    return this._incrementByKey('practice_count');
 }
 
-/* this */Achievements.prototype.incrementMapCount = function(){
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementMapCount = function(){
     return this._incrementByKey('map_count');
 }
 
-/* this */Achievements.prototype.incrementHokyuCount = function(){
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementHokyuCount = function(){
     return this._incrementByKey('hokyu_count');
 }
 
-/* this */Achievements.prototype.incrementKaisouCount = function(){
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementKaisouCount = function(){
     return this._incrementByKey('kaisou_count');
 }
 
-/* this */Achievements.prototype.incrementCreateshipCount = function(){
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementCreateshipCount = function(){
     return this._incrementByKey('createship_count');
 }
 
-/* this */Achievements.prototype.incrementCreateitemCount = function(){
+/**
+ * @returns this
+ */
+Achievements.prototype.incrementCreateitemCount = function(){
     return this._incrementByKey('createitem_count');
 }
 
-/* this */Achievements.prototype._incrementByKey = function(key){
-    var achievement_json = this.get('achievements');
+/**
+ * @param key
+ * @returns this
+ * @private
+ */
+Achievements.prototype._incrementByKey = function(key){
+    var achievement_json = this.storage.get('achievements');
     var daily_count = achievement_json.daily.contents[key] || 0;
     achievement_json.daily.contents[key] = parseInt(daily_count) + 1;
     var weekly_count = achievement_json.weekly.contents[key] || 0;
     achievement_json.weekly.contents[key] = parseInt(weekly_count) + 1;
-    this.set('achievements',achievement_json);
+    this.storage.set('achievements',achievement_json);
     return this;
 }
 
-/* dict */Achievements.prototype.toJson = function(){
-    return this.get('achievements');
+/**
+ * @returns {*}
+ */
+Achievements.prototype.toJson = function(){
+    return this.storage.get('achievements');
 }
 
-/* epoch: msec */Achievements.prototype.getNearestDailyAchievementResetTime = function(){
+/**
+ * @returns {number}
+ */
+Achievements.prototype.getNearestDailyAchievementResetTime = function(){
     var now = new Date();
     var diffHours = (now.getHours() + 19) % 24;
     var _1hourMsec = 1*60*60*1000;
     var last5am = new Date(now - diffHours * _1hourMsec);
     return (new Date(1900 + last5am.getYear(), last5am.getMonth(), last5am.getDate(), 5, 0)).getTime();
 }
-/* epoch: msec */Achievements.prototype.getNearestWeeklyAchievementResetTime = function(){
+
+/**
+ * @returns {number}
+ */
+Achievements.prototype.getNearestWeeklyAchievementResetTime = function(){
     var now = new Date();
     var diffDays = (now.getDay() + 6) % 7;
     var _1dayMsec = 1*24*60*60*1000;

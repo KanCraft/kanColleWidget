@@ -5,7 +5,7 @@
 /***** class definitions *****/
 
 function HokyuAction(){/*** 補給系のAPIが叩かれたときのアクション ***/
-    this.achievements = new Achievements();
+    this.achievements = new Achievements(new MyStorage());
 }
 
 HokyuAction.prototype.forCharge= function(params){

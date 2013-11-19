@@ -6,7 +6,7 @@
 
 function MissionAction(){/*** mission系のAPIが叩かれたときのアクション ***/
     this.missions = new Missions();
-    this.achievements = new Achievements();
+    this.achievements = new Achievements(new MyStorage());
 }
 
 MissionAction.prototype.forStart = function(params){
