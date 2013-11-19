@@ -88,5 +88,5 @@
             ]
         }
     ],
-    "options_page" : "src/html/more.html"
+    "options_page" : "src/html/settings.html"
 }
