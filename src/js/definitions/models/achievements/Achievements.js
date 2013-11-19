@@ -27,6 +27,7 @@ var KanColleWidget = KanColleWidget || {};
                     map_count       : 0,
                     hokyu_count     : 0,
                     kaisou_count    : 0,
+                    nyukyo_count    : 0,
                     createitem_count: 0,
                     createship_count: 0
                 }
@@ -39,6 +40,7 @@ var KanColleWidget = KanColleWidget || {};
                     map_count       : 0,
                     hokyu_count     : 0,
                     kaisou_count    : 0,
+                    nyukyo_count    : 0,
                     createitem_count: 0,
                     createship_count: 0
                 }
@@ -117,6 +119,10 @@ var KanColleWidget = KanColleWidget || {};
     Achievements.prototype.incrementCreateitemCount = function(){
         return this._incrementByKey('createitem_count');
     }
+
+    Achievements.prototype.incrementNyukyoCount = function(){
+        return this._incrementByKey('nyukyo_count');
+    };
 
     /**
      * @param key

@@ -1,29 +1,40 @@
 /***** class definitions *****/
 
-function MyStorage(){
-    this.storage = localStorage;
-}
+function MyStorage(){};
 
 /* dict */MyStorage.prototype.get = function(key){
+
+    if (sessionStorage.isTest == 'true') return this.ofTest().get(key);
+
     try{
-        return JSON.parse(this.storage.getItem(key));
+        return JSON.parse(localStorage.getItem(key));
     }catch(e){
-        return this.storage.getItem(key);
+        return localStorage.getItem(key);
     }
 };
 
 /* void (でいいのか？) */MyStorage.prototype.set = function(key,value){
-    this.storage.setItem(key,JSON.stringify(value));
+    localStorage.setItem(key,JSON.stringify(value));
 };
 
 MyStorage.prototype.ofTest = function(){
-    this.storage = sessionStorage;
     this.isTest = true;
+    sessionStorage.isTest = true;
+    this.get = function(key){
+        try{
+            return JSON.parse(sessionStorage.getItem(key));
+        }catch(e){
+            return sessionStorage.getItem(key);
+        }
+    };
+    this.set = function(key, value){
+        sessionStorage.setItem(key,JSON.stringify(value));
+    };
     return this;
 };
 MyStorage.prototype.tearDown = function(){
     if (this.isTest) {
-        this.storage.clear();
+        sessionStorage.clear();
         return true;
     }
     return false;
