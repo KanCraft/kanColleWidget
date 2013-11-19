@@ -1,17 +1,32 @@
 /***** class definitions *****/
 
-function MyStorage(){/** localStorageにアクセスするクラス **/}
+function MyStorage(){
+    this.storage = localStorage;
+}
 
 /* dict */MyStorage.prototype.get = function(key){
     try{
-        return JSON.parse(localStorage.getItem(key));
+        return JSON.parse(this.storage.getItem(key));
     }catch(e){
-        return localStorage.getItem(key);
+        return this.storage.getItem(key);
     }
 };
 
 /* void (でいいのか？) */MyStorage.prototype.set = function(key,value){
-    localStorage.setItem(key,JSON.stringify(value));
+    this.storage.setItem(key,JSON.stringify(value));
+};
+
+MyStorage.prototype.ofTest = function(){
+    this.storage = sessionStorage;
+    this.isTest = true;
+    return this;
+};
+MyStorage.prototype.tearDown = function(){
+    if (this.isTest) {
+        this.storage = null;
+        return true;
+    }
+    return false;
 };
 
 /* static */var Config = {/** localStorage.configにアクセスするstaticなクラス **/
