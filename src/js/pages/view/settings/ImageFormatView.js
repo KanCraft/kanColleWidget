@@ -7,6 +7,7 @@ var widgetPages = widgetPages || {};
 
     var ImageFormatView = widgetPages.ImageFormatView = function(){
         this.inputName = 'capture-image-format';
+        this.title = "スクショの画像フォーマット";
         this.elements = [
             {value:'png'},
             {value:'jpeg', title:'じぇーぺぐ'}
@@ -14,13 +15,4 @@ var widgetPages = widgetPages || {};
     };
     ImageFormatView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
     ImageFormatView.prototype.constructor = ImageFormatView;
-
-    ImageFormatView.prototype.render = function(){
-        this.apply({
-            title : "スクショの画像フォーマット",
-            description : ''
-        }).listen()._render();
-        this.renderInputs();
-        return this.$el;
-    };
 })();

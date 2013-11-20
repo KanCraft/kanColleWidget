@@ -46,4 +46,13 @@ var widgetPages = widgetPages || {};
         this.$el.find('.radio-container').append($_container);
         return this;
     };
+
+    SettingRadioButtonView.prototype.render = function(){
+        this.apply({
+            title : this.title,
+            description : this.description || ''
+        }).listen()._render();
+        this.renderInputs();
+        return this.$el;
+    };
 })();
