@@ -64,6 +64,18 @@ var KanColleWidget = KanColleWidget || {};
             };
         }
 
+        // 課金系のやつ
+        if(options.isPaymentRequired){
+            var self = this;
+            notification.onclick = function() {
+                if (window.confirm("ウィジェットを閉めてdmmページを開きますか？")) {
+                    self.util.closeWidgetWindow(function(){
+                        self.util.openOriginalWindow();
+                    });
+                }
+            };
+        }
+
         // 居座る判定
         (function(self) {
             var startOrFinish = options.startOrFinish;

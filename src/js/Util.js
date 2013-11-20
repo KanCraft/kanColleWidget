@@ -158,6 +158,28 @@ var Util = Util || {};
         }
     };
 
+    Util.closeWidgetWindow = function(callback) {
+        var callback = callback || function(){};
+
+        chrome.windows.getAll({populate:true},function(windows) {
+            for(var i in windows) {
+                if(windows.hasOwnProperty(i)) {
+                    var w = windows[i];
+                    if(!w.tabs || w.tabs.length < 1) { continue; }
+                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                        chrome.windows.remove(w.id, callback);
+                        break;
+                    }
+                }
+            }
+        });
+    };
+    Util.openOriginalWindow = function(callback){
+        var callback = callback || function(){};
+        var win = window.open("http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/");
+        callback(win);
+    };
+
     Util.ifCurrentIsKCWidgetWindow = function(isCallback, notCallback) {
         if(notCallback == null) { notCallback = function(){}; }
 

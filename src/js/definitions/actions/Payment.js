@@ -12,6 +12,9 @@ PaymentAction.prototype.forMasterPayitem = function(){
 
 PaymentAction.prototype._forPaymentRelatedApi = function(){
     Util.ifCurrentIsKCWidgetWindow(function(){
-        Util.presentation("！！！注意！！！\nポイント決済など課金の関わる操作は、ウィジェットを閉じてブラウザから行って下さい", {sound:false});
+        Util.presentation(
+            "！！！注意！！！\nポイント決済など課金の関わる操作は、ウィジェットを閉じてブラウザから行って下さい",
+            {sound:false,isPaymentRequired:true}
+        );
     });
 }
