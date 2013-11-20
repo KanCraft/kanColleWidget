@@ -11,7 +11,8 @@ $(function(){
     });
 
     $("#reminder-notifications").append(
-        (new widgetPages.DynamicReminderTypeView()).render()
+        (new widgetPages.DynamicReminderTypeView()).render(),
+        (new widgetPages.AllowOcrResultLogView()).render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()
