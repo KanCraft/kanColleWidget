@@ -10,6 +10,9 @@ $(function(){
         Config.set(key, $(this).val());
     });
 
+    $("#reminder-notifications").append(
+        (new widgetPages.DynamicReminderTypeView()).render()
+    );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()
     );

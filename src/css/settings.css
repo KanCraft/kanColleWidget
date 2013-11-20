@@ -40,6 +40,7 @@ td.sorry {
 span.xsmall {
     font-size: x-small;
     color: #666;
+    margin-left: 5px;
 }
 p.xsmall {
     font-size: x-small;

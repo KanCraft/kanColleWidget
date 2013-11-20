@@ -17,7 +17,7 @@
                 <td id="version">0.5.0.8</td>
             </tr>
         </table>
-        <table class="settings">
+        <table id="reminder-notifications" class="settings">
             <tr>
                 <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
             </tr>
@@ -45,20 +45,6 @@
                 </td>
                 <td>
                     <input id="enable-mission-reminder" type="checkbox">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    入渠・建造時リマインダー登録機能を有効にする<br>
-                    <p class="xsmall">
-                        画像キャプチャの時間表時部分をサーバに送って画像解析してます。画面解像度が低い/ウィジェットが小さいなどの環境では失敗することが多いです。
-                        <br>詳しい実装はこちら : [<a href="https://github.com/otiai10/kanColleWidget">クライアント(JavaScript)</a>] [<a href="https://github.com/otiai10/ocrServer">サーバ(Python)</a>]
-                    </p>
-                </td>
-                <td>
-                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="0">何もしない <span class="xsmall">入渠・建造のリマインダは使わないというひと</span><br>
-                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="1">常に手動登録ウィンドウを出す <span class="xsmall">自動取得失敗とかウザいってひと</span><br>
-                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="2">自動取得 <span class="xsmall">失敗したら手動登録ウィンドウが出ます</span><br>
                 </td>
             </tr>
             <tr>
@@ -310,6 +296,7 @@
     <script type="text/javascript" src="../js/pages/view/View.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/SettingRadioButtonView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/ImageFormatView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/settings/DynamicReminderTypeView.js"></script>
     <script type="text/javascript" src="../js/pages/settings.js"></script>
 </body>
 </html>

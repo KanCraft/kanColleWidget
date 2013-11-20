@@ -42,6 +42,8 @@ var widgetPages = widgetPages || {};
             if (el.value == nowSelectedValue) $input.attr({checked:true});
             $_container.append($input);
             $_container.append($('<span></span>').text(el.title || el.value));
+            if (! el.description) continue;
+            $_container.append($('<span></span>').text(el.description).addClass('description xsmall'));
         }
         this.$el.find('.radio-container').append($_container);
         return this;
