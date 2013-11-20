@@ -32,7 +32,7 @@ var widgetPages = widgetPages || {};
         var $_container = $('<div>');
         for (var i in this.elements) {
             var el = this.elements[i];
-            var $input = $('<input type="radio"></input>')
+            var $input = $('<input type="radio"></input>');
             $input.attr({
                 'class' : this.inputName,
                 'name'  : this.inputName,
