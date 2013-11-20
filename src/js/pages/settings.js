@@ -9,6 +9,10 @@ $(function(){
     $('#' + key).on('change',function(){
         Config.set(key, $(this).val());
     });
+
+    $("#icon-tools").append(
+        (new widgetPages.ImageFormatView()).render()
+    );
 });
 
 function affectConfigInView(){
