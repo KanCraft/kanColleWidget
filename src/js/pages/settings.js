@@ -11,6 +11,7 @@ $(function(){
     });
 
     $("#reminder-notifications").append(
+        (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render()
     );
