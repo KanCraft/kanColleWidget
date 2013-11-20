@@ -54,6 +54,8 @@ var KanColleWidget = KanColleWidget || {};
         var icon  = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
         var title = this.constants.notification.title;
 
+        // FIXME : http://productforums.google.com/forum/#!mydiscussions/chrome-ja/sqN8dN337Dg
+        message = " " + message;
         var notification = this.window.webkitNotifications.createNotification(icon, title, message);
 
         // 通知をクリックしたら起動するオプション
