@@ -3,294 +3,300 @@
 <head>
     <meta charset="utf-8">
     <title>リッチな設定 - 艦これウィジェット</title>
-    <link rel="stylesheet" href="../css/more.css">
+    <link rel="stylesheet" href="../css/settings.css">
 </head>
 <body>
     <h3>艦これウィジェットのリッチな設定とか</h3>
     <div class="main">
-        <table id="configs">
-            <tbody>
-                <tr>
-                    <td colspan="2"><h4>リッチな設定メニュー (※リッチなので現在ベータ版です！)</h4></td>
-                </tr>
-                <tr>
-                    <td>バージョン</td>
-                    <td id="version">0.5.0.8</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
-                </tr>
-                <tr>
-                    <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
-                    <td>
-                        <input id="badge-left-time" type="checkbox">
-                        <span class="xsmall">残り時間を表示しない場合は、終了件数が表示されます</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>数分前通知する</td>
-                    <td>
-                        <select id="notification-offset-millisec" name="notification-offset-millisec">
-                            <option value="0">時間ちょうど</option>
-                            <option value="60000">一分前</option>
-                            <option value="120000">二分前</option>
-                            <option value="180000">三分前</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        遠征リマインダー登録を有効にする
-                    </td>
-                    <td>
-                        <input id="enable-mission-reminder" type="checkbox">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        入渠・建造時リマインダー登録機能を有効にする<br>
-                        <p class="xsmall">
-                            画像キャプチャの時間表時部分をサーバに送って画像解析してます。画面解像度が低い/ウィジェットが小さいなどの環境では失敗することが多いです。
-                            <br>詳しい実装はこちら : [<a href="https://github.com/otiai10/kanColleWidget">クライアント(JavaScript)</a>] [<a href="https://github.com/otiai10/ocrServer">サーバ(Python)</a>]
-                        </p>
-                    </td>
-                    <td>
-                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="0">何もしない <span class="xsmall">入渠・建造のリマインダは使わないというひと</span><br>
-                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="1">常に手動登録ウィンドウを出す <span class="xsmall">自動取得失敗とかウザいってひと</span><br>
-                        <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="2">自動取得 <span class="xsmall">失敗したら手動登録ウィンドウが出ます</span><br>
-                    </td>
-                </tr>
-                <tr>
-                    <td>自動取得失敗レポートを送信する</td>
-                    <td>
-                        <input id="allow-ocr-result-log" type="checkbox">
-                        <span class="xsmall">精度向上にご協力くだしあ！時間部分の画像断片と解析失敗結果を自前のログサーバに送信します</span><br>
-                        <span class="xsmall">送信された失敗ログは<a href="http://log-kcwidget.oti10.com/ocr">ここ</a>で見ることができます</span>
-                    </td>
-                </tr>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>リッチな設定メニュー (※リッチなので現在ベータ版です！)</h4></td>
+            </tr>
+            <tr>
+                <td>バージョン</td>
+                <td id="version">0.5.0.8</td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>[リマインダー・バッチ関係]</h4></td>
+            </tr>
+            <tr>
+                <td>残り時間をバッチ表示する<a href="https://pbs.twimg.com/media/BTJoojqCMAAqFy3.png"><img src="https://pbs.twimg.com/media/BTNXZaCCIAADciW.png" width="30px"></a></td>
+                <td>
+                    <input id="badge-left-time" type="checkbox">
+                    <span class="xsmall">残り時間を表示しない場合は、終了件数が表示されます</span>
+                </td>
+            </tr>
+            <tr>
+                <td>数分前通知する</td>
+                <td>
+                    <select id="notification-offset-millisec" name="notification-offset-millisec">
+                        <option value="0">時間ちょうど</option>
+                        <option value="60000">一分前</option>
+                        <option value="120000">二分前</option>
+                        <option value="180000">三分前</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    遠征リマインダー登録を有効にする
+                </td>
+                <td>
+                    <input id="enable-mission-reminder" type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    入渠・建造時リマインダー登録機能を有効にする<br>
+                    <p class="xsmall">
+                        画像キャプチャの時間表時部分をサーバに送って画像解析してます。画面解像度が低い/ウィジェットが小さいなどの環境では失敗することが多いです。
+                        <br>詳しい実装はこちら : [<a href="https://github.com/otiai10/kanColleWidget">クライアント(JavaScript)</a>] [<a href="https://github.com/otiai10/ocrServer">サーバ(Python)</a>]
+                    </p>
+                </td>
+                <td>
+                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="0">何もしない <span class="xsmall">入渠・建造のリマインダは使わないというひと</span><br>
+                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="1">常に手動登録ウィンドウを出す <span class="xsmall">自動取得失敗とかウザいってひと</span><br>
+                    <input name="dynamic-reminder-type" class="dynamic-reminder-type" type="radio" value="2">自動取得 <span class="xsmall">失敗したら手動登録ウィンドウが出ます</span><br>
+                </td>
+            </tr>
+            <tr>
+                <td>自動取得失敗レポートを送信する</td>
+                <td>
+                    <input id="allow-ocr-result-log" type="checkbox">
+                    <span class="xsmall">精度向上にご協力くだしあ！時間部分の画像断片と解析失敗結果を自前のログサーバに送信します</span><br>
+                    <span class="xsmall">送信された失敗ログは<a href="http://log-kcwidget.oti10.com/ocr">ここ</a>で見ることができます</span>
+                </td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>[アイコンツール関係]</h4></td>
+            </tr>
+            <tr>
+                <td>任務実績(遠征回数とか)を記録・表示する</td>
+                <td>
+                    <input id="record-achievements" type="checkbox">
+                    <span class="xsmall">デイリーは毎朝5時、ウィークリーは毎月曜日朝5時にリセットらしいです</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    スクショボタン表示
+                    <span class="xsmall">
+                        （ショートカットキー : Ctrl + Shift + 0）
+                    </span>
+                </td>
+                <td>
+                    <input id="enable-screen-shot" type="checkbox">
+                    <span class="xsmall">
+                        注意：一部ブラウザで画像が松崎しげるになる現象が確認されています。
+                        詳しくは<a href="https://github.com/otiai10/kanColleWidget/issues/106">ここ</a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td>スクショ撮るときにダウンロードもする</td>
+                <td><input id="download-on-screenshot" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>スクショった結果は常に中型の大きさにしてくれ</td>
+                <td>
+                    <input id="capture-destination-size" type="checkbox">
+                    <span class="xsmall">極小でやると引き延ばされるのでちょっと悲惨</span>
+                </td>
+            </tr>
+            <tr>
+                <td>クロックモードボタン表示</td>
+                <td>
+                    <input id="show-clockmode-button" type="checkbox">
+                    <span class="xsmall">タイマーと時計だけのウィンドウを出します。登録済みのタイマーはここから再編集できます</span>
+                </td>
+            </tr>
+            <tr>
+                <td>予定の表示は終了時刻順で</td>
+                <td>
+                    <input id="sort-by-finishtime" type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td>最初に出てくる文字</td>
+                <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
+            </tr>
+            <tr>
+                <td>アイコンポップアップの背景</td>
+                <td>
+                    <img width="100" id="popup-bg-img">
+                    <hr>
+                    <input id="popup-bg-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
+                    <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
+                    <span id="popup-bg-img-file-validation" class="xsmall validation-message">
+                        200px × 500くらいが最適です。
+                        縦横比を維持しつつ画面を覆えるサイズになってフィットします。
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>[通知関係]</h4></td>
+            </tr>
+            <tr>
+                <td>
+                    通知ポップアップが自動で消えずに見えるまんまにする
+                </td>
+                <td>
+                    <select id="notification-stay-visible">
+                        <option value="">無効</option>
+                        <option value="start">登録時のみ</option>
+                        <option value="finish">終了時のみ</option>
+                        <option value="start-finish">両方とも</option>
+                    </select>
+                    <span class="xsmall">デフォルトで放っておくとウィンドウがエラー娘だらけになるということ</span>
+                </td>
+            </tr>
+            <tr>
+                <td>通知ポップアップをクリックしたらLAUNCHする</td>
+                <td><input id="launch-on-click-notification" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>通知ポップアップするタイミング</td>
+                <td>
+                    <input id="notification-on-reminder-set" type="checkbox">登録時ポップアップ<br>
+                    <input id="notification-on-reminder-finish" type="checkbox">終了時ポップアップ
+                </td>
+            </tr>
+            <tr>
+                <td>遠征通知時に出てくる文字</td>
+                <td>
+                    遠征完了時：<input id="notification-mission-end-suffix" type="text" size="35" placeholder="艦隊がまもなく帰投します"><br>
+                    入渠完了時：<input id="notification-nyukyo-end-suffix" type="text" size="35" placeholder="入渠ドックの修復作業がまもなく完了します"><br>
+                    建造完了時：<input id="notification-createship-end-suffix" type="text" size="35" placeholder="建造ドックでの建造作業がまもなく完了します"><br>
+                    <span class="xsmall">"第○ ドックで艦娘がお風呂からあがるようです。覗いてはいけません！"</span>
+                </td>
+            </tr>
+            <tr>
+                <td>通知時アイコン画像</td>
+                <td>
+                    <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
+                    <hr>
+                    <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
+                    <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
+                    <span id="notification-img-file-validation" class="xsmall validation-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>通知時に音声を再生</td>
+                <td>
+                    <div class="reset" target="notification-sound-file"><img src="../img/remove.png"></div>
+                    <span>デフォルト：<span id="notification-sound-file-already-set"></span><input type="submit" id="notification-test" value="テスト"/></span><br/>
+                    <input id="notification-sound-file" target="notification-sound-file" type="file" accept="audio/*"/><br/>
 
-                <tr>
-                    <td colspan="2"><h4>[アイコンツール関係]</h4></td>
-                </tr>
-                <tr>
-                    <td>任務実績(遠征回数とか)を記録・表示する</td>
-                    <td>
-                        <input id="record-achievements" type="checkbox">
-                        <span class="xsmall">デイリーは毎朝5時、ウィークリーは毎月曜日朝5時にリセットらしいです</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        スクショボタン表示
-                        <span class="xsmall">
-                            （ショートカットキー : Ctrl + Shift + 0）
-                        </span>
-                    </td>
-                    <td>
-                        <input id="enable-screen-shot" type="checkbox">
-                        <span class="xsmall">
-                            注意：一部ブラウザで画像が松崎しげるになる現象が確認されています。
-                            詳しくは<a href="https://github.com/otiai10/kanColleWidget/issues/106">ここ</a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>スクショ撮るときにダウンロードもする</td>
-                    <td><input id="download-on-screenshot" type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>スクショった結果は常に中型の大きさにしてくれ</td>
-                    <td>
-                        <input id="capture-destination-size" type="checkbox">
-                        <span class="xsmall">極小でやると引き延ばされるのでちょっと悲惨</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>クロックモードボタン表示</td>
-                    <td>
-                        <input id="show-clockmode-button" type="checkbox">
-                        <span class="xsmall">タイマーと時計だけのウィンドウを出します。登録済みのタイマーはここから再編集できます</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>予定の表示は終了時刻順で</td>
-                    <td>
-                        <input id="sort-by-finishtime" type="checkbox">
-                    </td>
-                </tr>
-                <tr>
-                    <td>最初に出てくる文字</td>
-                    <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
-                </tr>
-                <tr>
-                    <td>アイコンポップアップの背景</td>
-                    <td>
-                        <img width="100" id="popup-bg-img">
-                        <hr>
-                        <input id="popup-bg-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
+                    <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>通知時音声設定+</td>
+                <td>
+                    <a id="open-notification-sound-extend">開く</a>
+                    <div id="notification-sound-extend" style="display:none;">
+                        <div class="reset" target="notification-sound-mission-start-file"><img src="../img/remove.png"></div>
+                        <span>遠征出発：<span id="notification-sound-mission-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-start" value="テスト"/></span><br/>
+                        <input id="notification-sound-mission-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
+                        <div class="reset" target="notification-sound-mission-finish-file"><img src="../img/remove.png"></div>
+                        <span>遠征帰投：<span id="notification-sound-mission-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-finish" value="テスト"/></span><br/>
+                        <input id="notification-sound-mission-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
+                        <div class="reset" target="notification-sound-nyukyo-start-file"><img src="../img/remove.png"></div>
+                        <span>入渠開始：<span id="notification-sound-nyukyo-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-start" value="テスト"/></span><br/>
+                        <input id="notification-sound-nyukyo-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
+                        <div class="reset" target="notification-sound-nyukyo-finish-file"><img src="../img/remove.png"></div>
+                        <span>入渠終了：<span id="notification-sound-nyukyo-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-finish" value="テスト"/></span><br/>
+                        <input id="notification-sound-nyukyo-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
+                        <div class="reset" target="notification-sound-createship-start-file"><img src="../img/remove.png"></div>
+                        <span>建造開始：<span id="notification-sound-createship-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-start" value="テスト"/></span><br/>
+                        <input id="notification-sound-createship-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
+                        <div class="reset" target="notification-sound-createship-finish-file"><img src="../img/remove.png"></div>
+                        <span>建造終了：<span id="notification-sound-createship-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-finish" value="テスト"/></span><br/>
+                        <input id="notification-sound-createship-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
+                        <hr/>
                         <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                        <span id="popup-bg-img-file-validation" class="xsmall validation-message">
-                            200px × 500くらいが最適です。
-                            縦横比を維持しつつ画面を覆えるサイズになってフィットします。
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h4>[通知関係]</h4></td>
-                </tr>
-                <tr>
-                    <td>
-                        通知ポップアップが自動で消えずに見えるまんまにする
-                    </td>
-                    <td>
-                        <select id="notification-stay-visible">
-                            <option value="">無効</option>
-                            <option value="start">登録時のみ</option>
-                            <option value="finish">終了時のみ</option>
-                            <option value="start-finish">両方とも</option>
-                        </select>
-                        <span class="xsmall">デフォルトで放っておくとウィンドウがエラー娘だらけになるということ</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>通知ポップアップをクリックしたらLAUNCHする</td>
-                    <td><input id="launch-on-click-notification" type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>通知ポップアップするタイミング</td>
-                    <td>
-                        <input id="notification-on-reminder-set" type="checkbox">登録時ポップアップ<br>
-                        <input id="notification-on-reminder-finish" type="checkbox">終了時ポップアップ
-                    </td>
-                </tr>
-                <tr>
-                    <td>遠征通知時に出てくる文字</td>
-                    <td>
-                        遠征完了時：<input id="notification-mission-end-suffix" type="text" size="35" placeholder="艦隊がまもなく帰投します"><br>
-                        入渠完了時：<input id="notification-nyukyo-end-suffix" type="text" size="35" placeholder="入渠ドックの修復作業がまもなく完了します"><br>
-                        建造完了時：<input id="notification-createship-end-suffix" type="text" size="35" placeholder="建造ドックでの建造作業がまもなく完了します"><br>
-                        <span class="xsmall">"第○ ドックで艦娘がお風呂からあがるようです。覗いてはいけません！"</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>通知時アイコン画像</td>
-                    <td>
-                        <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
-                        <hr>
-                        <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
-                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                        <span id="notification-img-file-validation" class="xsmall validation-message"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>通知時に音声を再生</td>
-                    <td>
-                        <div class="reset" target="notification-sound-file"><img src="../img/remove.png"></div>
-                        <span>デフォルト：<span id="notification-sound-file-already-set"></span><input type="submit" id="notification-test" value="テスト"/></span><br/>
-                        <input id="notification-sound-file" target="notification-sound-file" type="file" accept="audio/*"/><br/>
-
-                        <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>通知時音声設定+</td>
-                    <td>
-                        <a id="open-notification-sound-extend">開く</a>
-                        <div id="notification-sound-extend" style="display:none;">
-                            <div class="reset" target="notification-sound-mission-start-file"><img src="../img/remove.png"></div>
-                            <span>遠征出発：<span id="notification-sound-mission-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-start" value="テスト"/></span><br/>
-                            <input id="notification-sound-mission-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <div class="reset" target="notification-sound-mission-finish-file"><img src="../img/remove.png"></div>
-                            <span>遠征帰投：<span id="notification-sound-mission-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-finish" value="テスト"/></span><br/>
-                            <input id="notification-sound-mission-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <div class="reset" target="notification-sound-nyukyo-start-file"><img src="../img/remove.png"></div>
-                            <span>入渠開始：<span id="notification-sound-nyukyo-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-start" value="テスト"/></span><br/>
-                            <input id="notification-sound-nyukyo-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <div class="reset" target="notification-sound-nyukyo-finish-file"><img src="../img/remove.png"></div>
-                            <span>入渠終了：<span id="notification-sound-nyukyo-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-finish" value="テスト"/></span><br/>
-                            <input id="notification-sound-nyukyo-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <div class="reset" target="notification-sound-createship-start-file"><img src="../img/remove.png"></div>
-                            <span>建造開始：<span id="notification-sound-createship-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-start" value="テスト"/></span><br/>
-                            <input id="notification-sound-createship-start-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <div class="reset" target="notification-sound-createship-finish-file"><img src="../img/remove.png"></div>
-                            <span>建造終了：<span id="notification-sound-createship-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-finish" value="テスト"/></span><br/>
-                            <input id="notification-sound-createship-finish-file" target="notification-sound-url" type="file" accept="audio/*"/><br/>
-                            <hr/>
-                            <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                            <a id="close-notification-sound-extend">とじる</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>通知時音声音量</td>
-                    <td>
-                        <input id="notification-sound-volume" type="range" target="notification-sound-volume-text" min="0" max="100" value="100" />
-                        <span id="notification-sound-volume-text" class="xsmall"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h4>[その他・報告系]</h4></td>
-                </tr>
-                <tr>
-                    <td>開発・建造報告窓出す</td>
-                    <td>
-                        <input id="share-kousyo-result" type="checkbox">
-                        <span class="xsmall">自動ではツイートされません</span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="2"><h4>[おしらせ]</h4></td>
-                </tr>
-                <tr>
-                    <td>現在までに報告されている「ウィジェット内でできないこと」</td>
-                    <td class="sorry">
-                        <ul>
-                            <li>× アイテム課金とかする</li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td>リリースバージョンの詳細</td>
-                    <td><a href="https://github.com/otiai10/kanColleWidget/issues/milestones">https://github.com/otiai10/kanColleWidget/issues/milestones</a></td>
-                </tr>
-                <tr>
-                    <td>機能改善・バグ報告はここ</td>
-                    <td>
-                        <a href="https://github.com/otiai10/kanColleWidget/issues/new">GitHub</a>
-                        か
-                        <a href="https://twitter.com/otiai10">Twitter</a>
-                        まで
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="https://twitter.com/KanColle_STAFF/statuses/373961855586140161">公式から</a>
-                    </td>
-                    <td>
-                        参考：<a href="http://www.slideshare.net/otiai10/ss-26631311">艦これウィジェットの機能説明</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h4>[謝辞]</h4></td>
-                </tr>
-                <tr>
-                    <td><a href="https://twitter.com/KanColle_STAFF">「艦これ」公式</a>殿</td>
-                    <td>いつも楽しくあそばせて頂いております！ありがとうございます！</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><a href="https://github.com/otiai10/kanColleWidget/network/members">開発者のみなさん</a></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td style="text-align: right">and <a href="https://twitter.com/search?q=%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88&src=typd&mode=realtime">you</a></td>
-                </tr>
-            </tbody>
+                        <a id="close-notification-sound-extend">とじる</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>通知時音声音量</td>
+                <td>
+                    <input id="notification-sound-volume" type="range" target="notification-sound-volume-text" min="0" max="100" value="100" />
+                    <span id="notification-sound-volume-text" class="xsmall"></span>
+                </td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>[その他・報告系]</h4></td>
+            </tr>
+            <tr>
+                <td>開発・建造報告窓出す</td>
+                <td>
+                    <input id="share-kousyo-result" type="checkbox">
+                    <span class="xsmall">自動ではツイートされません</span>
+                </td>
+            </tr>
+        </table>
+        <table class="settings">
+            <tr>
+                <td colspan="2"><h4>[おしらせ]</h4></td>
+            </tr>
+            <tr>
+                <td>現在までに報告されている「ウィジェット内でできないこと」</td>
+                <td class="sorry">
+                    <ul>
+                        <li>× アイテム課金とかする</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>リリースバージョンの詳細</td>
+                <td><a href="https://github.com/otiai10/kanColleWidget/issues/milestones">https://github.com/otiai10/kanColleWidget/issues/milestones</a></td>
+            </tr>
+            <tr>
+                <td>機能改善・バグ報告はここ</td>
+                <td>
+                    <a href="https://github.com/otiai10/kanColleWidget/issues/new">GitHub</a>
+                    か
+                    <a href="https://twitter.com/otiai10">Twitter</a>
+                    まで
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://twitter.com/KanColle_STAFF/statuses/373961855586140161">公式から</a>
+                </td>
+                <td>
+                    参考：<a href="http://www.slideshare.net/otiai10/ss-26631311">艦これウィジェットの機能説明</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><h4>[謝辞]</h4></td>
+            </tr>
+            <tr>
+                <td><a href="https://twitter.com/KanColle_STAFF">「艦これ」公式</a>殿</td>
+                <td>いつも楽しくあそばせて頂いております！ありがとうございます！</td>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="https://github.com/otiai10/kanColleWidget/network/members">開発者のみなさん</a></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: right">and <a href="https://twitter.com/search?q=%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88&src=typd&mode=realtime">you</a></td>
+            </tr>
         </table>
         <h4><span id="close-config" class="clickable">[とじる]</span></h4>
     </div>
