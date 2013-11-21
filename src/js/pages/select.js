@@ -146,6 +146,11 @@ function _toggleArea(e, sw){
 }
 
 (function(){
+
+    $('a.link').on('click',function(){
+        chrome.tabs.create({url:$(this).attr('data-href')});
+    });
+
     updateTimeLeft();
     updateAchievements();
     changeTitle();
