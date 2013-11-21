@@ -15,6 +15,7 @@ MissionAction.prototype.forStart = function(params){
 
     var min = Constants.time.mission[params.api_mission_id[0]];
 
+    var self = this;
     Util.ifThereIsAlreadyKCWidgetWindow(function(){
         if (typeof min == "undefined") {
             Util.presentation("遠征ID[" + params.api_mission_id[0] + "]？知らない子ですね...");
@@ -24,8 +25,8 @@ MissionAction.prototype.forStart = function(params){
         // new format : epoch msec
         var finish = (new Date()).getTime() + (min * 60 * 1000);
 
-        this.missions.add(params.api_deck_id[0], finish);
-        this.achievements.update().incrementMissionCount();
+        self.missions.add(params.api_deck_id[0], finish);
+        self.achievements.update().incrementMissionCount();
 
         if(!Config.get('notification-on-reminder-set')) return;
 
