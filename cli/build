@@ -43,16 +43,12 @@ show_manifest_diff(){
 get_ver_in_manifest(){
   echo `grep version manifest.json | grep -v manifest_version | tr -d " "`
 }
-get_ver_in_announce(){
-  echo `grep version src/html/announce.html | sed -e 's/<[^>]*>//g' | sed -e 's/ver//' | tr -d " "`
-}
 get_ver_in_settings(){
   echo `grep version src/html/settings.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
 }
 version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
-  echo "announce.html\t"`get_ver_in_announce`
   echo "settings.html\t"`get_ver_in_settings`
 }
 
