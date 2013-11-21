@@ -3,7 +3,7 @@ describe("Achievements", function() {
     var achievements;
 
     beforeEach(function() {
-        achievements = new KanColleWidget.Achievements((new MyStorage()).ofTest());
+        achievements = new KanColleWidget.Achievements(MyStorage.ofTest());
     });
 
     describe("toJson", function() {
@@ -51,6 +51,6 @@ describe("Achievements", function() {
     });
 
     afterEach(function() {
-        (new MyStorage()).ofTest().tearDown();
+        MyStorage.ofTest().tearDown();
     });
 });
