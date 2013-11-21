@@ -10,7 +10,7 @@ function updateTimeLeft(){
     missions.map(function(m){
         var d = new Date(m.finish);
         var style = '';
-        var padding = '';//くそ
+        var padding = "&nbsp;";//くそ
         if(m.finish == null) {
             d = dummyDate;
             style = "color:#bbb";
@@ -31,7 +31,7 @@ function updateTimeLeft(){
     createships.map(function(c){
         var d = new Date(c.finish);
         var style = '';
-        var padding = '';//くそ
+        var padding = "&nbsp;";//くそ
         if(c.finish == null){
             d = dummyDate;
             style = "color:#bbb";
@@ -52,7 +52,7 @@ function updateTimeLeft(){
     nyukyos.map(function(n){
         var d = new Date(n.finish);
         var style = '';
-        var padding = '';//くそ
+        var padding = "&nbsp;";//くそ
         if(n.finish == null){
             d = dummyDate;
             style = "color:#bbb";
