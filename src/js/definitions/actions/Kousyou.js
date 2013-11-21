@@ -24,11 +24,11 @@ KousyouAction.prototype.forCreateship = function(params){
     if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_createship.html');
 
     // 他、自動取得しようとするひと
-    var loadingWindow = Util.openLoaderWindow();
-
-    KanColleWidget.Stash.loadingWindow = loadingWindow;
-    Util.adjustSizeOfWindowsOS(loadingWindow);
-
+    Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+        var loadingWindow = Util.openLoaderWindow();
+        KanColleWidget.Stash.loadingWindow = loadingWindow;
+        Util.adjustSizeOfWindowsOS(loadingWindow);
+    });
 }
 KousyouAction.prototype.forGetship = function(params){
     var createships = new Createships();

@@ -198,6 +198,10 @@ var Util = Util || {};
     };
 
     Util.ifThereIsAlreadyKCWidgetWindow = function(isCallback, notCallback) {
+
+        var isCallback = isCallback || function(){};
+        var notCallback = notCallback || function(){};
+
         chrome.windows.getAll({populate:true}, function(windows) {
             for(var i in windows) {
                 if(windows.hasOwnProperty(i)) {
