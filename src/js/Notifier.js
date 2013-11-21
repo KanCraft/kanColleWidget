@@ -1,6 +1,6 @@
 // Comment Style is JSDuck
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 
 (function() {
     'use strict';
@@ -14,7 +14,7 @@ var kanColleWidget = kanColleWidget || {};
      * @param {Object} tracking     src/js/definitions/models/MyStorage.js
      * @param {Object} util         src/js/Util.js
      */
-    var Notifier = kanColleWidget.Notifier = function(window,
+    var Notifier = KanColleWidget.Notifier = function(window,
                                                       assetManager,
                                                       config,
                                                       constants,
@@ -54,6 +54,9 @@ var kanColleWidget = kanColleWidget || {};
         var icon  = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
         var title = this.constants.notification.title;
 
+        // FIXME : http://productforums.google.com/forum/#!mydiscussions/chrome-ja/sqN8dN337Dg
+        message = " " + message.split("\n").join("\n "); 
+
         var notification = this.window.webkitNotifications.createNotification(icon, title, message);
 
         // 通知をクリックしたら起動するオプション
@@ -61,6 +64,18 @@ var kanColleWidget = kanColleWidget || {};
             var self = this;
             notification.onclick = function() {
                 self.util.focusOrLaunchIfNotExists(self.tracking.get('mode'));
+            };
+        }
+
+        // 課金系のやつ
+        if(options.isPaymentRequired){
+            var self = this;
+            notification.onclick = function() {
+                if (window.confirm("ウィジェットを閉めてdmmページを開きますか？")) {
+                    self.util.closeWidgetWindow(function(){
+                        self.util.openOriginalWindow();
+                    });
+                }
             };
         }
 

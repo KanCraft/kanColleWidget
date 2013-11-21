@@ -69,7 +69,7 @@ var Process = Process || {};
             }
 
             // OCRサーバへ送る
-            kanColleWidget.Ocr.send(trimmedURI, function(res){
+            KanColleWidget.Ocr.send(trimmedURI, function(res){
                 res.imgURI      = trimmedURI;
                 res.createdTime = Date.now();
                 res.userAgent   = navigator.userAgent;
@@ -82,7 +82,7 @@ var Process = Process || {};
                 // Logサーバへ送る
                 console.log(res);
                 if(self.config.get('allow-ocr-result-log')) {
-                    kanColleWidget.Log.send(res, function(){/* */});
+                    KanColleWidget.Log.send(res, function(){/* */});
                 }
 
                 callback(res);

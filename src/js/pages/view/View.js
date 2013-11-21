@@ -34,7 +34,7 @@ var widgetPages = widgetPages || {};
     View.prototype._render = function() {
         this.events = this.events || this._defaultEvents;
         this.bindEvent();
-        return this.$el;
+        return this;
     };
 
     View.prototype.bindEvent = function() {

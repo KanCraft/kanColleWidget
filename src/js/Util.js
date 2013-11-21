@@ -1,5 +1,5 @@
 /* jshint browser:true */
-/* global kanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
+/* global KanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
 /**
  * dependency: MyStorage
  */
@@ -54,8 +54,8 @@ var Util = Util || {};
      */
     Util.presentation = function(text, opt) {
         if(Util.notifier == null) {
-            var assetManager = new kanColleWidget.AssetManager(chrome, Config, Constants);
-            Util.notifier    = new kanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
+            var assetManager = new KanColleWidget.AssetManager(chrome, Config, Constants);
+            Util.notifier    = new KanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
         }
         Util.notifier.giveNotice(text, opt);
     };
@@ -158,6 +158,28 @@ var Util = Util || {};
         }
     };
 
+    Util.closeWidgetWindow = function(callback) {
+        var callback = callback || function(){};
+
+        chrome.windows.getAll({populate:true},function(windows) {
+            for(var i in windows) {
+                if(windows.hasOwnProperty(i)) {
+                    var w = windows[i];
+                    if(!w.tabs || w.tabs.length < 1) { continue; }
+                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+                        chrome.windows.remove(w.id, callback);
+                        break;
+                    }
+                }
+            }
+        });
+    };
+    Util.openOriginalWindow = function(callback){
+        var callback = callback || function(){};
+        var win = window.open("http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/");
+        callback(win);
+    };
+
     Util.ifCurrentIsKCWidgetWindow = function(isCallback, notCallback) {
         if(notCallback == null) { notCallback = function(){}; }
 
@@ -176,6 +198,10 @@ var Util = Util || {};
     };
 
     Util.ifThereIsAlreadyKCWidgetWindow = function(isCallback, notCallback) {
+
+        var isCallback = isCallback || function(){};
+        var notCallback = notCallback || function(){};
+
         chrome.windows.getAll({populate:true}, function(windows) {
             for(var i in windows) {
                 if(windows.hasOwnProperty(i)) {
@@ -196,7 +222,11 @@ var Util = Util || {};
     Util.openCapturedPage = function(windowId, doneCallback) {
         if(doneCallback == null) { doneCallback = function(){/* do nothing */}; }
 
-        chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataUrl) {
+        var opt = {
+            format  : Config.get('capture-image-format') || 'png'
+        };
+
+        chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
             if(Config.get('capture-destination-size') === true){
                 dataUrl = Util.resizeImage(dataUrl);
             }
@@ -249,7 +279,10 @@ var Util = Util || {};
             canvas.width, canvas.height
         );
 
-        return canvas.toDataURL();
+        var format = Config.get('capture-image-format') || 'png';
+        format = "image/" + format;
+
+        return canvas.toDataURL(format);
     };
 
     Util.detectAndCapture = function() {

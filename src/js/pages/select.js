@@ -106,7 +106,7 @@ function _toggleArea(e, sw){
 
     if(!Config.get('record-achievements')) return toggleAchievementsArea(false);
 
-    var achievements = new Achievements();
+    var achievements = new KanColleWidget.Achievements(new MyStorage());
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
         document.getElementById('daily-' + key).innerHTML  = achievements_json.daily.contents[key];
@@ -146,6 +146,11 @@ function _toggleArea(e, sw){
 }
 
 (function(){
+
+    $('a.link').on('click',function(){
+        chrome.tabs.create({url:$(this).attr('data-href')});
+    });
+
     updateTimeLeft();
     updateAchievements();
     changeTitle();
@@ -189,7 +194,7 @@ function _toggleArea(e, sw){
     var resets = document.getElementsByClassName('reset-achievements');
     for(var i= 0,len=resets.length;i<len; i++){
         resets[i].addEventListener('click',function(){
-            var achievements = new Achievements();
+            var achievements = new KanColleWidget.Achievements(new MyStorage());
             achievements.update(true, this.getAttribute('target'));
         });
     }

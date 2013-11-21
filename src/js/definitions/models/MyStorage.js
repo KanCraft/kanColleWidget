@@ -1,8 +1,11 @@
 /***** class definitions *****/
 
-function MyStorage(){/** localStorageにアクセスするクラス **/}
+function MyStorage(){};
 
 /* dict */MyStorage.prototype.get = function(key){
+
+    if (sessionStorage.isTest == 'true') return this.ofTest().get(key);
+
     try{
         return JSON.parse(localStorage.getItem(key));
     }catch(e){
@@ -12,6 +15,29 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
 
 /* void (でいいのか？) */MyStorage.prototype.set = function(key,value){
     localStorage.setItem(key,JSON.stringify(value));
+};
+
+MyStorage.prototype.ofTest = function(){
+    this.isTest = true;
+    sessionStorage.isTest = true;
+    this.get = function(key){
+        try{
+            return JSON.parse(sessionStorage.getItem(key));
+        }catch(e){
+            return sessionStorage.getItem(key);
+        }
+    };
+    this.set = function(key, value){
+        sessionStorage.setItem(key,JSON.stringify(value));
+    };
+    return this;
+};
+MyStorage.prototype.tearDown = function(){
+    if (this.isTest) {
+        sessionStorage.clear();
+        return true;
+    }
+    return false;
 };
 
 /* static */var Config = {/** localStorage.configにアクセスするstaticなクラス **/
@@ -35,6 +61,7 @@ function MyStorage(){/** localStorageにアクセスするクラス **/}
         'notification-offset-millisec'       : 60*1000,//デフォルトでは1分前
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
+        'capture-image-format'               : 'png',
         'launch-on-click-notification'       : false,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,

@@ -9,6 +9,15 @@ $(function(){
     $('#' + key).on('change',function(){
         Config.set(key, $(this).val());
     });
+
+    $("#reminder-notifications").append(
+        (new widgetPages.EnableMissionReminderView()).render(),
+        (new widgetPages.DynamicReminderTypeView()).render(),
+        (new widgetPages.AllowOcrResultLogView()).render()
+    );
+    $("#icon-tools").append(
+        (new widgetPages.ImageFormatView()).render()
+    );
 });
 
 function affectConfigInView(){

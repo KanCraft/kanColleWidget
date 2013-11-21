@@ -1,8 +1,8 @@
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 
 (function(){
-    var Share = kanColleWidget.Share = function(){};
+    var Share = KanColleWidget.Share = function(){};
     Share.prototype.url = "";
     Share.prototype.defaultOpt = {
         target : "_blank",
@@ -13,7 +13,7 @@ var kanColleWidget = kanColleWidget || {};
         window.open(this.url, opt.target, opt.windowOpt);
     };
 
-    var Twitter = kanColleWidget.Twitter = function(){
+    var Twitter = KanColleWidget.Twitter = function(){
         this.baseUrl = "https://twitter.com/intent/tweet/update?";
     };
     Twitter.prototype = Object.create(Share.prototype);

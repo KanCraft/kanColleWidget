@@ -7,16 +7,6 @@
 
 "use strict";
 
-var Stash = {
-    createItem : null,
-    createShip : {
-        1 : {},
-        2 : {},
-        3 : {},
-        4 : {}
-    }
-};
-
 var observer = new Observer();
 
 /***** JSがロードされたとき *****/

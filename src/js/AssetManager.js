@@ -1,6 +1,6 @@
 /* jshint indent: 4 */
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 
 (function() {
     'use strict';
@@ -11,7 +11,7 @@ var kanColleWidget = kanColleWidget || {};
      * @param {Object} config    src/js/definitions/models/MyStorage.js
      * @param {Object} constants src/js/Constants.js
      */
-    var AssetManager = kanColleWidget.AssetManager = function(chrome,
+    var AssetManager = KanColleWidget.AssetManager = function(chrome,
                                                               config,
                                                               constants) {
         this.chrome    = chrome;

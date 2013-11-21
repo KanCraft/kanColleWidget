@@ -75,3 +75,7 @@ div.content {
     cursor: pointer;
     background-color: transparent;
 }
+
+.clickable {
+    cursor: pointer;
+}

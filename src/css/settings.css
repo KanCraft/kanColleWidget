@@ -9,7 +9,7 @@ ul {
 }
 td {
     border-bottom: thin dotted #333;
-    width: 400px;
+    width: 550px;
 }
 h4 {
     margin-bottom: 0;
@@ -40,6 +40,7 @@ td.sorry {
 span.xsmall {
     font-size: x-small;
     color: #666;
+    margin-left: 5px;
 }
 p.xsmall {
     font-size: x-small;

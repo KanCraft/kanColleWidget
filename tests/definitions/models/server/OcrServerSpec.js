@@ -19,7 +19,7 @@ describe("OcrServer", function() {
     });
     waitsFor(function(){
       return flag;
-    }, "in 1 second", 1000);
+    }, "in 2 seconds", 2000);
   });
 
   runs(function() {

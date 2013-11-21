@@ -21,7 +21,7 @@ Log.prototype.send = function(data, callback){
     this._post(data, callback);
 };
 
-var kanColleWidget = kanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 (function(){
-    kanColleWidget.Log = new Log();
+    KanColleWidget.Log = new Log();
 })();

@@ -26,10 +26,10 @@ src/js
 │           ├── Mission.js
 │           └── Missions.js
 ├── _util.js # ページスクリプトが利用するutils。もっとここを使わせたい
-├── more.js # ページスクリプト。「リッチな設定」に対応
+├── settings.js # ページスクリプト。「リッチな設定」に対応
 ├── proxy.js # ページスクリプト。LAUNCHでまず始めに開かれたページに対応
 ├── proxy2.js # ページスクリプト。proxy.jsによって抽出されたiframe内抜粋ページに対応
-├── config.js # ページスクリプト。「これの設定など」に対応
+├── announce.js # ページスクリプト。「これの設定など」に対応
 └── select.js # ページスクリプト。アイコン押下（おしげ）時に出てくる小さいアレに対応
 
 5 directories, 23 files
@@ -41,7 +41,7 @@ src/js
 src/js
 ├── _util.js
 ├── background.js // いわばメイン。manifest.jsonでbackgroundスクリプトとして指名されている。主にイベントのバインドを受け持つ
-├── config.js
+├── announce.js
 ├── definitions // なんかかっこいいからdefinitions。クラス定義をここにあつめるこの中はけっこう依存ある :(
 │   ├── ConstantMapping.js // 定数
 │   ├── Now.js // 今がどういう時間か、判定したりできる

@@ -27,7 +27,7 @@ var widgetPages = widgetPages || {};
             state : "達成",
             id    : this.quest.id
         };
-        return this.apply(params)._render();
+        return this.apply(params)._render().$el;
     };
     DoneQuestView.prototype.remove = function(ev){
         $(ev.currentTarget).remove();
@@ -41,7 +41,7 @@ var widgetPages = widgetPages || {};
     HiddenQuestView.prototype = Object.create(widgetPages.View.prototype);
     HiddenQuestView.prototype.constructor = HiddenQuestView;
     HiddenQuestView.prototype.render = function(){
-        return this.apply()._render();
+        return this.apply()._render().$el;
     };
 
     // 遂行中
@@ -61,7 +61,7 @@ var widgetPages = widgetPages || {};
             title : this.quest.title,
             state : "遂行中"
         };
-        return this.apply(params)._render();
+        return this.apply(params)._render().$el;
     };
 
     var YetQuestView = widgetPages.YetQuestView = function(yetQuest) {
@@ -80,6 +80,6 @@ var widgetPages = widgetPages || {};
             title : this.quest.title,
             state : " "
         };
-        return this.apply(params)._render();
+        return this.apply(params)._render().$el;
     };
 })();
