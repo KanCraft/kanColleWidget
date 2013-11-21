@@ -48,6 +48,12 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
+- 2013/11/22 v0.5.0.11
+    - スクショ画像フォーマット.jpg選択可能に
+    - 任務実績表示に入渠回数を追加
+    - MacOSX10.8以下でのみ起きる通知バグへの対応
+    - 課金系APIが叩かれたときの挙動修正
+    - リファクタリング
 - 2013/11/18 v0.5.0.6, v0.5.0.7, v0.5.0.8
     - 「提督仕事しろ」文言変更設定の修正
     - ウィジェット化時のブラウザバック制御
