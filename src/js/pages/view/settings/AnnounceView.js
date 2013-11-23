@@ -33,7 +33,7 @@ var widgetPages = widgetPages || {};
         return this.$el;
     }
     AnnounceView.prototype.doneAnnounce = function(ev, self){
-        alert("Unread\t" + self.config.get("announce-already-read")
-              + "\nVersion\t" + self.config.get("announce-version"));
+        self.config.set("announce-already-read", self.config.get("announce-version"));
+        $("#announce").hide();
     }
 })();

@@ -49,6 +49,8 @@ MyStorage.prototype.tearDown = function(){
 
     /* private */storage : new MyStorage(),
     /* private */initial : {
+        'announce-already-read'              : 0,
+        'announce-version'                   : 1,
         'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
