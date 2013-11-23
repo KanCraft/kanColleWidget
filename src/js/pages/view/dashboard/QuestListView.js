@@ -40,6 +40,8 @@ var widgetPages = widgetPages || {};
         return "達成" + String(this.completed) + "/全" + String(this.total);
     };
     QuestListView.prototype.hideQuest = function(ev, self){
-        self.quests.hide($(ev.target).attr("quest-id"));
+        var qid = $(ev.target).attr("quest-id");
+        self.quests.hide(qid);
+        $("tr#" + qid).hide();
     };
 })();
