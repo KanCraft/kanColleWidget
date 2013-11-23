@@ -2,9 +2,9 @@
 
 function MyStorage(){};
 
-/* dict */MyStorage.prototype.get = function(key){
+MyStorage.prototype.get = function(key){
 
-    if (sessionStorage.isTest == 'true') return this.ofTest().get(key);
+    if (sessionStorage.isTest == 'true') return MyStorage.ofTest().get(key);
 
     try{
         return JSON.parse(localStorage.getItem(key));
@@ -13,24 +13,29 @@ function MyStorage(){};
     }
 };
 
-/* void (でいいのか？) */MyStorage.prototype.set = function(key,value){
-    localStorage.setItem(key,JSON.stringify(value));
+MyStorage.prototype.set = function(key,value){
+
+    if (sessionStorage.isTest == 'true') return MyStorage.ofTest().set(key,value);
+
+    return localStorage.setItem(key,JSON.stringify(value));
 };
 
-MyStorage.prototype.ofTest = function(){
-    this.isTest = true;
+MyStorage.ofTest = function(){
+    var self = new MyStorage();
+    self.isTest = true;
     sessionStorage.isTest = true;
-    this.get = function(key){
+    // overwrite basic methods
+    self.get = function(key){
         try{
             return JSON.parse(sessionStorage.getItem(key));
         }catch(e){
             return sessionStorage.getItem(key);
         }
     };
-    this.set = function(key, value){
+    self.set = function(key, value){
         sessionStorage.setItem(key,JSON.stringify(value));
     };
-    return this;
+    return self;
 };
 MyStorage.prototype.tearDown = function(){
     if (this.isTest) {
@@ -44,6 +49,8 @@ MyStorage.prototype.tearDown = function(){
 
     /* private */storage : new MyStorage(),
     /* private */initial : {
+        'announce-already-read'              : 0,
+        'announce-version'                   : 1,
         'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!

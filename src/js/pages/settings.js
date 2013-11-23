@@ -10,6 +10,8 @@ $(function(){
         Config.set(key, $(this).val());
     });
 
+    renderAnnounce();
+
     $("#reminder-notifications").append(
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
@@ -19,6 +21,15 @@ $(function(){
         (new widgetPages.ImageFormatView()).render()
     );
 });
+function renderAnnounce(){
+    if (Config.get("announce-already-read") < Config.get("announce-version")) {
+        $("#announce").append(
+            (new widgetPages.AnnounceView(Config)).render()
+        );
+        return
+    }
+    $("#announce").hide();
+}
 
 function affectConfigInView(){
     var config = Config.getJSON();

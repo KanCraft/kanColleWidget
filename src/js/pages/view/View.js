@@ -8,7 +8,7 @@ var widgetPages = widgetPages || {};
     var View = widgetPages.View = function(){};
     View.prototype._delimiterPrefix = "{{";
     View.prototype._delimiterSuffix = "}}";
-    View.prototype._evName_selector = ' ';
+    View.prototype._eventSeparator = " ";
     View.prototype._defaultEvents = {};
     View.prototype.$el = null;
 

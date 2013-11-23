@@ -4,12 +4,12 @@ describe("NyukyoAction", function() {
 
     beforeEach(function() {
         nyukyoAction = new NyukyoAction();
-        (new MyStorage()).ofTest();
+        MyStorage.ofTest();
     });
 
     describe("forStart", function(){
         it("should increment Achievements.Nyukyo count", function() {
-            var achievements = new KanColleWidget.Achievements((new MyStorage()).ofTest());
+            var achievements = new KanColleWidget.Achievements(MyStorage.ofTest());
             achievements.update();
 
             var params = Fixture.Api.Nyukyo.Start;
@@ -21,6 +21,6 @@ describe("NyukyoAction", function() {
     });
 
     afterEach(function() {
-        (new MyStorage()).ofTest().tearDown();
+        MyStorage.ofTest().tearDown();
     });
 });
