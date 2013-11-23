@@ -136,6 +136,11 @@ function bindEditor() {
 
     var memoView = new widgetPages.MemoView();
     $("div#recipe-memo-container").append(memoView.render());
+    // {{{ おいおいーい
+    $("textarea#recipe-memo").on("keyup",function(ev){
+        memoView.saveRecipeMemo(ev);
+    });
+    // }}}
 
     var mainClockView = new widgetPages.MainClockView();
     $("div#main-clock").append(mainClockView.render());
