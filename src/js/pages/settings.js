@@ -10,6 +10,10 @@ $(function(){
         Config.set(key, $(this).val());
     });
 
+    $("#announce").append(
+        (new widgetPages.AnnounceView(Config)).render()
+    );
+
     $("#reminder-notifications").append(
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
