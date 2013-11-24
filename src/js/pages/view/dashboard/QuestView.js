@@ -11,10 +11,7 @@ var widgetPages = widgetPages || {};
     // 達成
     var DoneQuestView = widgetPages.DoneQuestView = function(doneQuest) {
         this.quest = doneQuest;
-        this.tpl = '<tr><td>{{title}}</td><td>[<a class="hide-quest clickable" quest-id="{{id}}">{{state}}</a>]</td></tr>';
-        this.events = {
-            "click a.hide-quest" : "remove"
-        };
+        this.tpl = '<tr id="{{id}}"><td>{{title}}</td><td>[<a class="hide-quest clickable" quest-id="{{id}}">{{state}}</a>]</td></tr>';
         this.attrs = {
             id : this.quest.id
         };
@@ -28,9 +25,6 @@ var widgetPages = widgetPages || {};
             id    : this.quest.id
         };
         return this.apply(params)._render().$el;
-    };
-    DoneQuestView.prototype.remove = function(ev){
-        $(ev.currentTarget).remove();
     };
 
     // 達成 && 非表示
