@@ -234,12 +234,8 @@ var Util = Util || {};
             var imgTitle = Util.getFormattedDateString();
 
             var win = window.open();
-            var img = document.createElement('img');
-            img.src = dataUrl;
-            img.alt = imgTitle;
-            var date = new Date().toLocaleString();
-            win.document.title = date;
-            win.document.body.appendChild(img);
+            var view = new widgetPages.CaptureView(dataUrl);
+            $(win.document.body).append(view.render());
 
             // メソッド切り分けしない
             if(Config.get('download-on-screenshot')){

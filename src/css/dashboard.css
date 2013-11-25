@@ -120,3 +120,20 @@ table.table {
 textarea {
     resize: vertical;
 }
+
+.tiredness-box {
+    width: 200px;
+    height: 15px;
+}
+.tiredness-bar {
+    height: 20%;
+}
+.tiredness-bar.red {
+    background-color: orangered;
+}
+.tiredness-bar.yellow {
+    background-color: #ffff00;
+}
+.tiredness-bar.green {
+    background-color: greenyellow;
+}

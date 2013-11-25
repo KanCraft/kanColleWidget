@@ -68,6 +68,10 @@ KousyouAction.prototype.forCreateshipCompleted = function(){
         },600);
 
         if(!res.result){
+
+            // 失敗しても手動出さない設定ならここで終わる
+            if(Config.get('dynamic-reminder-type') == 3) return;
+
             if(!window.confirm("建造終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
             return Util.enterTimeManually(KanColleWidget.Stash.params,'src/html/set_createship.html');
         }

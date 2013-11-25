@@ -19,6 +19,9 @@
     "background" : {
         "persistent" : true,
         "scripts" : [
+            "src/js/jquery.min.js",
+            "src/js/pages/view/View.js",
+            "src/js/pages/view/CaptureView.js",
             "src/js/AssetManager.js",
             "src/js/Notifier.js",
             "src/js/Util.js",
@@ -39,6 +42,8 @@
             "src/js/definitions/models/events/nyukyos/Nyukyos.js",
             "src/js/definitions/models/events/createships/Createship.js",
             "src/js/definitions/models/events/createships/Createships.js",
+            "src/js/definitions/models/events/sortie/Sortie.js",
+            "src/js/definitions/models/events/sortie/Sorties.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/Map.js",

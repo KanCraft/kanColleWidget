@@ -39,6 +39,9 @@ Action.prototype.forPracticeBattle = function(params){
 Action.prototype.forMapStart = function(params){
     this.mapAction.forStart(params);
 }
+Action.prototype.forMapEnd = function(params){
+    this.mapAction.forEnd(params);
+}
 
 Action.prototype.forHokyuCharge = function(params){
     this.hokyuAction.forCharge(params);
