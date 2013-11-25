@@ -25,7 +25,8 @@ build_stg(){
   mkdir -p release/stg.kanColleWidget
   cp -r src release/stg.kanColleWidget/
   mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
-  cp manifest/stg.json release/stg.kanColleWidget/manifest.json
+  cp manifest/prod.json release/stg.kanColleWidget/manifest.json
+  sed -e 's/艦これウィジェット/stg.艦これウィジェット/' -i.bak release/stg.kanColleWidget/manifest.json
   zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
 }
 
