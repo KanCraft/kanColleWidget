@@ -26,7 +26,6 @@ build_stg(){
   cp -r src release/stg.kanColleWidget/
   mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
   cp manifest/stg.json release/stg.kanColleWidget/manifest.json
-  rm release/stg.kanColleWidget/manifest.json.bak
   zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
 }
 
@@ -37,7 +36,6 @@ build_test(){
   cp -r tests release/test.kanColleWidget/src/
   mv release/test.kanColleWidget/src/img/icon* release/test.kanColleWidget/
   cp manifest/test.json release/test.kanColleWidget/manifest.json
-  rm release/test.kanColleWidget/manifest.json.bak
   zip -r release/test.kanColleWidget.zip release/test.kanColleWidget/*
 }
 
@@ -56,7 +54,7 @@ show_manifest_diff(){
 }
 
 get_ver_in_manifest(){
-  echo `grep version manifest.json | grep -v manifest_version | tr -d " "`
+  echo `grep version manifest/*.json | grep -v manifest_version | tr -d " "`
 }
 get_ver_in_settings(){
   echo `grep version src/html/settings.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
