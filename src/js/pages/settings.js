@@ -22,13 +22,13 @@ $(function(){
     );
 });
 function renderAnnounce(){
-    if (Config.get("announce-already-read") < Config.get("announce-version")) {
-        $("#announce").append(
-            (new widgetPages.AnnounceView(Config)).render()
-        );
-        return
-    }
-    $("#announce").hide();
+    // 既読バージョンがアナウンスバージョン以上なら何もしない
+    if (Config.get("announce-version") <= Config.get("announce-already-read")) return;
+
+    $("#announce").append(
+        (new widgetPages.AnnounceView(Config)).render()
+    ).show();
+    return
 }
 
 function affectConfigInView(){
