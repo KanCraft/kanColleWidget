@@ -39,6 +39,8 @@
             "src/js/definitions/models/events/nyukyos/Nyukyos.js",
             "src/js/definitions/models/events/createships/Createship.js",
             "src/js/definitions/models/events/createships/Createships.js",
+            "src/js/definitions/models/events/sortie/Sortie.js",
+            "src/js/definitions/models/events/sortie/Sorties.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/Map.js",

@@ -9,6 +9,12 @@ var KanColleWidget = KanColleWidget || {};
             2 : {},
             3 : {},
             4 : {}
+        },
+        deckInSortie : {
+            1 : false,
+            2 : false,
+            3 : false,
+            4 : false
         }
     };
 })();
