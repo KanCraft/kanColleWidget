@@ -3,6 +3,7 @@ var widgetPages = widgetPages || {};
 (function() {
     var TirednessView = widgetPages.TirednessView = function(sortie) {
         this.sortie  = sortie;
+        this.config = Config;
         this.sorties = new KanColleWidget.Sorties();
         this.tpl = '<tr>'
                  + '    <td>第{{deck_id}}艦隊</td>'
@@ -42,10 +43,11 @@ var widgetPages = widgetPages || {};
         if (! finishEpoch) return res;
 
         var diffMinute = (finishEpoch - Date.now()) / (1000 * 60);
-        res.width = Math.floor((diffMinute * 100)/15) + '%';
-        if (diffMinute > 10) {
+        var wholeMinutes = this.config.get("tiredness-recovery-minutes");
+        res.width = Math.floor((diffMinute * 100)/wholeMinutes) + '%';
+        if (diffMinute > (wholeMinutes*2)/3) {
             res.color = 'red';
-        } else if (diffMinute > 5) {
+        } else if (diffMinute > (wholeMinutes*1)/3) {
             res.color = 'yellow';
         }
         res.message = Math.floor(diffMinute) + '分';

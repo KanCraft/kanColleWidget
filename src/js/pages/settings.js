@@ -15,7 +15,8 @@ $(function(){
     $("#reminder-notifications").append(
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
-        (new widgetPages.AllowOcrResultLogView()).render()
+        (new widgetPages.AllowOcrResultLogView()).render(),
+        (new widgetPages.TirednessLengthView()).render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()

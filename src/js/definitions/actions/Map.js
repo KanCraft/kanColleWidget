@@ -14,9 +14,12 @@ MapAction.prototype.forStart = function(params){
     this.sorties.refreshStash().registerStash(deck_id);
 }
 MapAction.prototype.forEnd = function(){
+    var recoveryMinutes = Config.get("tiredness-recovery-minutes");
+
+    if (recoveryMinutes == 0) return;
+
     var deckIds = this.sorties.sweepStash();
     for (var i in deckIds) {
-        var recoveryMinutes = Config.get("recovery-minutes");
         var finish = Date.now() + (recoveryMinutes * 60 * 1000);
         this.sorties.add(deckIds[i], finish);
     }

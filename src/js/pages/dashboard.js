@@ -142,6 +142,8 @@ function bindEditor() {
     });
     // }}}
 
+    if (Config.get('tiredness-recovery-minutes') == 0) $('#tiredness-contents').hide();
+
     var tirednessListView = new widgetPages.TirednessListView();
     $("div#tiredness-container").append(tirednessListView.render());
 
