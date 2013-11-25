@@ -33,6 +33,7 @@ var widgetPages = widgetPages || {};
         var $input = $('<input type="checkbox"></input>');
         $input.attr({
             'id'      : this.inputName,
+            'class'   : this.inputName,
             'name'    : this.inputName,
             'checked' : this.config.get(this.inputName)
         });
