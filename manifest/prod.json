@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.5.0.14",
+    "version": "0.5.1.1",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
