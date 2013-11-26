@@ -5,9 +5,10 @@ var widgetPages = widgetPages || {};
         this.imgURI = imgURI;
         this.tpl = '<div><img id="capture" src="{{imgURI}}"></div>'
                  + '<div>'
-                 + '    <input id="filename" type="text" placeholder="ファイル名をつけて" value="">'
+                 + '    <input id="filename" type="text" placeholder="/^[a-zA-Z0-9_]+$/" value="">'
                  + '    <input id="download" type="submit" value="ダウンロードする">'
-                 + '</div>';
+                 + '</div>'
+                 + '<div><span id="warning" style="font-size:x-small">ファイル名は[a-zA-Z0-9_]のみ使用できます</span></div>';
         this.events = {
             'click #download' : 'downloadImg'
         };
@@ -23,10 +24,17 @@ var widgetPages = widgetPages || {};
     };
     CaptureView.prototype.downloadImg = function(ev, self){
         var imgTitle = self.$el.find('#filename').val();
-        if (! imgTitle) return;
+
+        if (! this.isValidFinename(imgTitle)) return;
+
         var a = document.createElement('a');
         a.href     = self.imgURI;
         a.download = imgTitle;
         a.click();
+    };
+    CaptureView.prototype.isValidFinename = function(fname){
+        if (fname.match(/^[a-zA-Z0-9_]+$/)) return true;
+        this.$el.find('#warning').css({color:'red'});
+        return false;
     };
 })();
