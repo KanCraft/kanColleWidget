@@ -24,7 +24,7 @@ $(function(){
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
-    if (Config.get("announce-version") <= Config.get("announce-already-read")) return;
+    if (widgetPages.AnnounceView.version <= Config.get("announce-already-read")) return;
 
     $("#announce").append(
         (new widgetPages.AnnounceView(Config)).render()
