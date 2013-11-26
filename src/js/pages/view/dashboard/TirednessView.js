@@ -22,6 +22,9 @@ var widgetPages = widgetPages || {};
     TirednessView.prototype = Object.create(widgetPages.View.prototype);
     TirednessView.prototype.constructor = TirednessView;
     TirednessView.prototype.render = function(){
+
+        if (this.sortie.api_deck_id != 1 && this.sortie.finish == null) return $('');
+
         var bar = this._parseLeftTime(this.sortie.finish);
         var params = {
             deck_id : this.sortie.api_deck_id,
