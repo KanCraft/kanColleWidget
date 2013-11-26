@@ -44,7 +44,7 @@ var widgetPages = widgetPages || {};
             var _evName_selector = i.split(self._eventSeparator);
             var evName = _evName_selector[0];
             var selector = _evName_selector[1];
-            console.log(evName, selector);
+            //console.log(evName, selector);
             this.$el.delegate(selector, evName, function(ev){
                 self[self.events[i]](ev, self);
             });
