@@ -50,20 +50,25 @@ show_manifest_diff(){
   echo "\n各パッケージとのmanifestのdiffを表示"
   echo "prod <==> stg"
   diff release/kanColleWidget/manifest.json release/stg.kanColleWidget/manifest.json
-  echo "\nprod <==> test"
-  diff release/kanColleWidget/manifest.json release/test.kanColleWidget/manifest.json
+  # echo "\nprod <==> test"
+  # diff release/kanColleWidget/manifest.json release/test.kanColleWidget/manifest.json
 }
 
 get_ver_in_manifest(){
-  echo `grep version manifest/*.json | grep -v manifest_version | tr -d " "`
+  echo `grep version manifest/prod.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`
+  # echo `grep version manifest/test.json | grep -v manifest_version | tr -d " "`
 }
 get_ver_in_settings(){
   echo `grep version src/html/settings.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
+}
+get_ver_in_announce(){
+  echo `grep version src/js/pages/view/settings/AnnounceView.js | grep productversion | tr -d "\"productversion"`
 }
 version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
   echo "settings.html\t"`get_ver_in_settings`
+  echo "Announce.js\t"`get_ver_in_announce`
 }
 
 if [ $# -lt 1 ]; then
