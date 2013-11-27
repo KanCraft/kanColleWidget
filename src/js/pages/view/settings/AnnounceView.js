@@ -33,7 +33,7 @@ var widgetPages = widgetPages || {};
     // ここを変える
     AnnounceView.version = 2;
     AnnounceView.announcements = [
-        "★ v0.5.1.1",
+        "v0.5.1.2",//productversion
         "簡易疲労度メーターと回復通知",
         "スクショ撮った画面でファイル名変えるUIの追加",
         "自動取得失敗時に何もしない設定の追加",
