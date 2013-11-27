@@ -107,6 +107,10 @@ var Constants = {/** constantアクセサ的なアレ **/
         nyukyo : {
             end_prefix : "第",
             end_suffix : "入渠ドックの修復作業がまもなく完了します"
+        },
+        sortie : {
+            end_prefix : "第",
+            end_suffix : "艦隊の疲労がだいたい回復しました"
         }
     },
     achievements : {

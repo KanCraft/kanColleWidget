@@ -2,10 +2,11 @@
 
 print_help()
 {
+  echo "\ttest\tテスト用ビルド"
   echo "\tstg\tステージングビルド"
   echo "\tprod\tプロダクションビルド"
-  echo "\tall\tりょうほう"
-  echo "\tなし\tりょうほう"
+  echo "\tall\tぜんぶ"
+  echo "\tなし\tぜんぶ"
   echo "\n\thelp\tこれです"
   exit 0
 }
@@ -15,7 +16,7 @@ build_prod(){
   mkdir -p release/kanColleWidget
   cp -r src release/kanColleWidget/
   mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
-  cp manifest.json release/kanColleWidget/
+  cp manifest/prod.json release/kanColleWidget/manifest.json
   zip -r release/kanColleWidget.zip release/kanColleWidget/*
 }
 
@@ -24,32 +25,50 @@ build_stg(){
   mkdir -p release/stg.kanColleWidget
   cp -r src release/stg.kanColleWidget/
   mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
-  cp manifest.json release/stg.kanColleWidget/manifest.json
+  cp manifest/prod.json release/stg.kanColleWidget/manifest.json
   sed -e 's/艦これウィジェット/stg.艦これウィジェット/' -i.bak release/stg.kanColleWidget/manifest.json
-  rm release/stg.kanColleWidget/manifest.json.bak
   zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
+}
+
+build_test(){
+  rm -rf release/test.kanColleWidget
+  mkdir -p release/test.kanColleWidget
+  cp -r src release/test.kanColleWidget/
+  cp -r tests release/test.kanColleWidget/src/
+  mv release/test.kanColleWidget/src/img/icon* release/test.kanColleWidget/
+  cp manifest/test.json release/test.kanColleWidget/manifest.json
+  zip -r release/test.kanColleWidget.zip release/test.kanColleWidget/*
 }
 
 build_all(){
   build_prod
   build_stg
+  build_test
 }
 
 show_manifest_diff(){
-  echo "\nstgパッケージとのmanifestのdiffを表示"
-  diff release/kanColleWidget release/stg.kanColleWidget
+  echo "\n各パッケージとのmanifestのdiffを表示"
+  echo "prod <==> stg"
+  diff release/kanColleWidget/manifest.json release/stg.kanColleWidget/manifest.json
+  # echo "\nprod <==> test"
+  # diff release/kanColleWidget/manifest.json release/test.kanColleWidget/manifest.json
 }
 
 get_ver_in_manifest(){
-  echo `grep version manifest.json | grep -v manifest_version | tr -d " "`
+  echo `grep version manifest/prod.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`
+  # echo `grep version manifest/test.json | grep -v manifest_version | tr -d " "`
 }
 get_ver_in_settings(){
   echo `grep version src/html/settings.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
+}
+get_ver_in_announce(){
+  echo `grep version src/js/pages/view/settings/AnnounceView.js | grep productversion | tr -d "\"productversion"`
 }
 version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
   echo "settings.html\t"`get_ver_in_settings`
+  echo "Announce.js\t"`get_ver_in_announce`
 }
 
 if [ $# -lt 1 ]; then
@@ -65,9 +84,13 @@ case $1 in
   "stg" )
     build_stg
     break;;
+  "test" )
+    build_test
+    break;;
   "all" )
     build_prod
     build_stg
+    build_test
     show_manifest_diff
     version_check
     break;;

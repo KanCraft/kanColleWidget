@@ -19,21 +19,25 @@ var widgetPages = widgetPages || {};
     AnnounceView.prototype.constructor = AnnounceView;
     AnnounceView.prototype.render = function() {
         this.apply()._render();
-        var announcements = [
-            "v0.5.0.12で遠征リマインダ登録の不具合が起きました",
-            "ウィジェット外で機能を無効にする修正を加えたことに起因します",
-            "ウィジェット外でも遠征リマインダのみ有効にいたしました",
-            "お詫び申し上げます"
-        ];
         var htmlstr = '';
-        for (var i in announcements) {
-            htmlstr += '<li>' + announcements[i] + '</li>';
+        for (var i in AnnounceView.announcements) {
+            htmlstr += '<li>' + AnnounceView.announcements[i] + '</li>';
         };
         this.$el.find('ul').append(htmlstr);
         return this.$el;
-    }
+    };
     AnnounceView.prototype.doneAnnounce = function(ev, self){
-        self.config.set("announce-already-read", self.config.get("announce-version"));
+        self.config.set("announce-already-read", AnnounceView.version);
         $("#announce").hide();
-    }
+    };
+    // ここを変える
+    AnnounceView.version = 2;
+    AnnounceView.announcements = [
+        "v0.5.1.2",//productversion
+        "簡易疲労度メーターと回復通知",
+        "スクショ撮った画面でファイル名変えるUIの追加",
+        "自動取得失敗時に何もしない設定の追加",
+        "ウィークリー任務実績値の謎の月曜日問題修正",
+        "設定画面のバグ修正"
+    ];
 })();

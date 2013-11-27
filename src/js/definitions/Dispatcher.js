@@ -33,6 +33,10 @@ function Dispatcher(data){/** パースの結果をラップします **/
         case 'api_req_map/start':
             this.action.forMapStart(this.params);
             break;
+        case 'api_auth_member/logincheck':
+            // 出撃が終了したとする。どの艦隊が出撃中かはStashを参考のこと
+            this.action.forMapEnd(this.params);
+            break;
         case 'api_req_hokyu/charge':
             this.action.forHokyuCharge(this.params);
             break;

@@ -15,20 +15,21 @@ $(function(){
     $("#reminder-notifications").append(
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
-        (new widgetPages.AllowOcrResultLogView()).render()
+        (new widgetPages.AllowOcrResultLogView()).render(),
+        (new widgetPages.TirednessLengthView()).render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()
     );
 });
 function renderAnnounce(){
-    if (Config.get("announce-already-read") < Config.get("announce-version")) {
-        $("#announce").append(
-            (new widgetPages.AnnounceView(Config)).render()
-        );
-        return
-    }
-    $("#announce").hide();
+    // 既読バージョンがアナウンスバージョン以上なら何もしない
+    if (widgetPages.AnnounceView.version <= Config.get("announce-already-read")) return;
+
+    $("#announce").append(
+        (new widgetPages.AnnounceView(Config)).render()
+    ).show();
+    return
 }
 
 function affectConfigInView(){

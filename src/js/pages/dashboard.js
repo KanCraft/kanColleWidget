@@ -142,6 +142,11 @@ function bindEditor() {
     });
     // }}}
 
+    if (Config.get('tiredness-recovery-minutes') == 0) $('#tiredness-contents').hide();
+
+    var tirednessListView = new widgetPages.TirednessListView();
+    $("div#tiredness-container").append(tirednessListView.render());
+
     var mainClockView = new widgetPages.MainClockView();
     $("div#main-clock").append(mainClockView.render());
     mainClockView.dateIconView.update(new Date());
@@ -154,6 +159,7 @@ function bindEditor() {
     var updating = setInterval(function(){
         updateTimeLeft();
         bindEditor();
+        $("div#tiredness-container").html('').append(tirednessListView.render());
         if (! questListView.haveUpdate()) return;//アップデート無いならひっこんでな
         $("div#quest-list-container").html('').append(questListView.refresh());
         $("span#progress").text(questListView.getProgress());

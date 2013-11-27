@@ -50,7 +50,6 @@ MyStorage.prototype.tearDown = function(){
     /* private */storage : new MyStorage(),
     /* private */initial : {
         'announce-already-read'              : 0,
-        'announce-version'                   : 1,
         'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
@@ -77,6 +76,7 @@ MyStorage.prototype.tearDown = function(){
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
+        'tiredness-recovery-minutes'         : 0,
         'sort-by-finishtime'                 : false
     },
 
