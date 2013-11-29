@@ -60,8 +60,20 @@ var Util = Util || {};
         Util.notifier.giveNotice(text, opt);
     };
 
-    Util.alert = function(message) {
-        window.alert(message);
+    /**
+     * とりあえずwindow.confirmをラップしとく
+     * @param message
+     * @param ok
+     * @param ng
+     */
+    Util.confirm = function(message, ok, ng) {
+        if (typeof ok == 'undefined') throw "missing ok callback";
+        var ng = ng || function(){};
+        if(window.confirm(message)) {
+            ok();
+        } else {
+            ng();
+        }
     };
 
     /**
@@ -507,4 +519,16 @@ var Util = Util || {};
         return theTime.getTime();
     };
 
+    /**
+     * まあin_arrayですよ。単純なObjectでも対応
+     * @param val
+     * @param arr
+     * @returns {boolean}
+     */
+    Util.inArray = function(val, arr) {
+        for (var i in arr) {
+            if (val == arr[i]) return true;
+        }
+        return false;
+    };
 })();
