@@ -111,7 +111,7 @@ function bindConfigChangedAction(){
                 Fs.update(purpose, this.files[0], accepts, function(res){
                     if(res.status == 0){
                         Config.set(res.purpose, '');
-                        validationMessage(res.message + '、デフォルトに戻しました', purpose + '-validation');
+                        validationMessage(res.message, purpose + '-validation');
                     }else if(res.status == 1){
                         Config.set(res.purpose, res.entry.toURL());
                         Config.set(res.purpose + '-force', true);
