@@ -143,35 +143,53 @@ var Util = Util || {};
         if(typeof(widgetWindow) !== 'undefined'){
             chrome.windows.update(widgetWindow.id, {focused:true}, callback);
         }else{
-            chrome.windows.getAll({populate:true},function(windows) {
-                for(var i in windows) {
-                    if(windows.hasOwnProperty(i)) {
-                        var w = windows[i];
-                        if(!w.tabs || w.tabs.length < 1) { continue; }
-                        if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                            chrome.windows.update(w.id,{focused:true}, callback);
-                            break;
-                        }
-                    }
-                }
+            Util.findWidgetWindow(function(w){
+                if (! w) return;
+                chrome.windows.update(w.id, {focused:true}, callback);
             });
         }
     };
 
-    Util.closeWidgetWindow = function(callback) {
-        var callback = callback || function(){};
+    Util.findWidgetWindow = function(callback, opt) {
+        var opt = opt || {};
+        opt.containDMM = opt.containDMM || false;
 
         chrome.windows.getAll({populate:true},function(windows) {
             for(var i in windows) {
                 if(windows.hasOwnProperty(i)) {
                     var w = windows[i];
                     if(!w.tabs || w.tabs.length < 1) { continue; }
-                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
-                        chrome.windows.remove(w.id, callback);
-                        break;
-                    }
+
+                    var url = w.tabs[0].url;
+                    var found = Util._isWidgetURL(url);
+
+                    if (opt.containDMM && Util._isDMMURL(url)) found = true;
+
+                    if (found) return callback(w);
                 }
             }
+            return callback();
+        });
+    };
+
+    Util._isWidgetURL = function(url) {
+        if(url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+            return true;
+        }
+        return false;
+    };
+    Util._isDMMURL = function(url) {
+        if(url.match(/^http:\/\/www.dmm.com\/.+\/app_id=854854/)) {
+            return true;
+        }
+        return false;
+    };
+
+    Util.closeWidgetWindow = function(callback) {
+        var callback = callback || function(){};
+        Util.findWidgetWindow(function(w){
+            if (! w) return;
+            chrome.windows.remove(w.id, callback);
         });
     };
     Util.openOriginalWindow = function(callback){
@@ -187,7 +205,7 @@ var Util = Util || {};
             if(!w.tabs || w.tabs.length < 1){
                 notCallback();
                 return;
-            }else if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/)){
+            }else if(Util._isWidgetURL(w.tabs[0].url)){
                 isCallback();
                 return;
             }else{
@@ -204,18 +222,18 @@ var Util = Util || {};
 
         chrome.windows.getAll({populate:true}, function(windows) {
             for(var i in windows) {
-                if(windows.hasOwnProperty(i)) {
-                    var w = windows[i];
-                    if(!w.tabs || w.tabs.length < 1) { continue; }
-                    if(w.tabs[0].url.match(/^http:\/\/osapi.dmm.com\/gadgets\/ifr/) ||
-                       w.tabs[0].url.match(/^http:\/\/www.dmm.com\/.+\/app_id=854854/)) {
-                        isCallback(w);
-                        return;
-                    }
+
+                if(! windows.hasOwnProperty(i)) continue;
+
+                var w = windows[i];
+                if(!w.tabs || w.tabs.length < 1) continue;
+
+                var url = w.tabs[0].url;
+                if(Util._isWidgetURL(url) || Util._isDMMURL(url)) {
+                    return isCallback(w);
                 }
             }
-            notCallback();
-            return;
+            return notCallback();
         });
     };
 
