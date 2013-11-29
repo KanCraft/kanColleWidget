@@ -85,6 +85,9 @@ NyukyoAction.prototype.forStartCompleted = function(){
 }
 
 NyukyoAction.prototype.forPreparation = function(){
+
+    if (! Config.get("prevent-forgetting-quest")) return;
+
     var checker = KanColleWidget.PreChecker;
     var questNotEmbarkedYet = checker.nyukyoQuest.check();
 

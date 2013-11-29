@@ -16,7 +16,8 @@ $(function(){
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render(),
-        (new widgetPages.TirednessLengthView()).render()
+        (new widgetPages.TirednessLengthView()).render(),
+        (new widgetPages.PreventForgettingQuestView()).render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()
