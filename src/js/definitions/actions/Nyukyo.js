@@ -81,3 +81,7 @@ NyukyoAction.prototype.forStartCompleted = function(){
         });
     }, Constants.ocr.delay); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ
 }
+
+NyukyoAction.prototype.forPreparation = function(){
+    alert("入渠すんの？");
+};

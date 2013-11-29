@@ -80,6 +80,10 @@ Action.prototype.forNyukyoSpeedchange = function(params){
     this.nyukyoAction.forSpeedchange(params);
 }
 
+Action.prototype.forNyukyoPreparation = function(params){
+    this.nyukyoAction.forPreparation();
+}
+
 Action.prototype.forQuestStart = function(params){
     this.questAction.forStart(params);
 }

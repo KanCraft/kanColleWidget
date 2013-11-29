@@ -99,5 +99,9 @@ CompleteDispatcher.prototype.execute = function(){
         this.action.forNyukyoStartCompleted();
     } else if (this.requestSequence[5] == 'api_req_kousyou/createship') {
         this.action.forKousyouCreateshipCompleted();
+    } else if (this.requestSequence[2] == 'api_get_member/ndock'
+               && this.requestSequence[1] == 'api_get_member/ship2'
+               && this.requestSequence[0] == 'api_get_member/useitem') {
+        this.action.forNyukyoPreparation();
     }
-}
+};
