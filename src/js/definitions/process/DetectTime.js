@@ -70,22 +70,28 @@ var Process = Process || {};
 
             // OCRサーバへ送る
             KanColleWidget.Ocr.send(trimmedURI, function(res){
-                res.imgURI      = trimmedURI;
-                res.createdTime = Date.now();
-                res.userAgent   = navigator.userAgent;
+
                 res.rawText     = res.result;
                 res.assuredText = self._assure(res.result);
                 res.result      = self._isSucceeded(res.assuredText);
-                res.extVer      = self.chrome.app.getDetails().version;
-                res.ocrVer      = res.ocrVer || "1.0";
-
-                // Logサーバへ送る
-                console.log(res);
-                if(self.config.get('allow-ocr-result-log')) {
-                    KanColleWidget.Log.send(res, function(){/* */});
-                }
 
                 callback(res);
+
+                if(! self.config.get('allow-ocr-result-log')) return;
+
+                // TODO: メソッド切り出し
+                res.imgURI      = trimmedURI;
+                res.userAgent   = navigator.userAgent;
+                res.createdTime = Date.now();
+                res.extVer      = self.chrome.app.getDetails().version;
+                res.ocrVer      = res.ocrVer || "1.1-dev";
+
+                Util.findWidgetWindow(function(w){
+                    if (! w) return;
+                    res.width = w.width;
+                    res.height = w.height;
+                    KanColleWidget.Log.send(res, function(){/* */});
+                });
             });
         });
     };
