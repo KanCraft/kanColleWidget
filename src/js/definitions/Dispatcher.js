@@ -102,6 +102,14 @@ CompleteDispatcher.prototype.execute = function(){
     } else if (this.requestSequence[2] == 'api_get_member/ndock'
                && this.requestSequence[1] == 'api_get_member/ship2'
                && this.requestSequence[0] == 'api_get_member/useitem') {
+        // ただし、高速修復材を使用したときも同じシーケンスを見せる
+        // したがって、[3],[4],[5]が高速修復材を使用したときの振る舞いをするなら
+        // orで判定し厳しめにこれを除外する
+        if (this.requestSequence[3] == 'api_get_member/ndock'
+            || this.requestSequence[4] == 'api_get_member/material'
+            || this.requestSequence[5] == 'api_get_member/ship2') {
+            return;
+        }
         this.action.forNyukyoPreparation();
     }
 };
