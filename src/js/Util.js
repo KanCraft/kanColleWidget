@@ -60,6 +60,10 @@ var Util = Util || {};
         Util.notifier.giveNotice(text, opt);
     };
 
+    Util.alert = function(message) {
+        window.alert(message);
+    };
+
     /**
      * バッジ関連の設定
      */

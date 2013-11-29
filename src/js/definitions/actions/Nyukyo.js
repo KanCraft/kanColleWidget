@@ -4,7 +4,9 @@
 
 /***** class definitions *****/
 
-function NyukyoAction(){/*** 入渠系のAPIが叩かれたときのアクション ***/}
+function NyukyoAction(){/*** 入渠系のAPIが叩かれたときのアクション ***/
+    this.alertMessage = "未着手の任務があります :【{{title}}】";   
+}
 
 NyukyoAction.prototype.forStart = function(params){
 
@@ -83,5 +85,9 @@ NyukyoAction.prototype.forStartCompleted = function(){
 }
 
 NyukyoAction.prototype.forPreparation = function(){
-    alert("入渠すんの？");
+    var questNotEmbarkedYet = KanColleWidget.PreChecker.nyukyoQuest.check();
+    if (! questNotEmbarkedYet) return;
+    // alertが適当だろうか？
+    this.alertMessage = this.alertMessage.replace('{{title}}', questNotEmbarkedYet.title);
+    Util.alert(this.alertMessage);
 };

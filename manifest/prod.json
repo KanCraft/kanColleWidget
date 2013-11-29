@@ -34,6 +34,7 @@
             "src/js/definitions/models/MyStorage.js",
             "src/js/definitions/models/achievements/Achievements.js",
             "src/js/definitions/models/quests/Quests.js",
+            "src/js/definitions/models/prechecker/PreChecker.js",
             "src/js/definitions/models/events/SoloEventBase.js",
             "src/js/definitions/models/events/EventsBase.js",
             "src/js/definitions/models/events/missions/Mission.js",
