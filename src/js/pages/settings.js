@@ -107,7 +107,8 @@ function bindConfigChangedAction(){
         	  inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
                 var purpose = this.id;
-                Fs.update(purpose, this.files[0], this.accept, function(res){
+                var accepts = this.accept.split(",");
+                Fs.update(purpose, this.files[0], accepts, function(res){
                     if(res.status == 0){
                         Config.set(res.purpose, '');
                         validationMessage(res.message + '、デフォルトに戻しました', purpose + '-validation');
