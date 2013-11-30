@@ -25,7 +25,9 @@ Action.prototype.forMissionStart = function(params){
 Action.prototype.forMissionResult = function(params){
     this.missionAction.forResult(params);
 }
-
+Action.prototype.forMissionPreparation = function(){
+    this.missionAction.forPreparation();
+};
 //----- get master payitem -----
 Action.prototype.forMasterPayitem = function(){
     this.paymentAction.forMasterPayitem();

@@ -5,7 +5,7 @@ var KanColleWidget = KanColleWidget || {};
     var PreChecker = KanColleWidget.PreChecker = {
         questAccessor : new Quests(),
         storage : new MyStorage(),
-        nyukyoQuest : {
+        mapQuest : {
             /**
              * まだ着手すらしてない
              * && ignoreListに追加されていない
@@ -13,7 +13,7 @@ var KanColleWidget = KanColleWidget || {};
              * @returns {*}
              */
             check : function(){
-                return PreChecker._check('nyukyo');
+                return PreChecker._check('map');
             }
         },
         practiceQuest : {
@@ -21,9 +21,29 @@ var KanColleWidget = KanColleWidget || {};
                 return PreChecker._check('practice');
             }
         },
-        mapQuest : {
+        missionQuest : {
             check : function(){
-                return PreChecker._check('map');
+                return PreChecker._check('mission');
+            }
+        },
+        hokyuQuest : {
+            check : function(){
+                return PreChecker._check('hokyu');
+            }
+        },
+        nyukyoQuest : {
+            check : function(){
+                return PreChecker._check('nyukyo');
+            }
+        },
+        kousyouQuest : {
+            check : function(){
+                return PreChecker._check('kousyou');
+            }
+        },
+        kaisouQuest : {
+            check : function(){
+                return PreChecker._check('kaisou');
             }
         },
         _filterIgnoredAndEmbarked : function(quest){
@@ -66,12 +86,16 @@ var KanColleWidget = KanColleWidget || {};
         },
         /**
          * 順番は依存関係を反映している
+         * @see src/js/definitions/models/quests/Quests.js
          */
         _list : {
-            nyukyo   : [503],
-            hokyu    : [503, 504],
+            map      : [201,216,211,212,210,218,226,230],
             practice : [303, 304],
-            map      : [201,216,211,212,210,218,226,230]
+            mission  : [402, 403],
+            hokyu    : [503, 504],
+            nyukyo   : [503],
+            kousyou  : [605,606,607,608,609],
+            kaisou   : [702]
         },
         /**
          * もう通知出さないリストに入ってるか判定

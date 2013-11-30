@@ -47,6 +47,7 @@
             "src/js/definitions/models/events/sortie/Sorties.js",
             "src/js/definitions/Dispatcher.js",
             "src/js/definitions/Observer.js",
+            "src/js/definitions/actions/ActionBase.js",
             "src/js/definitions/actions/Map.js",
             "src/js/definitions/actions/Nyukyo.js",
             "src/js/definitions/actions/Kousyou.js",

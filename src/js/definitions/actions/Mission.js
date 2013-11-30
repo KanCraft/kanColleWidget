@@ -7,7 +7,10 @@
 function MissionAction(){/*** mission系のAPIが叩かれたときのアクション ***/
     this.missions = new Missions();
     this.achievements = new KanColleWidget.Achievements(new MyStorage());
+    this.precheckKeyword = 'missionQuest';
 }
+MissionAction.prototype = Object.create(ActionBase.prototype);
+MissionAction.prototype.constructor = MissionAction;
 
 MissionAction.prototype.forStart = function(params){
 

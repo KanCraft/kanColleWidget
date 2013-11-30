@@ -115,5 +115,7 @@ CompleteDispatcher.prototype.execute = function(){
         this.action.forPracticePreparation();
     } else if (this.requestSequence[0] == 'api_get_master/mapinfo') {
         this.action.forMapPreparation();
+    } else if (this.requestSequence[0] == 'api_get_master/mission') {
+        this.action.forMissionPreparation();
     }
 };
