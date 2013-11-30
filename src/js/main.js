@@ -1,20 +1,21 @@
 /**
- * background.js
+ * main.js
  * ここはなるべくイベントのバインドしか書かない
- *
  * 注意: トップレベル以外で`chrome`文言を書かない
  */
+var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
 
     var observer = new Observer();
-    var action = new KanColleWidget.Action();
-    var completeDispatcher = new CompleteDispatcher();
+    var dispatcher = new KanColleWidget.Dispatcher();
+    var completeDispatcher = new KanColleWidget.CompleteDispatcher();
 
-    /***** JSがロードされたとき *****/
-    (function(){
-        observer.start();
-    })();
+    var action = new KanColleWidget.Action();
+    dispatcher.bind(action);
+    completeDispatcher.bind(action);
+
+    observer.start();
 
     /***** Main Listener 01 : ウィンドウのフォーカスが変わるとき *****/
     chrome.windows.onFocusChanged.addListener(function(windowId){
@@ -26,13 +27,9 @@
 
     /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
     chrome.webRequest.onBeforeRequest.addListener(function(data){
-        // これふと思ったんだけどListenerのなかでインスタンス化しなくてよくね？
-        // executeがdataを受け取るようにしようぜ
-        var dispatcher = new Dispatcher(data);
-        dispatcher.bind(action).execute();
+        dispatcher.eat(data).execute();
     },{'urls':[]},['requestBody']);
 
-    completeDispatcher.bind(action);
     chrome.webRequest.onCompleted.addListener(function(detail){
         completeDispatcher.eat(detail).execute();
     },{'urls':[]});
