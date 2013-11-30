@@ -69,7 +69,11 @@ function Dispatcher(data){/** パースの結果をラップします **/
             break;
         case 'api_get_member/questlist':
             // 涙ぐましい(´；ω；｀)
-            KanColleWidget.Stash.questlistCalled = true;
+            KanColleWidget.Stash.preventKousyouAction = true;
+            break;
+        case 'api_get_master/mapinfo':
+            // 涙ぐましい(´；ω；｀)
+            KanColleWidget.Stash.preventKousyouAction = true;
             break;
         default:
             //_log('%c[ACTION]%c Do Nothing for this request',true);
@@ -124,15 +128,17 @@ CompleteDispatcher.prototype.execute = function(){
     } else if (this.requestSequence[0] == 'api_get_member/record') {
         var action = this.action;
         // 工廠画面への遷移が「record」単体なのに対して
-        // 任務画面への遷移は「record→questlist」である
-        // したがって「直後にquestlistが呼ばれたか」を
+        // 任務画面への遷移は「record→questlist」である。
+        // 同様に、様々なケースでapi_get_member/recordが呼ばれる
+        // ということで、直後に生成される(かもしれない)
+        // 工廠画面遷移以外のフラグを見て
         // 判定する必要がある(´；ω；｀)ﾌﾞﾜｯ
         setTimeout(function(){
-            if (KanColleWidget.Stash.questlistCalled) {
-                KanColleWidget.Stash.questlistCalled = false;
+            if (KanColleWidget.Stash.preventKousyouAction) {
+                KanColleWidget.Stash.preventKousyouAction = false;
                 return "do nothing";
             }
             action.forKousyouPreparation();
-        },500);
+        },300);
     }
 };
