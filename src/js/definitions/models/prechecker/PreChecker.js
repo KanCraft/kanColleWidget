@@ -21,6 +21,11 @@ var KanColleWidget = KanColleWidget || {};
                 return PreChecker._check('practice');
             }
         },
+        mapQuest : {
+            check : function(){
+                return PreChecker._check('map');
+            }
+        },
         _filterIgnoredAndEmbarked : function(quest){
             // undefinedなら、これを除外する
             if (! quest) return;

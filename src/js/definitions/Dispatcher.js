@@ -113,5 +113,7 @@ CompleteDispatcher.prototype.execute = function(){
         this.action.forNyukyoPreparation();
     } else if (this.requestSequence[0] == 'api_get_member/practice') {
         this.action.forPracticePreparation();
+    } else if (this.requestSequence[0] == 'api_get_master/mapinfo') {
+        this.action.forMapPreparation();
     }
 };

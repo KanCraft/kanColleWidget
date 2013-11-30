@@ -45,6 +45,9 @@ Action.prototype.forMapStart = function(params){
 Action.prototype.forMapEnd = function(params){
     this.mapAction.forEnd(params);
 }
+Action.prototype.forMapPreparation = function(){
+    this.mapAction.forPreparation();
+};
 
 Action.prototype.forHokyuCharge = function(params){
     this.hokyuAction.forCharge(params);
