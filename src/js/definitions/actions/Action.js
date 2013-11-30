@@ -35,6 +35,9 @@ Action.prototype.forMasterPayitem = function(){
 Action.prototype.forPracticeBattle = function(params){
     this.practiceAction.forBattle(params);
 }
+Action.prototype.forPracticePreparation = function(){
+    this.practiceAction.forPreparation();
+}
 
 Action.prototype.forMapStart = function(params){
     this.mapAction.forStart(params);

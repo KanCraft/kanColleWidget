@@ -111,5 +111,7 @@ CompleteDispatcher.prototype.execute = function(){
             return;
         }
         this.action.forNyukyoPreparation();
+    } else if (this.requestSequence[0] == 'api_get_member/practice') {
+        this.action.forPracticePreparation();
     }
 };

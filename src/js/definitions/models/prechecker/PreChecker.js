@@ -15,6 +15,11 @@ var KanColleWidget = KanColleWidget || {};
                 return PreChecker._check('nyukyo');
             }
         },
+        practiceQuest : {
+            check : function(){
+                return PreChecker._check('practice');
+            }
+        },
         /**
          * keyで指定された_listから、
          * まだ着手すらしていない任務を返す　
@@ -36,8 +41,9 @@ var KanColleWidget = KanColleWidget || {};
          * 順番は依存関係を反映している
          */
         _list : {
-            nyukyo : [503],
-            hokyu  : [503, 504]
+            nyukyo   : [503],
+            hokyu    : [503, 504],
+            practice : [303, 304]
         },
         /**
          * もう通知出さないリストに入ってるか判定
