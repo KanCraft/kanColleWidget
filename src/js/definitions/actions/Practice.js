@@ -22,8 +22,8 @@ PracticeAction.prototype.forPreparation = function(){
 
     if (! questNotEmbarkedYet) return;
 
-    this.confirmMessage = this.confirmMessage.replace('{{title}}', questNotEmbarkedYet.title);
-    Util.confirm(this.confirmMessage, function(){
+    var message = this.confirmMessage.replace('{{title}}', questNotEmbarkedYet.title);
+    Util.confirm(message, function(){
         checker.ignore(questNotEmbarkedYet.id);
     });
 }
