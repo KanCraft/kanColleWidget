@@ -8,6 +8,7 @@ var KanColleWidget = KanColleWidget || {};
         nyukyoQuest : {
             /**
              * まだ着手すらしてない
+             * && ignoreListに追加されていない
              * 入渠系の任務を返す
              * @returns {*}
              */
@@ -20,22 +21,43 @@ var KanColleWidget = KanColleWidget || {};
                 return PreChecker._check('practice');
             }
         },
+        _filterIgnoredAndEmbarked : function(quest){
+            // undefinedなら、これを除外する
+            if (! quest) return;
+            // 既にembarkしているなら、これを除外する
+            if (quest.state == Quests.state.NOW) return;
+            // 既にignoreListに追加されているなら、これを除外する
+            if (Util.inArray(quest.id, PreChecker.getIgnoreList())) return;
+            // それ以外は、これを返す
+            return quest;
+        },
         /**
          * keyで指定された_listから、
-         * まだ着手すらしていない任務を返す　
+         * まだ着手すらしてない
+         * && ignoreされてない
+         * 任務を返す
          * @param key
          * @returns {*}
          * @private
          */
         _check : function(key){
+            // まだ達成されていない任務
+            var questNotCompletedYet;
+            // 本日の全ての任務
             var all = PreChecker.questAccessor.getAll().map;
+            // PreCheckリスト
             var ids = PreChecker._list[key];
             for (var i in ids) {
-                if (all[ids[i]].state < Quests.state.NOW) {
-                    return all[ids[i]];
+                // PreCheckリストにはあるが「本日の」任務には含まれない場合がある
+                if (! all[ids[i]]) continue;
+                // PreCheckが必要な本日の任務で、達成してない最初のものを返す
+                if (all[ids[i]].state < Quests.state.DONE) {
+                    questNotCompletedYet = all[ids[i]];
+                    break;
                 }
             }
-            return;
+            //console.log("まだ達成されてない最初のもの", questNotCompletedYet);
+            return PreChecker._filterIgnoredAndEmbarked(questNotCompletedYet);
         },
         /**
          * 順番は依存関係を反映している
@@ -43,7 +65,8 @@ var KanColleWidget = KanColleWidget || {};
         _list : {
             nyukyo   : [503],
             hokyu    : [503, 504],
-            practice : [303, 304]
+            practice : [303, 304],
+            map      : [201,216,211,212,210,218,226,230]
         },
         /**
          * もう通知出さないリストに入ってるか判定

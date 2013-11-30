@@ -78,6 +78,7 @@ Quests.prototype.haveUpdate = function(criteriaTime){
 /**
  * 本日定義されている任務一覧を返す
  * 除外 : 条件付き任務の該当しないもの
+ * 依存条件的に「現時点では着手できないもの」も含む
  * @returns {*}
  */
 Quests.prototype.getAll = function(){
