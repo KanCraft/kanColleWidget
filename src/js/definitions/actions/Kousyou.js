@@ -6,7 +6,10 @@
 
 function KousyouAction(){/*** 工廠系のAPIが叩かれたときのアクション ***/
     this.achievements = new KanColleWidget.Achievements(new MyStorage());
-}
+    this.precheckKeyword = 'kousyouQuest';
+};
+KousyouAction.prototype = Object.create(ActionBase.prototype);
+KousyouAction.prototype.constructor = KousyouAction;
 
 KousyouAction.prototype.forCreateship = function(params){
 

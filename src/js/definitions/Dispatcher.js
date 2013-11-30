@@ -117,5 +117,7 @@ CompleteDispatcher.prototype.execute = function(){
         this.action.forMapPreparation();
     } else if (this.requestSequence[0] == 'api_get_master/mission') {
         this.action.forMissionPreparation();
+    } else if (this.requestSequence[0] == 'api_get_member/record') {
+        this.action.forKousyouPreparation();
     }
 };

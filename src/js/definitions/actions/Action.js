@@ -77,6 +77,10 @@ Action.prototype.forKousyouGetship = function(params){
     this.kousyouAction.forGetship(params);
 }
 
+Action.prototype.forKousyouPreparation = function(){
+    this.kousyouAction.forPreparation();
+}
+
 Action.prototype.forNyukyoStart = function(params){
     this.nyukyoAction.forStart(params);
 }
