@@ -92,7 +92,6 @@ NyukyoAction.prototype.forPreparation = function(){
     var questNotEmbarkedYet = checker.nyukyoQuest.check();
 
     if (! questNotEmbarkedYet) return;
-    if (checker.isInIgnoreList(questNotEmbarkedYet.id)) return;
 
     this.confirmMessage = this.confirmMessage.replace('{{title}}', questNotEmbarkedYet.title);
     Util.confirm(this.confirmMessage, function(){
