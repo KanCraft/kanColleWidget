@@ -89,7 +89,7 @@ var KanColleWidget = KanColleWidget || {};
          * @see src/js/definitions/models/quests/Quests.js
          */
         _list : {
-            map      : [201,216,211,212,210,218,226,230],
+            map      : [201,216,211,212,218,210,226,230],
             practice : [303, 304],
             mission  : [402, 403],
             hokyu    : [503, 504],
