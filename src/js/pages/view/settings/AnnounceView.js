@@ -31,12 +31,13 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 3;
+    AnnounceView.version = 4;
     AnnounceView.announcements = [
-        "v0.6.0.0",//productversion
+        "v0.6.0.1",//productversion
         "任務受け忘れ防止アラート機能を追加",
         "OCR精度向上",
         "音声ファイル形式制限を追加",
-        "スクショのショートカットキーを改善"
+        "スクショのショートカットキーを改善",
+        "リマインダ手動登録時のUIを変更"
     ];
 })();
