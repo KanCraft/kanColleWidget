@@ -48,7 +48,7 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/01 v0.6.0.1<!--version-->
+- 2013/12/01 v0.6.0.2<!--version-->
     - 任務受け忘れ防止アラート機能を追加
     - OCR精度向上
     - 音声ファイル形式制限を追加
