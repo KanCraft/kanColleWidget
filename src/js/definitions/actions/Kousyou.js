@@ -73,7 +73,9 @@ var KanColleWidget = KanColleWidget || {};
                 if(Config.get('dynamic-reminder-type') == 3) return;
 
                 if(!window.confirm("建造終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
-                return Util.enterTimeManually(KanColleWidget.Stash.params,'src/html/set_createship.html');
+                var params = KanColleWidget.Stash.params;
+                params.purpose = 'createship';
+                return Util.enterTimeManually(params,'src/html/set_manual_timer.html');
             }
 
             var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);

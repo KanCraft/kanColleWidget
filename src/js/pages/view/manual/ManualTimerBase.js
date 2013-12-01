@@ -91,9 +91,7 @@ var widgetPages = widgetPages || {};
             // ここでjsが死ぬんだよな多分
             callback : function(){ setTimeout(window.close, 100); },
             startOrFinish: 'start',
-            sound: {
-                kind: self.kind
-            }
+            sound: false
         });
     };
     ManualTimerView.prototype.cancel = function(){
