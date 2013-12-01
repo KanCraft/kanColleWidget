@@ -51,7 +51,7 @@ var widgetPages = widgetPages || {};
             hour    : tracked.hour,
             minute  : tracked.minute
         })._render();
-        this.$el.find('title').text(this.purpose + "完了通知設定画面");
+        $('title').text(this.purpose + "完了通知設定画面");
         this._delegate();//クソだな。なんでView.bindEvents動かないの？
         return this.$el;
     };
@@ -83,6 +83,7 @@ var widgetPages = widgetPages || {};
         if (! self.validate(inputs)) return self.showAlert('oh... フォーマット違う');
         var finish = Calc.convert2Epoch(inputs);
         self.model.add(self.identifier, finish);
+        self.tracking.set(this.modelName, inputs);
         var message = Util.zP(2,inputs.hour) + ':' + Util.zP(2, inputs.minute)
             + "で" + self.purpose
             + "完了通知を登録しときました!";
