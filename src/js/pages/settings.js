@@ -16,7 +16,8 @@ $(function(){
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render(),
-        (new widgetPages.TirednessLengthView()).render()
+        (new widgetPages.TirednessLengthView()).render(),
+        (new widgetPages.PreventForgettingQuestView()).render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render()
@@ -106,10 +107,11 @@ function bindConfigChangedAction(){
         	  inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
                 var purpose = this.id;
-                Fs.update(purpose, this.files[0], this.accept, function(res){
+                var accepts = this.accept.split(",");
+                Fs.update(purpose, this.files[0], accepts, function(res){
                     if(res.status == 0){
                         Config.set(res.purpose, '');
-                        validationMessage(res.message + '、デフォルトに戻しました', purpose + '-validation');
+                        validationMessage(res.message, purpose + '-validation');
                     }else if(res.status == 1){
                         Config.set(res.purpose, res.entry.toURL());
                         Config.set(res.purpose + '-force', true);

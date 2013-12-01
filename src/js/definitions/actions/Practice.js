@@ -1,13 +1,14 @@
-/**
- * dependency: いまのところなし
- */
+var KanColleWidget = KanColleWidget || {};
+(function(){
+    "use strict";
+    var PracticeAction = KanColleWidget.PracticeAction = function(){
+        this.achievements = new KanColleWidget.Achievements(new MyStorage());
+        this.precheckKeyword = 'practiceQuest';
+    };
+    PracticeAction.prototype = Object.create(KanColleWidget.ActionBase.prototype);
+    PracticeAction.prototype.constructor = PracticeAction;
 
-/***** class definitions *****/
-
-function PracticeAction(){/*** 演習系のAPIが叩かれたときのアクション ***/
-    this.achievements = new KanColleWidget.Achievements(new MyStorage());
-}
-
-PracticeAction.prototype.forBattle= function(){
-    this.achievements.update().incrementPracticeCount();
-}
+    PracticeAction.prototype.forBattle= function(){
+        this.achievements.update().incrementPracticeCount();
+    };
+})();

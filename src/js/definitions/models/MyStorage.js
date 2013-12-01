@@ -77,6 +77,7 @@ MyStorage.prototype.tearDown = function(){
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
         'tiredness-recovery-minutes'         : 0,
+        'prevent-forgetting-quest'           : false,
         'sort-by-finishtime'                 : false
     },
 

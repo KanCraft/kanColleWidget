@@ -31,13 +31,13 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 2;
+    AnnounceView.version = 4;
     AnnounceView.announcements = [
-        "v0.5.1.2",//productversion
-        "簡易疲労度メーターと回復通知",
-        "スクショ撮った画面でファイル名変えるUIの追加",
-        "自動取得失敗時に何もしない設定の追加",
-        "ウィークリー任務実績値の謎の月曜日問題修正",
-        "設定画面のバグ修正"
+        "v0.6.0.2",//productversion
+        "任務受け忘れ防止アラート機能を追加",
+        "OCR精度向上",
+        "音声ファイル形式制限を追加",
+        "スクショのショートカットキーを改善",
+        "リマインダ手動登録時のUIを変更"
     ];
 })();

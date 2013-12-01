@@ -120,10 +120,11 @@ function _toggleArea(e, sw){
 
 function bindEditor() {
     $('a.editor').on('click',function(){
-        var path = "src/html/set_" + $(this).attr("target") + ".html";
+        var path = "src/html/set_manual_timer.html";
         var params = {};
         params[$(this).attr("key")] = $(this).attr("data");
-        Util.enterTimeManually(params,path);
+        params['purpose'] = $(this).attr("target");
+        Util.enterTimeManually(params, path);
     });
 }
 

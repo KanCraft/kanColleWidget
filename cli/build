@@ -64,11 +64,15 @@ get_ver_in_settings(){
 get_ver_in_announce(){
   echo `grep version src/js/pages/view/settings/AnnounceView.js | grep productversion | tr -d "\"productversion"`
 }
+get_ver_in_README(){
+  echo `grep version README.md | sed -E "s/.*v(.*)<!--version-->$/\1/g"`
+}
 version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
   echo "settings.html\t"`get_ver_in_settings`
   echo "Announce.js\t"`get_ver_in_announce`
+  echo "README.md\t"`get_ver_in_README`
 }
 
 if [ $# -lt 1 ]; then

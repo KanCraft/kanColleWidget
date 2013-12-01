@@ -22,8 +22,8 @@ var Fs = {
         return this.Response;
     },
 
-    // 受付可能なファイルタイプ
-    accept : null,
+    // 受付可能なファイルタイプのリスト
+    accepts : [],
     // 保存目的
     purpose : null,
     // 最終保存パス
@@ -41,18 +41,59 @@ var Fs = {
         return this.responseFactory(0, message, null, error);
     },
 
-    // バリデーション
-    /* private */validate : /* bool */function(file){
-        if(typeof file == 'undefined'){
+    /**
+     * ファイルのバリデーションをする
+     * @param file
+     * @returns {boolean}
+     * @private
+     */
+    _validate : function(file){
+        if (! this._validateUndefined(file)) return false;
+        if (! this._validateFileType(file)) return false;
+        if (! this._validateFileSize(file)) return false;
+        return true;
+    },
+    /**
+     * ファイルが選択されてないけど来た場合をバリデーションする
+     * @param file
+     * @returns {boolean}
+     * @private
+     */
+    _validateUndefined : function(file) {
+         if(typeof file == 'undefined'){
             this.Response.status = 0;
             this.Response.message = "キャンセルされましたー";
             return false;
         }
-        if( !file.type.match(this.accept) ){
+        return true;
+    },
+    /**
+     * ファイルタイプをバリデーションする
+     * @param file
+     * @returns {boolean}
+     * @private
+     */
+    _validateFileType : function(file){
+        var acceptable = false;
+        for (var i in this.accepts) {
+            if (file.type.match(this.accepts[i])) {
+                acceptable = true;
+            }
+        }
+        if (! acceptable) {
             this.Response.status = 0;
             this.Response.message = "ファイル種別が違います";
             return false;
         }
+        return true;
+    },
+    /**
+     * ファイルサイズをバリデーションする
+     * @param file
+     * @returns {boolean}
+     * @private
+     */
+    _validateFileSize : function(file){
         if( file.size > this.SIZE_LIMIT ){
             this.Response.status = 0;
             this.Response.message = "ファイルサイズが大きすぎます。"+ this.SIZE_LIMIT/(1024*1024) +"MB未満のファイルにしてください。";
@@ -73,14 +114,14 @@ var Fs = {
     // read : function(){},
 
     // 書き込み /* public */
-    write : /* f(this.Response) */function(purpose, file, accept, callbackFunc){
+    write : /* f(this.Response) */function(purpose, file, accepts, callbackFunc){
 
         this.purpose = purpose;
         this.origin = file;
-        this.accept = accept;
+        this.accepts = accepts;
         this.callback = callbackFunc;
 
-        if(!this.validate(file)) return this.callback(this.Response);
+        if(!this._validate(file)) return this.callback(this.Response);
 
         //for( var key in file ){
         //    console.log(key + "=" + file[key]);
@@ -121,14 +162,14 @@ var Fs = {
 
     // TODO: 上記writeとDRYにする
     // 更新 /* public */
-    update : /* f(this.Response) */function(purpose, file, accept, callbackFunc){
+    update : /* f(this.Response) */function(purpose, file, accepts, callbackFunc){
 
         this.purpose = purpose;
         this.origin = file;
-        this.accept = accept;
+        this.accepts = accepts;
         this.callback = callbackFunc;
 
-        if(!this.validate(file)) return this.callback(this.Response);
+        if(!this._validate(file)) return this.callback(this.Response);
 
         //for( var key in file ){
         //    console.log(key + "=" + file[key]);
@@ -140,12 +181,12 @@ var Fs = {
         self.delete(
             this.destination,
             function(){
-                self.write(purpose,file,accept,callbackFunc);
+                self.write(purpose,file,accepts,callbackFunc);
             },
             function(){
                 //console.log('多分初回はremoveでエラー');
                 // 雑だなー
-                self.write(purpose,file,accept,callbackFunc);
+                self.write(purpose,file,accepts,callbackFunc);
             }
         );
     },
