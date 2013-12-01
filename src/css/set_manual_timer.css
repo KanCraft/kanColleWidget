@@ -47,7 +47,7 @@ table#input-container {
 table>tbody>tr>td {
     position: relative;
 }
-table>tbody>tr.carret-container>td {
+table>tbody>tr.caret-container>td {
     height: 20px;
 }
 div#time-input {
@@ -68,7 +68,7 @@ button.btn {
     text-shadow: 0 0 1px #000;
 }
 
-div.carret {
+div.caret {
     -webkit-transform: rotate(90deg) scale(1,2);
     width: 15px;
     height: 20px;
@@ -80,22 +80,22 @@ div.carret {
     text-shadow: 0 0 1px yellow;
     cursor: pointer;
 }
-div.carret:hover {
+div.caret:hover {
     color: rgb(222, 255, 65);
     text-shadow: 0 0 1px yellow inset,
                  0 0 3px yellow;
 }
-div.carret:active {
+div.caret:active {
     color: rgb(124, 168, 132);
     text-shadow: 0 0 1px yellow inset,
                  0 0 3px yellow;
 }
-div.carret.up {
+div.caret.up {
     position: relative;
     bottom: -18px;
     z-index: 1;
 }
-div.carret.down {
+div.caret.down {
     position: relative;
     top: -15px;
     z-index: 1;

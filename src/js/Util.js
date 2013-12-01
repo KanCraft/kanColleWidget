@@ -531,4 +531,18 @@ var Util = Util || {};
         }
         return false;
     };
+
+    /**
+     * location.urlの?以下をパース
+     * @returns {{}}
+     */
+    Util.parseQueryString = function(){
+        var res = {};
+        var qstr = location.search;
+        qstr.replace(/^\?/,'').split('&').map(function(k_v){
+            var _tmp = k_v.split('=');
+            res[_tmp[0]] = _tmp[1];
+        });
+        return res;
+    };
 })();
