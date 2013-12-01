@@ -33,8 +33,7 @@ var widgetPages = widgetPages || {};
 
     View.prototype._render = function() {
         this.events = this.events || this._defaultEvents;
-        this.bindEvent();
-        return this;
+        return this.bindEvent();
     };
 
     View.prototype.bindEvent = function() {
@@ -49,5 +48,6 @@ var widgetPages = widgetPages || {};
                 self[self.events[i]](ev, self);
             });
         }
+        return self;
     };
 })();
