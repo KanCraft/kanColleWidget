@@ -53,6 +53,9 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_kousyou/createitem':
                 this.action.forKousyouCreateitem(this.params);
                 break;
+            case 'api_req_kousyou/getship':
+                this.action.forKousyouGetship(this.params);
+                break;
             case 'api_req_nyukyo/start':
                 this.action.forNyukyoStart(this.params);
                 break;
@@ -151,8 +154,6 @@ var KanColleWidget = KanColleWidget || {};
                 }
                 action.forKousyouPreparation();
             },300);
-        } else if (this.requestSequence[0] === 'api_req_kousyou/getship') {
-            this.action.forKousyouGetship(this.params);
         }
     };
 })();

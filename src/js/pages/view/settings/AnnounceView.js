@@ -33,7 +33,7 @@ var widgetPages = widgetPages || {};
     // ここを変える
     AnnounceView.version = 4;
     AnnounceView.announcements = [
-        "v0.6.0.2",//productversion
+        "v0.6.0.3",//productversion
         "任務受け忘れ防止アラート機能を追加",
         "OCR精度向上",
         "音声ファイル形式制限を追加",
