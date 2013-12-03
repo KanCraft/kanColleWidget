@@ -17,6 +17,11 @@
       currentWindowOnload();
     }
     execJasmine();
+    $('body').append(
+      $('<img>').attr({src:'zkms.png'}),
+      '<br>',
+      $('<a>Illustrated by </a>').addClass('description').append($('<a href="https://twitter.com/akaitera">@akaitera</a>'))
+    );
   };
 
   function execJasmine() {
