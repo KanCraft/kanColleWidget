@@ -31,13 +31,7 @@ build_stg(){
 }
 
 build_test(){
-  rm -rf release/test.kanColleWidget
-  mkdir -p release/test.kanColleWidget
-  cp -r src release/test.kanColleWidget/
-  cp -r tests release/test.kanColleWidget/src/
-  mv release/test.kanColleWidget/src/img/icon* release/test.kanColleWidget/
-  cp manifest/test.json release/test.kanColleWidget/manifest.json
-  zip -r release/test.kanColleWidget.zip release/test.kanColleWidget/*
+  cp -rf src test/
 }
 
 build_all(){
@@ -53,7 +47,9 @@ show_manifest_diff(){
   # echo "\nprod <==> test"
   # diff release/kanColleWidget/manifest.json release/test.kanColleWidget/manifest.json
 }
-
+get_ver_in_test(){
+  echo `grep version test/manifest.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`
+}
 get_ver_in_manifest(){
   echo `grep version manifest/prod.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`
   # echo `grep version manifest/test.json | grep -v manifest_version | tr -d " "`
@@ -73,6 +69,7 @@ version_check(){
   echo "settings.html\t"`get_ver_in_settings`
   echo "Announce.js\t"`get_ver_in_announce`
   echo "README.md\t"`get_ver_in_README`
+  echo "\nTEST\t\t"`get_ver_in_test`
 }
 
 if [ $# -lt 1 ]; then
