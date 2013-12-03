@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <title>「お仕事お疲れさまです」</title>
+</head>
+<body>
+    <div id="main-clock" class="contents boxy">
+    </div>
+    <div id="time-left" class="contents boxy">
+        <div id="time-list-wrapper-missions" class="time-list">
+            <p class="list-title">- 遠征帰投予定時刻</p>
+            <ul id="time-list-container"></ul>
+        </div>
+        <div id="time-list-wrapper-nyukyos" class="time-list">
+            <p class="list-title">- 入渠完了予定時刻</p>
+            <ul id="time-list-container-nyukyos"></ul>
+        </div>
+        <div id="time-list-wrapper-createships" class="time-list">
+            <p class="list-title">- 建造完了予定時刻</p>
+            <ul id="time-list-container-createships"></ul>
+        </div>
+    </div>
+    <div id="tiredness-contents" class="contents">
+        <h5 style="margin-top:20px">簡易疲労度メーター</h5>
+        <div id="tiredness-container"></div>
+    </div>
+    <div class="contents">
+        <h5>デイリー任務消化状況 (<span id="progress" class="xsmall"></span>)</h5>
+        <div id="quest-list-container">
+        </div>
+    </div>
+    <div class="contents">
+        <h5>レシピメモ</h5>
+        <div id="recipe-memo-container">
+        </div>
+    </div>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/Util.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/SoloEventBase.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/EventsBase.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyos.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyo.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/createships/Createships.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/createships/Createship.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/missions/Missions.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/missions/Mission.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/sortie/Sorties.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/sortie/Sortie.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/quests/Quests.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/memo/Memo.js"></script>
+    <script type="text/javascript" src="../js/pages/view/View.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/MainClockView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/DateIconView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/DaysTimeView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/QuestView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/QuestListView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/MemoView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TirednessListView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TirednessView.js"></script>
+    <script type="text/javascript" src="../js/pages/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+html {
+    width: 200px;
+    overflow: visible;
+    background-color: #f0f0f0;
+}
+body *:not(h3) {
+    font-size: 0.8em;
+}
+ul {
+    padding-left: 20px;
+}
