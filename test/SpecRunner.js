@@ -2,7 +2,7 @@
   var jasmineEnv = jasmine.getEnv();
   jasmineEnv.updateInterval = 1000;
 
-  var htmlReporter = new jasmine.HtmlReporter();
+  var htmlReporter = new jasmine.HtmlReporter(null, effect);
 
   jasmineEnv.addReporter(htmlReporter);
 
@@ -17,14 +17,17 @@
       currentWindowOnload();
     }
     execJasmine();
+  };
+
+  function execJasmine() {
+    jasmineEnv.execute();
+  }
+
+  function effect() {
     $('body').append(
       $('<img>').attr({src:'zkms.png'}),
       '<br>',
       $('<a>Illustrated by </a>').addClass('description').append($('<a href="https://twitter.com/akaitera">@akaitera</a>'))
     );
-  };
-
-  function execJasmine() {
-    jasmineEnv.execute();
   }
 })();
