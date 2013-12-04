@@ -7,18 +7,31 @@ module.exports = function(grunt) {
             },
             build: {
                 cmd: 'sh cli/build'
+            },
+            buildquiet: {
+                cmd: 'sh cli/build',
+                stdout: false
             }
         },
         regarde: {
             src: {
                 files: ['src/**/*.*'],
-                tasks: ['build']
+                tasks: ['buildquiet']
             }
+        },
+        jshint: {
+            files: [
+                'src/js/definitions/**/*.*',
+                'src/js/pages/**/*.*'
+            ]
         }
     });
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-regarde');
-    grunt.registerTask('watch', ['regarde']);
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.registerTask('build', ['exec:build']);
+    grunt.registerTask('buildquiet', ['exec:buildquiet']);
+    grunt.registerTask('watch', ['regarde']);
+    grunt.registerTask('check', ['jshint:files']);
     grunt.registerTask('default', ['exec:sample']);
 };
