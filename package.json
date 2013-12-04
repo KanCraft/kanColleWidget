@@ -20,6 +20,8 @@
   "author": "otiai10",
   "license": "BSD",
   "dependencies": {
-    "testem": "*"
+    "grunt": "*",
+    "grunt-exec": "*",
+    "grunt-regarde": "*"
   }
 }
