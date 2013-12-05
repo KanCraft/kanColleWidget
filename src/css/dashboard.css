@@ -1,10 +1,12 @@
-html {
+html, body {
     /*
     font-family: "times new roman";
     */
     font-family: "Meiryo";
     background-color: #f0f0f0;
+    margin: 0;
 }
+
 ul {
     padding-left: 7px;
     margin-bottom: 0;
@@ -110,6 +112,9 @@ a.editor:hover {
 .clickable {
   cursor: pointer;
 }
+.clickable:hover {
+  text-decoration: underline;
+}
 
 h5 {
     margin-bottom: 0;
@@ -136,4 +141,29 @@ textarea {
 }
 .tiredness-bar.green {
     background-color: greenyellow;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: #eee;
+    opacity: 0.9;
+    background-image : url("../img/kagasan.face.png");
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+.modal-contents {
+    position: relative;
+    width: 90%;
+    margin: 20px auto;
+}
+.modal-footer {
+    width: 100%;
+}
+.modal-footer>.boxy {
+    width: 100%;
 }
