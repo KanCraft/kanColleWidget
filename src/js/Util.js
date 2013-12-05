@@ -76,6 +76,9 @@ var Util = Util || {};
         }
     };
 
+    Util.isNumeric = function(str) {
+        return /^\d+$/.test(str);
+    };
     /**
      * バッジ関連の設定
      */
@@ -88,6 +91,7 @@ var Util = Util || {};
             if(num == null) { num = 1; }
 
             chrome.browserAction.getBadgeText({}, function(val) {
+                if(! Util.isNumeric(val)) val = 0;
                 if(val === '') { val = 0; }
                 // +num is transform to number idiom.
                 // + '' is transform to string idiom.

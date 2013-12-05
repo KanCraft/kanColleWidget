@@ -20,7 +20,8 @@ var KanColleWidget = KanColleWidget || {};
         // 何もしないひと
         if(Config.get('dynamic-reminder-type') == 0) return;
         // 常にマニュアル登録のひと
-        if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_nyukyo.html');
+        params.purpose = 'nyukyo';
+        if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_manual_timer.html');
 
         // 他、自動取得しようとするひと
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){

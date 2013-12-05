@@ -58,7 +58,7 @@ jasmine.HtmlReporterHelpers.addHelpers = function(ctor) {
   }
 };
 
-jasmine.HtmlReporter = function(_doc) {
+jasmine.HtmlReporter = function(_doc, allPassedCallback) {
   var self = this;
   var doc = _doc || window.document;
 
@@ -82,6 +82,8 @@ jasmine.HtmlReporter = function(_doc) {
 
     reporterView = new jasmine.HtmlReporter.ReporterView(dom);
     reporterView.addSpecs(specs, self.specFilter);
+
+    reporterView.addAllPassedCallback(allPassedCallback);
   };
 
   self.reportRunnerResults = function(runner) {
@@ -231,6 +233,14 @@ jasmine.HtmlReporter.ReporterView = function(dom) {
   this.failedCount = 0;
   this.skippedCount = 0;
 
+  this.allPassedCallback = function(){};
+
+  this.addAllPassedCallback = function(cb){
+    if (cb) {
+        this.allPassedCallback = cb;
+    }
+  };
+
   this.createResultsMenu = function() {
     this.resultsMenu = this.createDom('span', {className: 'resultsMenu bar'},
       this.summaryMenuItem = this.createDom('a', {className: 'summaryMenuItem', href: "#"}, '0 specs'),
@@ -356,6 +366,8 @@ jasmine.HtmlReporter.ReporterView = function(dom) {
     }
 
     dom.banner.appendChild(this.createDom('span', {className: 'duration'}, "finished in " + ((new Date().getTime() - this.startedAt.getTime()) / 1000) + "s"));
+
+    if (this.failedCount === 0) this.allPassedCallback();
   };
 
   return this;

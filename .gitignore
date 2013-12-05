@@ -1,6 +1,7 @@
 .idea/*
 kanColleWidget.iml
 release/*
+test/src/*
 .DS_Store
 !*.gitkeep
 .projectile
