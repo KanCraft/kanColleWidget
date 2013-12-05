@@ -14,7 +14,6 @@ var widgetPages = widgetPages || {};
     QuestView.prototype = Object.create(widgetPages.View.prototype);
     QuestView.prototype.constructor = QuestView;
     QuestView.prototype.showModal = function(ev, self){
-        console.log(self.quest);
         var modalContents = new widgetPages.QuestModalContentsView(self.quest);
         var modalView = new widgetPages.ModalView(modalContents.render());
         modalView.render().show();
