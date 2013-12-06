@@ -48,7 +48,9 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/05 v0.6.0.4<!--version-->
+- 2013/12/06 v0.6.1.1<!--version-->
+    - デイリー任務消化表から直接[達成]にできるUIを追加
+- 2013/12/05 v0.6.0.4
     - ソフトウェアテストの強化
     - 常に手動設定時の工廠・入渠登録画面のバグ修正
 - 2013/12/03 v0.6.0.3

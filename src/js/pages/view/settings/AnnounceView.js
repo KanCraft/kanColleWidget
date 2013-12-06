@@ -31,9 +31,10 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 4;
+    AnnounceView.version = 5;
     AnnounceView.announcements = [
-        "v0.6.0.4",//productversion
-        "[常に手動]を選択している場合に手動登録窓のバグを修正"
+        "v0.6.1.1",//productversion
+        "[常に手動]を選択している場合に手動登録窓のバグを修正",
+        "デイリー任務消化表で直接[達成]にできるUIを追加"
     ];
 })();
