@@ -3,7 +3,7 @@ var KanColleWidget = KanColleWidget || {};
     var Missions = KanColleWidget.Missions = function(){
         this.primaryIdName = 'deck_id';
         this.storageName   = 'missions';
-        this.soloModel     = SoloMission;
+        this.soloModel     = KanColleWidget.SoloMission;
         this.initialValue  = [
             {deck_id: 2, finish: null},
             {deck_id: 3, finish: null},
