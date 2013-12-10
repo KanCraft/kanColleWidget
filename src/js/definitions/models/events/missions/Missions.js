@@ -1,5 +1,4 @@
 var KanColleWidget = KanColleWidget || {};
-console.log(KanColleWidget);
 (function(){
     var Missions = KanColleWidget.Missions = function(){
         this.primaryIdName = 'deck_id';
