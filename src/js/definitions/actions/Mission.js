@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var MissionAction = KanColleWidget.MissionAction = function(){
-        this.missions = new Missions();
+        this.missions = new KanColleWidget.Missions();
         this.achievements = new KanColleWidget.Achievements(new MyStorage());
         this.precheckKeyword = 'missionQuest';
     };

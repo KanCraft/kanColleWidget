@@ -4,7 +4,7 @@ describe("Missions (extends EventsBase)", function() {
 
   beforeEach(function() {
     MyStorage.ofTest();
-    missions = new Missions();
+    missions = new KanColleWidget.Missions();
   });
 
   it("should manage \"deck_id\" 2,3,4.", function() {

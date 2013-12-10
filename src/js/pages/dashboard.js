@@ -2,10 +2,10 @@ var dummyDate = {
   getHours   : function() { return '--'; },
   getMinutes : function() { return '--'; }
 };
-
+var KanColleWidget = KanColleWidget || {};
 function updateTimeLeft(){
     var renderParams = [];
-    var evMissions = new Missions();
+    var evMissions = new KanColleWidget.Missions();
     var missions = evMissions.getAll();
     missions.map(function(m){
         var d = new Date(m.finish);
