@@ -7,6 +7,6 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
         this.kind      = 'createship-finish';
     }
-    SoloCreateship.prototype = Object.create(SoloEventBase.prototype);
+    SoloCreateship.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloCreateship.prototype.constructor = SoloCreateship;
 })();

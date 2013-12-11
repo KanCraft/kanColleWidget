@@ -7,6 +7,6 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
         this.kind      = 'mission-finish';
     }
-    SoloMission.prototype = Object.create(SoloEventBase.prototype);
+    SoloMission.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloMission.prototype.constructor = KanColleWidget.SoloMission;
 })();

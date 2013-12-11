@@ -1,32 +1,43 @@
-/***** class definitions *****/
-function SoloEventBase(){}
-/* boolean */SoloEventBase.prototype.isUpToTime = function(){
-    var now    = (new Date()).getTime();
+var KanColleWidget = KanColleWidget || {};
+(function(){
+    "use strict";
+    var SoloEventBase = KanColleWidget.SoloEventBase = function(){};
+    /**
+     * 時間がすでに来ているイベントを返す
+     * @returns {boolean}
+     */
+    SoloEventBase.prototype.isUpToTime = function(){
+        var now    = (new Date()).getTime();
 
-    // migration : mission.finish (date object -> epoch msec)
-    if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
+        if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
 
-    var notifyOffset = Config.get('notification-offset-millisec');
+        var notifyOffset = Config.get('notification-offset-millisec');
+        var finish = this.finish - notifyOffset;
 
-    var finish = this.finish - notifyOffset;
+        return (finish < now);
+    };
+    /**
+     * 終了時間を取得する
+     * @returns {*}
+     */
+    SoloEventBase.prototype.getEndTime = function(){
+        if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
 
-    return (finish < now);
-}
-/* int: Epoch */SoloEventBase.prototype.getEndTime = function(){
+        return this.finish;
+    };
+    /**
+     * 注意)これはここで良いのか？
+     * ノーティフィケーションをする
+     */
+    SoloEventBase.prototype.notify = function(){
 
-    // migration : mission.finish (date object -> epoch msec)
-    if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
+        if(!Config.get('notification-on-reminder-finish')) return;
 
-    return this.finish;
-}
-/* void */SoloEventBase.prototype.notify = function(){
-
-    if(!Config.get('notification-on-reminder-finish')) return;
-
-    Util.presentation(this.prefix + this.primaryId + this.suffix, {
-        startOrFinish: 'finish',
-        sound: {
-            kind: this.kind
-        }
-    });
-}
+        Util.presentation(this.prefix + this.primaryId + this.suffix, {
+            startOrFinish: 'finish',
+            sound: {
+                kind: this.kind
+            }
+        });
+    };
+})();
