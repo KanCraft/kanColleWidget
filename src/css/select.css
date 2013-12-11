@@ -16,6 +16,11 @@ body {
     margin: 0;
     padding: 8px;
     background-color: rgba(240,240,240,0.7);
+    max-height: 460px;
+}
+div#main {
+    max-height: 460px;
+    overflow: scroll;
 }
 
 h2 {

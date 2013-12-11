@@ -32,15 +32,14 @@ var KanColleWidget = KanColleWidget || {};
             }
         });
     };
-    TwitterCrawler.find$e = function(callback, opt) {
+    TwitterCrawler.get$ = function(callback, opt) {
         TwitterCrawler.findMaintainanceInfo(function(res) {
             var $elements = $.map($(res).find('li.expanding-stream-item'), function(li){
                 var $el = $(li).find('div.stream-item-header');
                 $el.append($(li).find('p.tweet-text'));
-                console.log($el);
                 return $el;
             });
-            $('body').append($('<div>').append($elements));
+            callback($elements);
         }, opt);
     };
 })();

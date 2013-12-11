@@ -215,4 +215,9 @@ function _toggleArea(e, sw){
 
     affectTracking();
     prepareForScreenShot();
+
+    if (Config.get("display-maintainance-info")) {
+        var staffTwitterView = new widgetPages.StaffTwitterView();
+        $("div#main").append(staffTwitterView.render());
+    }
 })();
