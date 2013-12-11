@@ -1,5 +1,6 @@
 var KanColleWidget = KanColleWidget || {};
 (function(){
+    "use strict";
     var Missions = KanColleWidget.Missions = function(){
         this.primaryIdName = 'deck_id';
         this.storageName   = 'missions';
@@ -11,6 +12,6 @@ var KanColleWidget = KanColleWidget || {};
         ];
     };
     // extend
-    Missions.prototype = Object.create(EventsBase.prototype);
+    Missions.prototype = Object.create(KanColleWidget.EventsBase.prototype);
     Missions.prototype.constructor = KanColleWidget.Missions;
 })();

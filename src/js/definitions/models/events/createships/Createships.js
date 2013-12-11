@@ -12,6 +12,6 @@ var KanColleWidget = KanColleWidget || {};
             {api_kdock_id: 4, finish: null}
         ];
     };
-    Createships.prototype = Object.create(EventsBase.prototype);
+    Createships.prototype = Object.create(KanColleWidget.EventsBase.prototype);
     Createships.prototype.constructor = Createships;
 })();

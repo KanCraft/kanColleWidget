@@ -1,5 +1,6 @@
 var KanColleWidget = KanColleWidget || {};
 (function(){
+    "use strict";
     var Nyukyos = KanColleWidget.Nyukyos = function(){
         this.primaryIdName = 'api_ndock_id';
         this.storageName   = 'nyukyos';
@@ -10,8 +11,8 @@ var KanColleWidget = KanColleWidget || {};
             {api_ndock_id : 3, finish: null},
             {api_ndock_id : 4, finish: null}
         ];
-    }
+    };
     // extend
-    Nyukyos.prototype = Object.create(EventsBase.prototype);
+    Nyukyos.prototype = Object.create(KanColleWidget.EventsBase.prototype);
     Nyukyos.prototype.constructor = KanColleWidget.Nyukyos;
 })();

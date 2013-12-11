@@ -1,4 +1,3 @@
-/***** class definitions *****/
 var KanColleWidget = KanColleWidget || {};
 
 (function(){
