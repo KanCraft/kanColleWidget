@@ -1,6 +1,6 @@
 var KanColleWidget = KanColleWidget || {};
-
 (function(){
+    "use strict";
     // staticなモジュール
     var PreChecker = KanColleWidget.PreChecker = {
         questAccessor : new KanColleWidget.Quests(),

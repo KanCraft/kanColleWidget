@@ -195,9 +195,6 @@ var KanColleWidget = KanColleWidget || {};
         this.set("quests", initialValue);
         return this.get("quests");
     };
-    /**
-     * @type
-     */
     Quests.prototype.initialValue = {
         lastUpdated : 0,//Date.now(),prototype定義内でのDate.nowはインスタンス化された時点が入る
         map : {
