@@ -47,7 +47,7 @@ function updateTimeLeft(){
     renderCreateships(renderParamsCreateships);
 
     var renderParamsNyukyos = [];
-    var evNyukyos = new Nyukyos();
+    var evNyukyos = new KanColleWidget.Nyukyos();
     var nyukyos = evNyukyos.getAll();
     nyukyos.map(function(n){
         var d = new Date(n.finish);

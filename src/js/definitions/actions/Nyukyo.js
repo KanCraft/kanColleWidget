@@ -31,7 +31,7 @@ var KanColleWidget = KanColleWidget || {};
         });
     }
     NyukyoAction.prototype.forSpeedchange = function(params){
-        var nyukyos = new Nyukyos();
+        var nyukyos = new KanColleWidget.Nyukyos();
         nyukyos.clear(params.api_ndock_id);
     }
 
@@ -65,7 +65,7 @@ var KanColleWidget = KanColleWidget || {};
             }
 
             var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);
-            var nyukyos = new Nyukyos();
+            var nyukyos = new KanColleWidget.Nyukyos();
             nyukyos.add(KanColleWidget.Stash.params.api_ndock_id[0], finishTimeMsec);
 
             if(!Config.get('notification-on-reminder-set')) return;
