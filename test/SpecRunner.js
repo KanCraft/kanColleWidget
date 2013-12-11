@@ -24,10 +24,12 @@
   }
 
   function effect() {
-    $('body').append(
-      $('<img>').attr({src:'zkms.png'}),
-      '<br>',
-      $('<a>Illustrated by </a>').addClass('description').append($('<a href="https://twitter.com/akaitera">@akaitera</a>'))
+    $('div.results').prepend(
+      $('<div>').css({float:'right'}).append(
+        $('<img>').attr({src:'zkms.png'}),
+        '<br>',
+        $('<a>Illustrated by </a>').addClass('description').append($('<a href="https://twitter.com/akaitera">@akaitera</a>'))
+      )
     );
   }
 })();
