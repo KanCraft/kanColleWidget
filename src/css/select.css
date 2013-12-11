@@ -7,18 +7,24 @@ html {
     background-image: url('');
     background-size: cover;
     background-position: left bottom;
+    background-attachment: fixed;
     /*
     font-family: "Meiryo";
     font-family: "times new roman";
     */
+    max-height: 700px;
 }
 body {
     margin: 0;
     padding: 8px;
     background-color: rgba(240,240,240,0.7);
 }
+div#main {
+    overflow: scroll;
+}
 
 h2 {
+    margin-top: 5px;
     margin-bottom: 0;
 }
 small {
@@ -78,4 +84,45 @@ div.content {
 
 .clickable {
     cursor: pointer;
+}
+
+/* staff-tweets */
+img.avatar {
+    width: 30px;
+    border-radius: 5px;
+}
+s {
+    text-decoration: none;
+}
+span.username {
+    font-size: x-small;
+}
+small.time {
+    text-align: right;
+    float: right;
+    font-size: x-small;
+    position: relative;
+    top: -3px;
+}
+p.tweet-text {
+    margin: 10px 0;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    font-size: x-small;
+    opacity: 0.8;
+    position: relative;
+    box-shadow: 0 2px 2px #ddd;
+}
+p.tweet-text:after {
+    content: "";
+    border-right:  7px solid transparent;
+    border-bottom: 10px solid #fff;
+    border-left:   7px solid transparent;
+    position: absolute;
+    top:  -10px;
+    left: 10px;
+}
+h6 {
+    margin: 0;
 }

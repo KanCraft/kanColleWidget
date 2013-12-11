@@ -20,7 +20,8 @@ $(function(){
         (new widgetPages.PreventForgettingQuestView()).render()
     );
     $("#icon-tools").append(
-        (new widgetPages.ImageFormatView()).render()
+        (new widgetPages.ImageFormatView()).render(),
+        (new widgetPages.DisplayMaintenanceInfoView()).render()
     );
 });
 function renderAnnounce(){
