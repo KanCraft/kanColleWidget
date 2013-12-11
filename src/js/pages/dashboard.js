@@ -131,7 +131,7 @@ function bindEditor() {
 (function(){
 
     //var questListView = new widgetPages.QuestListView(quests.getAll().map);
-    var questListView = new widgetPages.QuestListView(new Quests());
+    var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
     $("div#quest-list-container").append(questListView.render()); 
     $("span#progress").text(questListView.getProgress());
 

@@ -81,7 +81,7 @@ var widgetPages = widgetPages || {};
         }
     };
     QuestModalContentsView.prototype.doneQuest = function(){
-        var questAccessor = new Quests();// これもファックな設計だなー
+        var questAccessor = new KanColleWidget.Quests();// これもファックな設計だなー
         questAccessor.done(this.quest.id);
         this.vanish();
     };

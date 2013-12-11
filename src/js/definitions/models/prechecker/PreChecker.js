@@ -3,7 +3,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     // staticなモジュール
     var PreChecker = KanColleWidget.PreChecker = {
-        questAccessor : new Quests(),
+        questAccessor : new KanColleWidget.Quests(),
         storage : new MyStorage(),
         mapQuest : {
             /**

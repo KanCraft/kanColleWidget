@@ -12,8 +12,6 @@ describe("MissionAction", function() {
   describe("`forStart`", function() {
     it("should increment achievements.", function() {
       expect(achievements.toJson()['daily']['contents']['mission_count']).toEqual(0);
-      console.log(missionAction);
-      console.log(Constants);
       missionAction.forStart({api_mission_id:[1],api_deck_id:2});
       expect(achievements.toJson()['daily']['contents']['mission_count']).toEqual(1);
     });
