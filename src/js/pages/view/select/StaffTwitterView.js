@@ -2,7 +2,7 @@ var widgetPages = widgetPages || {};
 (function() {
     var StaffTwitterView = widgetPages.StaffTwitterView = function() {
         this.modTwitter = KanColleWidget.TwitterCrawler;
-        this.tpl = '<div><hr><small>運営メンテナンス情報</small><div id="staff-tweets-contents"></div></div>';
+        this.tpl = '<div><hr><h6>運営メンテナンス情報<span id="hit-count"></span></h6><div id="staff-tweets-contents"></div></div>';
         this.events = {
         };
         this.attrs = {
@@ -13,13 +13,13 @@ var widgetPages = widgetPages || {};
     StaffTwitterView.prototype.constructor = StaffTwitterView;
     StaffTwitterView.prototype.render = function(){
         this.apply()._render();
-        var self = this;
-        setTimeout(function(){ self.addTweets(); }, 1000);
+        this.addTweets();
         return this.$el;
     };
     StaffTwitterView.prototype.addTweets = function(){
         this.modTwitter.get$(function($e){
             $('div#staff-tweets-contents').hide().append($e).fadeIn(30);
+            $('span#hit-count').text('(ヒット'+$e.length+'件)');
         });
     };
 })();
