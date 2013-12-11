@@ -26,7 +26,7 @@ function updateTimeLeft(){
     renderMissions(renderParams);
 
     var renderParamsCreateships = [];
-    var evCreateshiips = new Createships();
+    var evCreateshiips = new KanColleWidget.Createships();
     var createships = evCreateshiips.getAll();
     createships.map(function(c){
         var d = new Date(c.finish);

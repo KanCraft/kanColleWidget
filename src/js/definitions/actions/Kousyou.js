@@ -32,7 +32,7 @@ var KanColleWidget = KanColleWidget || {};
         });
     }
     KousyouAction.prototype.forGetship = function(params){
-        var createships = new Createships();
+        var createships = new KanColleWidget.Createships();
         createships.clear(params.api_kdock_id);
 
         // 後方バージョン対応
@@ -80,7 +80,7 @@ var KanColleWidget = KanColleWidget || {};
             }
 
             var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);
-            var createships = new Createships();
+            var createships = new KanColleWidget.Createships();
             createships.add(KanColleWidget.Stash.params.api_kdock_id[0], finishTimeMsec);
 
             if(!Config.get('notification-on-reminder-set')) return;

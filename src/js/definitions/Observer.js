@@ -6,7 +6,7 @@
 function Observer(){/*** 時間管理をします ***/
     this.targets = [
         new KanColleWidget.Missions(), // 遠征
-        new Createships(), // 建造
+        new KanColleWidget.Createships(), // 建造
         new KanColleWidget.Nyukyos(), // 入渠
         new KanColleWidget.Sorties(), // 出撃からの経過時間
     ];
