@@ -5,6 +5,7 @@ describe("MissionAction", function() {
     MyStorage.ofTest();
     missionAction = new KanColleWidget.MissionAction();
     Config.set("record-achievements", true);
+    Config.set("notification-on-reminder-set", false);
     achievements = new KanColleWidget.Achievements(MyStorage.ofTest());
     achievements.update();
   });
