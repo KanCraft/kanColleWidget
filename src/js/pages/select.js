@@ -216,6 +216,10 @@ function _toggleArea(e, sw){
     affectTracking();
     prepareForScreenShot();
 
+    if (widgetPages.AnnounceView.version > Config.get("announce-already-read")) {
+        $('#new-arrival').append("アップデート有り");
+    }
+
     if (Config.get("display-maintenance-info")) {
         var staffTwitterView = new widgetPages.StaffTwitterView();
         $("div#main").append(staffTwitterView.render());

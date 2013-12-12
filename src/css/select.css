@@ -126,3 +126,9 @@ p.tweet-text:after {
 h6 {
     margin: 0;
 }
+
+#new-arrival {
+    color: red;
+    font-size: xx-small;
+    margin-left: 2px;
+}
