@@ -2,7 +2,9 @@ var widgetPages = widgetPages || {};
 
 (function() {
     "use strict";
-    var ModalView = widgetPages.ModalView = function(){};
+    var ModalView = widgetPages.ModalView = function($inner){
+        this.$inner = $inner;
+    };
     ModalView.prototype = Object.create(widgetPages.View.prototype);
     ModalView.prototype.constructor = ModalView;
     ModalView.prototype.render = function(){
@@ -22,8 +24,8 @@ var widgetPages = widgetPages || {};
             this.$el.find(selector).css(this.cssAttrs[selector]);
         }
         this.$el.css(this.cssAttrs['.modal']);
-        //this.$el.hide().appendTo('body').fadeIn(100);
-        this.$el.hide().appendTo('#page1').fadeIn(100);
+        this.$el.hide().appendTo('body').fadeIn(100);
+        //this.$el.hide().appendTo('#page1').fadeIn(100);
     };
     /*
     ModalView.prototype.vanish = function(){
@@ -34,9 +36,11 @@ var widgetPages = widgetPages || {};
     */
     ModalView.prototype.cssAttrs = {
         '.modal' : {
-            position: 'absolute',
+            position: 'fixed',
+            margin: 0,
             top: 0,
             bottom: 0,
+            left: 0,
             width: '100%',
             backgroundColor: 'black',
             color: '#eee',
