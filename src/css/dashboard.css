@@ -167,3 +167,20 @@ textarea {
 .modal-footer>.boxy {
     width: 100%;
 }
+
+/* side-navi */
+.navi-tag {
+    height: 80px;
+}
+.navi-tag:not(.active) {
+    background: #ccc;
+    color: #777;
+}
+.tag-contents {
+    position: relative;
+    top: 20px;
+    right: 5px;
+}
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+}
