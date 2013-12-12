@@ -3,10 +3,10 @@ var widgetPages = widgetPages || {};
 (function() {
     "use strict";
     var QuestViewFactory = widgetPages.QuestViewFactory = function(quest) {
-        if (quest.state == Quests.state.YET) return new widgetPages.YetQuestView(quest);
-        if (quest.state == Quests.state.NOW) return new widgetPages.NowQuestView(quest);
-        if (quest.state == Quests.state.DONE) return new widgetPages.DoneQuestView(quest);
-        if (quest.state == Quests.state.HIDDEN) return new widgetPages.HiddenQuestView(quest);
+        if (quest.state == KanColleWidget.Quests.state.YET) return new widgetPages.YetQuestView(quest);
+        if (quest.state == KanColleWidget.Quests.state.NOW) return new widgetPages.NowQuestView(quest);
+        if (quest.state == KanColleWidget.Quests.state.DONE) return new widgetPages.DoneQuestView(quest);
+        if (quest.state == KanColleWidget.Quests.state.HIDDEN) return new widgetPages.HiddenQuestView(quest);
     };
 
     // Base class for Quest Item
