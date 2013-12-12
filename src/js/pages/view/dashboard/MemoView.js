@@ -17,12 +17,12 @@ var widgetPages = widgetPages || {};
   MemoView.prototype = Object.create(widgetPages.View.prototype);
   MemoView.prototype.constructor = MemoView;
   MemoView.prototype.render = function(){
-      var memo = new Memo();
+      var memo = new KanColleWidget.Memo();
       var params = {memoContents: memo.toJson().value };
       return this.apply(params)._render().$el;
   };
   MemoView.prototype.saveRecipeMemo = function(ev) {
-      var memo = new Memo();
+      var memo = new KanColleWidget.Memo();
       return memo.save($(ev.target).val());
   };
 })();
