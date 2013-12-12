@@ -17,7 +17,10 @@ var widgetPages = widgetPages || {};
         );
         if (Config.get(this.file.inputName)) {
             this.$el.find('#file-selects').append(
-                $('<img>').attr('src',Config.get(this.file.inputName)).css({height:'40px'})
+                $('<img>').attr({
+                    'src' : Config.get(this.file.inputName),
+                    'id'  : 'isset-img-' + this.file.inputName
+                }).css({height:'40px'})
             );
         }
         return this.$el;
@@ -135,6 +138,7 @@ var widgetPages = widgetPages || {};
     FileSelectModalContentsView.prototype.reset = function(ev,self){
         Config.set(self.file.inputName, "");
         $("#isset-" + self.file.inputName).text('削除しました');
+        $("#isset-img-" + self.file.inputName).remove();
         self.done();
     };
     FileSelectModalContentsView.prototype.test = function(ev,self){

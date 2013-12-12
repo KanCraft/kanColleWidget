@@ -17,14 +17,18 @@ $(function(){
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render(),
         (new widgetPages.TirednessLengthView()).render(),
-        (new widgetPages.PreventForgettingQuestView()).render(),
-        (new widgetPages.SoundFileSelectListView()).render(),
-        widgetPages.ImageFileSelectView.ofNotificaionIcon().render(),
-        widgetPages.ImageFileSelectView.ofPopupBackground().render()
+        (new widgetPages.PreventForgettingQuestView()).render()
     );
+
+    $("#notification-settings").append(
+        widgetPages.ImageFileSelectView.ofNotificaionIcon().render(),
+        (new widgetPages.SoundFileSelectListView()).render()
+    );
+
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render(),
-        (new widgetPages.DisplayMaintenanceInfoView()).render()
+        (new widgetPages.DisplayMaintenanceInfoView()).render(),
+        widgetPages.ImageFileSelectView.ofPopupBackground().render()
     );
 
     $("#others").append(
