@@ -79,6 +79,7 @@ MyStorage.prototype.tearDown = function(){
         'tiredness-recovery-minutes'         : 0,
         'prevent-forgetting-quest'           : false,
         'display-maintenance-info'           : false,
+        'clockmode-style'                    : 0,
         'sort-by-finishtime'                 : false
     },
 

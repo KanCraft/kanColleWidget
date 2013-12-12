@@ -23,6 +23,10 @@ $(function(){
         (new widgetPages.ImageFormatView()).render(),
         (new widgetPages.DisplayMaintenanceInfoView()).render()
     );
+
+    $("#others").append(
+        (new widgetPages.ClockmodeStyleView()).render()
+    );
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
