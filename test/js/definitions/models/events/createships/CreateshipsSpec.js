@@ -1,40 +1,40 @@
-describe("Missions (extends EventsBase)", function() {
+describe("Createships (extends EventsBase)", function() {
   var missions;
   var min = 60*1000;
 
   beforeEach(function() {
     MyStorage.ofTest();
-    missions = new KanColleWidget.Missions();
+    missions = new KanColleWidget.Createships();
   });
 
-  it("should manage \"deck_id\" 2,3,4.", function() {
+  it("should manage \"api_kdock_id\" 1,2,3,4.", function() {
     $.map(missions.getAll(), function(mission, i){
-      expect(mission['deck_id']).toEqual(i + 2);
+      expect(mission['api_kdock_id']).toEqual(i + 1);
     });
   });
 
   describe("`add`", function() {
-    var deckId = 3;
+    var kdockId = 3;
     var finish = Date.now() + 30*min;
-    it("should register finish time by deck_id.",function() {
-      missions.add(deckId, finish);
-      var addedMission = missions.getAll()[deckId - 2];
-      expect(addedMission.finish).toEqual(finish);
+    it("should register finish time by api_kdock_id.",function() {
+      missions.add(kdockId, finish);
+      var addedCreateship = missions.getAll()[kdockId - 1];
+      expect(addedCreateship.finish).toEqual(finish);
     });
   });
 
   describe("`check`", function() {
-    var deckId2 = 2;
+    var kdockId2 = 2;
     var finish2 = Date.now() + 20*min;
-    var deckId3 = 3;
+    var kdockId3 = 3;
     var finish3 = Date.now();//up to time
     it("should find nearest-end mission and up-to-time mission.",function() {
-      missions.add(deckId2, finish2);
+      missions.add(kdockId2, finish2);
       var result = missions.check();
       expect(result.nearestEnd.getEndTime()).toEqual(finish2);
       expect(result.upToTime.length).toEqual(0);
 
-      missions.add(deckId3, finish3);
+      missions.add(kdockId3, finish3);
       var result = missions.check();
       expect(result.nearestEnd.getEndTime()).toEqual(finish3);
       expect(result.upToTime.length).toEqual(1);
@@ -43,21 +43,21 @@ describe("Missions (extends EventsBase)", function() {
   });
 
   describe("`clear`", function() {
-    var deckId2 = 2;
+    var kdockId2 = 2;
     var finish2 = Date.now() + 20*min;
-    var deckId3 = 3;
+    var kdockId3 = 3;
     var finish3 = Date.now();//up to time
     var result = {};
-    it("should clear mission by deck_id.",function() {
-      missions.add(deckId2, finish2);
-      missions.add(deckId3, finish3);
+    it("should clear mission by api_kdock_id.",function() {
+      missions.add(kdockId2, finish2);
+      missions.add(kdockId3, finish3);
       result = missions.check();
 
       expect(result.nearestEnd.getEndTime()).toEqual(finish3);
       expect(result.upToTime.length).toEqual(1);
       expect(result.upToTime[0].isUpToTime()).toEqual(true);
 
-      missions.clear(deckId3);
+      missions.clear(kdockId3);
       result = missions.check();
 
       expect(result.nearestEnd.getEndTime()).toEqual(finish2);

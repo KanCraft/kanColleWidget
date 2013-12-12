@@ -1,4 +1,3 @@
-/***** class definitions *****/
 var KanColleWidget = KanColleWidget || {};
 
 (function(){
@@ -9,6 +8,6 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-sortie-end-suffix') || Constants.notification.sortie.end_suffix;
         this.kind      = 'sortie-finish';
     }
-    SoloSortie.prototype = Object.create(SoloEventBase.prototype);
+    SoloSortie.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloSortie.prototype.constructor = SoloSortie;
 })();

@@ -1,41 +1,41 @@
-describe("Missions (extends EventsBase)", function() {
-  var missions;
+describe("Nyukyos (extends EventsBase)", function() {
+  var nyukyos;
   var min = 60*1000;
 
   beforeEach(function() {
     MyStorage.ofTest();
-    missions = new KanColleWidget.Missions();
+    nyukyos = new KanColleWidget.Nyukyos();
   });
 
-  it("should manage \"deck_id\" 2,3,4.", function() {
-    $.map(missions.getAll(), function(mission, i){
-      expect(mission['deck_id']).toEqual(i + 2);
+  it("should manage \"api_ndock_id\" 1,2,3,4.", function() {
+    $.map(nyukyos.getAll(), function(nyukyo, i){
+      expect(nyukyo['api_ndock_id']).toEqual(i + 1);
     });
   });
 
   describe("`add`", function() {
-    var deckId = 3;
+    var ndockId = 3;
     var finish = Date.now() + 30*min;
-    it("should register finish time by deck_id.",function() {
-      missions.add(deckId, finish);
-      var addedMission = missions.getAll()[deckId - 2];
+    it("should register finish time by api_ndock_id.",function() {
+      nyukyos.add(ndockId, finish);
+      var addedMission = nyukyos.getAll()[ndockId - 1];
       expect(addedMission.finish).toEqual(finish);
     });
   });
 
   describe("`check`", function() {
-    var deckId2 = 2;
+    var ndockId2 = 2;
     var finish2 = Date.now() + 20*min;
-    var deckId3 = 3;
+    var ndockId3 = 3;
     var finish3 = Date.now();//up to time
-    it("should find nearest-end mission and up-to-time mission.",function() {
-      missions.add(deckId2, finish2);
-      var result = missions.check();
+    it("should find nearest-end nyukyo and up-to-time nyukyo.",function() {
+      nyukyos.add(ndockId2, finish2);
+      var result = nyukyos.check();
       expect(result.nearestEnd.getEndTime()).toEqual(finish2);
       expect(result.upToTime.length).toEqual(0);
 
-      missions.add(deckId3, finish3);
-      var result = missions.check();
+      nyukyos.add(ndockId3, finish3);
+      var result = nyukyos.check();
       expect(result.nearestEnd.getEndTime()).toEqual(finish3);
       expect(result.upToTime.length).toEqual(1);
       expect(result.upToTime[0].isUpToTime()).toEqual(true);
@@ -43,22 +43,22 @@ describe("Missions (extends EventsBase)", function() {
   });
 
   describe("`clear`", function() {
-    var deckId2 = 2;
+    var ndockId2 = 2;
     var finish2 = Date.now() + 20*min;
-    var deckId3 = 3;
+    var ndockId3 = 3;
     var finish3 = Date.now();//up to time
     var result = {};
-    it("should clear mission by deck_id.",function() {
-      missions.add(deckId2, finish2);
-      missions.add(deckId3, finish3);
-      result = missions.check();
+    it("should clear nyukyo by api_ndock_id.",function() {
+      nyukyos.add(ndockId2, finish2);
+      nyukyos.add(ndockId3, finish3);
+      result = nyukyos.check();
 
       expect(result.nearestEnd.getEndTime()).toEqual(finish3);
       expect(result.upToTime.length).toEqual(1);
       expect(result.upToTime[0].isUpToTime()).toEqual(true);
 
-      missions.clear(deckId3);
-      result = missions.check();
+      nyukyos.clear(ndockId3);
+      result = nyukyos.check();
 
       expect(result.nearestEnd.getEndTime()).toEqual(finish2);
       expect(result.upToTime.length).toEqual(0);

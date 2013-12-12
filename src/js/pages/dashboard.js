@@ -2,10 +2,10 @@ var dummyDate = {
   getHours   : function() { return '--'; },
   getMinutes : function() { return '--'; }
 };
-
+var KanColleWidget = KanColleWidget || {};
 function updateTimeLeft(){
     var renderParams = [];
-    var evMissions = new Missions();
+    var evMissions = new KanColleWidget.Missions();
     var missions = evMissions.getAll();
     missions.map(function(m){
         var d = new Date(m.finish);
@@ -26,7 +26,7 @@ function updateTimeLeft(){
     renderMissions(renderParams);
 
     var renderParamsCreateships = [];
-    var evCreateshiips = new Createships();
+    var evCreateshiips = new KanColleWidget.Createships();
     var createships = evCreateshiips.getAll();
     createships.map(function(c){
         var d = new Date(c.finish);
@@ -47,7 +47,7 @@ function updateTimeLeft(){
     renderCreateships(renderParamsCreateships);
 
     var renderParamsNyukyos = [];
-    var evNyukyos = new Nyukyos();
+    var evNyukyos = new KanColleWidget.Nyukyos();
     var nyukyos = evNyukyos.getAll();
     nyukyos.map(function(n){
         var d = new Date(n.finish);
@@ -131,7 +131,7 @@ function bindEditor() {
 (function(){
 
     //var questListView = new widgetPages.QuestListView(quests.getAll().map);
-    var questListView = new widgetPages.QuestListView(new Quests());
+    var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
     $("div#quest-list-container").append(questListView.render()); 
     $("span#progress").text(questListView.getProgress());
 

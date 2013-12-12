@@ -2,7 +2,7 @@ var widgetPages = widgetPages || {};
 (function(){
     var ManualTimerMissionView = widgetPages.ManualTimerMissionView = function(params){
         this.modelName = 'mission';
-        this.model = new Missions();
+        this.model = new KanColleWidget.Missions();
         this.purpose = '遠征';
         this.identifier = params['deck_id'];
         this.identifierName = "第" + this.identifier + "艦隊";
