@@ -2,6 +2,33 @@ var widgetPages = widgetPages || {};
 (function(){
     "use strict";
 
+    var ImageFileSelectView = widgetPages.ImageFileSelectView = function(file){
+        this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
+        this.file = file;
+    };
+    ImageFileSelectView.prototype = Object.create(widgetPages.View.prototype);
+    ImageFileSelectView.prototype.constructor = ImageFileSelectView;
+    ImageFileSelectView.prototype.render = function(){
+        this.apply({
+            title : this.file.label
+        })._render();
+        this.$el.find('#file-selects').append(
+            (new FileSelectViewBase(this.file)).render()
+        );
+        if (Config.get(this.file.inputName)) {
+            this.$el.find('#file-selects').append(
+                $('<img>').attr('src',Config.get(this.file.inputName)).css({height:'40px'})
+            );
+        }
+        return this.$el;
+    };
+    ImageFileSelectView.ofPopupBackground = function(){
+        return new ImageFileSelectView(popupBackgroundImageFile);
+    };
+    ImageFileSelectView.ofNotificaionIcon = function(){
+        return new ImageFileSelectView(notificationImageFile);
+    };
+
     var SoundFileSelectListView = widgetPages.SoundFileSelectListView = function(){
         this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
     };
@@ -73,6 +100,9 @@ var widgetPages = widgetPages || {};
         this.file.isSet = '無し';
         if (Config.get(this.file.inputName)) this.file.isSet = '設定されています';
         this.apply(this.file)._render();
+
+        if(this.file.doNotTest) this.$el.find('.do-test').remove();
+
         // {{{ TODO: 複数イベントをViewでdelegateできてないよ問題
         var self = this;
         this.$el.find('.do-test').on('click',function(ev){
@@ -82,6 +112,7 @@ var widgetPages = widgetPages || {};
             self['reset'](ev,self);
         });
         // }}}
+
         return this.$el;
     };
     FileSelectModalContentsView.prototype.done = function(ev,self){
@@ -147,4 +178,12 @@ var widgetPages = widgetPages || {};
             kind:"createship-finish",accept:"audio/mp3,audio/wav,audio/ogg,audio/m4a"
         }
     ];
+    var notificationImageFile = {
+        label:"通知アイコン画像",inputName:"notification-img-file",
+        kind:"",accept:"image/*"
+    };
+    var popupBackgroundImageFile = {
+        label:"アイコンポップアップの背景画像",inputName:"popup-bg-img-file",
+        kind:"",accept:"image/*",doNotTest:true
+    };
 })();

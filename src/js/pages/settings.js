@@ -18,7 +18,9 @@ $(function(){
         (new widgetPages.AllowOcrResultLogView()).render(),
         (new widgetPages.TirednessLengthView()).render(),
         (new widgetPages.PreventForgettingQuestView()).render(),
-        (new widgetPages.SoundFileSelectListView()).render()
+        (new widgetPages.SoundFileSelectListView()).render(),
+        widgetPages.ImageFileSelectView.ofNotificaionIcon().render(),
+        widgetPages.ImageFileSelectView.ofPopupBackground().render()
     );
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render(),
