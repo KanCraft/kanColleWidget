@@ -1,4 +1,4 @@
-var myStorage = new MyStorage();
+var myStorage = new KanColleWidget.MyStorage();
 
 function updateTimeLeft(){
     var renderParams = [];
@@ -104,9 +104,9 @@ function _toggleArea(e, sw){
 
 /* void */function updateAchievements(){
 
-    if(!Config.get('record-achievements')) return toggleAchievementsArea(false);
+    if(!KanColleWidget.Config.get('record-achievements')) return toggleAchievementsArea(false);
 
-    var achievements = new KanColleWidget.Achievements(new MyStorage());
+    var achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
     var achievements_json = achievements.update().toJson();
     for(var key in achievements_json.daily.contents){
         document.getElementById('daily-' + key).innerHTML  = achievements_json.daily.contents[key];
@@ -117,11 +117,11 @@ function _toggleArea(e, sw){
 }
 
 /* void */function changeTitle(){
-    var title = Config.get('popup-select-title') || Constants.popup.title;
+    var title = KanColleWidget.Config.get('popup-select-title') || Constants.popup.title;
     document.getElementById('popup-select-title').innerHTML = title;
 }
 /* void */function affectTracking(){
-    var trackedMode = Tracking.get('mode');
+    var trackedMode = KanColleWidget.Tracking.get('mode');
     var inputs = document.getElementsByClassName('mode-select');
     for(var i=0;i<inputs.length;i++){
         inputs[i].checked = false;
@@ -131,7 +131,7 @@ function _toggleArea(e, sw){
 }
 /* void */function prepareForScreenShot(){
     Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-        if(!Config.get('enable-screen-shot')){
+        if(!KanColleWidget.Config.get('enable-screen-shot')){
             document.getElementById('screen-shot').style.display = 'none';
         }
     },function(){
@@ -139,10 +139,10 @@ function _toggleArea(e, sw){
     });
 }
 /* void */function affectPopupBackground(){
-    if(!Config.get('popup-bg-img-file')) return;
+    if(!KanColleWidget.Config.get('popup-bg-img-file')) return;
 
     var html = document.getElementsByTagName('html')[0];
-    html.style.backgroundImage = "url('" + Config.get('popup-bg-img-file') + "')";
+    html.style.backgroundImage = "url('" + KanColleWidget.Config.get('popup-bg-img-file') + "')";
 }
 
 (function(){
@@ -160,11 +160,11 @@ function _toggleArea(e, sw){
     var this_select_window = window;
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
-        Tracking.set('mode',mode);
+        KanColleWidget.Tracking.set('mode',mode);
         Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
             if(typeof widgetWindow != 'undefined'){
                 // 指定のサイズに修正
-                var size = Tracking.get('widget').size;
+                var size = KanColleWidget.Tracking.get('widget').size;
                 var frameWidth = size.outerWidth - size.innerWidth;
                 var frameHeight = size.outerHeight - size.innerHeight;
                 var updateInfo = {
@@ -194,12 +194,12 @@ function _toggleArea(e, sw){
     var resets = document.getElementsByClassName('reset-achievements');
     for(var i= 0,len=resets.length;i<len; i++){
         resets[i].addEventListener('click',function(){
-            var achievements = new KanColleWidget.Achievements(new MyStorage());
+            var achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
             achievements.update(true, this.getAttribute('target'));
         });
     }
 
-    if(Config.get('show-clockmode-button')){
+    if(KanColleWidget.Config.get('show-clockmode-button')){
         var clockmodeBtn = document.getElementById('show-clockmode-button');
         clockmodeBtn.addEventListener('click',function(){
             // {{{ TODO: Utilへ移動
@@ -216,11 +216,11 @@ function _toggleArea(e, sw){
     affectTracking();
     prepareForScreenShot();
 
-    if (widgetPages.AnnounceView.version > Config.get("announce-already-read")) {
+    if (widgetPages.AnnounceView.version > KanColleWidget.Config.get("announce-already-read")) {
         $('#new-arrival').append("アップデート有り");
     }
 
-    if (Config.get("display-maintenance-info")) {
+    if (KanColleWidget.Config.get("display-maintenance-info")) {
         var staffTwitterView = new widgetPages.StaffTwitterView();
         $("div#main").append(staffTwitterView.render());
     }

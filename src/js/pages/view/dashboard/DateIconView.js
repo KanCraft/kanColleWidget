@@ -21,7 +21,7 @@ var widgetPages = widgetPages || {};
     DateIconView.prototype = Object.create(widgetPages.View.prototype);
     DateIconView.prototype.constructor = DateIconView;
     DateIconView.prototype.render = function(){
-        var iconUrl = Config.get("notification-img-file") || "";
+        var iconUrl = KanColleWidget.Config.get("notification-img-file") || "";
         this.apply()._render();
         this.$el.find("#seconds-wrapper").css({backgroundImage:'url("' + iconUrl + '")'});
         return this.$el;

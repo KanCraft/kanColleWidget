@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var HokyuAction = KanColleWidget.HokyuAction = function(){
-        this.achievements = new KanColleWidget.Achievements(new MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
     };
     HokyuAction.prototype.forCharge= function(params){
         this.achievements.update().incrementHokyuCount();

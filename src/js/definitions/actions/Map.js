@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var MapAction = KanColleWidget.MapAction = function(){
-        this.achievements = new KanColleWidget.Achievements(new MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
         this.sorties = new KanColleWidget.Sorties();
         this.precheckKeyword = 'mapQuest';
     };
@@ -16,7 +16,7 @@ var KanColleWidget = KanColleWidget || {};
         this.sorties.refreshStash().registerStash(deck_id);
     };
     MapAction.prototype.forEnd = function(){
-        var recoveryMinutes = Config.get("tiredness-recovery-minutes");
+        var recoveryMinutes = KanColleWidget.Config.get("tiredness-recovery-minutes");
 
         if (recoveryMinutes == 0) return;
 

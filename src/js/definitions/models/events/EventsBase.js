@@ -9,7 +9,7 @@ var KanColleWidget = KanColleWidget || {};
      */
     var EventsBase = KanColleWidget.EventsBase = function(){};
     // extend
-    EventsBase.prototype = Object.create(MyStorage.prototype);
+    EventsBase.prototype = Object.create(KanColleWidget.MyStorage.prototype);
     EventsBase.prototype.constructor = EventsBase;
 
     /**

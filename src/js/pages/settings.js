@@ -5,9 +5,9 @@ $(function(){
     bindResetButtons();
 
     var key = 'notification-offset-millisec';
-    $('#' + key).val(parseInt(Config.get(key), 10));
+    $('#' + key).val(parseInt(KanColleWidget.Config.get(key), 10));
     $('#' + key).on('change',function(){
-        Config.set(key, $(this).val());
+        KanColleWidget.Config.set(key, $(this).val());
     });
 
     renderAnnounce();
@@ -37,16 +37,16 @@ $(function(){
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
-    if (widgetPages.AnnounceView.version <= Config.get("announce-already-read")) return;
+    if (widgetPages.AnnounceView.version <= KanColleWidget.Config.get("announce-already-read")) return;
 
     $("#announce").append(
-        (new widgetPages.AnnounceView(Config)).render()
+        (new widgetPages.AnnounceView(KanColleWidget.Config)).render()
     ).show();
     return
 }
 
 function affectConfigInView(){
-    var config = Config.getJSON();
+    var config = KanColleWidget.Config.getJSON();
     for(var key in config){
         if(typeof config[key] === 'number'){
             var inputs = document.getElementsByClassName(key);
@@ -75,7 +75,7 @@ function affectConfigInView(){
 
     $('select').each(function() {
         var sel = $(this);
-        var val = Config.get(sel.attr('id'));
+        var val = KanColleWidget.Config.get(sel.attr('id'));
         sel.val(val);
     });
 }
@@ -90,24 +90,24 @@ function bindConfigChangedAction(){
     	  switch(inputs[i].type){
     	  case 'checkbox':
             inputs[i].addEventListener('change',function(){
-                Config.set(this.id, this.checked);
+                KanColleWidget.Config.set(this.id, this.checked);
             });
     		    break;
         case 'radio':
             inputs[i].addEventListener('change',function(){
-                Config.set(this.name, parseInt(this.value));
+                KanColleWidget.Config.set(this.name, parseInt(this.value));
             });
             break;
     	  case 'text':
             inputs[i].addEventListener('keyup',function(){
-                Config.set(this.id, this.value);
+                KanColleWidget.Config.set(this.id, this.value);
             });
             break;
     	  case 'range':
         	  inputs[i].addEventListener('change',function(){
                 var target = document.getElementById(this.getAttribute('target'));
                 target.innerText = this.value;
-                Config.set(this.id, this.value);
+                KanColleWidget.Config.set(this.id, this.value);
         	  });
     		    break;
     	  default:
@@ -118,7 +118,7 @@ function bindConfigChangedAction(){
     // select要素に対してのバインド
     $('select').each(function(select) {
         $(this).change(function() {
-            Config.set(this.id, this.value);
+            KanColleWidget.Config.set(this.id, this.value);
         });
     });
 }
@@ -127,7 +127,7 @@ function bindResetButtons(){
     $('.reset').each(function(index){
         $(this).on('click',function(e){
             var target = $(this).attr('target');
-            Config.set(target, '');
+            KanColleWidget.Config.set(target, '');
             $('span#'+target+'-already-set').html('');
             $('#'+target+'-validation').html('デフォルトに戻しました');
         });

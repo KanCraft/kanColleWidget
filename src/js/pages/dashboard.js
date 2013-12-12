@@ -143,7 +143,7 @@ function bindEditor() {
     });
     // }}}
 
-    if (Config.get('tiredness-recovery-minutes') == 0) $('#tiredness-contents').hide();
+    if (KanColleWidget.Config.get('tiredness-recovery-minutes') == 0) $('#tiredness-contents').hide();
 
     var tirednessListView = new widgetPages.TirednessListView();
     $("div#tiredness-container").append(tirednessListView.render());
@@ -154,7 +154,7 @@ function bindEditor() {
     mainClockView.daysTimeView.update(new Date());
     setInterval(function(){mainClockView.ticktack();}, 1000);
 
-    if (Config.get('clockmode-style') == 1) {//Tag Style
+    if (KanColleWidget.Config.get('clockmode-style') == 1) {//Tag Style
         var sideNaviView = new widgetPages.SideNaviView();
         $('#wrapper').append(sideNaviView.render());
         widgetPages.SideNaviView.adjustToSideNavi();

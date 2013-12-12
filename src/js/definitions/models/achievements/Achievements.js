@@ -131,7 +131,7 @@ var KanColleWidget = KanColleWidget || {};
      */
     Achievements.prototype._incrementByKey = function(key){
 
-        if (! Config.get("record-achievements")) return this;
+        if (! KanColleWidget.Config.get("record-achievements")) return this;
 
         var achievement_json = this.storage.get('achievements');
         var daily_count = achievement_json.daily.contents[key] || 0;

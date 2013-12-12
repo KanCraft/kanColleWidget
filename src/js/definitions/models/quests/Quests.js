@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var Quests = KanColleWidget.Quests = function(){};
-    Quests.prototype = Object.create(MyStorage.prototype);
+    Quests.prototype = Object.create(KanColleWidget.MyStorage.prototype);
     Quests.prototype.constructor = Quests;
     // static
     Quests.state = {

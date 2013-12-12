@@ -1,7 +1,7 @@
 /* jshint browser:true */
-/* global KanColleWidget, chrome, Constants, Tracking, Config, MyStorage, CanvasTool */
+/* global KanColleWidget, chrome, Constants, KanColleWidget.Tracking, KanColleWidget.Config, KanColleWidget.MyStorage, CanvasTool */
 /**
- * dependency: MyStorage
+ * dependency: KanColleWidget.MyStorage
  */
 
 // Util が存在しなければオブジェクトとして初期化
@@ -36,7 +36,7 @@ var Util = Util || {};
             callback(widgetWindow, width | 0);
             return;
         }, function() {
-            var pos = Tracking.get('widget').position;
+            var pos = KanColleWidget.Tracking.get('widget').position;
             var options = 'width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}';
             options = options.replace('{w}', width + '')
                              .replace('{h}', (width * Constants.widget.aspect) + '')
@@ -54,8 +54,8 @@ var Util = Util || {};
      */
     Util.presentation = function(text, opt) {
         if(Util.notifier == null) {
-            var assetManager = new KanColleWidget.AssetManager(chrome, Config, Constants);
-            Util.notifier    = new KanColleWidget.Notifier(window, assetManager, Config, Constants, Tracking, Util);
+            var assetManager = new KanColleWidget.AssetManager(chrome, KanColleWidget.Config, Constants);
+            Util.notifier    = new KanColleWidget.Notifier(window, assetManager, KanColleWidget.Config, Constants, KanColleWidget.Tracking, Util);
         }
         Util.notifier.giveNotice(text, opt);
     };
@@ -140,7 +140,7 @@ var Util = Util || {};
 
     Util.system = {
         log : function(value, useStyle) {
-            var myStorage = new MyStorage();
+            var myStorage = new KanColleWidget.MyStorage();
             if(myStorage.get('isDebug')) {
                 if(useStyle) {
                     console.log(value, 'font-size: 1.2em; font-weight: bold;','');
@@ -261,11 +261,11 @@ var Util = Util || {};
         if(doneCallback == null) { doneCallback = function(){/* do nothing */}; }
 
         var opt = {
-            format  : Config.get('capture-image-format') || 'png'
+            format  : KanColleWidget.Config.get('capture-image-format') || 'png'
         };
 
         chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
-            if(Config.get('capture-destination-size') === true){
+            if(KanColleWidget.Config.get('capture-destination-size') === true){
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
@@ -276,7 +276,7 @@ var Util = Util || {};
             $(win.document.body).append(view.render());
 
             // メソッド切り分けしない
-            if(Config.get('download-on-screenshot')){
+            if(KanColleWidget.Config.get('download-on-screenshot')){
                 var a = win.document.createElement('a');
                 a.href = dataUrl;
                 a.download = imgTitle;
@@ -313,7 +313,7 @@ var Util = Util || {};
             canvas.width, canvas.height
         );
 
-        var format = Config.get('capture-image-format') || 'png';
+        var format = KanColleWidget.Config.get('capture-image-format') || 'png';
         format = "image/" + format;
 
         return canvas.toDataURL(format);
@@ -394,7 +394,7 @@ var Util = Util || {};
     };
 
     Util.sortReminderParamsByEndtime = function(params) {
-        if (! Config.get('sort-by-finishtime')) {
+        if (! KanColleWidget.Config.get('sort-by-finishtime')) {
             return params.sort(function(f, l) {
                 for (var k in f) {
                     var key = '';
@@ -432,7 +432,7 @@ var Util = Util || {};
 
     Util.openLoaderWindow = function() {
         var pageURL = chrome.extension.getURL('/') + 'src/html/loader.html';
-        var pos = Tracking.get('widget').position;
+        var pos = KanColleWidget.Tracking.get('widget').position;
         var loadingWindow = window.open(pageURL, '_blank', 'width=180,height=200,top=' + pos.top + ',left=' + pos.left);
         return loadingWindow;
     };

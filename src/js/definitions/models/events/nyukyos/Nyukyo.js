@@ -3,7 +3,7 @@ function SoloNyukyo(json){
     this.primaryId = json.api_ndock_id;
     this.finish    = json.finish;
     this.prefix    = Constants.notification.nyukyo.end_prefix;
-    this.suffix    = Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
+    this.suffix    = KanColleWidget.Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
     this.kind      = 'nyukyo-finish';
 }
 SoloNyukyo.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);

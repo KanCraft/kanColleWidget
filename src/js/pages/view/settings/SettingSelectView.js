@@ -15,7 +15,7 @@ var widgetPages = widgetPages || {};
                                     + '</tr>';
 
     SettingSelectView.prototype.listen = function(config) {
-        this.config = config || Config;
+        this.config = config || KanColleWidget.Config;
         var eventKey = 'change .' + this.inputName;
         this.events = this.events || {};
         this.events[eventKey] = "_listenSelectChange";

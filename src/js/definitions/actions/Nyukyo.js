@@ -11,17 +11,17 @@ var KanColleWidget = KanColleWidget || {};
 
         KanColleWidget.Stash.params = params;
 
-        var achievements = new KanColleWidget.Achievements(new MyStorage());
+        var achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
         achievements.incrementNyukyoCount();
 
         // 高速修復材を使用している場合
         if(params.api_highspeed == 1) return;
 
         // 何もしないひと
-        if(Config.get('dynamic-reminder-type') == 0) return;
+        if(KanColleWidget.Config.get('dynamic-reminder-type') == 0) return;
         // 常にマニュアル登録のひと
         params.purpose = 'nyukyo';
-        if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_manual_timer.html');
+        if(KanColleWidget.Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_manual_timer.html');
 
         // 他、自動取得しようとするひと
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
@@ -42,9 +42,9 @@ var KanColleWidget = KanColleWidget || {};
         if(KanColleWidget.Stash.params.api_highspeed == 1) return;
 
         // 何もしないひと
-        if(Config.get('dynamic-reminder-type') == 0) return;
+        if(KanColleWidget.Config.get('dynamic-reminder-type') == 0) return;
         // 常にマニュアル登録のひと
-        if(Config.get('dynamic-reminder-type') == 1) return;
+        if(KanColleWidget.Config.get('dynamic-reminder-type') == 1) return;
 
         var callback = function(res){
 
@@ -56,7 +56,7 @@ var KanColleWidget = KanColleWidget || {};
             if(!res.result){
 
                 // 失敗しても手動出さない設定ならここで終わる
-                if(Config.get('dynamic-reminder-type') == 3) return;
+                if(KanColleWidget.Config.get('dynamic-reminder-type') == 3) return;
 
                 if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
                 var params = KanColleWidget.Stash.params;
@@ -68,7 +68,7 @@ var KanColleWidget = KanColleWidget || {};
             var nyukyos = new KanColleWidget.Nyukyos();
             nyukyos.add(KanColleWidget.Stash.params.api_ndock_id[0], finishTimeMsec);
 
-            if(!Config.get('notification-on-reminder-set')) return;
+            if(!KanColleWidget.Config.get('notification-on-reminder-set')) return;
 
             Util.presentation(res.assuredText + 'で入渠修復完了通知を登録しときましたー', {
                 startOrFinish: 'start',
@@ -80,7 +80,7 @@ var KanColleWidget = KanColleWidget || {};
 
         setTimeout(function(){
             Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-                var proc = new Process.DetectTime(chrome, Constants, Config);
+                var proc = new Process.DetectTime(chrome, Constants, KanColleWidget.Config);
                 proc.forNyukyo(widgetWindow.id, KanColleWidget.Stash.params.api_ndock_id[0], callback);
             });
         }, Constants.ocr.delay); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ

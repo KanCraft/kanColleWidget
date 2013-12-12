@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     var Memo = KanColleWidget.Memo = function(){};
     // extend
-    Memo.prototype = Object.create(MyStorage.prototype);
+    Memo.prototype = Object.create(KanColleWidget.MyStorage.prototype);
     Memo.prototype.constructor = Memo;
 
     Memo.prototype.toJson = function(){

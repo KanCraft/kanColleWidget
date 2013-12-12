@@ -61,7 +61,7 @@ Observer.prototype.unsetNearestEndEvent = function(){
 }
 
 Observer.prototype.updateBadgeContext = function(){
-    if(Config.get('badge-left-time')){
+    if(KanColleWidget.Config.get('badge-left-time')){
         if(this.NearestEndEvent){
             Util.badge.leftTime(this.NearestEndEvent.getEndTime());
         }

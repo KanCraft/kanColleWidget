@@ -15,10 +15,10 @@ var widgetPages = widgetPages || {};
         this.$el.find('#file-selects').append(
             (new FileSelectViewBase(this.file)).render()
         );
-        if (Config.get(this.file.inputName)) {
+        if (KanColleWidget.Config.get(this.file.inputName)) {
             this.$el.find('#file-selects').append(
                 $('<img>').attr({
-                    'src' : Config.get(this.file.inputName),
+                    'src' : KanColleWidget.Config.get(this.file.inputName),
                     'id'  : 'isset-img-' + this.file.inputName
                 }).css({height:'40px'})
             );
@@ -57,7 +57,7 @@ var widgetPages = widgetPages || {};
     FileSelectViewBase.prototype.constructor = FileSelectViewBase;
     FileSelectViewBase.prototype.render = function(){
         var isSet = "--";
-        if (Config.get(this.file.inputName)) {
+        if (KanColleWidget.Config.get(this.file.inputName)) {
             isSet = "設定されています";
         }
         this.apply({
@@ -101,7 +101,7 @@ var widgetPages = widgetPages || {};
     FileSelectModalContentsView.prototype.constructor = FileSelectModalContentsView;
     FileSelectModalContentsView.prototype.render = function(){
         this.file.isSet = '無し';
-        if (Config.get(this.file.inputName)) this.file.isSet = '設定されています';
+        if (KanColleWidget.Config.get(this.file.inputName)) this.file.isSet = '設定されています';
         this.apply(this.file)._render();
 
         if(this.file.doNotTest) this.$el.find('.do-test').remove();
@@ -129,14 +129,14 @@ var widgetPages = widgetPages || {};
             console.log(res);
             if(res.status == 0) return self.done();
 
-            Config.set(res.purpose, res.entry.toURL());
+            KanColleWidget.Config.set(res.purpose, res.entry.toURL());
             var message = res.origin.name + 'に設定しました';
             $("#isset-" + self.file.inputName).text(message);
             self.done();
         });
     };
     FileSelectModalContentsView.prototype.reset = function(ev,self){
-        Config.set(self.file.inputName, "");
+        KanColleWidget.Config.set(self.file.inputName, "");
         $("#isset-" + self.file.inputName).text('削除しました');
         $("#isset-img-" + self.file.inputName).remove();
         self.done();

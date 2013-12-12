@@ -5,7 +5,7 @@ var KanColleWidget = KanColleWidget || {};
     ActionBase.prototype.confirmMessage = "以下の任務が未着手です\n\n- {{title}}\n\n\n(もうこの任務について通知を出さない？)";
     ActionBase.prototype.forPreparation = function(){
 
-        if (! Config.get("prevent-forgetting-quest")) return;
+        if (! KanColleWidget.Config.get("prevent-forgetting-quest")) return;
         var checker = KanColleWidget.PreChecker;
         var questNotEmbarkedYet = checker[this.precheckKeyword].check();
 

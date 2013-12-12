@@ -3,7 +3,7 @@ var widgetPages = widgetPages || {};
 (function() {
     var TirednessView = widgetPages.TirednessView = function(sortie) {
         this.sortie  = sortie;
-        this.config = Config;
+        this.config = KanColleWidget.Config;
         this.sorties = new KanColleWidget.Sorties();
         this.tpl = '<tr>'
                  + '    <td>第{{deck_id}}艦隊</td>'
