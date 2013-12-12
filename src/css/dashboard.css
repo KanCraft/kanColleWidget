@@ -163,12 +163,22 @@ textarea {
 }
 
 /* side-navi */
+#side-navi {
+    width: 30px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #ccc;
+}
 .navi-tag {
     height: 80px;
-}
-.navi-tag:not(.active) {
     background: #ccc;
     color: #777;
+}
+.navi-tag.active {
+    background-color: #f0f0f0;
+    color: #000;
 }
 .tag-contents {
     position: relative;

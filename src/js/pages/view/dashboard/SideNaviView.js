@@ -7,7 +7,7 @@ var widgetPages = widgetPages || {};
             'click .tag-contents' : 'showPage'
         };
         this.attrs = {
-            id : 'sub-navi'
+            id : 'side-navi'
         };
     };
     SideNaviView.prototype = Object.create(widgetPages.View.prototype);
@@ -29,12 +29,6 @@ var widgetPages = widgetPages || {};
             width: '390px',
             marginTop: 0,
             overflow: 'scroll'
-        });
-        $('#sub-navi').css({
-            width:'30px',
-            position:'fixed',
-            top: 0,
-            right: 0
         });
         //$('#page0').css({display:'none'});
         $('#page1').css({display:'none'});
