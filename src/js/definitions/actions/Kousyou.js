@@ -13,7 +13,8 @@ var KanColleWidget = KanColleWidget || {};
         this.achievements.update().incrementCreateshipCount();
 
         KanColleWidget.Stash.params = params;// tmp
-        KanColleWidget.Stash.createShip[params['api_kdock_id'][0]] = params;
+        var dockId = params['api_kdock_id'][0];
+        KanColleWidget.Stash.createShip[dockId] = params;
 
         // 高速建造を使用する
         if(params.api_highspeed == 1) return;
@@ -35,14 +36,17 @@ var KanColleWidget = KanColleWidget || {};
         var createships = new KanColleWidget.Createships();
         createships.clear(params.api_kdock_id);
 
+        var dockId = params['api_kdock_id'][0];
+
         // 後方バージョン対応
-        if (! KanColleWidget.Stash.createShip || ! KanColleWidget.Stash.createShip[params['api_kdock_id'][0]]) return;
+        if (! KanColleWidget.Stash.createShip) return;
+        if (Object.keys(KanColleWidget.Stash.createShip[dockId]).length == 0) return;
 
         // 設定を見る
         if (! KanColleWidget.Config.get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
-        var createshipParams = KanColleWidget.Stash.createShip[params['api_kdock_id'][0]];
+        var createshipParams = KanColleWidget.Stash.createShip[dockId];
         twitter.shareCreateShip(createshipParams);
     };
     KousyouAction.prototype.forCreateitem = function(params){
