@@ -1,36 +1,11 @@
 var widgetPages = widgetPages || {};
-
 (function() {
     "use strict";
-    var ModalView = widgetPages.ModalView = function($inner) {
-        this.tpl = '<div></div>';
-        this.$inner = $inner;
-        this.events = {
-        };
-        this.attrs = {
-            id : "dashboard-modal",
-            class : "modal"
-        };
+    var QuestModalView = widgetPages.QuestModalView = function(quest){
+        this.$inner = (new widgetPages.QuestModalContentsView(quest)).render();
     };
-    ModalView.prototype = Object.create(widgetPages.View.prototype);
-    ModalView.prototype.constructor = ModalView;
-    ModalView.prototype.render = function(){
-        this.apply()._render();
-        // hidden in default
-        this.$el.append(this.$inner);
-        this.$el.css({display:'none'});
-        return this;
-    };
-    ModalView.prototype.show = function(){
-        this.$el.hide().appendTo('body').fadeIn(100);
-    };
-    /*
-    ModalView.prototype.vanish = function(){
-        this.$el.fadeOut(100, function(){
-            $('#dashboard-modal').remove();
-        });
-    };
-    */
+    QuestModalView.prototype = Object.create(widgetPages.ModalView.prototype);
+    QuestModalView.prototype.constructor = QuestModalView;
 
     var QuestModalContentsView = widgetPages.QuestModalContentsView = function(quest) {
         this.quest = quest;
@@ -40,8 +15,10 @@ var widgetPages = widgetPages || {};
                  + '        <h1>現状 : {{status}}</h1>'
                  + '    </div>'
                  + '    <div class="modal-footer">'
-                 + '            <h2><a id="modal-done" class="clickable">&gt; [達成しました！]</a></h2>'
-                 + '            <h2><a id="modal-cancel" class="clickable">&gt; [戻ります！]</a></h2>'
+                 + '        <span>'
+                 + '            <a id="modal-done" class="clickable">&gt; [達成しました！]</a>'
+                 + '            <a id="modal-cancel" class="clickable">&gt; [戻ります！]</a>'
+                 + '        </span>'
                  + '    </div>'
                  + '</div>';
         this.attrs = {
@@ -87,7 +64,7 @@ var widgetPages = widgetPages || {};
     };
     QuestModalContentsView.prototype.vanish = function(){
         this.$el.fadeOut(100, function(){
-            $('#dashboard-modal').remove();
+            $('#modal-wrapper').remove();
         });
     };
 })();
