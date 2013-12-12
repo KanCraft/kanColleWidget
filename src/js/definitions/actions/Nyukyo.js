@@ -80,7 +80,7 @@ var KanColleWidget = KanColleWidget || {};
 
         setTimeout(function(){
             Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-                var proc = new Process.DetectTime(chrome, Constants, KanColleWidget.Config);
+                var proc = new KanColleWidget.Process.DetectTime(chrome, Constants, KanColleWidget.Config);
                 proc.forNyukyo(widgetWindow.id, KanColleWidget.Stash.params.api_ndock_id[0], callback);
             });
         }, Constants.ocr.delay); //クレーンが画面内に登場してから数字にかぶる直前までの時間,描画を待つ

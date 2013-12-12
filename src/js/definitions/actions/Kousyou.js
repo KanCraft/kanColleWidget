@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var KousyouAction = KanColleWidget.KousyouAction = function(){
-        this.achievements = new KanColleWidget.Achievements(new MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
         this.precheckKeyword = 'kousyouQuest';
     };
     KousyouAction.prototype = Object.create(KanColleWidget.ActionBase.prototype);
@@ -95,7 +95,7 @@ var KanColleWidget = KanColleWidget || {};
 
         setTimeout(function(){
             Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-                var proc = new Process.DetectTime(chrome, Constants, KanColleWidget.Config);
+                var proc = new KanColleWidget.Process.DetectTime(chrome, Constants, KanColleWidget.Config);
                 proc.forCreateship(widgetWindow.id, KanColleWidget.Stash.params.api_kdock_id[0], callback);
             });
         }, Constants.ocr.delay); //単に描画時間を待つ

@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var PracticeAction = KanColleWidget.PracticeAction = function(){
-        this.achievements = new KanColleWidget.Achievements(new MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
         this.precheckKeyword = 'practiceQuest';
     };
     PracticeAction.prototype = Object.create(KanColleWidget.ActionBase.prototype);
