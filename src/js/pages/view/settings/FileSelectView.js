@@ -125,7 +125,7 @@ var widgetPages = widgetPages || {};
     };
     FileSelectModalContentsView.prototype.commit = function(ev,self){
         var fileObj = $('#new-file').prop('files')[0];
-        Fs.update(self.file.inputName, fileObj, self.file.accept.split(','), function(res){
+        KanColleWidget.Fs.update(self.file.inputName, fileObj, self.file.accept.split(','), function(res){
             console.log(res);
             if(res.status == 0) return self.done();
 

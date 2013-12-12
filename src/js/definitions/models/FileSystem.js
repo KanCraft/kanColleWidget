@@ -1,18 +1,18 @@
 var requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-
-var Fs = {
-
+var KanColleWidget = KanColleWidget || {};
+(function(){
+    var Fs = KanColleWidget.Fs = {};
     // レスポンス＼(^o^)／オブジェクト
-    Response : {
+    Fs.Response = {
         /* string */  purpose : '',
         /* int */      status : 0,
         /* string */  message : '',
         /* Error */     error : null,
         /* FileEntry */ entry : null, //保存されたエントリ
         /* File */     origin : null //選択されたオリジナルなファイルエントリ
-    },
+    };
     // レスポンスオブジェクト作るメソッド
-    /* private */responseFactory : /* this.Response */function(status, message, entry, error){
+    Fs.responseFactory = function(status, message, entry, error){
         this.Response.status = status;
         this.Response.message = message;
         this.Response.error = error || null;
@@ -20,26 +20,26 @@ var Fs = {
         this.Response.origin = this.origin;
         this.Response.purpose = this.purpose;
         return this.Response;
-    },
+    };
 
     // 受付可能なファイルタイプのリスト
-    accepts : [],
+    Fs.accepts = [];
     // 保存目的
-    purpose : null,
+    Fs.purpose;
     // 最終保存パス
-    destination : null,
+    Fs.destination;
 
     // サイズ制限
-    SIZE_LIMIT : 1024 * 1024 * 5, // 5MB
+    Fs.SIZE_LIMIT = 1024 * 1024 * 5;// 5MB
 
     // エラーハンドリング
-    /* private */onError : /* this.Response */function(error){
+    Fs.onError = function(error){
         var message = '';
         for ( var key in error){
             message += key + "=" + error[key] + ',';
         }
         return this.responseFactory(0, message, null, error);
-    },
+    };
 
     /**
      * ファイルのバリデーションをする
@@ -47,33 +47,33 @@ var Fs = {
      * @returns {boolean}
      * @private
      */
-    _validate : function(file){
+    Fs._validate = function(file){
         if (! this._validateUndefined(file)) return false;
         if (! this._validateFileType(file)) return false;
         if (! this._validateFileSize(file)) return false;
         return true;
-    },
+    };
     /**
      * ファイルが選択されてないけど来た場合をバリデーションする
      * @param file
      * @returns {boolean}
      * @private
      */
-    _validateUndefined : function(file) {
-         if(typeof file == 'undefined'){
+    Fs._validateUndefined = function(file) {
+        if(typeof file == 'undefined'){
             this.Response.status = 0;
             this.Response.message = "キャンセルされましたー";
             return false;
         }
         return true;
-    },
+    };
     /**
      * ファイルタイプをバリデーションする
      * @param file
      * @returns {boolean}
      * @private
      */
-    _validateFileType : function(file){
+    Fs._validateFileType = function(file){
         var acceptable = false;
         for (var i in this.accepts) {
             if (file.type.match(this.accepts[i])) {
@@ -86,27 +86,27 @@ var Fs = {
             return false;
         }
         return true;
-    },
+    };
     /**
      * ファイルサイズをバリデーションする
      * @param file
      * @returns {boolean}
      * @private
      */
-    _validateFileSize : function(file){
+    Fs._validateFileSize = function(file){
         if( file.size > this.SIZE_LIMIT ){
             this.Response.status = 0;
             this.Response.message = "ファイルサイズが大きすぎます。"+ this.SIZE_LIMIT/(1024*1024) +"MB未満のファイルにしてください。";
             return false;
         }
         return true;
-    },
+    };
 
     // 保存ファイルパスを決定
-    /* private */defineDestination : function(){
+    Fs.defineDestination = function(){
         var ext = this.origin.type.replace(/^[a-zA-Z]+\//,'');
         return this.purpose + '.' + ext;
-    },
+    };
 
     // 削除 /* public */
     // delete : function(){},
@@ -114,7 +114,7 @@ var Fs = {
     // read : function(){},
 
     // 書き込み /* public */
-    write : /* f(this.Response) */function(purpose, file, accepts, callbackFunc){
+    Fs.write = function(purpose, file, accepts, callbackFunc){
 
         this.purpose = purpose;
         this.origin = file;
@@ -158,11 +158,11 @@ var Fs = {
             },
             self.onError
         );
-    },
+    };
 
     // TODO: 上記writeとDRYにする
     // 更新 /* public */
-    update : /* f(this.Response) */function(purpose, file, accepts, callbackFunc){
+    Fs.update = function(purpose, file, accepts, callbackFunc){
 
         this.purpose = purpose;
         this.origin = file;
@@ -189,10 +189,10 @@ var Fs = {
                 self.write(purpose,file,accepts,callbackFunc);
             }
         );
-    },
+    };
 
     // 削除 /* private */
-    delete : /* f() */function(f_path, success_callback, error_callback){
+    Fs.delete = function(f_path, success_callback, error_callback){
         var self = this;
         requestFileSystem(
             window.PERSISTENT,
@@ -216,5 +216,5 @@ var Fs = {
             },
             self.onError
         );
-    }
-}
+    };
+})();
