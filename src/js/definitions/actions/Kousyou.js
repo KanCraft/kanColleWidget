@@ -30,7 +30,7 @@ var KanColleWidget = KanColleWidget || {};
             KanColleWidget.Stash.loadingWindow = loadingWindow;
             Util.adjustSizeOfWindowsOS(loadingWindow);
         });
-    }
+    };
     KousyouAction.prototype.forGetship = function(params){
         var createships = new KanColleWidget.Createships();
         createships.clear(params.api_kdock_id);
@@ -44,11 +44,11 @@ var KanColleWidget = KanColleWidget || {};
         var twitter = new KanColleWidget.Twitter();
         var createshipParams = KanColleWidget.Stash.createShip[params['api_kdock_id'][0]];
         twitter.shareCreateShip(createshipParams);
-    }
+    };
     KousyouAction.prototype.forCreateitem = function(params){
         this.achievements.update().incrementCreateitemCount();
         KanColleWidget.Stash.createItem = params;
-    }
+    };
 
     // Completed
     KousyouAction.prototype.forCreateshipCompleted = function(){
@@ -99,7 +99,7 @@ var KanColleWidget = KanColleWidget || {};
                 proc.forCreateship(widgetWindow.id, KanColleWidget.Stash.params.api_kdock_id[0], callback);
             });
         }, Constants.ocr.delay); //単に描画時間を待つ
-    }
+    };
 
     KousyouAction.prototype.forCreateitemComplete = function(){
         if (! KanColleWidget.Stash.createItem) return;
