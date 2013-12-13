@@ -188,14 +188,58 @@ var Constants = {/** constantアクセサ的なアレ **/
         loader : {
             images : {
                 normal : [
-                    /*
-                    'src/img/loader/0.gif',
-                    'src/img/loader/1.gif',
-                    'src/img/loader/2.gif',
-                    'src/img/loader/3.gif',
-                    'src/img/loader/4.gif',
-                    */
-                    {url:'src/img/loader/5.png',title:'15cm単装砲'}
+                    //-----------001~010
+                    {url:'src/img/loader/001.png',title:'12cm単装砲'},
+                    {url:'src/img/loader/002.png',title:'12.7cm連装砲'},
+                    {url:'src/img/loader/003.png',title:'10cm連装高角砲'},
+                    {url:'src/img/loader/004.png',title:'14cm単装砲'},
+                    {url:'src/img/loader/005.png',title:'15.5cm三連装砲'},
+                    {url:'src/img/loader/006.png',title:'20.3cm連装砲'},
+                    {url:'src/img/loader/007.png',title:'35.6cm連装砲'},
+                    {url:'src/img/loader/008.png',title:'41cm連装砲'},
+                    {url:'src/img/loader/009.png',title:'46cm三連装砲'},
+                    {url:'src/img/loader/010.png',title:'12.7cm連装高角砲'},
+                    //-----------011~020
+                    {url:'src/img/loader/011.png',title:'15.2cm単装砲'},
+                    {url:'src/img/loader/012.png',title:'15.5cm三連装砲(副砲)'},
+                    {url:'src/img/loader/013.png',title:'61cm三連装魚雷'},
+                    {url:'src/img/loader/014.png',title:'61cm四連装魚雷'},
+                    {url:'src/img/loader/015.png',title:'61cm四連装(酸素)魚雷'},
+                    {url:'src/img/loader/016.png',title:'九七式艦攻'},
+                    {url:'src/img/loader/017.png',title:'天山'},
+                    {url:'src/img/loader/018.png',title:'流星'},
+                    {url:'src/img/loader/019.png',title:'九六式艦戦'},
+                    {url:'src/img/loader/020.png',title:'零式艦戦24型'},
+                    //-----------021~030
+                    {url:'src/img/loader/021.png',title:'零式艦戦52型'},
+                    {url:'src/img/loader/022.png',title:'烈風'},
+                    {url:'src/img/loader/023.png',title:'九九式艦爆'},
+                    {url:'src/img/loader/024.png',title:'彗星'},
+                    {url:'src/img/loader/025.png',title:'零式水上偵察機'},
+                    {url:'src/img/loader/026.png',title:'瑞雲'},
+                    {url:'src/img/loader/030.png',title:'21号対空電探'},
+                    //-----------031~040
+                    {url:'src/img/loader/032.png',title:'14号対空電探'},
+                    {url:'src/img/loader/034.png',title:'強化型艦本式缶'},
+                    {url:'src/img/loader/035.png',title:'三式弾'},
+                    {url:'src/img/loader/036.png',title:'九一式徹甲弾'},
+                    {url:'src/img/loader/037.png',title:'7.7mm機銃'},
+                    {url:'src/img/loader/038.png',title:'12.7mm単装機銃'},
+                    {url:'src/img/loader/039.png',title:'25mm連装機銃'},
+                    {url:'src/img/loader/040.png',title:'25mm三連装機銃'},
+                    //-----------041~050
+                    {url:'src/img/loader/041.png',title:'甲標的 甲'},
+                    {url:'src/img/loader/044.png',title:'九四式爆雷投射機'},
+                    {url:'src/img/loader/046.png',title:'九三式水中聴音機'},
+                    {url:'src/img/loader/047.png',title:'三式水中探信儀'},
+                    //-----------051~060
+                    {url:'src/img/loader/051.png',title:'12cm30連装噴進砲'},
+                    {url:'src/img/loader/054.png',title:'彩雲'},
+                    {url:'src/img/loader/055.png',title:'紫電改二'},
+                    {url:'src/img/loader/058.png',title:'61cm五連装(酸素)魚雷'},
+                    //-----------051~060
+                    {url:'src/img/loader/065.png',title:'15.2cm連装砲'},
+                    {url:'src/img/loader/066.png',title:'8cm高角砲'}
                 ]
             }
         }
