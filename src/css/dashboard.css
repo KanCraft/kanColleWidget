@@ -171,16 +171,16 @@ textarea {
     right: 0;
     background-color: #ccc;
 }
-.navi-tag {
+.navi-tab {
     height: 80px;
     background: #ccc;
     color: #777;
 }
-.navi-tag.active {
+.navi-tab.active {
     background-color: #f0f0f0;
     color: #000;
 }
-.tag-contents {
+.tab-contents {
     position: relative;
     top: 20px;
     right: 5px;

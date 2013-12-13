@@ -7,7 +7,7 @@ var widgetPages = widgetPages || {};
         this.title = "クロックモードのレイアウト";
         this.elements = [
             {value:'0', title: '一覧表示', description: '縦にずらー'},
-            {value:'1', title: 'タグ表示', description: 'タグきりかえできる感じ'}
+            {value:'1', title: 'タブ表示', description: 'タブできりかえできる感じ'}
         ];
     };
     ClockmodeStyleView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
