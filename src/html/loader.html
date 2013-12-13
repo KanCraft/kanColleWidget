@@ -13,11 +13,29 @@
             height: 200px;
             width: 180px;
         }
+        div#wrapper {
+            position: fixed;
+            height: 200px;
+            width: 180px;
+            top: 0;
+            left: 0;
+        }
+        div#answer {
+            width: 170px;
+            height: 180px;
+            margin: 10px auto;
+            display: none;
+        }
     </style>
 </head>
 <body>
-<script src="../js/Util.js"></script>
-<script src="../js/Constants.js"></script>
-<script src="../js/pages/loader.js"></script>
+    <div id="wrapper">
+        <div id="answer">
+        </div> 
+    </div>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/Util.js"></script>
+    <script src="../js/Constants.js"></script>
+    <script src="../js/pages/loader.js"></script>
 </body>
 </html>

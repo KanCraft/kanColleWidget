@@ -188,11 +188,14 @@ var Constants = {/** constantアクセサ的なアレ **/
         loader : {
             images : {
                 normal : [
+                    /*
                     'src/img/loader/0.gif',
                     'src/img/loader/1.gif',
                     'src/img/loader/2.gif',
                     'src/img/loader/3.gif',
-                    'src/img/loader/4.gif'
+                    'src/img/loader/4.gif',
+                    */
+                    {url:'src/img/loader/5.png',title:'15cm単装砲'}
                 ]
             }
         }
