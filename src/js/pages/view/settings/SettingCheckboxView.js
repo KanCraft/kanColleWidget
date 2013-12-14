@@ -15,7 +15,7 @@ var widgetPages = widgetPages || {};
                                       + '</tr>';
 
     SettingCheckboxView.prototype.listen = function(config) {
-        this.config = config || KanColleWidget.Config;
+        this.config = config || Config;
         var eventKey = 'change .' + this.inputName;
         this.events = this.events || {};
         this.events[eventKey] = "_listenCheckboxChanged";

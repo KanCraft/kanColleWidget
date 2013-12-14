@@ -43,10 +43,10 @@ var KanColleWidget = KanColleWidget || {};
         }
 
         if(message.purpose == 'positionTracking'){
-            var widgetInfo = KanColleWidget.Tracking.get('widget');
+            var widgetInfo = Tracking.get('widget');
             widgetInfo.position = message.position;
             widgetInfo.size     = message.size;
-            KanColleWidget.Tracking.set('widget',widgetInfo);
+            Tracking.set('widget',widgetInfo);
             return;
         }
 
@@ -57,8 +57,8 @@ var KanColleWidget = KanColleWidget || {};
 
     /***** Main Listener 04 : 通知クリックされたとき *****/
     chrome.notifications.onClicked.addListener(function(){
-        if(KanColleWidget.Config.get('launch-on-click-notification')){
-            Util.focusOrLaunchIfNotExists(KanColleWidget.Tracking.get('mode'));
+        if(Config.get('launch-on-click-notification')){
+            Util.focusOrLaunchIfNotExists(Tracking.get('mode'));
         }else{
             Util.focusKCWidgetWindow();
         }

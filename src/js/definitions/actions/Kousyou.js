@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var KousyouAction = KanColleWidget.KousyouAction = function(){
-        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new MyStorage());
         this.precheckKeyword = 'kousyouQuest';
     };
     KousyouAction.prototype = Object.create(KanColleWidget.ActionBase.prototype);
@@ -20,10 +20,10 @@ var KanColleWidget = KanColleWidget || {};
         if(params.api_highspeed == 1) return;
 
         // 何もしないひと
-        if(KanColleWidget.Config.get('dynamic-reminder-type') == 0) return;
+        if(Config.get('dynamic-reminder-type') == 0) return;
         // 常にマニュアル登録のひと
         params.purpose = 'createship';
-        if(KanColleWidget.Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_manual_timer.html');
+        if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_manual_timer.html');
 
         // 他、自動取得しようとするひと
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
@@ -43,7 +43,7 @@ var KanColleWidget = KanColleWidget || {};
         if (Object.keys(KanColleWidget.Stash.createShip[dockId]).length == 0) return;
 
         // 設定を見る
-        if (! KanColleWidget.Config.get("share-kousyo-result")) return;
+        if (! Config.get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
         var createshipParams = KanColleWidget.Stash.createShip[dockId];
@@ -61,9 +61,9 @@ var KanColleWidget = KanColleWidget || {};
         if(KanColleWidget.Stash.params.api_highspeed == 1) return;
 
         // 何もしないひと
-        if(KanColleWidget.Config.get('dynamic-reminder-type') == 0) return;
+        if(Config.get('dynamic-reminder-type') == 0) return;
         // 常にマニュアル登録のひと
-        if(KanColleWidget.Config.get('dynamic-reminder-type') == 1) return;
+        if(Config.get('dynamic-reminder-type') == 1) return;
 
         var callback = function(res){
 
@@ -75,7 +75,7 @@ var KanColleWidget = KanColleWidget || {};
             if(!res.result){
 
                 // 失敗しても手動出さない設定ならここで終わる
-                if(KanColleWidget.Config.get('dynamic-reminder-type') == 3) return;
+                if(Config.get('dynamic-reminder-type') == 3) return;
 
                 if(!window.confirm("建造終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
                 var params = KanColleWidget.Stash.params;
@@ -87,7 +87,7 @@ var KanColleWidget = KanColleWidget || {};
             var createships = new KanColleWidget.Createships();
             createships.add(KanColleWidget.Stash.params.api_kdock_id[0], finishTimeMsec);
 
-            if(!KanColleWidget.Config.get('notification-on-reminder-set')) return;
+            if(!Config.get('notification-on-reminder-set')) return;
 
             Util.presentation(res.assuredText + 'で建造完了通知を登録しときました', {
                 startOrFinish: 'start',
@@ -99,7 +99,7 @@ var KanColleWidget = KanColleWidget || {};
 
         setTimeout(function(){
             Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-                var proc = new KanColleWidget.Process.DetectTime(chrome, Constants, KanColleWidget.Config);
+                var proc = new KanColleWidget.Process.DetectTime(chrome, Constants, Config);
                 proc.forCreateship(widgetWindow.id, KanColleWidget.Stash.params.api_kdock_id[0], callback);
             });
         }, Constants.ocr.delay); //単に描画時間を待つ
@@ -108,7 +108,7 @@ var KanColleWidget = KanColleWidget || {};
     KousyouAction.prototype.forCreateitemComplete = function(){
         if (! KanColleWidget.Stash.createItem) return;
 
-        if (! KanColleWidget.Config.get("share-kousyo-result")) return;
+        if (! Config.get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
         twitter.shareCreateItem(KanColleWidget.Stash.createItem);

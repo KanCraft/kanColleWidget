@@ -54,7 +54,7 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
-        if(KanColleWidget.Config.get('badge-left-time')){
+        if(Config.get('badge-left-time')){
             if(this.NearestEndEvent){
                 Util.badge.leftTime(this.NearestEndEvent.getEndTime());
             }

@@ -6,7 +6,7 @@ var KanColleWidget = KanColleWidget || {};
      */
     var PreChecker = KanColleWidget.PreChecker = {
         questAccessor : new KanColleWidget.Quests(),
-        storage : new KanColleWidget.MyStorage(),
+        storage : new MyStorage(),
         mapQuest : {
             /**
              * まだ着手すらしてない

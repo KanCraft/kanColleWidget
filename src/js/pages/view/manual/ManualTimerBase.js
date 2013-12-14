@@ -39,7 +39,7 @@ var widgetPages = widgetPages || {};
     var ManualTimerView = widgetPages.ManualTimerView = function(){};
     ManualTimerView.prototype = Object.create(widgetPages.View.prototype);
     ManualTimerView.prototype.constructor = ManualTimerView;
-    ManualTimerView.prototype.tracking = KanColleWidget.Tracking;
+    ManualTimerView.prototype.tracking = Tracking;
     ManualTimerView.prototype.events = {
         // 本当はここで.upと.downで振り分けたいのだが(´･ω･`)
         'click div.caret' : 'editByCaret'

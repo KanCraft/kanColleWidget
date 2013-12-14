@@ -11,7 +11,7 @@ var KanColleWidget = KanColleWidget || {};
 
         if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
 
-        var notifyOffset = KanColleWidget.Config.get('notification-offset-millisec');
+        var notifyOffset = Config.get('notification-offset-millisec');
         var finish = this.finish - notifyOffset;
 
         return (finish < now);
@@ -31,7 +31,7 @@ var KanColleWidget = KanColleWidget || {};
      */
     SoloEventBase.prototype.notify = function(){
 
-        if(!KanColleWidget.Config.get('notification-on-reminder-finish')) return;
+        if(!Config.get('notification-on-reminder-finish')) return;
 
         Util.presentation(this.prefix + this.primaryId + this.suffix, {
             startOrFinish: 'finish',

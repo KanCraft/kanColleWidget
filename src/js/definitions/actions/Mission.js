@@ -3,7 +3,7 @@ var KanColleWidget = KanColleWidget || {};
     "use strict";
     var MissionAction = KanColleWidget.MissionAction = function(){
         this.missions = new KanColleWidget.Missions();
-        this.achievements = new KanColleWidget.Achievements(new KanColleWidget.MyStorage());
+        this.achievements = new KanColleWidget.Achievements(new MyStorage());
         this.precheckKeyword = 'missionQuest';
     };
     MissionAction.prototype = Object.create(KanColleWidget.ActionBase.prototype);
@@ -11,7 +11,7 @@ var KanColleWidget = KanColleWidget || {};
 
     MissionAction.prototype.forStart = function(params){
 
-        if (KanColleWidget.Config.get("enable-mission-reminder") === false) return;
+        if (Config.get("enable-mission-reminder") === false) return;
 
         var min = Constants.time.mission[params.api_mission_id[0]];
         if (typeof min == "undefined") {
@@ -24,7 +24,7 @@ var KanColleWidget = KanColleWidget || {};
         this.missions.add(params.api_deck_id[0], finish);
         this.achievements.update().incrementMissionCount();
 
-        if(!KanColleWidget.Config.get('notification-on-reminder-set')) return;
+        if(!Config.get('notification-on-reminder-set')) return;
 
         Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね", {
             startOrFinish: 'start',
