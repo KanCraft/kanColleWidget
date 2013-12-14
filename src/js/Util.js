@@ -439,7 +439,7 @@ var Util = Util || {};
 
     Util.getLoaderBackgroundImage = function(id) {
         var imgList = Constants.ocr.loader.images.normal;
-        if (id) {
+        if (Util.isNumeric(id)) {
           return imgList[id];
         }
         var _i = Math.floor(Math.random() * imgList.length);
