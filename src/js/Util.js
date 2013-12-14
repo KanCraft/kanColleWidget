@@ -437,8 +437,11 @@ var Util = Util || {};
         return loadingWindow;
     };
 
-    Util.getLoaderBackgroundImage = function() {
+    Util.getLoaderBackgroundImage = function(id) {
         var imgList = Constants.ocr.loader.images.normal;
+        if (Util.isNumeric(id)) {
+          return imgList[id];
+        }
         var _i = Math.floor(Math.random() * imgList.length);
         return imgList[_i];
     };
