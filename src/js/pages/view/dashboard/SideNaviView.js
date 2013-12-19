@@ -28,7 +28,7 @@ var widgetPages = widgetPages || {};
         $('#main').css({
             width: '390px',
             marginTop: 0,
-            overflow: 'scroll'
+            overflow: 'auto'
         });
         //$('#page0').css({display:'none'});
         $('#page1').css({display:'none'});
