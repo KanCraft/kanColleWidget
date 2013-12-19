@@ -48,7 +48,15 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/06 v0.6.1.1<!--version-->
+- 2013/12/19 v0.7.0.1<!--version-->
+    - あんまり見てくれないのでアップデート通知をつくりました
+    - スクショ時のクラッシュ対応（現在調査・改善中）
+    - メンテ情報表示設定追加
+    - ファイル設定UIを改善
+    - ソフトウェアテスト強化
+    - あそび心追加
+    - TODO : クラッシュ問題改善"
+- 2013/12/06 v0.6.1.1
     - デイリー任務消化表から直接[達成]にできるUIを追加
 - 2013/12/05 v0.6.0.4
     - ソフトウェアテストの強化
