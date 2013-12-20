@@ -188,6 +188,7 @@ var Constants = {/** constantアクセサ的なアレ **/
         loader : {
             images : {
                 normal : [
+                    {url:'src/img/loader/000.jpg',title:'蒼き鋼のアルペジオより<br>タカオ'},
                     //-----------001~010
                     {url:'src/img/loader/001.jpg',title:'12cm単装砲'},
                     {url:'src/img/loader/002.jpg',title:'12.7cm連装砲'},
