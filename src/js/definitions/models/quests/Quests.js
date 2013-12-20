@@ -19,6 +19,11 @@ var KanColleWidget = KanColleWidget || {};
     Quests._always = function(){
         return true;
     };
+    // "_true"というクエストタイプ名が
+    // storageに残っている場合の対応
+    Quests._true = function(){
+        return true;
+    };
     /**
      * 日付の一の位が3,7,0の時にtrueを返す
      * @returns {boolean}
