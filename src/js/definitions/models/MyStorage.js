@@ -68,7 +68,7 @@ MyStorage.prototype.tearDown = function(){
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
         'capture-image-format'               : 'png',
-        'launch-on-click-notification'       : false,
+        'launch-on-click-notification'       : true,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
@@ -77,7 +77,7 @@ MyStorage.prototype.tearDown = function(){
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
         'tiredness-recovery-minutes'         : 0,
-        'prevent-forgetting-quest'           : false,
+        'prevent-forgetting-quest'           : true,
         'display-maintenance-info'           : false,
         'clockmode-style'                    : 0,
         'sort-by-finishtime'                 : false
