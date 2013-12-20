@@ -33,13 +33,14 @@ var widgetPages = widgetPages || {};
     // ここを変える
     AnnounceView.version = 7;
     AnnounceView.announcements = [
-        "v0.7.0.1",//productversion
+        "v0.7.0.2",//productversion
         "あんまり見てくれないのでアップデート通知をつくりました",
         "スクショ時のクラッシュ対応（現在調査・改善中）",
         "メンテ情報表示設定追加",
         "ファイル設定UIを改善",
         "ソフトウェアテスト強化",
         "あそび心追加",
-        "TODO : クラッシュ問題改善"
+        "TODO : クラッシュ問題改善",
+        "　　　（ご不便おかけし申し訳ございません）"
     ];
 })();
