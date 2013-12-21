@@ -192,3 +192,14 @@ textarea {
 time {
     margin-right: 4px;
 }
+.alt-time {
+    z-index: 2;
+    position: fixed;
+    background-color: #000;
+    opacity: 0.8;
+    width: 160px;
+    height: 24px;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+}
