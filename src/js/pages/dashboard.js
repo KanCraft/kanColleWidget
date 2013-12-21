@@ -15,10 +15,10 @@
         mainClockView.update();
     }, 1000);
 
-    //var questListView = new widgetPages.QuestListView(quests.getAll().map);
     var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
-    $("div#quest-list-container").append(questListView.render()); 
-    $("span#progress").text(questListView.getProgress());
+    $("#page1").append(
+        questListView.render()
+    );
 
     var memoView = new widgetPages.MemoView();
     $("div#recipe-memo-container").append(memoView.render());
@@ -36,12 +36,8 @@
     }
 
     setInterval(function(){
-
         timersView.update();
         tirednessListView.update();
-
-        if (! questListView.haveUpdate()) return;//アップデート無いならひっこんでな
-        $("div#quest-list-container").html('').append(questListView.refresh());
-        $("span#progress").text(questListView.getProgress());
+        if (questListView.haveUpdate()) questListView.update();
     },5000);
 })();
