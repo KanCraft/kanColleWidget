@@ -130,6 +130,9 @@ function bindEditor() {
 
 (function(){
 
+    var timersView = new widgetPages.TimersView();
+    $("#page0").append(timersView.render());
+
     //var questListView = new widgetPages.QuestListView(quests.getAll().map);
     var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
     $("div#quest-list-container").append(questListView.render()); 
@@ -165,6 +168,8 @@ function bindEditor() {
     var updating = setInterval(function(){
         updateTimeLeft();
         bindEditor();
+
+        timersView.update();
         $("div#tiredness-container").html('').append(tirednessListView.render());
         if (! questListView.haveUpdate()) return;//アップデート無いならひっこんでな
         $("div#quest-list-container").html('').append(questListView.refresh());

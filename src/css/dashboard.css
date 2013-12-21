@@ -188,3 +188,7 @@ textarea {
 .rotate90 {
     -webkit-transform: rotate(90deg);
 }
+
+time {
+    margin-right: 4px;
+}
