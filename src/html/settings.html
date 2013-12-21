@@ -16,7 +16,7 @@
             </tr>
             <tr>
                 <td>バージョン</td>
-                <td id="version">0.6.1.1</td>
+                <td id="version">0.7.0.4</td>
             </tr>
         </table>
         <table id="reminder-notifications" class="settings">
@@ -96,21 +96,8 @@
                 <td>最初に出てくる文字</td>
                 <td><input id="popup-select-title" type="text" size="50" placeholder="提督 仕事しろ"></td>
             </tr>
-            <tr>
-                <td>アイコンポップアップの背景</td>
-                <td>
-                    <img width="100" id="popup-bg-img">
-                    <hr>
-                    <input id="popup-bg-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
-                    <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                    <span id="popup-bg-img-file-validation" class="xsmall validation-message">
-                        200px × 500くらいが最適です。
-                        縦横比を維持しつつ画面を覆えるサイズになってフィットします。
-                    </span>
-                </td>
-            </tr>
         </table>
-        <table class="settings">
+        <table id="notification-settings" class="settings">
             <tr>
                 <td colspan="2"><h4>[通知関係]</h4></td>
             </tr>
@@ -149,60 +136,6 @@
                 </td>
             </tr>
             <tr>
-                <td>通知時アイコン画像</td>
-                <td>
-                    <input type="submit" class="notification-test" value="テスト"/><img width="100" id="notification-img">
-                    <hr>
-                    <input id="notification-img-file" target="notification-img-url" type="file" accept="image/*"/><br/>
-                    <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                    <span id="notification-img-file-validation" class="xsmall validation-message"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>通知時に音声を再生</td>
-                <td>
-                    <div class="reset" target="notification-sound-file"><img src="../img/remove.png"></div>
-                    <span>デフォルト：<span id="notification-sound-file-already-set"></span><input type="submit" id="notification-test" value="テスト"/></span><br/>
-                    <input id="notification-sound-file" target="notification-sound-file" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-
-                    <span  id="notification-sound-file-validation" class="xsmall validation-message"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>通知時音声設定+</td>
-                <td>
-                    <a id="open-notification-sound-extend">開く</a>
-                    <div id="notification-sound-extend" style="display:none;">
-                        <div class="reset" target="notification-sound-mission-start-file"><img src="../img/remove.png"></div>
-                        <span>遠征出発：<span id="notification-sound-mission-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-start" value="テスト"/></span><br/>
-                        <input id="notification-sound-mission-start-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <div class="reset" target="notification-sound-mission-finish-file"><img src="../img/remove.png"></div>
-                        <span>遠征帰投：<span id="notification-sound-mission-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="mission-finish" value="テスト"/></span><br/>
-                        <input id="notification-sound-mission-finish-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <div class="reset" target="notification-sound-nyukyo-start-file"><img src="../img/remove.png"></div>
-                        <span>入渠開始：<span id="notification-sound-nyukyo-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-start" value="テスト"/></span><br/>
-                        <input id="notification-sound-nyukyo-start-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <div class="reset" target="notification-sound-nyukyo-finish-file"><img src="../img/remove.png"></div>
-                        <span>入渠終了：<span id="notification-sound-nyukyo-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="nyukyo-finish" value="テスト"/></span><br/>
-                        <input id="notification-sound-nyukyo-finish-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <div class="reset" target="notification-sound-createship-start-file"><img src="../img/remove.png"></div>
-                        <span>建造開始：<span id="notification-sound-createship-start-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-start" value="テスト"/></span><br/>
-                        <input id="notification-sound-createship-start-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <div class="reset" target="notification-sound-createship-finish-file"><img src="../img/remove.png"></div>
-                        <span>建造終了：<span id="notification-sound-createship-finish-file-already-set"></span><input type="submit" id="notification-test" data-kind="createship-finish" value="テスト"/></span><br/>
-                        <input id="notification-sound-createship-finish-file" target="notification-sound-url" type="file" accept="audio/mp3,audio/wav,audio/ogg,audio/m4a"/><br/>
-                        <hr/>
-                        <span class="xsmall">1回選択してキャンセルするとデフォルトに戻せます</span><br>
-                        <a id="close-notification-sound-extend">とじる</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
                 <td>通知時音声音量</td>
                 <td>
                     <input id="notification-sound-volume" type="range" target="notification-sound-volume-text" min="0" max="100" value="100" />
@@ -210,9 +143,9 @@
                 </td>
             </tr>
         </table>
-        <table class="settings">
+        <table id="others" class="settings">
             <tr>
-                <td colspan="2"><h4>[その他・報告系]</h4></td>
+                <td colspan="2"><h4>[報告系・その他]</h4></td>
             </tr>
             <tr>
                 <td>開発・建造報告窓出す<br><span class="xsmall">こんな感じ <a href="https://twitter.com/search?q=%E9%82%A3%E7%8F%82%20%23kancolle_ship&src=typd&f=realtime">那珂ﾁｬﾝ</a></span></td>
@@ -297,6 +230,7 @@
     <script type="text/javascript" src="../js/definitions/models/FileSystem.js"></script>
     <script type="text/javascript" src="../js/Util.js"></script>
     <script type="text/javascript" src="../js/pages/view/View.js"></script>
+    <script type="text/javascript" src="../js/pages/view/ModalView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/AnnounceView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/SettingCheckboxView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/SettingRadioButtonView.js"></script>
@@ -307,6 +241,9 @@
     <script type="text/javascript" src="../js/pages/view/settings/EnableMissionReminderView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/PreventForgettingQuestView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/TirednessLength.js"></script>
+    <script type="text/javascript" src="../js/pages/view/settings/DisplayMaintenanceInfoView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/settings/ClockmodeStyleView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/settings/FileSelectView.js"></script>
     <script type="text/javascript" src="../js/pages/settings.js"></script>
 </body>
 </html>

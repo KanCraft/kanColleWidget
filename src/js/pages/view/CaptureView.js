@@ -5,7 +5,7 @@ var widgetPages = widgetPages || {};
         this.imgURI = imgURI;
         this.tpl = '<div><img id="capture" src="{{imgURI}}"></div>'
                  + '<div>'
-                 + '    <input id="filename" type="text" placeholder="/^[a-zA-Z0-9_]+$/" value="">'
+                 + '    <input id="filename" type="text" placeholder="/^[a-zA-Z0-9_]+$/" value="{{defaultFilename}}">'
                  + '    <input id="download" type="submit" value="ダウンロードする">'
                  + '</div>'
                  + '<div><span id="warning" style="font-size:x-small">ファイル名は[a-zA-Z0-9_]のみ使用できます</span></div>';
@@ -17,8 +17,18 @@ var widgetPages = widgetPages || {};
     CaptureView.prototype.constructor = CaptureView;
 
     CaptureView.prototype.render = function(){
+        var defaultFilePrefix = "KanColle";
+        var formattedTime = $.map(
+            (new Date()).toLocaleString().split(/[\/ :]/),
+            function(s,i){
+                //if(i == 0) return s;
+                if(i == 0) return '';
+                return Util.zP(2,s);
+            }
+        ).join('');
         this.apply({
-            imgURI : this.imgURI
+            imgURI          : this.imgURI,
+            defaultFilename : defaultFilePrefix + formattedTime
         })._render();
         return this.$el;
     };

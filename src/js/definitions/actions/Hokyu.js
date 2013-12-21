@@ -1,4 +1,4 @@
-KanColleWidget = KanColleWidget || {};
+var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var HokyuAction = KanColleWidget.HokyuAction = function(){

@@ -12,22 +12,22 @@ print_help()
 }
 
 build_prod(){
-  rm -rf release/kanColleWidget
-  mkdir -p release/kanColleWidget
-  cp -r src release/kanColleWidget/
-  mv release/kanColleWidget/src/img/icon* release/kanColleWidget/
-  cp manifest/prod.json release/kanColleWidget/manifest.json
-  zip -r release/kanColleWidget.zip release/kanColleWidget/*
+  rm -rf build/kanColleWidget
+  mkdir -p build/kanColleWidget
+  cp -r src build/kanColleWidget/
+  mv build/kanColleWidget/src/img/icon* build/kanColleWidget/
+  cp manifest/prod.json build/kanColleWidget/manifest.json
+  zip -r build/kanColleWidget.zip build/kanColleWidget/*
 }
 
 build_stg(){
-  rm -rf release/stg.kanColleWidget
-  mkdir -p release/stg.kanColleWidget
-  cp -r src release/stg.kanColleWidget/
-  mv release/stg.kanColleWidget/src/img/icon* release/stg.kanColleWidget/
-  cp manifest/prod.json release/stg.kanColleWidget/manifest.json
-  sed -e 's/艦これウィジェット/stg.艦これウィジェット/' -i.bak release/stg.kanColleWidget/manifest.json
-  zip -r release/stg.kanColleWidget.zip release/stg.kanColleWidget/*
+  rm -rf build/stg.kanColleWidget
+  mkdir -p build/stg.kanColleWidget
+  cp -r src build/stg.kanColleWidget/
+  mv build/stg.kanColleWidget/src/img/icon* build/stg.kanColleWidget/
+  cp manifest/prod.json build/stg.kanColleWidget/manifest.json
+  sed -e 's/艦これウィジェット/stg.艦これウィジェット/' -i.bak build/stg.kanColleWidget/manifest.json
+  zip -r build/stg.kanColleWidget.zip build/stg.kanColleWidget/*
 }
 
 build_test(){
@@ -43,9 +43,9 @@ build_all(){
 show_manifest_diff(){
   echo "\n各パッケージとのmanifestのdiffを表示"
   echo "prod <==> stg"
-  diff release/kanColleWidget/manifest.json release/stg.kanColleWidget/manifest.json
+  diff build/kanColleWidget/manifest.json build/stg.kanColleWidget/manifest.json
   # echo "\nprod <==> test"
-  # diff release/kanColleWidget/manifest.json release/test.kanColleWidget/manifest.json
+  # diff build/kanColleWidget/manifest.json build/test.kanColleWidget/manifest.json
 }
 get_ver_in_test(){
   echo `grep version test/manifest.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`

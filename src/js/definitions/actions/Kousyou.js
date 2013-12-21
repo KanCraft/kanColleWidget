@@ -13,7 +13,8 @@ var KanColleWidget = KanColleWidget || {};
         this.achievements.update().incrementCreateshipCount();
 
         KanColleWidget.Stash.params = params;// tmp
-        KanColleWidget.Stash.createShip[params['api_kdock_id'][0]] = params;
+        var dockId = params['api_kdock_id'][0];
+        KanColleWidget.Stash.createShip[dockId] = params;
 
         // 高速建造を使用する
         if(params.api_highspeed == 1) return;
@@ -30,25 +31,28 @@ var KanColleWidget = KanColleWidget || {};
             KanColleWidget.Stash.loadingWindow = loadingWindow;
             Util.adjustSizeOfWindowsOS(loadingWindow);
         });
-    }
+    };
     KousyouAction.prototype.forGetship = function(params){
-        var createships = new Createships();
+        var createships = new KanColleWidget.Createships();
         createships.clear(params.api_kdock_id);
 
+        var dockId = params['api_kdock_id'][0];
+
         // 後方バージョン対応
-        if (! KanColleWidget.Stash.createShip || ! KanColleWidget.Stash.createShip[params['api_kdock_id'][0]]) return;
+        if (! KanColleWidget.Stash.createShip) return;
+        if (Object.keys(KanColleWidget.Stash.createShip[dockId]).length == 0) return;
 
         // 設定を見る
         if (! Config.get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
-        var createshipParams = KanColleWidget.Stash.createShip[params['api_kdock_id'][0]];
+        var createshipParams = KanColleWidget.Stash.createShip[dockId];
         twitter.shareCreateShip(createshipParams);
-    }
+    };
     KousyouAction.prototype.forCreateitem = function(params){
         this.achievements.update().incrementCreateitemCount();
         KanColleWidget.Stash.createItem = params;
-    }
+    };
 
     // Completed
     KousyouAction.prototype.forCreateshipCompleted = function(){
@@ -80,7 +84,7 @@ var KanColleWidget = KanColleWidget || {};
             }
 
             var finishTimeMsec = Util.timeStr2finishEpochMsec(res.assuredText);
-            var createships = new Createships();
+            var createships = new KanColleWidget.Createships();
             createships.add(KanColleWidget.Stash.params.api_kdock_id[0], finishTimeMsec);
 
             if(!Config.get('notification-on-reminder-set')) return;
@@ -95,11 +99,11 @@ var KanColleWidget = KanColleWidget || {};
 
         setTimeout(function(){
             Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-                var proc = new Process.DetectTime(chrome, Constants, Config);
+                var proc = new KanColleWidget.Process.DetectTime(chrome, Constants, Config);
                 proc.forCreateship(widgetWindow.id, KanColleWidget.Stash.params.api_kdock_id[0], callback);
             });
         }, Constants.ocr.delay); //単に描画時間を待つ
-    }
+    };
 
     KousyouAction.prototype.forCreateitemComplete = function(){
         if (! KanColleWidget.Stash.createItem) return;

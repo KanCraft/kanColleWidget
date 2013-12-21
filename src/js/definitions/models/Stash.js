@@ -1,7 +1,6 @@
-
 var KanColleWidget = KanColleWidget || {};
-
 (function(){
+    "use strict";
     var Stash = KanColleWidget.Stash = {
         createItem : null,
         createShip : {

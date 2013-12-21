@@ -13,11 +13,19 @@ var getInnerText = function(){
     return text;
 };
 var incrementDot = function(){
-    document.getElementsByTagName('title')[0].innerHTML = getInnerText();
+    $('title').html(getInnerText());
 };
 
 (function(){
-    var url = chrome.extension.getURL('/') + Util.getLoaderBackgroundImage();
-    document.getElementsByTagName('html')[0].style.backgroundImage = 'url("'+ url +'")';
+    var image = Util.getLoaderBackgroundImage();
+    var url = chrome.extension.getURL('/') + image.url;
+    $('html').css({backgroundImage:'url("'+ url +'")'});
     setInterval(incrementDot,100);
+    $('div#answer').html(image.title);
+    $('div#wrapper').on('mouseenter',function(){
+        $('div#answer').show();
+    });
+    $('div#wrapper').on('mouseleave',function(){
+        $('div#answer').hide();
+    });
 })();

@@ -23,7 +23,7 @@ var widgetPages = widgetPages || {};
         this.apply()._render();
         this.completed = 0;//init
         for (var i in questList) {
-            if (Quests.state.NOW < questList[i].state) this.completed++;
+            if (KanColleWidget.Quests.state.NOW < questList[i].state) this.completed++;
             var questView = widgetPages.QuestViewFactory(questList[i]);
             this.$el.append(questView.render());
         }

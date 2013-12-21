@@ -6,36 +6,46 @@
     <title>「お仕事お疲れさまです」</title>
 </head>
 <body>
-    <div id="main-clock" class="contents boxy">
-    </div>
-    <div id="time-left" class="contents boxy">
-        <div id="time-list-wrapper-missions" class="time-list">
-            <p class="list-title">- 遠征帰投予定時刻</p>
-            <ul id="time-list-container"></ul>
-        </div>
-        <div id="time-list-wrapper-nyukyos" class="time-list">
-            <p class="list-title">- 入渠完了予定時刻</p>
-            <ul id="time-list-container-nyukyos"></ul>
-        </div>
-        <div id="time-list-wrapper-createships" class="time-list">
-            <p class="list-title">- 建造完了予定時刻</p>
-            <ul id="time-list-container-createships"></ul>
-        </div>
-    </div>
-    <div id="tiredness-contents" class="contents">
-        <h5 style="margin-top:20px">簡易疲労度メーター</h5>
-        <div id="tiredness-container"></div>
-    </div>
-    <div class="contents">
-        <h5>デイリー任務消化状況 (<span id="progress" class="xsmall"></span>)</h5>
-        <div id="quest-list-container">
-        </div>
-    </div>
-    <div class="contents">
-        <h5>レシピメモ</h5>
-        <div id="recipe-memo-container">
-        </div>
-    </div>
+    <div id="wrapper">
+        <div id="main">
+            <div id="page0" class="page">
+                <div id="main-clock" class="contents boxy">
+                </div>
+                <div id="time-left" class="contents boxy">
+                    <div id="time-list-wrapper-missions" class="time-list">
+                        <p class="list-title">- 遠征帰投予定時刻</p>
+                        <ul id="time-list-container"></ul>
+                    </div>
+                    <div id="time-list-wrapper-nyukyos" class="time-list">
+                        <p class="list-title">- 入渠完了予定時刻</p>
+                        <ul id="time-list-container-nyukyos"></ul>
+                    </div>
+                    <div id="time-list-wrapper-createships" class="time-list">
+                        <p class="list-title">- 建造完了予定時刻</p>
+                        <ul id="time-list-container-createships"></ul>
+                    </div>
+                </div>
+                <div id="tiredness-contents" class="contents">
+                    <h5 id="tiredness-title" style="margin-top:20px">簡易疲労度メーター</h5>
+                    <div id="tiredness-container"></div>
+                </div>
+            </div><!-- /#page0 -->
+            <div id="page1" class="page">
+                <div class="contents">
+                    <h5>デイリー任務消化状況 (<span id="progress" class="xsmall"></span>)</h5>
+                    <div id="quest-list-container">
+                    </div>
+                </div>
+            </div><!-- /#page1 -->
+            <div id="page2" class="page">
+                <div class="contents">
+                    <h5>レシピメモ</h5>
+                    <div id="recipe-memo-container">
+                    </div>
+                </div>
+            </div><!-- /#page2 -->
+        </div><!-- /#main -->
+    </div><!-- /#wrapper -->
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script type="text/javascript" src="../js/Util.js"></script>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
@@ -60,7 +70,9 @@
     <script type="text/javascript" src="../js/pages/view/dashboard/MemoView.js"></script>
     <script type="text/javascript" src="../js/pages/view/dashboard/TirednessListView.js"></script>
     <script type="text/javascript" src="../js/pages/view/dashboard/TirednessView.js"></script>
-    <script type="text/javascript" src="../js/pages/view/dashboard/ModalView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/ModalView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/DashboardModalView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/SideNaviView.js"></script>
     <script type="text/javascript" src="../js/pages/dashboard.js"></script>
 </body>
 </html>

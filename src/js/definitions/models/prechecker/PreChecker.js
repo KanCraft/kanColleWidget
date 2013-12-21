@@ -1,9 +1,11 @@
 var KanColleWidget = KanColleWidget || {};
-
 (function(){
-    // staticなモジュール
+    "use strict";
+    /**
+     * @static
+     */
     var PreChecker = KanColleWidget.PreChecker = {
-        questAccessor : new Quests(),
+        questAccessor : new KanColleWidget.Quests(),
         storage : new MyStorage(),
         mapQuest : {
             /**
@@ -50,7 +52,7 @@ var KanColleWidget = KanColleWidget || {};
             // undefinedなら、これを除外する
             if (! quest) return;
             // 既にembarkしているなら、これを除外する
-            if (quest.state == Quests.state.NOW) return;
+            if (quest.state == KanColleWidget.Quests.state.NOW) return;
             // 既にignoreListに追加されているなら、これを除外する
             if (Util.inArray(quest.id, PreChecker.getIgnoreList())) return;
             // それ以外は、これを返す
@@ -76,7 +78,7 @@ var KanColleWidget = KanColleWidget || {};
                 // PreCheckリストにはあるが「本日の」任務には含まれない場合がある
                 if (! all[ids[i]]) continue;
                 // PreCheckが必要な本日の任務で、達成してない最初のものを返す
-                if (all[ids[i]].state < Quests.state.DONE) {
+                if (all[ids[i]].state < KanColleWidget.Quests.state.DONE) {
                     questNotCompletedYet = all[ids[i]];
                     break;
                 }

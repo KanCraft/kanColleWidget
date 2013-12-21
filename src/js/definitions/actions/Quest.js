@@ -2,7 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
     var QuestAction = KanColleWidget.QuestAction = function(){
-        this.quests = new Quests();
+        this.quests = new KanColleWidget.Quests();
     };
     QuestAction.prototype.forStart = function(params){
         this.quests.embark(params['api_quest_id'][0]);

@@ -67,8 +67,8 @@ MyStorage.prototype.tearDown = function(){
         'notification-offset-millisec'       : 60*1000,//デフォルトでは1分前
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
-        'capture-image-format'               : 'png',
-        'launch-on-click-notification'       : false,
+        'capture-image-format'               : 'jpeg',
+        'launch-on-click-notification'       : true,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
@@ -77,7 +77,9 @@ MyStorage.prototype.tearDown = function(){
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
         'tiredness-recovery-minutes'         : 0,
-        'prevent-forgetting-quest'           : false,
+        'prevent-forgetting-quest'           : true,
+        'display-maintenance-info'           : false,
+        'clockmode-style'                    : 1,
         'sort-by-finishtime'                 : false
     },
 

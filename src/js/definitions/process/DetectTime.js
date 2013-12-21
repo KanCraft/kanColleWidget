@@ -1,10 +1,8 @@
 /* jshint indent: 4 */
-
-var Process = Process || {};
-
+var KanColleWidget = KanColleWidget || {};
 (function(){
     'use strict';
-
+    var Process = KanColleWidget.Process = {};
     /**
      * 画面キャプチャから時間を検出する
      * @constructor

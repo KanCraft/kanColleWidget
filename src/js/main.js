@@ -7,7 +7,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
 
-    var observer = new Observer();
+    var observer = new KanColleWidget.Observer();
     var dispatcher = new KanColleWidget.Dispatcher();
     var completeDispatcher = new KanColleWidget.CompleteDispatcher();
 
