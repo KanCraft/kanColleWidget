@@ -5,10 +5,15 @@
 
     var timersView = new widgetPages.TimersView();
     var tirednessListView = new widgetPages.TirednessListView();
+    var mainClockView = new widgetPages.MainClockView();
     $("#page0").append(
+        mainClockView.render(),
         timersView.render(),
         tirednessListView.render()
     );
+    setInterval(function(){
+        mainClockView.update();
+    }, 1000);
 
     //var questListView = new widgetPages.QuestListView(quests.getAll().map);
     var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
@@ -23,11 +28,6 @@
     });
     // }}}
 
-    var mainClockView = new widgetPages.MainClockView();
-    $("div#main-clock").append(mainClockView.render());
-    mainClockView.dateIconView.update(new Date());
-    mainClockView.daysTimeView.update(new Date());
-    setInterval(function(){mainClockView.ticktack();}, 1000);
 
     if (Config.get('clockmode-style') == 1) {//Tab Style
         var sideNaviView = new widgetPages.SideNaviView();
@@ -35,7 +35,7 @@
         widgetPages.SideNaviView.adjustToSideNavi();
     }
 
-    var updating = setInterval(function(){
+    setInterval(function(){
 
         timersView.update();
         tirednessListView.update();
