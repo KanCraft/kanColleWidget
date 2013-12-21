@@ -1,6 +1,6 @@
 var widgetPages = widgetPages || {};
 (function() {
-    var TimersMissionView = widgetPages.TimersMissionView = function() {
+    var TimersMissionView = widgetPages.TimersMissionView = function(isSelectPage) {
         this.attrs = {
             id    : 'time-list-wrapper-missions'
         };
@@ -9,6 +9,7 @@ var widgetPages = widgetPages || {};
         this.primaryKey = 'deck_id';
         this.nameSuffix = '艦隊';
         this.title = '- 遠征帰投予定時刻';
+        this.isSelectPage = isSelectPage;
     };
     TimersMissionView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
     TimersMissionView.prototype.constructor = TimersMissionView;

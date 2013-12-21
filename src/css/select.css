@@ -123,6 +123,9 @@ p.tweet-text:after {
     top:  -10px;
     left: 10px;
 }
+p.list-title {
+    margin: 0;
+}
 h6 {
     margin: 0;
 }
@@ -131,4 +134,7 @@ h6 {
     color: red;
     font-size: xx-small;
     margin-left: 2px;
+}
+time {
+    margin-right: 4px;
 }

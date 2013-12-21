@@ -1,27 +1,27 @@
 var widgetPages = widgetPages || {};
 
 (function() {
-    var TimerView = widgetPages.TimerView = function(target, primaryKey,eventObj) {
+    var TimerView = widgetPages.TimerView = function(target, primaryKey,eventObj, isSelectPage) {
         this.target = target;
         this.event = eventObj;
         this.primaryKey = primaryKey;
         this.namePrefix = '第';
         this.tpl = '<li><a class="clickable"><time>{{time}}</time><name>{{name}}</name></a></li>';
         this.events = {
-            'click a' : 'openManualWindow'
+            //'click a' : 'openManualWindow'
         };
-        this.attrs = {
-        };
+        this.isSelectPage = isSelectPage;
     };
     TimerView.prototype = Object.create(widgetPages.View.prototype);
     TimerView.prototype.constructor = TimerView;
     TimerView.prototype.render = function(suffix){
         var name = this.namePrefix + this.event[this.primaryKey] + suffix;
         var params = {time:'--:--&nbsp;&nbsp;&nbsp;&nbsp;', name: name};
-        if (this.event.finish) {
-            params.time = this.toText();
-        }
         this.apply(params)._render();
+
+        if (this.event.finish) this.$el.find('time').html(this.toText());
+
+        if (this.isSelectPage) return this.$el;
 
         var self = this;
         this.$el.find('time').hover(
@@ -33,6 +33,9 @@ var widgetPages = widgetPages || {};
                 self.alt = self['removeAlternatives'](ev,self);
             }
         );
+        this.$el.find('a').on('click',function(ev){
+            self['openManualWindow'](ev,self);
+        });
 
         return this.$el;
     };
@@ -66,7 +69,7 @@ var widgetPages = widgetPages || {};
             }
         }
 
-        return optional + Util.zP(2,h) + ':' + Util.zP(2,m);
+        return optional + Util.zP(2,h) + '<span class="twincle sec">:</span>' + Util.zP(2,m);
     };
     TimerView.prototype.openManualWindow = function(ev, self){
         var path = "src/html/set_manual_timer.html";

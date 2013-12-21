@@ -1,16 +1,16 @@
 var widgetPages = widgetPages || {};
 
 (function() {
-    var TimersView = widgetPages.TimersView = function() {
+    var TimersView = widgetPages.TimersView = function(isSelectPage) {
         this.tpl = '<div></div>';
         this.events = {};
         this.attrs = {
             id    : 'time-left',
             class : 'contents boxy'
         };
-        this.timersMissionView = new widgetPages.TimersMissionView();
-        this.timersNyukyoView = new widgetPages.TimersNyukyoView();
-        this.timersCreateshipView = new widgetPages.TimersCreateshipView();
+        this.timersMissionView = new widgetPages.TimersMissionView(isSelectPage);
+        this.timersNyukyoView = new widgetPages.TimersNyukyoView(isSelectPage);
+        this.timersCreateshipView = new widgetPages.TimersCreateshipView(isSelectPage);
     };
     TimersView.prototype = Object.create(widgetPages.View.prototype);
     TimersView.prototype.constructor = TimersView;

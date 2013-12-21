@@ -1,6 +1,6 @@
 var widgetPages = widgetPages || {};
 (function() {
-    var TimersCreateshipView = widgetPages.TimersCreateshipView = function() {
+    var TimersCreateshipView = widgetPages.TimersCreateshipView = function(isSelectPage) {
         this.attrs = {
             id    : 'time-list-wrapper-createships'
         };
@@ -9,6 +9,7 @@ var widgetPages = widgetPages || {};
         this.primaryKey = 'api_kdock_id';
         this.nameSuffix = '建造d';
         this.title = '- 建造完了予定時刻';
+        this.isSelectPage = isSelectPage;
     };
     TimersCreateshipView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
     TimersCreateshipView.prototype.constructor = TimersCreateshipView;
