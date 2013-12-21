@@ -6,10 +6,18 @@ var widgetPages = widgetPages || {};
     TimersBaseView.prototype.render = function(){
         this.tpl = '<div class="time-list"></div>';
         this.apply()._render();
-        this.renderTimers(this.eventsModel.getAll());
+        this.$el.append(
+            this.renderTitle(),
+            this.renderTimers()
+        );
         return this.$el;
     };
-    TimersBaseView.prototype.renderTimers = function(eventsObj){
+    TimersBaseView.prototype.renderTitle = function(){
+        if (Config.get('clockmode-style') == 1) return '';
+        return '<p class="list-title">' + this.title + '</p>';
+    };
+    TimersBaseView.prototype.renderTimers = function(){
+        var eventsObj = this.eventsModel.getAll();
         this.$el.find('ul').remove();
         var $ul = $('<ul></ul>').addClass('time-list-container');
         var $lis = [];
@@ -24,9 +32,12 @@ var widgetPages = widgetPages || {};
             );
             $lis.push(timerView.render(this.nameSuffix));
         }
-        this.$el.append($ul.append($lis));
+        return $ul.append($lis);
     };
     TimersBaseView.prototype.update = function(){
-        this.renderTimers(this.eventsModel.getAll());
+        this.$el.html('').append(
+            this.renderTitle(),
+            this.renderTimers()
+        );
     };
 })();

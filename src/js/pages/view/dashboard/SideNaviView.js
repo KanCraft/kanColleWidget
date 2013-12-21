@@ -31,7 +31,6 @@ var widgetPages = widgetPages || {};
         $('#page1').css({display:'none'});
         $('#page2').css({display:'none'});
 
-        $('.list-title').remove();
         $('#tiredness-title').remove();
     };
     SideNaviView.prototype.showPage = function(ev, self){

@@ -8,6 +8,7 @@ var widgetPages = widgetPages || {};
         this.purpose = 'createship';
         this.primaryKey = 'api_kdock_id';
         this.nameSuffix = '建造d';
+        this.title = '- 建造完了予定時刻';
     };
     TimersCreateshipView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
     TimersCreateshipView.prototype.constructor = TimersCreateshipView;
