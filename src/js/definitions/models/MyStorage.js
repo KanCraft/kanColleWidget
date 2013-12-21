@@ -80,6 +80,7 @@ MyStorage.prototype.tearDown = function(){
         'prevent-forgetting-quest'           : true,
         'display-maintenance-info'           : false,
         'clockmode-style'                    : 1,
+        'timer-format-remained-time'         : false,
         'sort-by-finishtime'                 : false
     },
 

@@ -43,7 +43,7 @@ var widgetPages = widgetPages || {};
         var h, m;
         var optional = '';
 
-        var showRemainedTime = true;//Config.get('ほげほげ');
+        var showRemainedTime = Config.get('timer-format-remained-time');
 
         if(isAlt) showRemainedTime = ! showRemainedTime;
 
