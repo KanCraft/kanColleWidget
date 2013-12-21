@@ -3,6 +3,7 @@
 
     if (Config.get('tiredness-recovery-minutes') == 0) $('#tiredness-contents').hide();
 
+    // {{{ #page0
     var timersView = new widgetPages.TimersView();
     var tirednessListView = new widgetPages.TirednessListView();
     var mainClockView = new widgetPages.MainClockView();
@@ -11,23 +12,21 @@
         timersView.render(),
         tirednessListView.render()
     );
-    setInterval(function(){
-        mainClockView.update();
-    }, 1000);
+    // }}}
 
+    // {{{ #page1
     var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
     $("#page1").append(
         questListView.render()
     );
-
-    var memoView = new widgetPages.MemoView();
-    $("div#recipe-memo-container").append(memoView.render());
-    // {{{ おいおいーい
-    $("textarea#recipe-memo").on("keyup",function(ev){
-        memoView.saveRecipeMemo(ev);
-    });
     // }}}
 
+    // {{{ #page2
+    var memoView = new widgetPages.MemoView();
+    $("#page2").append(
+        memoView.render()
+    );
+    // }}}
 
     if (Config.get('clockmode-style') == 1) {//Tab Style
         var sideNaviView = new widgetPages.SideNaviView();
@@ -35,6 +34,9 @@
         widgetPages.SideNaviView.adjustToSideNavi();
     }
 
+    setInterval(function(){
+        mainClockView.update();
+    }, 1000);
     setInterval(function(){
         timersView.update();
         tirednessListView.update();
