@@ -29,7 +29,7 @@
     mainClockView.daysTimeView.update(new Date());
     setInterval(function(){mainClockView.ticktack();}, 1000);
 
-    if (Config.get('clockmode-style') == 1) {//Tag Style
+    if (Config.get('clockmode-style') == 1) {//Tab Style
         var sideNaviView = new widgetPages.SideNaviView();
         $('#wrapper').append(sideNaviView.render());
         widgetPages.SideNaviView.adjustToSideNavi();
