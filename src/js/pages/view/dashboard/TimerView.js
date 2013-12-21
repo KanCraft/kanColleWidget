@@ -1,10 +1,10 @@
 var widgetPages = widgetPages || {};
 
 (function() {
-    var TimerView = widgetPages.TimerView = function(target, primaryId,eventObj) {
+    var TimerView = widgetPages.TimerView = function(target, primaryKey,eventObj) {
         this.target = target;
         this.event = eventObj;
-        this.primaryId = primaryId;
+        this.primaryKey = primaryKey;
         this.namePrefix = '第';
         this.tpl = '<li><a class="clickable"><time>{{time}}</time><name>{{name}}</name></a></li>';
         this.events = {
@@ -16,7 +16,7 @@ var widgetPages = widgetPages || {};
     TimerView.prototype = Object.create(widgetPages.View.prototype);
     TimerView.prototype.constructor = TimerView;
     TimerView.prototype.render = function(suffix){
-        var name = this.namePrefix + this.event[this.primaryId] + suffix;
+        var name = this.namePrefix + this.event[this.primaryKey] + suffix;
         var params = {time:'--:--&nbsp;&nbsp;&nbsp;&nbsp;', name: name};
         if (this.event.finish) {
             params.time = this.toText(this.event.finish);
@@ -45,7 +45,7 @@ var widgetPages = widgetPages || {};
     TimerView.prototype.openManualWindow = function(ev, self){
         var path = "src/html/set_manual_timer.html";
         var params = {};
-        params[self.primaryId] = self.event[self.primaryId];
+        params[self.primaryKey] = self.event[self.primaryKey];
         console.log(self);
         params['purpose'] = self.target;
         Util.enterTimeManually(params, path);
