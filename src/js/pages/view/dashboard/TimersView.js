@@ -10,7 +10,7 @@ var widgetPages = widgetPages || {};
         };
         this.timersMissionView = new widgetPages.TimersMissionView();
         this.timersNyukyoView = new widgetPages.TimersNyukyoView();
-        //this.timersCreateshipView = new widgetPages.TimersCreateshipView();
+        this.timersCreateshipView = new widgetPages.TimersCreateshipView();
     };
     TimersView.prototype = Object.create(widgetPages.View.prototype);
     TimersView.prototype.constructor = TimersView;
@@ -19,13 +19,13 @@ var widgetPages = widgetPages || {};
         this.$el.append(
             this.timersMissionView.render(),
             this.timersNyukyoView.render(),
-            '<div class="time-list"></div>'
+            this.timersCreateshipView.render()
         );
         return this.$el;
     };
     TimersView.prototype.update = function(){
         this.timersMissionView.update();
         this.timersNyukyoView.update();
-        //this.timersCreateshipView.update();
+        this.timersCreateshipView.update();
     };
 })();
