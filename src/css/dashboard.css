@@ -203,3 +203,7 @@ time {
     border-radius: 8px;
     text-align: center;
 }
+.alt-header {
+    font-size: x-small;
+    line-height: 0.5em;
+}

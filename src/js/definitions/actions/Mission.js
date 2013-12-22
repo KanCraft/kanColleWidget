@@ -13,15 +13,18 @@ var KanColleWidget = KanColleWidget || {};
 
         if (Config.get("enable-mission-reminder") === false) return;
 
-        var min = Constants.time.mission[params.api_mission_id[0]];
-        if (typeof min == "undefined") {
+        var mission = Constants.mission[params.api_mission_id[0]];
+        if (typeof mission == "undefined") {
             Util.presentation("遠征ID[" + params.api_mission_id[0] + "]？知らない子ですね...");
             return;
         }
 
-        var finish = Date.now() + (min * 60 * 1000);
+        var min = mission.minute;
 
-        this.missions.add(params.api_deck_id[0], finish);
+        var finish = Date.now() + (min * 60 * 1000);
+        var optionalInfo = {title: mission.title};
+
+        this.missions.add(params.api_deck_id[0], finish, optionalInfo);
         this.achievements.update().incrementMissionCount();
 
         if(!Config.get('notification-on-reminder-set')) return;

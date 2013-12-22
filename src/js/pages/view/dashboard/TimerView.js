@@ -65,7 +65,11 @@ var widgetPages = widgetPages || {};
             m = Util.zP(2, finishD.getMinutes());
 
             if (isAlt) {
-                optional = (1+finishD.getMonth())+'月'+finishD.getDate()+'日';
+                var header = '';
+                if (this.event.info && this.event.info.title) {
+                    header = '<span class="alt-header">' + this.event.info.title + '</span><br>';
+                }
+                optional = header + (1+finishD.getMonth())+'月'+finishD.getDate()+'日';
             }
         }
 
@@ -82,10 +86,14 @@ var widgetPages = widgetPages || {};
 
         if (self.event.finish == null) return;
 
-        return $('<div></div>').addClass('alt-time').css({
+        var text = self.toText(true);
+        var css = {
             left: (ev.clientX * 3) / 4,
             top: ev.clientY - 50
-        }).append(self.toText(true)).hide().prependTo('body').fadeIn(80);
+        };
+        if (text.match('<br>')) css.height = "48px";
+
+        return $('<div></div>').addClass('alt-time').css(css).append(text).hide().prependTo('body').fadeIn(80);
     };
     TimerView.prototype.removeAlternatives = function(ev, self){
         if (! self.alt) return;

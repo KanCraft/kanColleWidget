@@ -17,14 +17,13 @@ var KanColleWidget = KanColleWidget || {};
      * @param primary_id
      * @param finishTime
      */
-    EventsBase.prototype.add = function(id, finishTime){
-        if(this.get(this['storageName']) == 'undefined'){
-            this.set(this['storageName'], this.initialValue);
-        }
+    EventsBase.prototype.add = function(id, finishTime, optionalInfo){
         var events = this.get(this.storageName) || this.initialValue;
         for(var i = 0;i<events.length; i++){
-            if(events[i][this.primaryIdName] == id)
+            if(events[i][this.primaryIdName] == id) {
                 events[i].finish = finishTime;
+                if(optionalInfo) events[i].info = optionalInfo;
+            }
         }
         this.set(this.storageName, events);
     };
