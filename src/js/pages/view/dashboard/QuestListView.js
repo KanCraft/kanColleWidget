@@ -19,8 +19,12 @@ var widgetPages = widgetPages || {};
     QuestListView.prototype = Object.create(widgetPages.View.prototype);
     QuestListView.prototype.constructor = QuestListView;
     QuestListView.prototype.render = function(){
-        var questList = this.quests.availables();
         this.apply()._render();
+        this.renderList();
+        return this.$el;
+    };
+    QuestListView.prototype.renderList = function(){
+        var questList = this.quests.availables();
         this.completed = 0;
         var $trs = [];
         for (var i in questList) {
@@ -30,11 +34,10 @@ var widgetPages = widgetPages || {};
         }
         this.$el.find('table').html('').append($trs);
         this.$el.find('#progress').html(this.getProgress());
-        return this.$el;
     };
     QuestListView.prototype.update = function(){
         this.lastUpdate = Date.now();
-        return this.render();
+        return this.renderList();
     };
     QuestListView.prototype.haveUpdate = function(){
         return this.quests.haveUpdate(this.lastUpdate);
