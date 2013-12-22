@@ -112,3 +112,13 @@ div.modal {
     left: 10px;
     top: 10px;
 }
+
+blockquote.twitter-tweet {
+    border-left: 4px solid #ddd;
+    padding: 0 15px;
+    margin: 15px 0;
+    font-size: x-small;
+}
+blockquote.twitter-tweet>p {
+    margin-bottom: 0.6em;
+}
