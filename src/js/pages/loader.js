@@ -28,4 +28,9 @@ var incrementDot = function(){
     $('div#wrapper').on('mouseleave',function(){
         $('div#answer').hide();
     });
+    if (Util.isSpecialTerm()) {
+        $('body').css({
+            boxShadow: '0 0 30px #fff inset'
+        });
+    }
 })();

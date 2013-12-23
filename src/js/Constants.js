@@ -182,7 +182,6 @@ var Constants = {
         loader : {
             images : {
                 normal : [
-                    {url:'src/img/loader/000.jpg',title:'蒼き鋼のアルペジオより<br>タカオ'},
                     //-----------001~010
                     {url:'src/img/loader/001.jpg',title:'12cm単装砲'},
                     {url:'src/img/loader/002.jpg',title:'12.7cm連装砲'},
@@ -235,6 +234,16 @@ var Constants = {
                     //-----------051~060
                     {url:'src/img/loader/065.jpg',title:'15.2cm連装砲'},
                     {url:'src/img/loader/066.jpg',title:'8cm高角砲'}
+                ],
+                special : [
+                    {url:'src/img/loader/sp/0.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/1.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/2.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/3.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/4.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/5.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/6.jpg',title:'Merry Christmas!'},
+                    {url:'src/img/loader/sp/7.jpg',title:'Merry Christmas!'}
                 ]
             }
         }

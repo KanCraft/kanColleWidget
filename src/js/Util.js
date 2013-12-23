@@ -442,8 +442,19 @@ var Util = Util || {};
         if (Util.isNumeric(id)) {
           return imgList[id];
         }
-        var _i = Math.floor(Math.random() * imgList.length);
-        return imgList[_i];
+        if (Util.isSpecialTerm()) {
+            var special = Util.arrayRand(Constants.ocr.loader.images.special);
+            imgList.push(special);
+        }
+        return Util.arrayRand(imgList);
+    };
+
+    Util.isSpecialTerm = function() {
+        var start = new Date(2013, 11, 24, 0, 0).getTime();
+        var end   = new Date(2013, 11, 26, 0, 0).getTime();
+        var now   = Date.now();
+        if (start < now && now < end) return true;
+        return false;
     };
 
     /**
@@ -537,6 +548,10 @@ var Util = Util || {};
             if (val == arr[i]) return true;
         }
         return false;
+    };
+    Util.arrayRand = function(arr) {
+        var _i = Math.floor(Math.random() * arr.length);
+        return arr[_i];
     };
 
     /**
