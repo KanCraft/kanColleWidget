@@ -48,7 +48,11 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/20 v0.7.0.3, v0.7.0.4<!--version-->
+- 2013/12/23 v0.7.1.0<!-- version -->
+    - リファクタリング
+    - 残り時間表示設定を追加
+    - 期間限定エフェクト追加
+- 2013/12/20 v0.7.0.3, v0.7.0.4
     - あんまり見てくれないのでアップデート通知をつくりました
     - スクショ時のクラッシュ対応（現在調査・改善中）
     - メンテ情報表示設定追加

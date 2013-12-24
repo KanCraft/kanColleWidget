@@ -31,15 +31,12 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 7;
+    AnnounceView.version = 8;
     AnnounceView.announcements = [
-        "v0.7.0.4",//productversion
-        "あんまり見てくれないのでアップデート通知をつくりました",
-        "スクショ時のクラッシュ対応（現在調査・改善中）",
-        "メンテ情報表示設定追加",
-        "ファイル設定UIを改善",
-        "ソフトウェアテスト強化",
-        "時間自動取得時に表示される装備娘を追加",
+        "v0.7.1.0",//productversion
+        "リファクタリング",
+        "残り時間表示設定を追加",
+        "期間限定エフェクト追加",
         "TODO : クラッシュ問題改善",
         "　　　（ご不便おかけし申し訳ございません）"
     ];
