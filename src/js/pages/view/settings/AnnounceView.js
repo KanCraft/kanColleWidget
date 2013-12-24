@@ -31,10 +31,11 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 9;
+    AnnounceView.version = 10;
     AnnounceView.announcements = [
-        "v0.7.2.0",//productversion
+        "v0.7.2.1",//productversion
         "スクショダウンロード時のクラッシュを解決（念願）",
+        "予定の表示順設定が反映されないバグを修正",
         "TODO : その他のクラッシュ問題改善"
     ];
 })();
