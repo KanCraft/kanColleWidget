@@ -423,7 +423,7 @@ var Util = Util || {};
         }
     };
 
-    Util.sortReminderParamsByEndtime = function(params) {
+    Util.sortEvents = function(params) {
         if (! Config.get('sort-by-finishtime')) {
             return params.sort(function(f, l) {
                 for (var k in f) {
@@ -436,7 +436,7 @@ var Util = Util || {};
             });
         }
         return params.sort(function(f, l) {
-            return (f.rawtime > l.rawtime);
+            return (f.finish > l.finish);
         });
     };
 
