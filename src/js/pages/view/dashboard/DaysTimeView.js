@@ -27,14 +27,11 @@ var widgetPages = widgetPages || {};
     };
     DaysTimeView.prototype.update = function(d){
         var day    = d.getDay();
-        $("#hour").html(Util.zP(2, d.getHours()));
-        $("#minute").html(Util.zP(2, d.getMinutes()));
-
-        if(parseInt(hour) == 0 || parseInt(minute) == 0){
-            // clear all
+        this.$el.find("#hour").html(Util.zP(2, d.getHours()));
+        this.$el.find("#minute").html(Util.zP(2, d.getMinutes()));
+        if(parseInt(d.getHours()) == 0 || parseInt(d.getMinutes()) == 0){
             $('.days').css({fontWeight:'normal'});
         }
-        // bold target
         $('#day' + day).css({fontWeight:'bold'});
     };
 })();

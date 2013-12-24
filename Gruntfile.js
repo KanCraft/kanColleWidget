@@ -31,7 +31,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.registerTask('build', ['exec:build']);
     grunt.registerTask('buildquiet', ['exec:buildquiet']);
-    grunt.registerTask('watch', ['regarde']);
+    grunt.registerTask('watch', ['buildquiet','regarde']);
     grunt.registerTask('check', ['jshint:files']);
     grunt.registerTask('default', ['exec:sample']);
 };

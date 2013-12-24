@@ -2,11 +2,9 @@ var widgetPages = widgetPages || {};
 
 (function() {
     var MainClockView = widgetPages.MainClockView = function() {
-        this.tpl = '<div></div>';
-        this.events = {};
-        this.attrs = {
-            class : 'boxy'
-        };
+        this.tpl = '<div id="main-clock" class="contents boxy">'
+                  +'  <div class="boxy"></div>'
+                  +'</div>';
         this.dateIconView = new widgetPages.DateIconView();
         this.daysTimeView = new widgetPages.DaysTimeView();
     };
@@ -14,22 +12,23 @@ var widgetPages = widgetPages || {};
     MainClockView.prototype.constructor = MainClockView;
     MainClockView.prototype.render = function(){
         this.apply()._render();
-        this.renderLeft();
-        this.renderRight();
+        this.$el.find('.boxy').append(
+            this.renderLeft(),
+            this.renderRight()
+        );
+        this.update(true);
         return this.$el;
     };
     MainClockView.prototype.renderLeft = function(){
-        this.$el.append(this.dateIconView.render());
-        return this;
+        return this.dateIconView.render();
     };
     MainClockView.prototype.renderRight = function(){
-        this.$el.append(this.daysTimeView.render());
-        return this;
+        return this.daysTimeView.render();
     };
-    MainClockView.prototype.ticktack = function(){
+    MainClockView.prototype.update = function(force){
         var date = new Date();
         this.dateIconView.update(date);
-        if (date.getSeconds() == 0) {
+        if (force || date.getSeconds() == 0) {
             this.daysTimeView.update(date);
         }
     };

@@ -44,21 +44,7 @@
                 </table>
             </div>
         </form>
-        <div id="time-left">
-            <div class="content">
-                <div id="time-list-wrapper-missions">
-                    <span> -- 遠征隊帰投予定時刻 -- </span>
-                    <ul id="time-list-container"></ul>
-                </div>
-                <div id="time-list-wrapper-nyukyos">
-                    <span> -- 入渠修復完了予定時刻 -- </span>
-                    <ul id="time-list-container-nyukyos"></ul>
-                </div>
-                <div id="time-list-wrapper-createships">
-                    <span> -- 建造完了予定時刻 -- </span>
-                    <ul id="time-list-container-createships"></ul>
-                </div>
-            </div>
+        <div id="time-left-wrapper">
         </div>
         <div id="achievements">
             <span> -- 提督任務実績 -- </span>
@@ -95,10 +81,30 @@
     <script type="text/javascript" src="../js/definitions/share/TwitterCrawler.js"></script>
     <script type="text/javascript" src="../js/definitions/models/MyStorage.js"></script>
     <script type="text/javascript" src="../js/definitions/models/achievements/Achievements.js"></script>
+
+    <script type="text/javascript" src="../js/definitions/models/events/SoloEventBase.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/EventsBase.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyos.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/nyukyos/Nyukyo.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/createships/Createships.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/createships/Createship.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/missions/Missions.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/missions/Mission.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/sortie/Sorties.js"></script>
+    <script type="text/javascript" src="../js/definitions/models/events/sortie/Sortie.js"></script>
+
     <script type="text/javascript" src="../js/Util.js"></script>
     <script type="text/javascript" src="../js/pages/view/View.js"></script>
     <script type="text/javascript" src="../js/pages/view/select/StaffTwitterView.js"></script>
     <script type="text/javascript" src="../js/pages/view/settings/AnnounceView.js"></script>
+
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimerView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimersView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimersBaseView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimersMissionView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimersNyukyoView.js"></script>
+    <script type="text/javascript" src="../js/pages/view/dashboard/TimersCreateshipView.js"></script>
+
     <script type="text/javascript" src="../js/pages/select.js"></script>
 </body>
 </html>

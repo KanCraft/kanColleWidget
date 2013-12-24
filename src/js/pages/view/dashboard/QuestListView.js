@@ -4,13 +4,14 @@ var widgetPages = widgetPages || {};
     var QuestListView = widgetPages.QuestListView = function(quests) {
         this.lastUpdate = 0;
         this.quests = quests;
-        this.tpl = '<table></table>';
+        this.tpl = '<div class="contents">'
+                  +'    <h5>デイリー任務消化状況 (<span id="progress" class="xsmall"></span>)</h5>'
+                  +'    <div id="quest-list-container">'
+                  +'        <table id="quests" class="table"></table>'
+                  +'    </div>'
+                  +'</div>'
         this.events = {
             'click .hide-quest' : "hideQuest"
-        };
-        this.attrs = {
-            id : "quests",
-            class : "table"
         };
         this.total = Object.keys(this.quests.getAll().map).length;
         this.completed = 0;
@@ -18,20 +19,25 @@ var widgetPages = widgetPages || {};
     QuestListView.prototype = Object.create(widgetPages.View.prototype);
     QuestListView.prototype.constructor = QuestListView;
     QuestListView.prototype.render = function(){
-        // var questList = this.quests.getAll().map;
-        var questList = this.quests.availables();
         this.apply()._render();
-        this.completed = 0;//init
+        this.renderList();
+        return this.$el;
+    };
+    QuestListView.prototype.renderList = function(){
+        var questList = this.quests.availables();
+        this.completed = 0;
+        var $trs = [];
         for (var i in questList) {
             if (KanColleWidget.Quests.state.NOW < questList[i].state) this.completed++;
             var questView = widgetPages.QuestViewFactory(questList[i]);
-            this.$el.append(questView.render());
+            $trs.push(questView.render());
         }
-        return this.$el;
+        this.$el.find('table').html('').append($trs);
+        this.$el.find('#progress').html(this.getProgress());
     };
-    QuestListView.prototype.refresh = function(){
+    QuestListView.prototype.update = function(){
         this.lastUpdate = Date.now();
-        return this.render();
+        return this.renderList();
     };
     QuestListView.prototype.haveUpdate = function(){
         return this.quests.haveUpdate(this.lastUpdate);

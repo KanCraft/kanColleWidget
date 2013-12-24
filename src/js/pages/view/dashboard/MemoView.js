@@ -2,16 +2,15 @@ var widgetPages = widgetPages || {};
 
 (function() {
   var MemoView = widgetPages.MemoView = function() {
-      this.tpl = '<textarea>{{memoContents}}</textarea>';
+      this.tpl = '<div class="contents">'
+                +'    <h5>レシピメモ</h5>'
+                +'    <div id="recipe-memo-container">'
+                +'        <textarea>{{memoContents}}</textarea>'
+                +'    </div>'
+                +'</div>';
       this.parent = "div#recipe-memo-container";
       this.events = {
           "keyup #recipe-memo" : "saveRecipeMemo"
-      };
-      this.attrs = {
-          id : "recipe-memo",
-          cols : "45",
-          rows : "10",
-          placeholder : "何かメモるの？いいけれど..."
       };
   };
   MemoView.prototype = Object.create(widgetPages.View.prototype);
@@ -19,7 +18,13 @@ var widgetPages = widgetPages || {};
   MemoView.prototype.render = function(){
       var memo = new KanColleWidget.Memo();
       var params = {memoContents: memo.toJson().value };
-      return this.apply(params)._render().$el;
+      this.apply(params)._render().$el.find('textarea').attr({
+          id : "recipe-memo",
+          cols : "45",
+          rows : "10",
+          placeholder : "何かメモるの？いいけれど..."
+      });
+      return this.$el;
   };
   MemoView.prototype.saveRecipeMemo = function(ev) {
       var memo = new KanColleWidget.Memo();

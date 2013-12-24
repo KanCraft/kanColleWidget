@@ -22,19 +22,15 @@ var widgetPages = widgetPages || {};
         return this.$el;
     };
     SideNaviView.adjustToSideNavi = function(){
-        //alert("adjustToSideNave!!");
-        //$('body').css({overflow:'hidden'});
         $('#wrapper').addClass('boxy').css({margin:0});
         $('#main').css({
             width: '390px',
             marginTop: 0,
             overflow: 'auto'
         });
-        //$('#page0').css({display:'none'});
         $('#page1').css({display:'none'});
         $('#page2').css({display:'none'});
 
-        $('.list-title').remove();
         $('#tiredness-title').remove();
     };
     SideNaviView.prototype.showPage = function(ev, self){

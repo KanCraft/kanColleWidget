@@ -22,7 +22,8 @@ $(function(){
 
     $("#notification-settings").append(
         widgetPages.ImageFileSelectView.ofNotificaionIcon().render(),
-        (new widgetPages.SoundFileSelectListView()).render()
+        (new widgetPages.SoundFileSelectListView()).render(),
+        (new widgetPages.TimerFormatRemainedTimeView()).render()
     );
 
     $("#icon-tools").append(
