@@ -12,8 +12,8 @@ var widgetPages = widgetPages || {};
     CaptureFilenamePrefixView.prototype = Object.create(widgetPages.SettingTextView.prototype);
     CaptureFilenamePrefixView.prototype.constructor = CaptureFilenamePrefixView;
     CaptureFilenamePrefixView.prototype.validate = function(val){
-        if (false) {
-            return "うんこ";
+        if (val.match(/[(\\|/|:|\*|?|\"|<|>|\|)]/)) {
+            return "\\ / : * ? \" ' < > | 、このへんの文字列はファイル名に使えないっぽい？";
         }
         return true;
     };

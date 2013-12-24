@@ -39,7 +39,8 @@ var widgetPages = widgetPages || {};
         $_container.append($input);
         this.$el.find('.textinput-container').append($_container);
         if (this.description) $_container.append(
-            $('<span></span>').html(this.description).addClass('xsmall description')
+            $('<span></span>').html(this.description).addClass('xsmall description'),
+            $('<br><span></span>').addClass('validation-message')
         );
         return this;
     };

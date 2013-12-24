@@ -292,7 +292,7 @@ var Util = Util || {};
         var ext = Config.get('capture-image-format');
         var prefix = Config.get('capture-image-filename-prefix');
         var time = Util.getTimeText('capture');
-        return prefix + time + '.' + ext;
+        return prefix + '_' + time + '.' + ext;
     };
 
     Util.getTimeText = function(purpose){
