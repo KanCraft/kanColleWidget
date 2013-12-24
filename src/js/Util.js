@@ -287,6 +287,34 @@ var Util = Util || {};
         });
     };
 
+    Util.getCaptureFilename = function(){
+        var ext = Config.get('capture-image-format');
+        var prefix = Config.get('capture-image-filename-prefix');
+        var time = Util.getTimeText('capture');
+        return prefix + time + '.' + ext;
+    };
+
+    Util.getTimeText = function(purpose){
+        var d = new Date();
+        var formatCapture = function(_d){
+            var date = [];
+            var time = [];
+            date.push(_d.getYear() + 1900);
+            date.push(Util.zP(2, _d.getMonth() + 1));
+            date.push(Util.zP(2, _d.getDate()));
+            time.push(Util.zP(2, _d.getHours()));
+            time.push(Util.zP(2, _d.getMinutes()));
+            time.push(Util.zP(2, _d.getSeconds()));
+            return date.join('') + '_' + time.join('');
+        };
+        switch(purpose){
+            case 'capture':
+                return formatCapture(d);
+            default:
+                return d.toLocaleDateString();
+        }
+    };
+
     /**
      * キャプチャした画像をリサイズする
      * @param dataURI {String} Image

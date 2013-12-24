@@ -68,6 +68,7 @@ MyStorage.prototype.tearDown = function(){
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
         'capture-image-format'               : 'jpeg',
+        'capture-image-filename-prefix'      : 'kancolle_',
         'launch-on-click-notification'       : true,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
