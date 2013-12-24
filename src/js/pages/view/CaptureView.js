@@ -40,7 +40,7 @@ var widgetPages = widgetPages || {};
         var a = document.createElement('a');
         a.href     = self.imgURI;
         a.download = imgTitle;
-        a.click();
+        //a.click();
     };
     CaptureView.prototype.isValidFinename = function(fname){
         if (fname.match(/^[a-zA-Z0-9_]+$/)) return true;
