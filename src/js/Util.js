@@ -274,6 +274,7 @@ var Util = Util || {};
             var win = window.open();
             var view = new widgetPages.CaptureView(dataUrl);
             $(win.document.body).append(view.render());
+            win.document.title = Util.getCaptureFilename();
 
             // メソッド切り分けしない
             if(Config.get('download-on-screenshot')){
@@ -353,6 +354,7 @@ var Util = Util || {};
         });
     };
 
+    // TODO: 一本化 getTimeText
     Util.getFormattedDateString = function(format){
         if(typeof format === 'undefined') { format = null; }
         var d = new Date();
