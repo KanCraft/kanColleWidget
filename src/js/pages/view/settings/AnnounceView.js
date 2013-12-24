@@ -31,13 +31,11 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 8;
+    AnnounceView.version = 10;
     AnnounceView.announcements = [
-        "v0.7.1.0",//productversion
-        "リファクタリング",
-        "残り時間表示設定を追加",
-        "期間限定エフェクト追加",
-        "TODO : クラッシュ問題改善",
-        "　　　（ご不便おかけし申し訳ございません）"
+        "v0.7.2.1",//productversion
+        "スクショダウンロード時のクラッシュを解決（念願）",
+        "予定の表示順設定が反映されないバグを修正",
+        "TODO : その他のクラッシュ問題改善"
     ];
 })();

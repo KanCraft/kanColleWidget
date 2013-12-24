@@ -274,6 +274,7 @@ var Util = Util || {};
             var win = window.open();
             var view = new widgetPages.CaptureView(dataUrl);
             $(win.document.body).append(view.render());
+            win.document.title = Util.getCaptureFilename();
 
             // メソッド切り分けしない
             if(Config.get('download-on-screenshot')){
@@ -285,6 +286,34 @@ var Util = Util || {};
 
             doneCallback(dataUrl);
         });
+    };
+
+    Util.getCaptureFilename = function(){
+        var ext = Config.get('capture-image-format');
+        var prefix = Config.get('capture-image-filename-prefix');
+        var time = Util.getTimeText('capture');
+        return prefix + '_' + time + '.' + ext;
+    };
+
+    Util.getTimeText = function(purpose){
+        var d = new Date();
+        var formatCapture = function(_d){
+            var date = [];
+            var time = [];
+            date.push(_d.getYear() + 1900);
+            date.push(Util.zP(2, _d.getMonth() + 1));
+            date.push(Util.zP(2, _d.getDate()));
+            time.push(Util.zP(2, _d.getHours()));
+            time.push(Util.zP(2, _d.getMinutes()));
+            time.push(Util.zP(2, _d.getSeconds()));
+            return date.join('') + '_' + time.join('');
+        };
+        switch(purpose){
+            case 'capture':
+                return formatCapture(d);
+            default:
+                return d.toLocaleDateString();
+        }
     };
 
     /**
@@ -325,6 +354,7 @@ var Util = Util || {};
         });
     };
 
+    // TODO: 一本化 getTimeText
     Util.getFormattedDateString = function(format){
         if(typeof format === 'undefined') { format = null; }
         var d = new Date();
@@ -393,7 +423,7 @@ var Util = Util || {};
         }
     };
 
-    Util.sortReminderParamsByEndtime = function(params) {
+    Util.sortEvents = function(params) {
         if (! Config.get('sort-by-finishtime')) {
             return params.sort(function(f, l) {
                 for (var k in f) {
@@ -406,7 +436,7 @@ var Util = Util || {};
             });
         }
         return params.sort(function(f, l) {
-            return (f.rawtime > l.rawtime);
+            return (f.finish > l.finish);
         });
     };
 

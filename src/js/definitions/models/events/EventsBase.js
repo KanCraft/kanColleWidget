@@ -32,7 +32,8 @@ var KanColleWidget = KanColleWidget || {};
      * @returns {*|Array}
      */
     EventsBase.prototype.getAll = function(){
-        return this.get(this.storageName) || this.initialValue;
+        var events = this.get(this.storageName) || this.initialValue;
+        return Util.sortEvents(events);
     };
 
     /**
