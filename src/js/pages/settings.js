@@ -28,6 +28,7 @@ $(function(){
 
     $("#icon-tools").append(
         (new widgetPages.ImageFormatView()).render(),
+        (new widgetPages.CaptureFilenamePrefixView()).render(),
         (new widgetPages.DisplayMaintenanceInfoView()).render(),
         widgetPages.ImageFileSelectView.ofPopupBackground().render()
     );
