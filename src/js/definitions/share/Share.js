@@ -30,7 +30,7 @@ var KanColleWidget = KanColleWidget || {};
         var item5 = '';
         if (params['api_large_flag'] == 1) {
             flag = '大型！';
-            item5 = ' +' + params.api_item5
+            item5 = ' +' + params.api_item5[0];
         }
         var tweet_body = "[" + flag + "建造報告] #kancolle_ship\n";
         tweet_body += "資材 => " + params.api_item1[0] + "/" + params.api_item2[0] + "/" + params.api_item3[0] + "/" + params.api_item4[0] + item5 + "\n";
