@@ -31,11 +31,12 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 10;
+    AnnounceView.version = 11;
     AnnounceView.announcements = [
-        "v0.7.2.1",//productversion
-        "スクショダウンロード時のクラッシュを解決（念願）",
-        "予定の表示順設定が反映されないバグを修正",
-        "TODO : その他のクラッシュ問題改善"
+        "v0.7.3.0",//productversion
+        "大型建造の報告ツイートに対応しました",
+        "なお、開発鎮守府の資源は底を突きました",
+        "動作検証？",
+        "そんなのできるわけないじゃないですかーやだー♪"
     ];
 })();
