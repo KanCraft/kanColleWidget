@@ -14,6 +14,7 @@ var widgetPages = widgetPages || {};
     TirednessListView.prototype.constructor = TirednessListView;
     TirednessListView.prototype.render = function(){
         this.apply()._render();
+        if (Config.get('tiredness-recovery-minutes') == 0) return '';
         this.refreshTable();
         return this.$el;
     };
