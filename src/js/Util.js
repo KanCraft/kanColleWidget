@@ -269,7 +269,7 @@ var Util = Util || {};
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
-            var imgTitle = Util.getFormattedDateString();
+            var imgTitle = Util.getCaptureFilename();
 
             var win = window.open();
             var view = new widgetPages.CaptureView(dataUrl);
