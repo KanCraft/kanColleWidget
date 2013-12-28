@@ -144,6 +144,6 @@ $(function() {
     // faviconつけるよー
     $('<link/>').attr({
         rel : 'shortcut icon',
-        href: 'https://raw.github.com/otiai10/kanColleWidget/develop/src/img/dmm.png'
+        href: 'https://raw.github.com/otiai10/kanColleWidget/develop/src/img/dmm.ico'
     }).appendTo('head');
 });
