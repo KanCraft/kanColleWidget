@@ -31,12 +31,10 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 11;
+    AnnounceView.version = 12;
     AnnounceView.announcements = [
-        "v0.7.3.0",//productversion
-        "大型建造の報告ツイートに対応しました",
-        "なお、開発鎮守府の資源は底を突きました",
-        "動作検証？",
-        "そんなのできるわけないじゃないですかーやだー♪"
+        "v0.7.4.0",//productversion
+        "クロックモードの改善、バグ修正",
+        "favicon追加"
     ];
 })();

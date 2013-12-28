@@ -48,7 +48,10 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/25 v0.7.3.0<!--version-->
+- 2013/12/28 v0.7.4.0<!--version-->
+    - クロックモードのバグ修正
+    - favicon追加
+- 2013/12/25 v0.7.3.0
     - 大型建造報告の対応
 - 2013/12/24 v0.7.2.0, v0.7.2.1
     - スクショ時のクラッシュ問題を解決
