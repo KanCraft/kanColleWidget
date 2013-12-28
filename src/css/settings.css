@@ -27,7 +27,7 @@ tr.yet>td:before {
     font-size: x-small;
     font-weight: bold;
 }
-tr.yet>td:hover, tr.yet>td>input:hover{
+tr.yet>td:hover, tr.yet>td>input:hover {
     cursor: not-allowed;
 }
 
@@ -110,7 +110,7 @@ div.modal {
     z-index: 2;
     -webkit-opacity: 0.8;
     position: fixed;
-    left: 10px;
+    right: 10px;
     top: 10px;
 }
 
