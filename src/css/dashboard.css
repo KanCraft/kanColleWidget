@@ -172,9 +172,13 @@ textarea {
     background-color: #ccc;
 }
 .navi-tab {
-    height: 80px;
+    height: 82px;
     background: #ccc;
     color: #777;
+}
+.navi-tab:hover {
+    cursor: pointer;
+    color: #000;
 }
 .navi-tab.active {
     background-color: #f0f0f0;

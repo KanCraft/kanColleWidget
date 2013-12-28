@@ -4,7 +4,7 @@ var widgetPages = widgetPages || {};
     var SideNaviView = widgetPages.SideNaviView = function() {
         this.tpl = '<div></div>';
         this.events = {
-            'click .tab-contents' : 'showPage'
+            'click .navi-tab' : 'showPage'
         };
         this.attrs = {
             id : 'side-navi'
@@ -15,9 +15,9 @@ var widgetPages = widgetPages || {};
     SideNaviView.prototype.render = function(){
         this.apply()._render();
         this.$el.append(
-            $('<div class="navi-tab active"><div class="rotate90 tab-contents clickable" visible="page0">timer</div></div>'),
-            $('<div class="navi-tab"><div class="rotate90 tab-contents clickable" visible="page1">quest</div></div>'),
-            $('<div class="navi-tab"><div class="rotate90 tab-contents clickable" visible="page2">memo</div></div>')
+            $('<div class="navi-tab active" visible="page0"><div class="rotate90 tab-contents">timer</div></div>'),
+            $('<div class="navi-tab" visible="page1"><div class="rotate90 tab-contents">quest</div></div>'),
+            $('<div class="navi-tab" visible="page2"><div class="rotate90 tab-contents">memo</div></div>')
         );
         return this.$el;
     };
@@ -34,12 +34,12 @@ var widgetPages = widgetPages || {};
         $('#tiredness-title').remove();
     };
     SideNaviView.prototype.showPage = function(ev, self){
-        var pageId = '#' + $(ev.target).attr('visible');
+        var pageId = '#' + $(ev.currentTarget).attr('visible');
         // init all
         $('.page').css({display: 'none'});
         $('.navi-tab').removeClass('active');
 
+        $(ev.currentTarget).addClass('active');
         $(pageId).css({display:''});
-        $(ev.target).parent().addClass('active');
     };
 })();

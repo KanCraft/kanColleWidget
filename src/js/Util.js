@@ -269,7 +269,7 @@ var Util = Util || {};
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
-            var imgTitle = Util.getFormattedDateString();
+            var imgTitle = Util.getCaptureFilename();
 
             var win = window.open();
             var view = new widgetPages.CaptureView(dataUrl);
@@ -472,19 +472,17 @@ var Util = Util || {};
         if (Util.isNumeric(id)) {
           return imgList[id];
         }
-        if (Util.isSpecialTerm()) {
-            var special = Util.arrayRand(Constants.ocr.loader.images.special);
-            imgList.push(special);
-        }
         return Util.arrayRand(imgList);
     };
 
     Util.isSpecialTerm = function() {
+        return false;
+        /*
         var start = new Date(2013, 11, 24, 0, 0).getTime();
         var end   = new Date(2013, 11, 26, 0, 0).getTime();
         var now   = Date.now();
         if (start < now && now < end) return true;
-        return false;
+        */
     };
 
     /**

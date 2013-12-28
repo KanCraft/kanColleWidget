@@ -42,4 +42,9 @@
         tirednessListView.update();
         if (questListView.haveUpdate()) questListView.update();
     },5000);
+
+    $('<link>').attr({
+        rel : 'shortcut icon',
+        href: Config.get('notification-img-file') || '../img/icon.48.png'
+    }).appendTo('head');
 })();
