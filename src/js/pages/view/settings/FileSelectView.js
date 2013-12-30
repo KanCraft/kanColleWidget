@@ -1,7 +1,7 @@
 var widgetPages = widgetPages || {};
 (function(){
     "use strict";
-
+    // {{{ ImageFileSelectView
     var ImageFileSelectView = widgetPages.ImageFileSelectView = function(file){
         this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
         this.file = file;
@@ -31,7 +31,9 @@ var widgetPages = widgetPages || {};
     ImageFileSelectView.ofNotificaionIcon = function(){
         return new ImageFileSelectView(notificationImageFile);
     };
+    // }}}
 
+    // {{{ SoundFileSelectListView
     var SoundFileSelectListView = widgetPages.SoundFileSelectListView = function(){
         this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
     };
@@ -46,6 +48,9 @@ var widgetPages = widgetPages || {};
         }));
         return this.$el;
     };
+    // }}}
+
+    // {{{ FileSelectViewBase
     var FileSelectViewBase = widgetPages.FileSelectViewBase = function(file){
         this.file = file;
         this.tpl = '<div><span class="clickable to-file-modal" input-name="{{inputName}}">{{label}} : <span id="isset-{{inputName}}">{{isSet}}</span></span></div>';
@@ -75,6 +80,9 @@ var widgetPages = widgetPages || {};
     FileSelectViewBase.createFromParam = function(file){
         return new FileSelectViewBase(file);
     };
+    // }}}
+
+    // {{{ FileSelectModalContentsView
     var FileSelectModalContentsView = widgetPages.FileSelectModalContentsView = function(file){
         this.file = file;
         this.tpl = '<div class="modal-contents">'
@@ -94,8 +102,9 @@ var widgetPages = widgetPages || {};
         this.events = {
             // TODO: 複数イベントをViewでdelegateできてないよ問題
             //'click .do-test' : 'test',
-            'click .done' : 'commit'
+            'click .done' : 'done'
         };
+        this.setFileName = null;
     };
     FileSelectModalContentsView.prototype = Object.create(widgetPages.View.prototype);
     FileSelectModalContentsView.prototype.constructor = FileSelectModalContentsView;
@@ -106,7 +115,7 @@ var widgetPages = widgetPages || {};
 
         if(this.file.doNotTest) this.$el.find('.do-test').remove();
 
-        // {{{ TODO: 複数イベントをViewでdelegateできてないよ問題
+        // TODO: 複数イベントをViewでdelegateできてないよ問題
         var self = this;
         this.$el.find('.do-test').on('click',function(ev){
             self['test'](ev,self);
@@ -114,32 +123,37 @@ var widgetPages = widgetPages || {};
         this.$el.find('.reset').on('click',function(ev){
             self['reset'](ev,self);
         });
-        // }}}
+        this.$el.find('input#new-file').on('change',function(ev){
+            self['commitFile'](ev,self);
+        });
 
         return this.$el;
     };
-    FileSelectModalContentsView.prototype.done = function(ev,self){
-        $('#modal-wrapper').fadeOut(100, function(){
-            $(this).remove();
-        });
-    };
-    FileSelectModalContentsView.prototype.commit = function(ev,self){
+    FileSelectModalContentsView.prototype.commitFile = function(ev,self){
         var fileObj = $('#new-file').prop('files')[0];
         KanColleWidget.Fs.update(self.file.inputName, fileObj, self.file.accept.split(','), function(res){
-            console.log(res);
-            if(res.status == 0) return self.done();
-
+            if(res.status == 0) return widgetPages.ModalView.vanish();
             Config.set(res.purpose, res.entry.toURL());
-            var message = res.origin.name + 'に設定しました';
-            $("#isset-" + self.file.inputName).text(message);
-            self.done();
+            // 元ページ内フィードバックに用いる
+            self.setFileName = res.origin.name;
+            // モーダル内フィードバック
+            var message = res.origin.name;
+            $("#current-file").text(message);
         });
+    };
+    FileSelectModalContentsView.prototype.done = function(ev,self){
+        // 元ページ内フィードバック
+        if (self.setFileName) {
+            var message = self.setFileName + 'に設定しました';
+            $("#isset-" + self.file.inputName).text(message);
+        }
+        widgetPages.ModalView.vanish();
     };
     FileSelectModalContentsView.prototype.reset = function(ev,self){
         Config.set(self.file.inputName, "");
         $("#isset-" + self.file.inputName).text('削除しました');
         $("#isset-img-" + self.file.inputName).remove();
-        self.done();
+        widgetPages.ModalView.vanish();
     };
     FileSelectModalContentsView.prototype.test = function(ev,self){
         var d = new Date();
@@ -152,6 +166,9 @@ var widgetPages = widgetPages || {};
             }
         });
     };
+    // }}}
+
+    // {{{ Static Lists
     var soundFileList = [
         {
             label:"デフォルト",inputName:"notification-sound-file",
@@ -190,4 +207,5 @@ var widgetPages = widgetPages || {};
         label:"アイコンポップアップの背景画像",inputName:"popup-bg-img-file",
         kind:"",accept:"image/*",doNotTest:true
     };
+    // }}}
 })();
