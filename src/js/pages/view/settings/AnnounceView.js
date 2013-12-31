@@ -31,10 +31,11 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 12;
+    AnnounceView.version = 13;
     AnnounceView.announcements = [
-        "v0.7.4.0",//productversion
-        "クロックモードの改善、バグ修正",
-        "favicon追加"
+        "v0.7.5.0",//productversion
+        "音声ファイル設定UIの改善",
+        "一部環境でFlashの描画が止まる問題のお知らせ",
+        "お正月だし艦娘！"
     ];
 })();
