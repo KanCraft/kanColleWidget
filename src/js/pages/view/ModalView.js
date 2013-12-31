@@ -27,13 +27,11 @@ var widgetPages = widgetPages || {};
         this.$el.hide().appendTo('body').fadeIn(100);
         //this.$el.hide().appendTo('#page1').fadeIn(100);
     };
-    /*
-    ModalView.prototype.vanish = function(){
-        this.$el.fadeOut(100, function(){
-            $('#modal-wrapper').remove();
+    ModalView/*.prototype*/.vanish = function(){
+        $('#modal-wrapper').fadeOut(100,function(){
+            $(this).remove();
         });
     };
-    */
     ModalView.prototype.cssAttrs = {
         '.modal' : {
             position: 'fixed',
