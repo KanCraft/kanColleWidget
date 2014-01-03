@@ -154,6 +154,8 @@ var KanColleWidget = KanColleWidget || {};
                 }
                 action.forKousyouPreparation();
             },300);
+        } else if (this.requestSequence[0] === 'api_req_sortie/battleresult') {
+            this.action.forSortieBattleResult();
         }
     };
 })();
