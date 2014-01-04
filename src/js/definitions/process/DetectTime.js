@@ -2,7 +2,7 @@
 var KanColleWidget = KanColleWidget || {};
 (function(){
     'use strict';
-    var Process = KanColleWidget.Process = {};
+    var Process = KanColleWidget.Process = KanColleWidget.Process || {};
     /**
      * 画面キャプチャから時間を検出する
      * @constructor

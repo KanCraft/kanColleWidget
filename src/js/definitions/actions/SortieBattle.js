@@ -4,8 +4,9 @@ var KanColleWidget = KanColleWidget || {};
     var SortieBattleAction = KanColleWidget.SortieBattleAction = function(){
     };
     SortieBattleAction.prototype.forResult = function(){
+        var process = new KanColleWidget.Process.OpenShipsStatus();
         setTimeout(function(){
-            Util.detectAndCapture();
+            process.open();
         },2000);
     };
 })();

@@ -596,4 +596,51 @@ var Util = Util || {};
         });
         return res;
     };
+
+    Util.getWidgetWindowCapture = function(cb, options) {
+        var options = options || {format: 'png'};
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            chrome.tabs.captureVisibleTab(
+                widgetWindow.id,
+                options,
+                function(dataURI){
+                    cb(dataURI);
+                }
+            );
+        });
+    };
+
+    // TODO: DRY
+    // @see src/js/process/DetectTime.js
+    Util.trimImage = function(dataURI, coords, size, opt){
+        var opt = opt || {format:'jpeg'};
+        var img = new Image();
+        img.src = dataURI;
+
+        var canvas = document.createElement('canvas');
+        canvas.id = 'canvas';
+        canvas.width  = size.width;
+        canvas.height = size.height;
+        var ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+            img,
+            coords.left,
+            coords.top,
+            size.width,
+            size.height,
+            0, // offset left in destination Image
+            0, // offset top in destination Image
+            canvas.width,
+            canvas.height
+        );
+
+        return canvas.toDataURL('image/' + opt.format);
+        /*
+        var png24 = new CanvasTool.PngEncoder(canvas, {
+            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+        }).convert();
+        */
+        return 'data:image/'+ opt.format +';base64,' + btoa(canvas);
+    };
 })();
