@@ -20,7 +20,7 @@ var KanColleWidget = KanColleWidget || {};
                 "width=174",
                 "height=203"
             ];
-            var win = window.open(trimmedURI,"_blank", params.join(","));
+            KanColleWidget.Stash.statusWindow = window.open(trimmedURI,"_blank", params.join(","));
             /* FIXME: window title変えたいけどViewつくるほどじゃない
             var d = new Date();
             win.title = Util.zP(2, d.getHours()) + ':' + Util.zP(2, d.getMinutes());

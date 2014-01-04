@@ -40,6 +40,9 @@ var KanColleWidget = KanColleWidget || {};
     Action.prototype.forMapPreparation = function(){
         this.mapAction.forPreparation();
     };
+    Action.prototype.forMapNext = function(){
+        this.mapAction.forNext();
+    };
     Action.prototype.forHokyuCharge = function(params){
         this.hokyuAction.forCharge(params);
     };

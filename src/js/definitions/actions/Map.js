@@ -16,6 +16,9 @@ var KanColleWidget = KanColleWidget || {};
         this.sorties.refreshStash().registerStash(deck_id);
     };
     MapAction.prototype.forEnd = function(){
+
+        this._clearShipsStatusWindow();
+
         var recoveryMinutes = Config.get("tiredness-recovery-minutes");
 
         if (recoveryMinutes == 0) return;
@@ -25,5 +28,15 @@ var KanColleWidget = KanColleWidget || {};
             var finish = Date.now() + (recoveryMinutes * 60 * 1000);
             this.sorties.add(deckIds[i], finish);
         }
+    };
+    MapAction.prototype.forNext = function(){
+        this._clearShipsStatusWindow();
+    };
+    MapAction.prototype._clearShipsStatusWindow = function(){
+        if (KanColleWidget.Stash.statusWindow
+            && KanColleWidget.Stash.statusWindow.close) {
+            KanColleWidget.Stash.statusWindow.close();
+        }
+        KanColleWidget.Stash.statusWindow = null;
     };
 })();
