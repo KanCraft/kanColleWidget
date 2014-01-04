@@ -20,11 +20,10 @@ var KanColleWidget = KanColleWidget || {};
                 "width=174",
                 "height=203"
             ];
-            KanColleWidget.Stash.statusWindow = window.open(trimmedURI,"_blank", params.join(","));
-            /* FIXME: window title変えたいけどViewつくるほどじゃない
-            var d = new Date();
-            win.title = Util.zP(2, d.getHours()) + ':' + Util.zP(2, d.getMinutes());
-            */
+            //KanColleWidget.Stash.statusWindow = window.open(trimmedURI,"_blank", params.join(","));
+            var url = chrome.extension.getURL('/') + 'src/html/ships_status.html';
+            url += "?imgURI=" + trimmedURI;
+            KanColleWidget.Stash.statusWindow = window.open(url,"_blank", params.join(","));
         },options);
     };
     OpenShipsStatus.prototype._getCoordsAndSize = function(dataURI) {
