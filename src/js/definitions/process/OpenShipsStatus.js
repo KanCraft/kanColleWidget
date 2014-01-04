@@ -15,14 +15,16 @@ var KanColleWidget = KanColleWidget || {};
             // Viewにしたほうがいいかな？
             var widget = Tracking.get('widget');
             var params = [
-                "top="  + widget.position.top - 174,
+                "top="  + String(parseInt(widget.position.top) - 230),//なんだこの数字
                 "left=" + widget.position.left,// + widget.size.outerWidth,
                 "width=174",
                 "height=203"
             ];
             var win = window.open(trimmedURI,"_blank", params.join(","));
+            /* FIXME: window title変えたいけどViewつくるほどじゃない
             var d = new Date();
-            win.document.title = Util.zP(2, d.getHours()) + ':' + Util.zP(2, d.getMinutes());
+            win.title = Util.zP(2, d.getHours()) + ':' + Util.zP(2, d.getMinutes());
+            */
         },options);
     };
     OpenShipsStatus.prototype._getCoordsAndSize = function(dataURI) {
