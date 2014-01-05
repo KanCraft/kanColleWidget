@@ -17,8 +17,8 @@ var KanColleWidget = KanColleWidget || {};
             var params = [
                 "top="  + String(parseInt(widget.position.top) - 230),//なんだこの数字
                 "left=" + widget.position.left,// + widget.size.outerWidth,
-                "width=174",
-                "height=203"
+                "height="+ String(parseInt(widget.size.innerHeight) * 7/12),
+                "width=" + String(parseInt(widget.size.innerHeight) * 1/2)
             ];
             var url = chrome.extension.getURL('/') + 'src/html/ships_status.html';
             url += "?imgURI=" + trimmedURI;
