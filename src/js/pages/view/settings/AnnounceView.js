@@ -33,7 +33,7 @@ var widgetPages = widgetPages || {};
     // ここを変える
     AnnounceView.version = 14;
     AnnounceView.announcements = [
-        "v0.8.0.0",//productversion
+        "v0.8.0.1",//productversion
         "(先日、はじめて夕雲を迎えました)",
         "(その日のうちに轟沈させてしまいました)",
         "(泣きながら実装しました)",
