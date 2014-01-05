@@ -4,6 +4,9 @@ var KanColleWidget = KanColleWidget || {};
     var SortieBattleAction = KanColleWidget.SortieBattleAction = function(){
     };
     SortieBattleAction.prototype.forResult = function(){
+
+        if (! Config.get('show-ships-status')) return;
+
         var process = new KanColleWidget.Process.OpenShipsStatus();
         setTimeout(function(){
             process.open();

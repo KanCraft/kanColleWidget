@@ -34,7 +34,8 @@ $(function(){
     );
 
     $("#others").append(
-        (new widgetPages.ClockmodeStyleView()).render()
+        (new widgetPages.ClockmodeStyleView()).render(),
+        (new widgetPages.ShowShipsStatusView()).render()
     );
 });
 function renderAnnounce(){
