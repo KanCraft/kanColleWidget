@@ -10,7 +10,7 @@ var KanColleWidget = KanColleWidget || {};
         var process = new KanColleWidget.Process.OpenShipsStatus();
         setTimeout(function(){
             process.open();
-        },3200);
-        // 3600 NG ギリギリ
+        },3000);
+        // 3200 でもギリの時があった
     };
 })();
