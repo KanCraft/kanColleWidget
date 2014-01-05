@@ -48,7 +48,9 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2013/12/31 v0.7.5.0<!--version-->
+- 2014/01/05 v0.8.0.0<!--version-->
+    - 大破進撃を防止する設定を追加
+- 2013/12/31 v0.7.5.0
     - 音声ファイル設定UIの改善
     - 一部環境でFlashの描画が止まる問題のお知らせ
     - お正月だし艦娘！
