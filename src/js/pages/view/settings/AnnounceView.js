@@ -31,11 +31,12 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 13;
+    AnnounceView.version = 14;
     AnnounceView.announcements = [
-        "v0.7.5.0",//productversion
-        "音声ファイル設定UIの改善",
-        "一部環境でFlashの描画が止まる問題のお知らせ",
-        "お正月だし艦娘！"
+        "v0.8.0.1",//productversion
+        "(先日、はじめて夕雲を迎えました)",
+        "(その日のうちに轟沈させてしまいました)",
+        "(泣きながら実装しました)",
+        "大破進撃を防止する設定を追加"
     ];
 })();

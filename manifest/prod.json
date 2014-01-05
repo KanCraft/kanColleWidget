@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "0.7.5.0",
+    "version": "0.8.0.1",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -27,6 +27,7 @@
             "src/js/Util.js",
             "src/js/Constants.js",
             "src/js/definitions/process/DetectTime.js",
+            "src/js/definitions/process/OpenShipsStatus.js",
             "src/js/definitions/models/Stash.js",
             "src/js/definitions/models/server/ServerBase.js",
             "src/js/definitions/models/server/LogServer.js",
@@ -49,6 +50,7 @@
             "src/js/definitions/Observer.js",
             "src/js/definitions/actions/ActionBase.js",
             "src/js/definitions/actions/Map.js",
+            "src/js/definitions/actions/SortieBattle.js",
             "src/js/definitions/actions/Nyukyo.js",
             "src/js/definitions/actions/Kousyou.js",
             "src/js/definitions/actions/Kaisou.js",

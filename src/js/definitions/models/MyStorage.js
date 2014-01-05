@@ -82,6 +82,7 @@ MyStorage.prototype.tearDown = function(){
         'display-maintenance-info'           : false,
         'clockmode-style'                    : 1,
         'timer-format-remained-time'         : false,
+        'show-ships-status'                  : false,
         'sort-by-finishtime'                 : false
     },
 

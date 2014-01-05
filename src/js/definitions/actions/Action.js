@@ -11,6 +11,7 @@ var KanColleWidget = KanColleWidget || {};
         this.kousyouAction = new KanColleWidget.KousyouAction();
         this.nyukyoAction = new KanColleWidget.NyukyoAction();
         this.questAction = new KanColleWidget.QuestAction();
+        this.sortieBattleAction = new KanColleWidget.SortieBattleAction();
     };
     Action.prototype.forMissionStart = function(params){
         this.missionAction.forStart(params);
@@ -38,6 +39,9 @@ var KanColleWidget = KanColleWidget || {};
     };
     Action.prototype.forMapPreparation = function(){
         this.mapAction.forPreparation();
+    };
+    Action.prototype.forMapNext = function(){
+        this.mapAction.forNext();
     };
     Action.prototype.forHokyuCharge = function(params){
         this.hokyuAction.forCharge(params);
@@ -83,5 +87,8 @@ var KanColleWidget = KanColleWidget || {};
     };
     Action.prototype.forQuestStop = function(params){
         this.questAction.forStop(params);
+    };
+    Action.prototype.forSortieBattleResult = function(){
+        this.sortieBattleAction.forResult();
     };
 })();

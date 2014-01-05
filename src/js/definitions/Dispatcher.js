@@ -37,6 +37,9 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_map/start':
                 this.action.forMapStart(this.params);
                 break;
+            case 'api_req_map/next':
+                this.action.forMapNext();
+                break;
             case 'api_auth_member/logincheck':
                 // 出撃が終了したとする。どの艦隊が出撃中かはStashを参考のこと
                 this.action.forMapEnd(this.params);
@@ -154,6 +157,8 @@ var KanColleWidget = KanColleWidget || {};
                 }
                 action.forKousyouPreparation();
             },300);
+        } else if (this.requestSequence[0] === 'api_req_sortie/battleresult') {
+            this.action.forSortieBattleResult();
         }
     };
 })();
