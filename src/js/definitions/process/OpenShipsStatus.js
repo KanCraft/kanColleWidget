@@ -7,7 +7,7 @@ var KanColleWidget = KanColleWidget || {};
     var OpenShipsStatus = Process.OpenShipsStatus = function() {};
 
     OpenShipsStatus.prototype.open = function() {
-        var options = {format:'jpeg', quality:10};
+        var options = {format:'jpeg'};
         var self = this;
         Util.getWidgetWindowCapture(function(dataURI){
             var c_s = self._getCoordsAndSize(dataURI);
@@ -20,10 +20,10 @@ var KanColleWidget = KanColleWidget || {};
                 "width=174",
                 "height=203"
             ];
-            //KanColleWidget.Stash.statusWindow = window.open(trimmedURI,"_blank", params.join(","));
             var url = chrome.extension.getURL('/') + 'src/html/ships_status.html';
             url += "?imgURI=" + trimmedURI;
             KanColleWidget.Stash.statusWindow = window.open(url,"_blank", params.join(","));
+            Util.adjustSizeOfWindowsOS(KanColleWidget.Stash.statusWindow);
         },options);
     };
     OpenShipsStatus.prototype._getCoordsAndSize = function(dataURI) {
