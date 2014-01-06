@@ -12,13 +12,12 @@ var KanColleWidget = KanColleWidget || {};
         Util.getWidgetWindowCapture(function(dataURI){
             var c_s = self._getCoordsAndSize(dataURI);
             var trimmedURI = Util.trimImage(dataURI, c_s.coords, c_s.size);
-            // Viewにしたほうがいいかな？
-            var widget = Tracking.get('widget');
+            var statusWindow = Tracking.get('statusWindow');
             var params = [
-                "top="  + String(parseInt(widget.position.top) - 230),//なんだこの数字
-                "left=" + widget.position.left,// + widget.size.outerWidth,
-                "height="+ String(parseInt(widget.size.innerHeight) * 7/12),
-                "width=" + String(parseInt(widget.size.innerHeight) * 1/2)
+                "top="  + statusWindow.position.top,
+                "left=" + statusWindow.position.left,
+                "height="+ String(c_s.size.height/2),
+                "width=" + String(c_s.size.width/2)
             ];
             var url = chrome.extension.getURL('/') + 'src/html/ships_status.html';
             url += "?imgURI=" + trimmedURI;

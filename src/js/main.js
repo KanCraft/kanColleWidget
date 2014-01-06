@@ -50,6 +50,13 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'statusWindowPositionTracking'){
+            var statusWindowInfo = Tracking.get('statusWindow');
+            statusWindowInfo.position = message.position;
+            Tracking.set('statusWindow',statusWindowInfo);
+            return;
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);
