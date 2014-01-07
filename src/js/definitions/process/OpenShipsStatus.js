@@ -13,11 +13,12 @@ var KanColleWidget = KanColleWidget || {};
             var c_s = self._getCoordsAndSize(dataURI);
             var trimmedURI = Util.trimImage(dataURI, c_s.coords, c_s.size);
             var statusWindow = Tracking.get('statusWindow');
+            var widget =       Tracking.get('widget');
             var params = [
                 "top="  + statusWindow.position.top,
                 "left=" + statusWindow.position.left,
-                "height="+ String(c_s.size.height/2),
-                "width=" + String(c_s.size.width/2)
+                "height="+ String(parseInt(widget.size.innerHeight) * 7/12),
+                "width=" + String(parseInt(widget.size.innerHeight) * 1/2)
             ];
             var url = chrome.extension.getURL('/') + 'src/html/ships_status.html';
             url += "?imgURI=" + trimmedURI;
