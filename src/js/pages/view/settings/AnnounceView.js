@@ -33,8 +33,7 @@ var widgetPages = widgetPages || {};
     // ここを変える
     AnnounceView.version = 15;
     AnnounceView.announcements = [
-        "v0.8.2.0",//productversion
-        "(大破進撃を防止する設定において)",
-        "艦娘状態窓の前回位置を記憶する修正"
+        "v0.8.2.1",//productversion
+        "Windowsでの艦娘状態窓の見切れを修正"
     ];
 })();
