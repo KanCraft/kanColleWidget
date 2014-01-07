@@ -31,12 +31,10 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 14;
+    AnnounceView.version = 15;
     AnnounceView.announcements = [
-        "v0.8.0.1",//productversion
-        "(先日、はじめて夕雲を迎えました)",
-        "(その日のうちに轟沈させてしまいました)",
-        "(泣きながら実装しました)",
-        "大破進撃を防止する設定を追加"
+        "v0.8.2.0",//productversion
+        "(大破進撃を防止する設定において)",
+        "艦娘状態窓の前回位置を記憶する修正"
     ];
 })();

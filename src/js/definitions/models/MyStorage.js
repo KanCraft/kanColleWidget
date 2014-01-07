@@ -137,6 +137,12 @@ MyStorage.prototype.tearDown = function(){
         nyukyo : {
             hour   :  1,
             minute : 30
+        },
+        statusWindow : {
+            position: {
+                left : 50,
+                top  : 50
+            }
         }
     },
 
