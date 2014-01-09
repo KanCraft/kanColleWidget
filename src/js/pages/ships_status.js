@@ -6,6 +6,10 @@ $(function(){
     var d = new Date();
     $('title').text(Util.zP(2, d.getHours()) + ":" + Util.zP(2, d.getMinutes()));
 
+    $('body').on('click', function(e){
+        Util.focusKCWidgetWindow();
+    });
+
     setInterval(function(){
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',
