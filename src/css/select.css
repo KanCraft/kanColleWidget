@@ -17,7 +17,7 @@ html {
 body {
     margin: 0;
     padding: 8px;
-    background-color: rgba(240,240,240,0.7);
+    background-color: rgba(240,240,240,0.6);
 }
 div#main {
     overflow: auto;
