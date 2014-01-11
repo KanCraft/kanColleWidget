@@ -31,9 +31,10 @@ var widgetPages = widgetPages || {};
         $("#announce").hide();
     };
     // ここを変える
-    AnnounceView.version = 15;
+    AnnounceView.version = 16;
     AnnounceView.announcements = [
-        "v0.8.2.1",//productversion
-        "Windowsでの艦娘状態窓の見切れを修正"
+        "v0.8.3.0",//productversion
+        "艦娘状態窓をクリックするとウィジェットにフォーカスする変更",
+        "ポップアップ背景画像をちょっと見やすく修正"
     ];
 })();
