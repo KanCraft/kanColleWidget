@@ -54,11 +54,8 @@ get_ver_in_manifest(){
   echo `grep version manifest/prod.json | grep -v manifest_version | tr -d " " | sed s/\"version\":\"//`
   # echo `grep version manifest/test.json | grep -v manifest_version | tr -d " "`
 }
-get_ver_in_settings(){
-  echo `grep version src/html/settings.html   | sed -e 's/<[^>]*>//g' | tr -d " "`
-}
-get_ver_in_announce(){
-  echo `grep version src/js/pages/view/settings/AnnounceView.js | grep productversion | tr -d "\"productversion"`
+get_ver_in_constants(){
+  echo `grep version src/js/Constants.js | sed -E "s/version:\ \"v([^\]+)\"/\1/g"`
 }
 get_ver_in_README(){
   echo `grep version README.md | sed -E "s/.*v(.*)<!--version-->$/\1/g"`
@@ -66,8 +63,7 @@ get_ver_in_README(){
 version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
-  echo "settings.html\t"`get_ver_in_settings`
-  echo "Announce.js\t"`get_ver_in_announce`
+  echo "Constants.js\t"`get_ver_in_constants`
   echo "README.md\t"`get_ver_in_README`
   echo "\nTEST\t\t"`get_ver_in_test`
 }
