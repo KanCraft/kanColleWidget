@@ -11,10 +11,12 @@ var KanColleWidget = KanColleWidget || {};
 
         if(typeof this.finish != 'number') this.finish = (new Date(this.finish)).getTime();
 
-        var notifyOffset = Config.get('notification-offset-millisec');
-        var finish = this.finish - notifyOffset;
+        if (this.kind.match(/createship/) == null) {
+            var notifyOffset = Config.get('notification-offset-millisec');
+            this.finish = this.finish - notifyOffset;
+        }
 
-        return (finish < now);
+        return (this.finish < now);
     };
     /**
      * 終了時間を取得する
