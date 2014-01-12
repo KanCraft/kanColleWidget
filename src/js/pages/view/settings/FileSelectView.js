@@ -197,6 +197,12 @@ var widgetPages = widgetPages || {};
         {
             label:"建造完了",inputName:"notification-sound-createship-finish-file",
             kind:"createship-finish",accept:"audio/mp3,audio/wav,audio/ogg,audio/m4a"
+        },
+        {
+            // 疲労回復のこと
+            // sortieにしちゃってるけどイベント名がsortieだから仕方ない.
+            label:"疲労回復",inputName:"notification-sound-sortie-finish-file",
+            kind:"sortie-finish",accept:"audio/mp3,audio/wav,audio/ogg,audio/m4a"
         }
     ];
     var notificationImageFile = {
