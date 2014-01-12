@@ -48,7 +48,10 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2014/01/09 v0.8.3.0<!--version-->
+- 2014/01/12 v0.8.4.0<!--version-->
+    - クロックモードからリマインダ解除に対するUIを改善
+    - 簡易疲労回復通知の通知音声個別設定を追加
+- 2014/01/09 v0.8.3.0
     - 艦娘状態窓をクリックするとウィジェットにフォーカスする変更
     - ポップアップ背景画像をちょっと見やすく修正
 - 2014/01/07 v0.8.2.0, v0.8.2.1
