@@ -81,18 +81,30 @@ var widgetPages = widgetPages || {};
     ManualTimerView.prototype.registerReminder = function(self){
         var inputs = {hour: $('#input-hour').val(), minute:$('#input-minute').val()};
         if (! self.validate(inputs)) return self.showAlert('oh... フォーマット違う');
-        var finish = Calc.convert2Epoch(inputs);
-        self.model.add(self.identifier, finish);
-        self.tracking.set(this.modelName, inputs);
-        var message = Util.zP(2,inputs.hour) + ':' + Util.zP(2, inputs.minute)
-            + "で" + self.purpose
-            + "完了通知を登録しときました!";
-        Util.presentation(message,{
-            // ここでjsが死ぬんだよな多分
-            callback : function(){ setTimeout(window.close, 100); },
+
+        var notificationMessage = '';
+        var notificationOptions = {
+            callback:function(){setTimeout(window.close, 100); },
             startOrFinish: 'start',
-            sound: false
-        });
+            sound: {kind: self.kind}
+        };
+        if (self.isResetAction(inputs)) {
+            self.model.clear(self.identifier);
+            notificationMessage = "リマインダーを解除しました!";
+            notificationOptions.startOrFinish = 'finish';
+            notificationOptions.sound = false;
+        } else {
+            var finish = Calc.convert2Epoch(inputs);
+            self.model.add(self.identifier, finish);
+            self.tracking.set(self.modelName, inputs);
+            notificationMessage = Util.zP(2,inputs.hour) + ':' + Util.zP(2, inputs.minute)
+                + "で" + self.purpose
+                + "完了通知を登録しときました!";
+        }
+        Util.presentation(
+            notificationMessage,
+            notificationOptions
+        );
     };
     ManualTimerView.prototype.cancel = function(){
         window.close();
@@ -104,6 +116,11 @@ var widgetPages = widgetPages || {};
     };
     ManualTimerView.prototype.showAlert = function(message){
         window.alert(message);
+    };
+    ManualTimerView.prototype.isResetAction = function(inputTime){
+        var actual = parseInt(inputTime.hour) + parseInt(inputTime.minute);
+        if (parseInt(actual) === 0) return true;
+        return false;
     };
 
     // 以下テンプレート
