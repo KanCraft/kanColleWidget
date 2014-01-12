@@ -24,7 +24,7 @@ var widgetPages = widgetPages || {};
         if (this.isSelectPage) return this.$el;
 
         var self = this;
-        this.$el.find('time').hover(
+        this.$el.find('a').hover(
             function(ev){
                 if($('.alt-time').length > 0) $('.alt-time').remove();
                 self.alt = self['showAlternatives'](ev,self);
