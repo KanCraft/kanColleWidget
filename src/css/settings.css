@@ -79,6 +79,7 @@ div#announce {
     padding: 10px;
     border-radius: 10px;
     color: white;
+    box-shadow: -2px 3px 7px #555;
 }
 #announce-done {
     position: absolute;
