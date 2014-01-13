@@ -35,13 +35,14 @@ var widgetPages = widgetPages || {};
 
     // {{{ SoundFileSelectListView
     var SoundFileSelectListView = widgetPages.SoundFileSelectListView = function(){
-        this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
+        this.tpl = '<tr><td>{{title}}<br><span class="description xsmall">{{description}}</span></td><td id="file-selects"></td></tr>';
     };
     SoundFileSelectListView.prototype = Object.create(widgetPages.View.prototype);
     SoundFileSelectListView.prototype.create = SoundFileSelectListView;
     SoundFileSelectListView.prototype.render = function(){
         this.apply({
-            title : "通知時音設定"
+            title : "通知時音設定",
+            description : "設定が即時反映されないときはブラウザキャッシュを削除して再起動してみてください"
         })._render();
         this.$el.find('#file-selects').append($.map(soundFileList, function(file){
             return FileSelectViewBase.createFromParam(file).render();
