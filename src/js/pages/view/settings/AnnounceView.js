@@ -20,7 +20,7 @@ var widgetPages = widgetPages || {};
     AnnounceView.prototype.render = function() {
         this.apply()._render();
         var htmlstr = '';
-        var announcements = [Constants.release.version];
+        var announcements = ['<a href="'+Constants.release.link+'" class="light">' + Constants.release.version + '</a>'];
         announcements = announcements.concat(Constants.release.announcements);
         for (var i in announcements) {
             htmlstr += '<li>' + announcements[i] + '</li>';
