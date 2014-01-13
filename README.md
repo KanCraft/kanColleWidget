@@ -48,7 +48,7 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2014/01/13 v0.8.5.1<!--version-->
+- 2014/01/13 v0.8.5.2<!--version-->
     - クロックモードからリマインダ解除に対するUIを改善
     - 簡易疲労回復通知の通知音声個別設定を追加
     - 建造完了だけは時間ぴったりに通知する
