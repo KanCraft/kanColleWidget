@@ -35,11 +35,23 @@ var KanColleWidget = KanColleWidget || {};
 
         if(!Config.get('notification-on-reminder-finish')) return;
 
-        Util.presentation(this.prefix + this.primaryId + this.suffix, {
+        var message = '';
+        message += this.getHeaderMess();
+        message += this.prefix + this.primaryId + this.suffix;
+        message += this.getFooterMess();
+        Util.presentation(message, {
             startOrFinish: 'finish',
             sound: {
                 kind: this.kind
             }
         });
+    };
+    // もし通知に追加の文言を加えたい場合は
+    // これをoverrideして独自実装する
+    SoloEventBase.prototype.getHeaderMess = function() {
+        return "";
+    };
+    SoloEventBase.prototype.getFooterMess = function() {
+        return "";
     };
 })();
