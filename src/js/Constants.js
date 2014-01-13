@@ -1,7 +1,7 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.5.0",
+        version: "v0.8.5.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/309',
         announceVersion : 18,
         announcements   : [
@@ -11,6 +11,7 @@ var Constants = {
             "クロックモードのhover改善",
             "遠征帰投通知に【遠征名】を追加",
             "時間取得中の妖精さんを追加",
+            "遠征完了通知オフだと任務実績集計されていなかったバグを修正",
             "------------------------------------------",
             "なお、進撃防止の艦娘状態窓は、ウィジェット窓でのプレー以外ではキャプチャ座標がズレます。",
             "また、あんまり知られてないですが、進撃選択or母港帰投時に自動で消えるようになってます。"
