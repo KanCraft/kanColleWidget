@@ -25,7 +25,8 @@ var KanColleWidget = KanColleWidget || {};
             'mission-start',     // 遠征行った
             'mission-finish',    // 戻ってきたぞ
             'createship-start',  // 建造開始
-            'createship-finish'  // ﾅｶﾁｬﾝﾀﾞﾖｰ
+            'createship-finish', // ﾅｶﾁｬﾝﾀﾞﾖｰ
+            'sortie-finish'      // 疲労回復
         ];
     };
 

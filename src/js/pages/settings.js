@@ -10,6 +10,7 @@ $(function(){
         Config.set(key, $(this).val());
     });
 
+    $('td#version').html(Constants.release.version);
     renderAnnounce();
 
     $("#reminder-notifications").append(
@@ -40,7 +41,7 @@ $(function(){
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
-    if (widgetPages.AnnounceView.version <= Config.get("announce-already-read")) return;
+    if (Constants.release.announceVersion <= Config.get("announce-already-read")) return;
 
     $("#announce").append(
         (new widgetPages.AnnounceView(Config)).render()

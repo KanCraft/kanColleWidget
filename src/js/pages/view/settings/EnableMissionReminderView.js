@@ -7,7 +7,7 @@ var widgetPages = widgetPages || {};
 
     var EnableMissionReminderView = widgetPages.EnableMissionReminderView = function(){
         this.inputName = 'enable-mission-reminder';
-        this.title = "遠征リマインダー登録を有効にする";
+        this.title = "遠征完了通知を使う";
     };
     EnableMissionReminderView.prototype = Object.create(widgetPages.SettingCheckboxView.prototype);
     EnableMissionReminderView.prototype.constructor = EnableMissionReminderView;

@@ -139,7 +139,7 @@ function _toggleArea(e, sw){
     affectTracking();
     prepareForScreenShot();
 
-    if (widgetPages.AnnounceView.version > Config.get("announce-already-read")) {
+    if (Constants.release.announceVersion > Config.get("announce-already-read")) {
         $('#new-arrival').append("アップデート有り");
     }
 

@@ -11,6 +11,8 @@ var KanColleWidget = KanColleWidget || {};
 
     MissionAction.prototype.forStart = function(params){
 
+        this.achievements.update().incrementMissionCount();
+
         if (Config.get("enable-mission-reminder") === false) return;
 
         var mission = Constants.mission[params.api_mission_id[0]];
@@ -25,7 +27,6 @@ var KanColleWidget = KanColleWidget || {};
         var optionalInfo = {title: mission.title};
 
         this.missions.add(params.api_deck_id[0], finish, optionalInfo);
-        this.achievements.update().incrementMissionCount();
 
         if(!Config.get('notification-on-reminder-set')) return;
 

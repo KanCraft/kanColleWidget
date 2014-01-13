@@ -1,6 +1,7 @@
 var KanColleWidget = KanColleWidget || {};
 (function(){
     var SoloMission = KanColleWidget.SoloMission = function(missionJson){
+        this.title     = (missionJson.info) ? missionJson.info.title : '登録なし(´･ω･`)';
         this.primaryId = missionJson.deck_id;
         this.finish    = missionJson.finish;
         this.prefix    = Constants.notification.mission.end_prefix;
@@ -9,4 +10,8 @@ var KanColleWidget = KanColleWidget || {};
     }
     SoloMission.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloMission.prototype.constructor = KanColleWidget.SoloMission;
+    SoloMission.prototype.getFooterMess = function() {
+        var mess = "【" + this.title + "】";
+        return "\n" + mess;
+    };
 })();

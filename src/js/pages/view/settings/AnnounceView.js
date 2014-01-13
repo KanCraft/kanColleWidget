@@ -20,21 +20,16 @@ var widgetPages = widgetPages || {};
     AnnounceView.prototype.render = function() {
         this.apply()._render();
         var htmlstr = '';
-        for (var i in AnnounceView.announcements) {
-            htmlstr += '<li>' + AnnounceView.announcements[i] + '</li>';
+        var announcements = ['<a href="'+Constants.release.link+'" class="light">' + Constants.release.version + '</a>'];
+        announcements = announcements.concat(Constants.release.announcements);
+        for (var i in announcements) {
+            htmlstr += '<li>' + announcements[i] + '</li>';
         };
         this.$el.find('ul').append(htmlstr);
         return this.$el;
     };
     AnnounceView.prototype.doneAnnounce = function(ev, self){
-        self.config.set("announce-already-read", AnnounceView.version);
+        self.config.set("announce-already-read", Constants.release.announceVersion);
         $("#announce").hide();
     };
-    // ここを変える
-    AnnounceView.version = 16;
-    AnnounceView.announcements = [
-        "v0.8.3.0",//productversion
-        "艦娘状態窓をクリックするとウィジェットにフォーカスする変更",
-        "ポップアップ背景画像をちょっと見やすく修正"
-    ];
 })();
