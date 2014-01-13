@@ -53,7 +53,7 @@ MyStorage.prototype.tearDown = function(){
         'badge-left-time'                    : true,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
-        //'enable-dynamic-reminder'          : false, //Obsolete!!
+        'enable-dynamic-reminder'            : false,
         'popup-select-title'                 : '',
         'notification-img-file'              : '',
         'notification-sound-file'            : '',
@@ -74,7 +74,7 @@ MyStorage.prototype.tearDown = function(){
         'download-on-screenshot'             : false,
         'notification-stay-visible'          : '',
         'enable-mission-reminder'            : true,
-        'dynamic-reminder-type'              : 1,// 常に手動
+        'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
         'share-kousyo-result'                : false,
         'tiredness-recovery-minutes'         : 0,
