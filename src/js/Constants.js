@@ -238,7 +238,7 @@ var Constants = {
                     {url:'src/img/loader/017.jpg',title:'天山'},
                     {url:'src/img/loader/018.jpg',title:'流星'},
                     {url:'src/img/loader/019.jpg',title:'九六式艦戦'},
-                    {url:'src/img/loader/020.jpg',title:'零式艦戦24型'},
+                    {url:'src/img/loader/020.jpg',title:'零式艦戦21型'},
                     //-----------021~030
                     {url:'src/img/loader/021.jpg',title:'零式艦戦52型'},
                     {url:'src/img/loader/022.jpg',title:'烈風'},
