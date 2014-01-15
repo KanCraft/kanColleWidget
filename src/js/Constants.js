@@ -1,20 +1,12 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.5.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/309',
-        announceVersion : 18,
+        version: "v0.8.5.3",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/318',
+        announceVersion : 19,
         announcements   : [
-            "クロックモードからリマインダ解除に対するUIを改善",
-            "簡易疲労回復通知の通知音声個別設定を追加",
-            "建造完了だけは時間ぴったりに通知する",
-            "クロックモードのhover改善",
-            "遠征帰投通知に【遠征名】を追加",
-            "時間取得中の妖精さんを追加",
-            "遠征完了通知オフだと任務実績集計されていなかったバグを修正",
-            "------------------------------------------",
-            "なお、進撃防止の艦娘状態窓は、ウィジェット窓でのプレー以外ではキャプチャ座標がズレます。",
-            "また、あんまり知られてないですが、進撃選択or母港帰投時に自動で消えるようになってます。"
+            "任務名の誤りを修正",
+            "妖精さん名の誤りを修正"
         ]
     },
     mission : {
@@ -23,14 +15,14 @@ var Constants = {
         "3"   : {minute:20,   title: '警備任務'},
         "4"   : {minute:50,   title: '対潜警戒任務'},
         "5"   : {minute:90,   title: '海上護衛任務'},
-        "6"   : {minute:40,   title: '防空護衛任務'},
+        "6"   : {minute:40,   title: '防空射撃演習'},
         "7"   : {minute:60,   title: '観艦式予行'},
         "8"   : {minute:180,  title: '観艦式'},
         "9"   : {minute:240,  title: 'タンカー護衛任務'},
         "10"  : {minute:90,   title: '強行偵察任務'},
         "11"  : {minute:300,  title: 'ボーキサイト輸送任務'},
         "12"  : {minute:480,  title: '資源輸送任務'},
-        "13"  : {minute:240,  title: '鼠輸送任務'},
+        "13"  : {minute:240,  title: '鼠輸送作戦'},
         "14"  : {minute:360,  title: '包囲陸戦隊撤収作戦'},
         "15"  : {minute:720,  title: '囮機動部隊支援作戦'},
         "16"  : {minute:900,  title: '艦隊決戦援護作戦'},
@@ -238,7 +230,7 @@ var Constants = {
                     {url:'src/img/loader/017.jpg',title:'天山'},
                     {url:'src/img/loader/018.jpg',title:'流星'},
                     {url:'src/img/loader/019.jpg',title:'九六式艦戦'},
-                    {url:'src/img/loader/020.jpg',title:'零式艦戦24型'},
+                    {url:'src/img/loader/020.jpg',title:'零式艦戦21型'},
                     //-----------021~030
                     {url:'src/img/loader/021.jpg',title:'零式艦戦52型'},
                     {url:'src/img/loader/022.jpg',title:'烈風'},
