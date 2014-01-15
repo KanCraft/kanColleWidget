@@ -1,12 +1,13 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.5.3",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/318',
-        announceVersion : 19,
+        version: "v0.8.5.5",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/320',
+        announceVersion : 20,
         announcements   : [
-            "任務名の誤りを修正",
-            "妖精さん名の誤りを修正"
+            "\"ページ応答なし\"っていうのが超出る問題について",
+            '<a href="https://twitter.com/otiai10/status/423428857966784513" class="light">【艦これウィジェットが】"ページ応答なし"【息してない】</a>',
+            "根本解決になってないけど、とりあえず原因はこれっぽい"
         ]
     },
     mission : {
