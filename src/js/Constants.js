@@ -1,20 +1,12 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.5.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/309',
-        announceVersion : 18,
+        version: "v0.8.5.3",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/318',
+        announceVersion : 19,
         announcements   : [
-            "クロックモードからリマインダ解除に対するUIを改善",
-            "簡易疲労回復通知の通知音声個別設定を追加",
-            "建造完了だけは時間ぴったりに通知する",
-            "クロックモードのhover改善",
-            "遠征帰投通知に【遠征名】を追加",
-            "時間取得中の妖精さんを追加",
-            "遠征完了通知オフだと任務実績集計されていなかったバグを修正",
-            "------------------------------------------",
-            "なお、進撃防止の艦娘状態窓は、ウィジェット窓でのプレー以外ではキャプチャ座標がズレます。",
-            "また、あんまり知られてないですが、進撃選択or母港帰投時に自動で消えるようになってます。"
+            "任務名の誤りを修正",
+            "妖精さん名の誤りを修正"
         ]
     },
     mission : {
