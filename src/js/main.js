@@ -57,6 +57,16 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'getConfig'){
+            var res = {};
+            if(message.configKey) {
+                res = Config.get(message.configKey) || null;
+            } else {
+                res = Config.getJSON();
+            }
+            return sendResponse(res);
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);
