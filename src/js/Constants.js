@@ -1,13 +1,18 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.5.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/320',
-        announceVersion : 20,
+        version: "v0.8.6.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/321',
+        announceVersion : 21,
         announcements   : [
             "\"ページ応答なし\"っていうのが超出る問題について",
-            '<a href="https://twitter.com/otiai10/status/423428857966784513" class="light">【艦これウィジェットが】"ページ応答なし"【息してない】</a>',
-            "根本解決になってないけど、とりあえず原因はこれっぽい"
+            "<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>問題のまとめ</a>",
+            "原因は、Chrome自体のバグでした",
+            "Windows Vista以上、Chrome 32 において本来スクロールバーが表示される右端と下端をクリックまたはマウスオーバーすると、「ページ応答なし」のダイアログが出る事があります",
+            "この領域をクリックしないように、わざと画面に余計なスペースを入れる設定を追加しました",
+            "必要な場合は有効にしてください",
+            "-----",
+            "Chromeが嫌いになりました"
         ]
     },
     mission : {
