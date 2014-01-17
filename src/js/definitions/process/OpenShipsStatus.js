@@ -30,16 +30,34 @@ var KanColleWidget = KanColleWidget || {};
         var img = new Image();
         img.src = dataURI;
 
+        var blank = this._getBlank(img.width, img.height);
+
         var coordsAndSize = {
             coords : {
-                left : img.width  * (1/5),
-                top  : img.height * (3/8)
+                left : (img.width - blank.width)  * (1/5) + blank.left,
+                top  : (img.height - blank.height) * (3/8) + blank.top
             },
             size : {
-                width : img.width  * (3/10),
-                height: img.height * (7/12)
+                width : (img.width - blank.width)  * (3/10),
+                height: (img.height - blank.height) * (7/12)
             }
         };
         return coordsAndSize;
+    };
+
+    // とりあえずここでやるぞ！
+    // 余黒対応
+    OpenShipsStatus.prototype._getBlank = function(width, height) {
+        var screen = {width:width, height:height};
+        var aspect = 0.6;
+        var blank = {top:0, left:0, height:0, width:0};
+        if (screen.height / screen.width < aspect) {
+            blank.width = screen.width - (screen.height / aspect);
+            blank.left = blank.width / 2;
+        } else {
+            blank.height = screen.height - (screen.width * aspect);
+            blank.top = blank.height / 2;
+        }
+        return blank; 
     };
 })();
