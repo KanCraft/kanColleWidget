@@ -48,7 +48,9 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2014/01/16 v0.8.5.5<!--version-->
+- 2014/01/17 v0.8.6.1<!--version-->
+    - Chrome32のWindowsにおけるファッキンバグを回避する設定を追加
+- 2014/01/16 v0.8.5.5
     - "ページ応答なし"っていうのが超出る問題について
     - (お知らせだけ更新)
 - 2014/01/15 v0.8.5.3

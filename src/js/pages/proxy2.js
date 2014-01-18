@@ -60,6 +60,24 @@ $(function() {
         $embedElement.css('top', '50%');
         $embedElement.css('left', '50%');
 
+        // Chrome32しねよまじで
+        chrome.runtime.sendMessage({
+            purpose  : 'getConfig',
+            configKey: 'fuckin-chrome-bug'
+        },function(fuckinChromeBug){
+            if (fuckinChromeBug) {
+                // ちょっと高くする
+                var fuckinHeight = 32;
+                window.resizeTo(
+                    window.outerWidth,
+                    window.outerHeight + fuckinHeight
+                );
+                var div = document.createElement('div');
+                div.setAttribute('style','position:absolute;bottom:0;left:0;width:100%;height:16px;background-color:#aaa;');
+                $('body').append(div);
+            }
+        });
+
         /**
          * ウィンドウがリサイズされた時、アスペクト比を維持しつついい感じに追随するように
          */
