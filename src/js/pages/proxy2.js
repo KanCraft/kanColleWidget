@@ -72,9 +72,27 @@ $(function() {
                     window.outerWidth,
                     window.outerHeight + fuckinHeight
                 );
-                var div = document.createElement('div');
-                div.setAttribute('style','position:absolute;bottom:0;left:0;width:100%;height:16px;background-color:#aaa;');
-                $('body').append(div);
+                var defaultBarCss = {
+                    position: 'absolute', bottom: '0',left: '0',
+                    width:'100%',height:'16px',backgroundColor:'transparent',
+                    fontWeight:'bold',color:'#fff',
+                    cursor:'no-drop',wordWrap:'break-word'
+                };
+                var $bottomBar = $('<div></div>').css(defaultBarCss).addClass('fuckin-chrome-bug');
+                delete defaultBarCss.left;
+                defaultBarCss.right  = '0';
+                defaultBarCss.width  = '16px';
+                defaultBarCss.height = '100%';
+                var $rightBar = $('<div></div>').css(defaultBarCss).addClass('fuckin-chrome-bug');
+                $('body').append($bottomBar, $rightBar);
+                $('head').append('<style> .fuck{ background-color: #f00; }</style>');
+                $('.fuckin-chrome-bug').hover(function(){
+                    $(this).addClass('fuck');
+                    $(this).text('DO NOT CLICK HERE');
+                },function(){
+                    $(this).removeClass('fuck');
+                    $(this).text('');
+                });
             }
         });
 

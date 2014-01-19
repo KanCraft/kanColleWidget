@@ -266,6 +266,7 @@ var Util = Util || {};
 
         chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
             if(Config.get('capture-destination-size') === true){
+                dataUrl = Util.removeBlackBlank(dataUrl);
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
@@ -314,6 +315,31 @@ var Util = Util || {};
             default:
                 return d.toLocaleDateString();
         }
+    };
+
+    /**
+     * 画面全体のURIを渡すと、余黒を取り除いたURIを返す
+     * @param dataURI
+     * @returns {string|*}
+     */
+    Util.removeBlackBlank = function(dataURI) {
+        var img = new Image();
+        img.src = dataURI;
+        // 余黒を取り除く
+        var blank = Util.getBlank(img.width, img.height);
+
+        var trimmedURI = Util.trimImage(
+            dataURI,
+            {
+                left: blank.offsetLeft,
+                top : blank.offsetTop
+            },
+            {
+                width: img.width - blank.width,
+                height: (img.width - blank.width) * 0.6
+            }
+        );
+        return trimmedURI;
     };
 
     /**
@@ -612,6 +638,13 @@ var Util = Util || {};
 
     // TODO: DRY
     // @see src/js/process/DetectTime.js
+    /**
+     * @param dataURI
+     * @param coords
+     * @param size
+     * @param opt
+     * @returns {string}
+     */
     Util.trimImage = function(dataURI, coords, size, opt){
         var opt = opt || {format:'jpeg'};
         var img = new Image();
@@ -642,5 +675,28 @@ var Util = Util || {};
         }).convert();
         */
         return 'data:image/'+ opt.format +';base64,' + btoa(canvas);
+    };
+
+    /**
+     * 現在のスクリーンサイズを渡すと、余黒の大きさと、
+     * ターゲットまでのオフセットを返す
+     * @param width
+     * @param height
+     * @returns {{offsetTop: number, offsetLeft: number, height: number, width: number}}
+     */
+    Util.getBlank = function(width, height) {
+        var screen = {width:width, height:height};
+        var aspect = 0.6;
+        var blank = {
+            offsetTop:0, offsetLeft:0,
+            height:0, width:0};
+        if (screen.height / screen.width < aspect) {
+            blank.width = screen.width - (screen.height / aspect);
+            blank.offsetLeft = blank.width / 2;
+        } else {
+            blank.height = screen.height - (screen.width * aspect);
+            blank.offsetTop = blank.height / 2;
+        }
+        return blank;
     };
 })();
