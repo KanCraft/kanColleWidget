@@ -76,6 +76,7 @@ $(function() {
                     position: 'absolute', bottom: '0',left: '0',
                     width:'100%',height:'16px',backgroundColor:'transparent',
                     fontWeight:'bold',color:'#fff',
+                    textShadow:'0 0 2px #000',
                     cursor:'no-drop',wordWrap:'break-word'
                 };
                 var $bottomBar = $('<div></div>').css(defaultBarCss).addClass('fuckin-chrome-bug');
@@ -88,10 +89,20 @@ $(function() {
                 $('head').append('<style> .fuck{ background-color: #f00; }</style>');
                 $('.fuckin-chrome-bug').hover(function(){
                     $(this).addClass('fuck');
-                    $(this).text('DO NOT CLICK HERE');
+                    $(this).text('クリックすると例のエラー出ます');
                 },function(){
                     $(this).removeClass('fuck');
                     $(this).text('');
+                });
+                $('.fuckin-chrome-bug').on('click',function(){
+                    var mess = "【艦これウィジェット】【Chromeバグ回避設定によるアラート】\n"
+                             + "お使いのPCが\n"
+                             + "- Windows Vista以上\n"
+                             + "- Chrome 32\n"
+                             + "であれば、約30秒後に「ページ応答なし」ダイアログが出ます。\n"
+                             + "これはChrome32が仕込みやがったバグです。詳しくは、設定欄にあるリンクを見てください。\n\n"
+                             + "(´-`).｡ｏO( Chromeさん... )";
+                    alert(mess);
                 });
             }
         });

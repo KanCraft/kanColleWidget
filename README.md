@@ -48,7 +48,9 @@ https://github.com/otiai10/kanColleWidget
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
 # リリースノート（ながいので注意 :smiling_imp: ）
-- 2014/01/19 v0.8.6.2<!--version-->
+- 2014/01/21 v0.8.6.3<!--version-->
+    - Chrome32のバグを回避する設定の改善
+- 2014/01/19 v0.8.6.2
     - Chrome32のバグを回避する設定の改善
     - スクショ結果に余黒領域を含めない修正
 - 2014/01/17 v0.8.6.1
