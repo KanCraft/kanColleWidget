@@ -1,6 +1,7 @@
 canvas {
     border: thin solid black;
+    cursor: pointer;
 }
 canvas:active {
-    cursor: pointer;
+    cursor: default;
 }
