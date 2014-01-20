@@ -1,3 +1,6 @@
 canvas {
     border: thin solid black;
 }
+canvas:active {
+    cursor: pointer;
+}
