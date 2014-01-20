@@ -6,9 +6,10 @@ var widgetPages = widgetPages || {};
         +'<div>'
         +'    <canvas id="canvas" width="600" height="480"></canvas>'
         +'</div>'
-        +'    <div>'
+        +'<div>'
+        +'    <small id="filename">{{fileName}}</samll><br>'
         +'    <input type="submit" id="download" value="ダウンロード"/>'
-        +'    <small>ファイル名は設定から変更可能です</small>'
+        +'    <small>ファイル名は設定から変更可能です</small><a id="download-anchor" download="{{fileName}}" href=""></a>'
         +'</div>';
         this.events = {
             'click #download': 'downloadCurrentImage'
@@ -18,7 +19,9 @@ var widgetPages = widgetPages || {};
     CaptureView.prototype = Object.create(widgetPages.View.prototype);
     CaptureView.prototype.constructor = CaptureView;
     CaptureView.prototype.render = function(){
-        this.apply()._render();
+        this.apply({
+            fileName: Util.getCaptureFilename()
+        })._render();
         this.imgURI = Util.parseQueryString()['uri'];
         return this.$el;
     };
@@ -27,6 +30,8 @@ var widgetPages = widgetPages || {};
         this.canvasApp.listen();
     };
     CaptureView.prototype.downloadCurrentImage = function(ev, self) {
-        console.log(ev,self);
+        var format = 'image/' + Config.get('capture-image-format');
+        $('a#download-anchor').attr('href', this.canvasApp.toDataURL(format))
+        $('a#download-anchor')[0].click();
     };
 })();

@@ -5,7 +5,5 @@ $(function(){
         view.render()
     );
     view.startApp();
-
-    $('title').text(Util.getCaptureFilename());
-
+    $('title').text(Util.getFormattedDateString());
 });

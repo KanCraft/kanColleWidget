@@ -98,4 +98,7 @@ var KanColleWidget = KanColleWidget || {};
             end.y - start.y
         );
     };
+    Canvas.prototype.toDataURL = function(format) {
+        return this.canvas.toDataURL(format);
+    };
 })();
