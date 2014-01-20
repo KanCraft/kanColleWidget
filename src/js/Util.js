@@ -272,10 +272,14 @@ var Util = Util || {};
 
             var imgTitle = Util.getCaptureFilename();
 
-            var win = window.open();
+            var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
+            pageURL += '?uri=' + dataUrl;
+            var win = window.open(pageURL);
+            /*
             var view = new widgetPages.CaptureView(dataUrl);
             $(win.document.body).append(view.render());
             win.document.title = Util.getCaptureFilename();
+            */
 
             // メソッド切り分けしない
             if(Config.get('download-on-screenshot')){
