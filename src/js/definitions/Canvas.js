@@ -10,6 +10,10 @@ var KanColleWidget = KanColleWidget || {};
         this.isMouseDown = false;
         this.start = null;
         this.end   = null;
+
+        this.storedImageData = null;
+
+        this.method = {};// Interface DrawingMethod
     };
     Canvas.initWithURI = function(imgURI, opt) {
         opt = opt || {};
@@ -20,6 +24,16 @@ var KanColleWidget = KanColleWidget || {};
         _self.canvas.setAttribute('height', _img.height);
         _self.context.drawImage(_img, 0, 0);
         return _self;
+    };
+    Canvas.Rect = {
+        draw : function(cntxt, start, end){
+            cntxt.fillRect(
+                start.x,
+                start.y,
+                end.x - start.x,
+                end.y - start.y
+            );
+        }
     };
     Canvas.prototype.init = function() {
         this.start = null;
@@ -49,54 +63,52 @@ var KanColleWidget = KanColleWidget || {};
         });
     };
     Canvas.prototype.update = function(ev, self) {
+
+        // 押下していない場合は終了する
         if (! self.isMouseDown) return;
-        self.updateRect(ev, self);
-    };
-    Canvas.prototype.updateRect = function(ev, self) {
-        // cancel by former record
-        self.cancelRect(self.start, self.end);
-        // record new
-        self.end = {
-            x: ev.offsetX,
-            y: ev.offsetY
-        };
-        self.drawRect(self.start, self.end);
+
+        // 保存した最初の状態に復帰
+        self.context.putImageData(self.storedImageData,0,0);
+
+        // 終点座標の更新
+        self.end = {x: ev.offsetX, y: ev.offsetY};
+
+        // 描画
+        self.method.draw(self.context, self.start, self.end);
     };
     Canvas.prototype.startDrawing = function(ev, self) {
+
+        // 色の保存
+        var opt = opt || {color:'rgba(37,37,37,1)'};
+        self.context.fillStyle = opt.color;
+
+        // メソッドの指定
+        self.method = Canvas.Rect;
+
+        // 今の状態を保存
+        self.storedImageData = self.context.getImageData(0,0,self.canvas.width,self.canvas.height);
+
+        // マウス押下状態を記憶
         self.isMouseDown = true;
-        self.start = {
-            x: ev.offsetX,
-            y: ev.offsetY
-        };
+
+        // 始点を記憶
+        self.start = {x: ev.offsetX,y: ev.offsetY};
     };
     Canvas.prototype.finishDrawing = function(ev, self) {
+
+        // アクション開始時に記憶した状態の破棄
+        self.storedImageData = null;
+
         self.isMouseDown = false;
-        if (self.start == null) return;
-        self.end = {
-            x: ev.offsetX,
-            y: ev.offsetY
-        };
-        self.drawRect(self.start, self.end);
+
+        // 終点座標を確定
+        self.end = {x: ev.offsetX,y: ev.offsetY};
+
+        // 描画
+        self.method.draw(self.context, self.start, self.end);
+
+        // 初期化
         self.init();
-    };
-    Canvas.prototype.drawRect = function(start, end, opt) {
-        opt = opt || {color:'rgba(37,37,37,1)'};
-        this.context.fillStyle = opt.color;
-        this.context.fillRect(
-            start.x,
-            start.y,
-            end.x - start.x,
-            end.y - start.y
-        );
-    };
-    Canvas.prototype.cancelRect = function(start, end, opt) {
-        if (start == null || end == null) return;
-        this.context.clearRect(
-            start.x,
-            start.y,
-            end.x - start.x,
-            end.y - start.y
-        );
     };
     Canvas.prototype.toDataURL = function(format) {
         return this.canvas.toDataURL(format);
