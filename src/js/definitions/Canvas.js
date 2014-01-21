@@ -52,6 +52,27 @@ var KanColleWidget = KanColleWidget || {};
             );
         }
     };
+    Canvas.Curve = {
+        _prot : function(ev, self) {
+            // プロットする
+            self.context.beginPath();
+            self.context.arc(
+                ev.offsetX,
+                ev.offsetY,
+                5,
+                0,2*Math.PI
+            );
+            self.context.fill();
+        },
+        onStart : function(ev, self){
+            Canvas.Curve._prot(ev,self);
+        },
+        onMove : function(ev, self){
+            Canvas.Curve._prot(ev,self);
+        },
+        onFinish : function(ev, self){
+        }
+    };
     Canvas.prototype.init = function() {
         this.start = null;
         this.end   = null;
