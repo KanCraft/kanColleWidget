@@ -113,7 +113,8 @@ var KanColleWidget = KanColleWidget || {};
         var toolName = $(':radio[name="draw-tool"]:checked').val();
         self.tool = Canvas[toolName];
         // 色の保存
-        var opt = opt || {color:'rgba(37,37,37,1)'};
+        var color = document.getElementById('color').value;
+        var opt = {color: color};
         self.context.fillStyle = opt.color;
         // 開始
         self.tool.onStart(ev, self);

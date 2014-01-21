@@ -13,19 +13,24 @@ var widgetPages = widgetPages || {};
     PaintToolView.prototype.render = function(){
         this.apply()._render();
         this.renderList();
+        this.renderColorPicker();
         return this.$el;
     };
     PaintToolView.prototype.renderList = function(){
         for (var i in PaintToolView.toolList) {
             var tool = PaintToolView.toolList[i];
-            var $span = $('<label class="tool-picker clickable"></label>');
+            var $label = $('<label class="tool-picker clickable tool-config"></label>');
             var $radio = $('<input type="radio" name="draw-tool">');
             $radio.attr({value: tool.name});
             if (tool.checked) $radio.attr({checked:true});
             var $img = $('<img>').attr({src: tool.icon});
 
-            this.$el.find('#tool-form').append($span.append($radio, $img));
+            this.$el.find('#tool-form').append($label.append($radio, $img));
         };
+    };
+    PaintToolView.prototype.renderColorPicker = function(){
+        var $input = $('<label><input type="color" name="color" id="color" value="#252525"></label>').addClass('tool-config');
+        this.$el.find('#tool-form').append($input);
     };
     PaintToolView.toolList = [
         {name:'Rect',icon:'../img/square.png',checked:true},
