@@ -15,3 +15,6 @@ ul#tool-list>ul {
 ul#tool-list>ul.selected {
     opacity: 1;
 }
+.clickable {
+    cursor: pointer;
+}
