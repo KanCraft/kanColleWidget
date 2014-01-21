@@ -13,7 +13,7 @@ var KanColleWidget = KanColleWidget || {};
 
         this.storedImageData = null;
 
-        this.method = {};// Interface DrawingMethod
+        this.tool = {};// Interface DrawingMethod
     };
     Canvas.initWithURI = function(imgURI, opt) {
         opt = opt || {};
@@ -74,7 +74,7 @@ var KanColleWidget = KanColleWidget || {};
         self.end = {x: ev.offsetX, y: ev.offsetY};
 
         // 描画
-        self.method.draw(self.context, self.start, self.end);
+        self.tool.draw(self.context, self.start, self.end);
     };
     Canvas.prototype.startDrawing = function(ev, self) {
 
@@ -83,7 +83,7 @@ var KanColleWidget = KanColleWidget || {};
         self.context.fillStyle = opt.color;
 
         // メソッドの指定
-        self.method = Canvas.Rect;
+        self.tool = Canvas.Rect;
 
         // 今の状態を保存
         self.storedImageData = self.context.getImageData(0,0,self.canvas.width,self.canvas.height);
@@ -105,7 +105,7 @@ var KanColleWidget = KanColleWidget || {};
         self.end = {x: ev.offsetX,y: ev.offsetY};
 
         // 描画
-        self.method.draw(self.context, self.start, self.end);
+        self.tool.draw(self.context, self.start, self.end);
 
         // 初期化
         self.init();
