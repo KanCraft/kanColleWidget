@@ -5,3 +5,13 @@ canvas {
 canvas:active {
     cursor: default;
 }
+ul#tool-list {
+    list-style: none;
+    padding: 0;
+}
+ul#tool-list>ul {
+    opacity: 0.5;
+}
+ul#tool-list>ul.selected {
+    opacity: 1;
+}
