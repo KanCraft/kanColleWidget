@@ -23,7 +23,7 @@ var widgetPages = widgetPages || {};
             var $radio = $('<input type="radio" name="draw-tool">');
             $radio.attr({value: tool.name});
             if (tool.checked) $radio.attr({checked:true});
-            var $img = $('<img>').attr({src: tool.icon});
+            var $img = $('<img>').attr({src: "../img/capture/" + tool.name + ".png"});
 
             this.$el.find('#tool-form').append($label.append($radio, $img));
         };
@@ -33,8 +33,8 @@ var widgetPages = widgetPages || {};
         this.$el.find('#tool-form').append($input);
     };
     PaintToolView.toolList = [
-        {name:'Rect',icon:'../img/square.png',checked:true},
-        {name:'Curve',icon:'../img/pencil.png'}
+        {name:'Rect',checked:true},
+        {name:'Curve'}
     ];
     var CaptureView = widgetPages.CaptureView = function(){
         this.toolView = new PaintToolView();
