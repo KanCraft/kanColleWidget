@@ -11,6 +11,7 @@ var KanColleWidget = KanColleWidget || {};
         this.start = null;
         this.end   = null;
 
+        // TODO: これをスタックにして、複数Undoできるようにする
         this.storedImageData = null;
 
         this.tool = {};// Interface DrawingMethod
@@ -27,8 +28,6 @@ var KanColleWidget = KanColleWidget || {};
     };
     Canvas.Rect = {
         onStart: function(ev, self){
-            // 今の状態を保存
-            self.storedImageData = self.context.getImageData(0,0,self.canvas.width,self.canvas.height);
 
             // 始点を記憶
             self.start = {x: ev.offsetX,y: ev.offsetY};
@@ -81,6 +80,22 @@ var KanColleWidget = KanColleWidget || {};
         this.delegateMouseMove();
         this.delegateMouseDown();
         this.delegateMouseUp();
+        this.delegateActionButton();
+    };
+    Canvas.prototype.delegateActionButton = function() {
+        // ひどい設計だなこれ
+        var self = this;
+        $('.paint-action').on('click',function(ev){
+            var action = $(ev.currentTarget).attr('action');
+            self[action](ev);
+        });
+    };
+    Canvas.prototype.Undo = function() {
+        this.context.putImageData(this.storedImageData,0,0);
+    };
+    Canvas.prototype.Reset = function() {
+        // とりあえずこの実装でも問題無いと思う
+        location.reload();
     };
     Canvas.prototype.delegateMouseMove = function() {
         var self = this;
@@ -107,6 +122,8 @@ var KanColleWidget = KanColleWidget || {};
         self.tool.onMove(ev, self);
     };
     Canvas.prototype.startDrawing = function(ev, self) {
+        // アクション開始時の状態を保存
+        self.storedImageData = self.context.getImageData(0,0,self.canvas.width,self.canvas.height);
         // マウス押下状態を記憶
         self.isMouseDown = true;
         // メソッドの指定
@@ -120,8 +137,6 @@ var KanColleWidget = KanColleWidget || {};
         self.tool.onStart(ev, self);
     };
     Canvas.prototype.finishDrawing = function(ev, self) {
-        // アクション開始時に記憶した状態の破棄
-        self.storedImageData = null;
         // 押下を開放
         self.isMouseDown = false;
         // 終了

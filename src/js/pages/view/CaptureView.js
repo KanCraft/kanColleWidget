@@ -11,12 +11,17 @@ var widgetPages = widgetPages || {};
             {name:'Rect',checked:true},
             {name:'Curve'}
         ];
+        this.actionList = [
+            {name: 'Undo'},
+            {name: 'Reset'}
+        ];
     };
     Util.extend(PaintToolView, widgetPages.View);
     PaintToolView.prototype.render = function(){
         this.apply()._render();
         this.renderList();
         this.renderColorPicker();
+        this.renderActions();
         return this.$el;
     };
     PaintToolView.prototype.renderList = function(){
@@ -30,6 +35,14 @@ var widgetPages = widgetPages || {};
 
             this.$el.find('#tool-form').append($label.append($radio, $img));
         };
+    };
+    PaintToolView.prototype.renderActions = function() {
+        var str = '';
+        for (var i in this.actionList) {
+            var action = this.actionList[i];
+            str += '<label class="paint-action" action="'+action.name+'"><img src="../img/capture/'+action.name+'.png"></label>';
+        }
+        this.$el.find('#tool-form').append(str);
     };
     PaintToolView.prototype.renderColorPicker = function(){
         var $input = $('<label><input type="color" name="color" id="color" value="#252525"></label>').addClass('tool-config');
@@ -60,7 +73,9 @@ var widgetPages = widgetPages || {};
         this.apply({
             fileName: Util.getCaptureFilename()
         })._render();
-        this.$el.find('#tools').append(this.toolView.render());
+        this.$el.find('#tools').append(
+            this.toolView.render()
+        );
         this.imgURI = Util.parseQueryString()['uri'];
         return this.$el;
     };
