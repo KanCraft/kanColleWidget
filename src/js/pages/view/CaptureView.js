@@ -7,6 +7,10 @@ var widgetPages = widgetPages || {};
         + '  <form name="tools" id="tool-form">'
         + '  </form>'
         + '</div>';
+        this.list = [
+            {name:'Rect',checked:true},
+            {name:'Curve'}
+        ];
     };
     PaintToolView.prototype = Object.create(widgetPages.View.prototype);
     PaintToolView.prototype.constructor = PaintToolView;
@@ -17,8 +21,8 @@ var widgetPages = widgetPages || {};
         return this.$el;
     };
     PaintToolView.prototype.renderList = function(){
-        for (var i in PaintToolView.toolList) {
-            var tool = PaintToolView.toolList[i];
+        for (var i in this.list) {
+            var tool = this.list[i];
             var $label = $('<label class="tool-picker clickable tool-config"></label>');
             var $radio = $('<input type="radio" name="draw-tool">');
             $radio.attr({value: tool.name});
@@ -32,10 +36,6 @@ var widgetPages = widgetPages || {};
         var $input = $('<label><input type="color" name="color" id="color" value="#252525"></label>').addClass('tool-config');
         this.$el.find('#tool-form').append($input);
     };
-    PaintToolView.toolList = [
-        {name:'Rect',checked:true},
-        {name:'Curve'}
-    ];
     var CaptureView = widgetPages.CaptureView = function(){
         this.toolView = new PaintToolView();
         this.tpl = ''
