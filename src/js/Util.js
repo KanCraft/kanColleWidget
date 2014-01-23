@@ -703,4 +703,9 @@ var Util = Util || {};
         }
         return blank;
     };
+    Util.extend = function(_sub, _super) {
+        _sub.prototype = Object.create(_super.prototype);
+        _sub.prototype.constructor = _super;
+        return _sub;
+    };
 })();

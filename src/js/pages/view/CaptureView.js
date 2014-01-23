@@ -12,8 +12,7 @@ var widgetPages = widgetPages || {};
             {name:'Curve'}
         ];
     };
-    PaintToolView.prototype = Object.create(widgetPages.View.prototype);
-    PaintToolView.prototype.constructor = PaintToolView;
+    Util.extend(PaintToolView, widgetPages.View);
     PaintToolView.prototype.render = function(){
         this.apply()._render();
         this.renderList();
@@ -56,8 +55,7 @@ var widgetPages = widgetPages || {};
         };
         this.canvasApp = null;
     };
-    CaptureView.prototype = Object.create(widgetPages.View.prototype);
-    CaptureView.prototype.constructor = CaptureView;
+    Util.extend(CaptureView, widgetPages.View);
     CaptureView.prototype.render = function(){
         this.apply({
             fileName: Util.getCaptureFilename()
