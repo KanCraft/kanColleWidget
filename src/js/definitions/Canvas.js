@@ -11,8 +11,10 @@ var KanColleWidget = KanColleWidget || {};
         this.start = null;
         this.end   = null;
 
-        // TODO: これをスタックにして、複数Undoできるようにする
+        // Rectなど、onMoveで復帰しなきゃならんやつのために必要
         this.storedImageData = null;
+        // Undoのために必要
+        this.imageStack = [];
 
         this.tool = {};// Interface DrawingMethod
     };
@@ -81,6 +83,8 @@ var KanColleWidget = KanColleWidget || {};
         this.delegateMouseDown();
         this.delegateMouseUp();
         this.delegateActionButton();
+
+        this.pushStack();
         this.storedImageData = this.context.getImageData(0,0,this.canvas.width,this.canvas.height);
     };
     Canvas.prototype.delegateActionButton = function() {
@@ -92,7 +96,7 @@ var KanColleWidget = KanColleWidget || {};
         });
     };
     Canvas.prototype.Undo = function() {
-        this.context.putImageData(this.storedImageData,0,0);
+        this.popStack();
     };
     Canvas.prototype.Reset = function() {
         // とりあえずこの実装でも問題無いと思う
@@ -124,7 +128,9 @@ var KanColleWidget = KanColleWidget || {};
     };
     Canvas.prototype.startDrawing = function(ev, self) {
         // アクション開始時の状態を保存
+        self.pushStack();
         self.storedImageData = self.context.getImageData(0,0,self.canvas.width,self.canvas.height);
+
         // マウス押下状態を記憶
         self.isMouseDown = true;
         // メソッドの指定
@@ -138,6 +144,8 @@ var KanColleWidget = KanColleWidget || {};
         self.tool.onStart(ev, self);
     };
     Canvas.prototype.finishDrawing = function(ev, self) {
+        // RectなどのUIのために保存した状態を解放
+        self.storedImageData = null;
         // 押下を開放
         self.isMouseDown = false;
         // 終了
@@ -147,5 +155,15 @@ var KanColleWidget = KanColleWidget || {};
     };
     Canvas.prototype.toDataURL = function(format) {
         return this.canvas.toDataURL(format);
+    };
+    Canvas.prototype.pushStack = function() {
+        this.imageStack.push(
+            this.context.getImageData(0,0,this.canvas.width,this.canvas.height)
+        );
+    };
+    Canvas.prototype.popStack = function() {
+        if (this.imageStack.length == 0) return;
+        var nearestImageData = this.imageStack.pop();
+        this.context.putImageData(nearestImageData,0,0);
     };
 })();
