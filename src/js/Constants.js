@@ -1,23 +1,11 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.8.6.3",
+        version: "v0.9.0.1",
         link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 22,
+        announceVersion : 23,
         announcements   : [
-            "\"ページ応答なし\"というChrome32のバグ <a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>問題のまとめ</a>",
-            "原因は、Chrome自体のバグでした",
-            "Windows Vista以上、Chrome 32 において本来スクロールバーが表示される右端と下端をクリックまたはマウスオーバーすると、「ページ応答なし」のダイアログが出る事があります",
-            "この領域をクリックしないように、わざと画面に余計なスペースを入れる設定を追加しました",
-            "<b>必要な場合は有効にしてください</b>",
-            "-----",
-            "v0.8.6.2の変更点",
-            "上記のバグ回避の設定を改善",
-            "スクショ結果に余黒領域を含めない修正",
-            "-----",
-            "v0.8.6.3の変更点",
-            "上記のバグ回避の設定を改善",
-            "「DO NOT CLICK HERE」と書いたら「これ、バグでは？」という意見が多かったので、もうちょっと説明的な感じにしました"
+            "キャプチャ画面で編集機能を追加"
         ]
     },
     mission : {

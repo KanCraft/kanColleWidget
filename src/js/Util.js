@@ -272,10 +272,14 @@ var Util = Util || {};
 
             var imgTitle = Util.getCaptureFilename();
 
-            var win = window.open();
+            var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
+            pageURL += '?uri=' + dataUrl;
+            var win = window.open(pageURL);
+            /*
             var view = new widgetPages.CaptureView(dataUrl);
             $(win.document.body).append(view.render());
             win.document.title = Util.getCaptureFilename();
+            */
 
             // メソッド切り分けしない
             if(Config.get('download-on-screenshot')){
@@ -698,5 +702,10 @@ var Util = Util || {};
             blank.offsetTop = blank.height / 2;
         }
         return blank;
+    };
+    Util.extend = function(_sub, _super) {
+        _sub.prototype = Object.create(_super.prototype);
+        _sub.prototype.constructor = _super;
+        return _sub;
     };
 })();
