@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # リリースノート（ながいので注意 :smiling_imp: ）
 - RELEASEINFO
-- 2014/01/XX v0.9.0.1<!--version-->
+- 2014/01/XX v0.9.0.2<!--version-->
     - キャプチャ画面で編集機能を追加
 - 2014/01/21 v0.8.6.3
     - Chrome32のバグを回避する設定の改善

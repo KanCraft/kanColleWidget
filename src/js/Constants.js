@@ -1,11 +1,13 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.0.1",
-        link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 23,
+        version: "v0.9.0.2",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/327',
+        announceVersion : 24,
         announcements   : [
-            "キャプチャ画面で編集機能を追加"
+            "キャプチャ画面で編集機能を追加",
+            "-----",
+            "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>"
         ]
     },
     mission : {
