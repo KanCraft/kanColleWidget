@@ -81,6 +81,7 @@ var KanColleWidget = KanColleWidget || {};
         this.delegateMouseDown();
         this.delegateMouseUp();
         this.delegateActionButton();
+        this.storedImageData = this.context.getImageData(0,0,this.canvas.width,this.canvas.height);
     };
     Canvas.prototype.delegateActionButton = function() {
         // ひどい設計だなこれ
