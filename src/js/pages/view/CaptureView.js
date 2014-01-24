@@ -31,7 +31,7 @@ var widgetPages = widgetPages || {};
             var $radio = $('<input type="radio" name="draw-tool">');
             $radio.attr({value: tool.name});
             if (tool.checked) $radio.attr({checked:true});
-            var $img = $('<img>').attr({src: "../img/capture/" + tool.name + ".png"});
+            var $img = $('<img>').attr({src: "../img/capture/" + tool.name + ".png",title:tool.name});
 
             this.$el.find('#tool-form').append($label.append($radio, $img));
         };
@@ -40,7 +40,7 @@ var widgetPages = widgetPages || {};
         var str = '';
         for (var i in this.actionList) {
             var action = this.actionList[i];
-            str += '<label class="paint-action" action="'+action.name+'"><img src="../img/capture/'+action.name+'.png"></label>';
+            str += '<label class="paint-action clickable" action="'+action.name+'"><img src="../img/capture/'+action.name+'.png" title="'+action.name+'"></label>';
         }
         this.$el.find('#tool-form').append(str);
     };
@@ -59,8 +59,8 @@ var widgetPages = widgetPages || {};
         +'  </div>'
         +'  <div>'
         +'    <small id="filename">{{fileName}}</samll><br>'
-        +'    <input type="submit" id="download" value="ダウンロード"/>'
-        +'    <small>ファイル名は設定から変更可能です</small><a id="download-anchor" download="{{fileName}}" href=""></a>'
+        +'    <label><img id="download" src="../img/capture/download.png" title="Download" class="clickable"></label><br>'
+        +'    <a id="download-anchor" download="{{fileName}}" href=""></a>'
         +'  </div>'
         +'</div>';
         this.events = {
