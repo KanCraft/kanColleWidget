@@ -1,0 +1,24 @@
+canvas {
+    border: thin solid black;
+    cursor: pointer;
+}
+canvas:active {
+    cursor: default;
+}
+ul#tool-list {
+    list-style: none;
+    padding: 0;
+}
+ul#tool-list>ul {
+    opacity: 0.5;
+}
+ul#tool-list>ul.selected {
+    opacity: 1;
+}
+.clickable {
+    cursor: pointer;
+}
+/* .tool-config {*/
+label {
+    margin-right: 20px;
+}
