@@ -64,6 +64,7 @@ ul {
 #main-clock-wrapper {
     text-align: center;
     height: 100px;
+    overflow: hidden;
 }
 #main-clock-wrapper>span {
     font-size: 5em;
