@@ -43,16 +43,8 @@ var KanColleWidget = KanColleWidget || {};
         }
 
         if(message.purpose == 'download'){
-            var fileFullPath = message.data.dir;
-            fileFullPath += '/' + message.data.file;
-            // main.jsでこんな野蛮なことしないでください！
-            fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
-            chrome.downloads.download({
-                url: message.data.url,
-                filename: fileFullPath
-            },function(a,b,c){
-                //console.log('in callback', a, b, c);
-            });
+            Util.downloadImage(null, message.data);
+            return;
         }
 
         if(message.purpose == 'positionTracking'){

@@ -272,24 +272,33 @@ var Util = Util || {};
 
             var imgTitle = Util.getCaptureFilenameFull();
 
+            // メソッド切り分けしない
+            if(Config.get('download-on-screenshot')){
+                Util.downloadImage(dataUrl);
+                return;
+            }
+
             var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
             pageURL += '?uri=' + dataUrl;
             var win = window.open(pageURL);
-            /*
-            var view = new widgetPages.CaptureView(dataUrl);
-            $(win.document.body).append(view.render());
-            win.document.title = Util.getCaptureFilenameFull();
-            */
-
-            // メソッド切り分けしない
-            if(Config.get('download-on-screenshot')){
-                var a = win.document.createElement('a');
-                a.href = dataUrl;
-                a.download = imgTitle;
-                a.click();
-            }
 
             doneCallback(dataUrl);
+        });
+    };
+    Util.downloadImage = function(url, data) {
+        var data = data || {
+            dir: Config.get('capture-image-download-dir'),
+            file: Util.getCaptureFilename(),
+            url: url
+        };
+        var fileFullPath = data.dir;
+        fileFullPath += '/' + data.file;
+        fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
+        chrome.downloads.download({
+            url: data.url,
+            filename: fileFullPath
+        },function(a,b,c){
+            //console.log('in callback', a, b, c);
         });
     };
 
