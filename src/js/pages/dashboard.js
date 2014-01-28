@@ -50,12 +50,12 @@
         };
         chrome.runtime.sendMessage(null, mess);
     };
-    setInterval(sendDashboardTracking, 5000);
 
     setInterval(function(){
         mainClockView.update();
     }, 1000);
     setInterval(function(){
+        sendDashboardTracking();
         timersView.update();
         tirednessListView.update();
         if (questListView.haveUpdate()) questListView.update();
