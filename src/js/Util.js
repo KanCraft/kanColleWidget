@@ -708,4 +708,19 @@ var Util = Util || {};
         _sub.prototype.constructor = _super;
         return _sub;
     };
+
+    Util.openDashboard = function(){
+        // TODO: PageManagerみたいなの作って、chrome.windows使う
+        var dashboard = Tracking.get('dashboard');
+        var options = [
+            'width=' + dashboard.size.innerWidth,
+            'height='+ dashboard.size.innerHeight,
+            'left='  + dashboard.position.left,
+            'top='   + dashboard.position.top
+        ];
+        var fixedOptions = ',location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no';
+        var optionStr = options.join(',') + fixedOptions;
+        var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", optionStr);
+        Util.adjustSizeOfWindowsOS(dashboardWindow);
+    };
 })();

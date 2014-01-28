@@ -131,6 +131,16 @@ MyStorage.prototype.tearDown = function(){
                 width : 0
             }
         },
+        dashboard: {
+            position: {
+                left: 200,
+                top:  200
+            },
+            size : {
+                width:  420,
+                height: 250
+            }
+        },
         createship : {
             hour   :  1,
             minute : 30

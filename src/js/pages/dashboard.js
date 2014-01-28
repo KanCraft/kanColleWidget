@@ -34,6 +34,24 @@
         widgetPages.SideNaviView.adjustToSideNavi();
     }
 
+    var sendDashboardTracking = function(){
+        var mess = {
+            purpose: 'dashboardTracking',
+            position : {
+                top  : window.screenTop,
+                left : window.screenLeft
+            },
+            size : {
+                innerWidth  : window.innerWidth,
+                innerHeight : window.innerHeight,
+                outerWidth  : window.outerWidth,
+                outerHeight : window.outerHeight
+            }
+        };
+        chrome.runtime.sendMessage(null, mess);
+    };
+    setInterval(sendDashboardTracking, 5000);
+
     setInterval(function(){
         mainClockView.update();
     }, 1000);

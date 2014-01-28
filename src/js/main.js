@@ -50,6 +50,14 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'dashboardTracking'){
+            var dashboardInfo = Tracking.get('dashboard');
+            dashboardInfo.position = message.position;
+            dashboardInfo.size     = message.size;
+            Tracking.set('dashboard',dashboardInfo);
+            return;
+        }
+
         if(message.purpose == 'statusWindowPositionTracking'){
             var statusWindowInfo = Tracking.get('statusWindow');
             statusWindowInfo.position = message.position;
