@@ -76,7 +76,7 @@ var widgetPages = widgetPages || {};
             filename: Util.getCaptureFilenameFull(),
             file: Util.getCaptureFilename(),
             dir: Config.get('capture-image-download-dir'),
-            format: Config.get('capture-image-format')
+            format: Config.get('capture-image-format').replace('e','')
         })._render();
         this.$el.find('#tools').append(
             this.toolView.render()

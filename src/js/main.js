@@ -45,7 +45,8 @@ var KanColleWidget = KanColleWidget || {};
         if(message.purpose == 'download'){
             var fileFullPath = message.data.dir;
             fileFullPath += '/' + message.data.file;
-            fileFullPath += '.' + Config.get('capture-image-format');
+            // main.jsでこんな野蛮なことしないでください！
+            fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
             chrome.downloads.download({
                 url: message.data.url,
                 filename: fileFullPath
