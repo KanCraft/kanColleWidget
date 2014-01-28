@@ -42,6 +42,18 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'download'){
+            var fileFullPath = message.data.dir;
+            fileFullPath += '/' + message.data.file;
+            fileFullPath += '.' + Config.get('capture-image-format');
+            chrome.downloads.download({
+                url: message.data.url,
+                filename: fileFullPath
+            },function(a,b,c){
+                //console.log('in callback', a, b, c);
+            });
+        }
+
         if(message.purpose == 'positionTracking'){
             var widgetInfo = Tracking.get('widget');
             widgetInfo.position = message.position;

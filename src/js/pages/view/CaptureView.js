@@ -58,9 +58,11 @@ var widgetPages = widgetPages || {};
         +'    <canvas id="canvas" width="600" height="480"></canvas>'
         +'  </div>'
         +'  <div>'
-        +'    <small id="filename">{{fileName}}</samll><br>'
-        +'    <label><img id="download" src="../img/capture/download.png" title="Download" class="clickable"></label><br>'
-        +'    <a id="download-anchor" download="{{fileName}}" href=""></a>'
+        +'    <input type="text" id="_directory" value="{{dir}}" size="20">/<input type="text" id="_filename" value="{{file}}" size="40">.{{format}}<br>'
+        +'    <label><button tabindex="0" id="download" class="plain">'
+        +'      <img src="../img/capture/download.png" title="Download" class="clickable">'
+        +'    </button></label><br>'
+        +'    <a id="download-anchor" download="{{filename}}" href=""></a>'
         +'  </div>'
         +'</div>';
         this.events = {
@@ -71,7 +73,10 @@ var widgetPages = widgetPages || {};
     Util.extend(CaptureView, widgetPages.View);
     CaptureView.prototype.render = function(){
         this.apply({
-            fileName: Util.getCaptureFilename()
+            filename: Util.getCaptureFilenameFull(),
+            file: Util.getCaptureFilename(),
+            dir: Config.get('capture-image-download-dir'),
+            format: Config.get('capture-image-format')
         })._render();
         this.$el.find('#tools').append(
             this.toolView.render()
@@ -84,8 +89,20 @@ var widgetPages = widgetPages || {};
         this.canvasApp.listen();
     };
     CaptureView.prototype.downloadCurrentImage = function(ev, self) {
+        var filename = $('#_filename').val() || Util.getCaptureFilename();
+        var dirname = $('#_directory').val() || Config.get('capture-image-download-dir');
+        var ext = Config.get('capture-image-format');
+        $('a#download-anchor').attr('download', filename + '.' + ext);
         var format = 'image/' + Config.get('capture-image-format');
         $('a#download-anchor').attr('href', this.canvasApp.toDataURL(format))
-        $('a#download-anchor')[0].click();
+        chrome.runtime.sendMessage(null,{
+            purpose: 'download',
+            data: {
+                format: format,
+                file: filename,
+                dir: dirname,
+                url: this.canvasApp.toDataURL(format)
+            }
+        });
     };
 })();

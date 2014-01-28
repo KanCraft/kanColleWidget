@@ -270,7 +270,7 @@ var Util = Util || {};
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
-            var imgTitle = Util.getCaptureFilename();
+            var imgTitle = Util.getCaptureFilenameFull();
 
             var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
             pageURL += '?uri=' + dataUrl;
@@ -278,7 +278,7 @@ var Util = Util || {};
             /*
             var view = new widgetPages.CaptureView(dataUrl);
             $(win.document.body).append(view.render());
-            win.document.title = Util.getCaptureFilename();
+            win.document.title = Util.getCaptureFilenameFull();
             */
 
             // メソッド切り分けしない
@@ -293,11 +293,13 @@ var Util = Util || {};
         });
     };
 
+    Util.getCaptureFilenameFull = function(){
+        return Util.getCaptureFilename() + '.' + Config.get('capture-image-format');
+    };
     Util.getCaptureFilename = function(){
-        var ext = Config.get('capture-image-format');
         var prefix = Config.get('capture-image-filename-prefix');
         var time = Util.getTimeText('capture');
-        return prefix + '_' + time + '.' + ext;
+        return prefix + '_' + time;
     };
 
     Util.getTimeText = function(purpose){

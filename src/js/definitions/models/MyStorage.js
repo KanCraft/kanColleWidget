@@ -69,6 +69,7 @@ MyStorage.prototype.tearDown = function(){
         'capture-destination-size'           : true, // とりあえず今はbool
         'capture-image-format'               : 'jpeg',
         'capture-image-filename-prefix'      : 'kancolle',
+        'capture-image-download-dir'         : '艦これ',
         'launch-on-click-notification'       : true,
         'show-clockmode-button'              : true,
         'download-on-screenshot'             : false,
