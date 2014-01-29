@@ -58,7 +58,7 @@ var widgetPages = widgetPages || {};
         +'    <canvas id="canvas" width="600" height="480"></canvas>'
         +'  </div>'
         +'  <div>'
-        +'    <input type="text" id="_directory" value="{{dir}}" size="20">/<input type="text" id="_filename" value="{{file}}" size="40">.{{format}}<br>'
+        +'    <input type="text" id="_directory" value="{{dir}}" size="10">/<input type="text" id="_filename" value="{{file}}" size="40">.{{format}}<br>'
         +'    <label><button tabindex="0" id="download" class="plain">'
         +'      <img src="../img/capture/download.png" title="Download" class="clickable">'
         +'    </button></label><br>'
