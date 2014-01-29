@@ -42,11 +42,24 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'download'){
+            Util.downloadImage(null, message.data);
+            return;
+        }
+
         if(message.purpose == 'positionTracking'){
             var widgetInfo = Tracking.get('widget');
             widgetInfo.position = message.position;
             widgetInfo.size     = message.size;
             Tracking.set('widget',widgetInfo);
+            return;
+        }
+
+        if(message.purpose == 'dashboardTracking'){
+            var dashboardInfo = Tracking.get('dashboard');
+            dashboardInfo.position = message.position;
+            dashboardInfo.size     = message.size;
+            Tracking.set('dashboard',dashboardInfo);
             return;
         }
 

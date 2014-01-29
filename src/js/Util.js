@@ -270,34 +270,45 @@ var Util = Util || {};
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
-            var imgTitle = Util.getCaptureFilename();
+            var imgTitle = Util.getCaptureFilenameFull();
+
+            // メソッド切り分けしない
+            if(Config.get('download-on-screenshot')){
+                Util.downloadImage(dataUrl);
+                return;
+            }
 
             var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
             pageURL += '?uri=' + dataUrl;
             var win = window.open(pageURL);
-            /*
-            var view = new widgetPages.CaptureView(dataUrl);
-            $(win.document.body).append(view.render());
-            win.document.title = Util.getCaptureFilename();
-            */
-
-            // メソッド切り分けしない
-            if(Config.get('download-on-screenshot')){
-                var a = win.document.createElement('a');
-                a.href = dataUrl;
-                a.download = imgTitle;
-                a.click();
-            }
 
             doneCallback(dataUrl);
         });
     };
+    Util.downloadImage = function(url, data) {
+        var data = data || {
+            dir: Config.get('capture-image-download-dir'),
+            file: Util.getCaptureFilename(),
+            url: url
+        };
+        var fileFullPath = data.dir;
+        fileFullPath += '/' + data.file;
+        fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
+        chrome.downloads.download({
+            url: data.url,
+            filename: fileFullPath
+        },function(a,b,c){
+            //console.log('in callback', a, b, c);
+        });
+    };
 
+    Util.getCaptureFilenameFull = function(){
+        return Util.getCaptureFilename() + '.' + Config.get('capture-image-format');
+    };
     Util.getCaptureFilename = function(){
-        var ext = Config.get('capture-image-format');
         var prefix = Config.get('capture-image-filename-prefix');
         var time = Util.getTimeText('capture');
-        return prefix + '_' + time + '.' + ext;
+        return prefix + '_' + time;
     };
 
     Util.getTimeText = function(purpose){
@@ -707,5 +718,20 @@ var Util = Util || {};
         _sub.prototype = Object.create(_super.prototype);
         _sub.prototype.constructor = _super;
         return _sub;
+    };
+
+    Util.openDashboard = function(){
+        // TODO: PageManagerみたいなの作って、chrome.windows使う
+        var dashboard = Tracking.get('dashboard');
+        var options = [
+            'width=' + dashboard.size.innerWidth,
+            'height='+ dashboard.size.innerHeight,
+            'left='  + dashboard.position.left,
+            'top='   + dashboard.position.top
+        ];
+        var fixedOptions = ',location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no';
+        var optionStr = options.join(',') + fixedOptions;
+        var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", optionStr);
+        Util.adjustSizeOfWindowsOS(dashboardWindow);
     };
 })();

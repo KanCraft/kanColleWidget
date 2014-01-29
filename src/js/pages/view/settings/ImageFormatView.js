@@ -10,7 +10,7 @@ var widgetPages = widgetPages || {};
         this.title = "スクショの画像フォーマット";
         this.elements = [
             {value:'png'},
-            {value:'jpeg', title:'じぇーぺぐ'}
+            {value:'jpeg', title:'jpg'}
         ];
     };
     ImageFormatView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
