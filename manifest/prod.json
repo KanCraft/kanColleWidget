@@ -14,6 +14,7 @@
         "notifications",
         "webRequest",
         "unlimitedStorage",
+        "downloads",
         "*://*/*"
     ],
     "background" : {

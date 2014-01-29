@@ -42,6 +42,11 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'download'){
+            Util.downloadImage(null, message.data);
+            return;
+        }
+
         if(message.purpose == 'positionTracking'){
             var widgetInfo = Tracking.get('widget');
             widgetInfo.position = message.position;
