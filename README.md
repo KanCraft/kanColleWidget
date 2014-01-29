@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # リリースノート（ながいので注意 :smiling_imp: ）
 - RELEASEINFO
-- 2014/01/30 v0.9.2.0<!--version-->
+- 2014/01/30 v0.9.2.0, v0.9.2.1<!--version-->
     - クロックモードの表示バグ修正
     - クロックモードの前回窓サイズとか記憶
     - スクショダウンロードでフォルダ指定を追加
