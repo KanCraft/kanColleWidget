@@ -1,13 +1,18 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.0.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/327',
-        announceVersion : 24,
+        version: "v0.9.2.0",
+        link: 'https://github.com/otiai10/kanColleWidget/releases',
+        announceVersion : 25,
         announcements   : [
-            "キャプチャ画面で編集機能を追加",
+            'クロックモードの表示バグ修正',
+            'クロックモードの前回窓サイズとか記憶',
+            'スクショダウンロードでフォルダ指定を追加',
+            'スクショの拡張子を"jpeg"から"jpg"に変更',
             "-----",
-            "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>"
+            "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>",
+            'Chromeのアップデートで解決した模様です',
+            'お疲れさまでした　　_(:3」∠)_'
         ]
     },
     mission : {
