@@ -10,4 +10,5 @@ $(function(){
         var diffHeight = window.outerHeight - window.innerHeight;
         window.resizeTo(window.outerWidth + diffWidth, window.outerHeight + diffHeight);
     }
+    history.forward();
 });
