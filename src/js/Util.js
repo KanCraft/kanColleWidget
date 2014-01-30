@@ -734,4 +734,16 @@ var Util = Util || {};
         var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", optionStr);
         Util.adjustSizeOfWindowsOS(dashboardWindow);
     };
+
+    Util.openSafeMode = function(){
+        chrome.windows.create({
+            url: 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/',
+            width:  800,
+            height: 480,
+            left: 0,
+            top: 0,
+            type: 'popup'
+        },function(win){
+        });
+    };
 })();

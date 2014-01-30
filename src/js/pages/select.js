@@ -81,6 +81,9 @@ function _toggleArea(e, sw){
     affectPopupBackground();
 
     var this_select_window = window;
+    $('#launch-safely').on('click',function(){
+        Util.openSafeMode();
+    });
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
