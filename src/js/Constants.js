@@ -1,14 +1,17 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.2.1",
+        version: "v0.9.2.2",
         link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 25,
+        announceVersion : 26,
         announcements   : [
-            'クロックモードの表示バグ修正',
-            'クロックモードの前回窓サイズとか記憶',
-            'スクショダウンロードでフォルダ指定を追加',
-            'スクショの拡張子を"jpeg"から"jpg"に変更',
+            'セーフモードのプロトタイプを追加',
+            '（プロトタイプなので）',
+            '（Windowsで表示がずれるハズ）',
+            '（ウィジェット窓じゃないと動かない機能は動かないはず）',
+            '（その他不具合などあったらいろいろ教えてください）',
+            '（順次、デフォルトモードに機能を追いつけていきます）',
+            '（よろしくお願いします）',
             "-----",
             "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>",
             'Chromeのアップデートで解決した模様です',
