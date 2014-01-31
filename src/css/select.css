@@ -146,7 +146,7 @@ time {
     margin-left: 5px;
 }
 .bordered {
-    border: dashed #ff0000 1px;
+    border: dashed #aaa 1px;
     font-size: small;
     margin: 10px auto;
     opacity: 0.6;

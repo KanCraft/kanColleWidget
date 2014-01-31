@@ -6,7 +6,8 @@ var widgetPages = widgetPages || {};
     'use strict';
     var ShowOldLaunchView = widgetPages.ShowOldLaunchView = function(){
         this.inputName = 'show-old-launch';
-        this.title = "古い(非推奨の)LAUNCHボタンを表示する";
+        this.title = "古いLAUNCHボタンを表示する";
+        this.description = "従来の機能でも絶対に垢バンされない自信はありましたが、それでも信じられない方々にはスピリチュアルな絶対安全モード「WHITEモード」をおすすめします";
     };
     ShowOldLaunchView.prototype = Object.create(widgetPages.SettingCheckboxView.prototype);
     ShowOldLaunchView.prototype.constructor = ShowOldLaunchView;
