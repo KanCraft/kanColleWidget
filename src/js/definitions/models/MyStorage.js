@@ -86,6 +86,7 @@ MyStorage.prototype.tearDown = function(){
         'show-ships-status'                  : false,
         'fuckin-chrome-bug'                  : false,
         'show-old-launch'                    : true,//でも基本的にはこれはfalseを期待
+        'text-on-mission-start'              : 'ふなでだぞー',
         'sort-by-finishtime'                 : false
     },
 
