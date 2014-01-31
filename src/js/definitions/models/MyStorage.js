@@ -88,6 +88,7 @@ MyStorage.prototype.tearDown = function(){
         'show-old-launch'                    : true,//でも基本的にはこれはfalseを期待
         'text-on-mission-start'              : 'ふなでだぞー',
         'modify-original-tab'                : false,
+        'use-white-mode-as-default'          : false,
         'sort-by-finishtime'                 : false
     },
 
