@@ -34,7 +34,7 @@ var widgetPages = widgetPages || {};
         this.apply(params)._render();
         this.$el.find('.tiredness-bar').css({
             width: bar.width,
-        })
+        }).text(this._time2Text(this.sortie.finish));
         return this.$el;
     };
     TirednessView.prototype._parseLeftTime = function(finishEpoch){
@@ -55,5 +55,10 @@ var widgetPages = widgetPages || {};
         }
         res.message = Math.floor(diffMinute) + '分';
         return res;
+    };
+    TirednessView.prototype._time2Text = function(finishEpoch){
+        if (! finishEpoch) return '';
+        var d = new Date(finishEpoch);
+        return Util.zP(2,d.getHours()) + ':' + Util.zP(2,d.getMinutes());
     };
 })();
