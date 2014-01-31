@@ -87,6 +87,9 @@
             "js" : [
                 "src/js/jquery.min.js",
                 "src/js/pages/safe.js"
+            ],
+            "css" : [
+                "src/css/safe.css"
             ]
         },
         {
