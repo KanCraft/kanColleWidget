@@ -3,13 +3,19 @@ var Constants = {
     release : {
         version: "v0.9.9.1",
         link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 27,
+        announceVersion : 28,
         announcements   : [
             '「WHITEモード」を追加しました',
             'これは、Flashを単独で表示するのではなく、本家のページのデザインを変えるだけの実装です',
             '現在のところ中型のみ対応してます',
             '猫問題は解決できると思います',
-            'これで猫るなら、それは全て一切運営の問題です'
+            'これで猫るなら、それは全て一切運営の問題です',
+            '-----',
+            'v0.9.9.2',
+            '遠征開始時の文言変更設定を追加',
+            '-----',
+            '不具合報告や改善要望は遠慮なく言ってください',
+            '死んだ目で実装させて頂きます'
         ]
     },
     mission : {
