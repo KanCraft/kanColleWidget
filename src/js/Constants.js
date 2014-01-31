@@ -1,21 +1,15 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.2.4",
+        version: "v0.9.9.0",
         link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 26,
+        announceVersion : 27,
         announcements   : [
-            'セーフモードのプロトタイプを追加',
-            '（プロトタイプなので）',
-            '（Windowsで表示がずれるハズ）',
-            '（ウィジェット窓じゃないと動かない機能は動かないはず）',
-            '（その他不具合などあったらいろいろ教えてください）',
-            '（順次、デフォルトモードに機能を追いつけていきます）',
-            '（よろしくお願いします）',
-            "-----",
-            "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>",
-            'Chromeのアップデートで解決した模様です',
-            'お疲れさまでした　　_(:3」∠)_'
+            '「WHITEモード」を追加しました',
+            'これは、Flashを単独で表示するのではなく、本家のページのデザインを変えるだけの実装です',
+            '現在のところ中型のみ対応してます',
+            '猫問題は解決できると思います',
+            'これで猫るなら、それは全て一切運営の問題です'
         ]
     },
     mission : {
