@@ -37,6 +37,9 @@ var Util = Util || {};
             return;
         }, function() {
             var pos = Tracking.get('widget').position;
+
+            if (Config.get('use-white-mode-as-default')) return Util.openSafeMode();
+
             var options = 'width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}';
             options = options.replace('{w}', width + '')
                              .replace('{h}', (width * Constants.widget.aspect) + '')
