@@ -737,10 +737,10 @@ var Util = Util || {};
 
     Util.openSafeMode = function(){
         chrome.windows.create({
-            url: 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/',
+            url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/" + "?widget=true",
             width:  800,
             height: 480,
-            left: 0,
+            left: 0,// use tracking?
             top: 0,
             type: 'popup'
         },function(win){

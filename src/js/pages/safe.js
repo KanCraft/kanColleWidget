@@ -1,9 +1,10 @@
 $(function(){
-    /* これでは、Flashのクリック領域が変わらない
     $('body').css({
-        'transform':'scale(0.8)'
+        //'transform':'scale(0.8)'
+        'position': 'fixed',
+        'top'     : '-95px',
+        'left'    : '-70px'
     });
-    */
     // adjust to windows
     if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) {
         var diffWidth = window.outerWidth - window.innerWidth;
