@@ -1,18 +1,15 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.2.0",
+        version: "v0.9.9.0",
         link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 25,
+        announceVersion : 27,
         announcements   : [
-            'クロックモードの表示バグ修正',
-            'クロックモードの前回窓サイズとか記憶',
-            'スクショダウンロードでフォルダ指定を追加',
-            'スクショの拡張子を"jpeg"から"jpg"に変更',
-            "-----",
-            "【重要】<a href='https://github.com/otiai10/kanColleWidget/issues/319' class='light'>応答なしダイアログが出る問題について</a>",
-            'Chromeのアップデートで解決した模様です',
-            'お疲れさまでした　　_(:3」∠)_'
+            '「WHITEモード」を追加しました',
+            'これは、Flashを単独で表示するのではなく、本家のページのデザインを変えるだけの実装です',
+            '現在のところ中型のみ対応してます',
+            '猫問題は解決できると思います',
+            'これで猫るなら、それは全て一切運営の問題です'
         ]
     },
     mission : {

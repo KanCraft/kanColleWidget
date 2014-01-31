@@ -85,6 +85,7 @@ MyStorage.prototype.tearDown = function(){
         'timer-format-remained-time'         : false,
         'show-ships-status'                  : false,
         'fuckin-chrome-bug'                  : false,
+        'show-old-launch'                    : true,//でも基本的にはこれはfalseを期待
         'sort-by-finishtime'                 : false
     },
 

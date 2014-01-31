@@ -48,17 +48,20 @@ var KanColleWidget = KanColleWidget || {};
 
         var callback = function(res){
 
+            var closeLoading = function(){
+                if (KanColleWidget.Stash.loadingWindow && KanColleWidget.Stash.loadingWindow.close) {
+                    KanColleWidget.Stash.loadingWindow.close();
+                }
+            };
             // 遅らせてローディング画面を閉じる
-            setTimeout(function(){
-                KanColleWidget.Stash.loadingWindow.close();
-            },600);
+            setTimeout(closeLoading,600);
 
             if(!res.result){
 
                 // 失敗しても手動出さない設定ならここで終わる
-                if(Config.get('dynamic-reminder-type') == 3) return;
+                if(Config.get('dynamic-reminder-type') == 3) return closeLoading();
 
-                if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return;
+                if(!window.confirm("入渠終了時間の取得に失敗しました" + Constants.ocr.failureCause + "\n\n手動登録しますか？")) return closeLoading();
                 var params = KanColleWidget.Stash.params;
                 params.purpose = 'nyukyo';
                 return Util.enterTimeManually(params,'src/html/set_manual_timer.html');

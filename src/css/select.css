@@ -138,3 +138,19 @@ h6 {
 time {
     margin-right: 4px;
 }
+.pull-right {
+    float: right;
+}
+/* tmp */
+#screen-shot {
+    margin-left: 5px;
+}
+.bordered {
+    border: dashed #aaa 1px;
+    font-size: small;
+    margin: 10px auto;
+    opacity: 0.6;
+}
+#hide-launch {
+    margin-right: 6px;
+}
