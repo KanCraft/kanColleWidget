@@ -1,9 +1,9 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.9.4",
+        version: "v0.9.9.5",
         link: 'https://github.com/otiai10/kanColleWidget/pull/340',
-        announceVersion : 30,
+        announceVersion : 31,
         announcements   : [
             '「WHITEモード」を追加しました',
             'これは、Flashを単独で表示するのではなく、本家のページのデザインを変えるだけの実装です',
@@ -20,6 +20,9 @@ var Constants = {
             'v0.9.9.4',
             'オリジナル窓のプレーでもゲーム領域を左上に合わせる設定を追加',
             '（座標が正しく認識されるので自動取得が効くようになるらしいですけど）',
+            '-----',
+            'v0.9.9.5',
+            '通知押したときもWHITEで起動する設定の追加',
             '-----',
             '不具合報告や改善要望は遠慮なく言ってください',
             '死んだ目で実装させて頂きます'
