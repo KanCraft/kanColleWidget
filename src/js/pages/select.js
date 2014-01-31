@@ -84,6 +84,20 @@ function _toggleArea(e, sw){
     $('#launch-safely').on('click',function(){
         Util.openSafeMode();
     });
+
+    $('#screen-shot').on('click',function(){
+        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
+            chrome.runtime.sendMessage({winId: widgetWindow.id});
+            window.close();
+        });
+    });
+    if (Config.get('show-old-launch')) {
+        $('#old-launch').show();
+    }
+    $('#hide-launch').on('click',function(){
+        Config.set('show-old-launch', false);
+        $('#old-launch').hide();
+    });
     document.forms[0].elements['launch'].addEventListener('click', function(){
         var mode = document.forms[0].elements['mode'].value;
         Tracking.set('mode',mode);
@@ -101,13 +115,6 @@ function _toggleArea(e, sw){
             }
             // とりあえず全部closeしてみる
             this_select_window.close();
-        });
-    });
-	//スクリーンショット
-    document.forms[0].elements['screen-shot'].addEventListener('click', function(){
-        Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
-            chrome.runtime.sendMessage({winId: widgetWindow.id});
-            window.close();
         });
     });
     var divs = document.getElementsByClassName('select');
