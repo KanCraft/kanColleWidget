@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # リリースノート（ながいので注意 :smiling_imp: ）
 - RELEASEINFO
-- 2014/01/30 v0.9.9.0<!--version-->
+- 2014/01/30 v0.9.9.0, v0.9.9.1<!--version-->
     - ホワイトモードのプロトタイプを追加
 - 2014/01/30 v0.9.2.0, v0.9.2.1
     - クロックモードの表示バグ修正
