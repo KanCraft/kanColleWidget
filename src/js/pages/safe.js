@@ -12,4 +12,15 @@ $(function(){
         window.resizeTo(window.outerWidth + diffWidth, window.outerHeight + diffHeight);
     }
     history.forward();
+
+    $(document).on('keyup',function(e){
+
+        if (! e.shiftKey) return;
+        if (! e.ctrlKey) return;
+
+        if (e.keyCode === 48) {
+            chrome.runtime.sendMessage(null, {purpose: 'screenshot'});
+        }
+    });
+
 });
