@@ -295,7 +295,8 @@ var Util = Util || {};
             url: url
         };
         var fileFullPath = data.dir;
-        fileFullPath += '/' + data.file;
+        if (fileFullPath.trim() != '') fileFullPath += '/';
+        fileFullPath += data.file;
         fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
         chrome.downloads.download({
             url: data.url,

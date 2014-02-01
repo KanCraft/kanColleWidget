@@ -90,7 +90,7 @@ var widgetPages = widgetPages || {};
     };
     CaptureView.prototype.downloadCurrentImage = function(ev, self) {
         var filename = $('#_filename').val() || Util.getCaptureFilename();
-        var dirname = $('#_directory').val() || Config.get('capture-image-download-dir');
+        var dirname = $('#_directory').val();
         var ext = Config.get('capture-image-format');
         $('a#download-anchor').attr('download', filename + '.' + ext);
         var format = 'image/' + Config.get('capture-image-format');
