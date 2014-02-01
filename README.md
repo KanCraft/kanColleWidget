@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # リリースノート（ながいので注意 :smiling_imp: ）
 - RELEASEINFO
-- 2014/02/01 v0.9.9.6<!--version-->
+- 2014/02/01 v0.9.9.7<!--version-->
     - WHITEモードでのスクショショートカットキーを追加
     - クロックモードの表示バグ修正
     - ダウロードフォルダを指定しないのを可能に

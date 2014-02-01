@@ -1,7 +1,7 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.9.6",
+        version: "v0.9.9.7",
         link: 'https://github.com/otiai10/kanColleWidget/pull/340',
         announceVersion : 31,
         announcements   : [
@@ -11,7 +11,7 @@ var Constants = {
             '猫問題は解決できると思います',
             'これで猫るなら、それは全て一切運営の問題です',
             '-----',
-            'v0.9.9.2 ~ v0.9.9.6',
+            'v0.9.9.2 ~ v0.9.9.7',
             'オリジナル窓でcssを効かさない',
             '遠征開始時の文言変更設定を追加',
             '簡易疲労メータに時刻表示を追加',
