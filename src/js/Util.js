@@ -726,9 +726,11 @@ var Util = Util || {};
     Util.openDashboard = function(){
         // TODO: PageManagerみたいなの作って、chrome.windows使う
         var dashboard = Tracking.get('dashboard');
+        var width = dashboard.size.innerWidth || 420; 
+        var height = dashboard.size.innerHeight || 245;
         var options = [
-            'width=' + dashboard.size.innerWidth,
-            'height='+ dashboard.size.innerHeight,
+            'width=' + width,
+            'height='+ height,
             'left='  + dashboard.position.left,
             'top='   + dashboard.position.top
         ];
