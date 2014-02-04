@@ -1,10 +1,14 @@
 $(function(){
-    $('body').css({
-        //'transform':'scale(0.8)'
-        'position': 'fixed',
-        'top'     : '-95px',
-        'left'    : '-70px'
-    });
+    setTimeout(function(){
+        $('body').css({
+            //'transform':'scale(0.8)'
+            'position': 'fixed'
+        });
+        $('body').animate({
+            'top'     : '-95px',
+            'left'    : '-70px'
+        },500);
+    },500);
     // adjust to windows
     if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) {
         var diffWidth = window.outerWidth - window.innerWidth;
