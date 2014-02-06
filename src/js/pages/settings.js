@@ -42,6 +42,7 @@ $(function(){
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
+        (new widgetPages.HideAdressbarInSafemodeView()).render(),
         (new widgetPages.FuckinChromeBugView()).render()
     );
 });
