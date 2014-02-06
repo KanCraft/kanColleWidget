@@ -84,7 +84,6 @@ MyStorage.prototype.tearDown = function(){
         'clockmode-style'                    : 1,
         'timer-format-remained-time'         : false,
         'show-ships-status'                  : false,
-        'fuckin-chrome-bug'                  : false,
         'show-old-launch'                    : true,//でも基本的にはこれはfalseを期待
         'text-on-mission-start'              : 'ふなでだぞー',
         'modify-original-tab'                : false,

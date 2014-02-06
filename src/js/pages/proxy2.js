@@ -60,53 +60,6 @@ $(function() {
         $embedElement.css('top', '50%');
         $embedElement.css('left', '50%');
 
-        // Chrome32しねよまじで
-        chrome.runtime.sendMessage({
-            purpose  : 'getConfig',
-            configKey: 'fuckin-chrome-bug'
-        },function(fuckinChromeBug){
-            if (fuckinChromeBug) {
-                // ちょっと高くする
-                var fuckinHeight = 32;
-                window.resizeTo(
-                    window.outerWidth,
-                    window.outerHeight + fuckinHeight
-                );
-                var defaultBarCss = {
-                    position: 'absolute', bottom: '0',left: '0',
-                    width:'100%',height:'16px',backgroundColor:'transparent',
-                    fontWeight:'bold',color:'#fff',
-                    textShadow:'0 0 2px #000',
-                    cursor:'no-drop',wordWrap:'break-word'
-                };
-                var $bottomBar = $('<div></div>').css(defaultBarCss).addClass('fuckin-chrome-bug');
-                delete defaultBarCss.left;
-                defaultBarCss.right  = '0';
-                defaultBarCss.width  = '16px';
-                defaultBarCss.height = '100%';
-                var $rightBar = $('<div></div>').css(defaultBarCss).addClass('fuckin-chrome-bug');
-                $('body').append($bottomBar, $rightBar);
-                $('head').append('<style> .fuck{ background-color: #f00; }</style>');
-                $('.fuckin-chrome-bug').hover(function(){
-                    $(this).addClass('fuck');
-                    $(this).text('クリックすると例のエラー出ます');
-                },function(){
-                    $(this).removeClass('fuck');
-                    $(this).text('');
-                });
-                $('.fuckin-chrome-bug').on('click',function(){
-                    var mess = "【艦これウィジェット】【Chromeバグ回避設定によるアラート】\n"
-                             + "お使いのPCが\n"
-                             + "- Windows Vista以上\n"
-                             + "- Chrome 32\n"
-                             + "であれば、約30秒後に「ページ応答なし」ダイアログが出ます。\n"
-                             + "これはChrome32が仕込みやがったバグです。詳しくは、設定欄にあるリンクを見てください。\n\n"
-                             + "(´-`).｡ｏO( Chromeさん... )";
-                    alert(mess);
-                });
-            }
-        });
-
         /**
          * ウィンドウがリサイズされた時、アスペクト比を維持しつついい感じに追随するように
          */
