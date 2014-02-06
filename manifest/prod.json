@@ -85,6 +85,7 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?widget=true*"
             ],
             "js" : [
+                "src/js/Util.js",
                 "src/js/jquery.min.js",
                 "src/js/pages/safe.js"
             ],

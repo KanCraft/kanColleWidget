@@ -747,11 +747,16 @@ var Util = Util || {};
 
     Util.openSafeMode = function(){
         var pos = Tracking.get('widget').position;
-        var type = 'popup';
+        var type = 'normal';
+        var height = 480 + 72;
+        if (Config.get('hide-adressbar-in-safemode')) {
+            type = 'popup';
+            height = height - 72;
+        }
         chrome.windows.create({
             url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/" + "?widget=true",
             width:  800,
-            height: 480,
+            height: height,
             left: pos.left,
             top: pos.top,
             type: type

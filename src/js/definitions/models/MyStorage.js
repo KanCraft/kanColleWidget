@@ -89,6 +89,7 @@ MyStorage.prototype.tearDown = function(){
         'text-on-mission-start'              : 'ふなでだぞー',
         'modify-original-tab'                : false,
         'use-white-mode-as-default'          : false,
+        'hide-adressbar-in-safemode'         : false,
         'sort-by-finishtime'                 : false
     },
 
