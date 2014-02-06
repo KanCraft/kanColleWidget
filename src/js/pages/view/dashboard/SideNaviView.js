@@ -10,8 +10,7 @@ var widgetPages = widgetPages || {};
             id : 'side-navi'
         };
     };
-    SideNaviView.prototype = Object.create(widgetPages.View.prototype);
-    SideNaviView.prototype.constructor = SideNaviView;
+    Util.extend(SideNaviView, widgetPages.View);
     SideNaviView.prototype.render = function(){
         this.apply()._render();
         this.$el.append(

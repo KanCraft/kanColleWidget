@@ -1,10 +1,7 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var TirednessLengthView = widgetPages.TirednessLengthView = function(){
         this.inputName = 'tiredness-recovery-minutes';
         this.title = "簡易疲労度回復通知設定";
@@ -16,6 +13,5 @@ var widgetPages = widgetPages || {};
             {value:'15', title: '15分休ませてあげる'}
         ];
     };
-    TirednessLengthView.prototype = Object.create(widgetPages.SettingSelectView.prototype);
-    TirednessLengthView.prototype.constructor = TirednessLengthView;
+    Util.extend(TirednessLengthView, widgetPages.SettingSelectView);
 })();

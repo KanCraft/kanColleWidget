@@ -16,8 +16,7 @@ var widgetPages = widgetPages || {};
         this.total = Object.keys(this.quests.getAll().map).length;
         this.completed = 0;
     };
-    QuestListView.prototype = Object.create(widgetPages.View.prototype);
-    QuestListView.prototype.constructor = QuestListView;
+    Util.extend(QuestListView, widgetPages.View);
     QuestListView.prototype.render = function(){
         this.apply()._render();
         this.renderList();

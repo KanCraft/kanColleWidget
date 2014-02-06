@@ -11,6 +11,5 @@ var widgetPages = widgetPages || {};
         this.title = '- 遠征帰投予定時刻';
         this.isSelectPage = isSelectPage;
     };
-    TimersMissionView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
-    TimersMissionView.prototype.constructor = TimersMissionView;
+    Util.extend(TimersMissionView, widgetPages.TimersBaseView);
 })();

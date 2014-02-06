@@ -10,6 +10,5 @@ var widgetPages = widgetPages || {};
             {value:'1', title: 'タブ表示', description: 'タブできりかえできる感じ'}
         ];
     };
-    ClockmodeStyleView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
-    ClockmodeStyleView.prototype.constructor = ClockmodeStyleView;
+    Util.extend(ClockmodeStyleView, widgetPages.SettingRadioButtonView);
 })();

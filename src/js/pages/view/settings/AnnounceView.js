@@ -1,6 +1,4 @@
-
 var widgetPages = widgetPages || {};
-
 (function() {
     var AnnounceView = widgetPages.AnnounceView = function(config) {
         this.config = config;
@@ -15,8 +13,7 @@ var widgetPages = widgetPages || {};
             "click #announce-done" : "doneAnnounce"
         };
     };
-    AnnounceView.prototype = Object.create(widgetPages.View.prototype);
-    AnnounceView.prototype.constructor = AnnounceView;
+    Util.extend(AnnounceView, widgetPages.View);
     AnnounceView.prototype.render = function() {
         this.apply()._render();
         var htmlstr = '';

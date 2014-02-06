@@ -13,8 +13,7 @@ var widgetPages = widgetPages || {};
           "keyup #recipe-memo" : "saveRecipeMemo"
       };
   };
-  MemoView.prototype = Object.create(widgetPages.View.prototype);
-  MemoView.prototype.constructor = MemoView;
+  Util.extend(MemoView, widgetPages.View);
   MemoView.prototype.render = function(){
       var memo = new KanColleWidget.Memo();
       var params = {memoContents: memo.toJson().value };

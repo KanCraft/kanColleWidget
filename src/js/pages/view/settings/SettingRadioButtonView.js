@@ -1,13 +1,9 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var SettingRadioButtonView = widgetPages.SettingRadioButtonView = function(){};
-    SettingRadioButtonView.prototype = Object.create(widgetPages.View.prototype);
-    SettingRadioButtonView.prototype.constructor = SettingRadioButtonView;
+    Util.extend(SettingRadioButtonView, widgetPages.View);
 
     SettingRadioButtonView.prototype.tpl = '<tr>'
                                          + '    <td class="title">{{title}}<span class="description xsmall">{{description}}</span></td>'

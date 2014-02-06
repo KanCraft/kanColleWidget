@@ -9,6 +9,5 @@ var widgetPages = widgetPages || {};
         this.tracked = {hour:0,minute:20};
         this.kind = 'mission-start';
     };
-    ManualTimerMissionView.prototype = Object.create(widgetPages.ManualTimerView.prototype);
-    ManualTimerMissionView.prototype.constructor = ManualTimerMissionView;
+    Util.extend(ManualTimerMissionView, widgetPages.ManualTimerView);
 })();

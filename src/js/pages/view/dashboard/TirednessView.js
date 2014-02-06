@@ -19,8 +19,7 @@ var widgetPages = widgetPages || {};
         this.attrs = {
         };
     };
-    TirednessView.prototype = Object.create(widgetPages.View.prototype);
-    TirednessView.prototype.constructor = TirednessView;
+    Util.extend(TirednessView, widgetPages.View);
     TirednessView.prototype.render = function(){
 
         if (this.sortie.api_deck_id != 1 && this.sortie.finish == null) return $('');

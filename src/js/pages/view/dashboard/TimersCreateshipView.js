@@ -11,6 +11,5 @@ var widgetPages = widgetPages || {};
         this.title = '- 建造完了予定時刻';
         this.isSelectPage = isSelectPage;
     };
-    TimersCreateshipView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
-    TimersCreateshipView.prototype.constructor = TimersCreateshipView;
+    Util.extend(TimersCreateshipView, widgetPages.TimersBaseView);
 })();

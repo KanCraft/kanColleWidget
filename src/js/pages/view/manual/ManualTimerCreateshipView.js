@@ -10,6 +10,5 @@ var widgetPages = widgetPages || {};
         this.identifierName = "第" + this.identifier + "ドック";
         this.kind = 'createship-start';
     };
-    ManualTimerCreateshipView.prototype = Object.create(widgetPages.ManualTimerView.prototype);
-    ManualTimerCreateshipView.prototype.constructor = ManualTimerCreateshipView;
+    Util.extend(ManualTimerCreateshipView, widgetPages.ManualTimerView);
 })();

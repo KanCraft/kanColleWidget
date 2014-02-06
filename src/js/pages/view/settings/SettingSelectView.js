@@ -1,13 +1,9 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var SettingSelectView = widgetPages.SettingSelectView = function(){};
-    SettingSelectView.prototype = Object.create(widgetPages.View.prototype);
-    SettingSelectView.prototype.constructor = SettingSelectView;
+    Util.extend(SettingSelectView, widgetPages.View);
 
     SettingSelectView.prototype.tpl = '<tr>'
                                     + '    <td class="title">{{title}}</td>'

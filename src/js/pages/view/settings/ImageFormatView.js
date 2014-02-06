@@ -1,10 +1,7 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var ImageFormatView = widgetPages.ImageFormatView = function(){
         this.inputName = 'capture-image-format';
         this.title = "スクショの画像フォーマット";
@@ -13,6 +10,5 @@ var widgetPages = widgetPages || {};
             {value:'jpeg', title:'jpg'}
         ];
     };
-    ImageFormatView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
-    ImageFormatView.prototype.constructor = ImageFormatView;
+    Util.extend(ImageFormatView, widgetPages.SettingRadioButtonView);
 })();

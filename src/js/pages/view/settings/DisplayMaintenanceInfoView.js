@@ -5,9 +5,7 @@ var widgetPages = widgetPages || {};
     var DisplayMaintenanceInfoView = widgetPages.DisplayMaintenanceInfoView = function(){
         this.inputName = 'display-maintenance-info';
         this.title = "メンテナンス情報を表示する";
-        this.description = $('<span class="xsmall description"></span>');
-        this.description.html('@KanColle_STAFFによるメンテナンス情報ツイートを表示します');
+        this.description = '@KanColle_STAFFによるメンテナンス情報ツイートを表示します';
     };
-    DisplayMaintenanceInfoView.prototype = Object.create(widgetPages.SettingCheckboxView.prototype);
-    DisplayMaintenanceInfoView.prototype.constructor = DisplayMaintenanceInfoView;
+    Util.extend(DisplayMaintenanceInfoView, widgetPages.SettingCheckboxView);
 })();

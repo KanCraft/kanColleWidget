@@ -3,8 +3,7 @@ var widgetPages = widgetPages || {};
 (function() {
     'use strict';
     var SettingTextView = widgetPages.SettingTextView = function(){};
-    SettingTextView.prototype = Object.create(widgetPages.View.prototype);
-    SettingTextView.prototype.constructor = SettingTextView;
+    Util.extend(SettingTextView, widgetPages.View);
 
     SettingTextView.prototype.tpl = '<tr>'
                                       + '    <td class="title">{{title}}</td>'

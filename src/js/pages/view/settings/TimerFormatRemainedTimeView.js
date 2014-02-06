@@ -6,6 +6,5 @@ var widgetPages = widgetPages || {};
         this.inputName = 'timer-format-remained-time';
         this.title = "リマインダーの時間表示は「のこり時間」にして";
     };
-    TimerFormatRemainedTimeView.prototype = Object.create(widgetPages.SettingCheckboxView.prototype);
-    TimerFormatRemainedTimeView.prototype.constructor = TimerFormatRemainedTimeView;
+    Util.extend(TimerFormatRemainedTimeView, widgetPages.SettingCheckboxView);
 })();

@@ -1,5 +1,4 @@
 var widgetPages = widgetPages || {};
-
 (function() {
     var DaysTimeView = widgetPages.DaysTimeView = function() {
         this.tpl = '<div id="clock-right">'
@@ -19,8 +18,7 @@ var widgetPages = widgetPages || {};
                  + '  </div>'
                  + '</div>';
     };
-    DaysTimeView.prototype = Object.create(widgetPages.View.prototype);
-    DaysTimeView.prototype.constructor = DaysTimeView;
+    Util.extend(DaysTimeView, widgetPages.View);
     DaysTimeView.prototype.render = function(){
         this.apply()._render();
         return this.$el;

@@ -12,7 +12,7 @@ var widgetPages = widgetPages || {};
         this.timersNyukyoView = new widgetPages.TimersNyukyoView(isSelectPage);
         this.timersCreateshipView = new widgetPages.TimersCreateshipView(isSelectPage);
     };
-    TimersView.prototype = Object.create(widgetPages.View.prototype);
+    Util.extend(TimersView, widgetPages.View);
     TimersView.prototype.constructor = TimersView;
     TimersView.prototype.render = function(){
         this.apply()._render();

@@ -5,8 +5,7 @@ var widgetPages = widgetPages || {};
     var ModalView = widgetPages.ModalView = function($inner){
         this.$inner = $inner;
     };
-    ModalView.prototype = Object.create(widgetPages.View.prototype);
-    ModalView.prototype.constructor = ModalView;
+    Util.extend(ModalView, widgetPages.View);
     ModalView.prototype.render = function(){
         this.tpl = '<div></div>';
         this.attrs = {
