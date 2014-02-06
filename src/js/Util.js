@@ -155,6 +155,10 @@ var Util = Util || {};
         getChromeVersion : function(){
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
         },
+        isWindows: function(){
+            if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) return true;
+            return false;
+        },
         debug : function(){
             localStorage.isDebug = true;
         }
@@ -441,7 +445,7 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) {
+        if (Util.system.isWindows()) {
             var diffWidth = win.outerWidth - win.innerWidth;
             var diffHeight = win.outerHeight - win.innerHeight;
             win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
