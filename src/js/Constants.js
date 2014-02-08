@@ -1,12 +1,13 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.9.9",
+        version: "v0.9.9.10",
         link: 'https://github.com/otiai10/kanColleWidget/pull/340',
         announceVersion : 32,
         announcements   : [
             'WHITEモードでアドレスバーを出したり隠したりできます',
             'Chrome32バグ回避設定を削除',
+            'オリジナル窓のプレーでもゲーム領域を左上に合わせる設定を削除',
             '-----',
             '艦これウィジェットの説明「加賀さんと僕」のリンクを追加しました',
             'このページの下部にあります'
