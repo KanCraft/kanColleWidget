@@ -57,6 +57,7 @@ var widgetPages = widgetPages || {};
     };
     TirednessView.prototype._time2Text = function(finishEpoch){
         if (! finishEpoch) return '';
+        if ((finishEpoch - Date.now()) < 2*60*1000) return '';
         var d = new Date(finishEpoch);
         return Util.zP(2,d.getHours()) + ':' + Util.zP(2,d.getMinutes());
     };
