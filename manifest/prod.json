@@ -95,6 +95,19 @@
         },
         {
             "matches" : [
+                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
+            ],
+            "js" : [
+                "src/js/definitions/models/MyStorage.js",
+                "src/js/jquery.min.js",
+                "src/js/pages/originaltab.js"
+            ],
+            "css" : [
+                "src/css/safe.css"
+            ]
+        },
+        {
+            "matches" : [
                 "http://osapi.dmm.com/gadgets/ifr?*"
             ],
             "js" : [

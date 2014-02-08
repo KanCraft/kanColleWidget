@@ -40,6 +40,7 @@ $(function(){
         (new widgetPages.ClockmodeStyleView()).render(),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
+        (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
         (new widgetPages.HideAdressbarInSafemodeView()).render()
     );
