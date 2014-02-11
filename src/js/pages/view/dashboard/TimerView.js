@@ -12,8 +12,7 @@ var widgetPages = widgetPages || {};
         };
         this.isSelectPage = isSelectPage;
     };
-    TimerView.prototype = Object.create(widgetPages.View.prototype);
-    TimerView.prototype.constructor = TimerView;
+    Util.extend(TimerView, widgetPages.View);
     TimerView.prototype.render = function(suffix){
         var name = this.namePrefix + this.event[this.primaryKey] + suffix;
         var params = {time:'--:--&nbsp;&nbsp;&nbsp;&nbsp;', name: name};

@@ -37,6 +37,9 @@ var Util = Util || {};
             return;
         }, function() {
             var pos = Tracking.get('widget').position;
+
+            if (Config.get('use-white-mode-as-default')) return Util.openSafeMode();
+
             var options = 'width={w},height={h},location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no,left={l},top={t}';
             options = options.replace('{w}', width + '')
                              .replace('{h}', (width * Constants.widget.aspect) + '')
@@ -151,6 +154,10 @@ var Util = Util || {};
         },
         getChromeVersion : function(){
             return parseInt(window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 10);
+        },
+        isWindows: function(){
+            if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) return true;
+            return false;
         },
         debug : function(){
             localStorage.isDebug = true;
@@ -292,7 +299,8 @@ var Util = Util || {};
             url: url
         };
         var fileFullPath = data.dir;
-        fileFullPath += '/' + data.file;
+        if (fileFullPath.trim() != '') fileFullPath += '/';
+        fileFullPath += data.file;
         fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
         chrome.downloads.download({
             url: data.url,
@@ -437,7 +445,7 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (navigator.userAgent.match(/Win/) || navigator.platform.indexOf('Win') !== -1) {
+        if (Util.system.isWindows()) {
             var diffWidth = win.outerWidth - win.innerWidth;
             var diffHeight = win.outerHeight - win.innerHeight;
             win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
@@ -723,9 +731,11 @@ var Util = Util || {};
     Util.openDashboard = function(){
         // TODO: PageManagerみたいなの作って、chrome.windows使う
         var dashboard = Tracking.get('dashboard');
+        var width = dashboard.size.innerWidth || 420; 
+        var height = dashboard.size.innerHeight || 245;
         var options = [
-            'width=' + dashboard.size.innerWidth,
-            'height='+ dashboard.size.innerHeight,
+            'width=' + width,
+            'height='+ height,
             'left='  + dashboard.position.left,
             'top='   + dashboard.position.top
         ];
@@ -736,13 +746,20 @@ var Util = Util || {};
     };
 
     Util.openSafeMode = function(){
+        var pos = Tracking.get('widget').position;
+        var type = 'normal';
+        var height = 480 + 72;
+        if (Config.get('hide-adressbar-in-safemode')) {
+            type = 'popup';
+            height = height - 72;
+        }
         chrome.windows.create({
-            url: 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/',
+            url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/" + "?widget=true",
             width:  800,
-            height: 480,
-            left: 0,
-            top: 0,
-            type: 'popup'
+            height: height,
+            left: pos.left,
+            top: pos.top,
+            type: type
         },function(win){
         });
     };

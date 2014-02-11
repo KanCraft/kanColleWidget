@@ -37,8 +37,8 @@ var widgetPages = widgetPages || {};
 
     // Viewです
     var ManualTimerView = widgetPages.ManualTimerView = function(){};
-    ManualTimerView.prototype = Object.create(widgetPages.View.prototype);
-    ManualTimerView.prototype.constructor = ManualTimerView;
+    Util.extend(ManualTimerView, widgetPages.View);
+
     ManualTimerView.prototype.tracking = Tracking;
     ManualTimerView.prototype.events = {
         // 本当はここで.upと.downで振り分けたいのだが(´･ω･`)

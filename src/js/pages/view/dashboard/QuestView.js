@@ -11,8 +11,7 @@ var widgetPages = widgetPages || {};
 
     // Base class for Quest Item
     var QuestView = widgetPages.QuestView = function(){};
-    QuestView.prototype = Object.create(widgetPages.View.prototype);
-    QuestView.prototype.constructor = QuestView;
+    Util.extend(QuestView, widgetPages.View);
     QuestView.prototype.showModal = function(ev, self){
         var modalView = new widgetPages.QuestModalView(self.quest);
         modalView.render().show();
@@ -29,8 +28,7 @@ var widgetPages = widgetPages || {};
             "click .quest-title" : "showModal"
         };
     };
-    DoneQuestView.prototype = Object.create(widgetPages.QuestView.prototype);
-    DoneQuestView.prototype.constructor = DoneQuestView;
+    Util.extend(DoneQuestView, widgetPages.QuestView);
     DoneQuestView.prototype.render = function(){
         var params = {
             title : this.quest.title,
@@ -45,8 +43,7 @@ var widgetPages = widgetPages || {};
         this.quest = hiddenQuest;
         this.tpl = '';
     };
-    HiddenQuestView.prototype = Object.create(widgetPages.QuestView.prototype);
-    HiddenQuestView.prototype.constructor = HiddenQuestView;
+    Util.extend(HiddenQuestView, widgetPages.QuestView);
     HiddenQuestView.prototype.render = function(){
         return this.apply()._render().$el;
     };
@@ -62,8 +59,7 @@ var widgetPages = widgetPages || {};
             "click .quest-title" : "showModal"
         };
     };
-    NowQuestView.prototype = Object.create(widgetPages.QuestView.prototype);
-    NowQuestView.prototype.constructor = NowQuestView;
+    Util.extend(NowQuestView, widgetPages.QuestView);
     NowQuestView.prototype.render = function(){
         var params = {
             title : this.quest.title,
@@ -82,8 +78,7 @@ var widgetPages = widgetPages || {};
             "click .quest-title" : "showModal"
         };
     };
-    YetQuestView.prototype = Object.create(widgetPages.QuestView.prototype);
-    YetQuestView.prototype.constructor = YetQuestView;
+    Util.extend(YetQuestView, widgetPages.QuestView);
     YetQuestView.prototype.render = function(){
         var params = {
             title : this.quest.title,

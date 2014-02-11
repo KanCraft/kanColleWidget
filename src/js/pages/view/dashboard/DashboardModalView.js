@@ -4,8 +4,7 @@ var widgetPages = widgetPages || {};
     var QuestModalView = widgetPages.QuestModalView = function(quest){
         this.$inner = (new widgetPages.QuestModalContentsView(quest)).render();
     };
-    QuestModalView.prototype = Object.create(widgetPages.ModalView.prototype);
-    QuestModalView.prototype.constructor = QuestModalView;
+    Util.extend(QuestModalView, widgetPages.ModalView);
 
     var QuestModalContentsView = widgetPages.QuestModalContentsView = function(quest) {
         this.quest = quest;
@@ -29,8 +28,7 @@ var widgetPages = widgetPages || {};
             'click #modal-cancel' : 'vanish'
         };
     };
-    QuestModalContentsView.prototype = Object.create(widgetPages.View.prototype);
-    QuestModalContentsView.prototype.constructor = QuestModalContentsView;
+    Util.extend(QuestModalContentsView, widgetPages.View);
     QuestModalContentsView.prototype.render = function(){
         var params = {
             title  : this.quest.title,

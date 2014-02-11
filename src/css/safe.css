@@ -1,8 +1,10 @@
+/* manifestで読み込まれてないのか？
 body {
     position: fixed;
     top: -95px;
     left: -70px;
- }
+}
+*/
 /*
 iframe {
     -webkit-transform: scale(0.5);

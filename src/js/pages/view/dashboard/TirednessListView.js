@@ -1,5 +1,4 @@
 var widgetPages = widgetPages || {};
-
 (function() {
     var TirednessListView = widgetPages.TirednessListView = function() {
         this.sorties = new KanColleWidget.Sorties();
@@ -10,8 +9,7 @@ var widgetPages = widgetPages || {};
                   +'    </div>'
                   +'</div>';
     };
-    TirednessListView.prototype = Object.create(widgetPages.View.prototype);
-    TirednessListView.prototype.constructor = TirednessListView;
+    Util.extend(TirednessListView, widgetPages.View);
     TirednessListView.prototype.render = function(){
         this.apply()._render();
         if (Config.get('tiredness-recovery-minutes') == 0) return '';

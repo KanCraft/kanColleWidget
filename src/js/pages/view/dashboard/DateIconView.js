@@ -1,6 +1,4 @@
-
 var widgetPages = widgetPages || {};
-
 (function() {
     var DateIconView = widgetPages.DateIconView = function() {
         this.tpl = '<div id="clock-left">'
@@ -18,8 +16,7 @@ var widgetPages = widgetPages || {};
                  + '</div>';
         this.events = {};
     };
-    DateIconView.prototype = Object.create(widgetPages.View.prototype);
-    DateIconView.prototype.constructor = DateIconView;
+    Util.extend(DateIconView, widgetPages.View);
     DateIconView.prototype.render = function(){
         var iconUrl = Config.get("notification-img-file") || "";
         this.apply()._render();

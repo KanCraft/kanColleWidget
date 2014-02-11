@@ -30,7 +30,8 @@ var KanColleWidget = KanColleWidget || {};
 
         if(!Config.get('notification-on-reminder-set')) return;
 
-        Util.presentation("ふなでだぞー\nこれが終わるのは" + min + "分後ですね", {
+        var word = Config.get('text-on-mission-start');
+        Util.presentation(word + "\nこれが終わるのは" + min + "分後ですね", {
             startOrFinish: 'start',
             sound: {
                 kind: 'mission-start'

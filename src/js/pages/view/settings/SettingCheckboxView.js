@@ -1,13 +1,9 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var SettingCheckboxView = widgetPages.SettingCheckboxView = function(){};
-    SettingCheckboxView.prototype = Object.create(widgetPages.View.prototype);
-    SettingCheckboxView.prototype.constructor = SettingCheckboxView;
+    Util.extend(SettingCheckboxView, widgetPages.View);
 
     SettingCheckboxView.prototype.tpl = '<tr>'
                                       + '    <td class="title">{{title}}</td>'
@@ -40,7 +36,7 @@ var widgetPages = widgetPages || {};
 
         $_container.append($input);
         this.$el.find('.checkbox-container').append($_container);
-        if (this.description) $_container.append(this.description);
+        if (this.description) $_container.append($('<span>' + this.description + '</span>').addClass("xsmall description"));
         return this;
     };
 

@@ -19,8 +19,7 @@ var widgetPages = widgetPages || {};
         this.attrs = {
         };
     };
-    TirednessView.prototype = Object.create(widgetPages.View.prototype);
-    TirednessView.prototype.constructor = TirednessView;
+    Util.extend(TirednessView, widgetPages.View);
     TirednessView.prototype.render = function(){
 
         if (this.sortie.api_deck_id != 1 && this.sortie.finish == null) return $('');
@@ -34,7 +33,7 @@ var widgetPages = widgetPages || {};
         this.apply(params)._render();
         this.$el.find('.tiredness-bar').css({
             width: bar.width,
-        })
+        }).text(this._time2Text(this.sortie.finish));
         return this.$el;
     };
     TirednessView.prototype._parseLeftTime = function(finishEpoch){
@@ -55,5 +54,11 @@ var widgetPages = widgetPages || {};
         }
         res.message = Math.floor(diffMinute) + '分';
         return res;
+    };
+    TirednessView.prototype._time2Text = function(finishEpoch){
+        if (! finishEpoch) return '';
+        if ((finishEpoch - Date.now()) < 2*60*1000) return '';
+        var d = new Date(finishEpoch);
+        return Util.zP(2,d.getHours()) + ':' + Util.zP(2,d.getMinutes());
     };
 })();

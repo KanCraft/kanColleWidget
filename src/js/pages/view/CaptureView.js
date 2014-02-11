@@ -59,9 +59,12 @@ var widgetPages = widgetPages || {};
         +'  </div>'
         +'  <div>'
         +'    <input type="text" id="_directory" value="{{dir}}" size="10">/<input type="text" id="_filename" value="{{file}}" size="40">.{{format}}<br>'
-        +'    <label><button tabindex="0" id="download" class="plain">'
-        +'      <img src="../img/capture/download.png" title="Download" class="clickable">'
-        +'    </button></label><br>'
+        +'    <label><button id="download" class="plain">'
+        +'      <img src="../img/capture/download.png" title="Download" class="clickable file-action">'
+        +'    </button></label>'
+        +'    <label><button id="newWindow" class="plain">'
+        +'      <img src="../img/capture/new_window.png" title="New Window" class="clickable file-action">'
+        +'    </button></label>'
         +'    <a id="download-anchor" download="{{filename}}" href=""></a>'
         +'  </div>'
         +'</div>';
@@ -82,7 +85,19 @@ var widgetPages = widgetPages || {};
             this.toolView.render()
         );
         this.imgURI = Util.parseQueryString()['uri'];
+        this._delegate();
         return this.$el;
+    };
+    CaptureView.prototype._delegate = function(){
+        // これはrenderのバグなので、悔しい
+        var self = this;
+        this.$el.find('#newWindow').on('click',function(){
+            var format = 'image/' + Config.get('capture-image-format');
+            window.open(
+                self.canvasApp.toDataURL(format),
+                '_blank'
+            );
+        });
     };
     CaptureView.prototype.startApp = function() {
         this.canvasApp = KanColleWidget.Canvas.initWithURI(this.imgURI);
@@ -90,7 +105,7 @@ var widgetPages = widgetPages || {};
     };
     CaptureView.prototype.downloadCurrentImage = function(ev, self) {
         var filename = $('#_filename').val() || Util.getCaptureFilename();
-        var dirname = $('#_directory').val() || Config.get('capture-image-download-dir');
+        var dirname = $('#_directory').val();
         var ext = Config.get('capture-image-format');
         $('a#download-anchor').attr('download', filename + '.' + ext);
         var format = 'image/' + Config.get('capture-image-format');

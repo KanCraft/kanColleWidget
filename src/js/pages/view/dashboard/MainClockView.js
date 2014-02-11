@@ -8,8 +8,7 @@ var widgetPages = widgetPages || {};
         this.dateIconView = new widgetPages.DateIconView();
         this.daysTimeView = new widgetPages.DaysTimeView();
     };
-    MainClockView.prototype = Object.create(widgetPages.View.prototype);
-    MainClockView.prototype.constructor = MainClockView;
+    Util.extend(MainClockView, widgetPages.View);
     MainClockView.prototype.render = function(){
         this.apply()._render();
         this.$el.find('.boxy').append(

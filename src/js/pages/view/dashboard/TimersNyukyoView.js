@@ -11,6 +11,5 @@ var widgetPages = widgetPages || {};
         this.title = '- 入渠完了予定時刻';
         this.isSelectPage = isSelectPage;
     };
-    TimersNyukyoView.prototype = Object.create(widgetPages.TimersBaseView.prototype);
-    TimersNyukyoView.prototype.constructor = TimersNyukyoView;
+    Util.extend(TimersNyukyoView, widgetPages.TimersBaseView);
 })();

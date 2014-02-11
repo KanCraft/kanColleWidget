@@ -1,10 +1,7 @@
 /* jshint indent: 4 */
-
 var widgetPages = widgetPages || {};
-
 (function() {
     'use strict';
-
     var DynamicReminderTypeView = widgetPages.DynamicReminderTypeView = function(){
         this.inputName = 'dynamic-reminder-type';
         this.title = "入渠・建造時完了通知を使う";
@@ -15,6 +12,5 @@ var widgetPages = widgetPages || {};
             {value:'2', title: '自動取得', description: '失敗したら手動登録ウィンドウが出ます'}
         ];
     };
-    DynamicReminderTypeView.prototype = Object.create(widgetPages.SettingRadioButtonView.prototype);
-    DynamicReminderTypeView.prototype.constructor = DynamicReminderTypeView;
+    Util.extend(DynamicReminderTypeView, widgetPages.SettingRadioButtonView);
 })();

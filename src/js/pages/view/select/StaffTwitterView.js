@@ -14,8 +14,7 @@ var widgetPages = widgetPages || {};
             id : "staff-tweets"
         };
     };
-    StaffTwitterView.prototype = Object.create(widgetPages.View.prototype);
-    StaffTwitterView.prototype.constructor = StaffTwitterView;
+    Util.extend(StaffTwitterView, widgetPages.View);
     StaffTwitterView.prototype.render = function(){
         this.apply()._render();
         this.addTweets();

@@ -18,7 +18,8 @@ $(function(){
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render(),
         (new widgetPages.TirednessLengthView()).render(),
-        (new widgetPages.PreventForgettingQuestView()).render()
+        (new widgetPages.PreventForgettingQuestView()).render(),
+        (new widgetPages.TextOnMissionStartView()).render()
     );
 
     $("#notification-settings").append(
@@ -39,7 +40,9 @@ $(function(){
         (new widgetPages.ClockmodeStyleView()).render(),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
-        (new widgetPages.FuckinChromeBugView()).render()
+        (new widgetPages.ModifyOriginalTabView()).render(),
+        (new widgetPages.UseWhiteModeAsDefaultView()).render(),
+        (new widgetPages.HideAdressbarInSafemodeView()).render()
     );
 });
 function renderAnnounce(){

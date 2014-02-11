@@ -1,8 +1,7 @@
 var widgetPages = widgetPages || {};
 (function() {
     var TimersBaseView = widgetPages.TimersBaseView = function(){};
-    TimersBaseView.prototype = Object.create(widgetPages.View.prototype);
-    TimersBaseView.prototype.constructor = TimersBaseView;
+    Util.extend(TimersBaseView, widgetPages.View);
     TimersBaseView.prototype.render = function(){
         this.tpl = '<div class="time-list"></div>';
         this.isEmpty = false;

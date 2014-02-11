@@ -1,15 +1,18 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.9.0",
-        link: 'https://github.com/otiai10/kanColleWidget/releases',
-        announceVersion : 27,
+        version: "v0.9.9.12",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/340',
+        announceVersion : 34,
         announcements   : [
-            '「WHITEモード」を追加しました',
-            'これは、Flashを単独で表示するのではなく、本家のページのデザインを変えるだけの実装です',
-            '現在のところ中型のみ対応してます',
-            '猫問題は解決できると思います',
-            'これで猫るなら、それは全て一切運営の問題です'
+            'WHITEモードでアドレスバーを出したり隠したりできます',
+            'Chrome32バグ回避設定を削除',
+            'オリジナル窓のプレーでもゲーム領域を左上に合わせる設定を削除',
+            '↑ 削除したんだけど要望があったので復活',
+            'クロックモードの表示修正',
+            '-----',
+            '艦これウィジェットの説明「加賀さんと僕」のリンクを追加しました',
+            'このページの下部にあります'
         ]
     },
     mission : {

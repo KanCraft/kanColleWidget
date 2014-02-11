@@ -73,7 +73,7 @@ var KanColleWidget = KanColleWidget || {};
         if(message.purpose == 'getConfig'){
             var res = {};
             if(message.configKey) {
-                res = Config.get(message.configKey) || null;
+                res = Config.get(message.configKey);
             } else {
                 res = Config.getJSON();
             }

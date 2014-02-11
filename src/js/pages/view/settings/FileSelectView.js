@@ -6,8 +6,7 @@ var widgetPages = widgetPages || {};
         this.tpl = '<tr><td>{{title}}</td><td id="file-selects"></td></tr>';
         this.file = file;
     };
-    ImageFileSelectView.prototype = Object.create(widgetPages.View.prototype);
-    ImageFileSelectView.prototype.constructor = ImageFileSelectView;
+    Util.extend(ImageFileSelectView, widgetPages.View);
     ImageFileSelectView.prototype.render = function(){
         this.apply({
             title : this.file.label
@@ -37,8 +36,7 @@ var widgetPages = widgetPages || {};
     var SoundFileSelectListView = widgetPages.SoundFileSelectListView = function(){
         this.tpl = '<tr><td>{{title}}<br><span class="description xsmall">{{description}}</span></td><td id="file-selects"></td></tr>';
     };
-    SoundFileSelectListView.prototype = Object.create(widgetPages.View.prototype);
-    SoundFileSelectListView.prototype.create = SoundFileSelectListView;
+    Util.extend(SoundFileSelectListView, widgetPages.View);
     SoundFileSelectListView.prototype.render = function(){
         this.apply({
             title : "通知時音設定",
@@ -59,7 +57,7 @@ var widgetPages = widgetPages || {};
             'click .to-file-modal' : 'showFileModal'
         }
     };
-    FileSelectViewBase.prototype = Object.create(widgetPages.View.prototype);
+    Util.extend(FileSelectViewBase, widgetPages.View);
     FileSelectViewBase.prototype.constructor = FileSelectViewBase;
     FileSelectViewBase.prototype.render = function(){
         var isSet = "--";
@@ -107,8 +105,7 @@ var widgetPages = widgetPages || {};
         };
         this.setFileName = null;
     };
-    FileSelectModalContentsView.prototype = Object.create(widgetPages.View.prototype);
-    FileSelectModalContentsView.prototype.constructor = FileSelectModalContentsView;
+    Util.extend(FileSelectModalContentsView, widgetPages.View);
     FileSelectModalContentsView.prototype.render = function(){
         this.file.isSet = '無し';
         if (Config.get(this.file.inputName)) this.file.isSet = '設定されています';
