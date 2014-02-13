@@ -1,18 +1,12 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.9.9.12",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/340',
-        announceVersion : 34,
+        version: "v0.10.0",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/358',
+        announceVersion : 35,
         announcements   : [
-            'WHITEモードでアドレスバーを出したり隠したりできます',
-            'Chrome32バグ回避設定を削除',
-            'オリジナル窓のプレーでもゲーム領域を左上に合わせる設定を削除',
-            '↑ 削除したんだけど要望があったので復活',
-            'クロックモードの表示修正',
-            '-----',
-            '艦これウィジェットの説明「加賀さんと僕」のリンクを追加しました',
-            'このページの下部にあります'
+            'キャプチャのトリミング機能を追加',
+            '手動登録した時に通知が消えないバグを修正'
         ]
     },
     mission : {
