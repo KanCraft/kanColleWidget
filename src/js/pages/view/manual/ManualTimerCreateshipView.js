@@ -9,6 +9,8 @@ var widgetPages = widgetPages || {};
         this.identifier = params['api_kdock_id'];
         this.identifierName = "第" + this.identifier + "ドック";
         this.kind = 'createship-start';
+
+        this.actionName = 'forKousyouCreateship';
     };
     Util.extend(ManualTimerCreateshipView, widgetPages.ManualTimerView);
 })();

@@ -9,6 +9,14 @@ var KanColleWidget = KanColleWidget || {};
 
     NyukyoAction.prototype.forStart = function(params){
 
+        if (params.manual) {
+            return this.setManually(
+                new KanColleWidget.Nyukyos(),
+                'nyukyo-start',
+                params
+            );
+        }
+
         KanColleWidget.Stash.params = params;
 
         var achievements = new KanColleWidget.Achievements(new MyStorage());

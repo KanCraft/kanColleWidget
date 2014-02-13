@@ -8,6 +8,8 @@ var widgetPages = widgetPages || {};
         this.identifierName = "第" + this.identifier + "艦隊";
         this.tracked = {hour:0,minute:20};
         this.kind = 'mission-start';
+
+        this.actionName = 'forMissionStart';
     };
     Util.extend(ManualTimerMissionView, widgetPages.ManualTimerView);
 })();

@@ -9,7 +9,8 @@ var widgetPages = widgetPages || {};
         + '</div>';
         this.list = [
             {name:'Rect',checked:true},
-            {name:'Curve'}
+            {name:'Curve'},
+            {name:'Trim'}
         ];
         this.actionList = [
             {name: 'Undo'},
