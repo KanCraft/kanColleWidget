@@ -15,4 +15,30 @@ var KanColleWidget = KanColleWidget || {};
             checker.ignore(questNotEmbarkedYet.id);
         });
     };
+
+    ActionBase.prototype.setManually = function(model, kind, params){
+
+        var notificationMessage = '';
+        var notificationOptions = {
+            startOrFinish: 'start',
+            sound: {kind: 'mission-start'}
+        };
+        if (params.reset) {
+            model.clear(params.identifier);
+            notificationMessage = "リマインダーを解除しました!";
+            notificationOptions.startOrFinish = 'finish';
+            notificationOptions.sound = false;
+        } else {
+            model.add(params.identifier, params.finish);
+            // TODO: tracking
+            // self.tracking.set(self.modelName, inputs);
+            notificationMessage = Util.zP(2, params.inputs.hour) + ':' + Util.zP(2, params.inputs.minute)
+                + "で" + params.text
+                + "完了通知を登録しときました!";
+        }
+        Util.presentation(
+            notificationMessage,
+            notificationOptions
+        );
+    };
 })();

@@ -82,29 +82,20 @@ var widgetPages = widgetPages || {};
         var inputs = {hour: $('#input-hour').val(), minute:$('#input-minute').val()};
         if (! self.validate(inputs)) return self.showAlert('oh... フォーマット違う');
 
-        var notificationMessage = '';
-        var notificationOptions = {
-            callback:function(){setTimeout(window.close, 100); },
-            startOrFinish: 'start',
-            sound: {kind: self.kind}
-        };
-        if (self.isResetAction(inputs)) {
-            self.model.clear(self.identifier);
-            notificationMessage = "リマインダーを解除しました!";
-            notificationOptions.startOrFinish = 'finish';
-            notificationOptions.sound = false;
-        } else {
-            var finish = Calc.convert2Epoch(inputs);
-            self.model.add(self.identifier, finish);
-            self.tracking.set(self.modelName, inputs);
-            notificationMessage = Util.zP(2,inputs.hour) + ':' + Util.zP(2, inputs.minute)
-                + "で" + self.purpose
-                + "完了通知を登録しときました!";
-        }
-        Util.presentation(
-            notificationMessage,
-            notificationOptions
-        );
+        chrome.runtime.sendMessage(null, {
+            purpose: 'actionCall',
+            actionName: this.actionName,
+            params: {
+                manual: true,
+                text: this.purpose, // "建造" など
+                identifier: this.identifier,
+                finish: Calc.convert2Epoch(inputs),
+                inputs: inputs,
+                reset: self.isResetAction(inputs)
+            }
+        }, function(res){
+            window.close();
+        });
     };
     ManualTimerView.prototype.cancel = function(){
         window.close();

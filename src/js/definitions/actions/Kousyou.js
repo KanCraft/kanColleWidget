@@ -10,6 +10,14 @@ var KanColleWidget = KanColleWidget || {};
 
     KousyouAction.prototype.forCreateship = function(params){
 
+        if (params.manual) {
+            return this.setManually(
+                new KanColleWidget.Createships(),
+                'createship-start',
+                params
+            );
+        }
+
         this.achievements.update().incrementCreateshipCount();
 
         KanColleWidget.Stash.params = params;// tmp

@@ -80,6 +80,12 @@ var KanColleWidget = KanColleWidget || {};
             return sendResponse(res);
         }
 
+        if(message.purpose == 'actionCall'){
+            var res = {};
+            action[message.actionName](message.params);
+            return sendResponse(res);
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);
