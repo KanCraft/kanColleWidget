@@ -1,6 +1,32 @@
 var widgetPages = widgetPages || {};
 
 (function(){
+    var PaintTextOptionView = function(){
+        this.tpl = ''
+        + '<div id="text-options" style="display:none;">'
+        + '  <input type="text" id="text-value" size="40">'
+        + '  <select name="text-size" id="text-size">'
+        + '    <option value="0.5em">0.5em</option>'
+        + '    <option value="1em">1em</option>'
+        + '    <option value="2em">2em</option>'
+        + '    <option value="4em" selected>4em</option>'
+        + '    <option value="8em">8em</option>'
+        + '    <option value="16em">16em</option>'
+        + '  </select>'
+        + '  <select name="text-font" id="text-font">'
+        + '    <option value="Helvetica" selected>Helvetica</option>'
+        + '    <option value="Trebuchet MS">Trebuchet MS</option>'
+        + '    <option value="arial black">Arial black</option>'
+        + '    <option value="Comic Sans MS">Comic Sans MS</option>'
+        + '    <option value="serif">Serif</option>'
+        + '  </select>'
+        + '</div>';
+    };
+    Util.extend(PaintTextOptionView, widgetPages.View);
+    PaintTextOptionView.prototype.render = function(){
+        this.apply()._render();
+        return this.$el;
+    };
     var PaintToolView /* = widgetPages.PaintToolView */ = function(){
         this.tpl = ''
         + '<div class="wrapper">'
@@ -10,7 +36,8 @@ var widgetPages = widgetPages || {};
         this.list = [
             {name:'Rect',checked:true},
             {name:'Curve'},
-            {name:'Trim'}
+            {name:'Trim'},
+            {name:'Text'}
         ];
         this.actionList = [
             {name: 'Undo'},
@@ -51,6 +78,7 @@ var widgetPages = widgetPages || {};
     };
     var CaptureView = widgetPages.CaptureView = function(){
         this.toolView = new PaintToolView();
+        this.textOptionView = new PaintTextOptionView();
         this.tpl = ''
         +'<div>'
         +'  <div id="tools">'
@@ -83,7 +111,8 @@ var widgetPages = widgetPages || {};
             format: Config.get('capture-image-format').replace('e','')
         })._render();
         this.$el.find('#tools').append(
-            this.toolView.render()
+            this.toolView.render(),
+            this.textOptionView.render()
         );
         this.imgURI = Util.parseQueryString()['uri'];
         this._delegate();
@@ -98,6 +127,12 @@ var widgetPages = widgetPages || {};
                 self.canvasApp.toDataURL(format),
                 '_blank'
             );
+        });
+        this.$el.find(':radio[name="draw-tool"]').on('change',function(){
+            if ($(this).val() == 'Text') {
+                return $('#text-options').show();
+            }
+            return $('#text-options').hide();
         });
     };
     CaptureView.prototype.startApp = function() {

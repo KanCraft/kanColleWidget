@@ -15,6 +15,8 @@ var KanColleWidget = KanColleWidget || {};
         this.storedImageData = null;
         // Undoのために必要
         this.imageStack = [];
+        // Textのため
+        this.textValue = '';
 
         this.tool = {};// Interface DrawingMethod
     };
@@ -115,6 +117,22 @@ var KanColleWidget = KanColleWidget || {};
             Util.openCaptureByImageURI(_tmpCanvas.toDataURL(format));
         }
     };
+    Canvas.Text = {
+        onStart: function(ev, self){
+            var size = $('#text-size').val();
+            var font = $('#text-font').val();
+            self.context.font = size + ' ' +  font;
+            self.textValue = $('#text-value').val();
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
+        },
+        onMove: function(ev, self){
+            self.context.putImageData(self.storedImageData,0,0);
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
+        },
+        onFinish: function(ev, self){
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
+        }
+    };
     Canvas.prototype.init = function() {
         this.start = null;
         this.end   = null;
@@ -181,6 +199,7 @@ var KanColleWidget = KanColleWidget || {};
         var color = document.getElementById('color').value;
         var opt = {color: color};
         self.context.fillStyle = opt.color;
+        self.context.strokeStyle = opt.color;
         // 開始
         self.tool.onStart(ev, self);
     };
