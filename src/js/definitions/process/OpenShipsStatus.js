@@ -13,9 +13,10 @@ var KanColleWidget = KanColleWidget || {};
             var c_s = self._getCoordsAndSize(dataURI);
             var trimmedURI = Util.trimImage(dataURI, c_s.coords, c_s.size);
             var statusWindow = Tracking.get('statusWindow');
+            if (! statusWindow.size || ! statusWindow.position) statusWindow = Tracking.initial.statusWindow;
             var params = [
-                "top="  + statusWindow.position.top,
-                "left=" + statusWindow.position.left,
+                "top="   + statusWindow.position.top,
+                "left="  + statusWindow.position.left,
                 "height="+ statusWindow.size.height,
                 "width=" + statusWindow.size.width
             ];
