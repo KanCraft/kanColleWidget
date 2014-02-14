@@ -121,6 +121,10 @@
             "css" : [
                 "src/css/proxy2.css"
             ]
+        },
+        {
+            "matches": [ "https://twitter.com/intent/*" ],
+            "js": ["src/js/pages/twitter.js"]
         }
     ],
     "options_page" : "src/html/settings.html"

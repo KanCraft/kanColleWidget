@@ -86,6 +86,17 @@ var KanColleWidget = KanColleWidget || {};
             return sendResponse(res);
         }
 
+        if(message.purpose == 'tweetCompleted'){
+            if (KanColleWidget.Stash.twitterShareWindowIds.length > 0) {
+                setTimeout(function(){
+                    for (var i in KanColleWidget.Stash.twitterShareWindowIds) {
+                        chrome.windows.remove(KanColleWidget.Stash.twitterShareWindowIds[i]);
+                    }
+                    KanColleWidget.Stash.twitterShareWindowIds = [];
+                },1000);
+            }
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);

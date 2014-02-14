@@ -15,6 +15,7 @@ var KanColleWidget = KanColleWidget || {};
             3 : false,
             4 : false
         },
-        statusWindow : null
+        statusWindow : null,
+        twitterShareWindowIds: []
     };
 })();
