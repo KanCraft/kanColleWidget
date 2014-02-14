@@ -285,9 +285,7 @@ var Util = Util || {};
                 return;
             }
 
-            var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
-            pageURL += '?uri=' + dataUrl;
-            var win = window.open(pageURL);
+            Util.openCaptureByImageURI(dataUrl);
 
             doneCallback(dataUrl);
         });
