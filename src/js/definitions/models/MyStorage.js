@@ -158,6 +158,10 @@ MyStorage.prototype.tearDown = function(){
             position: {
                 left : 50,
                 top  : 50
+            },
+            size: {
+                height: 215,
+                width:  184
             }
         }
     },

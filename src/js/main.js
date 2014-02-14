@@ -66,6 +66,7 @@ var KanColleWidget = KanColleWidget || {};
         if(message.purpose == 'statusWindowPositionTracking'){
             var statusWindowInfo = Tracking.get('statusWindow');
             statusWindowInfo.position = message.position;
+            statusWindowInfo.size = message.size;
             Tracking.set('statusWindow',statusWindowInfo);
             return;
         }
