@@ -112,7 +112,7 @@ var KanColleWidget = KanColleWidget || {};
             _tmpContext.putImageData(partialData, 0, 0);
             var format = 'image/' + Config.get('capture-image-format');
             // 別窓を開く
-            window.open(_tmpCanvas.toDataURL(format));
+            Util.openCaptureByImageURI(_tmpCanvas.toDataURL(format));
         }
     };
     Canvas.prototype.init = function() {

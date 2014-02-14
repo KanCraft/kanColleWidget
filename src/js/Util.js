@@ -292,6 +292,13 @@ var Util = Util || {};
             doneCallback(dataUrl);
         });
     };
+
+    Util.openCaptureByImageURI = function(imgURI){
+        var pageURL = chrome.extension.getURL('/') + 'src/html/capture.html';
+        pageURL += '?uri=' + imgURI;
+        var win = window.open(pageURL);
+    };
+
     Util.downloadImage = function(url, data) {
         var data = data || {
             dir: Config.get('capture-image-download-dir'),
