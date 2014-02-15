@@ -15,6 +15,8 @@ var KanColleWidget = KanColleWidget || {};
         this.storedImageData = null;
         // Undoのために必要
         this.imageStack = [];
+        // Textのため
+        this.textValue = '';
 
         this.tool = {};// Interface DrawingMethod
     };
@@ -30,7 +32,6 @@ var KanColleWidget = KanColleWidget || {};
     };
     Canvas.Rect = {
         onStart: function(ev, self){
-
             // 始点を記憶
             self.start = {x: ev.offsetX,y: ev.offsetY};
         },
@@ -72,6 +73,64 @@ var KanColleWidget = KanColleWidget || {};
             Canvas.Curve._prot(ev,self);
         },
         onFinish : function(ev, self){
+        }
+    };
+    Canvas.Trim = {
+        onStart: function(ev, self){
+            self.start = {x:ev.offsetX, y:ev.offsetY};
+        },
+        onMove: function(ev, self){
+            // 保存した最初の状態に復帰
+            self.context.putImageData(self.storedImageData,0,0);
+            // 終点座標の更新
+            self.end = {x: ev.offsetX, y: ev.offsetY};
+            // 描画
+            Canvas.Trim._showArea(ev, self);
+        },
+        _showArea: function(ev, self){
+            self.end = {x: ev.offsetX,y: ev.offsetY};
+            self.context.strokeStyle = "white";
+            self.context.strokeRect(
+                self.start.x,
+                self.start.y,
+                self.end.x - self.start.x,
+                self.end.y - self.start.y
+            );
+        },
+        onFinish: function(ev, self){
+            self.context.putImageData(self.storedImageData,0,0);
+            // 部分のImageDataを取得する
+            var partialData = self.context.getImageData(
+                self.start.x,
+                self.start.y,
+                self.end.x - self.start.x,
+                self.end.y - self.start.y
+            );
+            // 一時的にキャンバスを作る
+            var _tmpCanvas = document.createElement('canvas');
+            _tmpCanvas.width = partialData.width;
+            _tmpCanvas.height = partialData.height;
+            var _tmpContext = _tmpCanvas.getContext('2d');
+            _tmpContext.putImageData(partialData, 0, 0);
+            var format = 'image/' + Config.get('capture-image-format');
+            // 別窓を開く
+            Util.openCaptureByImageURI(_tmpCanvas.toDataURL(format));
+        }
+    };
+    Canvas.Text = {
+        onStart: function(ev, self){
+            var size = $('#text-size').val();
+            var font = $('#text-font').val();
+            self.context.font = size + ' ' +  font;
+            self.textValue = $('#text-value').val();
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
+        },
+        onMove: function(ev, self){
+            self.context.putImageData(self.storedImageData,0,0);
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
+        },
+        onFinish: function(ev, self){
+            self.context.fillText(self.textValue, ev.offsetX, ev.offsetY);
         }
     };
     Canvas.prototype.init = function() {
@@ -140,16 +199,17 @@ var KanColleWidget = KanColleWidget || {};
         var color = document.getElementById('color').value;
         var opt = {color: color};
         self.context.fillStyle = opt.color;
+        self.context.strokeStyle = opt.color;
         // 開始
         self.tool.onStart(ev, self);
     };
     Canvas.prototype.finishDrawing = function(ev, self) {
-        // RectなどのUIのために保存した状態を解放
-        self.storedImageData = null;
         // 押下を開放
         self.isMouseDown = false;
         // 終了
         self.tool.onFinish(ev, self);
+        // RectなどのUIのために保存した状態を解放
+        self.storedImageData = null;
         // 初期化
         self.init();
     };

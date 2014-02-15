@@ -7,6 +7,8 @@ var widgetPages = widgetPages || {};
         this.identifier = params['api_ndock_id'];
         this.identifierName = "第" + this.identifier + "ドック";
         this.kind = 'nyukyo-start';
+
+        this.actionName = 'forNyukyoStart';
     };
     Util.extend(ManualTimerNyukyoView, widgetPages.ManualTimerView);
 })();

@@ -66,6 +66,7 @@ var KanColleWidget = KanColleWidget || {};
         if(message.purpose == 'statusWindowPositionTracking'){
             var statusWindowInfo = Tracking.get('statusWindow');
             statusWindowInfo.position = message.position;
+            statusWindowInfo.size = message.size;
             Tracking.set('statusWindow',statusWindowInfo);
             return;
         }
@@ -78,6 +79,23 @@ var KanColleWidget = KanColleWidget || {};
                 res = Config.getJSON();
             }
             return sendResponse(res);
+        }
+
+        if(message.purpose == 'actionCall'){
+            var res = {};
+            action[message.actionName](message.params);
+            return sendResponse(res);
+        }
+
+        if(message.purpose == 'tweetCompleted'){
+            if (KanColleWidget.Stash.twitterShareWindowIds.length > 0) {
+                setTimeout(function(){
+                    for (var i in KanColleWidget.Stash.twitterShareWindowIds) {
+                        chrome.windows.remove(KanColleWidget.Stash.twitterShareWindowIds[i]);
+                    }
+                    KanColleWidget.Stash.twitterShareWindowIds = [];
+                },1000);
+            }
         }
 
         if( message.winId == undefined ) return;

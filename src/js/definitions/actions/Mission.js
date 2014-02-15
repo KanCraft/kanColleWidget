@@ -11,6 +11,14 @@ var KanColleWidget = KanColleWidget || {};
 
     MissionAction.prototype.forStart = function(params){
 
+        if (params.manual) {
+            return this.setManually(
+                this.missions,
+                'mission-start',
+                params
+            );
+        }
+
         this.achievements.update().incrementMissionCount();
 
         if (Config.get("enable-mission-reminder") === false) return;

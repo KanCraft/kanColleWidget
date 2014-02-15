@@ -10,7 +10,15 @@ var KanColleWidget = KanColleWidget || {};
     };
     Share.prototype.share = function(opt) {
         opt = opt || this.defaultOpt;
-        window.open(this.url, opt.target, opt.windowOpt);
+        var createData = {
+            url: this.url,
+            width:  550,
+            height: 260,
+            type:   'popup'
+        };
+        chrome.windows.create(createData,function(win){
+            KanColleWidget.Stash.twitterShareWindowIds.push(win.id);
+        });
     };
 
     var Twitter = KanColleWidget.Twitter = function(){
