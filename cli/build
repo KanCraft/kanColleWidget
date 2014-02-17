@@ -36,6 +36,7 @@ build_beta(){
   cp -r src build/beta.kanColleWidget/
   mv build/beta.kanColleWidget/src/img/icon* build/beta.kanColleWidget/
   cp manifest/prod.json build/beta.kanColleWidget/manifest.json
+  cp manifest/icons/beta/* build/beta.kanColleWidget/
   sed -e 's/艦これウィジェット/beta.艦これウィジェット/' -i.bak build/beta.kanColleWidget/manifest.json
   zip -r build/beta.kanColleWidget.zip build/beta.kanColleWidget/*
 }
