@@ -98,8 +98,8 @@ function _toggleArea(e, sw){
         Config.set('show-old-launch', false);
         $('#old-launch').hide();
     });
-    document.forms[0].elements['launch'].addEventListener('click', function(){
-        var mode = document.forms[0].elements['mode'].value;
+    $('#launch').on('click', function(){
+        var mode = $('input:radio[name="mode"]:checked').val();
         Tracking.set('mode',mode);
         Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
             if(typeof widgetWindow != 'undefined'){
@@ -111,10 +111,10 @@ function _toggleArea(e, sw){
                     width: newWidth + frameWidth,
                     height: newWidth * Constants.widget.aspect + frameHeight
                 };
-                chrome.windows.update(widgetWindow.id, updateInfo);
+                chrome.windows.update(widgetWindow.id, updateInfo,function(){
+                    //window.close();
+                });
             }
-            // とりあえず全部closeしてみる
-            this_select_window.close();
         });
     });
     var divs = document.getElementsByClassName('select');
