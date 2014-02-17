@@ -21,7 +21,7 @@ var KanColleWidget = KanColleWidget || {};
         var notificationMessage = '';
         var notificationOptions = {
             startOrFinish: 'start',
-            sound: {kind: 'mission-start'}
+            sound: {kind: kind}
         };
         if (params.reset) {
             model.clear(params.identifier);
