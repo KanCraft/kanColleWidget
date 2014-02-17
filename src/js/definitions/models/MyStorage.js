@@ -12,13 +12,45 @@ MyStorage.prototype.get = function(key){
         return localStorage.getItem(key);
     }
 };
-
+// set呼ばれ過ぎ問題？
 MyStorage.prototype.set = function(key,value){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().set(key,value);
 
+    if (this.get('config')['sync-multi-devices']) this.sync.save();
+
     return localStorage.setItem(key,JSON.stringify(value));
 };
+
+MyStorage.prototype.sync = (function(){
+    var myStorage = new MyStorage();
+    var lastSavedTime = 0;
+    var _save = function(cb){
+            if (typeof cb !== 'function') cb = function(){};
+            if (Date.now() - lastSavedTime < 10*1000) return cb();
+            var kvs = {};
+            for (var key in localStorage) {
+                kvs[key] = localStorage.getItem(key);
+            }
+            chrome.storage.sync.set(kvs, function(){
+                lastSavedTime = Date.now();
+                return cb(kvs);
+            });
+    };
+    var _load = function(cb){
+        if (typeof cb !== 'function') cb = function(){};
+        chrome.storage.sync.get(null, function(items){
+            for (var key in items) {
+                myStorage.set(key, JSON.parse(items[key]));
+            }
+            return cb(items);
+        });
+    };
+    return {
+        save: _save,
+        load: _load
+    };
+})();
 
 MyStorage.ofTest = function(){
     var self = new MyStorage();
