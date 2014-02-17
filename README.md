@@ -47,9 +47,11 @@ https://github.com/otiai10/kanColleWidget
 
 [README4DEV.md](https://github.com/otiai10/kanColleWidget/blob/develop/README4DEV.md)
 
-# リリースノート（ながいので注意 :smiling_imp: ）
+# RELEASES
 - RELEASEINFO
-- 2014/02/14 v0.10.0.1, v0.10.0.2, v0.10.0.3<!--version-->
+- 2014/02/15 v1.0<!--version-->
+    - ストアのリンク公開設定を変えました
+- 2014/02/14 v0.10.0.1, v0.10.0.2, v0.10.0.3
     - キャプチャのトリミング機能を追加
     - 手動登録した時に通知が消えないバグを修正
     - 手動登録した時に登録時音声が出ないバグを修正

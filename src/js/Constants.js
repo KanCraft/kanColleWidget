@@ -1,18 +1,11 @@
 /* static */
 var Constants = {
     release : {
-        version: "v0.10.0.3",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/358',
-        announceVersion : 37,
+        version: "v1.0",
+        link: 'http://otiai10.github.io/kanColleWidget',
+        announceVersion : 38,
         announcements   : [
-            'キャプチャのトリミング機能を追加',
-            '手動登録した時に通知が消えないバグを修正',
-            '手動登録した時に登録時音声が出ないバグを修正',
-            '建造報告ツイッター窓が自動で消えるように修正',
-            '大破進撃防止窓のサイズを記憶するように修正',
-            'キャプチャ編集にテキスト機能を追加',
-            '---',
-            '大破進撃防止窓が出ないバグ修正'
+            'ストアの公開設定を変えました'
         ]
     },
     mission : {
