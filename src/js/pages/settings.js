@@ -37,6 +37,7 @@ $(function(){
     );
 
     $("#others").append(
+        (new widgetPages.SyncMultiDevicesView()).render(),
         (new widgetPages.ClockmodeStyleView()).render(),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
