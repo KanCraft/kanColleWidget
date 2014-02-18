@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/02/18 v1.0.2<!--version-->
+- 2014/02/18 v1.0.2, v1.0.3<!--version-->
     - 複数デバイス間でウィジェットのデータを同期する設定追加
 - 2014/02/17 v1.0.1
     - 大破進撃防止窓クリックしても本窓にフォーカスされないバグ修正
