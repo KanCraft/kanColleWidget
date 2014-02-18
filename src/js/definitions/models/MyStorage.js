@@ -17,7 +17,7 @@ MyStorage.prototype.set = function(key,value){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().set(key,value);
 
-    if (this.get('config')['sync-multi-devices']) this.sync.save();
+    if (this.get('config') && this.get('config')['sync-multi-devices']) this.sync.save();
 
     return localStorage.setItem(key,JSON.stringify(value));
 };
