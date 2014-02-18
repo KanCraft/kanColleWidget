@@ -45,6 +45,12 @@ $(function(){
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
         (new widgetPages.HideAdressbarInSafemodeView()).render()
     );
+
+    // TODO: うんこ
+    $('#sync-now').on('click',function(ev){
+        var syncView = new widgetPages.SyncMultiDevicesView();
+        syncView.syncNow();
+    });
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
