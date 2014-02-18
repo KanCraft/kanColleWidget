@@ -1,13 +1,12 @@
 /* static */
 var Constants = {
     release : {
-        version: "v1.0.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/364',
-        announceVersion : 39,
+        version: "v1.0.2",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/365',
+        announceVersion : 40,
         announcements   : [
-            '大破進撃防止窓クリックしても本窓にフォーカスされないバグ修正',
-            '手動リマインダー登録したとき全部「遠征開始」音声になっちゃうバグ修正',
-            '[LAUNCH APP]ボタンが不感症だったの治療'
+            '複数デバイス間でウィジェットのデータを同期する設定追加',
+            '（<a href="https://github.com/otiai10/kanColleWidget/pull/365/commits" class="light">ソースコード</a>読んでください）',
         ]
     },
     mission : {
