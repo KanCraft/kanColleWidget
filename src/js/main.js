@@ -7,8 +7,6 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
 
-    if (Config.get("sync-multi-devices")) (new MyStorage()).sync.load();
-
     var observer = new KanColleWidget.Observer();
     var dispatcher = new KanColleWidget.Dispatcher();
     var completeDispatcher = new KanColleWidget.CompleteDispatcher();
