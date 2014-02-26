@@ -13,7 +13,6 @@
         "tabs",
         "notifications",
         "webRequest",
-        "storage",
         "unlimitedStorage",
         "downloads",
         "*://*/*"
