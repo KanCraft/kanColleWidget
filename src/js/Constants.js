@@ -1,12 +1,16 @@
 /* static */
 var Constants = {
     release : {
-        version: "v1.0.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/365',
-        announceVersion : 41,
+        version: "v1.0.4.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/371',
+        announceVersion : 42,
         announcements   : [
-            '新しい遠征の追加',
-            '(ご報告ありがとうございました！)'
+            '【災害警報】',
+            'Chromeのアプデでまたバグが入りそうです',
+            'まだbeta版(34.0.1847.11 beta) でのみですが、',
+            '<a class="light" href="https://github.com/otiai10/kanColleWidget/issues/370" target="_blank">スクショ撮れない現象</a>が確認されています。',
+            'Chromeのバージョン自動更新をオフにするなどして対応してください',
+            'どぼーん'
         ]
     },
     mission : {

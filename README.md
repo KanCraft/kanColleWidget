@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/02/27 v1.0.4<!--version-->
+- 2014/03/01 v1.0.4.1<!--version-->
+    - 災害警報、どぼーん
+- 2014/02/27 v1.0.4
     - 新しい遠征の追加
 - 2014/02/17 v1.0.1
     - 大破進撃防止窓クリックしても本窓にフォーカスされないバグ修正
