@@ -1,13 +1,12 @@
 /* static */
 var Constants = {
     release : {
-        version: "v1.0.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/364',
-        announceVersion : 39,
+        version: "v1.0.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/365',
+        announceVersion : 41,
         announcements   : [
-            '大破進撃防止窓クリックしても本窓にフォーカスされないバグ修正',
-            '手動リマインダー登録したとき全部「遠征開始」音声になっちゃうバグ修正',
-            '[LAUNCH APP]ボタンが不感症だったの治療'
+            '新しい遠征の追加',
+            '(ご報告ありがとうございました！)'
         ]
     },
     mission : {
@@ -31,6 +30,8 @@ var Constants = {
         "18"  : {minute:300,  title: '航空機輸送作戦'},
         "19"  : {minute:360,  title: '北号作戦'},
         "20"  : {minute:120,  title: '潜水艦哨戒任務'},
+        "21"  : {minute:140,  title: '北方鼠輸送作戦'},
+        "22"  : {minute:180,  title: '艦隊演習'},
         "25"  : {minute:2400, title: '通商破壊作戦'},
         "26"  : {minute:4800, title: '敵母港空襲作戦　'},
         "27"  : {minute:1200, title: '潜水艦通商破壊作戦'},
@@ -40,7 +41,8 @@ var Constants = {
         "33"  : {minute:15,   title: '前衛支援任務'},
         "34"  : {minute:30,   title: '決戦支援任務'},
         "35"  : {minute:420,  title: 'MO作戦'},
-        "36"  : {minute:540,  title: '水上機基地建設'}
+        "36"  : {minute:540,  title: '水上機基地建設'},
+        "37"  : {minute:165,  title: '東京急行'}
     },
     widget : {
         title : {
