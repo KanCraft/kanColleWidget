@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/03/01 v1.0.4.1<!--version-->
+- 2014/03/02 v1.0.5<!--version-->
+    - Chrome34betaでスクショ撮れないバグを事前に修正
+- 2014/03/01 v1.0.4.1
     - 災害警報、どぼーん
 - 2014/02/27 v1.0.4
     - 新しい遠征の追加
