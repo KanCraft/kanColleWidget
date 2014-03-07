@@ -71,6 +71,8 @@ function _toggleArea(e, sw){
 
 (function(){
 
+    // sync storageがあればロードするし
+    // sync storageが無ければlocalを優先する
     MyStorage.sync.load();
 
     $('a.link').on('click',function(){

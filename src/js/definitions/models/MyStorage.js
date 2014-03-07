@@ -4,13 +4,12 @@ function MyStorage(){};
 
 MyStorage.sync = {
     save: function(){
-        console.log(localStorage);
         var storedData = {};
         for (var k in localStorage) {
             storedData[k] = localStorage[k];
         }
         chrome.storage.sync.set(storedData, function(){
-            alert("ウィジェット内データをセーブしました");
+            // console.log('Sync saved');
         });
     },
     load: function(){
@@ -36,7 +35,11 @@ MyStorage.prototype.set = function(key,value){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().set(key,value);
 
-    return localStorage.setItem(key,JSON.stringify(value));
+    localStorage.setItem(key,JSON.stringify(value));
+
+    if (this.get('config')['enable-sync']) MyStorage.sync.save();
+
+    return;
 };
 
 MyStorage.ofTest = function(){

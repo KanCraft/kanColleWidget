@@ -11,18 +11,6 @@ var targetFlashes = [
 $(function() {
     'use strict';
 
-    var syncEnabled = false;
-    chrome.runtime.sendMessage({
-        purpose: 'getConfig',
-        configKey: 'enable-sync'
-    },function(isSyncEnabled){
-        syncEnabled = isSyncEnabled;
-    });
-
-    window.onbeforeunload = function() {
-        if (syncEnabled) chrome.runtime.sendMessage({purpose:'syncSave'});
-    };
-
     var aaString = '' +
             '                 __＿___＿\n'+
             '          ／                  ＼\n'+
