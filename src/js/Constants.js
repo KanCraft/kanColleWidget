@@ -1,13 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.0.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/372',
-        announceVersion : 42,
+        version: "v1.0.6.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/373',
+        announceVersion : 43,
         announcements   : [
-            'まだbeta版(34.0.1847.11 beta) でのみですが、',
-            '<a class="light" href="https://github.com/otiai10/kanColleWidget/issues/370" target="_blank">スクショ撮れない現象</a>が確認されています。',
-            'これを事前に解決する修正を加えました',
-            '情報提供して下さった皆さんありがとうございます！'
+            '複数PCブラウザ間の同期設定を追加',
+            '欲しかったので作りました',
+            '伊８ぜんぜん出ません'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

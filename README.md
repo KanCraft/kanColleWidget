@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/03/02 v1.0.5<!--version-->
+- 2014/03/xx v1.0.6.1<!--version-->
+    - 複数PCブラウザ間の同期設定を追加
+- 2014/03/02 v1.0.5
     - Chrome34betaでスクショ撮れないバグを事前に修正
 - 2014/03/01 v1.0.4.1
     - 災害警報、どぼーん
