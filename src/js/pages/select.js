@@ -71,6 +71,8 @@ function _toggleArea(e, sw){
 
 (function(){
 
+    MyStorage.sync.load();
+
     $('a.link').on('click',function(){
         chrome.tabs.create({url:$(this).attr('data-href')});
     });

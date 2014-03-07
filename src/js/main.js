@@ -81,6 +81,11 @@ var KanColleWidget = KanColleWidget || {};
             return sendResponse(res);
         }
 
+        if(message.purpose == 'syncSave'){
+            MyStorage.sync.save();
+            return;
+        }
+
         if(message.purpose == 'actionCall'){
             var res = {};
             action[message.actionName](message.params);
