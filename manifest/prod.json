@@ -13,6 +13,7 @@
         "tabs",
         "notifications",
         "webRequest",
+        "storage",
         "unlimitedStorage",
         "downloads",
         "<all_urls>"

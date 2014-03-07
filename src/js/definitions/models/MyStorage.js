@@ -2,6 +2,26 @@
 
 function MyStorage(){};
 
+MyStorage.sync = {
+    save: function(){
+        console.log(localStorage);
+        var storedData = {};
+        for (var k in localStorage) {
+            storedData[k] = localStorage[k];
+        }
+        chrome.storage.sync.set(storedData, function(){
+            alert("ウィジェット内データをセーブしました");
+        });
+    },
+    load: function(){
+        chrome.storage.sync.get(null, function(items){
+            for (var k in items) {
+                localStorage.setItem(k, items[k]);
+            }
+            alert("ウィジェットデータをロードしました");
+        });
+    }
+};
 MyStorage.prototype.get = function(key){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().get(key);
