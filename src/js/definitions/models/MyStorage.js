@@ -17,6 +17,7 @@ MyStorage.sync = {
             for (var k in items) {
                 localStorage.setItem(k, items[k]);
             }
+            alert("ウィジェットデータをロードしました");
         });
     }
 };
@@ -111,7 +112,6 @@ MyStorage.prototype.tearDown = function(){
         'modify-original-tab'                : false,
         'use-white-mode-as-default'          : false,
         'hide-adressbar-in-safemode'         : false,
-        'enable-sync'                        : false,
         'sort-by-finishtime'                 : false
     },
 
