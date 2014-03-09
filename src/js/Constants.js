@@ -1,6 +1,6 @@
 var Constants = {
     release : {
-        version: "v1.0.6.1",
+        version: "v1.0.6.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/373',
         announceVersion : 43,
         announcements   : [
