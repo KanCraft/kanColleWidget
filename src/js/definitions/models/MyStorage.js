@@ -8,16 +8,18 @@ MyStorage.sync = {
         for (var k in localStorage) {
             storedData[k] = localStorage[k];
         }
+        console.log('Try to SAVE =>', storedData);
         chrome.storage.sync.set(storedData, function(){
             // console.log('Sync saved');
         });
     },
     load: function(){
         chrome.storage.sync.get(null, function(items){
+            console.log('TRY TO LOAD THIS =>', items);
             for (var k in items) {
                 localStorage.setItem(k, items[k]);
+                console.log('[' + k + '] loaded');
             }
-            alert("ウィジェットデータをロードしました");
         });
     }
 };
@@ -38,7 +40,7 @@ MyStorage.prototype.set = function(key,value){
 
     localStorage.setItem(key,JSON.stringify(value));
 
-    if (this.get('config')['enable-sync']) MyStorage.sync.save();
+    MyStorage.sync.save();
 
     return;
 };
