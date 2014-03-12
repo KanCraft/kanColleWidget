@@ -8,7 +8,7 @@ var widgetPages = widgetPages || {};
         this.description = '艦これウィジェットに保存した遠征終了時刻などのデータを'
                          + '複数PCのChromeブラウザで同期できるようにします。仕組みは'
                          + '<a href="http://developer.chrome.com/extensions/storage">ここ</a>'
-                         + '見てください。なお、これを有効にすると、'
+                         + '見てください。なお、これを有効にすると、ウィジェット窓を閉じた時にセーブされ、'
                          + 'アイコンポップアップの中に[ sync load ]ボタンが表示されます。';
     };
     Util.extend(EnableSyncView, widgetPages.SettingCheckboxView);
