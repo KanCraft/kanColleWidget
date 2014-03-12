@@ -40,7 +40,7 @@ MyStorage.prototype.set = function(key,value){
 
     localStorage.setItem(key,JSON.stringify(value));
 
-    MyStorage.sync.save();
+    if (this.get('config')['enable-sync']) MyStorage.sync.save();
 
     return;
 };
