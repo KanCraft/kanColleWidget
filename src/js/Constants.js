@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.0.6.2",
+        version: "v1.0.6.3",
         link: 'https://github.com/otiai10/kanColleWidget/pull/373',
-        announceVersion : 43,
+        announceVersion : 45,
         announcements   : [
             '複数PCブラウザ間の同期設定を追加',
             '欲しかったので作りました',
