@@ -82,7 +82,7 @@ var KanColleWidget = KanColleWidget || {};
         }
 
         if(message.purpose == 'syncSave'){
-            if(Config.get('enable-sync')) MyStorage.sync.save();
+            MyStorage.sync.save();
             return;
         }
 

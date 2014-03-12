@@ -40,7 +40,8 @@ MyStorage.prototype.set = function(key,value){
 
     localStorage.setItem(key,JSON.stringify(value));
 
-    if (this.get('config')['enable-sync']) MyStorage.sync.save();
+    // たぶん叩き過ぎ
+    // if (this.get('config')['enable-sync']) MyStorage.sync.save();
 
     return;
 };
