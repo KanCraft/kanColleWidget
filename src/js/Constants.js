@@ -1,12 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.0.6.4",
+        version: "v1.0.6.5",
         link: 'https://github.com/otiai10/kanColleWidget/pull/373',
-        announceVersion : 45,
+        announceVersion : 46,
         announcements   : [
             '複数PCブラウザ間の同期設定を追加',
             '欲しかったので作りました',
-            '伊８ぜんぜん出ません'
+            'ウィジェット窓を閉じたときにセーブ、',
+            'ボタンからロードです。',
+            'それはそうと伊８ぜんぜん出ません'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
