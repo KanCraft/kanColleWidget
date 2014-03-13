@@ -8,18 +8,18 @@ MyStorage.sync = {
         for (var k in localStorage) {
             storedData[k] = localStorage[k];
         }
-        console.log('Try to SAVE =>', storedData);
         chrome.storage.sync.set(storedData, function(){
             // console.log('Sync saved');
         });
     },
-    load: function(){
+    load: function(cb){
+        if (typeof cb != 'function') cb = function(){};
         chrome.storage.sync.get(null, function(items){
-            console.log('TRY TO LOAD THIS =>', items);
             for (var k in items) {
                 localStorage.setItem(k, items[k]);
-                console.log('[' + k + '] loaded');
+                console.log('[' + k + '] LOADED =>', items[k]);
             }
+            cb(items);
         });
     }
 };

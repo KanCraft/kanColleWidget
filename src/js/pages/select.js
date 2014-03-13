@@ -168,7 +168,9 @@ function _toggleArea(e, sw){
     if (Config.get('enable-sync')) {
         $('#sync-load').show();
         $('#sync-load').on('click',function(){
-            MyStorage.sync.load();
+            MyStorage.sync.load(function(){
+                window.close();
+            });
         });
     }
 })();
