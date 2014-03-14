@@ -179,6 +179,13 @@ var Constants = {
             require:[30, 6, {hc:1, lc:1, dd:2}],
             area: 2
         },
+        "23": {
+            minute:240,
+            title: '航空戦艦運用演習',
+            reward: [70, 0, 20, 0, 100],
+            require: [null, 6, {ab:2,dd:2}],
+            area: 2
+        },
         // 西方海域
         "25": {
             minute:2400,
@@ -222,6 +229,13 @@ var Constants = {
             require:[55, 4, {sm:4}],
             area: 3
         },
+        "31": {
+            minute:120,
+            title: '海外艦との接触',
+            reward: [50, 0, 30, 0, 0],
+            require:[60, 4, {sm:4}],
+            area: 3
+        },
         // 南方海域
         "35": {
             minute:420,
@@ -242,6 +256,13 @@ var Constants = {
             title: '東京急行',
             reward: [50, 0, 380, 270, 0],
             require:[50, 6, {lc:1, dd:5}],
+            area: 4
+        },
+        "38": {
+            minute:175,
+            title: '東京急行(弐)',
+            reward: [100, 420, 0, 200, 0],
+            require:[65, 6, {lc:1, dd:5}],
             area: 4
         }
     },
