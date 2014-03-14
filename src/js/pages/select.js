@@ -71,6 +71,12 @@ function _toggleArea(e, sw){
 
 (function(){
 
+    /*
+    // sync storageがあればロードするし
+    // sync storageが無ければlocalを優先する
+    MyStorage.sync.load();
+    */
+
     $('a.link').on('click',function(){
         chrome.tabs.create({url:$(this).attr('data-href')});
     });
@@ -158,4 +164,13 @@ function _toggleArea(e, sw){
     $("#time-left-wrapper").append(// リファクタ後は、#main.appendしたい
         timersView.render()
     );
+
+    if (Config.get('enable-sync')) {
+        $('#sync-load').show();
+        $('#sync-load').on('click',function(){
+            MyStorage.sync.load(function(){
+                window.close();
+            });
+        });
+    }
 })();

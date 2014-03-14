@@ -2,6 +2,27 @@
 
 function MyStorage(){};
 
+MyStorage.sync = {
+    save: function(){
+        var storedData = {};
+        for (var k in localStorage) {
+            storedData[k] = localStorage[k];
+        }
+        chrome.storage.sync.set(storedData, function(){
+            // console.log('Sync saved');
+        });
+    },
+    load: function(cb){
+        if (typeof cb != 'function') cb = function(){};
+        chrome.storage.sync.get(null, function(items){
+            for (var k in items) {
+                localStorage.setItem(k, items[k]);
+                console.log('[' + k + '] LOADED =>', items[k]);
+            }
+            cb(items);
+        });
+    }
+};
 MyStorage.prototype.get = function(key){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().get(key);
@@ -17,7 +38,12 @@ MyStorage.prototype.set = function(key,value){
 
     if (sessionStorage.isTest == 'true') return MyStorage.ofTest().set(key,value);
 
-    return localStorage.setItem(key,JSON.stringify(value));
+    localStorage.setItem(key,JSON.stringify(value));
+
+    // たぶん叩き過ぎ
+    // if (this.get('config')['enable-sync']) MyStorage.sync.save();
+
+    return;
 };
 
 MyStorage.ofTest = function(){
@@ -89,6 +115,7 @@ MyStorage.prototype.tearDown = function(){
         'modify-original-tab'                : false,
         'use-white-mode-as-default'          : false,
         'hide-adressbar-in-safemode'         : false,
+        'enable-sync'                        : false,
         'sort-by-finishtime'                 : false
     },
 

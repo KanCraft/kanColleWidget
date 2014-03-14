@@ -1,50 +1,246 @@
-/* static */
 var Constants = {
     release : {
-        version: "v1.0.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/372',
-        announceVersion : 42,
+        version: "v1.0.6.5",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/373',
+        announceVersion : 46,
         announcements   : [
-            'まだbeta版(34.0.1847.11 beta) でのみですが、',
-            '<a class="light" href="https://github.com/otiai10/kanColleWidget/issues/370" target="_blank">スクショ撮れない現象</a>が確認されています。',
-            'これを事前に解決する修正を加えました',
-            '情報提供して下さった皆さんありがとうございます！'
+            '複数PCブラウザ間の同期設定を追加',
+            '欲しかったので作りました',
+            'ウィジェット窓を閉じたときにセーブ、',
+            'ボタンからロードです。',
+            'それはそうと伊８ぜんぜん出ません'
         ]
     },
+    area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
+    shiptype:{dd:"駆逐",lc:"軽巡",hc:"重巡",bb:"戦艦",ac:"空母",ab:"航戦",sc:"水母"},
     mission : {
-        "1"   : {minute:15,   title: '練習航海'},
-        "2"   : {minute:30,   title: '長距離練習航海'},
-        "3"   : {minute:20,   title: '警備任務'},
-        "4"   : {minute:50,   title: '対潜警戒任務'},
-        "5"   : {minute:90,   title: '海上護衛任務'},
-        "6"   : {minute:40,   title: '防空射撃演習'},
-        "7"   : {minute:60,   title: '観艦式予行'},
-        "8"   : {minute:180,  title: '観艦式'},
-        "9"   : {minute:240,  title: 'タンカー護衛任務'},
-        "10"  : {minute:90,   title: '強行偵察任務'},
-        "11"  : {minute:300,  title: 'ボーキサイト輸送任務'},
-        "12"  : {minute:480,  title: '資源輸送任務'},
-        "13"  : {minute:240,  title: '鼠輸送作戦'},
-        "14"  : {minute:360,  title: '包囲陸戦隊撤収作戦'},
-        "15"  : {minute:720,  title: '囮機動部隊支援作戦'},
-        "16"  : {minute:900,  title: '艦隊決戦援護作戦'},
-        "17"  : {minute:45,   title: '敵地偵察作戦'},
-        "18"  : {minute:300,  title: '航空機輸送作戦'},
-        "19"  : {minute:360,  title: '北号作戦'},
-        "20"  : {minute:120,  title: '潜水艦哨戒任務'},
-        "21"  : {minute:140,  title: '北方鼠輸送作戦'},
-        "22"  : {minute:180,  title: '艦隊演習'},
-        "25"  : {minute:2400, title: '通商破壊作戦'},
-        "26"  : {minute:4800, title: '敵母港空襲作戦　'},
-        "27"  : {minute:1200, title: '潜水艦通商破壊作戦'},
-        "28"  : {minute:1500, title: '西方海域封鎖作戦'},
-        "29"  : {minute:1440, title: '潜水艦派遣演習'},
-        "30"  : {minute:2880, title: '潜水艦派遣作戦'},
-        "33"  : {minute:15,   title: '前衛支援任務'},
-        "34"  : {minute:30,   title: '決戦支援任務'},
-        "35"  : {minute:420,  title: 'MO作戦'},
-        "36"  : {minute:540,  title: '水上機基地建設'},
-        "37"  : {minute:165,  title: '東京急行'}
+        /**
+         * reward: [ 経験値, 燃料, 弾薬, 鋼材, ボーキ]
+         * require:[ レベル, 艦数, Object:構成]
+         * area: *area
+         */
+        // 鎮守府海域
+        "1": {
+            minute:15,
+            title: '練習航海',
+            reward: [10, 0, 30, 0, 0],
+            require:[1, 2, null],
+            area: 0
+        },
+        "2": {
+            minute:30,
+            title: '長距離練習航海',
+            reward: [20, 0, 100, 30, 0],
+            require:[2, 4, null],
+            area: 0
+        },
+        "3": {
+            minute:20,
+            title: '警備任務',
+            reward: [30, 30, 30, 40, 0],
+            require:[3, 3, null],
+            area: 0
+        },
+        "4": {
+            minute:50,
+            title: '対潜警戒任務',
+            reward: [30, 0, 60, 0, 0],
+            require:[3, 3, {lc:1, dd:2}],
+            area: 0
+        },
+        "5": {
+            minute:90,
+            title: '海上護衛任務',
+            reward: [40, 200, 200, 20, 20],
+            require:[3, 4, {lc:1, dd:2}],
+            aera: 0
+        },
+        "6": {
+            minute:40,
+            title: '防空射撃演習',
+            reward: [30, 0, 0, 0, 80],
+            require:[4, 4, null],
+            aera: 0
+        },
+        "7": {
+            minute:60,
+            title: '観艦式予行',
+            reward: [60, 0, 0, 50, 30],
+            require:[5, 6, null],
+            aera: 0
+        },
+        "8": {
+            minute:180,
+            title: '観艦式',
+            reward: [120, 50, 100, 50, 50],
+            require:[6, 6, null],
+            area: 0
+        },
+        // 南西諸島海域
+        "9": {
+            minute:240,
+            title: 'タンカー護衛任務',
+            reward: [60, 350, 0, 0, 0],
+            require:[3, 4, {lc:1, dd:2}],
+            area: 1
+        },
+        "10": {
+            minute:90,
+            title: '強行偵察任務',
+            reward: [40, 0, 50, 0, 30],
+            require:[3,3,{lc:2}],
+            area: 1
+        },
+        "11": {
+            minute:300,
+            title: 'ボーキサイト輸送任務',
+            reward: [40, 0, 0, 0, 250],
+            require:[6,4,{dd:2}],
+            area: 1
+        },
+        "12": {
+            minute:480,
+            title: '資源輸送任務',
+            reward: [60, 50, 250, 200, 50],
+            require:[4, 4, {dd:2}],
+            area: 1
+        },
+        "13": {
+            minute:240,
+            title: '鼠輸送作戦',
+            reward: [70, 240, 300, 0, 0],
+            require:[5, 6, {lc:1, dd:4}],
+            area: 1
+        },
+        "14": {
+            minute:360,
+            title: '包囲陸戦隊撤収作戦',
+            reward: [90, 0, 240, 200, 0],
+            require:[6, 6, {lc:1, dd:3}],
+            area: 1
+        },
+        "15": {
+            minute:720,
+            title: '囮機動部隊支援作戦',
+            reward: [100, 0, 0, 300, 400],
+            require:[9, 6, {ac:2, dd:2}],
+            area: 1
+        },
+        "16": {
+            minute:900,
+            title: '艦隊決戦援護作戦',
+            reward: [120, 500, 500, 200, 200],
+            require:[11, 6, {lc:1, dd:2}],
+            area: 1
+        },
+        // 北方海域
+        "17": {
+            minute:45,
+            title: '敵地偵察作戦',
+            reward: [30, 70, 70, 50, 0],
+            require:[20, 6, {lc:1, dd:3}],
+            area: 2
+        },
+        "18": {
+            minute:300,
+            title: '航空機輸送作戦',
+            reward: [60, 0, 0, 300, 100],
+            require:[15, 6, {ac:3, dd:2}],
+            area: 2
+        },
+        "19": {
+            minute:360,
+            title: '北号作戦',
+            reward: [60, 400, 0, 50, 30],
+            require:[20, 6, {ab:2, dd:2}],
+            area: 2
+        },
+        "20": {
+            minute:120,
+            title: '潜水艦哨戒任務',
+            reward: [40, 0, 0, 150, 0],
+            require:[1, 2, {sm:1, lc:1}],
+            area: 2
+        },
+        "21": {
+            minute:140,
+            title: '北方鼠輸送作戦',
+            reward: [45, 320, 270, 0, 0],
+            require:[15, 5, {lc:1, dd:4}],
+            area: 2
+        },
+        "22": {
+            minute:180,
+            title: '艦隊演習',
+            reward: [45, 0, 10, 0, 0],
+            require:[30, 6, {hc:1, lc:1, dd:2}],
+            area: 2
+        },
+        // 西方海域
+        "25": {
+            minute:2400,
+            title: '通商破壊作戦',
+            reward: [80, 900, 0, 500, 0],
+            require:[25, 4, {hc:2, dd:2}],
+            area: 3
+        },
+        "26": {
+            minute:4800,
+            title: '敵母港空襲作戦',
+            reward: [150, 0, 0, 0, 900],
+            require:[30, 4, {ac:1, lc:1, dd:2}],
+            area: 3
+        },
+        "27": {
+            minute:1200,
+            title: '潜水艦通商破壊作戦',
+            reward: [80, 0, 0, 800, 0],
+            require:[1, 2, {sm:2}],
+            area: 3
+        },
+        "28": {
+            minute:1500,
+            title: '西方海域封鎖作戦',
+            reward: [100, 0, 0, 900, 350],
+            require:[30, 3, {sm:3}],
+            aera: 3
+        },
+        "29": {
+            minute:1440,
+            title: '潜水艦派遣演習',
+            reward: [100, 0, 0, 0, 100],
+            require:[50, 3, {sm:3}],
+            area: 3
+        },
+        "30": {
+            minute:2880,
+            title: '潜水艦派遣作戦',
+            reward: [100, 0, 0, 0, 100],
+            require:[55, 4, {sm:4}],
+            area: 3
+        },
+        // 南方海域
+        "35": {
+            minute:420,
+            title: 'MO作戦',
+            reward: [100, 0, 0, 240, 280],
+            require:[40, 6, {ac:2, hc:1, dd:1}],
+            area: 4
+        },
+        "36": {
+            minute:540,
+            title: '水上機基地建設',
+            reward: [100, 480, 0, 200, 200],
+            require:[30, 6, {sc:2, lc:1, dd:1}],
+            area: 4
+        },
+        "37": {
+            minute:165,
+            title: '東京急行',
+            reward: [50, 0, 380, 270, 0],
+            require:[50, 6, {lc:1, dd:5}],
+            area: 4
+        }
     },
     widget : {
         title : {

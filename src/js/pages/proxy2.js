@@ -11,6 +11,10 @@ var targetFlashes = [
 $(function() {
     'use strict';
 
+    window.onbeforeunload = function() {
+        chrome.runtime.sendMessage({purpose:'syncSave'});
+    };
+
     var aaString = '' +
             '                 __＿___＿\n'+
             '          ／                  ＼\n'+
