@@ -6,6 +6,14 @@ MyStorage.sync = {
     getEnabledKeys: function() {
         var keys = [];
         var saveType = new MyStorage().get('config')['sync-save-type'];
+
+        // 前の設定を有効にしている場合は、0ではなく3だと思われる
+        // 0じゃない場合は、saveTypeを尊重する
+        var obsoletedConfig = new MyStorage.get('config')['enable-sync'];
+        if (saveType == 0 && obsoletedConfig == true) {
+            saveType = 3;
+        }
+
         if (saveType == 0) return keys;
         keys.push('nyukyos','missions','createships');
         if (saveType < 2) return keys;
