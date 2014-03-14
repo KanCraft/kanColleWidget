@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/03/14 v1.0.6.6<!--version-->
+- 2014/03/15 v1.0.6.7<!--version-->
+    - 新しい遠征を追加
+- 2014/03/14 v1.0.6.6
     - 複数PCブラウザ間の同期を部分的にできるように修正
 - 2014/03/13 v1.0.6.5
     - 複数PCブラウザ間の同期設定を追加

@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.0.6.6",
+        version: "v1.0.6.7",
         link: 'https://github.com/otiai10/kanColleWidget/pull/380',
-        announceVersion : 47,
+        announceVersion : 48,
         announcements   : [
             '複数PCブラウザ間の同期設定を追加',
             '欲しかったので作りました',
@@ -11,7 +11,9 @@ var Constants = {
             'それはそうと伊８ぜんぜん出ません',
             '-----',
             '複数PC間同期を、タイマーだけとか出来るように修正しました',
-            '<a href="https://twitter.com/aramotokei/status/444422823059017728" class="light">新海域で伊８ドロップする</a>らしいのでほっとしました'
+            '<a href="https://twitter.com/aramotokei/status/444422823059017728" class="light">新海域で伊８ドロップする</a>らしいのでほっとしました',
+            '-----',
+            '新しい遠征を追加'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
