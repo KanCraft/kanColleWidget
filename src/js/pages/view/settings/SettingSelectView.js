@@ -38,7 +38,7 @@ var widgetPages = widgetPages || {};
         }
         this.$el.find('.select-container').append(
             $select,
-            $('<span class="description xsmall"></span>').text(this.description)
+            $('<span class="description xsmall"></span>').html(this.description)
         );
         return this;
     };
