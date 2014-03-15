@@ -48,6 +48,13 @@ var widgetPages = widgetPages || {};
             title : this.title
         }).listen()._render();
         this.renderOptions();
+        this.renderTitleAppendix();
         return this.$el;
+    };
+    SettingSelectView.prototype.renderTitleAppendix = function(){
+        if (this.$appendix) {
+            this.$el.find('td.title').append(this.$appendix);
+        }
+        return this;
     };
 })();

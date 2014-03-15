@@ -15,7 +15,8 @@ MyStorage.sync = {
         keys.push('config','inputTracking');
         return keys;
     },
-    save: function(){
+    save: function(cb){
+        if (typeof cb != 'function') cb = function(){};
         var storedData = {};
         var keys = MyStorage.sync.getEnabledKeys();
         for (var i in keys) {
@@ -26,6 +27,7 @@ MyStorage.sync = {
         // console.log('(๑˃̵ᴗ˂̵)و SAVE!', storedData);
         chrome.storage.sync.set(storedData, function(){
             // console.log('Sync saved');
+            cb();
         });
     },
     load: function(cb){
