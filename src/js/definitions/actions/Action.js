@@ -61,6 +61,9 @@ var KanColleWidget = KanColleWidget || {};
     Action.prototype.forKousyouCreateitemComplete = function(params){
         this.kousyouAction.forCreateitemComplete(params);
     };
+    Action.prototype.forKousyouDestroyitem = function(params){
+        this.kousyouAction.forDestroyitem(params);
+    };
     Action.prototype.forKousyouGetship = function(params){
         this.kousyouAction.forGetship(params);
     };

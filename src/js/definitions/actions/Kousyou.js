@@ -61,6 +61,9 @@ var KanColleWidget = KanColleWidget || {};
         this.achievements.update().incrementCreateitemCount();
         KanColleWidget.Stash.createItem = params;
     };
+    KousyouAction.prototype.forDestroyitem = function(params){
+        this.achievements.update().incrementDestroyitemCount();
+    };
 
     // Completed
     KousyouAction.prototype.forCreateshipCompleted = function(){
