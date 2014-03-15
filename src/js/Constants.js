@@ -1,6 +1,6 @@
 var Constants = {
     release : {
-        version: "v1.0.6.8",
+        version: "v1.0.6.9",
         link: 'https://github.com/otiai10/kanColleWidget/pull/380',
         announceVersion : 49,
         announcements   : [
@@ -8,6 +8,7 @@ var Constants = {
             '欲しかったので作りました',
             '複数PC間同期を、タイマーだけとか出来るように修正しました',
             '新しい遠征を追加',
+            '提督任務実績に「廃棄」を追加（ドラム缶欲しい）',
             '「うまく同期されない」という声が多かったので複数PC間同期の設定を刷新しました',
             '再設定が必要な場合がありますが、ご了承ください'
         ]
