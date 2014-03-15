@@ -7,13 +7,6 @@ MyStorage.sync = {
         var keys = [];
         var saveType = new MyStorage().get('config')['sync-save-type'];
 
-        // 前の設定を有効にしている場合は、0ではなく3だと思われる
-        // 0じゃない場合は、saveTypeを尊重する
-        var obsoletedConfig = new MyStorage.get('config')['enable-sync'];
-        if (saveType == 0 && obsoletedConfig == true) {
-            saveType = 3;
-        }
-
         if (saveType == 0) return keys;
         keys.push('nyukyos','missions','createships');
         if (saveType < 2) return keys;
@@ -27,6 +20,7 @@ MyStorage.sync = {
         var keys = MyStorage.sync.getEnabledKeys();
         for (var i in keys) {
             var key = keys[i];
+            if (! localStorage[key]) continue;
             storedData[key] = localStorage[key];
         }
         // console.log('(๑˃̵ᴗ˂̵)و SAVE!', storedData);
@@ -40,6 +34,7 @@ MyStorage.sync = {
         chrome.storage.sync.get(null, function(items){
             for (var i in keys) {
                 var key = keys[i];
+                if (! items[key]) continue;
                 localStorage.setItem(key, items[key]);
                 // console.log('(๑˃̵ᴗ˂̵)و [' + key + '] LOADED =>', items[key]);
             }
@@ -64,8 +59,9 @@ MyStorage.prototype.set = function(key,value){
 
     localStorage.setItem(key,JSON.stringify(value));
 
+    // ここでsync.saveしてはいけない
     // たぶん叩き過ぎ
-    // if (this.get('config')['enable-sync']) MyStorage.sync.save();
+    // @see http://developer.chrome.com/extensions/storage#properties
 
     return;
 };
