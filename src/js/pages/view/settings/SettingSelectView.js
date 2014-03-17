@@ -38,7 +38,7 @@ var widgetPages = widgetPages || {};
         }
         this.$el.find('.select-container').append(
             $select,
-            $('<span class="description xsmall"></span>').text(this.description)
+            $('<span class="description xsmall"></span>').html(this.description)
         );
         return this;
     };
@@ -48,6 +48,13 @@ var widgetPages = widgetPages || {};
             title : this.title
         }).listen()._render();
         this.renderOptions();
+        this.renderTitleAppendix();
         return this.$el;
+    };
+    SettingSelectView.prototype.renderTitleAppendix = function(){
+        if (this.$appendix) {
+            this.$el.find('td.title').append(this.$appendix);
+        }
+        return this;
     };
 })();

@@ -56,6 +56,9 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_kousyou/createitem':
                 this.action.forKousyouCreateitem(this.params);
                 break;
+            case 'api_req_kousyou/destroyitem2':
+                this.action.forKousyouDestroyitem(this.params);
+                break;
             case 'api_req_kousyou/getship':
                 this.action.forKousyouGetship(this.params);
                 break;

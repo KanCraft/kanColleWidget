@@ -165,7 +165,7 @@ function _toggleArea(e, sw){
         timersView.render()
     );
 
-    if (Config.get('enable-sync')) {
+    if (Config.get('sync-save-type') > 0) {
         $('#sync-load').show();
         $('#sync-load').on('click',function(){
             MyStorage.sync.load(function(){

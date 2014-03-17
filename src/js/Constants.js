@@ -1,14 +1,16 @@
 var Constants = {
     release : {
-        version: "v1.0.6.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/373',
-        announceVersion : 46,
+        version: "v1.0.6.9",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/380',
+        announceVersion : 49,
         announcements   : [
             '複数PCブラウザ間の同期設定を追加',
             '欲しかったので作りました',
-            'ウィジェット窓を閉じたときにセーブ、',
-            'ボタンからロードです。',
-            'それはそうと伊８ぜんぜん出ません'
+            '複数PC間同期を、タイマーだけとか出来るように修正しました',
+            '新しい遠征を追加',
+            '提督任務実績に「廃棄」を追加（ドラム缶欲しい）',
+            '「うまく同期されない」という声が多かったので複数PC間同期の設定を刷新しました',
+            '再設定が必要な場合がありますが、ご了承ください'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
@@ -176,6 +178,13 @@ var Constants = {
             require:[30, 6, {hc:1, lc:1, dd:2}],
             area: 2
         },
+        "23": {
+            minute:240,
+            title: '航空戦艦運用演習',
+            reward: [70, 0, 20, 0, 100],
+            require: [null, 6, {ab:2,dd:2}],
+            area: 2
+        },
         // 西方海域
         "25": {
             minute:2400,
@@ -219,6 +228,13 @@ var Constants = {
             require:[55, 4, {sm:4}],
             area: 3
         },
+        "31": {
+            minute:120,
+            title: '海外艦との接触',
+            reward: [50, 0, 30, 0, 0],
+            require:[60, 4, {sm:4}],
+            area: 3
+        },
         // 南方海域
         "35": {
             minute:420,
@@ -239,6 +255,13 @@ var Constants = {
             title: '東京急行',
             reward: [50, 0, 380, 270, 0],
             require:[50, 6, {lc:1, dd:5}],
+            area: 4
+        },
+        "38": {
+            minute:175,
+            title: '東京急行(弐)',
+            reward: [100, 420, 0, 200, 0],
+            require:[65, 6, {lc:1, dd:5}],
             area: 4
         }
     },

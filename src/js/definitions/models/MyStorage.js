@@ -3,21 +3,42 @@
 function MyStorage(){};
 
 MyStorage.sync = {
-    save: function(){
+    getEnabledKeys: function() {
+        var keys = [];
+        var saveType = new MyStorage().get('config')['sync-save-type'];
+
+        if (saveType == 0) return keys;
+        keys.push('nyukyos','missions','createships');
+        if (saveType < 2) return keys;
+        keys.push('quests','achievements');
+        if (saveType < 3) return keys;
+        keys.push('config','inputTracking');
+        return keys;
+    },
+    save: function(cb){
+        if (typeof cb != 'function') cb = function(){};
         var storedData = {};
-        for (var k in localStorage) {
-            storedData[k] = localStorage[k];
+        var keys = MyStorage.sync.getEnabledKeys();
+        for (var i in keys) {
+            var key = keys[i];
+            if (! localStorage[key]) continue;
+            storedData[key] = localStorage[key];
         }
+        // console.log('(๑˃̵ᴗ˂̵)و SAVE!', storedData);
         chrome.storage.sync.set(storedData, function(){
             // console.log('Sync saved');
+            cb();
         });
     },
     load: function(cb){
         if (typeof cb != 'function') cb = function(){};
+        var keys = MyStorage.sync.getEnabledKeys();
         chrome.storage.sync.get(null, function(items){
-            for (var k in items) {
-                localStorage.setItem(k, items[k]);
-                console.log('[' + k + '] LOADED =>', items[k]);
+            for (var i in keys) {
+                var key = keys[i];
+                if (! items[key]) continue;
+                localStorage.setItem(key, items[key]);
+                // console.log('(๑˃̵ᴗ˂̵)و [' + key + '] LOADED =>', items[key]);
             }
             cb(items);
         });
@@ -40,8 +61,9 @@ MyStorage.prototype.set = function(key,value){
 
     localStorage.setItem(key,JSON.stringify(value));
 
+    // ここでsync.saveしてはいけない
     // たぶん叩き過ぎ
-    // if (this.get('config')['enable-sync']) MyStorage.sync.save();
+    // @see http://developer.chrome.com/extensions/storage#properties
 
     return;
 };
@@ -115,7 +137,8 @@ MyStorage.prototype.tearDown = function(){
         'modify-original-tab'                : false,
         'use-white-mode-as-default'          : false,
         'hide-adressbar-in-safemode'         : false,
-        'enable-sync'                        : false,
+        'enable-sync'                        : false,// Obsolete!!
+        'sync-save-type'                     : 0,
         'sort-by-finishtime'                 : false
     },
 
