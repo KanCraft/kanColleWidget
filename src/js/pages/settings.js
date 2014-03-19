@@ -80,6 +80,7 @@ function affectConfigInView(){
         } else if(typeof config[key] === 'string') {
             if(key.match('notification-stay-visible')) { continue; }
             if(key.match('offset-millisec')) { continue; }
+            if(key.match(/notification-.+?-end-suffix/)) {input.value = config[key]; }
             if(config[key]) { input.innerHTML = '設定済み'; }
         }
     }
