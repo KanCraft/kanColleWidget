@@ -236,6 +236,20 @@ var Constants = {
             area: 3
         },
         // 南方海域
+        "33": {
+            minute:15,
+            title: '前衛支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 4
+        },
+        "34": {
+            minute:30,
+            title: '艦隊決戦支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 4
+        },
         "35": {
             minute:420,
             title: 'MO作戦',
