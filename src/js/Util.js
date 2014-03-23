@@ -768,4 +768,8 @@ var Util = Util || {};
         },function(win){
         });
     };
+
+    Util.haveNewUpdate = function(){
+        return Constants.release.announceVersion > Config.get("announce-already-read");
+    };
 })();
