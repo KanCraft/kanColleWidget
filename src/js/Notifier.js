@@ -27,6 +27,17 @@ var KanColleWidget = KanColleWidget || {};
         this.tracking      = tracking;
         this.util          = util;
 
+        this.showParameters = {
+            kind: null,
+            sound: null,
+            title: null,
+            body: null,
+            icon: null,
+            stay: true,
+            onCompleted: function(){},
+            onClicked: function(){}
+        };
+
         this.sounds = {};
     };
 
@@ -39,80 +50,36 @@ var KanColleWidget = KanColleWidget || {};
      */
     Notifier.prototype.giveNotice = function(message, options) {
         options = options || {};
-        var callback = options.callback || function(){};
 
-        // Chrome のデスクトップ通知が実装されたのは Ver28 から
-        if(this.util.system.getChromeVersion() < 28) {
-            alert(message);
-            callback();
-            return;
-        }
+        this.showParameters.onCompleted = options.callback || function(){};
 
         // 通知の種類 'nyukyo' or 'mission' or 'createship' or undefined
         var kind = options.sound && options.sound.kind;
+        this.showParameters.kind = kind;
 
-        var icon  = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
-        var title = this.constants.notification.title;
+        this.showParameters.icon = options.iconUrl || this.assetManager.getNotificationIconUrl(kind);
+
+        this.showParameters.title = this.constants.notification.title;
 
         // FIXME : http://productforums.google.com/forum/#!mydiscussions/chrome-ja/sqN8dN337Dg
-        message = " " + message.split("\n").join("\n "); 
+        this.showParameters.body = " " + message.split("\n").join("\n ");
 
-        var notification = this.window.webkitNotifications.createNotification(icon, title, message);
+        this.showParameters.onClicked = this.ensureClickedCallback(options.isPaymentRequired);
 
-        // 通知をクリックしたら起動するオプション
-        if(this.config.get('launch-on-click-notification')) {
-            var self = this;
-            notification.onclick = function() {
-                self.util.focusOrLaunchIfNotExists(self.tracking.get('mode'));
-            };
-        }
+        this.showParameters.stay = this.ensureStayingOption(options.startOrFinish);
 
-        // 課金系のやつ
-        if(options.isPaymentRequired){
-            var self = this;
-            notification.onclick = function() {
-                if (window.confirm("ウィジェットを閉めてdmmページを開きますか？")) {
-                    self.util.closeWidgetWindow(function(){
-                        self.util.openOriginalWindow();
-                    });
-                }
-            };
-        }
+        this.showParameters.sound = options.sound;
 
-        // 居座る判定
-        (function(self) {
-            var startOrFinish = options.startOrFinish;
-            var isStay = self.config.get('notification-stay-visible');
-
-            if(typeof isStay !== 'string') {
-                isStay = isStay ? 'start-finish' : '';
-                self.config.set('notification-stay-visible', isStay);
-            }
-
-            // 勝手に消えないオプションがオフなら、5秒後に消えるようにする
-            if(isStay == null || isStay.indexOf(startOrFinish) === -1) {
-                self.window.setTimeout(function() {
-                    notification.cancel();
-                }, 5000);
-            }
-        })(this);
-
-        if(options.sound) {
-            this.playSound(kind, options.sound.force);
-        }
-        notification.show();
-
-        callback();
+        this._execute();
     };
 
     /**
      * 音声の再生。一度再生したものはキャッシュする
-     * @param {String}  kind
      * @param {Boolean} force true で強制リロード
      */
-    Notifier.prototype.playSound = function(kind, force) {
-        kind = kind || 'default';
-        var audio = force ? null : this.sounds[kind];
+    Notifier.prototype.playSound = function() {
+        var kind = this.showParameters.kind || 'default';
+        var audio = this.showParameters.sound.force ? null : this.sounds[kind];
 
         if(audio == null) {
             var soundUrl = this.assetManager.getNotificationSoundUrl(kind);
@@ -130,5 +97,84 @@ var KanColleWidget = KanColleWidget || {};
         var volume = this.config.get('notification-sound-volume');
         volume = parseInt(volume) / 100;
         return volume;
+    };
+
+    Notifier.prototype.ensureClickedCallback = function(isPaymentRequired) {
+        var onClicked = function(){};
+        // 通知をクリックしたら起動するオプション
+        if(this.config.get('launch-on-click-notification')) {
+            var self = this;
+            onClicked = function() {
+                self.util.focusOrLaunchIfNotExists(self.tracking.get('mode'));
+            };
+        }
+        // 課金系のやつ
+        if(isPaymentRequired){
+            var self = this;
+            onClicked = function() {
+                if (window.confirm("ウィジェットを閉めてdmmページを開きますか？")) {
+                    self.util.closeWidgetWindow(function(){
+                        self.util.openOriginalWindow();
+                    });
+                }
+            };
+        }
+        return onClicked;
+    };
+    Notifier.prototype.ensureStayingOption = function(startOrFinish) {
+        var isStay = this.config.get('notification-stay-visible');
+        if(typeof isStay !== 'string') {
+            isStay = isStay ? 'start-finish' : '';
+            this.config.set('notification-stay-visible', isStay);
+        }
+        if(isStay == null || isStay.indexOf(startOrFinish) === -1) return false;
+        return true;
+    };
+
+    Notifier.prototype._execute = function(){
+        if (this.util.system.getChromeVersion() < 28) return this._executeByAlert();
+        if (this.window.webkitNotifications) return this._executeWithPrefix();
+        return this._executeDefault();
+    };
+    Notifier.prototype._executeByAlert = function() {
+        this.window.alert(this.showParameters.body);
+        this.showParameters.onCompleted();
+    };
+    Notifier.prototype._executeWithPrefix = function() {
+        var notification = this.window.webkitNotifications.createNotification(
+            this.showParameters.icon,
+            this.showParameters.title,
+            this.showParameters.body
+        );
+        notification.show();
+        if (this.showParameters.stay === false) {
+            this.window.setTimeout(function() {
+                notification.cancel();
+            }, 5000);
+        }
+        if(this.showParameters.sound) {
+            this.playSound();
+        }
+        notification.onclick = this.showParameters.onClicked;
+        this.showParameters.onCompleted();
+    };
+    Notifier.prototype._executeDefault = function() {
+        var notification = new this.window.Notification(
+            this.showParameters.title,
+            {
+                body: this.showParameters.body,
+                icon: this.showParameters.icon
+            }
+        );
+        if (this.showParameters.stay === false) {
+            this.window.setTimeout(function() {
+                notification.close();
+            }, 5000);
+        }
+        if (this.showParameters.sound) {
+            this.playSound();
+        }
+        notification.onclick = this.showParameters.onClicked;
+        this.showParameters.onCompleted();
     };
 })();
