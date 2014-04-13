@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/03/24 v1.0.8<!--version-->
+- 2014/04/13 v1.0.9<!--version-->
+    - Chrome35で通知が出ないバグを修正
+- 2014/03/24 v1.0.8
     - エイプリルフールのネタを仕込んだ
 - 2014/03/19 v1.0.7
     - 設定済みの通知文字列を初期表示する
