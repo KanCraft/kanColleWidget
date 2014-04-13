@@ -151,7 +151,7 @@ function _toggleArea(e, sw){
     affectTracking();
     prepareForScreenShot();
 
-    if (Constants.release.announceVersion > Config.get("announce-already-read")) {
+    if (Util.haveNewUpdate()) {
         $('#new-arrival').append("アップデート有り");
     }
 

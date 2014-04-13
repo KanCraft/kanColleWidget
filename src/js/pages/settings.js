@@ -48,7 +48,7 @@ $(function(){
 });
 function renderAnnounce(){
     // 既読バージョンがアナウンスバージョン以上なら何もしない
-    if (Constants.release.announceVersion <= Config.get("announce-already-read")) return;
+    if (! Util.haveNewUpdate()) return;
 
     $("#announce").append(
         (new widgetPages.AnnounceView(Config)).render()
@@ -80,6 +80,7 @@ function affectConfigInView(){
         } else if(typeof config[key] === 'string') {
             if(key.match('notification-stay-visible')) { continue; }
             if(key.match('offset-millisec')) { continue; }
+            if(key.match(/notification-.+?-end-suffix/)) {input.value = config[key]; }
             if(config[key]) { input.innerHTML = '設定済み'; }
         }
     }

@@ -19,6 +19,13 @@ var widgetPages = widgetPages || {};
         var htmlstr = '';
         var announcements = ['<a href="'+Constants.release.link+'" class="light">' + Constants.release.version + '</a>'];
         announcements = announcements.concat(Constants.release.announcements);
+        // {{{ エイプリルフールネタ
+        if (Util.isSpecialTerm()) {
+            htmlstr += '<li><a class="light" href="http://otiai10.github.io/kanColleWidget/AprilFool/">艦これウィジェットからの大事なお知らせ</a></li>';
+            this.$el.find('ul').append(htmlstr);
+            return this.$el;
+        }
+        // }}}
         for (var i in announcements) {
             htmlstr += '<li>' + announcements[i] + '</li>';
         };
