@@ -1,12 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.0.8",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/382',
-        announceVersion : 50,
+        version: "v1.0.9",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/385',
+        announceVersion : 51,
         announcements   : [
-            '設定済みの通知文字列を初期表示する',
-            'うっかり消しちゃってた遠征ID33,34の追加',
-            '伊８やっぱり来ません'
+            'Chrome35で通知が出ないバグを修正',
+            '伊８ぜんぜん出ないので那珂ちゃんのファンやめます'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
