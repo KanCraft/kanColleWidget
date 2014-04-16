@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.0.9.1",
+        version: "v1.0.9.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/386',
         announceVersion : 52,
         announcements   : [
             'WHITEモードで20pxずれるらしいので修正',
+            'オリジナル窓整形設定でもずれるらしいので修正',
             'そもそも<a href="http://www.slideshare.net/otiai10/4-30874816" class="light">WHITEモードができた経緯など<a/>こちら一度お目通しください'
         ]
     },
