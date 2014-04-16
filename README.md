@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/04/13 v1.0.9<!--version-->
+- 2014/04/16 v1.0.9.1<!--version-->
+    - WHITEモードで20pxずれるらしいので修正
+- 2014/04/13 v1.0.9
     - Chrome35で通知が出ないバグを修正
 - 2014/03/24 v1.0.8
     - エイプリルフールのネタを仕込んだ

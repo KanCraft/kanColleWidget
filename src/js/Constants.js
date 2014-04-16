@@ -1,11 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.0.9",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/385',
-        announceVersion : 51,
+        version: "v1.0.9.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/386',
+        announceVersion : 52,
         announcements   : [
-            'Chrome35で通知が出ないバグを修正',
-            '伊８ぜんぜん出ないので那珂ちゃんのファンやめます'
+            'WHITEモードで20pxずれるらしいので修正',
+            'そもそも<a href="http://www.slideshare.net/otiai10/4-30874816" class="light">WHITEモードができた経緯など<a/>こちら一度お目通しください'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
