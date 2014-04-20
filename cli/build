@@ -15,6 +15,7 @@ build_prod(){
   rm -rf build/kanColleWidget
   mkdir -p build/kanColleWidget
   cp -r src build/kanColleWidget/
+  cp chrome_ex_oauth.html build/kanColleWidget
   mv build/kanColleWidget/src/img/icon* build/kanColleWidget/
   cp manifest/prod.json build/kanColleWidget/manifest.json
   zip -r build/kanColleWidget.zip build/kanColleWidget/*
@@ -24,6 +25,7 @@ build_stg(){
   rm -rf build/stg.kanColleWidget
   mkdir -p build/stg.kanColleWidget
   cp -r src build/stg.kanColleWidget/
+  cp chrome_ex_oauth.html build/stg.kanColleWidget
   mv build/stg.kanColleWidget/src/img/icon* build/stg.kanColleWidget/
   cp manifest/prod.json build/stg.kanColleWidget/manifest.json
   sed -e 's/艦これウィジェット/stg.艦これウィジェット/' -i.bak build/stg.kanColleWidget/manifest.json
@@ -34,6 +36,7 @@ build_beta(){
   rm -rf build/beta.kanColleWidget
   mkdir -p build/beta.kanColleWidget
   cp -r src build/beta.kanColleWidget/
+  cp chrome_ex_oauth.html build/beta.kanColleWidget
   mv build/beta.kanColleWidget/src/img/icon* build/beta.kanColleWidget/
   cp manifest/prod.json build/beta.kanColleWidget/manifest.json
   cp manifest/icons/beta/* build/beta.kanColleWidget/

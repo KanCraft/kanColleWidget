@@ -94,6 +94,9 @@ var widgetPages = widgetPages || {};
         +'    <label><button id="newWindow" class="plain">'
         +'      <img src="../img/capture/new_window.png" title="New Window" class="clickable file-action">'
         +'    </button></label>'
+        +'    <label id="label-tweet" style="display:none;"><button id="tweet" class="plain">'
+        +'      <img src="../img/capture/twitter.png" title="Share to Twitter" class="clickable file-action">'
+        +'    </button></label>'
         +'    <a id="download-anchor" download="{{filename}}" href=""></a>'
         +'  </div>'
         +'</div>';
@@ -101,6 +104,7 @@ var widgetPages = widgetPages || {};
             'click #download': 'downloadCurrentImage'
         };
         this.canvasApp = null;
+        this.twitter = new KanColleWidget.ServiceTwitter();
     };
     Util.extend(CaptureView, widgetPages.View);
     CaptureView.prototype.render = function(){
@@ -134,6 +138,12 @@ var widgetPages = widgetPages || {};
             }
             return $('#text-options').hide();
         });
+        if (Config.get('auth-twitter') && this.twitter.oauth.hasToken()) {
+            this.$el.find('#label-tweet').show();
+        }
+        this.$el.find('#tweet').on('click',function(ev){
+            self.tweetWithImageURI(ev, self);
+        });
     };
     CaptureView.prototype.startApp = function() {
         this.canvasApp = KanColleWidget.Canvas.initWithURI(this.imgURI);
@@ -155,5 +165,10 @@ var widgetPages = widgetPages || {};
                 url: this.canvasApp.toDataURL(format)
             }
         });
+    };
+    CaptureView.prototype.tweetWithImageURI = function(ev, self) {
+        var format = 'image/' + Config.get('capture-image-format');
+        var uri = this.canvasApp.toDataURL(format);
+        this.twitter.tweetWithImageURI(uri, format, "ほげええ");
     };
 })();

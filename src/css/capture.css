@@ -26,3 +26,6 @@ button.plain {
     border: none;
     background: none;
 }
+img.file-action {
+    width: 24px;
+}
