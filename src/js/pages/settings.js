@@ -58,7 +58,8 @@ $(function(){
                 clear: true
             });
             var message = "ツイッター連携を止める場合は、";
-            message += "ツイッターの設定からアプリケーション連携も取り消すことをオススメします。";
+            message += "ツイッターの設定からアプリケーション連携も取り消すことをオススメします。\n";
+            message += "twitter.comの設定画面へ移動しますか？";
             if (window.confirm(message)) {
                 location.href = "https://twitter.com/settings/applications";
             }
