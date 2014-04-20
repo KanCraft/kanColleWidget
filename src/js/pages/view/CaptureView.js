@@ -95,7 +95,7 @@ var widgetPages = widgetPages || {};
         +'      <img src="../img/capture/new_window.png" title="New Window" class="clickable file-action">'
         +'    </button></label>'
         +'    <label id="label-tweet" style="display:none;"><button id="tweet" class="plain">'
-        +'      <img src="../img/capture/twitter.png" title="Share to Twitter" class="clickable file-action">'
+        +'      <img id="img-tweet" src="../img/capture/twitter.png" title="Share to Twitter" class="clickable file-action">'
         +'    </button></label>'
         +'    <a id="download-anchor" download="{{filename}}" href=""></a>'
         +'  </div>'
@@ -105,6 +105,7 @@ var widgetPages = widgetPages || {};
         };
         this.canvasApp = null;
         this.twitter = new KanColleWidget.ServiceTwitter();
+        this.nowSending = false;
     };
     Util.extend(CaptureView, widgetPages.View);
     CaptureView.prototype.render = function(){
@@ -167,8 +168,17 @@ var widgetPages = widgetPages || {};
         });
     };
     CaptureView.prototype.tweetWithImageURI = function(ev, self) {
+        if (this.nowSending) return;
+        $('#img-tweet').attr('src','../img/capture/loader.gif');
         var format = 'image/' + Config.get('capture-image-format');
         var uri = this.canvasApp.toDataURL(format);
-        this.twitter.tweetWithImageURI(uri, format, "ほげええ");
+        var p = this.twitter.tweetWithImageURI(uri, format, "ほげええ");
+        var self = this;
+        p.done(function(res){
+            var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
+            $('body').append('<a href="'+url+'" target="_blank" class="tweeted-permalink">' + url + '</a>')
+            $('#img-tweet').attr('src','../img/capture/twitter.png');
+            self.nowSending = false;
+        });
     };
 })();
