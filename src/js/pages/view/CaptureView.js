@@ -169,10 +169,12 @@ var widgetPages = widgetPages || {};
     };
     CaptureView.prototype.tweetWithImageURI = function(ev, self) {
         if (this.nowSending) return;
+        // めんどくさいのでpromptでいいやろ感
+        var status = window.prompt("投稿の文字のとこ（たぶん120字くらいまで）");
         $('#img-tweet').attr('src','../img/capture/loader.gif');
         var format = 'image/' + Config.get('capture-image-format');
         var uri = this.canvasApp.toDataURL(format);
-        var p = this.twitter.tweetWithImageURI(uri, format, "ほげええ");
+        var p = this.twitter.tweetWithImageURI(uri, format, status);
         var self = this;
         p.done(function(res){
             var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
