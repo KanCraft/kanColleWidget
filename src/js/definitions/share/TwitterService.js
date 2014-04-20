@@ -42,7 +42,6 @@ var KanColleWidget;
         };
 
         ServiceTwitter.prototype.uri2blob = function (uri, type) {
-            console.log(uri);
             uri = uri.split("base64,")[1] || uri;
             var bin = atob(uri);
             var len = bin.length;
