@@ -9,7 +9,7 @@ $(function(){
         $('body').css({
             //'transform':'scale(0.8)'
             'position': 'fixed',
-            'top'     : '-95px',
+            'top'     : '-75px',
             'left'    : '-70px'
         });
     });
