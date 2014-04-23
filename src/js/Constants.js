@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.2.0",
+        version: "v1.2.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/387',
-        announceVersion : 53,
+        announceVersion : 54,
         announcements   : [
-            'スクショ画像をTwitter連携で投稿できる設定を追加'
+            'スクショ画像をTwitter連携で投稿できる設定を追加',
+            'Twitter投稿するところのUIがクソ過ぎたので修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
