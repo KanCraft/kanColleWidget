@@ -40,7 +40,8 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_map/next':
                 this.action.forMapNext();
                 break;
-            case 'api_auth_member/logincheck':
+            case 'api_auth_member/logincheck':// OBSOLETE?????
+            case 'api_port/port':
                 // 出撃が終了したとする。どの艦隊が出撃中かはStashを参考のこと
                 this.action.forMapEnd(this.params);
                 break;
