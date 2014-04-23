@@ -139,6 +139,7 @@ MyStorage.prototype.tearDown = function(){
         'hide-adressbar-in-safemode'         : false,
         'enable-sync'                        : false,// Obsolete!!
         'sync-save-type'                     : 0,
+        'auth-twitter'                       : false,
         'sort-by-finishtime'                 : false
     },
 

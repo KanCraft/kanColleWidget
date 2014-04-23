@@ -1,12 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.0.9.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/386',
-        announceVersion : 52,
+        version: "v1.2.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/387',
+        announceVersion : 54,
         announcements   : [
-            'WHITEモードで20pxずれるらしいので修正',
-            'オリジナル窓整形設定でもずれるらしいので修正',
-            'そもそも<a href="http://www.slideshare.net/otiai10/4-30874816" class="light">WHITEモードができた経緯など<a/>こちら一度お目通しください'
+            'スクショ画像をTwitter連携で投稿できる設定を追加',
+            'Twitter投稿するところのUIがクソ過ぎたので修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

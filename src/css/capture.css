@@ -26,3 +26,16 @@ button.plain {
     border: none;
     background: none;
 }
+img.file-action {
+    width: 24px;
+}
+a.tweeted-permalink {
+    margin-top: 5px;
+    font-size: small;
+    text-decoration: none;
+    font-weight: bold;
+    color: #33ccff;
+}
+.tweeted-permalink:hover {
+    color: #49afcd;
+}

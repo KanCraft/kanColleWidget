@@ -10,3 +10,4 @@ GPATH
 GRTAGS
 GTAGS
 node_modules/*
+src/js/AppConfig.js

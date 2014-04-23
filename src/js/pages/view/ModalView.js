@@ -7,7 +7,7 @@ var widgetPages = widgetPages || {};
     };
     Util.extend(ModalView, widgetPages.View);
     ModalView.prototype.render = function(){
-        this.tpl = '<div></div>';
+        this.tpl = '<div><div id="modal-background"></div></div>';
         this.attrs = {
             id : "modal-wrapper",
             class : "modal"
@@ -39,9 +39,7 @@ var widgetPages = widgetPages || {};
             bottom: 0,
             left: 0,
             width: '100%',
-            backgroundColor: 'black',
-            color: '#eee',
-            opacity: '0.8'
+            color: '#eee'
         },
         '.modal-contents' : {
             position: 'relative',
