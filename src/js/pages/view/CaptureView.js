@@ -171,6 +171,7 @@ var widgetPages = widgetPages || {};
         if (this.nowSending) return;
         // めんどくさいのでpromptでいいやろ感
         var status = window.prompt("投稿の文字のとこ（たぶん120字くらいまで）");
+        if (status == null) status = "";
         $('#img-tweet').attr('src','../img/capture/loader.gif');
         var format = 'image/' + Config.get('capture-image-format');
         var uri = this.canvasApp.toDataURL(format);
