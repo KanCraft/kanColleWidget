@@ -1,11 +1,18 @@
 var Constants = {
     release : {
-        version: "v1.2.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/387',
-        announceVersion : 54,
+        version: "v1.2.3",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/393',
+        announceVersion : 55,
         announcements   : [
-            'スクショ画像をTwitter連携で投稿できる設定を追加',
-            'Twitter投稿するところのUIがクソ過ぎたので修正'
+            'アップデートでいろいろズレたので微調整しました',
+            '任務着手忘れアラートはまだ直ってない気がする',
+            '不具合あったら教えてください',
+            '-----',
+            '満を持してリリースしたTwitter連携ですが',
+            '「動かねーよ」という声を多数いただきました',
+            '動かない場合は<a class="light" href="https://github.com/otiai10/kanColleWidget/releases/tag/v1.2.1">こちら</a>をご参考ください',
+            '-----',
+            '<a class="light" href="https://twitter.com/search?q=%E5%A4%A9%E6%B4%A5%E9%A2%A8&mode=photos">天津風</a>可愛すぎる'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

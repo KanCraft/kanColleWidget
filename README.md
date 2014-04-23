@@ -49,8 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/04/23 v1.2.1<!--version-->
+- 2014/04/23 v1.2.1, v1.2.3<!--version-->
     - Twitter投稿するところのUIがクソ過ぎたので修正
+    - アップデートでいろいろズレたので微調整しました
 - 2014/04/20 v1.2.0
     - スクショ画像をTwitter連携で投稿できる設定を追加
 - 2014/04/16 v1.0.9.1, v1.0.9.2
