@@ -86,6 +86,9 @@ div#announce {
     border-radius: 10px;
     color: white;
     box-shadow: -2px 3px 7px #555;
+    position: fixed;
+    background-color: black;
+    -webkit-opacity: 0.8;
 }
 #announce-done {
     position: absolute;
@@ -112,18 +115,6 @@ div#announce {
     margin: 0;
     font-size: x-small;
 }
-
-div.modal {
-    width: auto;
-    height: auto;
-    background-color: black;
-    z-index: 2;
-    -webkit-opacity: 0.8;
-    position: fixed;
-    right: 10px;
-    top: 10px;
-}
-
 blockquote.twitter-tweet {
     border-left: 4px solid #ddd;
     padding: 0 15px;
