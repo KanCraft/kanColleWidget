@@ -223,7 +223,7 @@ var widgetPages = widgetPages || {};
         + '                </div>'
         + '                <div class="tweet-button">'
         + '                    <span class="spinner"></span>'
-        + '                    <span class="tweet-counter" id="tweet-text-counter">140</span>'
+        + '                    <span class="tweet-counter" id="tweet-text-counter">125</span>'
         + '                    <button class="btn btn-info btn-large tweet-action tweet-btn" id="js-tweet-btn" type="button">'
         + '                        <span class="button-text tweeting-text">'
         + '                          ツイート'
@@ -243,6 +243,9 @@ var widgetPages = widgetPages || {};
         this.$el.find('#js-tweet-btn').on('click',function(ev){
             self.sendTweet(ev, self);
         });
+        this.$el.find('#js-tweet-box').on('keydown',function(ev){
+            self.textFeedback(ev,self);
+        });
         return this.$el;
     };
     ModalContentTweetView.prototype.sendTweet = function(ev, self) {
@@ -257,5 +260,15 @@ var widgetPages = widgetPages || {};
             widgetPages.ModalView.vanish();
             self.nowSending =false;
         });
-    }
+    };
+    ModalContentTweetView.prototype.textFeedback = function(ev, self) {
+        var text = ev.currentTarget.innerText;
+        var len = text.length;
+        self.$el.find('#tweet-text-counter').text(125 - len);
+        if (len > 125) {
+            self.$el.find('#tweet-text-counter').addClass('count-over');
+        } else {
+            self.$el.find('#tweet-text-counter').removeClass('count-over');
+        }
+    };
 })();
