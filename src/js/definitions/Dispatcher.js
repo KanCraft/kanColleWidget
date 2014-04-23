@@ -28,7 +28,8 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_mission/result':
                 this.action.forMissionResult(this.params);
                 break;
-            case 'api_get_master/payitem':
+            case 'api_get_master/payitem':// OBSOLETE??????
+            case 'api_get_member/payitem':
                 this.action.forMasterPayitem(this.params);
                 break;
             case 'api_req_practice/battle':
