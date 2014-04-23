@@ -28,8 +28,12 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_mission/result':
                 this.action.forMissionResult(this.params);
                 break;
-            case 'api_get_master/payitem':
+            case 'api_get_master/payitem':// OBSOLETE??????
+            case 'api_get_member/payitem':
                 this.action.forMasterPayitem(this.params);
+                break;
+            case 'api_get_member/ndock':
+                this.action.forNyukyoPreparation();
                 break;
             case 'api_req_practice/battle':
                 this.action.forPracticeBattle(this.params);
@@ -40,7 +44,8 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_map/next':
                 this.action.forMapNext();
                 break;
-            case 'api_auth_member/logincheck':
+            case 'api_auth_member/logincheck':// OBSOLETE?????
+            case 'api_port/port':
                 // 出撃が終了したとする。どの艦隊が出撃中かはStashを参考のこと
                 this.action.forMapEnd(this.params);
                 break;
@@ -121,24 +126,15 @@ var KanColleWidget = KanColleWidget || {};
     CompleteDispatcher.prototype.execute = function(){
         // TODO : リファクタ -> 判定をどっかに押し込める
         // TODO : 条件厳しくする -> https://gist.github.com/otiai10/6724596
+        if (this.requestSequence[0] === 'api_req_nyukyo/start') {
+            this.action.forNyukyoStartCompleted();
+        }
         if (this.requestSequence[2] === 'api_req_kousyou/createitem') {
             this.action.forKousyouCreateitemComplete();
         } else if (this.requestSequence[3] === 'api_req_nyukyo/start') {
-            this.action.forNyukyoStartCompleted();
+            // this.action.forNyukyoStartCompleted();
         } else if (this.requestSequence[5] === 'api_req_kousyou/createship') {
             this.action.forKousyouCreateshipCompleted();
-        } else if (this.requestSequence[2] === 'api_get_member/ndock' &&
-                   this.requestSequence[1] === 'api_get_member/ship2' &&
-                   this.requestSequence[0] === 'api_get_member/useitem') {
-            // ただし、高速修復材を使用したときも同じシーケンスを見せる
-            // したがって、[3],[4],[5]が高速修復材を使用したときの振る舞いをするなら
-            // orで判定し厳しめにこれを除外する
-            if (this.requestSequence[3] === 'api_get_member/ndock' ||
-                this.requestSequence[4] ==='api_get_member/material' ||
-                this.requestSequence[5] ==='api_get_member/ship2') {
-                return;
-            }
-            this.action.forNyukyoPreparation();
         } else if (this.requestSequence[0] === 'api_get_member/practice') {
             this.action.forPracticePreparation();
         } else if (this.requestSequence[0] === 'api_get_master/mapinfo') {
