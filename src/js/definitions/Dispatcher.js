@@ -32,6 +32,9 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_get_member/payitem':
                 this.action.forMasterPayitem(this.params);
                 break;
+            case 'api_get_member/ndock':
+                this.action.forNyukyoPreparation();
+                break;
             case 'api_req_practice/battle':
                 this.action.forPracticeBattle(this.params);
                 break;
@@ -124,7 +127,6 @@ var KanColleWidget = KanColleWidget || {};
         // TODO : リファクタ -> 判定をどっかに押し込める
         // TODO : 条件厳しくする -> https://gist.github.com/otiai10/6724596
         if (this.requestSequence[0] === 'api_req_nyukyo/start') {
-            // window.alert("api_req_nyukyo/start Completed");
             this.action.forNyukyoStartCompleted();
         }
         if (this.requestSequence[2] === 'api_req_kousyou/createitem') {
