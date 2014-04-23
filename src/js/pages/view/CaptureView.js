@@ -168,6 +168,19 @@ var widgetPages = widgetPages || {};
         });
     };
     CaptureView.prototype.tweetWithImageURI = function(ev, self) {
+
+        if (this.nowSending) return;
+
+        var format = 'image/' + Config.get('capture-image-format');
+        var uri = this.canvasApp.toDataURL(format);
+
+        var $contents = new ModalContentTweetView(uri, format, this.twitter).render();
+        var modal = new widgetPages.ModalView($contents);
+        modal.render().show();
+        $('#tweet-cancel').on('click', function(){
+            widgetPages.ModalView.vanish();
+        });
+        /* これがオリジナル
         if (this.nowSending) return;
         // めんどくさいのでpromptでいいやろ感
         var status = window.prompt("投稿の文字のとこ（たぶん120字くらいまで）");
@@ -183,5 +196,66 @@ var widgetPages = widgetPages || {};
             $('#img-tweet').attr('src','../img/capture/twitter.png');
             self.nowSending = false;
         });
+        */
     };
+    // TODO: いい加減このファイル分割しろ
+    var ModalContentTweetView = function(imgURI, format, twitter) {
+        this.imgURI = imgURI;
+        this.format = format;
+        this.twitter = twitter;
+        this.tpl = ''
+        + '<div id="modal-contents-twitter-wrapper">'
+        + '    <div class="modal-header">'
+        + '        <span id="tweet-cancel" class="pull-right clickable">×</span>'
+        + '        <h3 class="modal-title" id="global-tweet-dialog-header">ツイートする</h3>'
+        + '    </div>'
+        + '    <div class="modal-body modal-tweet" id="global-tweet-dialog-body"></div>'
+        + '    <div class="modal-tweet-form-container">'
+        + '        <div>'
+        + '            <div class="tweet-content">'
+        + '                <div class="tweet-box" id="js-tweet-box" contenteditable="true"></div>'
+        + '            </div>'
+        + '            <div class="toolbar js-toolbar">'
+        + '                <div class="tweet-box-extras">'
+        + '                    <div id="tweet-image-container">'
+        + '                      <img src="{{imgURI}}" />'
+        + '                    </div>'
+        + '                </div>'
+        + '                <div class="tweet-button">'
+        + '                    <span class="spinner"></span>'
+        + '                    <span class="tweet-counter" id="tweet-text-counter">140</span>'
+        + '                    <button class="btn btn-info btn-large tweet-action tweet-btn" id="js-tweet-btn" type="button">'
+        + '                        <span class="button-text tweeting-text">'
+        + '                          ツイート'
+        + '                        </span>'
+        + '                    </button>'
+        + '                </div>'
+        + '            </div>'
+        + '        </div>'
+        + '    </div>'
+        + '</div>';
+    };
+    Util.extend(ModalContentTweetView, widgetPages.View);
+    ModalContentTweetView.prototype.render = function() {
+        this.apply({imgURI:this.imgURI})._render();
+        var imgURI = this.imgURI;
+        var self = this;
+        this.$el.find('#js-tweet-btn').on('click',function(ev){
+            self.sendTweet(ev, self);
+        });
+        return this.$el;
+    };
+    ModalContentTweetView.prototype.sendTweet = function(ev, self) {
+        if (self.nowSending) return;
+        self.nowSending = true;
+        $(ev.currentTarget).addClass('disabled');
+        var status = $('#js-tweet-box').text();
+        var p = self.twitter.tweetWithImageURI(this.imgURI, this.format, status);
+        p.done(function(res){
+            var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
+            $('body').append('<a href="'+url+'" target="_blank" class="tweeted-permalink">' + url + '</a><br/>')
+            widgetPages.ModalView.vanish();
+            self.nowSending =false;
+        });
+    }
 })();
