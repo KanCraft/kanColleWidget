@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/04/23 v1.2.1, v1.2.3<!--version-->
+- 2014/04/27 v1.3.0<!--version-->
+    - タイマーのTwitter通知設定を追加
+- 2014/04/23 v1.2.1, v1.2.3
     - Twitter投稿するところのUIがクソ過ぎたので修正
     - アップデートでいろいろズレたので微調整しました
 - 2014/04/20 v1.2.0
