@@ -45,6 +45,11 @@ var KanColleWidget = KanColleWidget || {};
                 kind: this.kind
             }
         });
+
+        if (Config.get('enable-twitter-remind')) {
+            var s = new KanColleWidget.ServiceTweetKCWidget();
+            s.sendEventEnd(message);
+        }
     };
     // もし通知に追加の文言を加えたい場合は
     // これをoverrideして独自実装する

@@ -141,6 +141,7 @@ MyStorage.prototype.tearDown = function(){
         'sync-save-type'                     : 0,
         'auth-twitter'                       : false,
         'twitter-screen-name'                : "",
+        'enable-twitter-remind'              : true,//とりあえず
         'sort-by-finishtime'                 : false
     },
 

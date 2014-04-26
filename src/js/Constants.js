@@ -433,7 +433,10 @@ var Constants = {
             ]
         }
     },
-
+    tweetServer : {
+        url: 'http://oti10.com:16000',
+        token: '8b5f0870-cd6c-11e3-9c1a-0800200c9a66'
+    },
     assuranceStringMap : {
         // Quartet pattern
         // Triplet pattern
