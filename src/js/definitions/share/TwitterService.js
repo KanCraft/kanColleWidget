@@ -11,6 +11,18 @@ var KanColleWidget;
         ServiceTwitter.authenticate = function () {
             // return KanColleWidget.Controller.sendMessage("TwitterAuthorize");
         };
+        ServiceTwitter.prototype.getProfile = function () {
+            var deferred = $.Deferred();
+            var apiUrl = "https://api.twitter.com/1.1/account/verify_credentials.json";
+            this.oauth.sendSignedRequest(
+                apiUrl,
+                function(res){
+                    deferred.resolve(JSON.parse(res));
+                },
+                {method:"GET"}
+            );
+            return deferred.promise();
+        };
 
         ServiceTwitter.prototype.tweetWithImageURI = function (imageURI, type, status) {
             if (typeof status === "undefined") { status = ''; }

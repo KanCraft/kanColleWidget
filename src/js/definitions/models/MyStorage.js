@@ -140,6 +140,7 @@ MyStorage.prototype.tearDown = function(){
         'enable-sync'                        : false,// Obsolete!!
         'sync-save-type'                     : 0,
         'auth-twitter'                       : false,
+        'twitter-screen-name'                : "",
         'sort-by-finishtime'                 : false
     },
 
