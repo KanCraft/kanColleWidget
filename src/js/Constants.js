@@ -273,6 +273,21 @@ var Constants = {
             reward: [100, 420, 0, 200, 0],
             require:[65, 6, {lc:1, dd:5}],
             area: 4
+        },
+        // 索敵機、発艦始め！
+        "117": {
+            minute:15,
+            title: '前衛支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 5
+        },
+        "118": {
+            minute:30,
+            title: '艦隊決戦支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 5
         }
     },
     widget : {
