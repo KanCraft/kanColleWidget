@@ -1,12 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.3.0",
+        version: "v1.3.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/394',
-        announceVersion : 56,
+        announceVersion : 57,
         announcements   : [
+            'イベント用遠征IDの追加',
             'タイマーのTwitter通知設定を追加',
             'botちゃんがリプライで通知してくれます',
-            'イベント進捗どうですか'
+            'アイコンは定期的に変えたいので書いてくれるひと募集中です',
+            'あんまりみんな使いすぎると多分botちゃんが規制くらう'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
