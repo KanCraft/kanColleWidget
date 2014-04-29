@@ -35,21 +35,14 @@ var KanColleWidget = KanColleWidget || {};
 
         if(!Config.get('notification-on-reminder-finish')) return;
 
-        var message = '';
-        message += this.getHeaderMess();
-        message += this.prefix + this.primaryId + this.suffix;
-        message += this.getFooterMess();
+        var message = this.toMessage();
+
         Util.presentation(message, {
             startOrFinish: 'finish',
             sound: {
                 kind: this.kind
             }
         });
-
-        if (Config.get('enable-twitter-remind')) {
-            var s = new KanColleWidget.ServiceTweetKCWidget();
-            s.sendEventEnd(message);
-        }
     };
     // もし通知に追加の文言を加えたい場合は
     // これをoverrideして独自実装する
@@ -58,5 +51,13 @@ var KanColleWidget = KanColleWidget || {};
     };
     SoloEventBase.prototype.getFooterMess = function() {
         return "";
+    };
+
+    SoloEventBase.prototype.toMessage = function() {
+        var message = '';
+        message += this.getHeaderMess();
+        message += this.prefix + this.primaryId + this.suffix;
+        message += this.getFooterMess();
+        return message;
     };
 })();

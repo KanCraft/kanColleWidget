@@ -3,7 +3,7 @@ var KanColleWidget;
     var ServiceTweetKCWidget = (function () {
         function ServiceTweetKCWidget() {
         }
-        ServiceTweetKCWidget.prototype.sendEventEnd = function(message) {
+        ServiceTweetKCWidget.prototype.enqueueEvent = function(soloEventModel) {
             var deferred = $.Deferred();
             var url = Util.getTweetServerURL() + '/tweet/nyukyo';
             $.ajax({
@@ -11,8 +11,9 @@ var KanColleWidget;
                 type: 'POST',
                 data: {
                     screen_name: Config.get('twitter-screen-name'),
-                    message: message,
-                    client_token: Constants.tweetServer.token
+                    message: soloEventModel.toMessage(),
+                    client_token: Constants.tweetServer.token,
+                    finish_time: Math.floor(soloEventModel.finish / 1000)
                 },
                 success: function(res) {
                     deferred.resolve(res);
