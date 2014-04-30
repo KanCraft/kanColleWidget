@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/04/29 v1.3.1<!--version-->
+- 2014/05/01 v1.3.2<!--version-->
+    - Twitter通知のUIを改善
+- 2014/04/29 v1.3.1
     - イベント用遠征IDの追加
     - タイマーのTwitter通知設定を追加
 - 2014/04/23 v1.2.1, v1.2.3
