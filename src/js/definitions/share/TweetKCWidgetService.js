@@ -5,7 +5,8 @@ var KanColleWidget;
         }
         ServiceTweetKCWidget.prototype.enqueueEvent = function(soloEventModel) {
             var deferred = $.Deferred();
-            var url = Util.getTweetServerURL() + '/tweet/nyukyo';
+            var path = soloEventModel.kind.split('-')[0];
+            var url = Util.getTweetServerURL() + '/tweet/' + path;
             $.ajax({
                 url: url,
                 type: 'POST',

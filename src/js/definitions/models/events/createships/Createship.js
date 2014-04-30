@@ -6,6 +6,7 @@ var KanColleWidget = KanColleWidget || {};
         this.prefix    = Constants.notification.createship.end_prefix;
         this.suffix    = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
         this.kind      = 'createship-finish';
+        this.label     = '建造完了';
     }
     SoloCreateship.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloCreateship.prototype.constructor = SoloCreateship;

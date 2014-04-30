@@ -30,7 +30,7 @@ var KanColleWidget = KanColleWidget || {};
         this.set(this.storageName, events);
     };
     EventsBase.prototype.enqueue = function(soloEventModel) {
-        if (! Config.get('enable-twitter-remind')) return;
+        if (! soloEventModel.isTwitterRemindEnabled()) return;
         // ServiceTweetKCWidgetを叩く
         var s = new KanColleWidget.ServiceTweetKCWidget();
         s.enqueueEvent(soloEventModel);
