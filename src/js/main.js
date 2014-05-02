@@ -116,6 +116,13 @@ var KanColleWidget = KanColleWidget || {};
             oauth.clearTokens();
             if(message.clear) return;
             oauth.authorize(function(token, secret) {
+                // TODO: アクションにしたほうがいい雰囲気出てきたww
+                var s = new KanColleWidget.ServiceTwitter();
+                var p = s.getProfile();
+                p.done(function(user_profile){
+                    // console.log(user_profile);
+                    Config.set("twitter-screen-name", user_profile['screen_name']);
+                })
             });
         }
 

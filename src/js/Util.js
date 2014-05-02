@@ -770,4 +770,10 @@ var Util = Util || {};
         if (Util.isSpecialTerm()) return true;
         return Constants.release.announceVersion > Config.get("announce-already-read");
     };
+    Util.getTweetServerURL = function(){
+        if (localStorage.getItem('isDebug') == 'true') {
+            return 'http://localhost:16000';
+        }
+        return Constants.tweetServer.url;
+    };
 })();

@@ -140,6 +140,13 @@ MyStorage.prototype.tearDown = function(){
         'enable-sync'                        : false,// Obsolete!!
         'sync-save-type'                     : 0,
         'auth-twitter'                       : false,
+        'twitter-screen-name'                : "",
+        'enable-twitter-remind'              : false,// Obsolete!!
+        'enable-twitter-remind-mission'      : false,
+        'enable-twitter-remind-nyukyo'       : false,
+        'enable-twitter-remind-createship'   : false,
+        'enable-twitter-remind-confirm'      : false,
+        'enable-twitter-remind-mission'      : false,
         'sort-by-finishtime'                 : false
     },
 

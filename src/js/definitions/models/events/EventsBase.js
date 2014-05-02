@@ -23,9 +23,17 @@ var KanColleWidget = KanColleWidget || {};
             if(events[i][this.primaryIdName] == id) {
                 events[i].finish = finishTime;
                 if(optionalInfo) events[i].info = optionalInfo;
+
+                this.enqueue(new this.soloModel(events[i]));
             }
         }
         this.set(this.storageName, events);
+    };
+    EventsBase.prototype.enqueue = function(soloEventModel) {
+        if (! soloEventModel.isTwitterRemindEnabled()) return;
+        // ServiceTweetKCWidgetを叩く
+        var s = new KanColleWidget.ServiceTweetKCWidget();
+        s.enqueueEvent(soloEventModel);
     };
     /**
      * 自分で管理しているeventsを全部返す

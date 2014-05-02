@@ -1,11 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.2.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/387',
-        announceVersion : 54,
+        version: "v1.3.2",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/394',
+        announceVersion : 58,
         announcements   : [
-            'スクショ画像をTwitter連携で投稿できる設定を追加',
-            'Twitter投稿するところのUIがクソ過ぎたので修正'
+            'タイマーのTwitter通知設定を追加',
+            'botちゃんがリプライで通知してくれます',
+            'アイコンは定期的に変えたいので書いてくれるひと募集中です',
+            '-----',
+            'Twitter通知UIを改善',
+            'みんな使ってもbotちゃんが規制されないようにしました'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
@@ -272,6 +276,21 @@ var Constants = {
             reward: [100, 420, 0, 200, 0],
             require:[65, 6, {lc:1, dd:5}],
             area: 4
+        },
+        // 索敵機、発艦始め！
+        "117": {
+            minute:15,
+            title: '前衛支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 5
+        },
+        "118": {
+            minute:30,
+            title: '艦隊決戦支援任務',
+            reward: [0,0,0,0,0],
+            require:[null, 2, {dd:2}],
+            area: 5
         }
     },
     widget : {
@@ -426,7 +445,10 @@ var Constants = {
             ]
         }
     },
-
+    tweetServer : {
+        url: 'http://oti10.com:16000',
+        token: '8b5f0870-cd6c-11e3-9c1a-0800200c9a66'
+    },
     assuranceStringMap : {
         // Quartet pattern
         // Triplet pattern

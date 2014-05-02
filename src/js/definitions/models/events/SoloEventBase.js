@@ -35,10 +35,8 @@ var KanColleWidget = KanColleWidget || {};
 
         if(!Config.get('notification-on-reminder-finish')) return;
 
-        var message = '';
-        message += this.getHeaderMess();
-        message += this.prefix + this.primaryId + this.suffix;
-        message += this.getFooterMess();
+        var message = this.toMessage();
+
         Util.presentation(message, {
             startOrFinish: 'finish',
             sound: {
@@ -53,5 +51,25 @@ var KanColleWidget = KanColleWidget || {};
     };
     SoloEventBase.prototype.getFooterMess = function() {
         return "";
+    };
+
+    SoloEventBase.prototype.toMessage = function() {
+        var message = '';
+        message += this.getHeaderMess();
+        message += this.prefix + this.primaryId + this.suffix;
+        message += this.getFooterMess();
+        return message;
+    };
+    SoloEventBase.prototype.toTwitterConfirmMessage = function() {
+        var message = this.label;
+        message += 'をTwitterで通知しますか？';
+        return message;
+    };
+    SoloEventBase.prototype.isTwitterRemindEnabled = function() {
+        if (Config.get('enable-twitter-remind-confirm')) {
+            return window.confirm(this.toTwitterConfirmMessage());
+        }
+        var key = this.kind.split('-')[0];
+        return Config.get('enable-twitter-remind-' + key);
     };
 })();
