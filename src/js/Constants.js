@@ -1,15 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.3.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/394',
-        announceVersion : 58,
+        version: "v1.3.3",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/399',
+        announceVersion : 59,
         announcements   : [
-            'タイマーのTwitter通知設定を追加',
-            'botちゃんがリプライで通知してくれます',
-            'アイコンは定期的に変えたいので書いてくれるひと募集中です',
+            '任務進捗一覧画面の表示バグ修正',
             '-----',
-            'Twitter通知UIを改善',
-            'みんな使ってもbotちゃんが規制されないようにしました'
+            '通知botちゃんズの稼働状況を<a href="http://tweet-kcwidget.oti10.com/" target="_blank" class="light">確認できるページ</a>つくりました',
+            'アイコンは定期的に変えたいので描いてくれるひと募集中です！！'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
