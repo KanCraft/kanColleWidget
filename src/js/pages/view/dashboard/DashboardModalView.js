@@ -9,7 +9,7 @@ var widgetPages = widgetPages || {};
     var QuestModalContentsView = widgetPages.QuestModalContentsView = function(quest) {
         this.quest = quest;
         this.tpl = '<div>'
-                 + '    <div class="modal-header"><h1>{{title}}</h1></div>'
+                 + '    <div class="modal-header-in-dashboard"><h1>{{title}}</h1></div>'
                  + '    <div class="modal-middle">'
                  + '        <h1>現状 : {{status}}</h1>'
                  + '    </div>'

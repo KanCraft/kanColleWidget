@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/05/01 v1.3.2<!--version-->
+- 2014/05/04 v1.3.3<!--version-->
+    - 任務進捗一覧画面の表示バグ修正
+- 2014/05/01 v1.3.2
     - Twitter通知のUIを改善
 - 2014/04/29 v1.3.1
     - イベント用遠征IDの追加
