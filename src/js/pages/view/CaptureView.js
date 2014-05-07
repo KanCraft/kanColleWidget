@@ -239,6 +239,8 @@ var widgetPages = widgetPages || {};
         if (self.nowSending) return;
         self.nowSending = true;
         $(ev.currentTarget).addClass('disabled');
+        $('#tweet-text-counter').html('');
+        $('#tweet-text-counter').addClass('loader');
         var status = $('#js-tweet-box').text();
         var p = self.twitter.tweetWithImageURI(this.imgURI, this.format, status);
         p.done(function(res){
