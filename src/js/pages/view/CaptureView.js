@@ -180,23 +180,6 @@ var widgetPages = widgetPages || {};
         $('#tweet-cancel').on('click', function(){
             widgetPages.ModalView.vanish();
         });
-        /* これがオリジナル
-        if (this.nowSending) return;
-        // めんどくさいのでpromptでいいやろ感
-        var status = window.prompt("投稿の文字のとこ（たぶん120字くらいまで）");
-        if (status == null) status = "";
-        $('#img-tweet').attr('src','../img/capture/loader.gif');
-        var format = 'image/' + Config.get('capture-image-format');
-        var uri = this.canvasApp.toDataURL(format);
-        var p = this.twitter.tweetWithImageURI(uri, format, status);
-        var self = this;
-        p.done(function(res){
-            var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
-            $('body').append('<a href="'+url+'" target="_blank" class="tweeted-permalink">' + url + '</a>')
-            $('#img-tweet').attr('src','../img/capture/twitter.png');
-            self.nowSending = false;
-        });
-        */
     };
     // TODO: いい加減このファイル分割しろ
     var ModalContentTweetView = function(imgURI, format, twitter) {
@@ -246,6 +229,10 @@ var widgetPages = widgetPages || {};
         this.$el.find('#js-tweet-box').on('keydown',function(ev){
             self.textFeedback(ev,self);
         });
+        var hashtag = Config.get('tweet-hashtag');
+        if (hashtag) {
+            this.$el.find('#js-tweet-box').html('&nbsp;' + hashtag);
+        }
         return this.$el;
     };
     ModalContentTweetView.prototype.sendTweet = function(ev, self) {
