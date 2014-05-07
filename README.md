@@ -49,7 +49,10 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/05/04 v1.3.3<!--version-->
+- 2014/05/07 v1.3.4<!--version-->
+    - スクショTwitter投稿にハッシュタグ付けれる設定を追加
+    - スクショTwitter投稿のUIを改善
+- 2014/05/04 v1.3.3
     - 任務進捗一覧画面の表示バグ修正
 - 2014/05/01 v1.3.2
     - Twitter通知のUIを改善

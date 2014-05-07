@@ -1,13 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.3.3",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/399',
-        announceVersion : 59,
+        version: "v1.3.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/400',
+        announceVersion : 60,
         announcements   : [
-            '任務進捗一覧画面の表示バグ修正',
-            '-----',
-            '通知botちゃんズの稼働状況を<a href="http://tweet-kcwidget.oti10.com/" target="_blank" class="light">確認できるページ</a>つくりました',
-            'アイコンは定期的に変えたいので描いてくれるひと募集中です！！'
+            'スクショTwitter投稿にハッシュタグ付けれる設定を追加',
+            'スクショTwitter投稿のUIを改善',
+            'E4ボスSで念願の8ちゃん来ました！'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
