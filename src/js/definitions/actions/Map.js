@@ -16,7 +16,6 @@ var KanColleWidget = KanColleWidget || {};
         this.sorties.refreshStash().registerStash(deck_id);
 
         // {{{ 疲労回復スタート
-        this._clearShipsStatusWindow();
         var recoveryMinutes = Config.get("tiredness-recovery-minutes");
         if (recoveryMinutes == 0) return;
         var deckIds = this.sorties.sweepStash();
@@ -28,8 +27,9 @@ var KanColleWidget = KanColleWidget || {};
     };
     MapAction.prototype.forEnd = function(){
 
-        /* {{{ 疲労回復スタート
         this._clearShipsStatusWindow();
+
+        /* {{{ 疲労回復スタート
         var recoveryMinutes = Config.get("tiredness-recovery-minutes");
         if (recoveryMinutes == 0) return;
         var deckIds = this.sorties.sweepStash();
