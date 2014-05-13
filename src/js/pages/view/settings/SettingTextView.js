@@ -29,10 +29,11 @@ var widgetPages = widgetPages || {};
         var $_container = $('<div>');
         var $input = $('<input type="text"></input>');
         $input.attr({
-            'id'      : this.inputName,
-            'class'   : this.inputName,
-            'name'    : this.inputName,
-            'value'   : this.config.get(this.inputName)
+            'id'         : this.inputName,
+            'class'      : this.inputName,
+            'name'       : this.inputName,
+            'value'      : this.config.get(this.inputName),
+            'placeholder': this.placeholder
         });
 
         $_container.append($input);
