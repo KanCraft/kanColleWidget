@@ -212,3 +212,10 @@ time {
     font-size: x-small;
     line-height: 0.5em;
 }
+
+/* 早見表関係 */
+table.mission-info {
+}
+.mission-info a {
+    text-decoration: none;
+}
