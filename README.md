@@ -49,7 +49,10 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/05/07 v1.3.4<!--version-->
+- 2014/05/14 v1.3.5<!--version-->
+    - 建造時間の自動取得失敗を修正
+    - 疲労回復簡易タイマーのスタートを出撃時に変更
+- 2014/05/07 v1.3.4
     - スクショTwitter投稿にハッシュタグ付けれる設定を追加
     - スクショTwitter投稿のUIを改善
 - 2014/05/04 v1.3.3

@@ -1,12 +1,16 @@
 var Constants = {
     release : {
-        version: "v1.3.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/400',
-        announceVersion : 60,
+        version: "v1.3.5",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/402',
+        announceVersion : 61,
         announcements   : [
-            'スクショTwitter投稿にハッシュタグ付けれる設定を追加',
-            'スクショTwitter投稿のUIを改善',
-            'E4ボスSで念願の8ちゃん来ました！'
+            '建造時間の自動取得失敗を修正',
+            '疲労回復簡易タイマーのスタートを出撃時に変更',
+            '-----',
+            'ご好評頂いていました「botちゃんによるTwitter通知」ですが',
+            '案の定、<a href="https://twitter.com/otiai10/status/464662998959656960" class="light">botちゃんが凍結</a>されてしまいました。',
+            '現在対策を模索中です',
+            '良いアイデアあったら教えてください m(_ _)m'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
