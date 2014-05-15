@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/05/14 v1.3.5, v1.3.6<!--version-->
+- 2014/05/15 v1.3.6.1<!--version-->
+    - スクショTwitter連携で1行目が改行されないバグを修正
+- 2014/05/14 v1.3.5, v1.3.6
     - 建造時間の自動取得失敗を修正
     - 疲労回復簡易タイマーのスタートを出撃時に変更
     - メモの複数PC同期を追加

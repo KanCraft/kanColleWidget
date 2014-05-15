@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.3.6",
+        version: "v1.3.6.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/402',
-        announceVersion : 62,
+        announceVersion : 63,
         announcements   : [
             '建造時間の自動取得失敗を修正',
             '疲労回復簡易タイマーのスタートを出撃時に変更',
@@ -10,6 +10,8 @@ var Constants = {
             'メモの複数PC同期を追加',
             'スクショTwitter連携で改行に対応',
             'クロックモードから遠征早見表を追加',
+            '-----',
+            'スクショTwitter連携で1行目が改行されないバグを修正',
             '-----',
             'ご好評頂いていました「botちゃんによるTwitter通知」ですが',
             '案の定、<a href="https://twitter.com/otiai10/status/464662998959656960" class="light">botちゃんが凍結</a>されてしまいました。',
