@@ -261,6 +261,6 @@ var widgetPages = widgetPages || {};
         }
     };
     ModalContentTweetView.prototype.getInputStatus = function() {
-        return $('#js-tweet-box').html().replace(/<div>/g,'').replace(/<\/div>/g,'\n');
+        return $('#js-tweet-box').html().replace(/<div>/g,'\n').replace(/<\/div>/g,'');
     };
 })();
