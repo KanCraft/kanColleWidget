@@ -1,22 +1,16 @@
 var Constants = {
     release : {
-        version: "v1.3.6.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/402',
-        announceVersion : 63,
+        version: "v1.3.7",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/403',
+        announceVersion : 64,
         announcements   : [
-            '建造時間の自動取得失敗を修正',
-            '疲労回復簡易タイマーのスタートを出撃時に変更',
+            '<a href="http://tweet-kcwidget.oti10.com/" class="light">TwitterBotちゃん</a>による通知の復活',
             '-----',
-            'メモの複数PC同期を追加',
-            'スクショTwitter連携で改行に対応',
-            'クロックモードから遠征早見表を追加',
-            '-----',
-            'スクショTwitter連携で1行目が改行されないバグを修正',
-            '-----',
-            'ご好評頂いていました「botちゃんによるTwitter通知」ですが',
-            '案の定、<a href="https://twitter.com/otiai10/status/464662998959656960" class="light">botちゃんが凍結</a>されてしまいました。',
-            '現在対策を模索中です',
-            '良いアイデアあったら教えてください m(_ _)m'
+            'ふたたび凍結されるのは悲しい気持ちになるので',
+            '1) 通知文言をなるべく独自で設定した方がいいかも',
+            '2) botちゃんのアイコンなるべく描いてくれた方がいいかも',
+            '3) botちゃんをなるべくフォローした方がいいかも',
+            'とのことです。使う人はよろしくです'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
