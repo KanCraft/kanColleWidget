@@ -1,0 +1,24 @@
+html, body {
+    /*
+    font-family: "times new roman";
+    */
+    font-family: "Meiryo";
+    background-color: #f0f0f0;
+    margin: 0;
+    overflow: scroll;
+}
+table, div.header {
+    width: 96%;
+    margin: 20px auto;
+    font-size: small;
+    min-width: 900px;
+}
+div.header {
+    text-align: right;
+}
+a {
+    text-decoration: none;
+}
+div.header>a:hover {
+    text-decoration: underline;
+}

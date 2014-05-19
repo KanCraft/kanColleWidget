@@ -241,7 +241,7 @@ var widgetPages = widgetPages || {};
         $(ev.currentTarget).addClass('disabled');
         $('#tweet-text-counter').html('');
         $('#tweet-text-counter').addClass('loader');
-        var status = $('#js-tweet-box').text();
+        var status = this.getInputStatus();
         var p = self.twitter.tweetWithImageURI(this.imgURI, this.format, status);
         p.done(function(res){
             var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
@@ -259,5 +259,8 @@ var widgetPages = widgetPages || {};
         } else {
             self.$el.find('#tweet-text-counter').removeClass('count-over');
         }
+    };
+    ModalContentTweetView.prototype.getInputStatus = function() {
+        return $('#js-tweet-box').html().replace(/<div>/g,'\n').replace(/<\/div>/g,'');
     };
 })();

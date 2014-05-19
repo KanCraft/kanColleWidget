@@ -10,7 +10,7 @@ MyStorage.sync = {
         if (saveType == 0) return keys;
         keys.push('nyukyos','missions','createships');
         if (saveType < 2) return keys;
-        keys.push('quests','achievements');
+        keys.push('quests','achievements','recipememo');
         if (saveType < 3) return keys;
         keys.push('config','inputTracking');
         return keys;

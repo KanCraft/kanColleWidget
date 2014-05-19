@@ -23,6 +23,9 @@ var widgetPages = widgetPages || {};
           rows : "10",
           placeholder : "何かメモるの？いいけれど..."
       });
+      // if (true) {
+      this.$el.append(new widgetPages.MissionInfoView().render());
+      // }
       return this.$el;
   };
   MemoView.prototype.saveRecipeMemo = function(ev) {

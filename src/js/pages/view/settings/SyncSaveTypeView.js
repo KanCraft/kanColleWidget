@@ -8,7 +8,7 @@ var widgetPages = widgetPages || {};
         this.elements = [
             {value:'0', title: '使わない'},
             {value:'1', title: 'タイマーだけ'},
-            {value:'2', title: 'タイマーと任務進捗と実績'},
+            {value:'2', title: 'タイマーと任務進捗と実績とメモ'},
             {value:'3', title: '設定・窓サイズ・窓位置などもぜんぶ'}
         ];
         this.description = '艦これウィジェットに保存した遠征終了時刻などのデータを'

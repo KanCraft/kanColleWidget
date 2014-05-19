@@ -133,7 +133,9 @@ var KanColleWidget = KanColleWidget || {};
             this.action.forKousyouCreateitemComplete();
         } else if (this.requestSequence[3] === 'api_req_nyukyo/start') {
             // this.action.forNyukyoStartCompleted();
-        } else if (this.requestSequence[5] === 'api_req_kousyou/createship') {
+        } else if (this.requestSequence[2] === 'api_req_kousyou/createship'
+                   && this.requestSequence[1] === 'api_get_member/kdock'
+                   && this.requestSequence[0] === 'api_get_member/material') {
             this.action.forKousyouCreateshipCompleted();
         } else if (this.requestSequence[0] === 'api_get_member/practice') {
             this.action.forPracticePreparation();
