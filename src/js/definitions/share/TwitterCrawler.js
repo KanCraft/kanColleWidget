@@ -42,6 +42,7 @@ var KanColleWidget = KanColleWidget || {};
                 );
                 $el.append($(li).find('p.tweet-text'));
                 $el.find('strong.fullname').remove();
+                $el.find('.stream-item-footer').remove();
                 $el.find('a').attr({href: TwitterCrawler._buildURL()}).on('click',function(){
                     chrome.tabs.create({
                         url : $(this).attr('href')
