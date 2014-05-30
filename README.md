@@ -49,7 +49,10 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/05/20 v1.3.7<!--version-->
+- 2014/05/31 v1.3.7.1<!--version-->
+    - 運営のメンテ情報表示が何か変なの修正
+    - botちゃん凍結の旨をご報告
+- 2014/05/20 v1.3.7
     - TwitterBotちゃんによる通知の復活
 - 2014/05/15 v1.3.6.1
     - スクショTwitter連携で1行目が改行されないバグを修正
