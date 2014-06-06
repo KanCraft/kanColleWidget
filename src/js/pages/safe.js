@@ -9,6 +9,14 @@ $(function(){
             'left'    : '-70px'
         },500);
     },500);
+
+    // キーバインド登録
+    $(document).on('keyup',function(e){
+        if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
+            chrome.runtime.sendMessage({purpose: 'screenshot'});
+        }
+    });
+
     // adjust to windows
     if (Util.system.isWindows()) {
         var diffWidth = window.outerWidth - window.innerWidth;
