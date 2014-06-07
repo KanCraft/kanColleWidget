@@ -1,6 +1,10 @@
 $(function(){
     var queries = Util.parseQueryString();
-    $('body').attr('style','background-image: url(' + queries.imgURI + ')');
+    var img = new Image();
+    img.src = queries.imgURI;
+    img.setAttribute('class','contain-page');
+    window.document.body.appendChild(img);
+
     var d = new Date();
     $('title').text(Util.zP(2, d.getHours()) + ":" + Util.zP(2, d.getMinutes()));
 
