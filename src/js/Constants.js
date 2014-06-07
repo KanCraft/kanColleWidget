@@ -1,25 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.3.7.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/403',
-        announceVersion : 66,
+        version: "v1.3.8.0",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/408',
+        announceVersion : 67,
         announcements   : [
-            '<a href="http://tweet-kcwidget.oti10.com/" class="light">TwitterBotちゃん</a>による通知の復活',
-            '-----',
-            'ふたたび凍結されるのは悲しい気持ちになるので',
-            '1) 通知文言をなるべく独自で設定した方がいいかも',
-            '2) botちゃんのアイコンなるべく描いてくれた方がいいかも',
-            '3) botちゃんをなるべくフォローした方がいいかも',
-            'とのことです。使う人はよろしくです',
-            '-----',
-            '1.3.7.1',
-            '運営のメンテ情報表示が何か変なの修正',
-            'botちゃん凍結の旨をご報告',
-            '-----',
-            '1.3.7.1のお知らせ（5/31 01:40）',
-            '通知botちゃんがふたたび凍結されました',
-            'とても悲しい気持ちになったので、解決策が見つかるまでしばらく運用を止めます',
-            'ご不便おかけし申し訳ございません'
+            '三たび凍結された<a href="http://tweet-kcwidget.oti10.com/" class="light">botちゃんズ</a>の復活（設定にある凍結防止の注意事項をよく読んでください）',
+            'ホワイトモードでスクショショートカットを追加',
+            '大破進撃とかが真っ白になるバグを修正',
+            '自動取得中の妖精さんを追加'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
