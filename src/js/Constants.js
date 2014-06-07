@@ -503,6 +503,8 @@ var Constants = {
                     {url:'src/img/loader/024.jpg',title:'彗星'},
                     {url:'src/img/loader/025.jpg',title:'零式水上偵察機'},
                     {url:'src/img/loader/026.jpg',title:'瑞雲'},
+                    {url:'src/img/loader/027.jpg',title:'13号対空電探'},
+                    {url:'src/img/loader/028.jpg',title:'22号対水上電探'},
                     {url:'src/img/loader/030.jpg',title:'21号対空電探'},
                     //-----------031~040
                     {url:'src/img/loader/032.jpg',title:'14号対空電探'},
@@ -515,17 +517,34 @@ var Constants = {
                     {url:'src/img/loader/040.jpg',title:'25mm三連装機銃'},
                     //-----------041~050
                     {url:'src/img/loader/041.jpg',title:'甲標的 甲'},
+                    {url:'src/img/loader/042.jpg',title:'応急修理要員'},
+                    {url:'src/img/loader/043.jpg',title:'応急修理女神'},
                     {url:'src/img/loader/044.jpg',title:'九四式爆雷投射機'},
+                    {url:'src/img/loader/045.jpg',title:'三式爆雷投射機'},
                     {url:'src/img/loader/046.jpg',title:'九三式水中聴音機'},
                     {url:'src/img/loader/047.jpg',title:'三式水中探信儀'},
+                    {url:'src/img/loader/048.jpg',title:'12.7cm単装高角砲'},
+                    {url:'src/img/loader/050.jpg',title:'20.3cm(3号)連装砲'},
                     //-----------051~060
                     {url:'src/img/loader/051.jpg',title:'12cm30連装噴進砲'},
+                    {url:'src/img/loader/053.jpg',title:'烈風改'},
                     {url:'src/img/loader/054.jpg',title:'彩雲'},
                     {url:'src/img/loader/055.jpg',title:'紫電改二'},
+                    {url:'src/img/loader/057.jpg',title:'彗星一二型甲'},
                     {url:'src/img/loader/058.jpg',title:'61cm五連装(酸素)魚雷'},
-                    //-----------051~060
+                    {url:'src/img/loader/059.jpg',title:'零式水上観測機'},
+                    //-----------061~070
+                    {url:'src/img/loader/062.jpg',title:'試製晴嵐'},
+                    {url:'src/img/loader/063.jpg',title:'12.7cm連装砲B型改二'},
+                    {url:'src/img/loader/064.jpg',title:'Ju87C改'},
                     {url:'src/img/loader/065.jpg',title:'15.2cm連装砲'},
-                    {url:'src/img/loader/066.jpg',title:'8cm高角砲'}
+                    {url:'src/img/loader/066.jpg',title:'8cm高角砲'},
+                    //-----------071~080
+                    {url:'src/img/loader/075.jpg',title:'ドラム缶'},
+                    {url:'src/img/loader/078.jpg',title:'12.7cm単装砲'},
+                    //-----------081~090
+                    {url:'src/img/loader/086.jpg',title:'艦艇修理施設'},
+                    {url:'src/img/loader/087.jpg',title:'新型高温高圧缶'}
                 ]
             }
         }
