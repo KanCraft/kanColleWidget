@@ -1,13 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.3.8.0",
+        version: "v1.3.8.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/408',
-        announceVersion : 67,
+        announceVersion : 68,
         announcements   : [
             '三たび凍結された<a href="http://tweet-kcwidget.oti10.com/" class="light">botちゃんズ</a>の復活（設定にある凍結防止の注意事項をよく読んでください）',
             'ホワイトモードでスクショショートカットを追加',
             '大破進撃とかが真っ白になるバグを修正',
-            '自動取得中の妖精さんを追加'
+            '自動取得中の妖精さんを追加',
+            '-----',
+            '遠征早見表を修正(v1.3.8.1)'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
