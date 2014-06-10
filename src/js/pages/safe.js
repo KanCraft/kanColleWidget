@@ -10,6 +10,13 @@ $(function(){
         },500);
     },500);
 
+    // キーバインド登録
+    $(document).on('keyup',function(e){
+        if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
+            chrome.runtime.sendMessage({purpose: 'screenshot'});
+        }
+    });
+
     history.forward();
 
     $(document).on('keyup',function(e){
