@@ -762,6 +762,21 @@ var Util = Util || {};
             top: pos.top,
             type: type
         },function(win){
+            var targetSize = {
+                width: 800,
+                height: 480
+            };
+            var diffWidth = targetSize.width - win.tabs[0].width;
+            var diffHeight = targetSize.height - win.tabs[0].height;
+
+            var updateInfo = {
+                width: win.width + diffWidth,
+                height: win.height + diffHeight
+            };
+
+            chrome.windows.update(win.id,updateInfo,function(_win) {
+                // Callback code
+            });
         });
     };
 
