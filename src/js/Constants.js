@@ -295,7 +295,8 @@ var Constants = {
     },
     widget : {
         title : {
-            rate : 0.99,
+            // rate : 0.99,
+            rate : 0.5,//ちょっと解放しよう (2014/06/11)
             default : [
                 "艦これウィジェット",
                 "艦これウィジェット",
