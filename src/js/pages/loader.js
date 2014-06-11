@@ -20,6 +20,7 @@ var incrementDot = function(){
     var image = Util.getLoaderBackgroundImage();
     var url = chrome.extension.getURL('/') + image.url;
     $('html').css({backgroundImage:'url("'+ url +'")'});
+    $('html').hide().fadeIn(500);
     setInterval(incrementDot,100);
     $('div#answer').html(image.title);
     $('div#wrapper').on('mouseenter',function(){

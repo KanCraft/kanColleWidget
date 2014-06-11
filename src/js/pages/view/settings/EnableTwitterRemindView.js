@@ -8,7 +8,14 @@ var widgetPages = widgetPages || {};
         this.description = 'Twitterで'
         + '<a href="https://twitter.com/KanColleWidget" target="_blank">botちゃん</a>'
         + 'がメンションで通知してくれるようになります。'
-        + '（注意！上の「Twitter連携」にもチェックを入れないと有効になりません）';
+        + '（注意！上の「Twitter連携」にもチェックを入れないと有効になりません）'
+        + '<br>botちゃんズのアカウント凍結防止のため、これを利用される方は以下のことにご協力ください'
+        + '<ol style="margin:0">'
+        + '<li> 通知文言をなるべく独自で設定した方がいいかも</li>'
+        + '<li> botちゃんのアイコンなるべく描いてくれた方がいいかも</li>'
+        + '<li> botちゃんをなるべくフォローした方がいいかも</li>'
+        + '</ol>';
+ 
         this._list = [
             {id:'enable-twitter-remind-mission',text:'遠征'},
             {id:'enable-twitter-remind-nyukyo',text:'入渠'},

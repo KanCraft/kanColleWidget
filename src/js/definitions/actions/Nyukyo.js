@@ -59,6 +59,7 @@ var KanColleWidget = KanColleWidget || {};
             var closeLoading = function(){
                 if (KanColleWidget.Stash.loadingWindow && KanColleWidget.Stash.loadingWindow.close) {
                     KanColleWidget.Stash.loadingWindow.close();
+                    KanColleWidget.Stash.loadingWindow = null;
                 }
             };
             // 遅らせてローディング画面を閉じる
