@@ -13,7 +13,7 @@ var Constants = {
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
-    shiptype:{dd:"駆逐",lc:"軽巡",hc:"重巡",bb:"戦艦",ac:"空母",ab:"航戦",sc:"水母"},
+    shiptype:{dd:"駆逐",lc:"軽巡",hc:"重巡",bb:"戦艦",ac:"空母",ab:"航戦",sc:"水母",sm:"潜水",st:"潜母"},
     mission : {
         /**
          * reward: [ 経験値, 燃料, 弾薬, 鋼材, ボーキ]
@@ -275,6 +275,13 @@ var Constants = {
             title: '東京急行(弐)',
             reward: [100, 420, 0, 200, 0],
             require:[65, 6, {lc:1, dd:5}],
+            area: 4
+        },
+        "39": {
+            minute:1800,
+            title: '遠洋潜水艦作戦',
+            reward: [130, 300, 0, 0, 0],
+            require:[3, 5, {st:1}],
             area: 4
         },
         // 索敵機、発艦始め！
