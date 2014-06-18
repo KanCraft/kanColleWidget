@@ -57,7 +57,9 @@ $(function() {
         $('div').remove();
 
         // 背景を黒に
-        $('body').css('background-color', 'black');
+        $('body').css('background-color', 'black')
+            .css('width', '100%')
+            .css('height', '100%');
 
         // リサイズ周りの挙動
         $embedElement.css('position', 'absolute');
