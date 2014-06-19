@@ -9,6 +9,9 @@ module.exports = (grunt) =>
             buildquiet:
                 cmd: 'sh cli/build'
                 stdout: false
+            boot:
+                cmd: 'sh cli/boot'
+                stdout: false
         regarde:
             src:
                 files: ['src/**/*.*']
@@ -21,6 +24,7 @@ module.exports = (grunt) =>
     grunt.loadNpmTasks 'grunt-exec'
     grunt.loadNpmTasks 'grunt-regarde'
     grunt.loadNpmTasks 'grunt-contrib-jshint'
+    grunt.registerTask 'boot', ['exec:boot']
     grunt.registerTask 'build', ['exec:build']
     grunt.registerTask 'buildquiet', ['exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']
