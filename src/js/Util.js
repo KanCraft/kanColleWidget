@@ -787,4 +787,27 @@ var Util = Util || {};
         }
         return Constants.tweetServer.url;
     };
+
+    Util.resizeWindowAtWhite = function(tab) {
+
+        var targetSize = {
+            width: 800,
+            height: 480
+        };
+
+        var diffWidth = targetSize.width - tab.width;
+        var diffHeight = targetSize.height - tab.height;
+
+        chrome.windows.get(tab.windowId, function (win) {
+
+            var updateInfo = {
+                width: win.width + diffWidth,
+                height: win.height + diffHeight
+            };
+
+            chrome.windows.update(win.id,updateInfo,function(_win) {
+                // Callback code
+            });
+        });
+    };
 })();
