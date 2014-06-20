@@ -126,6 +126,11 @@ var KanColleWidget = KanColleWidget || {};
             });
         }
 
+        if (message.purpose == 'resizeWindowAtWhite') {
+            console.log("resize work");
+            return;
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);
