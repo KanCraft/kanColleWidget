@@ -127,7 +127,7 @@ var KanColleWidget = KanColleWidget || {};
         }
 
         if (message.purpose == 'resizeWindowAtWhite') {
-            console.log("resize work");
+            Util.resizeWindowAtWhite(sender.tab);
             return;
         }
 
