@@ -10,6 +10,10 @@ $(function(){
         },500);
     },500);
 
+
+    // リサイズ
+    chrome.runtime.sendMessage({purpose:'resizeWindowAtWhite'});
+
     // キーバインド登録
     $(document).on('keyup',function(e){
         if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
