@@ -49,7 +49,10 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/06/18 v1.3.8.2<!--version-->
+- 2014/06/21 v1.3.8.3<!--version-->
+    - Windowsの画面サイズ修正
+    - 障害・メンテナンス情報の更新
+- 2014/06/18 v1.3.8.2
     - WindowsのWHITEモードでアドレスバー出してるときの画面サイズ修正
     - dev-Chromeで画面が真っ黒になる問題を修正
     - 新しく追加された遠征ID39に対応（遅くなってすみません）

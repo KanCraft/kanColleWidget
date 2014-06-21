@@ -1,16 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.3.8.2",
+        version: "v1.3.8.3",
         link: 'https://github.com/otiai10/kanColleWidget/pull/411',
-        announceVersion : 69,
+        announceVersion : 70,
         announcements   : [
-            'WindowsのWHITEモードでアドレスバー出してるときの画面サイズ修正',
-            'dev-Chromeで画面が真っ黒になる問題を修正',
-            '新しく追加された遠征ID39に対応（遅くなってすみません）',
-            '遠征早見表の表示修正',
-            '艦これウィジェットの<a href="https://github.com/otiai10/kanColleWidget/wiki/%E9%9A%9C%E5%AE%B3%E3%83%BB%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%83%85%E5%A0%B1" class="light">障害・メンテナンス情報ページ</a>の追加',
-            '-----',
-            'Commitしてくださったみなさんありがとうございますm(_ _)m'
+            'Windowsの画面サイズ修正',
+            '<a href="https://github.com/otiai10/kanColleWidget/wiki/%E9%9A%9C%E5%AE%B3%E3%83%BB%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%83%85%E5%A0%B1" class="light">障害・メンテナンス情報</a>の更新'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
