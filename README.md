@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/06/21 v1.3.8.3<!--version-->
+- 2014/06/23 v1.3.8.4<!--version-->
+    - 窓タイトル微調整
+- 2014/06/21 v1.3.8.3
     - Windowsの画面サイズ修正
     - 障害・メンテナンス情報の更新
 - 2014/06/18 v1.3.8.2
