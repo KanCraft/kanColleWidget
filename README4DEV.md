@@ -1,41 +1,45 @@
-# Set Up
+# セットアップ
 ```sh
 npm install
+grunt boot
 grunt build
 ```
 
-# Testing
-
-## Running the test
-1. Install `test` directory into your Chrome as an extension.
-2. Open `Option Page` of the extension.
-3. Test will run that page. (Jasmine output)
-
-# Developing
-
-## Edit
-To edit source, you should edit `src/`.
-
-## Run App
-1. Open page `chrome://extensions` on you Chrome Browser.
-2. Enable `Developer mode`.
-3. Click `Install unpackaged extension`.
-4. Choose `release/kanColleWidget` directory as `unpackaged extension`.
-
-then your app is available in your browser button.
-
-## Affecting changes of `src` to `test/src`
+# デバッグ
+`grunt build`コマンドで`build`ディレクトリが作られ、その配下に
 ```
-grunt watch
+build
+├── beta.kanColleWidget
+├── beta.kanColleWidget.zip
+├── kanColleWidget
+├── kanColleWidget.zip
+├── stg.kanColleWidget
+└── stg.kanColleWidget.zip
+
+3 directories, 3 files
 ```
-watching changes in `src/*` and copy into `test/src/*`,
-so affecting test output automatically.
+が作られます。Chromeブラウザで[chrome://extensions](chrome://extensions)を開いて、「パッケージ化されていない拡張機能を読み込む」を選択し、上記の`build/kanColleWidget`ディレクトリを読ませます。これで主要機能は動きます。
 
-Let's start editing `src/`! :+1:
+# Twitter連携のデバッグをする場合
 
-## Adding new file to `src/`
-If you want to add new files in `src/`,
-you have to add new path reference to `test/SpecRnner.html`.
+`src/js/AppConfig.js`に適切なコンシューマキーとコンシューマシークレットを記述する必要があります。
+
+1. https://apps.twitter.com/app/new に行き、アプリ登録
+    - `Website`とか`Callback URL`とかマジ適当でいい
+2. `Allow this application to be used to Sign in with Twitter`の項目にチェックを入れる
+3. アプリのPermissionsを`Read and Write`にする
+4. 以下の作業後に生成される`API key`と`API secret`をそれぞれ、AppConfigの`consumer_key``consumer_secret`に書く
+
+この状態で「リッチな設定」で「Twitter連携」にチェックを入れると認証フローがはじまるはずです。
+
+# 開発のすすめかた
+
+1. `src`以下を編集
+2. `grunt build`を実行
+3. [chrome://extensions](chrome://extensions)で`リロード`を実行
+4. 必要があればウィジェット窓を開き直す
+
+※ なお、2番の`grunt build`については`grunt watch`（編集を検知して自動ビルド）で代用可能です
 
 # Happy Hacking!
 ![zkms](test/zkms.png)

@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ ! -e src/js/AppConfig.js ]; then
+    touch src/js/AppConfig.js
+    echo "/* jshint indent: 4 */"                                 >> src/js/AppConfig.js;
+    echo "var KanColleWidget = KanColleWidget || {};"             >> src/js/AppConfig.js;
+    echo "KanColleWidget.TwitterConfig = {"                       >> src/js/AppConfig.js;
+    echo "    consumer_key:'連携のテストをする場合は',"           >> src/js/AppConfig.js;
+    echo "    consumer_secret:'コンシューマキーなどをここに書く'" >> src/js/AppConfig.js;
+    echo "};"                                                     >> src/js/AppConfig.js;
+    echo "// 詳しくは、README4DEV.mdを見て下さい"                 >> src/js/AppConfig.js;
+fi

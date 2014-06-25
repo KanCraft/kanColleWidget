@@ -1,19 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.3.8.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/408',
-        announceVersion : 68,
+        version: "v1.3.8.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/411',
+        announceVersion : 70,
         announcements   : [
-            '三たび凍結された<a href="http://tweet-kcwidget.oti10.com/" class="light">botちゃんズ</a>の復活（設定にある凍結防止の注意事項をよく読んでください）',
-            'ホワイトモードでスクショショートカットを追加',
-            '大破進撃とかが真っ白になるバグを修正',
-            '自動取得中の妖精さんを追加',
-            '-----',
-            '遠征早見表を修正(v1.3.8.1)'
+            'Windowsの画面サイズ修正',
+            '<a href="https://github.com/otiai10/kanColleWidget/wiki/%E9%9A%9C%E5%AE%B3%E3%83%BB%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%83%85%E5%A0%B1" class="light">障害・メンテナンス情報</a>の更新'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
-    shiptype:{dd:"駆逐",lc:"軽巡",hc:"重巡",bb:"戦艦",ac:"空母",ab:"航戦",sc:"水母"},
+    shiptype:{dd:"駆逐",lc:"軽巡",hc:"重巡",bb:"戦艦",ac:"空母",ab:"航戦",sc:"水母",sm:"潜水",st:"潜母"},
     mission : {
         /**
          * reward: [ 経験値, 燃料, 弾薬, 鋼材, ボーキ]
@@ -275,6 +271,13 @@ var Constants = {
             title: '東京急行(弐)',
             reward: [100, 420, 0, 200, 0],
             require:[65, 6, {lc:1, dd:5}],
+            area: 4
+        },
+        "39": {
+            minute:1800,
+            title: '遠洋潜水艦作戦',
+            reward: [130, 300, 0, 0, 0],
+            require:[3, 5, {st:1}],
             area: 4
         },
         // 索敵機、発艦始め！
