@@ -1,11 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.3.8.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/411',
-        announceVersion : 70,
+        version: "v1.3.8.5",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/418',
+        announceVersion : 71,
         announcements   : [
-            'Windowsの画面サイズ修正',
-            '<a href="https://github.com/otiai10/kanColleWidget/wiki/%E9%9A%9C%E5%AE%B3%E3%83%BB%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%83%85%E5%A0%B1" class="light">障害・メンテナンス情報</a>の更新'
+            "大破進撃防止窓が消えるタイミングを「次の戦闘開始」に修正"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
