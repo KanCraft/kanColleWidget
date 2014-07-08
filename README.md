@@ -49,8 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/07/08 v1.3.8.5<!--version-->
+- 2014/07/08 v1.3.8.5, v1.3.8.6<!--version-->
     - 大破進撃防止窓が消えるタイミングを「次の戦闘開始」に修正
+    - スクショをTwitterに投稿するの復活
 - 2014/06/23 v1.3.8.4
     - 窓タイトル微調整
 - 2014/06/21 v1.3.8.3
