@@ -41,8 +41,8 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_map/start':
                 this.action.forMapStart(this.params);
                 break;
-            case 'api_req_map/next':
-                this.action.forMapNext();
+            case 'api_req_sortie/battle':
+                this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
             case 'api_port/port':

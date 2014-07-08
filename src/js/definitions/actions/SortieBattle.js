@@ -13,4 +13,14 @@ var KanColleWidget = KanColleWidget || {};
         },3000);
         // 3200 でもギリの時があった
     };
+    SortieBattleAction.prototype.forBattle = function(){
+        this._clearShipsStatusWindow();
+    };
+    SortieBattleAction.prototype._clearShipsStatusWindow = function(){
+        if (KanColleWidget.Stash.statusWindow
+            && KanColleWidget.Stash.statusWindow.close) {
+            KanColleWidget.Stash.statusWindow.close();
+        }
+        KanColleWidget.Stash.statusWindow = null;
+    };
 })();
