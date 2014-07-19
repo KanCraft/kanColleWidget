@@ -41,8 +41,12 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_map/start':
                 this.action.forMapStart(this.params);
                 break;
-            case 'api_req_map/next':
-                this.action.forMapNext();
+            case 'api_req_sortie/battle':
+            // {{{ 夜戦マップのとき大破進撃窓が閉じないんだってさ
+            case 'api_req_battle_midnight/battle':
+            case 'api_req_battle_midnight/sp_midnight':
+            // }}}
+                this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
             case 'api_port/port':

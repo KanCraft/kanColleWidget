@@ -40,9 +40,6 @@ var KanColleWidget = KanColleWidget || {};
     Action.prototype.forMapPreparation = function(){
         this.mapAction.forPreparation();
     };
-    Action.prototype.forMapNext = function(){
-        this.mapAction.forNext();
-    };
     Action.prototype.forHokyuCharge = function(params){
         this.hokyuAction.forCharge(params);
     };
@@ -90,6 +87,9 @@ var KanColleWidget = KanColleWidget || {};
     };
     Action.prototype.forQuestStop = function(params){
         this.questAction.forStop(params);
+    };
+    Action.prototype.forSortieBattle = function(){
+        this.sortieBattleAction.forBattle();
     };
     Action.prototype.forSortieBattleResult = function(){
         this.sortieBattleAction.forResult();

@@ -39,9 +39,6 @@ var KanColleWidget = KanColleWidget || {};
         }
         }}} */
     };
-    MapAction.prototype.forNext = function(){
-        this._clearShipsStatusWindow();
-    };
     MapAction.prototype._clearShipsStatusWindow = function(){
         if (KanColleWidget.Stash.statusWindow
             && KanColleWidget.Stash.statusWindow.close) {
