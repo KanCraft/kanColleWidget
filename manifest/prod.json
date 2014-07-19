@@ -71,6 +71,10 @@
             "src/js/definitions/share/TwitterService.js",
             "src/js/definitions/share/TweetKCWidgetService.js",
             "src/js/pngencoder.min.js",
+            "src/api/boot.js",
+            "src/api/controller/controller.js",
+            "src/api/controller/subscribe-controller.js",
+            "src/api/router.js",
             "src/js/main.js"
         ]
     },
