@@ -32,6 +32,7 @@ var KanColleWidget = KanColleWidget || {};
         if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params, 'src/html/set_manual_timer.html');
 
         // 他、自動取得しようとするひと
+        this.muteQuestAlert();
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
             var loadingWindow = Util.openLoaderWindow();
             KanColleWidget.Stash.loadingWindow = loadingWindow;
@@ -45,6 +46,8 @@ var KanColleWidget = KanColleWidget || {};
 
     // Completed
     NyukyoAction.prototype.forStartCompleted = function(){
+
+        this.recoverQuestAlert();
 
         // 高速修復材を使用している場合
         if(KanColleWidget.Stash.params.api_highspeed == 1) return;
