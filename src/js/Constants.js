@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.3.8.8",
+        version: "v1.3.8.9",
         link: 'https://github.com/otiai10/kanColleWidget/pull/421',
-        announceVersion : 74,
+        announceVersion : 75,
         announcements   : [
             "「運営メンテ情報」を「運営電文を表示する」設定に置き換え",
+            "運営電文の表示を（おそらく）修正",
             "建造時間取得失敗を（たぶん）改善",
             "入渠時間取得失敗を（きっと）改善",
             "-----------",
