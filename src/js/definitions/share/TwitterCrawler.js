@@ -40,11 +40,9 @@ var KanColleWidget = KanColleWidget || {};
         TwitterCrawler.findMaintainanceInfo(function(res) {
             var $elements = $.map($(res).find('li.expanding-stream-item'), function(li){
                 var $el = $('<div></div>').addClass('stream-item').append(
-                     $(li).find('div.stream-item-header')
+                     $(li).find('div.stream-item-header'),
+                     $(li).find('p.tweet-text')
                 );
-                $el.append($(li).find('p.tweet-text'));
-                $el.find('strong.fullname').remove();
-                $el.find('.stream-item-footer').remove();
                 $el.find('a').attr({href: TwitterCrawler._buildURL()}).on('click',function(){
                     chrome.tabs.create({
                         url : $(this).attr('href')
