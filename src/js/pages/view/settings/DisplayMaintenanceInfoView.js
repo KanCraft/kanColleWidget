@@ -4,8 +4,8 @@ var widgetPages = widgetPages || {};
     'use strict';
     var DisplayMaintenanceInfoView = widgetPages.DisplayMaintenanceInfoView = function(){
         this.inputName = 'display-maintenance-info';
-        this.title = "メンテナンス情報を表示する";
-        this.description = '@KanColle_STAFFによるメンテナンス情報ツイートを表示します';
+        this.title = "運営電文を表示";
+        this.description = '@KanColle_STAFFによるTweetを右上出したときに表示します';
     };
     Util.extend(DisplayMaintenanceInfoView, widgetPages.SettingCheckboxView);
 })();

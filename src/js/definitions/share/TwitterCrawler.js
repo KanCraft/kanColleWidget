@@ -15,9 +15,11 @@ var KanColleWidget = KanColleWidget || {};
         f       : 'realtime'
     };
     TwitterCrawler._buildURL = function() {
-        var q = TwitterCrawler._query['keyword']
-                + '+' + 'from:' + TwitterCrawler._query['from']
-                + '+' + 'since:' + TwitterCrawler._query['since'];
+        var q = [
+            // TwitterCrawler._query['keyword']
+            'from:' + TwitterCrawler._query['from'],
+            'since:' + TwitterCrawler._query['since']
+        ].join('+');
         return TwitterCrawler._baseURL + '?q=' + encodeURIComponent(q)
                 + '&f=' + TwitterCrawler._query['f'];
     };
