@@ -49,6 +49,7 @@ var KanColleWidget = KanColleWidget || {};
                     });
                 });
                 $el.find('a.account-group').after('<br>');
+                $el.find('div.action-more-container').remove();
                 return $el;
             });
             callback($elements);
