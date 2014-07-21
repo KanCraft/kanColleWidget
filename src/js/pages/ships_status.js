@@ -16,6 +16,11 @@ $(function(){
         Util.focusKCWidgetWindow();
     });
 
+    var ratio = 1;
+    if (Util.system.isWindows()) {
+        ratio = (win.devicePixelRatio || 1);
+    }
+
     setInterval(function(){
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',
@@ -24,8 +29,8 @@ $(function(){
                 left : window.screenLeft
             },
             size: {
-                width: window.innerWidth,
-                height: window.innerHeight
+                width: Math.ceil(window.innerWidth * ratio),
+                height: Math.ceil(window.innerHeight * ratio)
             }
         });
     }, 1 * 1000);

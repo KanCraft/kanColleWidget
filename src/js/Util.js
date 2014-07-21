@@ -451,8 +451,9 @@ var Util = Util || {};
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
         if (Util.system.isWindows()) {
-            var diffWidth = win.outerWidth - win.innerWidth;
-            var diffHeight = win.outerHeight - win.innerHeight;
+            var ratio = (win.devicePixelRatio || 1);
+            var diffWidth = win.outerWidth - Math.ceil(win.innerWidth * ratio);
+            var diffHeight = win.outerHeight - Math.ceil(win.innerHeight * ratio);
             win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
         }
     };
