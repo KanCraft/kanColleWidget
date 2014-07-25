@@ -450,10 +450,9 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (Util.system.isWindows()) {
-            var ratio = (win.devicePixelRatio || 1);
-            var diffWidth = win.outerWidth - Math.ceil(win.innerWidth * ratio);
-            var diffHeight = win.outerHeight - Math.ceil(win.innerHeight * ratio);
+        if (Util.system.isWindows() && win.outerWidth > 0 && win.outerHeight > 0) {
+            var diffWidth = win.outerWidth - win.innerWidth;
+            var diffHeight = win.outerHeight - win.innerHeight;
             win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
         }
     };
