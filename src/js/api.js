@@ -17,21 +17,23 @@ var API;
     API.INTERNAL = 500;
     API.ACCESS_DENIED = 403;
     API.ENDPOINT_NOT_FOUND = 404;
+    API.ALREADY_SUBSCRIBED = 409;
     var Err = (function () {
         function Err(code) {
             this.code = code;
             this.message = Err.getMessage(code);
         }
         Err.getMessage = function (code) {
-            return Err.messages["m" + String(code)] || "Unknown error";
+            return Err.messages[String(code)] || "Unknown error";
         };
         Err.Of = function (code) {
             return new this(code);
         };
         Err.messages = {
-            m403: "Access denied by user",
-            m404: "Endpoint not found",
-            m500: "Chrome Extension Internal Error"
+            "403": "Access denied by user",
+            "404": "Endpoint not found",
+            "409": "Already registered subscriber",
+            "500": "Chrome Extension Internal Error"
         };
         return Err;
     })();
@@ -150,6 +152,11 @@ var API;
             saved[subscriber.getId()] = subscriber.toJSON();
             return this._save(saved);
         };
+        SubscriberRepository.prototype.alreadyHave = function (subscriber) {
+            if (this._get()[subscriber.getId()])
+                return true;
+            return false;
+        };
         return SubscriberRepository;
     })(API.RepositoryBase);
     API.SubscriberRepository = SubscriberRepository;
@@ -166,6 +173,8 @@ var API;
                 return this.reject(API.Err.Of(API.ACCESS_DENIED));
             var subscriber = new API.Subscriber(this.sender.id);
             var repo = new API.SubscriberRepository();
+            if (repo.alreadyHave(subscriber))
+                return this.reject(API.Err.Of(API.ALREADY_SUBSCRIBED));
             if (!repo.add(subscriber))
                 return this.reject(API.Err.Of(API.INTERNAL));
             return this.succeeded();

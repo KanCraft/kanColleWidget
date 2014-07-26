@@ -5,15 +5,17 @@ module API {
     export var INTERNAL: number = 500;
     export var ACCESS_DENIED: number = 403;
     export var ENDPOINT_NOT_FOUND: number = 404;
+    export var ALREADY_SUBSCRIBED: number = 409;
     export class Err {
         public message: string;
         private static messages = {
-            m403: "Access denied by user",
-            m404: "Endpoint not found",
-            m500: "Chrome Extension Internal Error"
+            "403": "Access denied by user",
+            "404": "Endpoint not found",
+            "409": "Already registered subscriber",
+            "500": "Chrome Extension Internal Error"
         };
         private static getMessage(code: number): string {
-            return Err.messages["m" + String(code)] || "Unknown error";
+            return Err.messages[String(code)] || "Unknown error";
         }
         public static Of(code: number): Err {
             return new this(code);

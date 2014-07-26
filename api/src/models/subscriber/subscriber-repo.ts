@@ -18,5 +18,9 @@ module API {
             saved[subscriber.getId()] = subscriber.toJSON();
             return this._save(saved);
         }
+        alreadyHave(subscriber: Subscriber): boolean {
+            if (this._get()[subscriber.getId()]) return true;
+            return false;
+        }
     }
 }

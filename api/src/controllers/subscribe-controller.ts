@@ -6,9 +6,10 @@
 module API {
     export class SubscribeController extends Controller {
         execute() {
-            if (! this.confirm()) return this.reject(Err.Of(ACCESS_DENIED));
             var subscriber = new Subscriber(this.sender.id);
             var repo = new SubscriberRepository();
+            if (repo.alreadyHave(subscriber)) return this.reject(Err.Of(ALREADY_SUBSCRIBED));
+            if (! this.confirm()) return this.reject(Err.Of(ACCESS_DENIED));
             if (! repo.add(subscriber)) return this.reject(Err.Of(INTERNAL));
             return this.succeeded();
         }
