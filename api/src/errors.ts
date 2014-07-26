@@ -1,4 +1,6 @@
+declare var silent: bool;
 var debug = (marker, value) => {
+    if (silent) return;
     console.log("[kcw]", marker, value);
 };
 module API {

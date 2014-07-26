@@ -13,7 +13,7 @@ module API {
             if (! repo.add(subscriber)) return this.reject(Err.Of(INTERNAL));
             return this.succeeded();
         }
-        private confirm(): boolean {
+        private confirm(): bool {
             var message = "https://chrome.google.com/webstore/detail/";
             message += String(this.sender.id) + "\n";
             message += "が艦これウィジェットのデータを要求しています.\n";

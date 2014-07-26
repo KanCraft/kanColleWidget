@@ -36,13 +36,19 @@ module.exports = (grunt) =>
                     'api/index.js'
                 ]
                 dest: 'api/build/api.js'
+        uglify:
+            api:
+                files:
+                    'api/build/api.js': ['api/build/api.js']
+
     grunt.loadNpmTasks 'grunt-exec'
     grunt.loadNpmTasks 'grunt-regarde'
     grunt.loadNpmTasks 'grunt-contrib-jshint'
     grunt.loadNpmTasks 'grunt-typescript'
     grunt.loadNpmTasks 'grunt-contrib-concat'
+    grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.registerTask 'boot', ['exec:boot']
-    grunt.registerTask 'api', ['typescript:api','concat:api','exec:api']
+    grunt.registerTask 'api', ['typescript:api','concat:api','uglify:api','exec:api']
     grunt.registerTask 'build', ['api', 'exec:build']
     grunt.registerTask 'buildquiet', ['exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']

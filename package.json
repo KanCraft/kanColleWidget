@@ -25,6 +25,7 @@
     "grunt-regarde": "*",
     "grunt-contrib-jshint": "*",
     "grunt-typescript": "*",
-    "grunt-contrib-concat": "*"
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*"
   }
 }

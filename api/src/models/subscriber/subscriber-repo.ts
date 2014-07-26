@@ -13,17 +13,17 @@ module API {
             }
             return all;
         }
-        add(subscriber: Subscriber): boolean {
+        add(subscriber: Subscriber): bool {
             var saved = this._get();
             saved[subscriber.getId()] = subscriber.toJSON();
             return this._save(saved);
         }
-        remove(subscriber: Subscriber): boolean {
+        remove(subscriber: Subscriber): bool {
             var saved = this._get();
             delete saved[subscriber.getId()];
             return this._save(saved);
         }
-        alreadyHave(subscriber: Subscriber): boolean {
+        alreadyHave(subscriber: Subscriber): bool {
             if (this._get()[subscriber.getId()]) return true;
             return false;
         }
