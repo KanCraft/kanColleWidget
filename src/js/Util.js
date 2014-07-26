@@ -19,6 +19,7 @@ var Util = Util || {};
      * @param callback {Function} Callback function
      */
     Util.focusOrLaunchIfNotExists = function(mode, callback) {
+        if(typeof(mode) == 'undefined') mode = Tracking.get('mode');
         if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
 
         // どのサイズにするのか
@@ -29,7 +30,6 @@ var Util = Util || {};
                 break;
             }
         }
-
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow) {
             Util.focusKCWidgetWindow(widgetWindow);
             // `num | 0` is transform integer idiom.

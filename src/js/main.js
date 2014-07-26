@@ -62,6 +62,11 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if(message.purpose == 'launch'){
+            Util.focusOrLaunchIfNotExists();
+            return;
+        }
+
         if(message.purpose == 'positionTracking'){
             var widgetInfo = Tracking.get('widget');
             widgetInfo.position = message.position;

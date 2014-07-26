@@ -8,7 +8,7 @@ var widgetPages = widgetPages || {};
                  + '    <span id="date">09</span>'
                  + '    <span id="char-date">日</span>'
                  + '  </div>'
-                 + '  <div id="seconds-wrapper" style="background-image:url("{{iconUrl}}");">'
+                 + '  <div id="seconds-wrapper" style="background-image:url("{{iconUrl}}");" class="clickable">'
                  + '    <div id="seconds-position">'
                  + '      <span id="seconds">00</span>'
                  + '    </div>'
@@ -21,6 +21,9 @@ var widgetPages = widgetPages || {};
         var iconUrl = Config.get("notification-img-file") || "";
         this.apply()._render();
         this.$el.find("#seconds-wrapper").css({backgroundImage:'url("' + iconUrl + '")'});
+        this.$el.find("#seconds-wrapper").on("click",function(){
+            chrome.runtime.sendMessage(null, {purpose:'launch'});
+        });
         return this.$el;
     };
     DateIconView.prototype.update = function(d){
