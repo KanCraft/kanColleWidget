@@ -3,6 +3,7 @@
 /// <reference path="./controllers/controller.ts" />
 /// <reference path="./controllers/not-found-controller.ts" />
 /// <reference path="./controllers/subscribe-controller.ts" />
+/// <reference path="./controllers/unsubscribe-controller.ts" />
 
 module API {
     export function Serve() {
@@ -24,7 +25,8 @@ module API {
     export class Router {
         private routes = {
             "not_found": NotFoundController,
-            "/api/subscribe": SubscribeController
+            "/api/subscribe": SubscribeController,
+            "/api/unsubscribe": UnsubscribeController
         };
         match(req: IRequestMessage, sender: chrome.runtime.MessageSender): Controller {
             if (! req.path || ! this.routes[req.path]) return new this.routes["not_found"](req, sender);

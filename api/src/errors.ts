@@ -3,6 +3,7 @@ var debug = (marker, value) => {
 };
 module API {
     export var INTERNAL: number = 500;
+    export var BAD_REQUEST: number = 400;
     export var ACCESS_DENIED: number = 403;
     export var ENDPOINT_NOT_FOUND: number = 404;
     export var ALREADY_SUBSCRIBED: number = 409;
