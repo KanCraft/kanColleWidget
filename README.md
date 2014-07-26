@@ -49,7 +49,10 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/07/20 v1.3.8.9, v1.3.8.10<!--version-->
+- 2014/07/26 v1.3.8.11<!--version-->
+    - 一部Windowsで大破進撃防止窓が小さくなる現象の修正（自信無い）
+    - clock modeからlaunchできるようにした
+- 2014/07/20 v1.3.8.9, v1.3.8.10
     - 運営電文の表示を（おそらく）修正
     - 運営電文の表示を（ぜったい）修正
 - 2014/07/19 v1.3.8.8
