@@ -1,6 +1,7 @@
 .idea/*
 kanColleWidget.iml
 build/*
+api/build/*
 test/src/*
 .DS_Store
 !*.gitkeep
