@@ -46,7 +46,14 @@ var Util = Util || {};
                              .replace('{l}', pos.left + '')
                              .replace('{t}', pos.top + '');
             var kanColleUrl = 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
-            window.open(kanColleUrl, '_blank', options);
+            var win = window.open(kanColleUrl, '_blank', options);
+            if (Util.system.isWindows()) {
+                win.onload = (function(_win) {
+                    setTimeout(function() {
+                        Tracking.set('windowGeometry', Util.detectWindowGeometry(_win));
+                    }, 100);
+                })(win);
+            }
             callback();
         });
     };
@@ -450,11 +457,27 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (Util.system.isWindows() && win.outerWidth > 0 && win.outerHeight > 0) {
-            var diffWidth = win.outerWidth - win.innerWidth;
-            var diffHeight = win.outerHeight - win.innerHeight;
-            win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
+        if (Util.system.isWindows()) {
+            var border = Tracking.get('windowGeometry').border;
+            win.resizeTo(win.outerWidth + border.width, win.outerHeight + border.height);
         }
+    };
+
+    /**
+     * ウィンドウジオメトリを検出する
+     * @param win {Object} windowオブジェクト
+     */
+    Util.detectWindowGeometry = function(win) {
+        var geometryInfo = {
+            border: {
+                height: 0,
+                width:  0
+            }
+        };
+        geometryInfo.border.width = win.outerWidth - win.innerWidth;
+        geometryInfo.border.height = win.outerHeight - win.innerHeight;
+
+        return geometryInfo;
     };
 
     Util.zP = function(order, text) {
