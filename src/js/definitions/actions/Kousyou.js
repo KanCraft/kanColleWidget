@@ -34,6 +34,10 @@ var KanColleWidget = KanColleWidget || {};
         if(Config.get('dynamic-reminder-type') == 1) return Util.enterTimeManually(params,'src/html/set_manual_timer.html');
 
         // 他、自動取得しようとするひと
+        // {{{ TMP: #422
+        silent = false;
+        debug("KousyouAction.forCreateship スタート");
+        // }}}
         Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
             var loadingWindow = Util.openLoaderWindow();
             KanColleWidget.Stash.loadingWindow = loadingWindow;
@@ -67,6 +71,11 @@ var KanColleWidget = KanColleWidget || {};
 
     // Completed
     KousyouAction.prototype.forCreateshipCompleted = function(){
+
+        // {{{ TMP: #422
+        debug("Sequence Matched, Invoke forKousyouCreateshipCompleted");
+        silent = true;
+        // }}}
 
         // 高速建造を使用する
         if(KanColleWidget.Stash.params.api_highspeed == 1) return;

@@ -8,12 +8,8 @@ var KanColleWidget = KanColleWidget || {};
     };
     Dispatcher.prototype.eat = function(data){
         this.rawData = data;
-        if(data.url.match(/\/kcsapi\//)){
-            this.keyword = data.url.match(/\/kcsapi\/(.*)/)[1];
-            if(data.method === 'POST'){
-                this.params = data.requestBody.formData;
-            }
-        }
+        this.keyword = data.url.match(/\/kcsapi\/(.*)/)[1];
+        if(data.method === 'POST') this.params = data.requestBody.formData;
         return this;
     };
     Dispatcher.prototype.bind = function(_action){
@@ -118,13 +114,12 @@ var KanColleWidget = KanColleWidget || {};
         return this;
     };
     CompleteDispatcher.prototype.eat = function(detail){
-        if(detail.url.match('kcsapi/api')){
-            var path = detail.url.match(/kcsapi\/(.*)$/)[1];
-            this.requestSequence.unshift(path);
-        }else{
-            this.requestSequence.unshift(undefined);
-        }
+        var path = detail.url.match(/kcsapi\/(.*)$/)[1];
+        if (path) this.requestSequence.unshift(path);
         this.requestSequence = this.requestSequence.slice(0,this.recordCount);
+        // {{{ TMP: #422
+        debug(this.requestSequence);
+        // }}}
         return this;
     };
     CompleteDispatcher.prototype.execute = function(){

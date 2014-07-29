@@ -15,9 +15,11 @@ var KanColleWidget = KanColleWidget || {};
         f       : 'realtime'
     };
     TwitterCrawler._buildURL = function() {
-        var q = TwitterCrawler._query['keyword']
-                + '+' + 'from:' + TwitterCrawler._query['from']
-                + '+' + 'since:' + TwitterCrawler._query['since'];
+        var q = [
+            // TwitterCrawler._query['keyword']
+            'from:' + TwitterCrawler._query['from'],
+            'since:' + TwitterCrawler._query['since']
+        ].join('+');
         return TwitterCrawler._baseURL + '?q=' + encodeURIComponent(q)
                 + '&f=' + TwitterCrawler._query['f'];
     };
@@ -38,17 +40,16 @@ var KanColleWidget = KanColleWidget || {};
         TwitterCrawler.findMaintainanceInfo(function(res) {
             var $elements = $.map($(res).find('li.expanding-stream-item'), function(li){
                 var $el = $('<div></div>').addClass('stream-item').append(
-                     $(li).find('div.stream-item-header')
+                     $(li).find('div.stream-item-header'),
+                     $(li).find('p.tweet-text')
                 );
-                $el.append($(li).find('p.tweet-text'));
-                $el.find('strong.fullname').remove();
-                $el.find('.stream-item-footer').remove();
                 $el.find('a').attr({href: TwitterCrawler._buildURL()}).on('click',function(){
                     chrome.tabs.create({
                         url : $(this).attr('href')
                     });
                 });
                 $el.find('a.account-group').after('<br>');
+                $el.find('div.action-more-container').remove();
                 return $el;
             });
             callback($elements);

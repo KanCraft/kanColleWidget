@@ -1,14 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.3.8.7",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/418',
-        announceVersion : 73,
+        version: "v1.3.8.11",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/421',
+        announceVersion : 77,
         announcements   : [
-            "大破進撃防止窓が消えるタイミングを「次の戦闘開始」に修正",
-            '夜戦マップ突入のとき大半進撃防止窓が消えないのを修正',
-            'スクショをTwitterに投稿するの復活<a href="https://github.com/otiai10/kanColleWidget/wiki/%E9%9A%9C%E5%AE%B3%E3%83%BB%E3%83%A1%E3%83%B3%E3%83%86%E3%83%8A%E3%83%B3%E3%82%B9%E6%83%85%E5%A0%B1#20140709-%E3%82%B9%E3%82%AF%E3%82%B7%E3%83%A7%E3%81%AEtwitter%E6%8A%95%E7%A8%BF%E3%81%8C%E3%81%A7%E3%81%8D%E3%81%AA%E3%81%84" class="light">詳細ページ</a>',
-            '-----------------',
-            '※ 現在、Botちゃん通知は一時休止中です'
+            "一部Windowsで大破進撃防止窓が小さくなる現象の修正（自信無い）",
+            "clock modeからlaunchできるようにした",
+            "-----------",
+            "けっこう前からですがTwitterBotちゃん通知は今お休み中です"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

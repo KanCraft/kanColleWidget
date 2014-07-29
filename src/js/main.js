@@ -3,6 +3,14 @@
  * ここはなるべくイベントのバインドしか書かない
  * 注意: トップレベル以外で`chrome`文言を書かない
  */
+var silent = true;
+var debug = (function(){
+    return function (target) {
+        if (window.silent) return;
+        if (typeof target == "string") return console.log("%c" + target, "color:orange");
+        return console.log("[debug]", target);
+    }
+})();
 var oauth = chrome.extension.getBackgroundPage()['oauth'] || ChromeExOAuth.initBackgroundPage({
     'request_url': "https://api.twitter.com/oauth/request_token",
     'authorize_url': "https://api.twitter.com/oauth/authorize",
@@ -35,11 +43,11 @@ var KanColleWidget = KanColleWidget || {};
     /***** Main Listener 02 : ブラウザからHTTPRequestが送信される時 *****/
     chrome.webRequest.onBeforeRequest.addListener(function(data){
         dispatcher.eat(data).execute();
-    },{'urls':[]},['requestBody']);
+    },{'urls':["*://*/kcsapi/*"]},['requestBody']);
 
     chrome.webRequest.onCompleted.addListener(function(detail){
         completeDispatcher.eat(detail).execute();
-    },{'urls':[]});
+    },{'urls':["*://*/kcsapi/*"]});
 
     /***** Main Listener 03 : メッセージの受信 *****/
     chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
@@ -51,6 +59,11 @@ var KanColleWidget = KanColleWidget || {};
 
         if(message.purpose == 'download'){
             Util.downloadImage(null, message.data);
+            return;
+        }
+
+        if(message.purpose == 'launch'){
+            Util.focusOrLaunchIfNotExists();
             return;
         }
 
