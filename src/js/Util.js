@@ -48,10 +48,10 @@ var Util = Util || {};
             var kanColleUrl = 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
             var win = window.open(kanColleUrl, '_blank', options);
             if (Util.system.isWindows()) {
-                win.onload = (function(_win) {
+                (function(_win) {
                     setTimeout(function() {
                         Tracking.set('windowGeometry', Util.detectWindowGeometry(_win));
-                    }, 100);
+                    }, 300);
                 })(win);
             }
             callback();
@@ -457,7 +457,7 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (Util.system.isWindows()) {
+        if (Util.system.isWindows() && typeof(Tracking) != 'undefined') {
             var border = Tracking.get('windowGeometry').border;
             win.resizeTo(win.outerWidth + border.width, win.outerHeight + border.height);
         }
@@ -802,7 +802,19 @@ var Util = Util || {};
             top: pos.top,
             type: type
         },function(win){
+            if (Util.system.isWindows()) {
+                if (type == 'popup') {
             Tracking.set('windowGeometry', Util.detectChromeWindowGeometry(win));
+                } else {
+                    var _win = Util.openLoaderWindow();
+                    _win.onload = function() {
+                        setTimeout(function() {
+                            Tracking.set('windowGeometry', Util.detectWindowGeometry(_win));
+                            _win.close();
+                        }, 200);
+                    };
+                }
+            }
         });
     };
 
