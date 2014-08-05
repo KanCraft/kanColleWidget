@@ -464,7 +464,7 @@ var Util = Util || {};
     };
 
     /**
-     * ウィンドウジオメトリを検出する
+     * window.open で開いたウィンドウのジオメトリを検出する
      * @param win {Object} windowオブジェクト
      */
     Util.detectWindowGeometry = function(win) {
@@ -476,6 +476,23 @@ var Util = Util || {};
         };
         geometryInfo.border.width = win.outerWidth - win.innerWidth;
         geometryInfo.border.height = win.outerHeight - win.innerHeight;
+
+        return geometryInfo;
+    };
+
+    /**
+     * chrome.windows.create で開いたウィンドウのジオメトリを検出する
+     * @param win {Object} chrome.windowオブジェクト
+     */
+    Util.detectChromeWindowGeometry = function(win) {
+        var geometryInfo = {
+            border: {
+                height: 0,
+                width:  0
+            }
+        };
+        geometryInfo.border.width = win.width - win.tabs[0].width;
+        geometryInfo.border.height = win.height - win.tabs[0].height;
 
         return geometryInfo;
     };
@@ -785,6 +802,7 @@ var Util = Util || {};
             top: pos.top,
             type: type
         },function(win){
+            Tracking.set('windowGeometry', Util.detectChromeWindowGeometry(win));
         });
     };
 
