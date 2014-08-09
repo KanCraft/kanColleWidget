@@ -296,6 +296,20 @@ var Constants = {
             reward: [0,0,0,0,0],
             require:[null, 2, {dd:2}],
             area: 5
+        },
+        "125": {
+            minute:15,
+            title: '前衛支援任務',
+            reward: [],
+            require: [],
+            area: 0
+        },
+        "126": {
+            minute:30,
+            title: '艦隊決戦支援任務',
+            reward: [],
+            require: [],
+            area: 0
         }
     },
     widget : {
