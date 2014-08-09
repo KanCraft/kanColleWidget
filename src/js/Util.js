@@ -46,7 +46,14 @@ var Util = Util || {};
                              .replace('{l}', pos.left + '')
                              .replace('{t}', pos.top + '');
             var kanColleUrl = 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
-            window.open(kanColleUrl, '_blank', options);
+            var win = window.open(kanColleUrl, '_blank', options);
+            if (Util.system.isWindows()) {
+                (function(_win) {
+                    setTimeout(function() {
+                        Tracking.set('windowGeometry', Util.detectWindowGeometry(_win));
+                    }, 300);
+                })(win);
+            }
             callback();
         });
     };
@@ -450,11 +457,44 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
-        if (Util.system.isWindows() && win.outerWidth > 0 && win.outerHeight > 0) {
-            var diffWidth = win.outerWidth - win.innerWidth;
-            var diffHeight = win.outerHeight - win.innerHeight;
-            win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
+        if (Util.system.isWindows() && typeof(Tracking) != 'undefined') {
+            var border = Tracking.get('windowGeometry').border;
+            win.resizeTo(win.outerWidth + border.width, win.outerHeight + border.height);
         }
+    };
+
+    /**
+     * window.open で開いたウィンドウのジオメトリを検出する
+     * @param win {Object} windowオブジェクト
+     */
+    Util.detectWindowGeometry = function(win) {
+        var geometryInfo = {
+            border: {
+                height: 0,
+                width:  0
+            }
+        };
+        geometryInfo.border.width = win.outerWidth - win.innerWidth;
+        geometryInfo.border.height = win.outerHeight - win.innerHeight;
+
+        return geometryInfo;
+    };
+
+    /**
+     * chrome.windows.create で開いたウィンドウのジオメトリを検出する
+     * @param win {Object} chrome.windowオブジェクト
+     */
+    Util.detectChromeWindowGeometry = function(win) {
+        var geometryInfo = {
+            border: {
+                height: 0,
+                width:  0
+            }
+        };
+        geometryInfo.border.width = win.width - win.tabs[0].width;
+        geometryInfo.border.height = win.height - win.tabs[0].height;
+
+        return geometryInfo;
     };
 
     Util.zP = function(order, text) {
@@ -762,6 +802,19 @@ var Util = Util || {};
             top: pos.top,
             type: type
         },function(win){
+            if (Util.system.isWindows()) {
+                if (type == 'popup') {
+            Tracking.set('windowGeometry', Util.detectChromeWindowGeometry(win));
+                } else {
+                    var _win = Util.openLoaderWindow();
+                    _win.onload = function() {
+                        setTimeout(function() {
+                            Tracking.set('windowGeometry', Util.detectWindowGeometry(_win));
+                            _win.close();
+                        }, 200);
+                    };
+                }
+            }
         });
     };
 

@@ -222,6 +222,12 @@ MyStorage.prototype.tearDown = function(){
                 height: 215,
                 width:  184
             }
+        },
+        windowGeometry : {
+            border: {
+                height: 0,
+                width:  0
+            }
         }
     },
 
