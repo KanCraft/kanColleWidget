@@ -1,12 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.3.8.12",
+        version: "v1.3.9.0",
         link: 'https://github.com/otiai10/kanColleWidget/pull/432',
-        announceVersion : 78,
+        announceVersion : 79,
         announcements   : [
             '新しい遠征IDを追加',
             '運営電文ちゃんと新しいのから出すように修正',
             'Windowsで窓サイズが変になるの修正しようと努力（自信無い）',
+            '（窓サイズ、ちょっと上手くいかなかったので切り戻します）',
+            '（一時的に変ななってるかもしれないですが、一度直すか、再インストールで戻ると思います）',
             '-----',
             'わりと知られてないですが、スクショのショートカットキーあるのと',
             'Twitter連携で直接投稿もできます'
