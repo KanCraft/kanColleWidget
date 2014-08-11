@@ -1,4 +1,4 @@
-declare var silent: bool;
+declare var silent: boolean;
 var debug = (marker, value) => {
     if (silent) return;
     console.log("[kcw]", marker, value);
