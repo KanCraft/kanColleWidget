@@ -7,6 +7,7 @@ module API {
         primaryId: number;
         prefix: string;
         suffix: string;
+        info?: any;
     }
     export class ETarget {
         static Mission = "mission";
@@ -39,7 +40,8 @@ module API {
             event.params = {
                 label: kcwEventModel.label,
                 id: kcwEventModel.primaryId,
-                format: kcwEventModel.prefix + "%d" + kcwEventModel.suffix
+                format: kcwEventModel.prefix + "%d" + kcwEventModel.suffix,
+                optional: kcwEventModel.info || {}
             };
             return event;
         }
