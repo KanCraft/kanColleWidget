@@ -5,7 +5,7 @@ module API {
         constructor(name: string) {
             this.key = "KanColleWidget.API." + name;
         }
-        _save(value: any): bool {
+        _save(value: any): boolean {
             var valueString: string = "";
             try {
                 valueString = JSON.stringify(value);
