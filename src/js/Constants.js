@@ -1,13 +1,17 @@
 var Constants = {
     release : {
-        version: "v1.3.8.11",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/421',
-        announceVersion : 77,
+        version: "v1.3.9.0",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/432',
+        announceVersion : 79,
         announcements   : [
-            "一部Windowsで大破進撃防止窓が小さくなる現象の修正（自信無い）",
-            "clock modeからlaunchできるようにした",
-            "-----------",
-            "けっこう前からですがTwitterBotちゃん通知は今お休み中です"
+            '新しい遠征IDを追加',
+            '運営電文ちゃんと新しいのから出すように修正',
+            'Windowsで窓サイズが変になるの修正しようと努力（自信無い）',
+            '（窓サイズ、ちょっと上手くいかなかったので切り戻します）',
+            '（一時的に変ななってるかもしれないですが、一度直すか、再インストールで戻ると思います）',
+            '-----',
+            'わりと知られてないですが、スクショのショートカットキーあるのと',
+            'Twitter連携で直接投稿もできます'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
@@ -296,6 +300,20 @@ var Constants = {
             reward: [0,0,0,0,0],
             require:[null, 2, {dd:2}],
             area: 5
+        },
+        "125": {
+            minute:15,
+            title: '前衛支援任務',
+            reward: [],
+            require: [],
+            area: 0
+        },
+        "126": {
+            minute:30,
+            title: '艦隊決戦支援任務',
+            reward: [],
+            require: [],
+            area: 0
         }
     },
     widget : {

@@ -2,7 +2,9 @@ var KanColleWidget = KanColleWidget || {};
 (function() {
     // static module
     var TwitterCrawler = KanColleWidget.TwitterCrawler = {};
-    TwitterCrawler._baseURL = "https://twitter.com/search";
+    // TwitterCrawler._baseURL = "https://twitter.com/search";
+    TwitterCrawler._baseURL = "https://twitter.com/KanColle_STAFF";
+    /*
     TwitterCrawler._getDaysBefore = function(_d) {
         var days = 24*60*60*1000;
         var theDay = new Date(Date.now() - _d*days);
@@ -14,14 +16,9 @@ var KanColleWidget = KanColleWidget || {};
         since   : TwitterCrawler._getDaysBefore(3),
         f       : 'realtime'
     };
+    */
     TwitterCrawler._buildURL = function() {
-        var q = [
-            // TwitterCrawler._query['keyword']
-            'from:' + TwitterCrawler._query['from'],
-            'since:' + TwitterCrawler._query['since']
-        ].join('+');
-        return TwitterCrawler._baseURL + '?q=' + encodeURIComponent(q)
-                + '&f=' + TwitterCrawler._query['f'];
+        return TwitterCrawler._baseURL;
     };
     TwitterCrawler.findMaintainanceInfo = function(callback, opt) {
         var mod = TwitterCrawler;
@@ -38,10 +35,13 @@ var KanColleWidget = KanColleWidget || {};
     };
     TwitterCrawler.get$ = function(callback, opt) {
         TwitterCrawler.findMaintainanceInfo(function(res) {
-            var $elements = $.map($(res).find('li.expanding-stream-item'), function(li){
+            var iterateForEach = 'div.Grid:not(.Grid--withGutter)';
+            var pickupHeader = 'div.ProfileTweet-header';
+            var pickupContent = 'p.ProfileTweet-text';
+            var $elements = $.map($(res).find(iterateForEach), function(li){
                 var $el = $('<div></div>').addClass('stream-item').append(
-                     $(li).find('div.stream-item-header'),
-                     $(li).find('p.tweet-text')
+                     $(li).find(pickupHeader),
+                     $(li).find(pickupContent)
                 );
                 $el.find('a').attr({href: TwitterCrawler._buildURL()}).on('click',function(){
                     chrome.tabs.create({
