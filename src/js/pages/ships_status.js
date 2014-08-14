@@ -16,7 +16,10 @@ $(function(){
         Util.focusKCWidgetWindow();
     });
 
+    var isWindows = Util.system.isWindows();
     setInterval(function(){
+        var height = (isWindows) ? window.outerHeight : window.innerHeight;
+        var width = (isWindows) ? window.outerWidth : window.innerWidth;
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',
             position : {
@@ -24,8 +27,8 @@ $(function(){
                 left : window.screenLeft
             },
             size: {
-                width: window.innerWidth,
-                height: window.innerHeight
+                width: width,
+                height: height
             }
         });
     }, 1 * 1000);
