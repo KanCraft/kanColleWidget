@@ -38,13 +38,10 @@ var KanColleWidget = KanColleWidget || {};
                 this.action.forMapStart(this.params);
                 break;
             case 'api_req_sortie/battle':
-            // {{{ 夜戦マップのとき大破進撃窓が閉じないんだってさ
             case 'api_req_battle_midnight/battle':
             case 'api_req_battle_midnight/sp_midnight':
-            // }}}
-            // {{{ 連合艦隊のとき空撃だけで大破進撃が閉じないんだってさ
             case 'api_req_combined_battle/airbattle':
-            // }}}
+            case 'api_req_combined_battle/battle':
                 this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
