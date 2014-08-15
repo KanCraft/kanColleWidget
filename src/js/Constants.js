@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.3.10.0",
+        version: "v1.3.10.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/437',
-        announceVersion : 80,
+        announceVersion : 81,
         announcements   : [
             '連合艦隊出撃時の大破進撃防止窓',
+            '連合艦隊の大破進撃防止窓が閉じないバグを修正',
             '-----',
             'やっとE2突破したので検証・実装できました！',
             'なお、E2突破時のバケツは残1でした'
