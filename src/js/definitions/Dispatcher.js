@@ -42,6 +42,9 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_battle_midnight/battle':
             case 'api_req_battle_midnight/sp_midnight':
             // }}}
+            // {{{ 連合艦隊のとき空撃だけで大破進撃が閉じないんだってさ
+            case 'api_req_combined_battle/airbattle':
+            // }}}
                 this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
