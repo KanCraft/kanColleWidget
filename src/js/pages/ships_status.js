@@ -1,4 +1,33 @@
 $(function(){
+
+    var alertSize = function(flag) {
+        var message = flag;
+        message += "\ninnerHeight:\t" + String(window.innerHeight);
+        message += "\ninnerWidth:\t" + String(window.innerWidth);
+        message += "\nouterHeight:\t" + String(window.outerHeight);
+        message += "\nouterWidth:\t" + String(window.outerWidth);
+        window.alert(message);
+    };
+    alertSize("AS IS BEFORE");
+
+    var trackedSize = Tracking.get('statusWindow')['size'];
+    var message = "SHOULD BE by tracking";
+    message += "\nheight:\t" + trackedSize['height'];
+    message += "\nwidth:\t" + trackedSize['width'];
+    window.alert(message);
+
+    // {{{ #426
+    if (Util.system.isWindows()) {
+        window.resizeTo(trackedSize['width'], trackedSize['height']);
+    }
+    // }}}
+    alertSize("AS IS AFTER");
+
+    var message = "innerHeight:\t" + String(window.innerHeight);
+    message += "\ninnerWidth:\t" + String(window.innerWidth);
+    message += "\nouterHeight:\t" + String(window.outerHeight);
+    message += "\nouterWidth:\t" + String(window.outerWidth);
+
     var queries = Util.parseQueryString();
     var img = new Image();
     img.src = queries.imgURI;
