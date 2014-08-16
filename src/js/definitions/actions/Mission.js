@@ -23,16 +23,17 @@ var KanColleWidget = KanColleWidget || {};
 
         if (Config.get("enable-mission-reminder") === false) return;
 
-        var mission = Constants.mission[params.api_mission_id[0]];
+        var missionId = params.api_mission_id[0];
+        var mission = Constants.mission[missionId];
         if (typeof mission == "undefined") {
-            Util.presentation("遠征ID[" + params.api_mission_id[0] + "]？知らない子ですね...");
+            Util.presentation("遠征ID[" + missionId + "]？知らない子ですね...");
             return;
         }
 
         var min = mission.minute;
 
         var finish = Date.now() + (min * 60 * 1000);
-        var optionalInfo = {title: mission.title};
+        var optionalInfo = {title: mission.title, missionId: missionId};
 
         this.missions.add(params.api_deck_id[0], finish, optionalInfo);
 

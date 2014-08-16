@@ -30,11 +30,10 @@ var KanColleWidget = KanColleWidget || {};
         this.set(this.storageName, events);
     };
     EventsBase.prototype.enqueue = function(soloEventModel) {
-        if (! soloEventModel.isTwitterRemindEnabled()) return;
-        // {{{ ServiceTweetKCWidgetを叩...かない！
-        // var s = new KanColleWidget.ServiceTweetKCWidget();
-        // s.enqueueEvent(soloEventModel);
-        // そんかし、ここはServicePushKCWidgetになる予定. 慢心してはダメ }}}
+        if (! soloEventModel.isPushRemindEnabled()) return;
+
+        var push = new KanColleWidget.ServicePushKCWidget();
+        push.enqueueEvent(soloEventModel);
     };
     /**
      * 自分で管理しているeventsを全部返す
