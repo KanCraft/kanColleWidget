@@ -6,6 +6,7 @@ function SoloNyukyo(json){
     this.suffix    = Config.get('notification-nyukyo-end-suffix') || Constants.notification.nyukyo.end_suffix;
     this.kind      = 'nyukyo-finish';
     this.label     = '入渠修復完了';
+    this.unit      = Constants.notification.nyukyo.unit;
 }
 SoloNyukyo.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
 SoloNyukyo.prototype.constructor = SoloNyukyo;

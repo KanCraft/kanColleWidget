@@ -390,18 +390,22 @@ var Constants = {
         img : './icon.png',
         mission : {
             end_prefix : "第",
+            unit       : "艦隊",
             end_suffix : "艦隊がまもなく帰投します"
         },
         createship : {
             end_prefix : "第",
+            unit       : "建造ドック",
             end_suffix : "建造ドックでの建造作業がまもなく完了します"
         },
         nyukyo : {
             end_prefix : "第",
+            unit       : "入渠ドック",
             end_suffix : "入渠ドックの修復作業がまもなく完了します"
         },
         sortie : {
             end_prefix : "第",
+            unit       : "艦隊",
             end_suffix : "艦隊の疲労がだいたい回復しました"
         }
     },

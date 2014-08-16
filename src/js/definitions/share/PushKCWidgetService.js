@@ -4,7 +4,6 @@ var KanColleWidget;
         function ServicePushKCWidget() {
         }
         ServicePushKCWidget.prototype.enqueueEvent = function(soloEventModel) {
-            console.log("enqueueEventにきたやつ\n", soloEventModel);
             var deferred = $.Deferred();
             var path = "/queue/add";
             var url = Util.getPushServerURL() + path;
@@ -12,12 +11,17 @@ var KanColleWidget;
                 url: url,
                 type: 'POST',
                 data: {
-                    id_str: Config.get('twitter-id-str'),
-                    message: soloEventModel.toMessage(),
-                    kind: soloEventModel.kind,
+                    finish: Math.floor(soloEventModel.finish / 1000), // タイムスタンプ
+                    id_str: Config.get('twitter-id-str'), // TwitterIdStr
+                    message: soloEventModel.toMessage(),  // 第2艦隊が遠征から帰投します的な
+                    label: soloEventModel.label,          // 遠征帰投
+                    prefix: soloEventModel.prefix,        // 第
+                    identifier: soloEventModel.primaryId, // 2
+                    unit: soloEventModel.unit,            // 艦隊
+                    kind: soloEventModel.kind,            // mission-finish
                     client_token: Constants.pushServer.token,
-                    finish: Math.floor(soloEventModel.finish / 1000),
-                    optional: soloEventModel.info || {}
+                    missionTitle: (soloEventModel.info) ? soloEventModel.info.MissionTitle : "",
+                    missionId: (soloEventModel.info) ? soloEventModel.info.MissionId : ""
                 },
                 success: function(res) {
                     deferred.resolve(res);

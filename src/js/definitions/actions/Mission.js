@@ -33,7 +33,7 @@ var KanColleWidget = KanColleWidget || {};
         var min = mission.minute;
 
         var finish = Date.now() + (min * 60 * 1000);
-        var optionalInfo = {title: mission.title, missionId: missionId};
+        var optionalInfo = {title: mission.title, MissionTitle: mission.title, MissionId: missionId};
 
         this.missions.add(params.api_deck_id[0], finish, optionalInfo);
 

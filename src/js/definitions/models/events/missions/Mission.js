@@ -9,6 +9,7 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-mission-end-suffix') || Constants.notification.mission.end_suffix;
         this.kind      = 'mission-finish';
         this.label     = '遠征帰投';
+        this.unit      = Constants.notification.mission.unit;
     };
     SoloMission.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloMission.prototype.constructor = KanColleWidget.SoloMission;
