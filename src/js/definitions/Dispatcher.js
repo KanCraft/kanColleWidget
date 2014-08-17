@@ -38,10 +38,10 @@ var KanColleWidget = KanColleWidget || {};
                 this.action.forMapStart(this.params);
                 break;
             case 'api_req_sortie/battle':
-            // {{{ 夜戦マップのとき大破進撃窓が閉じないんだってさ
             case 'api_req_battle_midnight/battle':
             case 'api_req_battle_midnight/sp_midnight':
-            // }}}
+            case 'api_req_combined_battle/airbattle':
+            case 'api_req_combined_battle/battle':
                 this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
@@ -157,7 +157,8 @@ var KanColleWidget = KanColleWidget || {};
                 }
                 action.forKousyouPreparation();
             },300);
-        } else if (this.requestSequence[0] === 'api_req_sortie/battleresult') {
+        } else if (this.requestSequence[0] === 'api_req_sortie/battleresult'
+            || this.requestSequence[0] === 'api_req_combined_battle/battleresult') {
             this.action.forSortieBattleResult();
         }
     };
