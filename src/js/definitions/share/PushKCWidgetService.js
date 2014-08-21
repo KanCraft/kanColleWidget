@@ -27,6 +27,7 @@ var KanColleWidget;
                     deferred.resolve(res);
                 },
                 error: function(err) {
+                    deferred.reject(err);
                     window.alert("なんかエラー\n" + JSON.stringify(err));
                 }
             });
