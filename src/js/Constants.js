@@ -1,15 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.3.10.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/437',
-        announceVersion : 82,
+        version: "v1.3.10.3",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/438',
+        announceVersion : 83,
         announcements   : [
-            '連合艦隊出撃時の大破進撃防止窓',
-            '連合艦隊の大破進撃防止窓が閉じないバグを修正',
-            '連合艦隊の大破進撃防止窓が閉じないバグをさらに修正',
-            '-----',
-            'E6で起きるバグとか知りません！',
-            '弾薬が底をついたので検証できません'
+            'Windowsで大破進撃防止窓が小っさくなる問題を（だいぶ）修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
