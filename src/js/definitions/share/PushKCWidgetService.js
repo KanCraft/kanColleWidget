@@ -7,6 +7,10 @@ var KanColleWidget;
             var deferred = $.Deferred();
             var path = "/queue/add";
             var url = Util.getPushServerURL() + path;
+            if (! Config.get('twitter-id-str')) {
+                this.showAlert('Push通知を使う場合はTwitter認証しなおしてくだしあ');
+                return deferred.reject();
+            }
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -27,11 +31,15 @@ var KanColleWidget;
                     deferred.resolve(res);
                 },
                 error: function(err) {
+                    this.showAlert(JSON.stringify(err));
                     deferred.reject(err);
-                    window.alert("なんかエラー\n" + JSON.stringify(err));
                 }
             });
             return deferred.promise();
+        };
+        ServicePushKCWidget.prototype.showAlert = function(message) {
+            var header = "[ERROR:ServicePushKCWidget]\n";
+            window.alert(header + message);
         };
         return ServicePushKCWidget;
     })();
