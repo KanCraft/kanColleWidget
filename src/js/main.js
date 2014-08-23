@@ -6,9 +6,9 @@
 var silent = true;
 var debug = (function(){
     return function (target) {
-        if (window.silent) return;
-        if (typeof target == "string") return console.log("%c" + target, "color:orange");
-        return console.log("[debug]", target);
+        // if (window.silent) return;
+        // if (typeof target == "string") return console.log("%c" + target, "color:orange");
+        // return console.log("[debug]", target);
     }
 })();
 var oauth = chrome.extension.getBackgroundPage()['oauth'] || ChromeExOAuth.initBackgroundPage({
