@@ -31,13 +31,13 @@ var KanColleWidget;
                     deferred.resolve(res);
                 },
                 error: function(err) {
-                    this.showAlert(JSON.stringify(err));
+                    ServicePushKCWidget.showAlert(JSON.stringify(err));
                     deferred.reject(err);
                 }
             });
             return deferred.promise();
         };
-        ServicePushKCWidget.prototype.showAlert = function(message) {
+        ServicePushKCWidget.showAlert = function(message) {
             var header = "[ERROR:ServicePushKCWidget]\n";
             window.alert(header + message);
         };
