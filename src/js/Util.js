@@ -777,9 +777,6 @@ var Util = Util || {};
         return Constants.tweetServer.url;
     };
     Util.getPushServerURL = function(){
-        if (localStorage.getItem('isDebug') == 'true') {
-            return 'http://localhost:9000';
-        }
         return Constants.pushServer.url;
     };
 

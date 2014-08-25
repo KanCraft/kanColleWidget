@@ -15,6 +15,7 @@ var KanColleWidget;
                 url: url,
                 type: 'POST',
                 data: {
+                    clientToken: KanColleWidget.PushServerConfig.client_token,
                     finish: Math.floor(soloEventModel.finish / 1000), // タイムスタンプ
                     id_str: Config.get('twitter-id-str'), // TwitterIdStr
                     message: soloEventModel.toMessage(),  // 第2艦隊が遠征から帰投します的な
@@ -23,11 +24,14 @@ var KanColleWidget;
                     identifier: soloEventModel.primaryId, // 2
                     unit: soloEventModel.unit,            // 艦隊
                     kind: soloEventModel.kind,            // mission-finish
-                    client_token: Constants.pushServer.token,
                     missionTitle: (soloEventModel.info) ? soloEventModel.info.MissionTitle : "",
                     missionId: (soloEventModel.info) ? soloEventModel.info.MissionId : ""
                 },
                 success: function(res) {
+                    if (res['code'] != 1000) {
+                        ServicePushKCWidget.showAlert("code:" + res['code'] + "\nmessage:" + res['message']);
+                        return deferred.reject(res);
+                    }
                     deferred.resolve(res);
                 },
                 error: function(err) {
