@@ -474,8 +474,7 @@ var Constants = {
         token: '8b5f0870-cd6c-11e3-9c1a-0800200c9a66'
     },
     pushServer : {
-        // url: 'http://push-kcwidget.oti10.com',
-        url: 'http://otiai10.com:9090',// TODO
+        url: 'http://push-kcwidget.oti10.com',
         token: '8b5f0870-cd6c-11e3-9c1a-0800200c9a66'
     },
     assuranceStringMap : {
