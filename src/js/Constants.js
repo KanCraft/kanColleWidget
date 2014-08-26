@@ -1,10 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.3.10.3",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/438',
-        announceVersion : 83,
+        version: "v1.3.11",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/440',
+        announceVersion : 84,
         announcements   : [
-            'Windowsで大破進撃防止窓が小っさくなる問題を（だいぶ）修正'
+            'E5夜戦マスで大破進撃防止窓が閉じない不具合を修正（時既に遅し？）',
+            '簡易疲労タイマーに20分休憩を追加',
+            'iOSのPush通知のじゅんび'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
