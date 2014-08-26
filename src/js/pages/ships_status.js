@@ -28,8 +28,12 @@ $(function(){
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',
             position : {
-                top  : window.screenTop,
-                left : window.screenLeft
+                // {{{ 座標の取り方を変更
+                //top  : window.screenTop,
+                //left : window.screenLeft
+                top  : window.screenY,
+                left : window.screenX
+                // }}}
             },
             size: {
                 width: window.innerWidth,
