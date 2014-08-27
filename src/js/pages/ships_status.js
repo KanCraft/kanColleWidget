@@ -1,9 +1,13 @@
 $(function(){
 
-    // {{{ #426
+    // {{{ #426, #441改（番号変わる？）
     if (Util.system.isWindows()) {
+        // #426
         var trackedSize = Tracking.get('statusWindow')['size'];
         window.resizeTo(trackedSize['width'], trackedSize['height']);
+        // #441改（番号変わる？）
+        var trackedPstn = Tracking.get('statusWindow')['position'];
+        window.moveBy(trackedPstn['left'] - window.screenX, trackedPstn['top'] - window.screenY);
     }
     // }}}
 
