@@ -196,7 +196,7 @@ var widgetPages = widgetPages || {};
         + '    <div class="modal-tweet-form-container">'
         + '        <div>'
         + '            <div class="tweet-content">'
-        + '                <div class="tweet-box" id="js-tweet-box" contenteditable="true"></div>'
+        + '                <textarea class="tweet-box" id="js-tweet-box" cols="50" rows="10"></textarea>'
         + '            </div>'
         + '            <div class="toolbar js-toolbar">'
         + '                <div class="tweet-box-extras">'
@@ -237,21 +237,34 @@ var widgetPages = widgetPages || {};
     };
     ModalContentTweetView.prototype.sendTweet = function(ev, self) {
         if (self.nowSending) return;
-        self.nowSending = true;
-        $(ev.currentTarget).addClass('disabled');
-        $('#tweet-text-counter').html('');
-        $('#tweet-text-counter').addClass('loader');
+        self.startSending(ev);
         var status = this.getInputStatus();
         var p = self.twitter.tweetWithImageURI(this.imgURI, this.format, status);
         p.done(function(res){
             var url = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
             $('body').append('<a href="'+url+'" target="_blank" class="tweeted-permalink">' + url + '</a><br/>')
             widgetPages.ModalView.vanish();
-            self.nowSending =false;
+            self.finishSending(ev);
+        });
+        p.fail(function(err){
+            self.finishSending(ev);
+            var message = "Twitter先生からエラーのお知らせのようです\n" + JSON.stringify(err);
+            window.alert(message);
         });
     };
+    ModalContentTweetView.prototype.startSending = function(ev) {
+        self.nowSending = true;
+        $(ev.currentTarget).addClass('disabled');
+        $('#tweet-text-counter').html('');
+        $('#tweet-text-counter').addClass('loader');
+    };
+    ModalContentTweetView.prototype.finishSending = function (ev) {
+        $(ev.currentTarget).removeClass('disabled');
+        $('#tweet-text-counter').removeClass('loader');
+        self.nowSending = false;
+    };
     ModalContentTweetView.prototype.textFeedback = function(ev, self) {
-        var text = ev.currentTarget.innerText;
+        var text = ev.currentTarget.value;
         var len = text.length;
         self.$el.find('#tweet-text-counter').text(125 - len);
         if (len > 125) {
@@ -261,6 +274,6 @@ var widgetPages = widgetPages || {};
         }
     };
     ModalContentTweetView.prototype.getInputStatus = function() {
-        return $('#js-tweet-box').html().replace(/<div>/g,'\n').replace(/<\/div>/g,'');
+        return $('#js-tweet-box').val();
     };
 })();
