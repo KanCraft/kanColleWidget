@@ -1,12 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.3.11",
+        version: "v1.3.11.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/440',
-        announceVersion : 84,
+        announceVersion : 85,
         announcements   : [
             'E5夜戦マスで大破進撃防止窓が閉じない不具合を修正（時既に遅し？）',
             '簡易疲労タイマーに20分休憩を追加',
-            'iOSのPush通知のじゅんび'
+            'iOSのPush通知のじゅんび',
+            'スクショのTwitter投稿で謎のHTMLタグ出るの修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
