@@ -1,11 +1,11 @@
 $(function(){
 
-    // {{{ #426, #441改（番号変わる？）
-    if (Util.system.isWindows()) {
+    // {{{ #426, #444
+        if (Util.system.isWindows()) {
         // #426
         var trackedSize = Tracking.get('statusWindow')['size'];
         window.resizeTo(trackedSize['width'], trackedSize['height']);
-        // #441改（番号変わる？）
+        // #444
         var trackedPstn = Tracking.get('statusWindow')['position'];
         window.moveBy(trackedPstn['left'] - window.screenX, trackedPstn['top'] - window.screenY);
     }
