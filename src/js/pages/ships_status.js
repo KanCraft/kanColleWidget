@@ -1,7 +1,7 @@
 $(function(){
 
     // {{{ #426, #444
-        if (Util.system.isWindows()) {
+    if (Util.system.isWindows()) {
         // #426
         var trackedSize = Tracking.get('statusWindow')['size'];
         window.resizeTo(trackedSize['width'], trackedSize['height']);
