@@ -11,6 +11,12 @@ var KanColleWidget;
                 this.showAlert('Push通知を使う場合はTwitter認証しなおしてくだしあ');
                 return deferred.reject();
             }
+            // 一分前通知に対応
+            switch(soloEventModel.kind) {
+                case "mission-finish":
+                case "nyukyo-finish":
+                    soloEventModel.finish = soloEventModel.finish - 60 * 1000;
+            }
             $.ajax({
                 url: url,
                 type: 'POST',
