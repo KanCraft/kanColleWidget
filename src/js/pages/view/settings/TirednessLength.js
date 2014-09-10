@@ -10,7 +10,8 @@ var widgetPages = widgetPages || {};
             {value:'0', title: '使わない'},
             {value:'5', title: '疲労なんて5分でいい'},
             {value:'10', title: '10分で全快'},
-            {value:'15', title: '15分休ませてあげる'}
+            {value:'15', title: '15分休ませてあげる'},
+            {value:'20', title: 'お疲れさま、20分休んでください'}
         ];
     };
     Util.extend(TirednessLengthView, widgetPages.SettingSelectView);
