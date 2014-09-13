@@ -71,7 +71,8 @@
             "src/js/definitions/share/TwitterService.js",
             "src/js/definitions/share/TweetKCWidgetService.js",
             "src/js/pngencoder.min.js",
-            "src/js/main.js"
+            "src/js/main.js",
+            "src/js/api.js"
         ]
     },
     "browser_action": {

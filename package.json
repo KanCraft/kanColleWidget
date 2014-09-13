@@ -23,6 +23,9 @@
     "grunt": "*",
     "grunt-exec": "*",
     "grunt-regarde": "*",
-    "grunt-contrib-jshint": "*"
+    "grunt-contrib-jshint": "*",
+    "grunt-typescript": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*"
   }
 }

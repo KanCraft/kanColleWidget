@@ -29,7 +29,12 @@ var KanColleWidget = KanColleWidget || {};
         }
         this.set(this.storageName, events);
     };
+    /**
+     * 通知系サービスにエンキューする
+     * @param soloEventModel
+     */
     EventsBase.prototype.enqueue = function(soloEventModel) {
+        API.Publisher.getInstance().publishEvent(soloEventModel);
         if (! soloEventModel.isTwitterRemindEnabled()) return;
         // {{{ ServiceTweetKCWidgetを叩...かない！
         // var s = new KanColleWidget.ServiceTweetKCWidget();
