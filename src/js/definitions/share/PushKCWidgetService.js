@@ -11,11 +11,9 @@ var KanColleWidget;
                 this.showAlert('Push通知を使う場合はTwitter認証しなおしてくだしあ');
                 return deferred.reject();
             }
-            // 一分前通知に対応
-            switch(soloEventModel.kind) {
-                case "mission-finish":
-                case "nyukyo-finish":
-                    soloEventModel.finish = soloEventModel.finish - 60 * 1000;
+            // 一分前通知に対応（建造以外は全部1分前？）
+            if (soloEventModel.kind != "createship-finish"){
+                soloEventModel.finish = soloEventModel.finish - parseInt(Config.get("notification-offset-millisec"));
             }
             $.ajax({
                 url: url,
