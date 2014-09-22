@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/08/29 v1.3.11.1<!--version-->
+- 2014/09/10 v1.3.12.0<!--version-->
+    - 機能一覧などwikiへのリンク追加
+- 2014/08/29 v1.3.11.1
     - スクショのTwitter投稿で謎のHTMLタグ出るの修正
 - 2014/08/27 v1.3.11
     - E5夜戦マスで大破進撃防止窓が閉じない不具合を修正（時既に遅し？）
