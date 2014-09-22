@@ -7,7 +7,8 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-createship-end-suffix') || Constants.notification.createship.end_suffix;
         this.kind      = 'createship-finish';
         this.label     = '建造完了';
-    }
+        this.unit      = Constants.notification.createship.unit;
+    };
     SoloCreateship.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloCreateship.prototype.constructor = SoloCreateship;
 })();

@@ -776,6 +776,9 @@ var Util = Util || {};
         }
         return Constants.tweetServer.url;
     };
+    Util.getPushServerURL = function(){
+        return Constants.pushServer.url;
+    };
 
     Util.resizeWindowAtWhite = function(tab) {
 

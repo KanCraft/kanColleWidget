@@ -60,16 +60,16 @@ var KanColleWidget = KanColleWidget || {};
         message += this.getFooterMess();
         return message;
     };
-    SoloEventBase.prototype.toTwitterConfirmMessage = function() {
+    SoloEventBase.prototype.toPushConfirmMessage = function() {
         var message = this.label;
-        message += 'をTwitterで通知しますか？';
+        message += 'をPush通知しますか？';
         return message;
     };
-    SoloEventBase.prototype.isTwitterRemindEnabled = function() {
-        if (Config.get('enable-twitter-remind-confirm')) {
-            return window.confirm(this.toTwitterConfirmMessage());
+    SoloEventBase.prototype.isPushRemindEnabled = function() {
+        if (Config.get('enable-push-remind-confirm')) {
+            return window.confirm(this.toPushConfirmMessage());
         }
         var key = this.kind.split('-')[0];
-        return Config.get('enable-twitter-remind-' + key);
+        return Config.get('enable-push-remind-' + key);
     };
 })();

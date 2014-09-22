@@ -8,7 +8,8 @@ var KanColleWidget = KanColleWidget || {};
         this.suffix    = Config.get('notification-sortie-end-suffix') || Constants.notification.sortie.end_suffix;
         this.kind      = 'sortie-finish';
         this.label     = '疲労回復';
-    }
+        this.unit      = Constants.notification.sortie.unit;
+    };
     SoloSortie.prototype = Object.create(KanColleWidget.SoloEventBase.prototype);
     SoloSortie.prototype.constructor = SoloSortie;
 })();

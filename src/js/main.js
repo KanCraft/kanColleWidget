@@ -135,6 +135,7 @@ var KanColleWidget = KanColleWidget || {};
                 p.done(function(user_profile){
                     // console.log(user_profile);
                     Config.set("twitter-screen-name", user_profile['screen_name']);
+                    Config.set("twitter-id-str", user_profile['id_str']);
                 })
             });
         }
