@@ -440,7 +440,7 @@ var Util = Util || {};
             return function() {
                 setTimeout(function() {
                     Util.adjustSizeOfWindowsOSImmediately(_win);
-                }, 100);
+                }, 250);
             };
         })(win);
     };
