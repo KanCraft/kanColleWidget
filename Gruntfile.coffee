@@ -16,17 +16,22 @@ module.exports = (grunt) =>
             src:
                 files: ['src/**/*.*']
                 tasks: ['buildquiet']
-        jshint:
-            files: [
-                'src/js/definitions/**/*.*',
-                'src/js/pages/**/*.*'
-            ]
+        typescript:
+            common:
+                src: ['typescript/src/common/**/*.ts']
+                dest: 'typescript/build/commmon.js'
+        concat:
+            ts:
+                src: ['typescript/build/**/*.js']
+                dest: 'src/js/app.js'
     grunt.loadNpmTasks 'grunt-exec'
     grunt.loadNpmTasks 'grunt-regarde'
-    grunt.loadNpmTasks 'grunt-contrib-jshint'
+    grunt.loadNpmTasks 'grunt-typescript'
+    grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.registerTask 'boot', ['exec:boot']
-    grunt.registerTask 'build', ['exec:build']
+    grunt.registerTask 'build', ['tsc','concat:ts','exec:build']
     grunt.registerTask 'buildquiet', ['exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']
     grunt.registerTask 'check', ['jshint:files']
+    grunt.registerTask 'tsc', ['typescript:common']
     grunt.registerTask 'default', ['exec:sample']
