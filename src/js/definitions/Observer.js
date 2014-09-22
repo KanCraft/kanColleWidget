@@ -54,16 +54,12 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
-        var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
-        badge.show();
-        /*
-        if(Config.get('badge-left-time')){
-            if(this.NearestEndEvent){
-                Util.badge.leftTime(this.NearestEndEvent.getEndTime());
-            }
-        }else{
-            Util.badge.increment(this.UpToTimeEvents.length);
+        if (! this.NearestEndEvent) return;
+        if(Config.get('use-badge-colorize')) {
+            var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
+            badge.show();
+        } else {
+            Util.badge.leftTime(this.NearestEndEvent.getEndTime());
         }
-        */
     };
 })();
