@@ -23,6 +23,6 @@
     "grunt": "*",
     "grunt-exec": "*",
     "grunt-regarde": "*",
-    "grunt-contrib-jshint": "*"
+    "grunt-typescript": "0.2.0"
   }
 }
