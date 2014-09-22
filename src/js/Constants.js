@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.3.14.0",
+        version: "v1.3.14.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/451',
-        announceVersion : 87,
+        announceVersion : 88,
         announcements   : [
             'バッジに「終了件数を表示する設定」を廃止',
             'バッジの「通知タイプによって色を変える設定」を追加',

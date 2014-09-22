@@ -49,7 +49,7 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/09/22 v1.3.14.0<!--version-->
+- 2014/09/22 v1.3.14.0, v1.3.14.1<!--version-->
     - バッジに「終了件数を表示する設定」を廃止
     - バッジの「通知タイプによって色を変える設定」を追加
     - バッジに表示される残り時間が変なバグを修正
