@@ -54,6 +54,9 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
+        var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
+        badge.show();
+        /*
         if(Config.get('badge-left-time')){
             if(this.NearestEndEvent){
                 Util.badge.leftTime(this.NearestEndEvent.getEndTime());
@@ -61,5 +64,6 @@ var KanColleWidget = KanColleWidget || {};
         }else{
             Util.badge.increment(this.UpToTimeEvents.length);
         }
+        */
     };
 })();
