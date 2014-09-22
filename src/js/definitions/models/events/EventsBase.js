@@ -32,7 +32,7 @@ var KanColleWidget = KanColleWidget || {};
     EventsBase.prototype.enqueue = function(soloEventModel) {
         if (! soloEventModel.isPushRemindEnabled()) return;
 
-        var push = new KanColleWidget.ServicePushKCWidget();
+        var push = new KCW.ServicePush();
         push.enqueueEvent(soloEventModel);
     };
     /**

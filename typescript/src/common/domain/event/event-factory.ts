@@ -9,6 +9,8 @@ module KCW {
         kind: string;// "mission-finish"
         label: string;// "遠征帰投"
         title?: string;// "長距離練習航海"
+        info?: any;
+        unit: string;// 艦隊
         toMessage(): string;
     }
     /**

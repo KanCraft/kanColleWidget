@@ -131,3 +131,92 @@ var KCW;
     })(KCW.Badge);
     KCW.ObsoleteBadgeManager = ObsoleteBadgeManager;
 })(KCW || (KCW = {}));
+var KCW;
+(function (KCW) {
+    var Server = (function () {
+        function Server(serverURL) {
+            this.serverURL = serverURL;
+        }
+        Server.prototype.post = function (path, data) {
+            if (typeof data === "undefined") { data = {}; }
+            return this._send("POST", path, data);
+        };
+        Server.prototype._send = function (method, path, data) {
+            if (typeof data === "undefined") { data = {}; }
+            var deferred = $.Deferred();
+            $.ajax({
+                url: this.serverURL + path,
+                type: method,
+                data: data,
+                success: function (res) {
+                    deferred.resolve(res);
+                },
+                error: function (err) {
+                    deferred.reject(err);
+                }
+            });
+            return deferred.promise();
+        };
+        return Server;
+    })();
+    KCW.Server = Server;
+})(KCW || (KCW = {}));
+var KCW;
+(function (KCW) {
+    var ServicePush = (function (_super) {
+        __extends(ServicePush, _super);
+        function ServicePush() {
+            _super.call(this, "http://push-kcwidget.oti10.com");
+        }
+        ServicePush.prototype.enqueueEvent = function (event) {
+            var _this = this;
+            var deferred = $.Deferred();
+            if (!Config.get('twitter-id-str')) {
+                this.showAlert('Push通知を使う場合はTwitter認証しなおしてくだしあ');
+                return deferred.reject();
+            }
+            var params = this.makeEnqueueParamsFromEvent(event);
+            var promise = this.post("/queue/add", params);
+            promise.done(function (res) {
+                if (res['code'] != 1000) {
+                    _this.showAlert("code:" + res['code'] + "\nmessage:" + res['message']);
+                    deferred.reject(res);
+                } else {
+                    deferred.resolve(res);
+                }
+            });
+            promise.fail(function (err) {
+                _this.showAlert(JSON.stringify(err));
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        };
+        ServicePush.prototype.showAlert = function (message) {
+            var header = "[ERROR:ServicePushKCWidget]\n";
+            window.alert(header + message);
+        };
+        ServicePush.prototype.makeEnqueueParamsFromEvent = function (event) {
+            var params = {};
+            params.kind = event.kind;
+            if (event.kind != "createship-finish") {
+                params.finish = event.finish - parseInt(Config.get("notification-offset-millisec"));
+            } else {
+                params.finish = event.finish;
+            }
+            params.finish = Math.floor(params.finish / 1000);
+            params.clientToken = KanColleWidget.PushServerConfig.client_token;
+            params.id_str = Config.get('twitter-id-str');
+            params.message = event.toMessage();
+            params.label = event.label;
+            params.prefix = event.prefix;
+            params.identifier = event.primaryId;
+            params.unit = event.unit;
+            params.kind = event.kind;
+            params.missionTitle = (event.info) ? event.info.MissionTitle : "";
+            params.missionId = (event.info) ? event.info.MissionId : "";
+            return params;
+        };
+        return ServicePush;
+    })(KCW.Server);
+    KCW.ServicePush = ServicePush;
+})(KCW || (KCW = {}));
