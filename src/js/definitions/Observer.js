@@ -22,20 +22,25 @@ var KanColleWidget = KanColleWidget || {};
         for(var i= 0,len=this.targets.length; i<len; i++){
             var task = this.targets[i];
             var result = task.check();
-            this.updateNearestEndByEachResult(result);
+            if(this.NearestEndEvent == null){
+                this.NearestEndEvent = result.nearestEnd;
+            }
+            else if(result.nearestEnd == null){
+                // do nothing
+            }
+            else if(result.nearestEnd.getEndTime() < this.NearestEndEvent.getEndTime()){
+                this.NearestEndEvent = result.nearestEnd;
+            }
+            else if(result.nearestEnd.primaryId == this.NearestEndEvent.primaryId){
+                // 事後編集されたっぽい
+                this.NearestEndEvent = result.nearestEnd;
+            }else{
+                // do nothing
+            }
             this.UpToTimeEvents = this.UpToTimeEvents.concat(result.upToTime);
         }
         this.updateBadgeContext();
         this.digestUpToTimeEvents();
-    };
-    Observer.prototype.updateNearestEndByEachResult = function(result) {
-        if (! result.nearestEnd) return;
-        if (this.NearestEndEvent == null) this.NearestEndEvent = result.nearestEnd;
-        if (result.nearestEnd.getEndTime() < this.NearestEndEvent.getEndTime()) {
-            // 与えられたresult.nearestEndのほうが早く終わる
-            this.NearestEndEvent = result.nearestEnd;
-        }
-        // XXX: 事後編集だとなんかちがうの？
     };
     Observer.prototype.digestUpToTimeEvents = function(){
         for(var i= 0,len=this.UpToTimeEvents.length; i<len; i++){
