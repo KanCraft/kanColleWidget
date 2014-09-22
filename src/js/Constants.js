@@ -1,10 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.3.12.0",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/447',
-        announceVersion : 86,
+        version: "v1.3.14.0",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/451',
+        announceVersion : 87,
         announcements   : [
-            '機能一覧などwikiへのリンク追加'
+            'バッジに「終了件数を表示する設定」を廃止',
+            'バッジの「通知タイプによって色を変える設定」を追加',
+            'バッジに表示される残り時間が変なバグを修正',
+            '-----',
+            'ビスマルクでません'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
