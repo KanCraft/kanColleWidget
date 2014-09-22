@@ -20,7 +20,7 @@ module KCW {
                 case EventKind.NyukoFinish:
                     return "#5b84ff";
                 case EventKind.CreateshipFinish:
-                    return "#ffae1f";
+                    return "#ff8e1b";
                 case EventKind.SortieFinish:
                     return "#d0d0d0";
                 default :

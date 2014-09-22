@@ -107,7 +107,7 @@ var KCW;
                 case KCW.EventKind.NyukoFinish:
                     return "#5b84ff";
                 case KCW.EventKind.CreateshipFinish:
-                    return "#ffae1f";
+                    return "#ff8e1b";
                 case KCW.EventKind.SortieFinish:
                     return "#d0d0d0";
                 default:
