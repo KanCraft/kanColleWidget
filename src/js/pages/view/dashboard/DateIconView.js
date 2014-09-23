@@ -22,7 +22,7 @@ var widgetPages = widgetPages || {};
         this.apply()._render();
         this.$el.find("#seconds-wrapper").css({backgroundImage:'url("' + iconUrl + '")'});
         this.$el.find("#seconds-wrapper").on("click",function(){
-            chrome.runtime.sendMessage(null, {purpose:'launch'});
+            chrome.runtime.sendMessage(null, {purpose:'launchOrCapture'});
         });
         return this.$el;
     };
