@@ -33,7 +33,9 @@ var KanColleWidget = KanColleWidget || {};
             }
             else if(result.nearestEnd.primaryId == this.NearestEndEvent.primaryId){
                 // 事後編集されたっぽい
-                this.NearestEndEvent = result.nearestEnd;
+                if (result.nearestEnd.kind == this.NearestEndEvent.kind) {
+                    this.NearestEndEvent = result.nearestEnd;
+                }
             }else{
                 // do nothing
             }
