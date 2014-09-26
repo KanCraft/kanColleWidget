@@ -33,7 +33,9 @@ var KanColleWidget = KanColleWidget || {};
             }
             else if(result.nearestEnd.primaryId == this.NearestEndEvent.primaryId){
                 // 事後編集されたっぽい
-                this.NearestEndEvent = result.nearestEnd;
+                if (result.nearestEnd.kind == this.NearestEndEvent.kind) {
+                    this.NearestEndEvent = result.nearestEnd;
+                }
             }else{
                 // do nothing
             }
@@ -54,12 +56,12 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
-        if(Config.get('badge-left-time')){
-            if(this.NearestEndEvent){
-                Util.badge.leftTime(this.NearestEndEvent.getEndTime());
-            }
-        }else{
-            Util.badge.increment(this.UpToTimeEvents.length);
+        if (! this.NearestEndEvent) return;
+        if(Config.get('use-badge-colorize')) {
+            var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
+            badge.show();
+        } else {
+            Util.badge.leftTime(this.NearestEndEvent.getEndTime());
         }
     };
 })();

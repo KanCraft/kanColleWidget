@@ -14,6 +14,7 @@ $(function(){
     renderAnnounce();
 
     $("#reminder-notifications").append(
+        (new widgetPages.UseBadgeColorizeView()).render(),
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
         (new widgetPages.AllowOcrResultLogView()).render(),
