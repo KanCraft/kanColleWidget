@@ -15,11 +15,13 @@ $(function(){
     chrome.runtime.sendMessage({purpose:'resizeWindowAtWhite'});
 
     // キーバインド登録
+    /* {{{ ここはmanifest.jsonでどうにかなるんだってさ
     $(document).on('keyup',function(e){
         if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
             chrome.runtime.sendMessage({purpose: 'screenshot'});
         }
     });
+    }}} */
 
     history.forward();
 

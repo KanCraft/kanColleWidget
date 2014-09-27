@@ -137,5 +137,13 @@
             "js": ["src/js/pages/twitter.js"]
         }
     ],
+    "commands": {
+        "capture": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+0"
+            },
+            "description":"スクショ"
+        }
+    },
     "options_page" : "src/html/settings.html"
 }
