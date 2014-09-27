@@ -1,17 +1,16 @@
 var Constants = {
     release : {
-        version: "v1.3.14.3",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/451',
-        announceVersion : 90,
+        version: "v1.3.15.0",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/457',
+        announceVersion : 91,
         announcements   : [
-            'バッジに「終了件数を表示する設定」を廃止',
-            'バッジの「通知タイプによって色を変える設定」を追加',
-            'バッジに表示される残り時間が変なバグを修正',
-            'Chrome37,Windowsの窓サイズバグを修正',
-            'クロックモードからスクショできるように機能追加',
-            'バッジに表示される残り時間が変なバグをマジで修正',
+            'バッジに「終了件数を表示する」設定を復活',
+            'clockmodeの任務進捗をちょっとだけ見やすく修正',
+            'スクショショートカット効かないバグの修正努力',
             '----------',
-            '「スクショのショートカットキーが効かない」というケースがずっとあるっぽいので、クロックモードからワンクリックでスクショ撮れるようにしました。なぜか隠し機能っぽくなっちゃったのでいろいろいじってみてくださいm(_ _)m'
+            '「バッジの設定を戻してほしい」という要望があったので復活させました。',
+            'なお、現在Windows×Chrome39で画面が真っ白になるというバグがあるらしいです。<a class="light" href="https://twitter.com/C21mindows/status/515472576399671296">調査中</a>です。',
+            'あと、俺タワーなどでWHITEモード相当のことができる拡張つくりました。使いたい方はお使いください。<br><a class="light" href="https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh">demado - Chrome ウェブストア</a>'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
