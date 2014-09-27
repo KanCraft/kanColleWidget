@@ -9,7 +9,7 @@ var widgetPages = widgetPages || {};
                   +'    <div id="quest-list-container">'
                   +'        <table id="quests" class="table"></table>'
                   +'    </div>'
-                  +'</div>'
+                  +'</div>';
         this.events = {
             'click .hide-quest' : "hideQuest"
         };

@@ -219,3 +219,19 @@ table.mission-info {
 .mission-info a {
     text-decoration: none;
 }
+
+/* 任務進捗 */
+span.quest-state {
+    border-radius: 2px;
+    text-shadow: 0 0 1px #888;
+    color: #fff;
+    padding: 2px;
+}
+span.quest-state.quest-done {
+    background-color: #0fd3d9;
+}
+/*
+span.quest-state.quest-now {
+    background-color: #d9b300;
+}
+*/

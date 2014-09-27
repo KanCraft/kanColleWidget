@@ -20,7 +20,7 @@ var widgetPages = widgetPages || {};
     // 達成
     var DoneQuestView = widgetPages.DoneQuestView = function(doneQuest) {
         this.quest = doneQuest;
-        this.tpl = '<tr id="{{id}}"><td><a class="quest-title clickable">{{title}}</a></td><td>[<a class="hide-quest clickable" quest-id="{{id}}">{{state}}</a>]</td></tr>';
+        this.tpl = '<tr id="{{id}}"><td><a class="quest-title clickable">{{title}}</a></td><td><span class="quest-state quest-done"><a class="hide-quest clickable" quest-id="{{id}}">{{state}}</a></span></td></tr>';
         this.attrs = {
             id    : this.quest.id
         };
