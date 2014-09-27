@@ -44,10 +44,16 @@ var KCW;
     var Badge = (function () {
         function Badge(params) {
             if (typeof params === "undefined") { params = {}; }
+            var _this = this;
             this.text = "";
             this.color = "#0FABB1";
-            if (params.text)
+            if (params.text) {
                 this.text = params.text;
+            } else {
+                this.getCurrentText().done(function (text) {
+                    _this.text = text;
+                });
+            }
             if (params.color)
                 this.color = params.color;
         }
@@ -69,11 +75,25 @@ var KCW;
             this.updateColor();
             this.updateText();
         };
+        Badge.prototype.incrementByCount = function (count) {
+            var current = parseInt(this.text) || 0;
+            if (current + count)
+                this.text = String(current + count); else
+                this.text = "";
+            this.update();
+        };
         Badge.prototype.updateText = function () {
             chrome.browserAction.setBadgeText({ text: this.text });
         };
         Badge.prototype.updateColor = function () {
             chrome.browserAction.setBadgeBackgroundColor({ color: this.color });
+        };
+        Badge.prototype.getCurrentText = function () {
+            var d = $.Deferred();
+            chrome.browserAction.getBadgeText({}, function (val) {
+                d.resolve(val);
+            });
+            return d.promise();
         };
         return Badge;
     })();
@@ -90,8 +110,10 @@ var KCW;
     var ObsoleteBadgeManager = (function (_super) {
         __extends(ObsoleteBadgeManager, _super);
         function ObsoleteBadgeManager(event) {
+            if (typeof event === "undefined") { event = null; }
             _super.call(this);
-            this.dispatch(event);
+            if (event)
+                this.dispatch(event);
         }
         ObsoleteBadgeManager.prototype.show = function () {
             _super.prototype.show.call(this);
