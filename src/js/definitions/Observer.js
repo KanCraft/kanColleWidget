@@ -64,7 +64,7 @@ var KanColleWidget = KanColleWidget || {};
             case '3':
                 return this.updateBadgeByUpToTimeEventsCount();
             default:
-                return "do nothing";
+                return this.updateBadgeByNearestEndTime();
         }
     };
     Observer.prototype.updateBadgeByUpToTimeEventsCount = function() {
