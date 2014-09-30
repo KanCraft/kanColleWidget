@@ -56,12 +56,12 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
-        switch (Config.get('badge-style')) {
-            case '1':
+        switch (parseInt(Config.get('badge-style'))) {
+            case 1:
                 return this.updateBadgeByNearestEndTime();
-            case '2':
+            case 2:
                 return this.updateBadgeByNearestEndTimeWithoutColorize();
-            case '3':
+            case 3:
                 return this.updateBadgeByUpToTimeEventsCount();
             default:
                 return this.updateBadgeByNearestEndTime();
