@@ -1,18 +1,16 @@
 html {
     width: 200px;
-    /*
-    background-color: #f0f0f0;
-    */
-    background-repeat: no-repeat;
-    background-image: url('');
+    max-height: 700px;
     background-size: cover;
     background-position: left bottom;
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-image: url('');
     /*
+    background-color: #f0f0f0;
     font-family: "Meiryo";
     font-family: "times new roman";
     */
-    max-height: 700px;
 }
 body {
     margin: 0;
