@@ -166,4 +166,9 @@ var KanColleWidget = KanColleWidget || {};
             Util.focusKCWidgetWindow();
         }
     });
+
+    /***** command *****/
+    chrome.commands.onCommand.addListener(function(command) {
+        console.log(command);
+    });
 })();

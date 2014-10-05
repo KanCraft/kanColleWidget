@@ -99,7 +99,8 @@ MyStorage.prototype.tearDown = function(){
     /* private */initial : {
         'announce-already-read'              : 0,
         'badge-left-time'                    : true,// Obsolete!!
-        'use-badge-colorize'                 : false,
+        'use-badge-colorize'                 : false,// Obsolete!!
+        'badge-style'                        : 1,
         'record-achievements'                : false,
         //'enable-manual-reminder'           : false, //Obsolete!!
         'enable-dynamic-reminder'            : false,

@@ -2,9 +2,9 @@
 
 module KCW {
     export class ObsoleteBadgeManager extends Badge {
-        constructor(event: ObsoleteEventModel) {
+        constructor(event: ObsoleteEventModel = null) {
             super();
-            this.dispatch(event);
+            if (event) this.dispatch(event);
         }
         show() {
             super.show();

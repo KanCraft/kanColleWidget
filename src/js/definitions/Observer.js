@@ -56,12 +56,28 @@ var KanColleWidget = KanColleWidget || {};
         if(this.NearestEndEvent == null || this.NearestEndEvent.isUpToTime()) this.NearestEndEvent = null;
     };
     Observer.prototype.updateBadgeContext = function(){
-        if (! this.NearestEndEvent) return;
-        if(Config.get('use-badge-colorize')) {
-            var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
-            badge.show();
-        } else {
-            Util.badge.leftTime(this.NearestEndEvent.getEndTime());
+        switch (parseInt(Config.get('badge-style'))) {
+            case 1:
+                return this.updateBadgeByNearestEndTime();
+            case 2:
+                return this.updateBadgeByNearestEndTimeWithoutColorize();
+            case 3:
+                return this.updateBadgeByUpToTimeEventsCount();
+            default:
+                return this.updateBadgeByNearestEndTime();
         }
+    };
+    Observer.prototype.updateBadgeByUpToTimeEventsCount = function() {
+        var badge = new KCW.ObsoleteBadgeManager();
+        badge.incrementByCount(this.UpToTimeEvents.length);
+    };
+    Observer.prototype.updateBadgeByNearestEndTime = function() {
+        if (! this.NearestEndEvent) return;
+        var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
+        badge.show();
+    };
+    Observer.prototype.updateBadgeByNearestEndTimeWithoutColorize = function() {
+        if (! this.NearestEndEvent) return;
+        Util.badge.leftTime(this.NearestEndEvent.getEndTime());
     };
 })();
