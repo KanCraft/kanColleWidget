@@ -23,6 +23,7 @@
     "grunt": "*",
     "grunt-exec": "*",
     "grunt-regarde": "*",
+    "grunt-contrib-concat": "*",
     "grunt-typescript": "0.2.0"
   }
 }
