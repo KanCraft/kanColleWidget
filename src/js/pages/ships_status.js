@@ -1,9 +1,13 @@
 $(function(){
 
-    // {{{ #426
+    // {{{ #426, #444
     if (Util.system.isWindows()) {
+        // #426
         var trackedSize = Tracking.get('statusWindow')['size'];
         window.resizeTo(trackedSize['width'], trackedSize['height']);
+        // #444
+        var trackedPstn = Tracking.get('statusWindow')['position'];
+        window.moveBy(trackedPstn['left'] - window.screenX, trackedPstn['top'] - window.screenY);
     }
     // }}}
 
