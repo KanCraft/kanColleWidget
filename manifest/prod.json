@@ -32,7 +32,6 @@
             "src/js/Constants.js",
             "src/js/AppConfig.js",
             "src/js/definitions/process/DetectTime.js",
-            "src/js/definitions/process/OpenShipsStatus.js",
             "src/js/definitions/models/Stash.js",
             "src/js/definitions/models/server/ServerBase.js",
             "src/js/definitions/models/server/LogServer.js",
