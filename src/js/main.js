@@ -49,6 +49,8 @@ var KanColleWidget = KanColleWidget || {};
         completeDispatcher.eat(detail).execute();
     },{'urls':["*://*/kcsapi/*"]});
 
+    var shipsStatusRepo = KCW.ShipsStatusWindowRepository.local();
+
     /***** Main Listener 03 : メッセージの受信 *****/
     chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
@@ -93,10 +95,7 @@ var KanColleWidget = KanColleWidget || {};
         }
 
         if(message.purpose == 'statusWindowPositionTracking'){
-            var statusWindowInfo = Tracking.get('statusWindow');
-            statusWindowInfo.position = message.position;
-            statusWindowInfo.size = message.size;
-            Tracking.set('statusWindow',statusWindowInfo);
+            shipsStatusRepo.set(message.params);
             return;
         }
 

@@ -27,13 +27,15 @@ $(function(){
     setInterval(function(){
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',
-            position : {
-                top  : window.screenTop,
-                left : window.screenLeft
-            },
-            size: {
-                width: window.innerWidth,
-                height: window.innerHeight
+            params: {
+                coords: {
+                    top: window.screenTop,
+                    left: window.screenLeft
+                },
+                size: {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }
             }
         });
     }, 1 * 1000);
