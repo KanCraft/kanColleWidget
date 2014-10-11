@@ -30,7 +30,7 @@ module.exports = (grunt) =>
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.registerTask 'boot', ['exec:boot']
     grunt.registerTask 'build', ['tsc','concat:ts','exec:build']
-    grunt.registerTask 'buildquiet', ['exec:buildquiet']
+    grunt.registerTask 'buildquiet', ['tsc','exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']
     grunt.registerTask 'check', ['jshint:files']
     grunt.registerTask 'tsc', ['typescript:common']
