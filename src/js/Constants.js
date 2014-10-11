@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.3.15.2",
+        version: "v1.3.15.3",
         link: 'https://github.com/otiai10/kanColleWidget/pull/459',
-        announceVersion : 94,
+        announceVersion : 95,
         announcements   : [
             '設定下部の「組み合わせツール」のリンクを一部修正',
+            '大破進撃防止窓のデザイン改善',
             '-----',
             '俺タワーなどでWHITEモード相当のことができる拡張つくりました。使いたい方はお使いください。<br><a class="light" href="https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh">demado - Chrome ウェブストア</a>'
         ]
