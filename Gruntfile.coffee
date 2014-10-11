@@ -24,12 +24,20 @@ module.exports = (grunt) =>
             ts:
                 src: ['typescript/build/**/*.js']
                 dest: 'src/js/app.js'
+        uglify:
+            release:
+                files:
+                    'src/js/app.js': ['src/js/app.js']
+
     grunt.loadNpmTasks 'grunt-exec'
     grunt.loadNpmTasks 'grunt-regarde'
     grunt.loadNpmTasks 'grunt-typescript'
     grunt.loadNpmTasks 'grunt-contrib-concat'
+    grunt.loadNpmTasks 'grunt-contrib-uglify'
+
     grunt.registerTask 'boot', ['exec:boot']
-    grunt.registerTask 'build', ['tsc','concat:ts','exec:build']
+    grunt.registerTask 'build', ['tsc','concat:ts','exec:buildquiet']
+    grunt.registerTask 'release', ['tsc','concat:ts','uglify:release','exec:build']
     grunt.registerTask 'buildquiet', ['tsc','exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']
     grunt.registerTask 'check', ['jshint:files']
