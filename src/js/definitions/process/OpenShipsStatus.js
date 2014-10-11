@@ -34,11 +34,11 @@ var KanColleWidget = KanColleWidget || {};
 
         var coordsAndSize = {
             coords : {
-                left : (img.width - blank.width)  * (1/5) + blank.offsetLeft,
+                left : (img.width - blank.width)  * (141/500) + blank.offsetLeft,
                 top  : (img.height - blank.height) * (3/8) + blank.offsetTop
             },
             size : {
-                width : (img.width - blank.width)  * (3/10),
+                width : (img.width - blank.width)  * (43/200),
                 height: (img.height - blank.height) * (7/12)
             }
         };
