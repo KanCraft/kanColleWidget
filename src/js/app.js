@@ -358,7 +358,7 @@ var KCW;
                     imgURI = ShipsStatusWindow.trim(imgURI);
                     var params = KCW.ShipsStatusWindowRepository.local().restore();
                     var win = new _this(params, imgURI);
-                    win.open();
+                    win.instance = win.open();
                     win.register();
                 });
             });
@@ -368,13 +368,14 @@ var KCW;
             ShipsStatusWindow.created.push(this);
         };
         ShipsStatusWindow.prototype.close = function () {
-            if (this.win && this.win.close)
-                this.win.close();
+            if (this.instance && this.instance.close)
+                this.instance.close();
         };
         ShipsStatusWindow.sweep = function () {
             for (var i = 0; i < ShipsStatusWindow.created.length; i++) {
                 ShipsStatusWindow.created[i].close();
             }
+            ShipsStatusWindow.created = [];
         };
         ShipsStatusWindow.trim = function (imgURI) {
             var params = ShipsStatusWindow.calcOpenParams(imgURI);

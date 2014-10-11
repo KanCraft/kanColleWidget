@@ -8,7 +8,7 @@ module KCW {
 
     export class ShipsStatusWindow extends Infra.WindowFrame {
         private static created: ShipsStatusWindow[] = [];
-        private win: Window;
+        private instance: Window;
         constructor(params: WinMakeParams, imgURI: string) {
             super(
                 ShipsStatusWindow.url() + "?imgURI=" + imgURI,
@@ -24,7 +24,7 @@ module KCW {
                     imgURI = ShipsStatusWindow.trim(imgURI);
                     var params: WinMakeParams = ShipsStatusWindowRepository.local().restore();
                     var win = new this(params, imgURI);
-                    win.open();
+                    win.instance = win.open();
                     win.register();
                 });
             });
@@ -34,12 +34,13 @@ module KCW {
             ShipsStatusWindow.created.push(this);
         }
         private close() {
-            if (this.win && this.win.close) this.win.close();
+            if (this.instance && this.instance.close) this.instance.close();
         }
         public static sweep() {
             for (var i = 0; i < ShipsStatusWindow.created.length; i++) {
                 ShipsStatusWindow.created[i].close();
             }
+            ShipsStatusWindow.created = [];
         }
         private static trim(imgURI: string): string {
             var params = ShipsStatusWindow.calcOpenParams(imgURI);

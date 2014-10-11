@@ -27,7 +27,7 @@ var KanColleWidget = KanColleWidget || {};
     };
     MapAction.prototype.forEnd = function(){
 
-        this._clearShipsStatusWindow();
+        KCW.ShipsStatusWindow.sweep();
 
         /* {{{ 疲労回復スタート
         var recoveryMinutes = Config.get("tiredness-recovery-minutes");
@@ -38,12 +38,5 @@ var KanColleWidget = KanColleWidget || {};
             this.sorties.add(deckIds[i], finish);
         }
         }}} */
-    };
-    MapAction.prototype._clearShipsStatusWindow = function(){
-        if (KanColleWidget.Stash.statusWindow
-            && KanColleWidget.Stash.statusWindow.close) {
-            KanColleWidget.Stash.statusWindow.close();
-        }
-        KanColleWidget.Stash.statusWindow = null;
     };
 })();
