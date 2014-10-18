@@ -2,6 +2,7 @@
 kanColleWidget.iml
 build/*
 typescript/build/*
+src/js/app.js
 test/src/*
 .DS_Store
 !*.gitkeep

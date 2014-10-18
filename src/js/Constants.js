@@ -1,13 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.3.15.1",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/457',
-        announceVersion : 93,
+        version: "v1.3.15.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/459',
+        announceVersion : 96,
         announcements   : [
-            'バッジに残り時間が表示されないバグを修正',
-            '----------',
-            '現在Windows×Chrome39で画面が真っ白になるというバグがあるらしいです。<a class="light" href="https://twitter.com/C21mindows/status/515472576399671296">調査中</a>です。',
-            'あと、俺タワーなどでWHITEモード相当のことができる拡張つくりました。使いたい方はお使いください。<br><a class="light" href="https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh">demado - Chrome ウェブストア</a>'
+            '設定下部の「組み合わせツール」のリンクを一部修正',
+            '大破進撃防止窓のデザイン改善',
+            '大破進撃防止窓のデザイン改善にともなう隙間の解消'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
