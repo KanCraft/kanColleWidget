@@ -1,4 +1,4 @@
-/// <reference path="../.././event/event-factory.ts" />
+/// <reference path="../../domain/event/event-factory.ts" />
 
 module KCW {
     export class ObsoleteBadgeManager extends Badge {

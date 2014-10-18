@@ -1,5 +1,5 @@
-/// <reference path="../../../../definitions/chrome.d.ts" />
-/// <reference path="../../../../definitions/jquery.d.ts" />
+/// <reference path="../../../definitions/chrome.d.ts" />
+/// <reference path="../../../definitions/jquery.d.ts" />
 module KCW.Infra {
     export class Capture {
         public static whole(windowId: number = null): JQueryPromise<string> {

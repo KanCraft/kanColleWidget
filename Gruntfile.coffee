@@ -18,11 +18,15 @@ module.exports = (grunt) =>
                 tasks: ['buildquiet']
         typescript:
             common:
-                src: ['typescript/src/common/**/*.ts']
+                src: ['typescript/src/**/*.ts']
                 dest: 'typescript/build/commmon.js'
         concat:
             ts:
-                src: ['typescript/build/**/*.js']
+                src: [
+                    'bower_components/handlebars/handlebars.js'
+                    'bower_components/showv/build/showv.js'
+                    'typescript/build/**/*.js'
+                ]
                 dest: 'src/js/app.js'
         uglify:
             release:

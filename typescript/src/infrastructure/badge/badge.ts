@@ -1,6 +1,6 @@
-/// <reference path="../../../../definitions/jquery.d.ts" />
-/// <reference path="../../../../definitions/chrome.d.ts" />
-/// <reference path="../.././event/event-factory.ts" />
+/// <reference path="../../../definitions/jquery.d.ts" />
+/// <reference path="../../../definitions/chrome.d.ts" />
+/// <reference path="../../domain/event/event-factory.ts" />
 
 module KCW {
     export interface BadgeParams {

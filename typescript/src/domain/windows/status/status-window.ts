@@ -1,4 +1,4 @@
-/// <reference path="../../../../../definitions/jquery.d.ts" />
+/// <reference path="../../../../definitions/jquery.d.ts" />
 /// <reference path="../../../infrastructure/window/default/opener.ts" />
 /// <reference path="../../../infrastructure/capture/capture.ts" />
 /// <reference path="../../../infrastructure/capture/trim.ts" />

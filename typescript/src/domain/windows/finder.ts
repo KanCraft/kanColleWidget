@@ -1,5 +1,5 @@
-/// <reference path="../../../../definitions/jquery.d.ts" />
-/// <reference path="../../../../definitions/chrome.d.ts" />
+/// <reference path="../../../definitions/jquery.d.ts" />
+/// <reference path="../../../definitions/chrome.d.ts" />
 /// <reference path="../../infrastructure/window/detector.ts" />
 
 module KCW {

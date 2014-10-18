@@ -1,4 +1,4 @@
-/// <reference path="../../../../../definitions/jquery.d.ts" />
+/// <reference path="../../../../definitions/jquery.d.ts" />
 
 module KCW.Infra {
     export module URL {
