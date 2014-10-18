@@ -12,4 +12,5 @@ GPATH
 GRTAGS
 GTAGS
 node_modules/*
+bower_components/*
 src/js/AppConfig.js
