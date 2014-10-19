@@ -17,29 +17,13 @@ module KCW.Pages {
             this.title = params.title;
             this.configKey = params.configKey;
             this.description = params.description;
+            this.setCurrentSetting();
         }
-    }
-}
-module KCW.Pages {
-    export interface CheckboxViewParams extends SettingsInputParams {}
-    export class CheckboxView extends SettingsInputView {
-        constructor(params: CheckboxViewParams) {
-            super(params, $(new Template("settings/checkbox").render(params)));
+        set(key: string, val: any) {
+            Config.local().set(key, val);
         }
-        render(): CheckboxView {
-            return this;
-        }
-    }
-}
-
-module KCW.Pages {
-    export class AllowThirdParty extends CheckboxView {
-        constructor() {
-            super({
-                title: "外部Chrome拡張の連携を許す",
-                configKey: "allow-third-party",
-                description: "ほげ"
-            });
+        setCurrentSetting() {
+            // to be overwritten
         }
     }
 }

@@ -47,7 +47,8 @@ $(function(){
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
-        (new widgetPages.HideAdressbarInSafemodeView()).render()
+        (new widgetPages.HideAdressbarInSafemodeView()).render(),
+        (new KCW.Pages.AllowThirdParty().render().$el)
     );
 
     $('input#auth-twitter').on('click', function(ev) {

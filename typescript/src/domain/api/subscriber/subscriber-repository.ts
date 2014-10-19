@@ -35,5 +35,18 @@ module KCW {
             this.set(dict);
             return subscriber;
         }
+        public findAll(): Object {
+            return this.get();
+        }
+        public toListHTML(): string {
+            var html = "<ul>";
+            $.each(this.findAll(), (id: string, subscriber: Subscriber) => {
+                html += '<a href="' + subscriber.toURL() + '">' + subscriber.toURL() + '</a>';
+            });
+            return html + "</ul>";
+        }
+        public deleteAll() {
+            return this.set({});
+        }
     }
 }

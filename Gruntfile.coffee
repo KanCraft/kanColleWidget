@@ -14,7 +14,10 @@ module.exports = (grunt) =>
                 stdout: false
         regarde:
             src:
-                files: ['src/**/*.*']
+                files: [
+                    'src/**/*.*'
+                    'typescript/src/**/*.*'
+                ]
                 tasks: ['buildquiet']
         typescript:
             common:
