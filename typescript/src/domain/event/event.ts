@@ -1,63 +1,57 @@
 module KCW {
     export var EventKind: any = {
-        NyukoFinish: "nyukyo-finish",
+        NyukyoFinish: "nyukyo-finish",
         MissionFinish: "mission-finish",
         CreateshipFinish: "createship-finish",
         SortieFinish: "sortie-finish"
     };
-    // TODO: あとで
-    /**
-     * まあほぼObsoleteEventModelと一緒なんだけどね
-     */
     export interface EventCreateParams {
-        kind: string;// "mission-finish"
-        finish: number;// 1411138947059
-        prefix: string;// "第"
-        primaryId: number;// 2
-        suffix: string;// "艦隊がまもなく帰投します"
-        label: string;// "遠征帰投"
-        fulltext?: string;//
+        key: number;// dock_idもしくはdeck_id
+        kind: string;// EventKind
+        finish: number;// 終了時刻タイムスタンプ
+        label: string;// イベント短縮名 ex) "遠征帰投"
+        prefix: string;// 通知文言接頭語
+        suffix: string;// 通知文言接尾語
+        unit: string;// "ドック"もしくは"艦隊"
     }
     export class EventModel {
-        public static createWithParams(params: EventCreateParams) {
-            return new this(params.kind,
-                            params.finish,
-                            params.prefix,
-                            params.primaryId,
-                            params.suffix,
-                            params.label,
-                            params.fulltext);
+        public key: number;
+        public kind: string;
+        public finish: number;
+        public label: string;
+        public prefix: string;
+        public suffix: string;
+        public unit: string;
+        constructor(params: EventCreateParams) {
+            this.key = params.key;
+            this.kind = params.kind;
+            this.finish = params.finish;
+            this.label = params.label;
+            this.prefix = params.label;
+            this.suffix = params.suffix;
+            this.unit = params.unit;
         }
-        constructor(public kind: string,
-                    public finish: number,
-                    public prefix: string,
-                    public identifier: number,
-                    public suffix: string,
-                    public label: string,
-                    public fulltext: string) {}
-        public getFullMessageText(): string {
-            return this.fulltext || this.createMessageText();
+        public toPayload(): KCW.API.Payload {
+            return {
+                timestamp: Date.now(),
+                event: {
+                    target: this.kind.split("-")[0],
+                    type: "created",
+                    finish: this.finish,
+                    params: {
+                        format: this.toFormat(),
+                        key: this.key,
+                        label: this.label,
+                        unit: this.unit
+                    }
+                }
+            }
         }
-        private createMessageText(): string {
-            return this.createMessageHeader()
-            + this.prefix + this.identifier + this.suffix
-            + this.createMessageFooter();
+        public toFormat(): string {
+            return this.prefix + "%d" + this.suffix;
         }
-
-        /**
-         * abstract
-         * @returns {string}
-         */
-        public createMessageHeader(): string {
-            return "";
-        }
-
-        /**
-         * abstract
-         * @returns {string}
-         */
-        public createMessageFooter(): string {
-            return "";
+        public toMessage(): string {
+            return this.prefix + this.key + this.suffix;
         }
     }
 }

@@ -1,14 +1,14 @@
 
 module KCW {
     class SubscribersMapper implements Mapper {
-        public encode(s: Subscriber): string {
-            return JSON.stringify(s);
+        public encode(dict: any): string {
+            return JSON.stringify(dict);
         }
         public decode(stored: string): any {
             var raw: Object = JSON.parse(stored) || {};
             var dict: any = {};
             $.each(raw, (id: string, val: Object) => {
-                dict[id] = new Subscriber(val[id]);
+                dict[id] = new Subscriber(val["id"]);
             });
             return dict;
         }

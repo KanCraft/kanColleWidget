@@ -30,6 +30,7 @@ var KanColleWidget = KanColleWidget || {};
         this.set(this.storageName, events);
     };
     EventsBase.prototype.enqueue = function(soloEventModel) {
+        KCW.Publisher.publishByObsoleteEventModel(soloEventModel);
         if (! soloEventModel.isTwitterRemindEnabled()) return;
         // {{{ ServiceTweetKCWidgetを叩...かない！
         // var s = new KanColleWidget.ServiceTweetKCWidget();
