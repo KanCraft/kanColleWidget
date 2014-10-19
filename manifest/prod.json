@@ -68,7 +68,6 @@
             "src/js/definitions/share/chrome_ex_oauthsimple.js",
             "src/js/definitions/share/Share.js",
             "src/js/definitions/share/TwitterService.js",
-            "src/js/definitions/share/TweetKCWidgetService.js",
             "src/js/pngencoder.min.js",
             "src/js/app.js",
             "src/js/main.js"

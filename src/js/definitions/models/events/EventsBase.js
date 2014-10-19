@@ -24,18 +24,13 @@ var KanColleWidget = KanColleWidget || {};
                 events[i].finish = finishTime;
                 if(optionalInfo) events[i].info = optionalInfo;
 
-                this.enqueue(new this.soloModel(events[i]));
+                this.publish(new this.soloModel(events[i]));
             }
         }
         this.set(this.storageName, events);
     };
-    EventsBase.prototype.enqueue = function(soloEventModel) {
+    EventsBase.prototype.publish = function(soloEventModel) {
         KCW.Publisher.publishByObsoleteEventModel(soloEventModel);
-        if (! soloEventModel.isTwitterRemindEnabled()) return;
-        // {{{ ServiceTweetKCWidgetを叩...かない！
-        // var s = new KanColleWidget.ServiceTweetKCWidget();
-        // s.enqueueEvent(soloEventModel);
-        // そんかし、ここはServicePushKCWidgetになる予定. 慢心してはダメ }}}
     };
     /**
      * 自分で管理しているeventsを全部返す
