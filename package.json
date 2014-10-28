@@ -25,6 +25,7 @@
     "grunt-regarde": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-handlebars": "*",
     "grunt-typescript": "0.2.0"
   }
 }

@@ -1,4 +1,4 @@
-
+/// <reference path="../../repo-base.ts" />
 module KCW {
     class SubscribersMapper implements Mapper {
         public encode(dict: any): string {
