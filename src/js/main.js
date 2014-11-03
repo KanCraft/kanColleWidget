@@ -100,6 +100,10 @@ var KanColleWidget = KanColleWidget || {};
             shipsStatusRepo.set(message.params);
             return;
         }
+        if(message.purpose == 'getStatusWindowPositionTracking'){
+            var stored = shipsStatusRepo.get();
+            return sendResponse(stored);
+        }
 
         if(message.purpose == 'getConfig'){
             var res = {};
