@@ -1,6 +1,6 @@
 var Constants = {
     release : {
-        version: "v1.5",
+        version: "v1.5.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/473',
         announceVersion : 98,
         announcements   : [
@@ -9,7 +9,8 @@ var Constants = {
             'iPhone通知とか欲しいという声があったので、外部Chrome拡張との連携設定を追加してみました',
             '使うひとは<a class="light" href="https://github.com/otiai10/kanColleWidget/wiki/%E5%A4%96%E9%83%A8Chrome%E6%8B%A1%E5%BC%B5%E9%80%A3%E6%90%BA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ここ</a>を必ずお読みください',
             'でも基本オフなので、要らないひとは無視してください',
-            '（本当は自分でつくりたかった）'
+            '不評ならこの設定は削除したいと思ってるので、フィードバックください',
+            '（本当はiOSアプリ自分でつくるのが一番いいんですが...）'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
