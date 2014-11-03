@@ -4,6 +4,6 @@
   "dependencies": {
     "showv": "https://github.com/otiai10/showv.git",
     "jquery": "1.10.1",
-    "handlebars": "1.0.0"
+    "handlebars": "2.0.0"
   }
 }
