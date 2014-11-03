@@ -49,7 +49,8 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/10/20 v1.3.15.5<!--version-->
+- 2014/11/03 v1.5<!--version-->
+- 2014/10/20 v1.3.15.5
     - 外部Chrome拡張連携への予告
 - 2014/10/12 v1.3.15.4
     - 大破進撃防止窓のデザイン改善にともなう隙間の解消
