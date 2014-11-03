@@ -14,15 +14,28 @@ module.exports = (grunt) =>
                 stdout: false
         regarde:
             src:
-                files: ['src/**/*.*']
+                files: [
+                    'src/**/*.*'
+                    'typescript/src/**/*.*'
+                ]
                 tasks: ['buildquiet']
         typescript:
             common:
-                src: ['typescript/src/common/**/*.ts']
+                src: ['typescript/src/**/*.ts']
                 dest: 'typescript/build/commmon.js'
+        handlebars:
+            options:
+                namespace: "HBS"
+            compile:
+                files:
+                    "typescript/build/tpl/all.js": "tpl/**/*.hbs"
         concat:
             ts:
-                src: ['typescript/build/**/*.js']
+                src: [
+                    'bower_components/handlebars/handlebars.js'
+                    'bower_components/showv/build/showv.js'
+                    'typescript/build/**/*.js'
+                ]
                 dest: 'src/js/app.js'
         uglify:
             release:
@@ -34,6 +47,7 @@ module.exports = (grunt) =>
     grunt.loadNpmTasks 'grunt-typescript'
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
+    grunt.loadNpmTasks 'grunt-contrib-handlebars'
 
     grunt.registerTask 'boot', ['exec:boot']
     grunt.registerTask 'build', ['tsc','concat:ts','exec:buildquiet']
@@ -41,5 +55,5 @@ module.exports = (grunt) =>
     grunt.registerTask 'buildquiet', ['tsc','exec:buildquiet']
     grunt.registerTask 'watch', ['buildquiet','regarde']
     grunt.registerTask 'check', ['jshint:files']
-    grunt.registerTask 'tsc', ['typescript:common']
+    grunt.registerTask 'tsc', ['handlebars','typescript:common']
     grunt.registerTask 'default', ['exec:sample']
