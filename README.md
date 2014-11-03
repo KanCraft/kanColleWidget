@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/11/03 v1.5, v1.5.1<!--version-->
+- 2014/11/03 v1.5, v1.5.1, v1.5.2<!--version-->
+    - 外部Chrome拡張との連携設定を追加
+    - 大破進撃防止窓のサイズ覚えてくれないバグを修正
 - 2014/10/20 v1.3.15.5
     - 外部Chrome拡張連携への予告
 - 2014/10/12 v1.3.15.4
