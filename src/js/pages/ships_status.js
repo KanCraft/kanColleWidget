@@ -1,6 +1,7 @@
 $(function(){
 
     // {{{ #426
+    /*
     if (Util.system.isWindows()) {
         chrome.runtime.sendMessage(null, {
             purpose: 'getStatusWindowPositionTracking'
@@ -9,6 +10,7 @@ $(function(){
             window.resizeTo(trackedSize['width'], trackedSize['height']);
         });
     }
+    */
     // }}}
 
     var queries = Util.parseQueryString();
