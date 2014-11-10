@@ -1,11 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.5.5.1",
+        version: "v1.5.5.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/473',
-        announceVersion : 99,
+        announceVersion : 100,
         announcements   : [
             '<a href="https://github.com/otiai10/kanColleWidget/wiki/%E5%A4%96%E9%83%A8Chrome%E6%8B%A1%E5%BC%B5%E9%80%A3%E6%90%BA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" class="light">外部Chrome拡張との連携設定</a>を追加',
             '大破進撃防止窓のサイズ覚えてくれないバグを修正',
+            '手動タイマーの入力値を次回まで記憶する修正',
+            '遠征早見表へのリンクをポップアップにも追加',
+            '運営電文の時刻表時のバグを修正',
+            'ツイッターBotちゃん通知設定を削除',
             '-----',
             'iPhone通知とか欲しいという声があったので、外部Chrome拡張との連携設定を追加してみました',
             '使うひとは<a class="light" href="https://github.com/otiai10/kanColleWidget/wiki/%E5%A4%96%E9%83%A8Chrome%E6%8B%A1%E5%BC%B5%E9%80%A3%E6%90%BA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ここ</a>を必ずお読みください',
