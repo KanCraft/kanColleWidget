@@ -123,6 +123,9 @@ function _toggleArea(e, sw){
             }
         });
     });
+    $('#open-mission-info').on('click', function(){
+        window.open('mission-info.html',null,"width=940,height=800");
+    });
     var divs = document.getElementsByClassName('select');
     for(var i= 0,len=divs.length; i<len; i++){
         divs[i].addEventListener('click',function(){
