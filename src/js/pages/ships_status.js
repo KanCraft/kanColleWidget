@@ -11,6 +11,9 @@ $(function(){
         });
     }
     */
+    if (Util.system.isWindows()) {
+        Util.adjustSizeOfWindowsOS(window);
+    }
     // }}}
 
     var queries = Util.parseQueryString();
