@@ -34,8 +34,7 @@ var KanColleWidget = KanColleWidget || {};
             notificationOptions.sound = false;
         } else {
             model.add(params.identifier, params.finish);
-            // TODO: tracking
-            // self.tracking.set(self.modelName, inputs);
+            Tracking.set(params.trackingKey, params.inputs);
             notificationMessage = Util.zP(2, params.inputs.hour) + ':' + Util.zP(2, params.inputs.minute)
                 + "で" + params.text
                 + "完了通知を登録しときました!";

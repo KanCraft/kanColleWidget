@@ -207,6 +207,10 @@ MyStorage.prototype.tearDown = function(){
                 height: 250
             }
         },
+        mission : {
+            hour: 0,
+            minute: 30
+        },
         createship : {
             hour   :  1,
             minute : 30
