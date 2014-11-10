@@ -60,16 +60,4 @@ var KanColleWidget = KanColleWidget || {};
         message += this.getFooterMess();
         return message;
     };
-    SoloEventBase.prototype.toTwitterConfirmMessage = function() {
-        var message = this.label;
-        message += 'をTwitterで通知しますか？';
-        return message;
-    };
-    SoloEventBase.prototype.isTwitterRemindEnabled = function() {
-        if (Config.get('enable-twitter-remind-confirm')) {
-            return window.confirm(this.toTwitterConfirmMessage());
-        }
-        var key = this.kind.split('-')[0];
-        return Config.get('enable-twitter-remind-' + key);
-    };
 })();
