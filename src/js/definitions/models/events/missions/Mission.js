@@ -2,6 +2,7 @@ var KanColleWidget = KanColleWidget || {};
 (function(){
     var SoloMission = KanColleWidget.SoloMission = function(missionJson){
         this.title     = (missionJson.info) ? missionJson.info.title : '登録なし(´･ω･`)';
+        this.missionId = (missionJson.info) ? missionJson.info.missionId: 0;
         this.primaryId = missionJson.deck_id;
         this.finish    = missionJson.finish;
         this.prefix    = Constants.notification.mission.end_prefix;

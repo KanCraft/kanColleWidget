@@ -20,7 +20,7 @@ var KanColleWidget = KanColleWidget || {};
     TwitterCrawler._buildURL = function() {
         return TwitterCrawler._baseURL;
     };
-    TwitterCrawler.findMaintainanceInfo = function(callback, opt) {
+    TwitterCrawler.findMaintenanceInfo = function(callback, opt) {
         var mod = TwitterCrawler;
         $.ajax({
             type: 'GET',
@@ -34,11 +34,12 @@ var KanColleWidget = KanColleWidget || {};
         });
     };
     TwitterCrawler.get$ = function(callback, opt) {
-        TwitterCrawler.findMaintainanceInfo(function(res) {
+        TwitterCrawler.findMaintenanceInfo(function(res) {
             var iterateForEach = 'div.Grid:not(.Grid--withGutter)';
             var pickupHeader = 'div.ProfileTweet-header';
             var pickupContent = 'p.ProfileTweet-text';
             var $elements = $.map($(res).find(iterateForEach), function(li){
+                $(li).find('.js-relative-timestamp').remove();
                 var $el = $('<div></div>').addClass('stream-item').append(
                      $(li).find(pickupHeader),
                      $(li).find(pickupContent)

@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "1.3.15.5",
+    "version": "1.5.5.3",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -68,7 +68,6 @@
             "src/js/definitions/share/chrome_ex_oauthsimple.js",
             "src/js/definitions/share/Share.js",
             "src/js/definitions/share/TwitterService.js",
-            "src/js/definitions/share/TweetKCWidgetService.js",
             "src/js/pngencoder.min.js",
             "src/js/app.js",
             "src/js/main.js"

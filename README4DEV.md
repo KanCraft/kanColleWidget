@@ -2,6 +2,7 @@
 ```sh
 npm install
 grunt boot
+bower install
 grunt build
 ```
 

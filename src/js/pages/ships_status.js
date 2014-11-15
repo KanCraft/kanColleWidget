@@ -1,9 +1,18 @@
 $(function(){
 
     // {{{ #426
+    /*
     if (Util.system.isWindows()) {
-        var trackedSize = Tracking.get('statusWindow')['size'];
-        window.resizeTo(trackedSize['width'], trackedSize['height']);
+        chrome.runtime.sendMessage(null, {
+            purpose: 'getStatusWindowPositionTracking'
+        }, function(tracked) {
+            var trackedSize = tracked['size'] || {};
+            window.resizeTo(trackedSize['width'], trackedSize['height']);
+        });
+    }
+    */
+    if (Util.system.isWindows()) {
+        Util.adjustSizeOfWindowsOS(window);
     }
     // }}}
 

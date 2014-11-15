@@ -32,6 +32,8 @@ var KanColleWidget = KanColleWidget || {};
 
     observer.start();
 
+    KCW.API.serve();
+
     /***** Main Listener 01 : ウィンドウのフォーカスが変わるとき *****/
     chrome.windows.onFocusChanged.addListener(function(windowId){
         Util.ifCurrentIsKCWidgetWindow(function(){
@@ -97,6 +99,10 @@ var KanColleWidget = KanColleWidget || {};
         if(message.purpose == 'statusWindowPositionTracking'){
             shipsStatusRepo.set(message.params);
             return;
+        }
+        if(message.purpose == 'getStatusWindowPositionTracking'){
+            var stored = shipsStatusRepo.get();
+            return sendResponse(stored);
         }
 
         if(message.purpose == 'getConfig'){

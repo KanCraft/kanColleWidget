@@ -40,14 +40,14 @@ $(function(){
     $("#others").append(
         (new widgetPages.AuthTwitterView()).render(),
         (new widgetPages.TweetHashtagView()).render(),
-        (new widgetPages.EnableTwitterRemindView()).render(),
         (new widgetPages.SyncSaveTypeView()).render(),
         (new widgetPages.ClockmodeStyleView()).render(),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
-        (new widgetPages.HideAdressbarInSafemodeView()).render()
+        (new widgetPages.HideAdressbarInSafemodeView()).render(),
+        (new KCW.Pages.AllowThirdParty().render().$el)
     );
 
     $('input#auth-twitter').on('click', function(ev) {

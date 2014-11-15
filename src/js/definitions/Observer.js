@@ -57,11 +57,11 @@ var KanColleWidget = KanColleWidget || {};
     };
     Observer.prototype.updateBadgeContext = function(){
         switch (parseInt(Config.get('badge-style'))) {
-            case 1:
-                return this.updateBadgeByNearestEndTime();
-            case 2:
+            case 1:// 色付き
                 return this.updateBadgeByNearestEndTimeWithoutColorize();
-            case 3:
+            case 2:// 同色
+                return this.updateBadgeByNearestEndTime();
+            case 3:// 終了件数
                 return this.updateBadgeByUpToTimeEventsCount();
             default:
                 return this.updateBadgeByNearestEndTime();
@@ -73,11 +73,11 @@ var KanColleWidget = KanColleWidget || {};
     };
     Observer.prototype.updateBadgeByNearestEndTime = function() {
         if (! this.NearestEndEvent) return;
-        var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
-        badge.show();
+        Util.badge.leftTime(this.NearestEndEvent.getEndTime());
     };
     Observer.prototype.updateBadgeByNearestEndTimeWithoutColorize = function() {
         if (! this.NearestEndEvent) return;
-        Util.badge.leftTime(this.NearestEndEvent.getEndTime());
+        var badge = new KCW.ObsoleteBadgeManager(this.NearestEndEvent);
+        badge.show();
     };
 })();

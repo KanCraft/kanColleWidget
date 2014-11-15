@@ -91,7 +91,8 @@ var widgetPages = widgetPages || {};
                 identifier: this.identifier,
                 finish: Calc.convert2Epoch(inputs),
                 inputs: inputs,
-                reset: self.isResetAction(inputs)
+                reset: self.isResetAction(inputs),
+                trackingKey: this.modelName
             }
         }, function(res){
             window.close();
