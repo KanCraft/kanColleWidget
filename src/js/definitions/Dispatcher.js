@@ -43,6 +43,7 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_combined_battle/airbattle':
             case 'api_req_combined_battle/battle':
             case 'api_req_combined_battle/sp_midnight':
+            case 'api_req_combined_battle/battle_water':
                 this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
