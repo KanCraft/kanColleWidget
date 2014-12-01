@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2014/11/28 v1.5.5.5<!--version-->
+- 2014/12/02 v1.5.5.6<!--version-->
+    - 簡易疲労度メーターが艦隊を区別してないバグを修正
+- 2014/11/28 v1.5.5.5
     - 真っ白問題修正
     - バッジ色分けできてないの修正
     - クリスマス気分
