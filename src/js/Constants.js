@@ -1,11 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.5.5.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/482',
-        announceVersion : 102,
+        version: "v1.5.5.5",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/487',
+        announceVersion : 103,
         announcements   : [
-            '連合艦隊の大破進撃防止窓が消えない件の修正',
-            '設定下部の「組み合わせツール」のリンク修正'
+            '真っ白問題の修正',
+            'バッジ色分けできてないの修正',
+            'クリスマス気分'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

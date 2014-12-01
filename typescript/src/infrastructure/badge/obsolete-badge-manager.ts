@@ -17,7 +17,7 @@ module KCW {
             switch (kind) {
                 case EventKind.MissionFinish:
                     return "#0fabb1";
-                case EventKind.NyukoFinish:
+                case EventKind.NyukyoFinish:
                     return "#5b84ff";
                 case EventKind.CreateshipFinish:
                     return "#ff8e1b";
