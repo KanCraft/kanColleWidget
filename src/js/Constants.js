@@ -1,10 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.5.5.6",
+        version: "v1.5.5.7",
         link: 'https://github.com/otiai10/kanColleWidget/pull/488',
-        announceVersion : 104,
+        announceVersion : 105,
         announcements   : [
-            '簡易疲労度メーターが艦隊を区別してないバグを修正'
+            'クリスマス気分終了',
+            '提督のみなさん、よいお年を！',
+            '<span style="color:black;">「仕事納め」後も仕事が納まらなくて泣いてます...</span>'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
