@@ -1,13 +1,28 @@
-# セットアップ
-```sh
-npm install
-grunt boot
-bower install
-grunt build
+# 依存
+
+grunt-cli
+
+```
+npm install -g grunt-cli
 ```
 
-# デバッグ
+bower
+
+```
+npm install -g bower
+```
+
+# セットアップ
+
+```
+grunt boot
+```
+
+
+# デバッグパッケージのインストール
+
 `grunt build`コマンドで`build`ディレクトリが作られ、その配下に
+
 ```
 build
 ├── beta.kanColleWidget

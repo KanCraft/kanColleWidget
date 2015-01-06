@@ -10,8 +10,7 @@ module.exports = (grunt) =>
                 cmd: 'sh cli/build'
                 stdout: false
             boot:
-                cmd: 'sh cli/boot'
-                stdout: false
+                cmd: 'npm install; bower install; sh cli/boot'
         regarde:
             src:
                 files: [
