@@ -22,7 +22,7 @@ var KanColleWidget = KanColleWidget || {};
     };
 
     var Twitter = KanColleWidget.Twitter = function(){
-        this.baseUrl = "https://twitter.com/intent/tweet/update?";
+        this.baseUrl = "https://twitter.com/intent/tweet?";
     };
     Twitter.prototype = Object.create(Share.prototype);
     Twitter.prototype.constructor = Twitter;
