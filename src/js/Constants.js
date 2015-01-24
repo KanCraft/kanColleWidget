@@ -1,12 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.5.5.7",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/488',
-        announceVersion : 105,
+        version: "v1.5.5.8",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/492',
+        announceVersion : 106,
         announcements   : [
-            'クリスマス気分終了',
-            '提督のみなさん、よいお年を！',
-            '<span style="color:black;">「仕事納め」後も仕事が納まらなくて泣いてます...</span>'
+            '開発・建造報告のツイッター窓が出ないやつを修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
