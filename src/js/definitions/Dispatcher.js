@@ -130,7 +130,7 @@ var KanColleWidget = KanColleWidget || {};
         if (this.requestSequence[0] === 'api_req_nyukyo/start') {
             this.action.forNyukyoStartCompleted();
         }
-        if (this.requestSequence[2] === 'api_req_kousyou/createitem') {
+        if (this.requestSequence[0] === 'api_req_kousyou/createitem') {
             this.action.forKousyouCreateitemComplete();
         } else if (this.requestSequence[3] === 'api_req_nyukyo/start') {
             // this.action.forNyukyoStartCompleted();
