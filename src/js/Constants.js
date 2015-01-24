@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.5.5.8",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/492',
-        announceVersion : 106,
+        version: "v1.5.6",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/495',
+        announceVersion : 107,
         announcements   : [
-            '開発・建造報告のツイッター窓が出ないやつを修正'
+            '開発報告窓が出ないバグを修正',
+            '開発・建造レシピ検索機能を追加'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
