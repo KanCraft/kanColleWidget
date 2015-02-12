@@ -10,7 +10,7 @@ module KCW.Pages {
         }
         events(): Object {
             return {
-                'change input': 'checkboxChanged'
+                'change input[type=checkbox]': 'checkboxChanged'
             }
         }
         public checkboxChanged(ev: Event) {

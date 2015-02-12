@@ -69,4 +69,9 @@ module KCW.Infra {
             });
         }
     }
+
+    export function open(baseURL: string,params: any = {}, target: string = '_blank'): Window {
+        var builder: URL.Builder = new URL.Builder();
+        return window.open(baseURL + builder.encode(params), target);
+    }
 }

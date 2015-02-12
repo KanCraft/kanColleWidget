@@ -38,6 +38,7 @@ $(function(){
     );
 
     $("#others").append(
+        (new KCW.Pages.ReportCreateResult().render().$el),
         (new widgetPages.AuthTwitterView()).render(),
         (new widgetPages.TweetHashtagView()).render(),
         (new widgetPages.SyncSaveTypeView()).render(),

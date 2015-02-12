@@ -1,3 +1,4 @@
+/* global KCW:false */
 var KanColleWidget = KanColleWidget || {};
 (function(){
     "use strict";
@@ -55,7 +56,7 @@ var KanColleWidget = KanColleWidget || {};
         if (Object.keys(KanColleWidget.Stash.createShip[dockId]).length == 0) return;
 
         // 設定を見る
-        if (! Config.get("share-kousyo-result")) return;
+        if (! KCW.Config.local().get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
         var createshipParams = KanColleWidget.Stash.createShip[dockId];
@@ -128,7 +129,7 @@ var KanColleWidget = KanColleWidget || {};
     KousyouAction.prototype.forCreateitemComplete = function(){
         if (! KanColleWidget.Stash.createItem) return;
 
-        if (! Config.get("share-kousyo-result")) return;
+        if (! KCW.Config.local().get("share-kousyo-result")) return;
 
         var twitter = new KanColleWidget.Twitter();
         twitter.shareCreateItem(KanColleWidget.Stash.createItem);
