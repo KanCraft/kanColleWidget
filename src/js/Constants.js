@@ -230,6 +230,13 @@ var Constants = {
             require:[60, 4, {sm:4}],
             area: 3
         },
+        "32": {
+            minute:1440,
+            title: '遠洋練習航海',
+            reward: [100, 50,50,50,50],
+            require:[10, null, {}],
+            area: 3
+        },
         // 南方海域
         "33": {
             minute:15,
