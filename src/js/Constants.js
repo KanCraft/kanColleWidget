@@ -1,11 +1,17 @@
 var Constants = {
     release : {
-        version: "v1.5.6",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/495',
-        announceVersion : 107,
+        version: "v1.5.6.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/501',
+        announceVersion : 108,
         announcements   : [
-            '開発報告窓が出ないバグを修正',
-            '開発・建造レシピ検索機能を追加'
+            '簡易疲労回復メーターの表示を微調整 (thanks to xia)',
+            '新しく追加された「遠洋練習航海」に対応',
+            '複数PC同期設定に「ファイルは同期しない」オプションを追加',
+            'WHITEモードで2pxずれるらしいのでそれ修正',
+            '--------------',
+            'DMMの画面が2px変わったらしいので修正します',
+            'とうらぶとかでdemado使ってるひとは、設定から2px変えてください',
+            'なお、当方E4がクリアできません'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
