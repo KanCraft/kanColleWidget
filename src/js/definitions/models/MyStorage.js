@@ -26,8 +26,8 @@ MyStorage.sync = {
         }
         // {{{ ここで再度取るのマジでクソっぽい
         var saveType = new MyStorage().get('config')['sync-save-type'];
-        var configs = JSON.parse(storedData.config);
         if (saveType == 4) {
+            var configs = JSON.parse(storedData.config);
             for (var key in configs) {
                 if (key.match(/file$/)) {
                     delete configs[key];
