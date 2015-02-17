@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/02/16 v1.5.6.4 <!--version-->
+- 2015/02/17 v1.5.6.5 <!--version-->
+    - 同期設定で「ぜんぶ」以下の場合[save now]ボタンが効かなくなったバグを修正
+- 2015/02/16 v1.5.6.4
     - 簡易疲労回復メーターの表示を微調整 (thanks to xia)
     - 新しく追加された「遠洋練習航海」に対応
     - 複数PC同期設定に「ファイルは同期しない」オプションを追加

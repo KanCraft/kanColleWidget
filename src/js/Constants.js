@@ -1,13 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.5.6.4",
+        version: "v1.5.6.5",
         link: 'https://github.com/otiai10/kanColleWidget/pull/501',
-        announceVersion : 108,
+        announceVersion : 109,
         announcements   : [
             '簡易疲労回復メーターの表示を微調整 (thanks to xia)',
             '新しく追加された「遠洋練習航海」に対応',
             '複数PC同期設定に「ファイルは同期しない」オプションを追加',
             'WHITEモードで2pxずれるらしいのでそれ修正',
+            '--------------',
+            '同期設定で「ぜんぶ」以下の場合[save now]ボタンが効かなくなったバグを修正',
             '--------------',
             'DMMの画面が2px変わったらしいので修正します',
             'とうらぶとかでdemado使ってるひとは、設定から2px変えてください',
