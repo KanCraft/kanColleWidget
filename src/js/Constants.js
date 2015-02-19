@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.5.6.5",
+        version: "v1.5.6.6",
         link: 'https://github.com/otiai10/kanColleWidget/pull/501',
-        announceVersion : 109,
+        announceVersion : 110,
         announcements   : [
             '簡易疲労回復メーターの表示を微調整 (thanks to xia)',
             '新しく追加された「遠洋練習航海」に対応',
@@ -11,8 +11,8 @@ var Constants = {
             '--------------',
             '同期設定で「ぜんぶ」以下の場合[save now]ボタンが効かなくなったバグを修正',
             '--------------',
-            'DMMの画面が2px変わったらしいので修正します',
-            'とうらぶとかでdemado使ってるひとは、設定から2px変えてください',
+            '遠征早見表のレイアウト変更に対応',
+            '--------------',
             'なお、当方E4がクリアできません'
         ]
     },

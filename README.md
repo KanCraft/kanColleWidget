@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/02/17 v1.5.6.5 <!--version-->
+- 2015/02/19 v1.5.6.6 <!--version-->
+    - 遠征早見表のレイアウト変更に対応
+- 2015/02/17 v1.5.6.5
     - 同期設定で「ぜんぶ」以下の場合[save now]ボタンが効かなくなったバグを修正
 - 2015/02/16 v1.5.6.4
     - 簡易疲労回復メーターの表示を微調整 (thanks to xia)
