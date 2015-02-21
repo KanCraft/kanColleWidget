@@ -134,4 +134,33 @@ var KanColleWidget = KanColleWidget || {};
         var twitter = new KanColleWidget.Twitter();
         twitter.shareCreateItem(KanColleWidget.Stash.createItem);
     };
+
+    KousyouAction.prototype.forRemodelPreparation = function(){
+
+        if (window.KanColleWidget.muteQuestAlert) {
+            return this.recoverQuestAlert();
+        }
+
+        if (! Config.get("prevent-forgetting-quest")) return;
+        var checker = KanColleWidget.PreChecker;
+
+        // 改修工廠系任務が受諾可能でなければ改修工廠に行ってもアラートを出さない
+        // ID 直書きとか超ロック @see src/js/definitions/models/quests/Quests.js
+        var remodelQuestIDs = [619];
+        var questAvailables = checker.questAccessor.availables();
+        var remodelQuestAvalables = remodelQuestIDs.filter(function (v) {return questAvailables[v] != undefined});
+        if (remodelQuestAvalables.length == 0) return;
+
+        var questNotEmbarkedYet = checker['kousyouRemodelQuest'].check(remodelQuestAvalables);
+
+        if (! questNotEmbarkedYet) return;
+        var message = this.confirmMessage.replace('{{title}}', questNotEmbarkedYet.title);
+        Util.confirm(message, function(){
+            checker.ignore(questNotEmbarkedYet.id);
+        });
+    };
+
+    KousyouAction.prototype.forRemodelStart = function(){
+        this.achievements.update().incrementRemodelCount();
+    };
 })();

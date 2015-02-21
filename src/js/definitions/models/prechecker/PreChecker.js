@@ -43,8 +43,19 @@ var KanColleWidget = KanColleWidget || {};
                 return PreChecker._check('kousyou');
             }
         },
+        kousyouRemodelQuest : {
+            check : function(ids){
+                // 特定の任務だけを対象にチェックするやつ
+                for (var i in ids) {
+                    var quest = PreChecker.questAccessor.get("quests").map[ids[i]];
+                    var filtered = PreChecker._filterIgnoredAndEmbarked(quest);
+                    if (filtered != undefined && filtered.state != KanColleWidget.Quests.state.DONE) return filtered;
+                }
+                return;
+            }
+        },
         kaisouQuest : {
-            check : function(){
+            check : function(ids){
                 return PreChecker._check('kaisou');
             }
         },
@@ -96,7 +107,7 @@ var KanColleWidget = KanColleWidget || {};
             mission  : [402, 403],
             hokyu    : [503, 504],
             nyukyo   : [503],
-            kousyou  : [605,606,607,608,609],
+            kousyou  : [605,606,607,608,609,619],
             kaisou   : [702]
         },
         /**

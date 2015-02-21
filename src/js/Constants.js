@@ -424,6 +424,7 @@ var Constants = {
         'map_count'       : '出撃',
         'hokyu_count'     : '補給',
         'kaisou_count'    : '近改',
+        'remodel_count'   : '改工',
         'practice_count'  : '演習'
     },
 
