@@ -24,6 +24,18 @@ MyStorage.sync = {
             if (! localStorage[key]) continue;
             storedData[key] = localStorage[key];
         }
+        // {{{ ここで再度取るのマジでクソっぽい
+        var saveType = new MyStorage().get('config')['sync-save-type'];
+        if (saveType == 4) {
+            var configs = JSON.parse(storedData.config);
+            for (var key in configs) {
+                if (key.match(/file$/)) {
+                    delete configs[key];
+                }
+            }
+            storedData.config = JSON.stringify(configs);
+        }
+        // }}}
         // console.log('(๑˃̵ᴗ˂̵)و SAVE!', storedData);
         chrome.storage.sync.set(storedData, function(){
             // console.log('Sync saved');

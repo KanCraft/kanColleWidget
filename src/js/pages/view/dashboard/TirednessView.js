@@ -45,6 +45,7 @@ var widgetPages = widgetPages || {};
         if (! finishEpoch) return res;
 
         var diffMinute = (finishEpoch - Date.now()) / (1000 * 60);
+        if (diffMinute < 0) return res;
         var wholeMinutes = this.config.get("tiredness-recovery-minutes");
         res.width = Math.floor((diffMinute * 100)/wholeMinutes) + '%';
         if (diffMinute > (wholeMinutes*2)/3) {
@@ -52,7 +53,7 @@ var widgetPages = widgetPages || {};
         } else if (diffMinute > (wholeMinutes*1)/3) {
             res.color = 'yellow';
         }
-        res.message = Math.floor(diffMinute) + '分';
+        res.message = Math.ceil(diffMinute) + '分';
         return res;
     };
     TirednessView.prototype._time2Text = function(finishEpoch){

@@ -9,9 +9,10 @@ var widgetPages = widgetPages || {};
             {value:'0', title: '使わない'},
             {value:'1', title: 'タイマーだけ'},
             {value:'2', title: 'タイマーと任務進捗と実績とメモ'},
-            {value:'3', title: '設定・窓サイズ・窓位置などもぜんぶ'}
+            {value:'3', title: '設定・窓サイズ・窓位置などもぜんぶ'},
+            {value:'4', title: '基本全部なんだが、ただしアイコンや音声ファイルはのぞいてくれ'}
         ];
-        this.description = '艦これウィジェットに保存した遠征終了時刻などのデータを'
+        this.description = '<br>これウィジェットに保存した遠征終了時刻などのデータを'
                          + '複数PCのChromeブラウザで同期できるようにします。仕組みは'
                          + '<a href="http://developer.chrome.com/extensions/storage">ここ</a>'
                          + '見てください。なお、これを有効にすると、ウィジェット窓を閉じた時にセーブされ、'

@@ -1,11 +1,19 @@
 var Constants = {
     release : {
-        version: "v1.5.6",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/495',
-        announceVersion : 107,
+        version: "v1.5.6.6",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/501',
+        announceVersion : 110,
         announcements   : [
-            '開発報告窓が出ないバグを修正',
-            '開発・建造レシピ検索機能を追加'
+            '簡易疲労回復メーターの表示を微調整 (thanks to xia)',
+            '新しく追加された「遠洋練習航海」に対応',
+            '複数PC同期設定に「ファイルは同期しない」オプションを追加',
+            'WHITEモードで2pxずれるらしいのでそれ修正',
+            '--------------',
+            '同期設定で「ぜんぶ」以下の場合[save now]ボタンが効かなくなったバグを修正',
+            '--------------',
+            '遠征早見表のレイアウト変更に対応',
+            '--------------',
+            'なお、当方E4がクリアできません'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
@@ -228,6 +236,13 @@ var Constants = {
             title: '海外艦との接触',
             reward: [50, 0, 30, 0, 0],
             require:[60, 4, {sm:4}],
+            area: 3
+        },
+        "32": {
+            minute:1440,
+            title: '遠洋練習航海',
+            reward: [100, 50,50,50,50],
+            require:[10, null, {}],
             area: 3
         },
         // 南方海域
