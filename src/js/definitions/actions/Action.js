@@ -67,6 +67,12 @@ var KanColleWidget = KanColleWidget || {};
     Action.prototype.forKousyouPreparation = function(){
         this.kousyouAction.forPreparation();
     };
+    Action.prototype.forKousyouRemodelPreparation = function(){
+        this.kousyouAction.forRemodelPreparation();
+    };
+    Action.prototype.forKousyouRemodelStart = function(){
+        this.kousyouAction.forRemodelStart();
+    };
     Action.prototype.forNyukyoStart = function(params){
         this.nyukyoAction.forStart(params);
     };

@@ -28,6 +28,7 @@ var KanColleWidget = KanColleWidget || {};
                     hokyu_count     : 0,
                     kaisou_count    : 0,
                     nyukyo_count    : 0,
+                    remodel_count   : 0,
                     createitem_count: 0,
                     destroyitem_count:0,
                     createship_count: 0
@@ -42,6 +43,7 @@ var KanColleWidget = KanColleWidget || {};
                     hokyu_count     : 0,
                     kaisou_count    : 0,
                     nyukyo_count    : 0,
+                    remodel_count   : 0,
                     createitem_count: 0,
                     destroyitem_count:0,
                     createship_count: 0
@@ -121,6 +123,7 @@ var KanColleWidget = KanColleWidget || {};
     Achievements.prototype.incrementCreateitemCount = function(){
         return this._incrementByKey('createitem_count');
     }
+
     /**
      * @returns this
      */
@@ -128,10 +131,19 @@ var KanColleWidget = KanColleWidget || {};
         return this._incrementByKey('destroyitem_count');
     }
 
-
+    /**
+     * @returns this
+     */
     Achievements.prototype.incrementNyukyoCount = function(){
         return this._incrementByKey('nyukyo_count');
     };
+
+    /**
+     * @returns this
+     */
+    Achievements.prototype.incrementRemodelCount = function(){
+        return this._incrementByKey('remodel_count');
+    }
 
     /**
      * @param key
