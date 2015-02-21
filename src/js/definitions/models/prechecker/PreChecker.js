@@ -55,7 +55,7 @@ var KanColleWidget = KanColleWidget || {};
             }
         },
         kaisouQuest : {
-            check : function(ids){
+            check : function(){
                 return PreChecker._check('kaisou');
             }
         },
