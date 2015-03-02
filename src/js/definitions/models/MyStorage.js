@@ -129,7 +129,7 @@ MyStorage.prototype.tearDown = function(){
         'notification-offset-millisec'       : 60*1000,//デフォルトでは1分前
         'enable-screen-shot'                 : false,
         'capture-destination-size'           : true, // とりあえず今はbool
-        'capture-image-format'               : 'jpeg',
+        'capture-image-format'               : 'png',
         'capture-image-filename-prefix'      : 'kancolle',
         'capture-image-download-dir'         : '艦これ',
         'launch-on-click-notification'       : true,

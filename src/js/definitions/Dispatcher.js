@@ -69,6 +69,12 @@ var KanColleWidget = KanColleWidget || {};
             case 'api_req_kousyou/getship':
                 this.action.forKousyouGetship(this.params);
                 break;
+            case 'api_req_kousyou/remodel_slotlist':
+                this.action.forKousyouRemodelPreparation();
+                break;
+            case 'api_req_kousyou/remodel_slot':
+                this.action.forKousyouRemodelStart();
+                break;
             case 'api_req_nyukyo/start':
                 this.action.forNyukyoStart(this.params);
                 break;

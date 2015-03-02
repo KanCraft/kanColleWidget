@@ -224,16 +224,17 @@ var KanColleWidget = KanColleWidget || {};
             // 補給・入渠 計2
             503 : { title : "艦隊大整備！",                   id : 503, required : null, state : Quests.state.YET, type : "_always" },
             504 : { title : "艦隊酒保祭り！",                 id : 504, required : 503,  state : Quests.state.YET, type : "_always" },
-            // 工廠 計5
+            // 工廠 計6
             605 : { title : "新装備「開発」指令",             id : 605, required : null, state : Quests.state.YET, type : "_always" },
             606 : { title : "新造艦「建造」指令",             id : 606, required : 605,  state : Quests.state.YET, type : "_always" },
             607 : { title : "装備「開発」集中強化！",         id : 607, required : 606,  state : Quests.state.YET, type : "_always" },
             608 : { title : "艦娘「建造」艦隊強化！",         id : 608, required : 607,  state : Quests.state.YET, type : "_always" },
             609 : { title : "軍縮条約対応！",                 id : 609, required : 608,  state : Quests.state.YET, type : "_always" },
+            619 : { title : "装備の改修強化",                 id : 619, required : 608,  state : Quests.state.YET, type : "_always" },
             // 改装 計1
             702 : { title : "艦の「近代化改修」を実施せよ！", id : 702, required : null, state : Quests.state.YET, type : "_always" }
 
-            // 合計 20
+            // 合計 21
         }
     };
 })();
