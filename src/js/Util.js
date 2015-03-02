@@ -255,9 +255,11 @@ var Util = Util || {};
                 var w = windows[i];
                 if(!w.tabs || w.tabs.length < 1) continue;
 
-                var url = w.tabs[0].url;
-                if(Util._isWidgetURL(url) || Util._isDMMURL(url)) {
-                    return isCallback(w);
+                for (var j = 0; j < w.tabs.length; j++) {
+                    var url = w.tabs[j].url;
+                    if (Util._isWidgetURL(url) || Util._isDMMURL(url)) {
+                        return isCallback(w);
+                    }
                 }
             }
             return notCallback();
