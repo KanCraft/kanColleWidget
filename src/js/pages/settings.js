@@ -34,6 +34,7 @@ $(function(){
         (new widgetPages.CaptureFilenamePrefixView()).render(),
         (new widgetPages.DownloadDirectoryView()).render(),
         (new widgetPages.DisplayMaintenanceInfoView()).render(),
+        (new widgetPages.PopupTitleView()).render(),
         widgetPages.ImageFileSelectView.ofPopupBackground().render()
     );
 
