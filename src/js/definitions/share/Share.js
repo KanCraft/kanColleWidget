@@ -27,7 +27,7 @@ var KanColleWidget = KanColleWidget || {};
     Twitter.prototype = Object.create(Share.prototype);
     Twitter.prototype.constructor = Twitter;
     Twitter.prototype.shareCreateItem = function(params){
-        var tweet_body = "[開発報告] #kancolle_item\n";
+        var tweet_body = this.getMentionPrefix() + "[開発報告] #kancolle_item\n";
         tweet_body += "資材 => " + params.api_item1[0] + "/" + params.api_item2[0] + "/" + params.api_item3[0] + "/" + params.api_item4[0] + "\n";
         tweet_body += "結果 => ";
         this.url = this.baseUrl + "text=" + encodeURIComponent(tweet_body);
@@ -42,11 +42,20 @@ var KanColleWidget = KanColleWidget || {};
             item5 = ' +' + params.api_item5[0];
             optionalTag = ' #kancolle_ship_large';
         }
-        var tweet_body = "[" + flag + "建造報告] #kancolle_ship" + optionalTag + "\n";
+        var tweet_body = this.getMentionPrefix() + "[" + flag + "建造報告] #kancolle_ship" + optionalTag + "\n";
         tweet_body += "資材 => " + params.api_item1[0] + "/" + params.api_item2[0] + "/" + params.api_item3[0] + "/" + params.api_item4[0] + item5 + "\n";
         tweet_body += "結果 => ";
         this.url = this.baseUrl + "text=" + encodeURIComponent(tweet_body);
         return this.share();
     };
-
+    /**
+     * 設定見て、@KanColle_Report+改行 を返す
+     * @returns {string}
+     */
+    Twitter.prototype.getMentionPrefix = function() {
+        if (KCW.Config.local().get('report-mention-prefix') == true) {
+            return "@KanColle_REPORT\n";
+        }
+        return ''
+    }
 })();

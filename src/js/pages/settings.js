@@ -40,6 +40,7 @@ $(function(){
 
     $("#others").append(
         (new KCW.Pages.ReportCreateResult().render().$el),
+        (new KCW.Pages.ReportMentionPrefix().render().$el),
         (new widgetPages.AuthTwitterView()).render(),
         (new widgetPages.TweetHashtagView()).render(),
         (new widgetPages.SyncSaveTypeView()).render(),

@@ -139,7 +139,6 @@ MyStorage.prototype.tearDown = function(){
         'enable-mission-reminder'            : true,
         'dynamic-reminder-type'              : 0,
         'allow-ocr-result-log'               : false,
-        'share-kousyo-result'                : false,// 建造・開発報告窓
         'tiredness-recovery-minutes'         : 0,
         'prevent-forgetting-quest'           : true,
         'display-maintenance-info'           : false,

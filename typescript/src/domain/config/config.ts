@@ -5,6 +5,8 @@ module KCW {
         constructor(private impl: Storage = window.localStorage) {
         }
         private static defaultValues: Object = {
+            'share-kousyo-result': false,
+            'report-mention-prefix': true,
             'allow-third-party': false
         };
         public static local(): Config {
