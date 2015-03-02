@@ -387,6 +387,10 @@ var Constants = {
             '400' : {
                 zoom : '0.5',
                 mode : 'xs'
+            },
+            '200': {
+                zoom : '0.25',
+                mode : 'minimum'
             }
         },
         aspect : 0.6

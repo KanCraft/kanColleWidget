@@ -15,39 +15,14 @@
           <!-- div class="pull-right clickable" id="hide-launch">x</div -->
           <div id="config">
               <div class="content">
-                  <table>
-                      <tbody>
-                          <tr>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-l" class="mode-select" type="radio" name="mode" value="l"><span>大型</span>
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-m" class="mode-select" type="radio" name="mode" value="m"><span>中型</span>
-                                  </div>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-s" class="mode-select" type="radio" name="mode" value="s"><span>小型</span>
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-xs" class="mode-select" type="radio" name="mode" value="xs"><span>極小型</span>
-                                  </div>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td colspan="2">
-	                              <button id="launch" tabindex="2">LAUNCH APP</button>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
+                  <select name="mode" style="font-size: large;font-weight: bold">
+                      <option value="l">大型</option>
+                      <option value="m">中型</option>
+                      <option value="s">小型</option>
+                      <option value="xs">極小型</option>
+                      <option value="minimum">豆</option>
+                  </select>
+                  <button id="launch" tabindex="2">LAUNCH APP</button>
               </div>
           </div>
         </div>

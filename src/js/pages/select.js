@@ -46,12 +46,8 @@ function _toggleArea(e, sw){
 }
 /* void */function affectTracking(){
     var trackedMode = Tracking.get('mode');
-    var inputs = document.getElementsByClassName('mode-select');
-    for(var i=0;i<inputs.length;i++){
-        inputs[i].checked = false;
-    }
-    var input = document.getElementById('mode-' + trackedMode);
-    input.checked = true;
+    var tgt = $('select[name=mode]>option[value='+ trackedMode +']');
+    if (tgt.length != 0) tgt.attr('selected', true);
 }
 /* void */function prepareForScreenShot(){
     Util.ifThereIsAlreadyKCWidgetWindow(function(widgetWindow){
@@ -105,7 +101,7 @@ function _toggleArea(e, sw){
         $('#old-launch').hide();
     });
     $('#launch').on('click', function(){
-        var mode = $('input:radio[name="mode"]:checked').val();
+        var mode = $('select[name=mode]').val();
         Tracking.set('mode',mode);
         Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
             if(typeof widgetWindow != 'undefined'){
