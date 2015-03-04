@@ -7,6 +7,7 @@ module KCW {
         private static defaultValues: Object = {
             'share-kousyo-result': false,
             'report-mention-prefix': true,
+            'dashboard-type': 0,
             'allow-third-party': false
         };
         public static local(): Config {

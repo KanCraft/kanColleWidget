@@ -22,13 +22,25 @@ module KCW.Infra {
          * window.openまでうけもつ
          * @returns {Window}
          */
-        public open(): Window {
+        public openDefault(): Window {
             return window.open(this.url, this.target, this.encodeQuery());
         }
+        public openPanel(cb: (any) => any) {
+            chrome.windows.create({
+                url: this.url,
+                width: this.size.width,
+                height: this.size.height + 60,// タイトルバーの部分だと思う
+                type: 'panel'
+            }, (win) => {
+                cb(win);
+            });
+        }
         private encodeQuery(): string {
+            var builder = new URL.Builder(",", "");
             return [
                 this.position.encodeQuery(),
-                this.size.encodeQuery()
+                this.size.encodeQuery(),
+                builder.encode(this.options)
             ].join(",");
         }
 
@@ -59,8 +71,8 @@ module KCW.Infra {
         }
     }
     export class WindowSize {
-        constructor(private width: number,
-                    private height: number,
+        constructor(public width: number,
+                    public height: number,
                     private builder: URL.Builder = new URL.Builder(",","")) {}
         public encodeQuery(): string {
             return this.builder.encode({

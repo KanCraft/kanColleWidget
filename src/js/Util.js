@@ -732,20 +732,22 @@ var Util = Util || {};
     };
 
     Util.openDashboard = function(){
-        // TODO: PageManagerみたいなの作って、chrome.windows使う
+
         var dashboard = Tracking.get('dashboard');
         var width = dashboard.size.innerWidth || 420; 
         var height = dashboard.size.innerHeight || 245;
-        var options = [
-            'width=' + width,
-            'height='+ height,
-            'left='  + dashboard.position.left,
-            'top='   + dashboard.position.top
-        ];
-        var fixedOptions = ',location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no';
-        var optionStr = options.join(',') + fixedOptions;
-        var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", optionStr);
-        Util.adjustSizeOfWindowsOS(dashboardWindow);
+        var left = dashboard.position.left;
+        var top = dashboard.position.top;
+
+        var w = new KCW.DashboardWindow(width,height,left,top);
+        w.open(function(win){
+            if (win.resizeTo) {
+                Util.adjustSizeOfWindowsOS(dashboardWindow);
+            } else {
+                window.close();
+            }
+        });
+
     };
 
     Util.openSafeMode = function(){

@@ -45,6 +45,7 @@ $(function(){
         (new widgetPages.TweetHashtagView()).render(),
         (new widgetPages.SyncSaveTypeView()).render(),
         (new widgetPages.ClockmodeStyleView()).render(),
+        (new KCW.Pages.DashboardType().render().$el),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
