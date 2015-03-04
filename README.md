@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/03/03 v1.5.8 <!--version-->
+- 2015/03/04 v1.5.9 <!--version-->
+    - クロックモードを最前面に固定する設定を追加
+- 2015/03/03 v1.5.8
     -「豆サイズ」を追加
     - WHITEモード時にスクショボタン出ないバグを修正
     - スクショボタンで誤クリックしやすいのちょっと改善

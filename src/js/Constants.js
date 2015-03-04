@@ -1,8 +1,8 @@
 var Constants = {
     release : {
-        version: "v1.5.8",
+        version: "v1.5.9",
         link: 'https://github.com/otiai10/kanColleWidget/pull/513',
-        announceVersion : 112,
+        announceVersion : 113,
         announcements   : [
             '「豆サイズ」を追加',
             'WHITEモード時にスクショボタン出ないバグを修正',
@@ -10,6 +10,8 @@ var Constants = {
             '設定されてる「仕事しろ」が設定画面で見えないバグを修正',
             '改修工廠早見表を追加',
             '開発・建造報告ツイートに@をつける設定を追加',
+            '----------',
+            'クロックモードを最前面に固定する設定を追加',
             '----------',
             '開発・建造報告ツイートでTLが汚れないように、デフォで@KanColle_REPORTへのメンションにします。あえてメンションにしたくない場合は、設定からチェックをはずしてください'
         ]
