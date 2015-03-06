@@ -742,7 +742,7 @@ var Util = Util || {};
         var w = new KCW.DashboardWindow(width,height,left,top);
         w.open(function(win){
             if (win.resizeTo) {
-                Util.adjustSizeOfWindowsOS(dashboardWindow);
+                Util.adjustSizeOfWindowsOS(win);
             } else {
                 window.close();
             }
