@@ -5,11 +5,19 @@
   <link rel="stylesheet" href="../css/mission-info.css" />
   <script type="text/javascript" src="../js/jquery.min.js"></script>
   <script type="text/javascript" src="../js/pages/mission-info.js"></script>
-  <title>遠征早見表</title>
+  <title>遠征・改修早見表</title>
 </head>
 <body>
   <div class="header">
     Thanks to <a href="http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC" target="_blank">艦これwiki</a>
+  </div>
+  <div class="tab-container box">
+    <div class="tab-select selected" data-target="mission-info">遠征</div>
+    <div class="tab-select" data-target="kousyo-info">改修</div>
+  </div>
+  <div class="contents-container">
+    <div class="contents selected" id="mission-info"></div>
+    <div class="contents" id="kousyo-info"></div>
   </div>
 </body>
 </html>

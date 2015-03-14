@@ -5,49 +5,25 @@
 </head>
 <body>
     <div id="main">
-        <h2 id="popup-select-title">提督 仕事しろ</h2>
+        <h2>
+            <span id="popup-select-title">提督 仕事しろ</span>
+            <input id="screen-shot"  name="screen-shot" type="submit" value="" tabindex="1"/>
+        </h2>
+        <br><!-- めんどくせえからbrでいいや。だれかこの面のcss整備してくれー -->
         <button id="launch-safely" class="clickable">LAUNCH WHITE</button><span class="description">中型のみ</span>
         <br>
-        <div>
-	      <input id="screen-shot"  name="screen-shot" type="submit" value="" tabindex="1"/>
-        </div>
         <div id="old-launch" class="bordered" style="display:none;">
           <!-- div class="pull-right clickable" id="hide-launch">x</div -->
           <div id="config">
               <div class="content">
-                  <table>
-                      <tbody>
-                          <tr>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-l" class="mode-select" type="radio" name="mode" value="l"><span>大型</span>
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-m" class="mode-select" type="radio" name="mode" value="m"><span>中型</span>
-                                  </div>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-s" class="mode-select" type="radio" name="mode" value="s"><span>小型</span>
-                                  </div>
-                              </td>
-                              <td>
-                                  <div class="select">
-                                      <input id="mode-xs" class="mode-select" type="radio" name="mode" value="xs"><span>極小型</span>
-                                  </div>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td colspan="2">
-	                              <button id="launch" tabindex="2">LAUNCH APP</button>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
+                  <select name="mode" style="font-size: large;font-weight: bold">
+                      <option value="l">大型</option>
+                      <option value="m">中型</option>
+                      <option value="s">小型</option>
+                      <option value="xs">極小型</option>
+                      <option value="minimum">豆</option>
+                  </select>
+                  <button id="launch" tabindex="2">LAUNCH APP</button>
               </div>
           </div>
         </div>
@@ -115,6 +91,8 @@
     <script type="text/javascript" src="../js/pages/view/dashboard/TimersMissionView.js"></script>
     <script type="text/javascript" src="../js/pages/view/dashboard/TimersNyukyoView.js"></script>
     <script type="text/javascript" src="../js/pages/view/dashboard/TimersCreateshipView.js"></script>
+
+    <script type="text/javascript" src="../js/app.js"></script>
 
     <script type="text/javascript" src="../js/pages/select.js"></script>
 </body>

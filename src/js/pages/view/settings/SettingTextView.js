@@ -33,6 +33,7 @@ var widgetPages = widgetPages || {};
             'class'      : this.inputName,
             'name'       : this.inputName,
             'value'      : this.config.get(this.inputName),
+            'size'       : this.size || '',
             'placeholder': this.placeholder
         });
 

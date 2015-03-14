@@ -255,9 +255,11 @@ var Util = Util || {};
                 var w = windows[i];
                 if(!w.tabs || w.tabs.length < 1) continue;
 
-                var url = w.tabs[0].url;
-                if(Util._isWidgetURL(url) || Util._isDMMURL(url)) {
-                    return isCallback(w);
+                for (var j = 0; j < w.tabs.length; j++) {
+                    var url = w.tabs[j].url;
+                    if (Util._isWidgetURL(url) || Util._isDMMURL(url)) {
+                        return isCallback(w);
+                    }
                 }
             }
             return notCallback();
@@ -730,20 +732,22 @@ var Util = Util || {};
     };
 
     Util.openDashboard = function(){
-        // TODO: PageManagerみたいなの作って、chrome.windows使う
+
         var dashboard = Tracking.get('dashboard');
         var width = dashboard.size.innerWidth || 420; 
         var height = dashboard.size.innerHeight || 245;
-        var options = [
-            'width=' + width,
-            'height='+ height,
-            'left='  + dashboard.position.left,
-            'top='   + dashboard.position.top
-        ];
-        var fixedOptions = ',location=no,toolbar=no,menubar=no,status=no,scrollbars=no,resizable=no';
-        var optionStr = options.join(',') + fixedOptions;
-        var dashboardWindow = window.open(chrome.extension.getURL('/') + 'src/html/dashboard.html', "_blank", optionStr);
-        Util.adjustSizeOfWindowsOS(dashboardWindow);
+        var left = dashboard.position.left;
+        var top = dashboard.position.top;
+
+        var w = new KCW.DashboardWindow(width,height,left,top);
+        w.open(function(win){
+            if (win.resizeTo) {
+                Util.adjustSizeOfWindowsOS(win);
+            } else {
+                window.close();
+            }
+        });
+
     };
 
     Util.openSafeMode = function(){

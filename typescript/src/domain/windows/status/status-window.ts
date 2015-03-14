@@ -24,7 +24,7 @@ module KCW {
                     imgURI = ShipsStatusWindow.trim(imgURI);
                     var params: WinMakeParams = ShipsStatusWindowRepository.local().restore();
                     var win = new this(params, imgURI);
-                    win.instance = win.open();
+                    win.instance = win.openDefault();
                     win.register();
                 });
             });

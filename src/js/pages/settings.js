@@ -34,15 +34,18 @@ $(function(){
         (new widgetPages.CaptureFilenamePrefixView()).render(),
         (new widgetPages.DownloadDirectoryView()).render(),
         (new widgetPages.DisplayMaintenanceInfoView()).render(),
+        (new widgetPages.PopupTitleView()).render(),
         widgetPages.ImageFileSelectView.ofPopupBackground().render()
     );
 
     $("#others").append(
         (new KCW.Pages.ReportCreateResult().render().$el),
+        (new KCW.Pages.ReportMentionPrefix().render().$el),
         (new widgetPages.AuthTwitterView()).render(),
         (new widgetPages.TweetHashtagView()).render(),
         (new widgetPages.SyncSaveTypeView()).render(),
         (new widgetPages.ClockmodeStyleView()).render(),
+        (new KCW.Pages.DashboardType().render().$el),
         (new widgetPages.ShowShipsStatusView()).render(),
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
