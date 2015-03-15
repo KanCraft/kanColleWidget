@@ -2,7 +2,7 @@
     "use strict";
     // あーめんどくせ
     $.get('http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC',function(res){
-        var HAYAMIHYO_table = 14;
+        var HAYAMIHYO_table = 15;
         var table = $(res).find('table')[HAYAMIHYO_table];
         $('#mission-info').append(table);
         $('tr', table).hover(function(ev){
