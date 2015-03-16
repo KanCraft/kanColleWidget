@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.5.10",
+        version: "v1.5.10.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/518',
-        announceVersion : 115,
+        announceVersion : 116,
         announcements   : [
             '出撃の任務着手忘れ防止機能が効いてないバグを修正',
+            '遠征早見表がへんだったのを修正',
             '遠征早見表がへんだったのを修正',
             '--------',
             '艦これwikiに感謝'
