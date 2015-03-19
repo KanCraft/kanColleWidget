@@ -1,14 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.5.10.1",
+        version: "v1.5.10.3",
         link: 'https://github.com/otiai10/kanColleWidget/pull/518',
-        announceVersion : 116,
+        announceVersion : 119,
         announcements   : [
-            '出撃の任務着手忘れ防止機能が効いてないバグを修正',
-            '遠征早見表がへんだったのを修正',
-            '遠征早見表がへんだったのを修正',
-            '--------',
-            '艦これwikiに感謝'
+            'wikiが変わっても早見表変わらないように修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
