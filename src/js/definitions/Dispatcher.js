@@ -146,7 +146,7 @@ var KanColleWidget = KanColleWidget || {};
             this.action.forKousyouCreateshipCompleted();
         } else if (this.requestSequence[0] === 'api_get_member/practice') {
             this.action.forPracticePreparation();
-        } else if (this.requestSequence[0] === 'api_get_master/mapinfo') {
+        } else if (this.requestSequence[0] === 'api_get_member/mapinfo') {
             this.action.forMapPreparation();
         } else if (this.requestSequence[0] === 'api_get_master/mission') {
             this.action.forMissionPreparation();
