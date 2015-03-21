@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- This is sample application using "showv" framework. -->
+<html>
+<head>
+    <title>Showv - The simplest view framework for TypeScript</title>
+    <!-- design -->
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="sample/showv.png">
+    <link rel="stylesheet" href="sample/css/reset.css">
+    <link rel="stylesheet" href="sample/css/showv.css">
+    <link rel="stylesheet" href="sample/lib/prettify.css">
+    <script src="sample/lib/prettify.js"></script>
+    <!-- /design -->
+
+    <!-- dependency -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <!-- showv build -->
+    <script type="text/javascript" src="build/showv.js"></script>
+    <!-- application js -->
+    <script type="text/javascript" src="sample/sample.js"></script>
+    <script>
+        $(function(){
+            setTimeout(prettyPrint, 0);
+            $('body').append(
+                new Sample.WrapperView().render().$el
+            );
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
