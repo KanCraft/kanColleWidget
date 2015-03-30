@@ -770,8 +770,6 @@ var Util = Util || {};
     };
 
     Util.haveNewUpdate = function(){
-        // エイプリルフール対応
-        if (Util.isSpecialTerm()) return true;
         return Constants.release.announceVersion > Config.get("announce-already-read");
     };
     Util.getTweetServerURL = function(){
