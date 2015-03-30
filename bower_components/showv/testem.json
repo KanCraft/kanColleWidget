@@ -1,0 +1,16 @@
+{
+    "framework" : "mocha+chai",
+    "before_tests" : "grunt test",
+    "src_files" : [
+        "src/**/*.ts",
+        "test/**/*.ts"
+    ],
+    "serve_files" : [
+        "bower_components/jquery/jquery.js",
+        "build/showv.js",
+        "compiled/test/**/*.js"
+    ],
+    "launch_in_ci": [
+        "PhantomJS"
+    ]
+}

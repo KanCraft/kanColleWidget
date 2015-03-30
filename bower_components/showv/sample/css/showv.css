@@ -1,0 +1,35 @@
+/**
+ * main css for showv sample
+ */
+.linky, .linky:visited, .linky:focus {
+    color:           #000;
+    outline:         none;
+    position:    relative;
+    text-decoration: none;
+}
+.linky:hover {
+    color: #aaa;
+}
+.linky:hover:before {
+    content: "∽";
+    position: absolute;
+    top:    0;
+    left: -20px;
+}
+
+#wrapper {
+    width:       80%;
+    min-width: 680px;
+    margin:   0 auto;
+    padding-left:  90px;
+    padding-right: 90px;
+    padding-top:   20px;
+}
+h1 {
+    margin:   30px 0;
+}
+h1>span {
+    font-style: italic;
+    font-size:   0.8em;
+    color:        #aaa;
+}
