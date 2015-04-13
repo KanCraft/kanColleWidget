@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/04/08 v1.5.12 <!--version-->
+- 2015/04/14 v1.5.14 <!--version-->
+    - ポップアップ中のresetボタン、loadボタンを削除
+- 2015/04/08 v1.5.12
     - 運営電文にAmazonのプロモツイートが混じってたので運営アカウント以外をフィルターするようにしました
 - 2015/03/31 v1.5.11
     - エイプリルフールネタを仕込んだ

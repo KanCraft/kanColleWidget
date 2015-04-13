@@ -1,11 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.5.12",
+        version: "v1.5.14",
         link: 'https://github.com/otiai10/kanColleWidget/pull/525',
-        announceVersion : 122,
+        announceVersion : 123,
         announcements   : [
-            "運営電文にAmazonのプロモツイートが混じってたので運営アカウント以外をフィルターするようにしました",
-            "（twitterのウェブページを取ってきてるだけだったので混じっちゃった）"
+            "以前から「押し間違いが多い」と評判がよくなかったボタンたちをポップアップから消し去りました",
+            "要望あったら教えてください"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
