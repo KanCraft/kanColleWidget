@@ -1,13 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.5.15",
+        version: "v1.5.15.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/525',
-        announceVersion : 124,
+        announceVersion : 125,
         announcements   : [
             "以前から「押し間違いが多い」と評判がよくなかったボタンたちをポップアップから消し去りました",
             "要望あったら教えてください",
             "--------------------------",
-            "消したのが評判よくなかったので、「load」ボタンは復活させました"
+            "消したのが評判よくなかったので、「load」ボタンは復活させました",
+            "--------------------------",
+            "WHITEモードのDMMずれ対応"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

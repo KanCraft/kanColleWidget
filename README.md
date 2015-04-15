@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/04/14 v1.5.14,v1.5.15 <!--version-->
+- 2015/04/15 v1.5.15.1 <!--version-->
+    - WHITEモードのズレを修正
+- 2015/04/14 v1.5.14,v1.5.15
     - ポップアップ中のresetボタン、loadボタンを削除
     - ポップアップのloadボタンはふっかつ
 - 2015/04/08 v1.5.12
