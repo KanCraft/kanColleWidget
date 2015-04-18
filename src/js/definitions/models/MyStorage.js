@@ -161,7 +161,8 @@ MyStorage.prototype.tearDown = function(){
         'enable-twitter-remind-createship'   : false,// Obsolete!!
         'enable-twitter-remind-confirm'      : false,// Obsolete!!
         'event-flag'                         : 0,// エイプリルフールとかを管理するやつ
-        'sort-by-finishtime'                 : false
+        'sort-by-finishtime'                 : false,
+        'ask-before-window-close'            : false
     },
 
     /* public: dict */repair : function(){
