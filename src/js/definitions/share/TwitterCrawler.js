@@ -40,6 +40,11 @@ var KanColleWidget = KanColleWidget || {};
             var pickupContent = 'p.ProfileTweet-text';
             var $elements = $.map($(res).find(iterateForEach), function(li){
                 $(li).find('.js-relative-timestamp').remove();
+                var userID = $(li).find('a.ProfileTweet-originalAuthorLink').attr('data-user-id');
+                if (userID != 294025417) {
+                    console.log("FILTER THIS", userID);
+                    return;
+                }
                 var $el = $('<div></div>').addClass('stream-item').append(
                      $(li).find(pickupHeader),
                      $(li).find(pickupContent)

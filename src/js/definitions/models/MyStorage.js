@@ -160,7 +160,9 @@ MyStorage.prototype.tearDown = function(){
         'enable-twitter-remind-nyukyo'       : false,// Obsolete!!
         'enable-twitter-remind-createship'   : false,// Obsolete!!
         'enable-twitter-remind-confirm'      : false,// Obsolete!!
-        'sort-by-finishtime'                 : false
+        'event-flag'                         : 0,// エイプリルフールとかを管理するやつ
+        'sort-by-finishtime'                 : false,
+        'ask-before-window-close'            : false
     },
 
     /* public: dict */repair : function(){

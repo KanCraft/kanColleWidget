@@ -51,6 +51,7 @@ $(function(){
         (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
         (new widgetPages.HideAdressbarInSafemodeView()).render(),
+        (new widgetPages.AskBeforeWindowCloseView()).render(),
         (new KCW.Pages.AllowThirdParty().render().$el)
     );
 

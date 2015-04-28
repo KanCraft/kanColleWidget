@@ -6,13 +6,23 @@ $(function(){
         });
         $('body').animate({
             'top'     : '-77px',
-            'left'    : '-70px'
+            'left'    : '-110px'
         },500);
     },500);
 
 
     // リサイズ
     chrome.runtime.sendMessage({purpose:'resizeWindowAtWhite'});
+
+    // ウィンドウを閉じる前に確認が必要なら beforeunload を設定
+    chrome.runtime.sendMessage(null, {
+        purpose: 'getConfig',
+        configKey: 'ask-before-window-close'
+    }, function (doAsk) {
+        if (doAsk) {
+            $(window).on('beforeunload', function () {return window.document.title});
+        }
+    });
 
     // キーバインド登録
     /* {{{ ここはmanifest.jsonでどうにかなるんだってさ

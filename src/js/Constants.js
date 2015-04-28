@@ -1,11 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.5.10.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/523',
-        announceVersion : 120,
+        version: "v1.5.16",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/525',
+        announceVersion : 127,
         announcements   : [
-            "設定画面の[報告系・その他]が出てないバグを修正",
-            "[サーバ] OCRサーバの挙動安定化"
+            "ウィンドウを閉じる前に確認を出す設定を追加"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
