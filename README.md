@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/04/18 v1.5.16 <!--version-->
+- 2015/04/29 v1.5.17 <!--version-->
+    - WHITEモードで下に1px余白あるの修正
+- 2015/04/18 v1.5.16
     - ウィンドウを閉じる前に確認を出す設定を追加
 - 2015/04/16 v1.5.15.2
     - オリジナル窓のoffsetも修正

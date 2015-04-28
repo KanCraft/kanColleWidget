@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.5.16",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/525',
-        announceVersion : 127,
+        version: "v1.5.17",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/529',
+        announceVersion : 128,
         announcements   : [
-            "ウィンドウを閉じる前に確認を出す設定を追加"
+            "WHITEモードで下に1px余白あるの修正",
+            "イベント進捗どうですか？"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
