@@ -158,6 +158,10 @@ var KanColleWidget = KanColleWidget || {};
             return;
         }
 
+        if (message.purpose == 'onClick') {
+            KCW.onClickForCombinedShipsStatus();
+        }
+
         if( message.winId == undefined ) return;
 
         Util.openCapturedPage(message.winId);

@@ -68,6 +68,10 @@ $(function() {
         $embedElement.css('top', '50%');
         $embedElement.css('left', '50%');
 
+        // 第二艦隊状態表示のための準備
+        // http://stackoverflow.com/a/4180324/1368868
+        $embedElement.attr('wmode', 'transparent');
+
         /**
          * ウィンドウがリサイズされた時、アスペクト比を維持しつついい感じに追随するように
          */
@@ -95,6 +99,23 @@ $(function() {
         }, function (doAsk) {
             if (doAsk) {
                 $(window).on('beforeunload', function () {return window.document.title});
+            }
+        });
+
+        // KCW.sendMessageToContextPageを受ける
+        chrome.runtime.onMessage.addListener(function(msg, a, b) {
+            if (!msg) {
+                return;
+            }
+            if (msg.purpose == 'listenClick') {
+                $('embed').on('mousedown', function(){
+                    chrome.runtime.sendMessage(null, {purpose:"onClick"});
+                });
+                return;
+            }
+            if (msg.purpose == 'unbindOnClick') {
+                $('embed').off('mousedown');
+                return;
             }
         });
 

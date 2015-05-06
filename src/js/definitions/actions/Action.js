@@ -97,7 +97,7 @@ var KanColleWidget = KanColleWidget || {};
     Action.prototype.forSortieBattle = function(){
         this.sortieBattleAction.forBattle();
     };
-    Action.prototype.forSortieBattleResult = function(){
-        this.sortieBattleAction.forResult();
+    Action.prototype.forSortieBattleResult = function(params){
+        this.sortieBattleAction.forResult(params);
     };
 })();

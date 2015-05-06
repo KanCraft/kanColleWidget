@@ -17,12 +17,16 @@ module KCW {
                 new Infra.WindowSize(params.size.width, params.size.height)
             );
         }
-        public static show() {
+        public static show(opt: any = {}) {
             var d = $.Deferred();
             WindowFinder.findKCWidget().done((win: chrome.windows.Window) => {
                 Infra.Capture.whole(win.id).done((imgURI: string) => {
-                    imgURI = ShipsStatusWindow.trim(imgURI);
+                    imgURI = ShipsStatusWindow.trim(imgURI, opt);
                     var params: WinMakeParams = ShipsStatusWindowRepository.local().restore();
+                    if (opt.panel) { // opt.panelがある限り、いっこぶん右に表示
+                        params.coords.left += params.size.width;
+                        imgURI += '&panel=' + opt.panel;
+                    }
                     var win = new this(params, imgURI);
                     win.instance = win.openDefault();
                     win.register();
@@ -42,17 +46,18 @@ module KCW {
             }
             ShipsStatusWindow.created = [];
         }
-        private static trim(imgURI: string): string {
-            var params = ShipsStatusWindow.calcOpenParams(imgURI);
+        private static trim(imgURI: string, opt: any = {}): string {
+            var params = ShipsStatusWindow.calcOpenParams(imgURI, opt);
             return new Infra.ImageTrimmer(imgURI).trim(params.coords, params.size);
         }
-        private static calcOpenParams(imgURI: string): WinMakeParams {
+        private static calcOpenParams(imgURI: string, opt): WinMakeParams {
+            opt = $.extend({}, {left:0,top:0,width:0,height:0}, opt);
             var img = new Image();
             img.src = imgURI;
             var blank = WindowBlank.calculate(img.width, img.height);
             return {
                 coords : {
-                    left : (img.width - blank.width)  * (141/500) + blank.offsetLeft,
+                    left : (img.width - blank.width)  * (141/500) + blank.offsetLeft + opt.left,
                     top  : (img.height - blank.height) * (3/8) + blank.offsetTop
                 },
                 size : {
