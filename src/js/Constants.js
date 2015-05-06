@@ -1,11 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.5.17",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/529',
-        announceVersion : 128,
+        version: "v1.5.20",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/533',
+        announceVersion : 129,
         announcements   : [
-            "WHITEモードで下に1px余白あるの修正",
-            "イベント進捗どうですか？"
+            "編成をまとめるやつのためにレアタイトル隠し機能を廃止しタイトル固定にします",
+            "連合艦隊第二艦隊の大破状況表示対応（今んとこAPPモードだけ）",
+            "Chrome拡張が自動更新されてスクショショートカットがいつの間にか効かなくなる現象のために、自動更新通知アラートを追加",
+            "-------",
+            "イベント進捗どうですか",
+            "丙にしてもいいんですよ？"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
