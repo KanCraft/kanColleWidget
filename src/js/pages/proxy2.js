@@ -68,10 +68,6 @@ $(function() {
         $embedElement.css('top', '50%');
         $embedElement.css('left', '50%');
 
-        // 第二艦隊状態表示のための準備
-        // http://stackoverflow.com/a/4180324/1368868
-        $embedElement.attr('wmode', 'transparent');
-
         /**
          * ウィンドウがリサイズされた時、アスペクト比を維持しつついい感じに追随するように
          */
@@ -108,12 +104,15 @@ $(function() {
                 return;
             }
             if (msg.purpose == 'listenClick') {
+                // http://stackoverflow.com/a/4180324/1368868
+                $embedElement.attr('wmode', 'transparent');
                 $('embed').on('mousedown', function(){
                     chrome.runtime.sendMessage(null, {purpose:"onClick"});
                 });
                 return;
             }
             if (msg.purpose == 'unbindOnClick') {
+                $embedElement.removeAttr('wmode');
                 $('embed').off('mousedown');
                 return;
             }
