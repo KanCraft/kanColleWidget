@@ -186,6 +186,13 @@ var Constants = {
             require: [null, 6, {ab:2,dd:2}],
             area: 2
         },
+        "24": {
+            minute: 500,
+            title: '北方航路海上護衛',
+            reward: [65, 0, 500, 0, 0],
+            require: [50, 6, {lc:1, dd:4}],
+            area: 2
+        },
         // 西方海域
         "25": {
             minute:2400,
@@ -291,6 +298,13 @@ var Constants = {
             title: '遠洋潜水艦作戦',
             reward: [130, 300, 0, 0, 0],
             require:[3, 5, {st:1}],
+            area: 4
+        },
+        "40": {
+            minute:410,
+            title: '水上機前線輸送',
+            reward: [60, 0, 300, 300, 0, 100],
+            require: [25, 6, {lc:1,sc:2,dd:2}],
             area: 4
         },
         // 索敵機、発艦始め！
