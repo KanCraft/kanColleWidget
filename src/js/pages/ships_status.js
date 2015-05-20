@@ -33,6 +33,10 @@ $(function(){
         Util.focusKCWidgetWindow();
     });
 
+    if (location.search.match(/panel=[1-9]/)) {
+        // position tracking いらない
+        return;
+    }
     setInterval(function(){
         chrome.runtime.sendMessage({
             purpose  : 'statusWindowPositionTracking',

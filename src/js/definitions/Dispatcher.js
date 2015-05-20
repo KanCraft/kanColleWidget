@@ -167,7 +167,10 @@ var KanColleWidget = KanColleWidget || {};
             },300);
         } else if (this.requestSequence[0] === 'api_req_sortie/battleresult'
             || this.requestSequence[0] === 'api_req_combined_battle/battleresult') {
-            this.action.forSortieBattleResult();
+            var params = {
+                combined: (this.requestSequence[0] === 'api_req_combined_battle/battleresult')
+            };
+            this.action.forSortieBattleResult(params);
         }
     };
 })();

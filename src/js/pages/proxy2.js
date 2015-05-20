@@ -98,6 +98,26 @@ $(function() {
             }
         });
 
+        // KCW.sendMessageToContextPageを受ける
+        chrome.runtime.onMessage.addListener(function(msg, a, b) {
+            if (!msg) {
+                return;
+            }
+            if (msg.purpose == 'listenClick') {
+                // http://stackoverflow.com/a/4180324/1368868
+                $embedElement.attr('wmode', 'transparent');
+                $('embed').on('mousedown', function(){
+                    chrome.runtime.sendMessage(null, {purpose:"onClick"});
+                });
+                return;
+            }
+            if (msg.purpose == 'unbindOnClick') {
+                $embedElement.removeAttr('wmode');
+                $('embed').off('mousedown');
+                return;
+            }
+        });
+
         Util.adjustSizeOfWindowsOSImmediately(window);
     };
 
@@ -142,21 +162,31 @@ $(function() {
     })();
     setTimeout(getFlash, 1000);
 
+    var alertRead = false;
     // ウィンドウ位置記憶かなにか？
     setInterval(function(){
-        chrome.runtime.sendMessage({
-            purpose  : 'positionTracking',
-            position : {
-                top  : window.screenTop,
-                left : window.screenLeft
-            },
-            size : {
-                innerWidth  : window.innerWidth,
-                innerHeight : window.innerHeight,
-                outerWidth  : window.outerWidth,
-                outerHeight : window.outerHeight
-            }
-        });
+        try {
+            chrome.runtime.sendMessage({
+                purpose: 'positionTracking',
+                position: {
+                    top: window.screenTop,
+                    left: window.screenLeft
+                },
+                size: {
+                    innerWidth: window.innerWidth,
+                    innerHeight: window.innerHeight,
+                    outerWidth: window.outerWidth,
+                    outerHeight: window.outerHeight
+                }
+            });
+        } catch (e) {
+            if (alertRead) return;
+            var message = "艦これウィジェットが更新されたので、接続が切れたっぽいです。" +
+                "スクショのショートカットキーとかが効かなくなってるはずなので、ウィジェットを" +
+                "一回閉じてもっかLAUNCHするのがいいと思います。";
+            window.alert(message);
+            alertRead = true;
+        }
     }, 10 * 1000);
 
     // faviconつけるよー
