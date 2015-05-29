@@ -85,14 +85,14 @@ div.content {
 }
 
 /* staff-tweets */
-img.ProfileTweet-avatar {
+img.avatar {
     width: 30px;
     border-radius: 5px;
 }
 s {
     text-decoration: none;
 }
-.ProfileTweet-header {
+.stream-item-header {
     font-size: x-small;
 }
 /* もはや要らん気がする */
@@ -103,7 +103,7 @@ small.time {
     position: relative;
     top: -3px;
 }
-p.ProfileTweet-text {
+p.tweet-text {
     margin: 10px 0;
     padding: 5px;
     background-color: #fff;
@@ -113,7 +113,7 @@ p.ProfileTweet-text {
     position: relative;
     box-shadow: 0 2px 2px #ddd;
 }
-p.ProfileTweet-text:after {
+p.tweet-text:after {
     content: "";
     border-right:  7px solid transparent;
     border-bottom: 10px solid #fff;

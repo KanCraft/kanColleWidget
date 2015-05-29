@@ -35,12 +35,13 @@ var KanColleWidget = KanColleWidget || {};
     };
     TwitterCrawler.get$ = function(callback, opt) {
         TwitterCrawler.findMaintenanceInfo(function(res) {
-            var iterateForEach = 'div.Grid:not(.Grid--withGutter)';
-            var pickupHeader = 'div.ProfileTweet-header';
-            var pickupContent = 'p.ProfileTweet-text';
+            var iterateForEach = 'div.tweet.js-stream-tweet';// 'div.Grid:not(.Grid--withGutter)';
+            var pickupHeader = 'div.stream-item-header';// 'div.ProfileTweet-header';
+            var pickupContent = 'p.tweet-text';// 'p.ProfileTweet-text';
+            var accountGroup = 'a.account-group';
             var $elements = $.map($(res).find(iterateForEach), function(li){
                 $(li).find('.js-relative-timestamp').remove();
-                var userID = $(li).find('a.ProfileTweet-originalAuthorLink').attr('data-user-id');
+                var userID = $(li).find(accountGroup).attr('data-user-id');
                 if (userID != 294025417) {
                     console.log("FILTER THIS", userID);
                     return;
