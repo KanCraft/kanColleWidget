@@ -49,7 +49,9 @@ https://github.com/otiai10/kanColleWidget
 
 # RELEASES
 - RELEASEINFO
-- 2015/05/29 v1.5.23 <!--version-->
+- 2015/05/30 v1.5.24 <!--version-->
+    - 運営電文に変なボタン出てるやつ修正
+- 2015/05/29 v1.5.23
     - 運営電文が取得できてないやつ修正
 - 2015/05/20 v1.5.22
     - 新遠征に対応 
