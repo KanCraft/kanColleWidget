@@ -41,6 +41,7 @@ var KanColleWidget = KanColleWidget || {};
             var accountGroup = 'a.account-group';
             var $elements = $.map($(res).find(iterateForEach), function(li){
                 $(li).find('.js-relative-timestamp').remove();
+                $(li).find('button').remove();
                 var userID = $(li).find(accountGroup).attr('data-user-id');
                 if (userID != 294025417) {
                     console.log("FILTER THIS", userID);
