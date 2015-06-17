@@ -1,12 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.5.22",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/536',
-        announceVersion : 131,
+        version: "v1.5.24",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/544',
+        announceVersion : 133,
         announcements   : [
-            "新遠征に対応",
-            "------------",
-            "イベントおつかれさまでした"
+            "運営電文が取得できてないやつ修正",
+            "運営電文に変なボタン出てるやつ修正"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
