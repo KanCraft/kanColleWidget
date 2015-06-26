@@ -47,6 +47,16 @@ var KanColleWidget = KanColleWidget || {};
                     console.log("FILTER THIS", userID);
                     return;
                 }
+                var $content = $(li).find(pickupContent);
+                opt = {highlights:['全サーバ群共通メンテナンス']};
+                if (opt && opt.highlights && opt.highlights.length != 0) {
+                    $content.html($content.html().replace(
+                        new RegExp(opt.highlights.join('|'), 'g'),
+                        function(w) {
+                                return '<b style="background-color:yellow">' + w + '</b>';
+                        }
+                    ));
+                }
                 var $el = $('<div></div>').addClass('stream-item').append(
                      $(li).find(pickupHeader),
                      $(li).find(pickupContent)
