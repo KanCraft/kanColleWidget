@@ -18,6 +18,7 @@ setup
 ```
 npm install
 grunt boot
+bower install
 ```
 
 build
