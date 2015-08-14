@@ -4,6 +4,26 @@
 
 詳しくは[ここ](http://otiai10.github.io/kanColleWidget/).
 
-# アップデート情報
+# 開発
 
-[ここ](./RELEASENOTES.md).
+dependencies
+
+```
+npm install -g grunt-cli
+npm install -g bower
+```
+
+setup
+
+```
+npm install
+grunt boot
+```
+
+build
+
+```
+grunt build
+```
+
+and import `src/kanColleWidget` as a Chrome Extension.
