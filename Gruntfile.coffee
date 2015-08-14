@@ -55,4 +55,4 @@ module.exports = (grunt) =>
     grunt.registerTask 'watch', ['buildquiet','regarde']
     grunt.registerTask 'check', ['jshint:files']
     grunt.registerTask 'tsc', ['handlebars','typescript:common']
-    grunt.registerTask 'default', ['exec:sample']
+    grunt.registerTask 'default', ['watch']
