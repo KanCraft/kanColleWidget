@@ -17,6 +17,7 @@ $(function(){
         (new widgetPages.BadgeStyleView()).render(),
         (new widgetPages.EnableMissionReminderView()).render(),
         (new widgetPages.DynamicReminderTypeView()).render(),
+        (new KCW.Pages.HideLoaderWindow().render().$el),
         (new widgetPages.AllowOcrResultLogView()).render(),
         (new widgetPages.TirednessLengthView()).render(),
         (new widgetPages.PreventForgettingQuestView()).render(),

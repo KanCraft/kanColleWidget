@@ -5,10 +5,11 @@ module KCW {
         constructor(private impl: Storage = window.localStorage) {
         }
         private static defaultValues: Object = {
-            'share-kousyo-result': false,
-            'report-mention-prefix': true,
-            'dashboard-type': 0,
-            'allow-third-party': false
+            'hide-loader-window':     false,
+            'share-kousyo-result':    false,
+            'report-mention-prefix':   true,
+            'dashboard-type':             0,
+            'allow-third-party':      false
         };
         public static local(): Config {
             return new Config();
