@@ -438,6 +438,7 @@ var Util = Util || {};
      * @param win {Object} windowオブジェクト
      */
     Util.adjustSizeOfWindowsOS = function(win) {
+        win = win || {};
         win.onload = (function(_win) {
             return function() {
                 setTimeout(function() {
@@ -517,6 +518,9 @@ var Util = Util || {};
     };
 
     Util.openLoaderWindow = function() {
+        if (KCW.Config.local().get('hide-loader-window')) {
+          return null;
+        }
         var pageURL = chrome.extension.getURL('/') + 'src/html/loader.html';
         var pos = Tracking.get('widget').position;
         var loadingWindow = window.open(pageURL, '_blank', 'width=180,height=200,top=' + pos.top + ',left=' + pos.left);

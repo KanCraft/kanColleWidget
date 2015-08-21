@@ -73,7 +73,7 @@ get_ver_in_constants(){
   echo `grep version src/js/Constants.js | sed -E "s/version:\ \"v([^\]+)\"/\1/g"`
 }
 get_ver_in_README(){
-  echo `grep version README.md | sed -E "s/.*v(.*)<!--version-->$/\1/g"`
+  echo `grep version RELEASENOTES.md | sed -E "s/.*v(.*)<!--version-->$/\1/g"`
 }
 version_check(){
   echo "\nバージョン情報のチェック"
