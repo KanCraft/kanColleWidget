@@ -55,6 +55,7 @@ var KanColleWidget = KanColleWidget || {};
         }
     };
     Canvas.Curve = {
+        _prev : null,
         _prot : function(ev, self) {
             // プロットする
             self.context.beginPath();
@@ -66,13 +67,31 @@ var KanColleWidget = KanColleWidget || {};
             );
             self.context.fill();
         },
+        _drawLine : function(ev, self) {
+          if (Canvas.Curve._prev == null) return;
+          self.context.beginPath();
+          self.context.lineWidth = 10;
+          self.context.moveTo(
+            Canvas.Curve._prev.offsetX,
+            Canvas.Curve._prev.offsetY
+          );
+          self.context.lineTo(
+            ev.offsetX,
+            ev.offsetY
+          );
+          self.context.stroke();
+          Canvas.Curve._prev = ev;
+        },
         onStart : function(ev, self){
             Canvas.Curve._prot(ev,self);
+            Canvas.Curve._prev = ev;
         },
         onMove : function(ev, self){
             Canvas.Curve._prot(ev,self);
+            Canvas.Curve._drawLine(ev, self);
         },
-        onFinish : function(ev, self){
+        onFinish : function(/*ev, self*/){
+            Canvas.Curve._prev = null;
         }
     };
     Canvas.Trim = {
