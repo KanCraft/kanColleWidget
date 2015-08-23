@@ -19,6 +19,8 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
           }
           if (tab.url.match("http://osapi.dmm.com/gadgets/ifr")) {
             ok(win, tab);
+          } else if (tab.url === "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?widget=true") {
+            ok(win, tab);
           }
         });
       });
