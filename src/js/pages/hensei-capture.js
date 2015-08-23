@@ -30,11 +30,15 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   var defineCoords = function(img) {
     // aspect 800 * 480
     // if (img.width / img.height == 800 / 480) {
+    var max = 800;
+    var rate = (img.width > max) ? img.width / max : 1;
+
     return {
       x: img.width / 2.55,
       y: img.height / 5,
       w: img.width / 1.66,
-      h: img.height / 1.285
+      h: img.height / 1.285,
+      r: rate
     };
   };
 
@@ -44,9 +48,10 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
       var c = defineCoords(img);
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
-      canvas.width = c.w/2;
-      canvas.height = c.h/2;
-      context.drawImage(img, c.x, c.y, c.w, c.h, 0, 0, c.w/2, c.h/2);
+
+      canvas.width = c.w/c.r;
+      canvas.height = c.h/c.r;
+      context.drawImage(img, c.x, c.y, c.w, c.h, 0, 0, c.w/c.r, c.h/c.r);
 
       return canvas.toDataURL();
   };
