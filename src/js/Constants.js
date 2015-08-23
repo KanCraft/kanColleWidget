@@ -1,11 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.6.1",
+        version: "v1.6.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/553',
-        announceVersion : 135,
+        announceVersion : 136,
         announcements   : [
           "編成キャプチャ機能を追加",
           "スクショ画面の編集機能で線ひくのクソだったので修正",
+          "WHITEモードでも編成キャプチャ使えるようにした",
+          "編成キャプチャを2列3行表示に変更",
           "--------",
           "イベント進捗どうですか？",
           "艦これ一覧めいかーさんがMacに対応してなかったので、Macのひとのためにつくりました。",

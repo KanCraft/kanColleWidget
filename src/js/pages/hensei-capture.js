@@ -30,7 +30,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   var defineCoords = function(img) {
     // aspect 800 * 480
     // if (img.width / img.height == 800 / 480) {
-    var max = 800;
+    var max = 720;
     var rate = (img.width > max) ? img.width / max : 1;
 
     return {
