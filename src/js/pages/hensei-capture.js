@@ -76,42 +76,54 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     // $scope.$apply();
   };
 
+  var Aligner = function(src, col) {
+    this.cell = (function(s) { var img = new window.Image(); img.src = s.src; return img; })(src[0]);
+    this.col = col || 2;
+    this.matrix = [];
+    src.forEach(function(s, i) {
+      var r = Math.floor(i / this.col);
+      var c = i % this.col;
+      this.matrix[r] = this.matrix[r] || [];
+      this.matrix[r][c] = s;
+    }.bind(this));
+
+    this.getSize = function() {
+      return {
+        width: this.cell.width * this.matrix[0].length,
+        height: this.cell.height * this.matrix.length
+      };
+    };
+
+    this.drawImage = function(context) {
+      for (var i = 0; i < this.matrix.length; i++) {
+        for (var j = 0; j < this.matrix[i].length; j++) {
+          var img = new window.Image(); img.src = this.matrix[i][j].src;
+          context.drawImage(
+            img,
+            this.cell.width * j,
+            this.cell.height * i
+          );
+        }
+      }
+      return context;
+    };
+  };
+
   var join = function(ss) {
 
     if (!ss || ss.length === 0) {
       return;
     }
 
-    var first = new window.Image();
-    first.src = ss[0].src;
-
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
 
-    canvas.width = (ss.length < 3) ? first.width * ss.length : first.width * 3;
-    canvas.height = (ss.length > 3) ? first.height * 2 : first.height;
+    var aligner = new Aligner(ss, 2);
 
-    // もういらない
-    first = null;
+    canvas.width = aligner.getSize().width;
+    canvas.height = aligner.getSize().height;
 
-    for (var i = 0; i < ss.length; i = i + 1) {
-      var s = ss[i];
-      var img = new window.Image();
-      img.src = s.src;
-      if (i < 3) {
-        context.drawImage(
-          img, // ソースはそのままの座標と大きさを採用
-          img.width * i, // 流し込むX座標は、何番めかによる
-          0              // 流し込むY座標はは、つねにてっぺん
-        );
-      } else {
-        context.drawImage(
-          img, // ソースはそのままの座標と大きさを採用
-          img.width * (i%3), // 流し込むX座標は、何番めかによる
-          img.height         // 流し込むY座標はは、つねに１列ぶん下
-        );
-      }
-    }
+    aligner.drawImage(context);
 
     return canvas.toDataURL();
   };
