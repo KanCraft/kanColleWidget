@@ -128,17 +128,27 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     return canvas.toDataURL();
   };
 
+  var getDownloadDir = function() {
+    var config = JSON.parse(window.localStorage.getItem('config') || '{}');
+    return config['capture-image-download-dir'] || '艦これ';
+  };
+
   $scope.toCaptureWindow = function() {
     var uri = join($scope.ships);
     window.open(chrome.extension.getURL("src/html/capture.html") + "?uri=" + uri);
   };
 
   $scope.downloadNow = function() {
-    var name = window.prompt("ファイル名を決めてほしいでござるー(o・∇・o)");
+    var dirname = getDownloadDir();
+    var name = window.prompt("ファイル名を決めてほしいでござるー(o・∇・o)\n~/ダウンロード/" + dirname + "/") || '';
+    name = name.trim();
+    if (!name) {
+      return window.alert("このファイル名はむり: 「" + name + "」");
+    }
     var uri = join($scope.ships);
-    var a = document.createElement("a");
-    a.download = name + ".png";
-    a.href = uri;
-    a.click();
+    chrome.downloads.download({
+      url: uri,
+      filename: dirname + '/' + name + '.png'
+    });
   };
 });
