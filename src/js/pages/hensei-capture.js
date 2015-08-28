@@ -1,8 +1,9 @@
-/* global angular:false, window:false, chrome:false, document: false */
+/* global angular:false, window:false, chrome:false, document: false, $: false */
 angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   "use strict";
 
   $scope.ships = [];
+  $scope.mode = "equipment";
 
   var detect = function(ok) {
     chrome.windows.getAll({populate:true}, function(wins) {
@@ -27,25 +28,65 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     });
   };
 
-  var defineCoords = function(img) {
-    // aspect 800 * 480
-    // if (img.width / img.height == 800 / 480) {
-    var max = 720;
-    var rate = (img.width > max) ? img.width / max : 1;
-
-    return {
-      x: img.width / 2.55,
-      y: img.height / 5,
-      w: img.width / 1.66,
-      h: img.height / 1.285,
-      r: rate
-    };
+  $scope.modes = {
+    equipment: {
+      coords: function(img) {
+        var max = 720, rate = (img.width > max) ? img.width / max : 1;
+        return {
+          x: img.width / 2.55,
+          y: img.height / 5,
+          w: img.width / 1.66,
+          h: img.height / 1.285,
+          r: rate
+        };
+      },
+      col: 2, max: 6,
+      description: "装備画面をキャプって2列3行のまとめ画像をつくります",
+      title: "装備&編成キャプチャ",
+      button: "この装備画面をキャプる"
+    },
+    shiplist: {
+      coords: function(img) {
+        var max = 720, rate = (img.width > max) ? img.width / max : 1;
+        return {
+          x: img.width / 2.2,
+          y: img.height / 3.2,
+          w: img.width / 1.85,
+          h: img.height / 1.7,
+          r: rate
+        };
+      },
+      col: 1, max: 10,
+      description: "編成の艦娘一覧画面をキャプって、1列のまとめ画像をつくります",
+      title: "艦娘一覧キャプチャ",
+      button: "この艦娘一覧ページをキャプる"
+    }/*,
+    illustrations: {
+      coords: function(img) {
+        var max = 720, rate = (img.width > max) ? img.width / max : 1;
+        return {
+          x: img.width / 6,
+          y: img.height / 8.5,
+          w: img.width / 1.2,
+          h: img.height / 1.2,
+          r: rate
+        };
+      },
+      col: 1, max: 10,
+      description: "艦船図鑑画面をキャプって、1列のまとめ画像をつくります。つくってみただけ",
+      title: "艦船図鑑キャプチャ",
+      button: "この艦船図鑑ページをキャプる"
+    }
+    */
+  };
+  $scope.getMode = function() {
+      return $scope.modes[$scope.mode] || $scope.modes.equipment;
   };
 
   var trim = function(data) {
       var img = new window.Image();
       img.src = data;
-      var c = defineCoords(img);
+      var c = $scope.getMode().coords(img);
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
 
@@ -76,6 +117,11 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     // $scope.$apply();
   };
 
+  /**
+   * Aligner
+   * 与えられた[]dataURIを、与えられたcol数で並べていく.
+   * (col)列 x (src.length/col)行のマトリックスをつくる.
+   */
   var Aligner = function(src, col) {
     this.cell = (function(s) { var img = new window.Image(); img.src = s.src; return img; })(src[0]);
     this.col = col || 2;
@@ -118,7 +164,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
 
-    var aligner = new Aligner(ss, 2);
+    var aligner = new Aligner(ss, $scope.getMode().col);
 
     canvas.width = aligner.getSize().width;
     canvas.height = aligner.getSize().height;
@@ -151,4 +197,8 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
       filename: dirname + '/' + name + '.png'
     });
   };
+});
+
+$(document).ready(function() {
+  $("select").material_select();
 });

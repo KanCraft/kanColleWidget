@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/materialize.min.css" />
-    <!-- script type="text/javascript" src="../js/jquery.min.js"></script -->
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/materialize.min.js"></script>
     <script type="text/javascript" src="../js/angular.min.js"></script>
     <script type="text/javascript" src="../js/pages/hensei-capture.js"></script>
     <title>編成キャプチャ</title>
@@ -12,18 +13,26 @@
         font-size: xx-small;
         color: #888;
       }
+      .select-dropdown {
+        text-align: center;
+      }
     </style>
   </head>
   <body data-ng-app="kcw">
     <div class="container" data-ng-controller="HenseiCapture">
-      <div class="row center-align">
-        <div class="col s12">
-          <h1 style="font-size: 1em; font-weight: bold">編成キャプチャ(β)</h1>
+      <div class="row center-align" style="margin-top: 20px;">
+        <div class="input-field col s12">
+          <select ng-model="mode">
+            <option ng-repeat="(k, m) in modes" value="{{k}}">{{m.title}}</option>
+          </select>
+          <label>{{getMode().description}}</label>
         </div>
       </div>
-      <div ng-if="ships.length < 6" class="row center-align">
+      <div ng-if="ships.length < getMode().max" class="row center-align">
         <div class="col s12">
-          <button class="btn btn-small" data-ng-click="capture()">この装備画面をキャプる</button>
+          <button class="btn btn-small" data-ng-click="capture()">
+            {{getMode().button}}
+          </button>
         </div>
       </div>
       <!-- div class="row center-align" -->
@@ -42,7 +51,7 @@
                     <p>aaa</p>
                   </div -->
                   <div class="card-action">
-                    <small>第{{$index + 1}}番艦 {{ship.ts | date:'medium'}} <a href="" ng-click="delete($index)">削除</a></small>
+                    <span>No.{{$index + 1}} {{ship.ts | date:'shortTime'}} <a href="" ng-click="delete($index)">削除</a></span>
                   </div>
                 </div>
               </div>
@@ -52,11 +61,10 @@
       </div>
       <div ng-if="ships.length != 0" class="row center-align">
         <div class="col s12">
-          <button class="btn btn-small" ng-click="downloadNow()">この編成でまとめをつくってダウンロード</button>
-          <button class="btn btn-small" ng-click="toCaptureWindow()">この編成でまとめをつくって編集</button>
+          <button class="btn btn-small" ng-click="downloadNow()">このキャプチャでまとめをつくってダウンロード</button>
+          <button class="btn btn-small" ng-click="toCaptureWindow()">このキャプチャでまとめをつくって編集</button>
           <p>
             ※ ページリロードするとリセットされます<br>
-            ※ まとめ画像では2列3行で表示されます
           </p>
         </div>
       </div>
