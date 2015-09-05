@@ -1,10 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.6.4",
+        version: "v1.6.5",
         link: 'https://github.com/otiai10/kanColleWidget/pull/553',
-        announceVersion : 138,
+        announceVersion : 139,
         announcements   : [
-          "編成キャプチャ画面に、艦娘一覧キャプチャ機能を追加しました"
+            "Chrome拡張がアップデートされたときの文言を変更",
+            "------------",
+            "イベント進捗どうですか？",
+            "おかげさまで、丙丙乙丙丙乙丙にて、2015夏イベントを無事終えましたmm"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
