@@ -253,7 +253,7 @@ var widgetPages = widgetPages || {};
         });
     };
     ModalContentTweetView.prototype.startSending = function(ev) {
-        self.nowSending = true;
+        this.nowSending = true;
         $(ev.currentTarget).addClass('disabled');
         $('#tweet-text-counter').html('');
         $('#tweet-text-counter').addClass('loader');

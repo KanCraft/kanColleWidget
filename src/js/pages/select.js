@@ -147,6 +147,11 @@ function _toggleArea(e, sw){
         clockmodeBtn.style.display = 'none';
     }
 
+    var hensei = document.getElementById('show-hensei-capture');
+    hensei.addEventListener('click',function(){
+      window.open(chrome.extension.getURL("src/html/hensei-capture.html"));
+    })
+
     affectTracking();
     prepareForScreenShot();
 
