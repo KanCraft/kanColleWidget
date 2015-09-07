@@ -16,13 +16,20 @@
       .select-dropdown {
         text-align: center;
       }
+      #area-indicator {
+        position: absolute;
+        background-color: black;
+        opacity: 0.6;
+        cursor: move;
+        z-index: 2;
+      }
     </style>
   </head>
   <body data-ng-app="kcw">
     <div class="container" data-ng-controller="HenseiCapture">
       <div class="row center-align" style="margin-top: 20px;">
         <div class="input-field col s12">
-          <select ng-model="mode">
+          <select ng-model="mode" ng-change="modeChanged()">
             <option ng-repeat="(k, m) in modes" value="{{k}}">{{m.title}}</option>
           </select>
           <label>{{getMode().description}}</label>
@@ -68,6 +75,36 @@
           </p>
         </div>
       </div>
+      <div ng-if="mode == 'custom'" class="row center-align">
+        <div class="col s6">
+          <div id="coords-definer" style="position:relative;">
+            <div
+              id="area-indicator"
+              style="left:{{area.x}}%;top:{{area.y}}%;width:{{area.w}}%;height:{{area.h}}%"
+              draggable="true"
+            ></div>
+            <img ng-src="{{sample}}" width="100%">
+          </div>
+        </div>
+        <div class="col s6 left-align">
+          <p class="range-field">
+            <label>x: {{area.x}}%</label>
+            <input type="range" ng-model="area.x" ng-change="autoAdjust()">
+          </p>
+          <p class="range-field">
+            <label>y: {{area.y}}%</label>
+            <input type="range" ng-model="area.y" ng-change="autoAdjust()">
+          </p>
+          <p class="range-field">
+            <label>w: {{area.w}}%</label>
+            <input type="range" ng-model="area.w" ng-change="autoAdjust()">
+          </p>
+          <p class="range-field">
+            <label>h: {{area.h}}%</label>
+            <input type="range" ng-model="area.h" ng-change="autoAdjust()">
+          </p>
+        </div>
+      </div>
       <div class="row center-align">
         <div class="col s12">
           <blockquote class="left-align minimum">
@@ -78,6 +115,7 @@
             切り貼りしてtoDataURLしたりしてるので、メモリ貧弱だったりすると悲鳴あげるかもしれないですね。とりあえず開発中は問題なかったですけど。
             あと、いまのところ、画面がぴったしではなくて余白や余黒がある状態ではたぶんキャプチャ位置がずれます。たくさんのクレームがあったら対応します（たぶん）。
             β版と銘打ってあるので、なんか使いづらくっても、怒ったりしないで、優しく助言してくれるとありがたいです。
+            というかここぜんぜん読まれてない感じあるな。ま、いいけど。
           </blockquote>
           <blockquote class="left-align minimum">
             使い方: 『艦これウィジェット』のほうで装備画面が表示されてる状態で「この装備画面をキャプる」ボタンをおしてください。

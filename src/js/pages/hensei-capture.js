@@ -4,6 +4,9 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
 
   $scope.ships = [];
   $scope.mode = "equipment";
+  $scope.area = {
+    x: 25, y: 25, w: 50, h: 50
+  };
 
   var detect = function(ok) {
     chrome.windows.getAll({populate:true}, function(wins) {
@@ -60,24 +63,23 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
       description: "編成の艦娘一覧画面をキャプって、1列のまとめ画像をつくります",
       title: "艦娘一覧キャプチャ",
       button: "この艦娘一覧ページをキャプる"
-    }/*,
-    illustrations: {
+    },
+    custom: {
       coords: function(img) {
         var max = 720, rate = (img.width > max) ? img.width / max : 1;
         return {
-          x: img.width / 6,
-          y: img.height / 8.5,
-          w: img.width / 1.2,
-          h: img.height / 1.2,
-          r: rate
+            x: img.width  * ($scope.area.x / 100),
+            y: img.height * ($scope.area.y / 100),
+            w: img.width  * ($scope.area.w / 100),
+            h: img.height * ($scope.area.h / 100),
+            r: rate
         };
       },
-      col: 1, max: 10,
-      description: "艦船図鑑画面をキャプって、1列のまとめ画像をつくります。つくってみただけ",
-      title: "艦船図鑑キャプチャ",
-      button: "この艦船図鑑ページをキャプる"
+      col: 2, max: 100,// TODO: -1にする
+      description: "自分で座標決めてください（なんかデカすぎたり枚数多すぎたりすると動かないんでそこんとこ注意）",
+      title: "カスタムキャプチャ",
+      button: "今の画面をキャプる"
     }
-    */
   };
   $scope.getMode = function() {
       return $scope.modes[$scope.mode] || $scope.modes.equipment;
@@ -186,7 +188,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
 
   $scope.downloadNow = function() {
     var dirname = getDownloadDir();
-    var name = window.prompt("ファイル名を決めてほしいでござるー(o・∇・o)\n~/ダウンロード/" + dirname + "/") || '';
+    var name = window.prompt("ファイル名を決めてほしいでござるー(o・∇・o)\n~/ダウンロード/" + dirname + "/") || "";
     name = name.trim();
     if (!name) {
       return window.alert("このファイル名はむり: 「" + name + "」");
@@ -194,8 +196,41 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     var uri = join($scope.ships);
     chrome.downloads.download({
       url: uri,
-      filename: dirname + '/' + name + '.png'
+      filename: dirname + "/" + name + ".png"
     });
+  };
+
+  $scope.modeChanged = function() {
+    if ($scope.mode !== 'custom') {
+      return;
+    }
+    detect(function(win) {
+      chrome.tabs.captureVisibleTab(win.id, {format:"png"}, function(data) {
+        $scope.sample = data;
+        $scope.$apply();
+        setTimeout(function(){
+          var tgt = angular.element("#area-indicator");
+          var wrap = angular.element("#coords-definer");
+          tgt.on("dragleave", function(ev) {
+              ev.stopPropagation();
+              ev.preventDefault();
+          });
+          tgt.on("dragover", function(ev) {
+              ev.stopPropagation();
+              ev.preventDefault();
+          });
+          tgt.on("drop", function(ev) {
+            $scope.area.x = Math.floor(100 * (ev.originalEvent.offsetX / wrap.width()));
+            $scope.area.y = Math.floor(100 * (ev.originalEvent.offsetY / wrap.height()));
+            $scope.$apply();
+          });
+        }, 0);
+      });
+    });
+  };
+
+  $scope.autoAdjust = function() {
+    // TODO
   };
 });
 
