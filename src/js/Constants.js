@@ -1,13 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.6.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/553',
-        announceVersion : 139,
+        version: "v1.6.6",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/560',
+        announceVersion : 140,
         announcements   : [
-            "Chrome拡張がアップデートされたときの文言を変更",
-            "------------",
-            "イベント進捗どうですか？",
-            "おかげさまで、丙丙乙丙丙乙丙にて、2015夏イベントを無事終えましたmm"
+            "編成キャプチャ画面に、カスタムキャプチャ機能を追加",
+            "------",
+            "なんか新グラフィック多いので記念撮影したいなと思ってつくりました",
+            "------",
+            "別件ですが、<a href='https://github.com/otiai10/kanColleWidget/pull/559' class='light'>こちら</a>、ご意見募集中です"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
