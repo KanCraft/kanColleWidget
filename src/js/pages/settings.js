@@ -53,7 +53,8 @@ $(function(){
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
         (new widgetPages.HideAdressbarInSafemodeView()).render(),
         (new widgetPages.AskBeforeWindowCloseView()).render(),
-        (new KCW.Pages.AllowThirdParty().render().$el)
+        (new KCW.Pages.AllowThirdParty().render().$el),
+        (new KCW.Pages.AllowKampaAlchemy().render().$el)
     );
 
     $('input#auth-twitter').on('click', function(ev) {
