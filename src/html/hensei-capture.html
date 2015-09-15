@@ -23,6 +23,12 @@
         cursor: move;
         z-index: 2;
       }
+      #custom-inputs>.row {
+        margin-bottom: 0;
+      }
+      a.history {
+        padding: 0 15px;
+      }
     </style>
   </head>
   <body data-ng-app="kcw">
@@ -86,23 +92,37 @@
             <img ng-src="{{sample}}" width="100%">
           </div>
         </div>
-        <div class="col s6 left-align">
-          <p class="range-field">
-            <label>x: {{area.x}}%</label>
-            <input type="range" ng-model="area.x" ng-change="autoAdjust()">
-          </p>
-          <p class="range-field">
-            <label>y: {{area.y}}%</label>
-            <input type="range" ng-model="area.y" ng-change="autoAdjust()">
-          </p>
-          <p class="range-field">
-            <label>w: {{area.w}}%</label>
-            <input type="range" ng-model="area.w" ng-change="autoAdjust()">
-          </p>
-          <p class="range-field">
-            <label>h: {{area.h}}%</label>
-            <input type="range" ng-model="area.h" ng-change="autoAdjust()">
-          </p>
+        <div class="col s6 left-align" id="custom-inputs">
+          <div class="row">
+            <span  class="col s1">x</span>
+            <input class="col s5" type="number" min="0" max="100" ng-model="area.x" ng-change="autoAdjust()">
+            <span  class="col s1">y</span>
+            <input class="col s5" type="number" min="0" max="100" ng-model="area.y" ng-change="autoAdjust()">
+          </div>
+          <div class="row">
+            <span  class="col s1">w</span>
+            <input class="col s5" type="number" min="0" max="100" ng-model="area.w" ng-change="autoAdjust()">
+            <span  class="col s1">h</span>
+            <input class="col s5" type="number" min="0" max="100" ng-model="area.h" ng-change="autoAdjust()">
+          </div>
+          <div class="row">
+            <span  class="col s1">col</span>
+            <input class="col s5" type="number" min="0" ng-model="area.col" ng-change="autoAdjust()">
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <a
+                ng-repeat="hist in histories track by $index"
+                ng-click="historyApply(hist)"
+                class="waves-effect waves-teal btn-flat history">
+                x:{{hist.x}}
+                y:{{hist.y}}
+                w:{{hist.w}}
+                h:{{hist.h}}
+                col:{{hist.col}}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row center-align">

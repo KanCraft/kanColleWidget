@@ -5,8 +5,9 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   $scope.ships = [];
   $scope.mode = "equipment";
   $scope.area = {
-    x: 25, y: 25, w: 50, h: 50
+    x: 25, y: 25, w: 50, h: 50, col: 2
   };
+  $scope.histories = [];
 
   var detect = function(ok) {
     chrome.windows.getAll({populate:true}, function(wins) {
@@ -107,6 +108,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
         $scope.addShip(d);
       });
     });
+    if ($scope.mode === "custom") $scope.historySave();
   };
 
   $scope.addShip = function(ship) {
@@ -232,6 +234,39 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   $scope.autoAdjust = function() {
     // TODO
   };
+
+  var historiesKey = "kcw.capture.history";
+  var historiesSize = 4;
+
+  // 現時点の設定を保存する
+  // 同じものを入れないようにしてください
+  $scope.historySave = function() {
+    var a = $scope.area;
+    for (var i = 0; i < $scope.histories.length; i++) {
+      var o = $scope.histories[i];
+      if (o.x == a.x && o.y == a.y && o.w == a.w && o.h == a.h) return; // 同じなのでaddしない
+    }
+    var list = $scope.histories.concat();
+    list.unshift(a);
+    if (list.length > historiesSize) list.pop();
+    window.localStorage.setItem(historiesKey, JSON.stringify(list));
+  };
+
+  // 取り出して、applyする
+  $scope.historyApply = function(p) {
+    $scope.area.x = p.x;
+    $scope.area.y = p.y;
+    $scope.area.w = p.w;
+    $scope.area.h = p.h;
+    $scope.area.col = p.col;
+  };
+
+  var historyGetAll = function() {
+    return JSON.parse(window.localStorage.getItem(historiesKey) || "[]");
+  };
+
+  $scope.histories = historyGetAll();
+
 });
 
 $(document).ready(function() {
