@@ -1,14 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.6.6",
+        version: "v1.6.7",
         link: 'https://github.com/otiai10/kanColleWidget/pull/560',
-        announceVersion : 140,
+        announceVersion : 141,
         announcements   : [
             "編成キャプチャ画面に、カスタムキャプチャ機能を追加",
-            "------",
-            "なんか新グラフィック多いので記念撮影したいなと思ってつくりました",
-            "------",
-            "別件ですが、<a href='https://github.com/otiai10/kanColleWidget/pull/559' class='light'>こちら</a>、ご意見募集中です"
+            "編成キャプチャの設定を記憶する機能を追加"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
