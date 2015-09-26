@@ -573,11 +573,67 @@ var Constants = {
                     {url:'src/img/loader/065.jpg',title:'15.2cm連装砲'},
                     {url:'src/img/loader/066.jpg',title:'8cm高角砲'},
                     //-----------071~080
+                    {url:'src/img/loader/072.jpg',title:'増設バルジ(中型艦)'},
+                    {url:'src/img/loader/074.jpg',title:'探照灯'},
                     {url:'src/img/loader/075.jpg',title:'ドラム缶'},
+                    {url:'src/img/loader/076.jpg',title:'38cm連装砲'},
+                    {url:'src/img/loader/077.jpg',title:'15cm連装副砲'},
                     {url:'src/img/loader/078.jpg',title:'12.7cm単装砲'},
+                    {url:'src/img/loader/079.jpg',title:'瑞雲(六三四空)'},
+                    {url:'src/img/loader/080.jpg',title:'瑞雲12型'},
                     //-----------081~090
+                    {url:'src/img/loader/084.jpg',title:'2cm四連装FlaK38'},
+                    {url:'src/img/loader/085.jpg',title:'3.7cmFlaKM42'},
                     {url:'src/img/loader/086.jpg',title:'艦艇修理施設'},
-                    {url:'src/img/loader/087.jpg',title:'新型高温高圧缶'}
+                    {url:'src/img/loader/087.jpg',title:'新型高温高圧缶'},
+                    {url:'src/img/loader/088.jpg',title:'22号対水上電探改四'},
+                    {url:'src/img/loader/090.jpg',title:'20.3cm(2号)連装砲'},
+                    //-----------091~100
+                    {url:'src/img/loader/091.jpg',title:'12.7cm連装高角砲(後期型)'},
+                    {url:'src/img/loader/092.jpg',title:'毘式40mm連装機銃'},
+                    {url:'src/img/loader/093.jpg',title:'九七式艦攻(友永隊)'},
+                    {url:'src/img/loader/094.jpg',title:'天山一二型(友永隊)'},
+                    {url:'src/img/loader/095.jpg',title:'潜水艦53cm艦首魚雷(8門)'},
+                    {url:'src/img/loader/096.jpg',title:'零式艦戦21型(熟練)'},
+                    {url:'src/img/loader/097.jpg',title:'九九艦爆(熟練)'},
+                    {url:'src/img/loader/098.jpg',title:'九七式艦攻(熟練)'},
+                    {url:'src/img/loader/099.jpg',title:'九九式艦爆(江草隊)'},
+                    {url:'src/img/loader/100.jpg',title:'彗星(江草隊)'},
+                    //-----------101~110
+                    {url:'src/img/loader/101.jpg',title:'照明弾'},
+                    {url:'src/img/loader/102.jpg',title:'九七式水上偵察機(夜偵)'},
+                    {url:'src/img/loader/103.jpg',title:'試製35.6cm三連装砲'},
+                    {url:'src/img/loader/104.jpg',title:'35.6cm連装砲(ダズル迷彩)'},
+                    {url:'src/img/loader/105.jpg',title:'試製41cm三連装砲'},
+                    {url:'src/img/loader/106.jpg',title:'13号対空電探改'},
+                    {url:'src/img/loader/107.jpg',title:'艦隊司令部施設'},
+                    {url:'src/img/loader/108.jpg',title:'熟練艦載機整備員'},
+                    {url:'src/img/loader/109.jpg',title:'零戦52型丙(六◯一空)'},
+                    {url:'src/img/loader/110.jpg',title:'烈風(六◯一空)'},
+                    //-----------111~120
+                    {url:'src/img/loader/111.jpg',title:'彗星(六◯一空)'},
+                    {url:'src/img/loader/112.jpg',title:'天山(六◯一空)'},
+                    {url:'src/img/loader/113.jpg',title:'流星(六◯一空)'},
+                    {url:'src/img/loader/114.jpg',title:'38連装砲改'},
+                    {url:'src/img/loader/115.jpg',title:'Ar196改'},
+                    {url:'src/img/loader/116.jpg',title:'一式徹甲弾'},
+                    {url:'src/img/loader/119.jpg',title:'14cm連装砲'},
+                    {url:'src/img/loader/120.jpg',title:'91式高射装置'},
+                    //-----------121~130
+                    {url:'src/img/loader/121.jpg',title:'94式高射装置'},
+                    {url:'src/img/loader/122.jpg',title:'10cm高角砲+高射装置'},
+                    {url:'src/img/loader/123.jpg',title:'SKC34 20.3cm連装砲'},
+                    {url:'src/img/loader/125.jpg',title:'61cm三連装(酸素)魚雷'},
+                    {url:'src/img/loader/126.jpg',title:'WG42(Wurfgerat42)'},
+                    {url:'src/img/loader/127.jpg',title:'試製FaT仕様九五式酸素魚雷改'},
+                    {url:'src/img/loader/128.jpg',title:'試製51cm連装砲'},
+                    {url:'src/img/loader/129.jpg',title:'熟練見張員'},
+                    //-----------131~140
+                    {url:'src/img/loader/131.jpg',title:'25mm三連装機銃集中配備'},
+                    {url:'src/img/loader/133.jpg',title:'381mm/50三連装砲'},
+                    {url:'src/img/loader/134.jpg',title:'OTO152mm三連装連射砲'},
+                    {url:'src/img/loader/136.jpg',title:'プリエーゼ式水中防御隔壁'},
+                    {url:'src/img/loader/138.jpg',title:'二式大艇ちゃん'}
                 ]
             }
         }
