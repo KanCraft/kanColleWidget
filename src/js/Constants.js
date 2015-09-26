@@ -1,13 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.6.5",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/553',
-        announceVersion : 139,
+        version: "v1.6.7",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/560',
+        announceVersion : 141,
         announcements   : [
-            "Chrome拡張がアップデートされたときの文言を変更",
-            "------------",
-            "イベント進捗どうですか？",
-            "おかげさまで、丙丙乙丙丙乙丙にて、2015夏イベントを無事終えましたmm"
+            "編成キャプチャ画面に、カスタムキャプチャ機能を追加",
+            "編成キャプチャの設定を記憶する機能を追加"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
