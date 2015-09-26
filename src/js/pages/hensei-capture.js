@@ -60,7 +60,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
           r: rate
         };
       },
-      col: function() { return 2; }, max: 10,
+      col: function() { return 1; }, max: 10,
       description: "編成の艦娘一覧画面をキャプって、1列のまとめ画像をつくります",
       title: "艦娘一覧キャプチャ",
       button: "この艦娘一覧ページをキャプる"
