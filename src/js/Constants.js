@@ -1,11 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.6.7",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/560',
-        announceVersion : 141,
+        version: "v1.6.7.1",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/564',
+        announceVersion : 142,
         announcements   : [
-            "編成キャプチャ画面に、カスタムキャプチャ機能を追加",
-            "編成キャプチャの設定を記憶する機能を追加"
+            " カスタムキャプチャの列指定できないバグ修正",
+            "スクショ画面から画像付きツイートボタンのUXを修正",
+            "レアタイトル機能を復活",
+            "取得中妖精さん追加"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
