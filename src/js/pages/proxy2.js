@@ -34,9 +34,14 @@ $(function() {
             '               ⊂ノ⊂ノ ｣.|\n';
 
     // ウィジェットウィンドウのタイトルをセット
-    var $title = $('<title></title>');
-    $title.text(Util.getWidgetTitle());
-    $('head').append($title);
+    chrome.runtime.sendMessage({
+      purpose: 'getConfig',
+      configKey: 'popup-select-title'
+    }, function(title) {
+      var $title = $('<title></title>');
+      $title.text(title || '艦これウィジェット');
+      $('head').append($title);
+    });
 
     // キーバインド登録
     // {{{ こっちはmanifest.jsonでどうにもならない。たぶんpermissionが無い
