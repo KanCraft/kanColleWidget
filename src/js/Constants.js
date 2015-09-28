@@ -1,11 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.6.7.2",
+        version: "v1.6.7.3",
         link: 'https://github.com/otiai10/kanColleWidget/pull/564',
-        announceVersion : 143,
+        announceVersion : 145,
         announcements   : [
             "レアタイトル機能をやっぱり廃止",
-            "APPモード窓のタイトルを設定可能に変更"
+            "APPモード窓のタイトルを設定可能に変更",
+            "APPモードの「最前面固定」機能を試験実装",
+            "-----",
+            "<a href='https://github.com/otiai10/kanColleWidget/issues/118' class='light'>だいぶ昔から要望いただいていた</a>最前面固定機能ですが、完成度低くていいんだったら実装は容易なので、シレっとリリースしちゃいます。",
+            "評判悪かったら消しますm(_ _)m"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
