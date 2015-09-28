@@ -738,7 +738,7 @@ var Util = Util || {};
     Util.openDashboard = function(){
 
         var dashboard = Tracking.get('dashboard');
-        var width = dashboard.size.innerWidth || 420; 
+        var width = dashboard.size.innerWidth || 420;
         var height = dashboard.size.innerHeight || 245;
         var left = dashboard.position.left;
         var top = dashboard.position.top;
@@ -771,6 +771,27 @@ var Util = Util || {};
             type: type
         },function(win){
         });
+    };
+
+    Util.openPanelMode = function(mode, callback) {
+      var kanColleUrl = 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/?mode='+mode;
+      // どのサイズにするのか
+      var width = 800;
+      for(var key in Constants.widget.width) {
+        if(Constants.widget.width[key].mode === mode) {
+          width = parseInt(key);
+          break;
+        }
+      }
+      var height = width * (Constants.widget.aspect + 0.09);
+      chrome.windows.create({
+        url: kanColleUrl,
+        width: width, height: height,
+        type: 'panel'
+      }, function(win) {
+        if (!callback) return;
+        callback(win);
+      });
     };
 
     Util.haveNewUpdate = function(){

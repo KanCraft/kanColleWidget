@@ -100,7 +100,7 @@ function _toggleArea(e, sw){
         Config.set('show-old-launch', false);
         $('#old-launch').hide();
     });
-    $('#launch').on('click', function(){
+    $('#launch-app').on('click', function(){
         var mode = $('select[name=mode]').val();
         Tracking.set('mode',mode);
         Util.focusOrLaunchIfNotExists(mode, function(widgetWindow,newWidth){
@@ -118,6 +118,11 @@ function _toggleArea(e, sw){
                 });
             }
         });
+    });
+    $('#launch-panel').on('click', function() {
+      var mode = $('select[name=mode]').val();
+      Tracking.set('mode',mode);
+      Util.openPanelMode(mode);
     });
     $('#open-mission-info').on('click', function(){
         window.open('mission-info.html',null,"width=940,height=800");
