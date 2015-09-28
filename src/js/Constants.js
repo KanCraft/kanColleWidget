@@ -1,13 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.6.7.1",
+        version: "v1.6.7.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/564',
-        announceVersion : 142,
+        announceVersion : 143,
         announcements   : [
-            " カスタムキャプチャの列指定できないバグ修正",
-            "スクショ画面から画像付きツイートボタンのUXを修正",
-            "レアタイトル機能を復活",
-            "取得中妖精さん追加"
+            "レアタイトル機能をやっぱり廃止",
+            "APPモード窓のタイトルを設定可能に変更"
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
