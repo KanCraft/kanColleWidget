@@ -182,7 +182,6 @@ var KanColleWidget = KanColleWidget || {};
       for (var key in obj.weekly.contents) {
         res['weekly_' + key] = obj.daily.contents[key];
       }
-      console.log(res);
       return res;
     };
     /**
