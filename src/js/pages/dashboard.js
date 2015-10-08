@@ -15,9 +15,10 @@
     // }}}
 
     // {{{ #page1
-    var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
+    // var questListView = new widgetPages.QuestListView(new KanColleWidget.Quests());
+    var questPageView = new widgetPages.QuestPageView();
     $("#page1").append(
-        questListView.render()
+        questPageView.render()
     );
     // }}}
 
@@ -58,7 +59,7 @@
         sendDashboardTracking();
         timersView.update();
         tirednessListView.update();
-        if (questListView.haveUpdate()) questListView.update();
+        if (questPageView.questlist.haveUpdate()) questPageView.questlist.update();
     },5000);
 
     $('<link>').attr({
