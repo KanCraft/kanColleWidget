@@ -44,7 +44,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
           r: rate
         };
       },
-      col: 2, max: 6,
+      col: function() { return 2; }, max: 6,
       description: "装備画面をキャプって2列3行のまとめ画像をつくります",
       title: "装備&編成キャプチャ",
       button: "この装備画面をキャプる"
@@ -60,7 +60,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
           r: rate
         };
       },
-      col: 1, max: 10,
+      col: function() { return 1; }, max: 10,
       description: "編成の艦娘一覧画面をキャプって、1列のまとめ画像をつくります",
       title: "艦娘一覧キャプチャ",
       button: "この艦娘一覧ページをキャプる"
@@ -76,7 +76,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
             r: rate
         };
       },
-      col: 2, max: 100,// TODO: -1にする
+      col: function() { return $scope.area.col; }, max: 100,// TODO: -1にする
       description: "自分で座標決めてください（なんかデカすぎたり枚数多すぎたりすると動かないんでそこんとこ注意）",
       title: "カスタムキャプチャ",
       button: "今の画面をキャプる"
@@ -168,7 +168,7 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
 
-    var aligner = new Aligner(ss, $scope.getMode().col);
+    var aligner = new Aligner(ss, $scope.getMode().col());
 
     canvas.width = aligner.getSize().width;
     canvas.height = aligner.getSize().height;

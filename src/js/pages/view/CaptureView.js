@@ -94,7 +94,7 @@ var widgetPages = widgetPages || {};
         +'    <label><button id="newWindow" class="plain">'
         +'      <img src="../img/capture/new_window.png" title="New Window" class="clickable file-action">'
         +'    </button></label>'
-        +'    <label id="label-tweet" style="display:none;"><button id="tweet" class="plain">'
+        +'    <label id="label-tweet"><button id="tweet" class="plain">'
         +'      <img id="img-tweet" src="../img/capture/twitter.png" title="Share to Twitter" class="clickable file-action">'
         +'    </button></label>'
         +'    <a id="download-anchor" download="{{filename}}" href=""></a>'
@@ -139,11 +139,12 @@ var widgetPages = widgetPages || {};
             }
             return $('#text-options').hide();
         });
-        if (Config.get('auth-twitter') && this.twitter.oauth.hasToken()) {
-            this.$el.find('#label-tweet').show();
-        }
+        var self = this;
         this.$el.find('#tweet').on('click',function(ev){
-            self.tweetWithImageURI(ev, self);
+            if (Config.get('auth-twitter') && self.twitter.oauth.hasToken()) {
+              return self.tweetWithImageURI(ev, self);
+            }
+            window.alert("設定画面でTwitter連携すると画像付きツイートできるようになります");
         });
     };
     CaptureView.prototype.startApp = function() {

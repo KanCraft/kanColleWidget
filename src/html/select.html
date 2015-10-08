@@ -16,14 +16,28 @@
           <!-- div class="pull-right clickable" id="hide-launch">x</div -->
           <div id="config">
               <div class="content">
-                  <select name="mode" style="font-size: large;font-weight: bold">
-                      <option value="l">大型</option>
-                      <option value="m">中型</option>
-                      <option value="s">小型</option>
-                      <option value="xs">極小型</option>
-                      <option value="minimum">豆</option>
-                  </select>
-                  <button id="launch" tabindex="2">LAUNCH APP</button>
+                <table>
+                  <tr>
+                    <td>
+                      <select name="mode" style="font-size: large;font-weight: bold">
+                          <option value="l">大型</option>
+                          <option value="m">中型</option>
+                          <option value="s">小型</option>
+                          <option value="xs">極小型</option>
+                          <option value="minimum">豆</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button id="launch-app" tabindex="2">LAUNCH APP</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <button id="launch-panel" tabindex="3">PANEL (β)</button>
+                    </td>
+                  </tr>
+                </table>
               </div>
           </div>
         </div>
