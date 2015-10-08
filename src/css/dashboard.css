@@ -15,7 +15,19 @@ ul {
 }
 
 .boxy {
-    display: -webkit-box;
+  display: -webkit-box;
+}
+.boxy>.box-70 {
+  width: 70%;
+}
+.boxy>.box-30 {
+  width: 30%;
+}
+#achievements-table td {
+  text-align: center;
+}
+.x-small {
+  font-size: x-small;
 }
 
 .time-list {

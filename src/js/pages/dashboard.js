@@ -59,6 +59,7 @@
         sendDashboardTracking();
         timersView.update();
         tirednessListView.update();
+        questPageView.achievements.update();
         if (questPageView.questlist.haveUpdate()) questPageView.questlist.update();
     },5000);
 
