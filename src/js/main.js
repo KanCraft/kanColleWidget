@@ -178,6 +178,18 @@ var KanColleWidget = KanColleWidget || {};
 
     /***** command *****/
     chrome.commands.onCommand.addListener(function(command) {
-        console.log(command);
+        chrome.tabCapture.capture({
+          audio:true, video: true,
+          videoConstraints: {
+            mandatory: {
+              chromeMediaSource: 'tab',
+              minWidth: 800, maxWidth: 800,
+              minHeight: 480, maxHeight: 480
+            }
+          }
+        }, function(stream) {
+          var streamURL= window.URL.createObjectURL(stream);
+          window.open("src/html/streaming.html?src=" + streamURL);
+        });
     });
 })();

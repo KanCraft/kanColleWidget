@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>GIFキャプチャ</title>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../css/materialize.min.css" />
+      <script type="text/javascript" src="../js/jsgif/LZWEncoder.js"></script>
+      <script type="text/javascript" src="../js/jsgif/NeuQuant.js"></script>
+      <script type="text/javascript" src="../js/jsgif/GIFEncoder.js"></script>
+      <script type="text/javascript" src="../js/jsgif/b64.js"></script>
+      <script type="text/javascript" src="../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../js/materialize.min.js"></script>
+      <script type="text/javascript" src="../js/angular.min.js"></script>
+      <script type="text/javascript" src="../js/pages/streaming.js"></script>
+      <style>
+        #frames img {
+          width: 45px;
+          margin-right: 3px;
+          margin-bottom: 3px;
+          cursor: pointer;
+        }
+        .frame-dur-container {
+          border: dotted thick #eaeaea;
+          padding: 0 12px 20px 12px;
+          height: 180px;
+          position: relative;
+        }
+        .frame-dur-container:after {
+          content: "drop image here";
+          font-size: 2em;
+          color: #dadada;
+          font-weight: bold;
+          transform: rotate(-30deg);
+          position: absolute;
+          top: 75px;
+          left: 12px;
+          z-index: -1;
+        }
+        .frame-dur-container img {
+          width: 80%;
+        }
+      </style>
+    </head>
+    <body data-ng-app="kcw">
+      <div class="container" data-ng-controller="StreamingCapture">
+        <div class="row">
+          <div class="col s12">GIFキャプチャ（ぜったいメモリやばい）</div>
+        </div>
+        <div class="row">
+          <div class="col s4">
+            <div class="row">
+              <div class="col s12">
+                <video id="streaming-a" src="" width="100%" autoplay></video>
+              </div>
+            </div>
+            <div id="control-panel" class="row input-field">
+              <div class="col s4">
+                <label>fps</label>
+                <input type="number" min="1" max="32" data-ng-model="rec.fps">
+              </div>
+              <div class="col s4">
+                <label></label>
+                <span class="waves-effect waves-light btn" data-ng-if="!rec.running" data-ng-click="startRec()">start</span>
+                <span class="waves-effect waves-light btn red" data-ng-if="rec.running" data-ng-click="stopRec()">stop</span>
+              </div>
+              <div class="col s4">
+                <span class="waves-effect waves-teal btn-flat" data-ng-if="!rec.running" data-ng-click="clear()">clear</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <div class="frame-dur-container" data-frame-target="start">
+                  <h6>start frame [{{duration.start.idx}}]</h6>
+                  <img data-ng-src={{duration.start.src}}>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <div class="frame-dur-container" data-frame-target="end">
+                  <h6>end frame [{{duration.end.idx}}]</h6>
+                  <img data-ng-src={{duration.end.src}}>
+                </div>
+              </div>
+            </div>
+            <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
+              <div class="col s12">
+              <span class="btn waves-effect waves-light blue" style="width:100%" data-ng-click="generate()">Generate GIF</span>
+              </div>
+            </div>
+          </div>
+          <div class="col s8" id="frames">
+            <img
+              data-ng-repeat="src in frames track by $index"
+              data-ng-src={{src}}
+              data-ng-click="clickImage(src, $index)"
+              data-idx={{$index}}
+              draggable="true">
+          </div>
+        </div>
+      </div>
+    </body>
+  </html>

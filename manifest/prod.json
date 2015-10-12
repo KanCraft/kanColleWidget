@@ -16,6 +16,8 @@
         "storage",
         "unlimitedStorage",
         "downloads",
+        "tabCapture",
+        "commands",
         "<all_urls>"
     ],
     "web_accessible_resources": [
@@ -141,6 +143,13 @@
                 "default": "Ctrl+Shift+0"
             },
             "description":"スクショ"
+        },
+        "stream": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+I"
+            },
+            "description": "ストリーミング",
+            "global": true
         }
     },
     "options_page" : "src/html/settings.html"

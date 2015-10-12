@@ -48,6 +48,8 @@ $(function() {
     $(document).on('keyup',function(e){
         if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
             chrome.runtime.sendMessage({purpose: 'screenshot'});
+        } else if (e.shiftKey && e.ctrlKey) {
+          chrome.runtime.sendMessage(null, {purpose: 'stream'});
         }
     });
     // }}}
