@@ -180,7 +180,7 @@ var KanColleWidget = KanColleWidget || {};
         res['daily_' + key] = obj.daily.contents[key];
       }
       for (var key in obj.weekly.contents) {
-        res['weekly_' + key] = obj.daily.contents[key];
+        res['weekly_' + key] = obj.weekly.contents[key];
       }
       return res;
     };
