@@ -274,26 +274,42 @@ var Util = Util || {};
         };
 
         chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
+            var promise = Promise.resolve(dataUrl);
             if(Config.get('capture-destination-size') === true){
-                var promise = new Promise(function(resolve, reject){
-                    Util.removeBlackBlank(dataUrl, resolve);
+                promise = promise.then(function(dataUrl){
+                    return new Promise(function(resolve, reject){
+                        Util.removeBlackBlank(dataUrl, resolve);
+                    });
                 }).then(function(dataUrl){
+                    return new Promise(function(resolve, reject){
+                        console.log("removed black blank");
+                        console.log(dataUrl);
+                        Util.resizeImage(dataUrl, resolve);
+                    });
+                }).then(function(dataUrl){
+                    console.log("resized image");
                     console.log(dataUrl);
+                    return Promise.resolve(dataUrl);
                 });
-                dataUrl = Util.resizeImage(dataUrl);
             }
 
             var imgTitle = Util.getCaptureFilenameFull();
+            promise.then(function(dataUrl){
 
-            // メソッド切り分けしない
-            if(Config.get('download-on-screenshot')){
-                Util.downloadImage(dataUrl);
-                return;
-            }
+                console.log("sending image");
+                console.log(dataUrl);
 
-            Util.openCaptureByImageURI(dataUrl);
+                // メソッド切り分けしない
+                if(Config.get('download-on-screenshot')){
+                    Util.downloadImage(dataUrl);
+                    return;
+                }
 
-            doneCallback(dataUrl);
+                Util.openCaptureByImageURI(dataUrl);
+
+                doneCallback(dataUrl);
+
+            });
         });
     };
 
