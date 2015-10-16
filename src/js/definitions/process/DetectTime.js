@@ -55,30 +55,21 @@ var KanColleWidget = KanColleWidget || {};
         this.chrome.tabs.captureVisibleTab(windowId, {'format':'png'}, function(dataURI){
 
             // トリミングする
-            var trimmedURI = self._trim(dataURI, purpose, dockId);
+            var trimmedURI = self._trim(dataURI, purpose, dockId, function(trimmedURI) {
+              // OCRサーバへ送る
+              KanColleWidget.Ocr.send(trimmedURI, function(res){
 
-            // デバッグモードならトリミング後の画像を出す
-            if(localStorage.isDebug == 'true'){
-                var trimmedImg = new Image();
-                trimmedImg.src = trimmedURI;
-                var win = window.open();
-                win.document.title = new Date().toLocaleDateString();
-                win.document.body.appendChild(trimmedImg);
-            }
+                  res.imgURI      = trimmedURI;
+                  res.rawText     = res.result;
+                  res.assuredText = self._assure(res.result);
+                  res.result      = self._isSucceeded(res.assuredText);
 
-            // OCRサーバへ送る
-            KanColleWidget.Ocr.send(trimmedURI, function(res){
+                  callback(res);
 
-                res.imgURI      = trimmedURI;
-                res.rawText     = res.result;
-                res.assuredText = self._assure(res.result);
-                res.result      = self._isSucceeded(res.assuredText);
-
-                callback(res);
-
-                // Logサーバへ送る
-                if(! self.config.get('allow-ocr-result-log')) return;
-                self._sendLog(res);
+                  // Logサーバへ送る
+                  if(! self.config.get('allow-ocr-result-log')) return;
+                  self._sendLog(res);
+              });
             });
         });
     };
@@ -126,36 +117,37 @@ var KanColleWidget = KanColleWidget || {};
      */
     DetectTime.prototype._trim = function(dataURI,
                                           purpose,
-                                          dockId) {
+                                          dockId, callback) {
         var img = new Image();
+
+        img.addEventListener('load', function(){
+          window.alert('loaded');
+          var params = this._trimmingCoordsAndSize(img, purpose, dockId);
+
+          var canvas = document.createElement('canvas');
+          canvas.id = 'canvas';
+          canvas.width = params.size.width;
+          canvas.height = params.size.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(
+              img,
+              params.coords.left,
+              params.coords.top,
+              params.size.width,
+              params.size.height,
+              0, // offset left in destination Image
+              0, // offset top in destination Image
+              canvas.width,
+              canvas.height
+          );
+          // トリミングした画像を PNG32 から PNG24 に変換する
+          var png24 = new CanvasTool.PngEncoder(canvas, {
+              colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+          }).convert();
+          callback('data:image/png;base64,' + btoa(png24));
+          // return 'data:image/png;base64,' + btoa(png24);
+        }.bind(this));
         img.src = dataURI;
-
-        var params = this._trimmingCoordsAndSize(img, purpose, dockId);
-
-        var canvas = document.createElement('canvas');
-        canvas.id = 'canvas';
-        canvas.width = params.size.width;
-        canvas.height = params.size.height;
-        var ctx = canvas.getContext('2d');
-
-        ctx.drawImage(
-            img,
-            params.coords.left,
-            params.coords.top,
-            params.size.width,
-            params.size.height,
-            0, // offset left in destination Image
-            0, // offset top in destination Image
-            canvas.width,
-            canvas.height
-        );
-
-        // トリミングした画像を PNG32 から PNG24 に変換する
-        var png24 = new CanvasTool.PngEncoder(canvas, {
-            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
-        }).convert();
-
-        return 'data:image/png;base64,' + btoa(png24);
     };
 
     /**
