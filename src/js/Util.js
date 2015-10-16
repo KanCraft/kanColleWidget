@@ -274,22 +274,42 @@ var Util = Util || {};
         };
 
         chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
+            var promise = Promise.resolve(dataUrl);
             if(Config.get('capture-destination-size') === true){
-                dataUrl = Util.removeBlackBlank(dataUrl);
-                dataUrl = Util.resizeImage(dataUrl);
+                promise = promise.then(function(dataUrl){
+                    return new Promise(function(resolve, reject){
+                        Util.removeBlackBlank(dataUrl, resolve);
+                    });
+                }).then(function(dataUrl){
+                    return new Promise(function(resolve, reject){
+                        console.log("removed black blank");
+                        console.log(dataUrl);
+                        Util.resizeImage(dataUrl, resolve);
+                    });
+                }).then(function(dataUrl){
+                    console.log("resized image");
+                    console.log(dataUrl);
+                    return Promise.resolve(dataUrl);
+                });
             }
 
             var imgTitle = Util.getCaptureFilenameFull();
+            promise.then(function(dataUrl){
 
-            // メソッド切り分けしない
-            if(Config.get('download-on-screenshot')){
-                Util.downloadImage(dataUrl);
-                return;
-            }
+                console.log("sending image");
+                console.log(dataUrl);
 
-            Util.openCaptureByImageURI(dataUrl);
+                // メソッド切り分けしない
+                if(Config.get('download-on-screenshot')){
+                    Util.downloadImage(dataUrl);
+                    return;
+                }
 
-            doneCallback(dataUrl);
+                Util.openCaptureByImageURI(dataUrl);
+
+                doneCallback(dataUrl);
+
+            });
         });
     };
 
@@ -350,39 +370,50 @@ var Util = Util || {};
     /**
      * 画面全体のURIを渡すと、余黒を取り除いたURIを返す
      * @param dataURI
-     * @returns {string|*}
+     * @param callback {Function} Callback function
+     * @returns {void}
      */
-    Util.removeBlackBlank = function(dataURI) {
-        var img = new Image();
-        img.src = dataURI;
-        // 余黒を取り除く
-        var blank = Util.getBlank(img.width, img.height);
+    Util.removeBlackBlank = function(dataURI, callback) {
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
 
-        var trimmedURI = Util.trimImage(
-            dataURI,
-            {
-                left: blank.offsetLeft,
-                top : blank.offsetTop
-            },
-            {
-                width: img.width - blank.width,
-                height: (img.width - blank.width) * 0.6
-            }
-        );
-        return trimmedURI;
+        var img = new Image();
+        img.addEventListener('load', function(){
+            // 余黒を取り除く
+            var blank = Util.getBlank(img.width, img.height);
+
+            new Promise(function (resolve, reject) {
+                Util.trimImage(
+                    dataURI,
+                    {
+                        left: blank.offsetLeft,
+                        top : blank.offsetTop
+                    },
+                    {
+                        width: img.width - blank.width,
+                        height: (img.width - blank.width) * 0.6
+                    },
+                    null,
+                    resolve
+                );
+            }).then(function(trimmedURI){
+                callback(trimmedURI)
+            });
+        });
+        img.src = dataURI;
     };
 
     /**
      * キャプチャした画像をリサイズする
      * @param dataURI {String} Image
+     * @param callback {Function} Callback function
      * @param mode {String} Widget mode
      * @return {String} dataURI of image
      */
-    Util.resizeImage = function(dataURI/* , mode */) {
+    Util.resizeImage = function(dataURI, callback/* , mode */) {
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
+        
         //mode = 'm';
         var img = new Image();
-        img.src = dataURI;
-
         var canvas = document.createElement('canvas');
         canvas.id = 'resize';
         // とりあえずハードでいいや
@@ -390,18 +421,21 @@ var Util = Util || {};
         canvas.height = 480;
         var context = canvas.getContext('2d');
 
-        context.drawImage(
-            img,
-            0,0,
-            img.width, img.height,
-            0,0,
-            canvas.width, canvas.height
-        );
+        img.addEventListener('load', function(){
+            var format = Config.get('capture-image-format') || 'png';
+            format = "image/" + format;
 
-        var format = Config.get('capture-image-format') || 'png';
-        format = "image/" + format;
-
-        return canvas.toDataURL(format);
+            context.drawImage(
+                img,
+                0,0,
+                img.width, img.height,
+                0,0,
+                canvas.width, canvas.height
+            );
+            
+            return callback(canvas.toDataURL(format));
+        });
+        img.src = dataURI;
     };
 
     Util.detectAndCapture = function() {
@@ -673,38 +707,44 @@ var Util = Util || {};
      * @param coords
      * @param size
      * @param opt
+     * @param callback {Function} Callback function
      * @returns {string}
      */
-    Util.trimImage = function(dataURI, coords, size, opt){
+    Util.trimImage = function(dataURI, coords, size, opt, callback){
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
+
         var opt = opt || {format:'jpeg'};
         var img = new Image();
-        img.src = dataURI;
 
         var canvas = document.createElement('canvas');
         canvas.id = 'canvas';
         canvas.width  = size.width;
         canvas.height = size.height;
         var ctx = canvas.getContext('2d');
+        
+        img.addEventListener('load', function(){
+            ctx.drawImage(
+                img,
+                coords.left,
+                coords.top,
+                size.width,
+                size.height,
+                0, // offset left in destination Image
+                0, // offset top in destination Image
+                canvas.width,
+                canvas.height
+            );
+    
+            return callback(canvas.toDataURL('image/' + opt.format));
+            /*
+            var png24 = new CanvasTool.PngEncoder(canvas, {
+                colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+            }).convert();
+            */
+            return callback('data:image/'+ opt.format +';base64,' + btoa(canvas));
 
-        ctx.drawImage(
-            img,
-            coords.left,
-            coords.top,
-            size.width,
-            size.height,
-            0, // offset left in destination Image
-            0, // offset top in destination Image
-            canvas.width,
-            canvas.height
-        );
-
-        return canvas.toDataURL('image/' + opt.format);
-        /*
-        var png24 = new CanvasTool.PngEncoder(canvas, {
-            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
-        }).convert();
-        */
-        return 'data:image/'+ opt.format +';base64,' + btoa(canvas);
+        });
+        img.src = dataURI;
     };
 
     /**
