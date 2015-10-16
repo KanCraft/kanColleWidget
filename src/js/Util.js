@@ -275,7 +275,11 @@ var Util = Util || {};
 
         chrome.tabs.captureVisibleTab(windowId, opt, function(dataUrl) {
             if(Config.get('capture-destination-size') === true){
-                dataUrl = Util.removeBlackBlank(dataUrl);
+                var promise = new Promise(function(resolve, reject){
+                    Util.removeBlackBlank(dataUrl, resolve);
+                }).then(function(dataUrl){
+                    console.log(dataUrl);
+                });
                 dataUrl = Util.resizeImage(dataUrl);
             }
 
@@ -350,26 +354,32 @@ var Util = Util || {};
     /**
      * 画面全体のURIを渡すと、余黒を取り除いたURIを返す
      * @param dataURI
-     * @returns {string|*}
+     * @param callback {Function} Callback function
+     * @returns {void}
      */
-    Util.removeBlackBlank = function(dataURI) {
-        var img = new Image();
-        img.src = dataURI;
-        // 余黒を取り除く
-        var blank = Util.getBlank(img.width, img.height);
+    Util.removeBlackBlank = function(dataURI, callback) {
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
 
-        var trimmedURI = Util.trimImage(
-            dataURI,
-            {
-                left: blank.offsetLeft,
-                top : blank.offsetTop
-            },
-            {
-                width: img.width - blank.width,
-                height: (img.width - blank.width) * 0.6
-            }
-        );
-        return trimmedURI;
+        var img = new Image();
+        img.addEventListener('load', function(){
+            // 余黒を取り除く
+            var blank = Util.getBlank(img.width, img.height);
+
+            var trimmedURI = Util.trimImage(
+                dataURI,
+                {
+                    left: blank.offsetLeft,
+                    top : blank.offsetTop
+                },
+                {
+                    width: img.width - blank.width,
+                    height: (img.width - blank.width) * 0.6
+                }
+            );
+
+            callback(trimmedURI)
+        });
+        img.src = dataURI;
     };
 
     /**
