@@ -61,10 +61,7 @@ var widgetPages = widgetPages || {};
                   +'  </table>'
                   +'</div>';
         if (!Config.get('record-achievements')) {
-          this.tpl = '<div class="box-30">'
-          + '<h5>提督任務実績</h5>'
-          + '<p class="x-small">設定で「任務実績(遠征回数とか)を記録・表示する」をチェックすると表示します</p>'
-          + '</div>';
+          this.tpl = '<div class="box-30"></div>';
         }
         this.achievements = achievements;
     };
