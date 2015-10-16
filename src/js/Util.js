@@ -365,19 +365,23 @@ var Util = Util || {};
             // 余黒を取り除く
             var blank = Util.getBlank(img.width, img.height);
 
-            var trimmedURI = Util.trimImage(
-                dataURI,
-                {
-                    left: blank.offsetLeft,
-                    top : blank.offsetTop
-                },
-                {
-                    width: img.width - blank.width,
-                    height: (img.width - blank.width) * 0.6
-                }
-            );
-
-            callback(trimmedURI)
+            new Promise(function (resolve, reject) {
+                Util.trimImage(
+                    dataURI,
+                    {
+                        left: blank.offsetLeft,
+                        top : blank.offsetTop
+                    },
+                    {
+                        width: img.width - blank.width,
+                        height: (img.width - blank.width) * 0.6
+                    },
+                    null,
+                    resolve
+                );
+            }).then(function(trimmedURI){
+                callback(trimmedURI)
+            });
         });
         img.src = dataURI;
     };
@@ -683,38 +687,44 @@ var Util = Util || {};
      * @param coords
      * @param size
      * @param opt
+     * @param callback {Function} Callback function
      * @returns {string}
      */
-    Util.trimImage = function(dataURI, coords, size, opt){
+    Util.trimImage = function(dataURI, coords, size, opt, callback){
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
+
         var opt = opt || {format:'jpeg'};
         var img = new Image();
-        img.src = dataURI;
 
         var canvas = document.createElement('canvas');
         canvas.id = 'canvas';
         canvas.width  = size.width;
         canvas.height = size.height;
         var ctx = canvas.getContext('2d');
+        
+        img.addEventListener('load', function(){
+            ctx.drawImage(
+                img,
+                coords.left,
+                coords.top,
+                size.width,
+                size.height,
+                0, // offset left in destination Image
+                0, // offset top in destination Image
+                canvas.width,
+                canvas.height
+            );
+    
+            return callback(canvas.toDataURL('image/' + opt.format));
+            /*
+            var png24 = new CanvasTool.PngEncoder(canvas, {
+                colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
+            }).convert();
+            */
+            return callback('data:image/'+ opt.format +';base64,' + btoa(canvas));
 
-        ctx.drawImage(
-            img,
-            coords.left,
-            coords.top,
-            size.width,
-            size.height,
-            0, // offset left in destination Image
-            0, // offset top in destination Image
-            canvas.width,
-            canvas.height
-        );
-
-        return canvas.toDataURL('image/' + opt.format);
-        /*
-        var png24 = new CanvasTool.PngEncoder(canvas, {
-            colourType: CanvasTool.PngEncoder.ColourType.TRUECOLOR
-        }).convert();
-        */
-        return 'data:image/'+ opt.format +';base64,' + btoa(canvas);
+        });
+        img.src = dataURI;
     };
 
     /**
