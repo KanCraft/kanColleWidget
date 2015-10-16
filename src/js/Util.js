@@ -389,14 +389,15 @@ var Util = Util || {};
     /**
      * キャプチャした画像をリサイズする
      * @param dataURI {String} Image
+     * @param callback {Function} Callback function
      * @param mode {String} Widget mode
      * @return {String} dataURI of image
      */
-    Util.resizeImage = function(dataURI/* , mode */) {
+    Util.resizeImage = function(dataURI, callback/* , mode */) {
+        if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
+        
         //mode = 'm';
         var img = new Image();
-        img.src = dataURI;
-
         var canvas = document.createElement('canvas');
         canvas.id = 'resize';
         // とりあえずハードでいいや
@@ -404,18 +405,21 @@ var Util = Util || {};
         canvas.height = 480;
         var context = canvas.getContext('2d');
 
-        context.drawImage(
-            img,
-            0,0,
-            img.width, img.height,
-            0,0,
-            canvas.width, canvas.height
-        );
+        img.addEventListener('load', function(){
+            var format = Config.get('capture-image-format') || 'png';
+            format = "image/" + format;
 
-        var format = Config.get('capture-image-format') || 'png';
-        format = "image/" + format;
-
-        return canvas.toDataURL(format);
+            context.drawImage(
+                img,
+                0,0,
+                img.width, img.height,
+                0,0,
+                canvas.width, canvas.height
+            );
+            
+            return callback(canvas.toDataURL(format));
+        });
+        img.src = dataURI;
     };
 
     Util.detectAndCapture = function() {
