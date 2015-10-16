@@ -121,7 +121,6 @@ var KanColleWidget = KanColleWidget || {};
         var img = new Image();
 
         img.addEventListener('load', function(){
-          window.alert('loaded');
           var params = this._trimmingCoordsAndSize(img, purpose, dockId);
 
           var canvas = document.createElement('canvas');
