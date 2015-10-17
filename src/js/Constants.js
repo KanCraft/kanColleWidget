@@ -1,11 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.6.8.1",
+        version: "v1.6.8.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/567',
-        announceVersion : 147,
+        announceVersion : 148,
         announcements   : [
             'clockモードの提督任務実績で週次がおかしいバグ修正',
             'Chrome仕様変更でキャプチャいろいろ動いてなかったの修正',
+            '-----',
+            '編成キャプチャでもうまく動いてなかったの修正',
             '-----',
             'Chromeの画像の扱いに関する仕様が変わったとかで、特に画像切り出しや拡大縮小を伴う処理で画像が空になる不具合が発生していました。編成キャプチャは確認してないんですが、ダメだったらおしえてくださいm(_ _)m',
             '協力していただいたコミッター各位ありがとうございます！',
