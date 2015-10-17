@@ -11,6 +11,8 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     fps: 2
   };
 
+  var tmpFrames = [];
+
   var search = {};
   (window.location.search || "").replace(/^\?/, "").split("&").forEach(function(fragment){
       var pair = fragment.split("=");
@@ -22,6 +24,7 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   canvas.height = 400;
   var context = canvas.getContext("2d");
   var v = document.getElementById("streaming-a");
+  // var v = document.createElement("video");
   v.src = search.src;
   v.addEventListener("canplay", function() {
     if (search.autostart) $scope.startRec();
@@ -37,27 +40,36 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   $scope.clear = function() {
     $scope.frames = [];
     $scope.duration = {start:{}, end:{}};
+    tmpFrames = [];
   };
 
   $scope.stopRec = function() {
-    clearInterval($scope.rec.id);
     $scope.rec.running = false;
+    setTimeout(function() {
+      clearInterval($scope.rec.id);
+      $scope.frames = tmpFrames;
+    });
   };
 
   $scope.startRec = function() {
     $scope.rec.running = true;
     $scope.rec.id = setInterval(function() {
       context.drawImage(v, 0, 0, 680, 400);
-      $scope.frames.push(canvas.toDataURL());
+      tmpFrames.push(canvas.toDataURL());
+      /* 逐次表示してると遅い。アホかと
       setTimeout(function(){
         $scope.$apply();
       });
+      */
     }, 1000 / ($scope.rec.fps || 2));
+  };
+
+  $scope.openCapture = function(uri) {
+    Util.openCaptureByImageURI(uri);
   };
 
   $scope.generate = function() {
     var enc = new GIFEncoder();
-    
     enc.setSize(680, 400);
     enc.setRepeat(0);
     enc.setDelay(1000/ ($scope.rec.fps || 2));

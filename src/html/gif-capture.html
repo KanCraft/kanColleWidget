@@ -11,7 +11,8 @@
       <script type="text/javascript" src="../js/jquery.min.js"></script>
       <script type="text/javascript" src="../js/materialize.min.js"></script>
       <script type="text/javascript" src="../js/angular.min.js"></script>
-      <script type="text/javascript" src="../js/pages/streaming.js"></script>
+      <script type="text/javascript" src="../js/pages/gif-capture.js"></script>
+      <script type="text/javascript" src="../js/Util.js"></script>
       <style>
         #frames img {
           width: 45px;
@@ -37,7 +38,7 @@
           z-index: -1;
         }
         .frame-dur-container img {
-          width: 80%;
+          width: 100%;
         }
       </style>
     </head>
@@ -70,16 +71,22 @@
             <div class="row">
               <div class="col s12">
                 <div class="frame-dur-container" data-frame-target="start">
-                  <h6>start frame [{{duration.start.idx}}]</h6>
-                  <img data-ng-src={{duration.start.src}}>
+                  <h6>
+                    start frame [{{duration.start.idx}}]
+                    <a ng-click="openCapture(duration.start.src)" target="_blank" data-ng-if="duration.start.src">open</a>
+                  </h6>
+                  <img data-ng-src="{{duration.start.src}}" data-ng-if="duration.start.src">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col s12">
                 <div class="frame-dur-container" data-frame-target="end">
-                  <h6>end frame [{{duration.end.idx}}]</h6>
-                  <img data-ng-src={{duration.end.src}}>
+                  <h6>
+                    end frame [{{duration.end.idx}}]
+                    <a ng-click="openCapture(duration.end.src)" target="_blank" data-ng-if="duration.end.src">open</a>
+                  </h6>
+                  <img data-ng-src="{{duration.end.src}}" data-ng-if="duration.end.src">
                 </div>
               </div>
             </div>
