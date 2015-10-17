@@ -87,25 +87,28 @@ angular.module("kcw", []).controller("HenseiCapture", function($scope) {
   };
 
   var trim = function(data) {
+      var d = $.Deferred();
       var img = new window.Image();
+      img.addEventListener("load", function() {
+        var c = $scope.getMode().coords(img);
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        canvas.width = c.w/c.r;
+        canvas.height = c.h/c.r;
+        context.drawImage(img, c.x, c.y, c.w, c.h, 0, 0, c.w/c.r, c.h/c.r);
+        d.resolve(canvas.toDataURL());
+      });
       img.src = data;
-      var c = $scope.getMode().coords(img);
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
-
-      canvas.width = c.w/c.r;
-      canvas.height = c.h/c.r;
-      context.drawImage(img, c.x, c.y, c.w, c.h, 0, 0, c.w/c.r, c.h/c.r);
-
-      return canvas.toDataURL();
+      return d.promise();
   };
 
   $scope.capture = function() {
     detect(function(win) {
       chrome.tabs.captureVisibleTab(win.id, {format:"png"}, function(data) {
         // window.open(data);
-        var d = trim(data);
-        $scope.addShip(d);
+        trim(data).done(function(uri) {
+          $scope.addShip(uri);
+        });
       });
     });
     if ($scope.mode === "custom") $scope.historySave();
