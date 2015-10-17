@@ -1,11 +1,17 @@
 var Constants = {
     release : {
-        version: "v1.6.7.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/564',
-        announceVersion : 143,
+        version: "v1.6.8.2",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/567',
+        announceVersion : 148,
         announcements   : [
-            "レアタイトル機能をやっぱり廃止",
-            "APPモード窓のタイトルを設定可能に変更"
+            'clockモードの提督任務実績で週次がおかしいバグ修正',
+            'Chrome仕様変更でキャプチャいろいろ動いてなかったの修正',
+            '-----',
+            '編成キャプチャでもうまく動いてなかったの修正',
+            '-----',
+            'Chromeの画像の扱いに関する仕様が変わったとかで、特に画像切り出しや拡大縮小を伴う処理で画像が空になる不具合が発生していました。編成キャプチャは確認してないんですが、ダメだったらおしえてくださいm(_ _)m',
+            '協力していただいたコミッター各位ありがとうございます！',
+            '秋刀魚出ません！'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

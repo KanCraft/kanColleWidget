@@ -4,7 +4,7 @@ var widgetPages = widgetPages || {};
     var QuestListView = widgetPages.QuestListView = function(quests) {
         this.lastUpdate = 0;
         this.quests = quests;
-        this.tpl = '<div class="contents">'
+        this.tpl = '<div class="box-70">'
                   +'    <h5>デイリー任務消化状況 (<span id="progress" class="xsmall"></span>)</h5>'
                   +'    <div id="quest-list-container">'
                   +'        <table id="quests" class="table"></table>'

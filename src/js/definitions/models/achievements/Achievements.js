@@ -171,6 +171,20 @@ var KanColleWidget = KanColleWidget || {};
     }
 
     /**
+     * きもすぎる
+     */
+    Achievements.prototype.toFlatJson = function() {
+      var obj = this.toJson();
+      var res = {};
+      for (var key in obj.daily.contents) {
+        res['daily_' + key] = obj.daily.contents[key];
+      }
+      for (var key in obj.weekly.contents) {
+        res['weekly_' + key] = obj.weekly.contents[key];
+      }
+      return res;
+    };
+    /**
      * @returns {number}
      */
     Achievements.prototype._getNearestDailyAchievementResetTime = function(){

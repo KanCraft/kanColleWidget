@@ -24,10 +24,12 @@ var KanColleWidget = KanColleWidget || {};
         opt = opt || {};
         var _self = new Canvas(opt.canvasId, opt.contextName);
         var _img = new Image();
+        _img.addEventListener('load', function(){
+            _self.canvas.setAttribute('width', _img.width);
+            _self.canvas.setAttribute('height', _img.height);
+            _self.context.drawImage(_img, 0, 0);
+        });
         _img.src = imgURI;
-        _self.canvas.setAttribute('width', _img.width);
-        _self.canvas.setAttribute('height', _img.height);
-        _self.context.drawImage(_img, 0, 0);
         return _self;
     };
     Canvas.Rect = {
