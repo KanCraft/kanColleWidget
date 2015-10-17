@@ -1,3 +1,4 @@
+/* global angular: false, Uint8Array: false, Blob: false */
 angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   "use strict";
   $scope.frames = [];
@@ -10,10 +11,19 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     id: null,
     fps: 2
   };
+  $scope.progress = {
+    running: false,
+    percent: 0
+  };
 
   var tmpFrames = [];
 
-  var search = {};
+  var search = {
+    src: null, // streaming src
+    fps: 2, // frame per second
+    autostart: false, // auto start to record
+    observe: false // output successively
+  };
   (window.location.search || "").replace(/^\?/, "").split("&").forEach(function(fragment){
       var pair = fragment.split("=");
       if (pair.length === 2) search[pair[0]] = pair[1];
@@ -56,11 +66,13 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     $scope.rec.id = setInterval(function() {
       context.drawImage(v, 0, 0, 680, 400);
       tmpFrames.push(canvas.toDataURL());
-      /* 逐次表示してると遅い。アホかと
-      setTimeout(function(){
-        $scope.$apply();
-      });
-      */
+      if (search.observe) {
+        setTimeout(function() {
+          $scope.$apply(function() {
+            $scope.frames = tmpFrames;
+          });
+        });
+      }
     }, 1000 / ($scope.rec.fps || 2));
   };
 
@@ -68,7 +80,67 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     Util.openCaptureByImageURI(uri);
   };
 
+  var worer;
   $scope.generate = function() {
+    $scope.progress.running = true;
+    var worker = new Worker('../js/worker/gif-encode-worker.js');
+    var length = $scope.duration.end.idx - $scope.duration.start.idx;
+    worker.addEventListener('message', function(ev) {
+      var data = ev.data;
+      switch (data.message) {
+      case "progress":
+        $scope.$apply(function() {
+          $scope.progress.percent = Math.floor(100 * (data.count / length));
+        });
+        break;
+      case "done":
+        var binary = data.binary;
+        var buffer = new Uint8Array(binary.length);
+        for (var i = 0; i < binary.length; i += 1) {
+          buffer[i] = binary.charCodeAt(i);
+        }
+
+        $scope.progress.running = false;
+        $scope.progress.percent = 0;
+
+        var blob = new Blob([buffer.buffer], {type:"image/gif"});
+        var url = URL.createObjectURL(blob);
+
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "unko" + ".gif";
+        a.click();
+
+        URL.revokeObjectURL(a.href);
+        break;
+      }
+    });
+
+    worker.postMessage({cmd:'start', params:{fps: $scope.rec.fps || 2}});
+
+    for (var i = $scope.duration.start.idx; i < $scope.duration.end.idx; i++) {
+      var img = new Image();
+      img.src = $scope.frames[i];
+      // img.addEventListener('load', function() {
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      var u8a = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      worker.postMessage({cmd:'frame', frame: u8a});
+      // });
+      // img.src = $scope.frames[i];
+      /*
+      var img = new Image();
+      img.src = $scope.frames[i];
+      context.drawImage(img, 0, 0);
+      enc.addFrame(context);
+      */
+    }
+
+    setTimeout(function(){
+      worker.postMessage({cmd:'over'});
+    });
+
+    return; // debug
+
     var enc = new GIFEncoder();
     enc.setSize(680, 400);
     enc.setRepeat(0);
