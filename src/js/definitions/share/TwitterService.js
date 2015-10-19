@@ -17,7 +17,12 @@ var KanColleWidget;
             this.oauth.sendSignedRequest(
                 apiUrl,
                 function(res){
-                    deferred.resolve(JSON.parse(res));
+                  try {
+                    var obj = JSON.parse(res);
+                    deferred.resolve(obj);
+                  } catch (e) {
+                    deferred.reject(res);
+                  }
                 },
                 {method:"GET"}
             );
@@ -81,4 +86,3 @@ var KanColleWidget;
     })();
     KanColleWidget.ServiceTwitter = ServiceTwitter;
 })(KanColleWidget || (KanColleWidget = {}));
-

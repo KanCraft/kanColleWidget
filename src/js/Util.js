@@ -329,12 +329,21 @@ var Util = Util || {};
         if (fileFullPath.trim() != '') fileFullPath += '/';
         fileFullPath += data.file;
         fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
-        chrome.downloads.download({
-            url: data.url,
-            filename: fileFullPath
-        },function(a,b,c){
-            //console.log('in callback', a, b, c);
+        return Util.downloadImageWithParams({
+          url: data.url,
+          filename: fileFullPath
         });
+    };
+
+    Util.downloadImageWithParams = function(params) {
+      var d = $.Deferred();
+      chrome.downloads.download({
+        url:      params.url,
+        filename: params.fullpath
+      }, function() {
+        d.resolve();
+      });
+      return d.promise();
     };
 
     Util.getCaptureFilenameFull = function(){
@@ -411,7 +420,7 @@ var Util = Util || {};
      */
     Util.resizeImage = function(dataURI, callback/* , mode */) {
         if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
-        
+
         //mode = 'm';
         var img = new Image();
         var canvas = document.createElement('canvas');
@@ -432,7 +441,7 @@ var Util = Util || {};
                 0,0,
                 canvas.width, canvas.height
             );
-            
+
             return callback(canvas.toDataURL(format));
         });
         img.src = dataURI;
@@ -721,7 +730,7 @@ var Util = Util || {};
         canvas.width  = size.width;
         canvas.height = size.height;
         var ctx = canvas.getContext('2d');
-        
+
         img.addEventListener('load', function(){
             ctx.drawImage(
                 img,
@@ -734,7 +743,7 @@ var Util = Util || {};
                 canvas.width,
                 canvas.height
             );
-    
+
             return callback(canvas.toDataURL('image/' + opt.format));
             /*
             var png24 = new CanvasTool.PngEncoder(canvas, {

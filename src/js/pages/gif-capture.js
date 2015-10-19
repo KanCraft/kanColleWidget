@@ -1,4 +1,4 @@
-/* global window:false, $:false, angular:false, Util:global */
+/* global window:false, KanColleWidget:false, chrome:false, $:false, angular:false, Util:global */
 angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   "use strict";
   $scope.frames = [];
@@ -100,23 +100,35 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
         break;
       case "done":
         var binary = data.binary;
-        var buffer = new window.Uint8Array(binary.length);
-        for (var i = 0; i < binary.length; i += 1) {
-          buffer[i] = binary.charCodeAt(i);
-        }
-
         $scope.progress.running = false;
         $scope.progress.percent = 0;
 
+        var uri = encode64(binary)
+        /*
         var blob = new window.Blob([buffer.buffer], {type:"image/gif"});
         var url = window.URL.createObjectURL(blob);
-
+        */
+        $scope.$apply(function() {
+          $scope.result = {uri: "data:image/gif;base64," + uri};
+          // まあとりあえず
+          window.setTimeout(function(){
+            $("ul.tabs").tabs();
+          });
+        });
+        /*
+        chrome.tabs.create({
+          url: chrome.extension.getURL("/") + "src/html/gif-result.html"
+              + "?uri=" + "data:image/gif;base64," + window.encodeURIComponent(uri)
+        });
+        */
+        /*
         var a = window.document.createElement("a");
         a.href = url;
         a.download = "unko" + ".gif";
         a.click();
 
         window.URL.revokeObjectURL(a.href);
+        */
         break;
       }
     });
@@ -138,6 +150,25 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
       worker.postMessage({cmd:"over"});
     });
     return;
+  };
+
+  $scope.tweet = function() {
+    var confirmed = window.confirm($scope.tweettext + "\n\nで、ツイートする？");
+    if (!confirmed) {
+      return;
+    }
+    $scope.tweeting = true;
+    var twitter = new KanColleWidget.ServiceTwitter();
+    twitter.tweetWithImageURI($scope.result.uri, "gif", $scope.tweettext).done(function(res) {
+      $scope.$apply(function() {
+        $scope.destPermalink = KanColleWidget.ServiceTwitter.getPermalinkFromSuccessResponse(res);
+        $scope.tweeting = false;
+      });
+    }).fail(function(err) {
+      var message = "Twitter先生からエラーのお知らせのようです\n" + JSON.stringify(err);
+      window.alert(message);
+      $scope.tweeting = false;
+    });
   };
 
   angular.element("html").on("dragover dragleave", function(ev) {

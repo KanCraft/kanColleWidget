@@ -7,12 +7,13 @@
       <script type="text/javascript" src="../js/jsgif/LZWEncoder.js"></script>
       <script type="text/javascript" src="../js/jsgif/NeuQuant.js"></script>
       <script type="text/javascript" src="../js/jsgif/GIFEncoder.js"></script>
-      <!-- script type="text/javascript" src="../js/jsgif/b64.js"></script -->
+      <script type="text/javascript" src="../js/jsgif/b64.js"></script>
       <script type="text/javascript" src="../js/jquery.min.js"></script>
       <script type="text/javascript" src="../js/materialize.min.js"></script>
       <script type="text/javascript" src="../js/angular.min.js"></script>
       <script type="text/javascript" src="../js/pages/gif-capture.js"></script>
       <script type="text/javascript" src="../js/Util.js"></script>
+      <script type="text/javascript" src="../js/definitions/share/TwitterService.js"></script>
       <style>
         #frames img {
           width: 45px;
@@ -108,6 +109,47 @@
               draggable="true">
           </div>
         </div>
+        <!-- けっかゾーン -->
+        <div class="row">
+          <h1>GIFけっか↓</h1>
+        </div>
+        <div class="row">
+          <div class="col s10">
+            <img ng-src="{{result.uri}}" width="100%">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s10">
+            <ul class="tabs">
+              <li class="tab col s3">
+                <a href="#test1">ダウンロードする</a>
+              </li>
+              <li class="tab col s3"><a href="#test2">ツイートする</a></li>
+            </ul>
+          </div>
+          <div id="test1" class="col s10">
+            <div class="row">
+              <div class="col s12 input-field">
+                <input id="file-name" type="text" ng-model="filename">
+                <label for="file-name">ファイル名 (.gifは勝手につけます)</label>
+                <span class="btn" ng-click="download()">download</span>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s10">
+            <div class="row">
+              <div class="col s12 input-field">
+                <textarea id="teweet-text" class="materialize-textarea" length="100" ng-model="tweettext"></textarea>
+                <label for="tweet-text">ツイートテキスト</label>
+                <button class="btn blue" ng-click="tweet()" data-ng-disabled="tweeting">tweet</button>
+                <div ng-if="destPermalink">
+                  <a href="{{destPermalink}}" target="_blank">{{destPermalink}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /けっかゾーン -->
       </div>
     </body>
   </html>
