@@ -121,14 +121,6 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
               + "?uri=" + "data:image/gif;base64," + window.encodeURIComponent(uri)
         });
         */
-        /*
-        var a = window.document.createElement("a");
-        a.href = url;
-        a.download = "unko" + ".gif";
-        a.click();
-
-        window.URL.revokeObjectURL(a.href);
-        */
         break;
       }
     });
@@ -168,6 +160,17 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
       var message = "Twitter先生からエラーのお知らせのようです\n" + JSON.stringify(err);
       window.alert(message);
       $scope.tweeting = false;
+    });
+  };
+
+  $scope.download = function() {
+    var getDownloadDir = function() {
+      var config = JSON.parse(window.localStorage.getItem("config") || "{}");
+      return config["capture-image-download-dir"] || "艦これ";
+    };
+    chrome.downloads.download({
+      url: $scope.result.uri,
+      filename: getDownloadDir() + "/" + $scope.filename + ".gif"
     });
   };
 
