@@ -1,4 +1,4 @@
-/* global window:false, KanColleWidget:false, chrome:false, $:false, angular:false, Util:global */
+/* global window:false, KanColleWidget:false, chrome:false, $:false, angular:false, Util:global, encode64:false */
 angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   "use strict";
   $scope.frames = [];
@@ -91,9 +91,13 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
   };
 
   $scope.generate = function() {
-    $scope.progress.running = true;
-    var worker = new window.Worker("../js/worker/gif-encode-worker.js");
     var length = $scope.duration.end.idx - $scope.duration.start.idx;
+    if (length > 120) {
+      window.alert("120フレームくらいにしてください");
+      return;
+    }
+    var worker = new window.Worker("../js/worker/gif-encode-worker.js");
+    $scope.progress.running = true;
     worker.addEventListener("message", function(ev) {
       var data = ev.data;
       switch (data.message) {
@@ -107,7 +111,7 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
         $scope.progress.running = false;
         $scope.progress.percent = 0;
 
-        var uri = encode64(binary)
+        var uri = encode64(binary);
         /*
         var blob = new window.Blob([buffer.buffer], {type:"image/gif"});
         var url = window.URL.createObjectURL(blob);
