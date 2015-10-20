@@ -178,8 +178,10 @@ var KanColleWidget = KanColleWidget || {};
 
     /***** command *****/
     chrome.commands.onCommand.addListener(function(command) {
+      switch (command) {
+      case 'stream':
         chrome.tabCapture.capture({
-          audio:true, video: true,
+          audio:false, video: true,
           videoConstraints: {
             mandatory: {
               chromeMediaSource: 'tab',
@@ -189,7 +191,8 @@ var KanColleWidget = KanColleWidget || {};
           }
         }, function(stream) {
           var streamURL= window.URL.createObjectURL(stream);
-          window.open("src/html/gif-capture.html?fps=8&src=" + streamURL);
+          window.open('src/html/gif-capture.html?fps=8&src=' + streamURL);
         });
+      }
     });
 })();
