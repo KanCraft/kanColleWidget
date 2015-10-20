@@ -62,11 +62,11 @@
               </div>
               <div class="col s4">
                 <label></label>
-                <span class="waves-effect waves-light btn" data-ng-if="!rec.running" data-ng-click="startRec()">start</span>
-                <span class="waves-effect waves-light btn red" data-ng-if="rec.running" data-ng-click="stopRec()">stop</span>
+                <button class="waves-effect waves-light btn" data-ng-if="!rec.running && !rec.previewing" data-ng-disabled="rec.previewing" data-ng-click="startRec()">start</button>
+                <button class="waves-effect waves-light btn red" data-ng-if="rec.running" data-ng-click="stopRec()">stop</button>
               </div>
               <div class="col s4">
-                <span class="waves-effect waves-teal btn-flat" data-ng-if="!rec.running" data-ng-click="clear()">clear</span>
+                <span class="waves-effect waves-teal btn-flat" data-ng-if="!rec.running && !rec.previewing" data-ng-click="clear()">clear</span>
               </div>
             </div>
             <div class="row">
@@ -93,7 +93,7 @@
             </div>
             <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
               <div class="col s12">
-                <span class="btn waves-effect waves-light blue" style="width:100%" data-ng-click="generate()">Generate GIF</span>
+                <button class="btn waves-effect waves-light blue" style="width:100%" data-ng-click="generate()" data-ng-disabled="progress.running">Generate GIF</button>
                 <div class="progress">
                   <div class="determinate" style="width: {{progress.percent}}%"></div>
                 </div>

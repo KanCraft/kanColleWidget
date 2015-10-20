@@ -61,10 +61,14 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
 
   $scope.stopRec = function() {
     $scope.rec.running = false;
+    $scope.rec.previewing = true;
     window.setTimeout(function() {
       window.clearInterval($scope.rec.id);
-      $scope.frames = tmpFrames;
-    });
+      $scope.$apply(function() {
+        $scope.frames = tmpFrames;
+        $scope.rec.previewing = false;
+      });
+    }, 10);
   };
 
   $scope.startRec = function() {
