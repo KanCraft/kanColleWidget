@@ -136,7 +136,7 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     worker.postMessage({cmd:"start", params:{fps: $scope.rec.fps || 2}});
 
     var frames = $scope.frames.slice(
-      $scope.duration.start.idx, $scope.duration.end.idx + 1
+      $scope.duration.start.idx, $scope.duration.end.idx
     );
     frames.forEach(function(frame) {
       var img = new window.Image();
