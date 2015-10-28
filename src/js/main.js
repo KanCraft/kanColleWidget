@@ -21,9 +21,14 @@ var oauth = chrome.extension.getBackgroundPage()['oauth'] || ChromeExOAuth.initB
 var KanColleWidget = KanColleWidget || {};
 KanColleWidget.stream = (function() {
   var _stream = null;
-  return function() {
+  return function(revoke) {
     var d = $.Deferred();
-    if (_stream == null) {
+    if (revoke) {
+      _stream = null;
+      d.resolve(null);
+      return d.promise();
+    }
+    if (!_stream || !_stream.active) {
       chrome.tabCapture.capture({
         audio:false, video: true,
         videoConstraints: {
@@ -38,6 +43,7 @@ KanColleWidget.stream = (function() {
         d.resolve(stream);
       });
     } else {
+      console.log(_stream);
       d.resolve(_stream);
     }
     return d.promise();
