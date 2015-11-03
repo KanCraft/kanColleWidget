@@ -78,6 +78,7 @@ angular.module("kcw", []).filter("humanize", function() {
   };
 
   $scope.clear = function() {
+    if (!window.confirm("フレームとGIFけっかを全てクリアします")) return;
     $scope.frames = [];
     $scope.duration = {start:{}, end:{}, estimated: {}};
     tmpFrames = [];
