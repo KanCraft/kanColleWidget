@@ -1,10 +1,34 @@
 /* global window:false, KanColleWidget:false, chrome:false, $:false, angular:false, Util:global, encode64:false */
-angular.module("kcw", []).controller("StreamingCapture", function($scope) {
+angular.module("kcw", []).filter("humanize", function() {
+  var trunc = function(s, delim, sig) {
+    s = String(s);
+    delim = delim || ".", sig = sig || 2;
+    var parts = s.split(delim);
+    if (parts.length < 2) return parts[0];
+    return [parts[0], parts[1].slice(0, sig)].join(delim);
+  };
+  var div = 1000;
+  return function(input) {
+    var fl = parseFloat(input);
+    if (input != fl) return input;
+    if (fl > Math.pow(div, 3)) {
+      return trunc(fl / Math.pow(div, 3)) + "GB";
+    }
+    if (fl > Math.pow(div, 2)) {
+      return trunc(fl / Math.pow(div, 2)) + "MB";
+    }
+    if (fl > Math.pow(div, 1)) {
+      return trunc(fl / Math.pow(div, 1)) + "KB";
+    }
+    return fl + "B"
+  };
+}).controller("StreamingCapture", function($scope) {
   "use strict";
   $scope.frames = [];
   $scope.duration = {
     start: {},
-    end: {}
+    end: {},
+    estimated: {}
   };
   $scope.rec = {
     running: false,
@@ -55,8 +79,9 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
 
   $scope.clear = function() {
     $scope.frames = [];
-    $scope.duration = {start:{}, end:{}};
+    $scope.duration = {start:{}, end:{}, estimated: {}};
     tmpFrames = [];
+    $scope.result = {};
   };
 
   $scope.stopRec = function() {
@@ -92,10 +117,12 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
 
   $scope.generate = function() {
     var length = $scope.duration.end.idx - $scope.duration.start.idx;
+    /*
     if (length > 120) {
       window.alert("120フレームくらいにしてください");
       return;
     }
+    */
     var worker = new window.Worker("../js/worker/gif-encode-worker.js");
     $scope.progress.running = true;
     worker.addEventListener("message", function(ev) {
@@ -117,7 +144,10 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
         var url = window.URL.createObjectURL(blob);
         */
         $scope.$apply(function() {
-          $scope.result = {uri: "data:image/gif;base64," + uri};
+          $scope.result = {
+            uri: "data:image/gif;base64," + uri,
+            size: getSizeFromBase64(uri)
+          };
           // まあとりあえず
           window.setTimeout(function(){
             $("ul.tabs").tabs();
@@ -182,6 +212,10 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     });
   };
 
+  var getSizeFromBase64 = function(b64str, dohumanize) {
+    return (b64str || "").length * 3 / 4;
+  };
+
   angular.element("html").on("dragover dragleave", function(ev) {
     ev.preventDefault();
     ev.stopPropagation();
@@ -194,8 +228,16 @@ angular.module("kcw", []).controller("StreamingCapture", function($scope) {
     var dest = $(ev.target).attr("data-frame-target");
     $scope.duration[dest] = {
       src: data.attr("src"),
-      idx: data.attr("data-idx")
+      idx: data.attr("data-idx"),
+      fsize: getSizeFromBase64(data.attr("src"))
     };
+
+    if ($scope.duration.end.idx - $scope.duration.start.idx > 0) {
+      var fsize = $scope.duration[dest].fsize;
+      var len = $scope.duration.end.idx - $scope.duration.start.idx;
+      $scope.duration.estimated.fsize = fsize * len;
+    }
+
     $scope.$apply();
   });
 });

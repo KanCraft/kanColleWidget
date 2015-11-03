@@ -77,6 +77,7 @@
                     <a ng-click="openCapture(duration.start.src)" target="_blank" data-ng-if="duration.start.src">open</a>
                   </h6>
                   <img data-ng-src="{{duration.start.src}}" data-ng-if="duration.start.src">
+                  {{duration.start.fsize | humanize}}
                 </div>
               </div>
             </div>
@@ -88,7 +89,13 @@
                     <a ng-click="openCapture(duration.end.src)" target="_blank" data-ng-if="duration.end.src">open</a>
                   </h6>
                   <img data-ng-src="{{duration.end.src}}" data-ng-if="duration.end.src">
+                  {{duration.end.fsize | humanize}}
                 </div>
+              </div>
+            </div>
+            <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
+              <div class="col s12">
+                <span>{{duration.end.fsize | humanize}}</span> × <span>{{duration.end.idx - duration.start.idx}}</span> = <span>だいたい{{duration.estimated.fsize | humanize}}</span>
               </div>
             </div>
             <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
@@ -115,6 +122,7 @@
         </div>
         <div class="row">
           <div class="col s10">
+            {{result.size | humanize}} (だいたい)
             <img ng-src="{{result.uri}}" width="100%">
           </div>
         </div>
