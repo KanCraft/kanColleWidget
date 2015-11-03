@@ -120,7 +120,7 @@
         <div class="row">
           <h1>GIFけっか↓</h1>
         </div>
-        <div class="row">
+        <div class="row" data-ng-if="result.uri">
           <div class="col s10">
             {{result.size | humanize}} (だいたい)
             <img ng-src="{{result.uri}}" width="100%">
