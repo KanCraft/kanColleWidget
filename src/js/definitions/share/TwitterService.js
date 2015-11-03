@@ -40,12 +40,6 @@ var KanColleWidget;
                     status: status
                 }
             };
-            var callback = function (response, xhr) {
-                response = JSON.parse(response);
-                if (xhr.status !== 200)
-                    deferred.reject(response); else
-                    deferred.resolve(response);
-            };
 
             var base64imageURI = imageURI;
             var blob = this.uri2blob(base64imageURI, type);
@@ -54,7 +48,16 @@ var KanColleWidget;
             formData.append("media[]", blob);
 
             options['body'] = formData;
-            this.oauth.sendSignedRequest(apiUrl, callback, options);
+            this.oauth.sendSignedRequest(apiUrl, function(response, xhr) {
+              if (xhr.status !== 200) {
+                if (xhr.status == 413) response = "too large";
+                deferred.reject(xhr.status + "\n" + response);
+                return;
+              }
+              response = JSON.parse(response);
+              deferred.resolve(response);
+            }, options);
+
             return deferred.promise();
         };
 
