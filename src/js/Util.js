@@ -826,7 +826,7 @@ var Util = Util || {};
       var height = width * (Constants.widget.aspect + 0.09);
       chrome.windows.create({
         url: kanColleUrl,
-        width: width, height: height,
+        width: parseInt(width), height: parseInt(height),
         type: 'panel'
       }, function(win) {
         if (!callback) return;
