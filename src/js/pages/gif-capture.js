@@ -58,8 +58,8 @@ angular.module("kcw", []).filter("humanize", function() {
     $scope.rec.fps = parseInt(search.fps) || 2;
   }
   var canvas = window.document.createElement("canvas");
-  canvas.width = 680;
-  canvas.height = 400;
+  canvas.width = 400;
+  canvas.height = 240;
   var context = canvas.getContext("2d");
   var v = window.document.getElementById("streaming-a");
   // var v = document.createElement("video");
@@ -100,7 +100,7 @@ angular.module("kcw", []).filter("humanize", function() {
   $scope.startRec = function() {
     $scope.rec.running = true;
     $scope.rec.id = window.setInterval(function() {
-      context.drawImage(v, 0, 0, 680, 400);
+      context.drawImage(v, 0, 0, 400, 240);
       tmpFrames.push(canvas.toDataURL());
       if (search.observe) {
         window.setTimeout(function() {

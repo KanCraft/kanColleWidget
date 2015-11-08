@@ -8,7 +8,7 @@ self.addEventListener('message', function(ev) {
   case 'start':
     // init encoder
     self.encoder = new GIFEncoder();
-    self.encoder.setSize(680, 400);
+    self.encoder.setSize(400, 240);
     self.encoder.setRepeat(0);
     self.encoder.setDelay(1000/ (data.params.fps || 2));
     // encoder start

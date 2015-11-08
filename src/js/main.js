@@ -34,8 +34,8 @@ KanColleWidget.stream = (function() {
         videoConstraints: {
           mandatory: {
             chromeMediaSource: 'tab',
-            minWidth: 800, maxWidth: 800,
-            minHeight: 480, maxHeight: 480
+            // minWidth: 800, minHeight: 480,
+            maxWidth: 800, maxHeight: 480
           }
         }
       }, function(stream) {
