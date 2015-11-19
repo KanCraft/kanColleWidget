@@ -140,7 +140,15 @@
             "suggested_key": {
                 "default": "Ctrl+Shift+0"
             },
-            "description":"スクショ"
+            "description":"スクショ",
+            "global": true
+        },
+        "toggle-mute": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+9"
+            },
+            "description": "音声のミュート",
+            "global": true
         }
     },
     "options_page" : "src/html/settings.html"
