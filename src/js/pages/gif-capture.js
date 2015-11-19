@@ -85,21 +85,41 @@ angular.module("kcw", []).filter("humanize", function() {
     $scope.result = {};
   };
 
+  var fired = null;
+
   $scope.stopRec = function() {
-    $scope.rec.running = false;
+    $scope.$apply(function(){
+      $scope.rec.running = false;
+    });
+    var timer = document.getElementById("timer");
+    timer.innerHTML = "processing";
     $scope.rec.previewing = true;
+    fired = null;
     window.setTimeout(function() {
       window.clearInterval($scope.rec.id);
       $scope.$apply(function() {
         $scope.frames = tmpFrames;
         $scope.rec.previewing = false;
       });
+      timer.innerHTML = "";
     }, 10);
+  };
+
+  var elapsed = function(fr, to) {
+    var diff = (to - fr) / 1000;
+    return Math.floor(diff) + "sec";
   };
 
   $scope.startRec = function() {
     $scope.rec.running = true;
+    fired = Date.now();
+    var timer = document.getElementById("timer");
     $scope.rec.id = window.setInterval(function() {
+      var now = Date.now();
+      timer.innerHTML = elapsed(fired, now);
+      if (now - fired > 1000 * 12) {
+        return $scope.stopRec();
+      }
       context.drawImage(v, 0, 0, 400, 240);
       tmpFrames.push(canvas.toDataURL());
       if (search.observe) {

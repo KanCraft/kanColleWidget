@@ -63,7 +63,7 @@
               <div class="col s4">
                 <label></label>
                 <button class="waves-effect waves-light btn" data-ng-if="!rec.running && !rec.previewing" data-ng-disabled="rec.previewing" data-ng-click="startRec()">start</button>
-                <button class="waves-effect waves-light btn red" data-ng-if="rec.running" data-ng-click="stopRec()">stop</button>
+                <button class="waves-effect waves-light btn red" data-ng-hide="!rec.running" data-ng-click="stopRec()"><span id="timer"></span></button>
               </div>
               <div class="col s4">
                 <span class="waves-effect waves-teal btn-flat" data-ng-if="!rec.running && !rec.previewing" data-ng-click="clear()">clear</span>
