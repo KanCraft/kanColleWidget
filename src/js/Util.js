@@ -339,7 +339,7 @@ var Util = Util || {};
       var d = $.Deferred();
       chrome.downloads.download({
         url:      params.url,
-        filename: params.fullpath
+        filename: params.filename
       }, function() {
         d.resolve();
       });
