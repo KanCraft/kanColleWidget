@@ -54,6 +54,7 @@ angular.module("kcw", []).filter("humanize", function() {
         search[pair[0]] = pair[1];
       }
   });
+  $scope.observe = search.observe;
   if (parseInt(search.fps) <= 32) {
     $scope.rec.fps = parseInt(search.fps) || 2;
   }
@@ -88,20 +89,17 @@ angular.module("kcw", []).filter("humanize", function() {
   var fired = null;
 
   $scope.stopRec = function() {
-    $scope.$apply(function(){
-      $scope.rec.running = false;
-    });
+    window.clearInterval($scope.rec.id);
+    $scope.rec.running = false;
     var timer = document.getElementById("timer");
     timer.innerHTML = "processing";
     $scope.rec.previewing = true;
     fired = null;
     window.setTimeout(function() {
-      window.clearInterval($scope.rec.id);
-      $scope.$apply(function() {
-        $scope.frames = tmpFrames;
-        $scope.rec.previewing = false;
-      });
-      timer.innerHTML = "";
+      // timer.innerHTML = "";
+      $scope.rec.previewing = false;
+      $scope.frames = tmpFrames;
+      $scope.$apply();
     }, 10);
   };
 
@@ -117,16 +115,14 @@ angular.module("kcw", []).filter("humanize", function() {
     $scope.rec.id = window.setInterval(function() {
       var now = Date.now();
       timer.innerHTML = elapsed(fired, now);
-      if (now - fired > 1000 * 12) {
+      if (!search.observe && now - fired > 1000 * 12) {
         return $scope.stopRec();
       }
       context.drawImage(v, 0, 0, 400, 240);
       tmpFrames.push(canvas.toDataURL());
       if (search.observe) {
-        window.setTimeout(function() {
-          $scope.$apply(function() {
-            $scope.frames = tmpFrames;
-          });
+        $scope.$apply(function() {
+          $scope.frames = tmpFrames.slice(-20).reverse();
         });
       }
     }, 1000 / ($scope.rec.fps || 2));

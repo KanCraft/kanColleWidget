@@ -21,6 +21,9 @@
           margin-bottom: 3px;
           cursor: pointer;
         }
+        #frames img.observe {
+          width: 120px;
+        }
         .frame-dur-container {
           border: dotted thick #eaeaea;
           padding: 0 12px 20px 12px;
@@ -111,6 +114,7 @@
             <img
               data-ng-repeat="src in frames track by $index"
               data-ng-src={{src}}
+              data-ng-class="(observe) ? 'observe' : ''"
               data-ng-click="clickImage(src, $index)"
               data-idx={{$index}}
               draggable="true">
