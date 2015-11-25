@@ -45,6 +45,7 @@ $(function() {
 
     // キーバインド登録
     // {{{ こっちはmanifest.jsonでどうにもならない。たぶんpermissionが無い
+    /*
     $(document).on('keyup',function(e){
         if(e.shiftKey && e.ctrlKey && e.keyCode === 48){
             chrome.runtime.sendMessage({purpose: 'screenshot'});
@@ -52,6 +53,7 @@ $(function() {
           chrome.runtime.sendMessage(null, {purpose: 'stream'});
         }
     });
+    */
     // }}}
 
     /**
