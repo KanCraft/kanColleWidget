@@ -1,14 +1,13 @@
 var Constants = {
     release : {
-        version: "v1.7.0.3",
+        version: "v1.7.0.4",
         link: 'https://github.com/otiai10/kanColleWidget/pull/584',
-        announceVersion : 154,
+        announceVersion : 155,
         announcements   : [
-            'GIFキャプチャ機能 (APPモードでCtrl+Shift+P)',
+            'GIFキャプチャ機能 (Command + Shift + 8)',
             '------------',
-            'MacならCommand+Shift+Pです',
             'くわしくは<a class="light" href="https://github.com/otiai10/kanColleWidget/issues/589">ここ</a>',
-            'そんなに良いものじゃないと思いますよ？'
+            'そんなに良いものじゃないと思います'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
