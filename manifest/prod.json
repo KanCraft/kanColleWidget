@@ -144,12 +144,18 @@
             },
             "description":"スクショ"
         },
+        "toggle-mute": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+9"
+            },
+            "description": "音声のミュート",
+            "global": true
+        },
         "stream": {
             "suggested_key": {
                 "default": "Ctrl+Shift+I"
             },
-            "description": "ストリーミング",
-            "global": true
+            "description": "ストリーミング"
         }
     },
     "options_page" : "src/html/settings.html"

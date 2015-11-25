@@ -2,7 +2,7 @@ var Constants = {
     release : {
         version: "v1.7.1",
         link: 'https://github.com/otiai10/kanColleWidget/pull/567',
-        announceVersion : 149,
+        announceVersion : 152,
         announcements   : [
             'GIFキャプチャ機能',
             '---------',

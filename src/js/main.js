@@ -86,10 +86,12 @@ KanColleWidget.stream = (function() {
     /***** Main Listener 03 : メッセージの受信 *****/
     chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
+        /*
         if(message.purpose == 'screenshot'){
             Util.detectAndCapture();
             return;
         }
+        */
 
         if(message.purpose == 'download'){
             Util.downloadImage(null, message.data);
@@ -208,7 +210,16 @@ KanColleWidget.stream = (function() {
 
     /***** command *****/
     chrome.commands.onCommand.addListener(function(command) {
+      // console.log(command);
       switch (command) {
+      case "toggle-mute":
+        Util.ifThereIsAlreadyKCWidgetWindow(function(win) {
+          chrome.tabs.update(win.tabs[0].id, {muted: !(win.tabs[0].mutedInfo || {}).muted});
+        });
+        break;
+      case "capture":
+        Util.detectAndCapture();
+        break;
       case 'stream':
         KanColleWidget.stream().done(function(stream) {
           var streamURL= window.URL.createObjectURL(stream);
