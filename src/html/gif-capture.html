@@ -49,7 +49,7 @@
     <body data-ng-app="kcw">
       <div class="container" data-ng-controller="StreamingCapture">
         <div class="row">
-          <div class="col s12">GIFキャプチャ（ぜったいメモリやばい）</div>
+          <div class="col s12">GIFキャプチャ</div>
         </div>
         <div class="row">
           <div class="col s4">
@@ -120,17 +120,24 @@
               draggable="true">
           </div>
         </div>
-        <!-- けっかゾーン -->
+
         <div class="row">
-          <h1>GIFけっか↓</h1>
+          <div class="col s12">
+            あんまりやるとメモリがやばい気がするので、12秒制限してます。なお、Twitterへの投稿は3MBだったような気がします。
+            突貫でつくったので、お気付きの点があればなんかして教えてください。画質とか長さとかもうちょいマシにできるはずなんだよなぁ、という気持ちはあります。
+            夜戦突入時の状態確認や、ドライブレコーダーモードなど、いろいろ応用できるはずなので、今後どうにかしていきたいっすね。
+          </div>
         </div>
+
+        <!-- けっかゾーン -->
         <div class="row" data-ng-if="result.uri">
+          <h1>GIFけっか↓</h1>
           <div class="col s10">
             {{result.size | humanize}} (だいたい)
             <img ng-src="{{result.uri}}" width="100%">
           </div>
         </div>
-        <div class="row">
+        <div class="row" data-ng-if="result.uri">
           <div class="col s10">
             <ul class="tabs">
               <li class="tab col s3">
