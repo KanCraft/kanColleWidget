@@ -1,11 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.6.9.0",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/584',
-        announceVersion : 151,
+        version: "v1.7.2",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/570',
+        announceVersion : 153,
         announcements   : [
-            'パネルモード開かないバグを修正',
-            '音声のミュート (Command + Shift + 9) Chrome46以上が必要です'
+            'GIFキャプチャ機能',
+            '---------',
+            'APPモードでCtrl+Shift+i',
+            'いろいろ修正',
+            'キャプチャのダウンロードファイル名のバグ修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
