@@ -329,21 +329,12 @@ var Util = Util || {};
         if (fileFullPath.trim() != '') fileFullPath += '/';
         fileFullPath += data.file;
         fileFullPath += '.' + Config.get('capture-image-format').replace('e','');
-        return Util.downloadImageWithParams({
-          url: data.url,
-          filename: fileFullPath
+        chrome.downloads.download({
+            url: data.url,
+            filename: fileFullPath
+        },function(a,b,c){
+            //console.log('in callback', a, b, c);
         });
-    };
-
-    Util.downloadImageWithParams = function(params) {
-      var d = $.Deferred();
-      chrome.downloads.download({
-        url:      params.url,
-        filename: params.filename
-      }, function() {
-        d.resolve();
-      });
-      return d.promise();
     };
 
     Util.getCaptureFilenameFull = function(){

@@ -19,36 +19,6 @@ var oauth = chrome.extension.getBackgroundPage()['oauth'] || ChromeExOAuth.initB
     'consumer_secret': KanColleWidget.TwitterConfig.consumer_secret
 });
 var KanColleWidget = KanColleWidget || {};
-KanColleWidget.stream = (function() {
-  var _stream = null;
-  return function(revoke) {
-    var d = $.Deferred();
-    if (revoke) {
-      _stream = null;
-      d.resolve(null);
-      return d.promise();
-    }
-    if (!_stream || !_stream.active) {
-      chrome.tabCapture.capture({
-        audio:false, video: true,
-        videoConstraints: {
-          mandatory: {
-            chromeMediaSource: 'tab',
-            // minWidth: 800, minHeight: 480,
-            maxWidth: 800, maxHeight: 480
-          }
-        }
-      }, function(stream) {
-        _stream = stream;
-        d.resolve(stream);
-      });
-    } else {
-      console.log(_stream);
-      d.resolve(_stream);
-    }
-    return d.promise();
-  };
-})();
 (function(){
     "use strict";
 
@@ -210,7 +180,7 @@ KanColleWidget.stream = (function() {
 
     /***** command *****/
     chrome.commands.onCommand.addListener(function(command) {
-      // console.log(command);
+      console.log(command);
       switch (command) {
       case "toggle-mute":
         Util.ifThereIsAlreadyKCWidgetWindow(function(win) {
@@ -220,11 +190,6 @@ KanColleWidget.stream = (function() {
       case "capture":
         Util.detectAndCapture();
         break;
-      case 'stream':
-        KanColleWidget.stream().done(function(stream) {
-          var streamURL= window.URL.createObjectURL(stream);
-          window.open('src/html/gif-capture.html?fps=8&src=' + streamURL);
-        });
       }
     });
 })();
