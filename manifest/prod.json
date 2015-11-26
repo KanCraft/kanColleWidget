@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "艦これウィジェット",
-    "version": "1.7.0.5",
+    "version": "1.7.0.4",
 
     "description": "提督さん、仕事するです？艦これするです？",
     "icons" : {
@@ -16,6 +16,8 @@
         "storage",
         "unlimitedStorage",
         "downloads",
+        "tabCapture",
+        "commands",
         "<all_urls>"
     ],
     "web_accessible_resources": [
@@ -140,8 +142,7 @@
             "suggested_key": {
                 "default": "Ctrl+Shift+0"
             },
-            "description":"スクショ",
-            "global": true
+            "description":"スクショ"
         },
         "toggle-mute": {
             "suggested_key": {
@@ -149,6 +150,12 @@
             },
             "description": "音声のミュート",
             "global": true
+        },
+        "stream": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+8"
+            },
+            "description": "ストリーミング"
         }
     },
     "options_page" : "src/html/settings.html"
