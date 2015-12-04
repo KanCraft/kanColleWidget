@@ -163,7 +163,8 @@ var KanColleWidget = KanColleWidget || {};
             this.showParameters.title,
             {
                 body: this.showParameters.body,
-                icon: this.showParameters.icon
+                icon: this.showParameters.icon,
+                requireInteraction: true
             }
         );
         if (this.showParameters.stay === false) {
@@ -174,7 +175,11 @@ var KanColleWidget = KanColleWidget || {};
         if (this.showParameters.sound) {
             this.playSound();
         }
-        notification.onclick = this.showParameters.onClicked;
+        var onClicked = this.showParameters.onClicked;
+        notification.onclick = function () {
+            onClicked();
+            notification.close();
+        }
         this.showParameters.onCompleted();
     };
 })();
