@@ -1,13 +1,12 @@
 var Constants = {
     release : {
-        version: "v1.7.0.5",
+        version: "v1.7.1.0",
         link: 'https://github.com/otiai10/kanColleWidget/pull/584',
-        announceVersion : 156,
+        announceVersion : 157,
         announcements   : [
-            '<strike>GIFキャプチャ機能 (Command + Shift + 8)</strike>',
-            '------------',
-            'GIFキャプチャ機能をリリースしましたが、あまりに完成度が低いので一度下げます',
-            'GIFキャプチャ機能は、ひきつづきβテストを実施中です。くわしくは<a class="light" href="https://github.com/otiai10/kanColleWidget/wiki/%CE%B2%E3%83%86%E3%82%B9%E3%83%88%E7%89%88%E3%81%AE%E8%A9%A6%E7%94%A8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">ここ</a>を見てください。'
+          'Chrome47で通知が消えちゃうバグを修正（いつもありがとうございます！）',
+          '----------',
+          'GrafZeppelinの進捗どうですか？'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
