@@ -137,7 +137,7 @@
             <img ng-src="{{result.uri}}" width="100%">
           </div>
         </div>
-        <div class="row" data-ng-if="result.uri">
+        <div class="row" data-ng-hide="!result.uri">
           <div class="col s10">
             <ul class="tabs">
               <li class="tab col s3">
