@@ -53,6 +53,15 @@ var widgetPages = widgetPages || {};
         })._render();
         $('title').text(this.purpose + "完了通知設定画面");
         this._delegate();//クソだな。なんでView.bindEvents動かないの？
+
+        var self = this;
+        $(document).on('keydown',function(e){
+          if(e.metaKey && e.keyCode == 13) {
+            e.stopPropagation();
+            return self.registerReminder(self);
+          }
+        });
+
         return this.$el;
     };
     ManualTimerView.prototype.editByCaret = function(ev, self){
