@@ -57,6 +57,21 @@ var widgetPages = widgetPages || {};
                   +'        <td>{{daily_remodel_count}}</td>'
                   +'        <td>{{weekly_remodel_count}}</td>'
                   +'      </tr>'
+
+                  +'      <tr class="custom-counter">'
+                  +'        <td colspan="3">'
+                  +'          <input data-role="label" data-id="01" type="text" size="10" style="font-size:0.5em;">'
+                  +'          <input data-role="count" data-id="01" type="number" style="font-size:0.5em;width:28%;">'
+                  +'        </td>'
+                  +'      </tr>'
+
+                  +'      <tr class="custom-counter">'
+                  +'        <td colspan="3">'
+                  +'          <input data-role="label" data-id="02" type="text" size="10" style="font-size:0.5em;">'
+                  +'          <input data-role="count" data-id="02" type="number" style="font-size:0.5em;width:28%;">'
+                  +'        </td>'
+                  +'      </tr>'
+
                   +'    </tbody>'
                   +'  </table>'
                   +'</div>';
@@ -68,6 +83,29 @@ var widgetPages = widgetPages || {};
     Util.extend(AchievementsView, widgetPages.View);
     AchievementsView.prototype.render = function(){
       this.apply(this.achievements.toFlatJson())._render();
+
+      var storage = new MyStorage();
+      this.$el.find('tr.custom-counter>td>input').on('change', function(ev) {
+        var id = 'customcounter' + ev.target.getAttribute('data-id');
+        var data = storage.get(id) || {label:'', count:0};
+        switch (ev.target.getAttribute('data-role')) {
+        case 'label':
+          data.label = ev.target.value;
+          break;
+        case 'count':
+          data.count = ev.target.value;
+          break;
+        }
+        storage.set(id, data);
+      });
+
+      var data01 = storage.get('customcounter01');
+      this.$el.find('input[data-role=label][data-id=01]').val(data01.label);
+      this.$el.find('input[data-role=count][data-id=01]').val(data01.count);
+      var data02 = storage.get('customcounter02');
+      this.$el.find('input[data-role=label][data-id=02]').val(data02.label);
+      this.$el.find('input[data-role=count][data-id=02]').val(data02.count);
+
       return this.$el;
     };
     AchievementsView.prototype.update = function() {
