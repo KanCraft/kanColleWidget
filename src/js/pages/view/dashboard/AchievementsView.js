@@ -88,7 +88,7 @@ var widgetPages = widgetPages || {};
       this.apply(this.achievements.toFlatJson())._render();
 
       var storage = new MyStorage();
-      this.$el.find('tr.custom-counter>td>input').on('change', function(ev) {
+      this.$el.find('tr.custom-counter>td>input').on('keyup', function(ev) {
         var id = 'customcounter' + ev.target.getAttribute('data-id');
         var data = storage.get(id) || {label:'', count:0};
         switch (ev.target.getAttribute('data-role')) {
