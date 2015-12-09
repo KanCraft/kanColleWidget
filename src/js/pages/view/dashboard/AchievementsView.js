@@ -5,7 +5,7 @@ var widgetPages = widgetPages || {};
         this.tpl = '<div class="box-30">'
                   +'  <h5>提督任務実績</h5>'
                   +'  <table border="0" class="table" id="achievements-table">'
-                  +'    <tbody>'
+                  +'    <tbody id="dynamic">'
                   +'      <tr><td></td><td>本日</td><td>今週</td></tr>'
                   +'      <tr>'
                   +'        <td>補給</td>'
@@ -58,6 +58,24 @@ var widgetPages = widgetPages || {};
                   +'        <td>{{weekly_remodel_count}}</td>'
                   +'      </tr>'
                   +'    </tbody>'
+
+                  +'    <tbody id="static">'
+
+                  +'      <tr class="custom-counter">'
+                  +'        <td colspan="3">'
+                  +'          <input data-role="label" data-id="01" type="text" size="10" style="font-size:0.5em;">'
+                  +'          <input data-role="count" data-id="01" type="number" style="font-size:0.5em;width:28%;">'
+                  +'        </td>'
+                  +'      </tr>'
+
+                  +'      <tr class="custom-counter">'
+                  +'        <td colspan="3">'
+                  +'          <input data-role="label" data-id="02" type="text" size="10" style="font-size:0.5em;">'
+                  +'          <input data-role="count" data-id="02" type="number" style="font-size:0.5em;width:28%;">'
+                  +'        </td>'
+                  +'      </tr>'
+
+                  +'    </tbody>'
                   +'  </table>'
                   +'</div>';
         if (!Config.get('record-achievements')) {
@@ -68,11 +86,34 @@ var widgetPages = widgetPages || {};
     Util.extend(AchievementsView, widgetPages.View);
     AchievementsView.prototype.render = function(){
       this.apply(this.achievements.toFlatJson())._render();
+
+      var storage = new MyStorage();
+      this.$el.find('tr.custom-counter>td>input').on('change', function(ev) {
+        var id = 'customcounter' + ev.target.getAttribute('data-id');
+        var data = storage.get(id) || {label:'', count:0};
+        switch (ev.target.getAttribute('data-role')) {
+        case 'label':
+          data.label = ev.target.value;
+          break;
+        case 'count':
+          data.count = ev.target.value;
+          break;
+        }
+        storage.set(id, data);
+      });
+
+      var data01 = storage.get('customcounter01');
+      this.$el.find('input[data-role=label][data-id=01]').val(data01.label);
+      this.$el.find('input[data-role=count][data-id=01]').val(data01.count);
+      var data02 = storage.get('customcounter02');
+      this.$el.find('input[data-role=label][data-id=02]').val(data02.label);
+      this.$el.find('input[data-role=count][data-id=02]').val(data02.count);
+
       return this.$el;
     };
     AchievementsView.prototype.update = function() {
-      // まあしょうがないよね
+      // 非常につらい
       var $el = new AchievementsView(this.achievements).render();
-      this.$el.html('').append($el.html());
+      this.$el.find('tbody#dynamic').html('').append($el.find('tbody#dynamic').html());
     };
 })();
