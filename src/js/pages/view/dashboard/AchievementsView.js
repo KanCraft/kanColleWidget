@@ -5,7 +5,7 @@ var widgetPages = widgetPages || {};
         this.tpl = '<div class="box-30">'
                   +'  <h5>提督任務実績</h5>'
                   +'  <table border="0" class="table" id="achievements-table">'
-                  +'    <tbody>'
+                  +'    <tbody id="dynamic">'
                   +'      <tr><td></td><td>本日</td><td>今週</td></tr>'
                   +'      <tr>'
                   +'        <td>補給</td>'
@@ -57,6 +57,9 @@ var widgetPages = widgetPages || {};
                   +'        <td>{{daily_remodel_count}}</td>'
                   +'        <td>{{weekly_remodel_count}}</td>'
                   +'      </tr>'
+                  +'    </tbody>'
+
+                  +'    <tbody id="static">'
 
                   +'      <tr class="custom-counter">'
                   +'        <td colspan="3">'
@@ -109,8 +112,8 @@ var widgetPages = widgetPages || {};
       return this.$el;
     };
     AchievementsView.prototype.update = function() {
-      // まあしょうがないよね
+      // 非常につらい
       var $el = new AchievementsView(this.achievements).render();
-      this.$el.html('').append($el.html());
+      this.$el.find('tbody#dynamic').html('').append($el.find('tbody#dynamic').html());
     };
 })();
