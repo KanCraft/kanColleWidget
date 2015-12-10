@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>GIFキャプチャ</title>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="../css/materialize.min.css" />
+      <script type="text/javascript" src="../js/jsgif/LZWEncoder.js"></script>
+      <script type="text/javascript" src="../js/jsgif/NeuQuant.js"></script>
+      <script type="text/javascript" src="../js/jsgif/GIFEncoder.js"></script>
+      <script type="text/javascript" src="../js/jsgif/b64.js"></script>
+      <script type="text/javascript" src="../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../js/materialize.min.js"></script>
+      <script type="text/javascript" src="../js/angular.min.js"></script>
+      <script type="text/javascript" src="../js/pages/gif-capture.js"></script>
+      <script type="text/javascript" src="../js/Util.js"></script>
+      <script type="text/javascript" src="../js/definitions/share/TwitterService.js"></script>
+      <style>
+        #frames img {
+          width: 45px;
+          margin-right: 3px;
+          margin-bottom: 3px;
+          cursor: pointer;
+        }
+        #frames img.observe {
+          width: 120px;
+        }
+        .frame-dur-container {
+          border: dotted thick #eaeaea;
+          padding: 0 12px 20px 12px;
+          height: 180px;
+          position: relative;
+        }
+        .frame-dur-container:after {
+          content: "drop frame here";
+          font-size: 2em;
+          color: #dadada;
+          font-weight: bold;
+          transform: rotate(-30deg);
+          position: absolute;
+          top: 75px;
+          left: 12px;
+          z-index: -1;
+        }
+        .frame-dur-container img {
+          width: 100%;
+        }
+      </style>
+    </head>
+    <body data-ng-app="kcw">
+      <div class="container" data-ng-controller="StreamingCapture">
+        <div class="row">
+          <div class="col s12">GIFキャプチャ</div>
+        </div>
+        <div class="row">
+          <div class="col s4">
+            <div class="row">
+              <div class="col s12">
+                <video id="streaming-a" src="" width="100%" autoplay></video>
+              </div>
+            </div>
+            <div id="control-panel" class="row input-field">
+              <div class="col s4">
+                <label>fps</label>
+                <input type="number" min="1" max="32" data-ng-model="rec.fps">
+              </div>
+              <div class="col s4">
+                <label></label>
+                <button class="waves-effect waves-light btn" data-ng-if="!rec.running && !rec.previewing" data-ng-disabled="rec.previewing" data-ng-click="startRec()">start</button>
+                <button class="waves-effect waves-light btn red" data-ng-hide="!rec.running" data-ng-click="stopRec()"><span id="timer"></span></button>
+              </div>
+              <div class="col s4">
+                <span class="waves-effect waves-teal btn-flat" data-ng-if="!rec.running && !rec.previewing" data-ng-click="clear()">clear</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <div class="frame-dur-container" data-frame-target="start">
+                  <h6>
+                    start frame [{{duration.start.idx}}]
+                    <a ng-click="openCapture(duration.start.src)" target="_blank" data-ng-if="duration.start.src">open</a>
+                  </h6>
+                  <img data-ng-src="{{duration.start.src}}" data-ng-if="duration.start.src">
+                  {{duration.start.fsize | humanize}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                <div class="frame-dur-container" data-frame-target="end">
+                  <h6>
+                    end frame [{{duration.end.idx}}]
+                    <a ng-click="openCapture(duration.end.src)" target="_blank" data-ng-if="duration.end.src">open</a>
+                  </h6>
+                  <img data-ng-src="{{duration.end.src}}" data-ng-if="duration.end.src">
+                  {{duration.end.fsize | humanize}}
+                </div>
+              </div>
+            </div>
+            <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
+              <div class="col s12">
+                <span>{{duration.end.fsize | humanize}}</span> × <span>{{duration.end.idx - duration.start.idx}}</span> = <span>だいたい{{duration.estimated.fsize | humanize}}</span>
+              </div>
+            </div>
+            <div class="row" data-ng-if="duration.end.idx - duration.start.idx > 0">
+              <div class="col s12">
+                <button class="btn waves-effect waves-light blue" style="width:100%" data-ng-click="generate()" data-ng-disabled="progress.running">Generate GIF</button>
+                <div class="progress">
+                  <div class="determinate" style="width: {{progress.percent}}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col s8" id="frames">
+            <img
+              data-ng-repeat="src in frames track by $index"
+              data-ng-src={{src}}
+              data-ng-class="(observe) ? 'observe' : ''"
+              data-ng-click="clickImage(src, $index)"
+              data-idx={{$index}}
+              draggable="true">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            あんまりやるとメモリがやばい気がするので、12秒制限してます。なお、Twitterへの投稿は3MBだったような気がします。
+            突貫でつくったので、お気付きの点があればなんかして教えてください。画質とか長さとかもうちょいマシにできるはずなんだよなぁ、という気持ちはあります。
+            夜戦突入時の状態確認や、ドライブレコーダーモードなど、いろいろ応用できるはずなので、今後どうにかしていきたいっすね。
+          </div>
+        </div>
+
+        <!-- けっかゾーン -->
+        <div class="row" data-ng-if="result.uri">
+          <h1>GIFけっか↓</h1>
+          <div class="col s10">
+            {{result.size | humanize}} (だいたい)
+            <img ng-src="{{result.uri}}" width="100%">
+          </div>
+        </div>
+        <div class="row" data-ng-hide="!result.uri">
+          <div class="col s10">
+            <ul class="tabs">
+              <li class="tab col s3">
+                <a href="#test1">ダウンロードする</a>
+              </li>
+              <li class="tab col s3"><a href="#test2">ツイートする</a></li>
+            </ul>
+          </div>
+          <div id="test1" class="col s10">
+            <div class="row">
+              <div class="col s12 input-field">
+                <input id="file-name" type="text" ng-model="filename">
+                <label for="file-name">ファイル名 (.gifは勝手につけます)</label>
+                <span class="btn" ng-click="download()">download</span>
+              </div>
+            </div>
+          </div>
+          <div id="test2" class="col s10">
+            <div class="row">
+              <div class="col s12 input-field">
+                <textarea id="teweet-text" class="materialize-textarea" length="100" ng-model="tweettext"></textarea>
+                <label for="tweet-text">ツイートテキスト</label>
+                <button class="btn blue" ng-click="tweet()" data-ng-disabled="tweeting">tweet</button>
+                <div ng-if="destPermalink">
+                  <a href="{{destPermalink}}" target="_blank">{{destPermalink}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /けっかゾーン -->
+      </div>
+    </body>
+  </html>

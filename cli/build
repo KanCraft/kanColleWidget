@@ -79,7 +79,7 @@ version_check(){
   echo "\nバージョン情報のチェック"
   echo "manifest.json\t"`get_ver_in_manifest`
   echo "Constants.js\t"`get_ver_in_constants`
-  echo "README.md\t"`get_ver_in_README`
+  echo "RELEASENOTES\t"`get_ver_in_README`
   echo "\nTEST\t\t"`get_ver_in_test`
 }
 
