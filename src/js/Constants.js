@@ -1,12 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.8.0.1",
+        version: "v1.8.0.2",
         link: 'https://github.com/otiai10/kanColleWidget/pull/584',
-        announceVersion : 159,
+        announceVersion : 160,
         announcements   : [
             'clockmodeにフリーカウンターを追加',
             'タイマー主導登録時キーボードショートカットを追加 > Command+Enter',
             'スクショツイート時キーボードショートカットを追加 > Command+Enter',
+            '-----------',
+            'フリーカウンターのバグを修正',
             '-----------',
             'いまさらですが、ミュート機能についての注意です',
             '艦これウィジェットのミュート機能は、Chromeのタブごとに有効なので、あたらしいタブ（APPモードもChrome的には"タブ"にすぎません）でひらいたときはミュートではない状態に戻っています',

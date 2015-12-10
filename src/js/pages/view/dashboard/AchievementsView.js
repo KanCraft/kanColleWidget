@@ -88,7 +88,7 @@ var widgetPages = widgetPages || {};
       this.apply(this.achievements.toFlatJson())._render();
 
       var storage = new MyStorage();
-      this.$el.find('tr.custom-counter>td>input').on('change', function(ev) {
+      this.$el.find('tr.custom-counter>td>input').on('keyup', function(ev) {
         var id = 'customcounter' + ev.target.getAttribute('data-id');
         var data = storage.get(id) || {label:'', count:0};
         switch (ev.target.getAttribute('data-role')) {
@@ -102,10 +102,10 @@ var widgetPages = widgetPages || {};
         storage.set(id, data);
       });
 
-      var data01 = storage.get('customcounter01');
+      var data01 = storage.get('customcounter01') || {label:'', count:0};
       this.$el.find('input[data-role=label][data-id=01]').val(data01.label);
       this.$el.find('input[data-role=count][data-id=01]').val(data01.count);
-      var data02 = storage.get('customcounter02');
+      var data02 = storage.get('customcounter02') || {label:'', count:0};
       this.$el.find('input[data-role=label][data-id=02]').val(data02.label);
       this.$el.find('input[data-role=count][data-id=02]').val(data02.count);
 
