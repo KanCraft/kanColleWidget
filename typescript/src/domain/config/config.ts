@@ -9,7 +9,8 @@ module KCW {
             'share-kousyo-result':    false,
             'report-mention-prefix':   true,
             'dashboard-type':             0,
-            'allow-third-party':      false
+            'allow-third-party':      false,
+            'allow-kampa-alchemy':    false
         };
         public static local(): Config {
             return new Config();

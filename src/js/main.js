@@ -117,6 +117,22 @@ var KanColleWidget = KanColleWidget || {};
             return sendResponse(res);
         }
 
+        if(message.purpose == 'getTag') {
+            var tags = KanColleWidget.AppTags || [''];
+            var i = Math.floor(Math.random() * tags.length);
+            return sendResponse(tags[i]);
+        }
+
+        if(message.purpose == 'getConfig_v2'){
+            var res = {};
+            if(message.configKey) {
+              res = KCW.Config.local().get(message.configKey);
+            } else {
+              res = null;
+            }
+            return sendResponse(res);
+        }
+
         if(message.purpose == 'syncSave'){
             MyStorage.sync.save();
             return;
