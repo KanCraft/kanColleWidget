@@ -234,6 +234,17 @@ var widgetPages = widgetPages || {};
         if (hashtag) {
             this.$el.find('#js-tweet-box').html('&nbsp;' + hashtag);
         }
+
+        var self = this;
+        $(document).on('keydown',function(e){
+          if(e.metaKey && e.keyCode == 13) {
+            e.stopPropagation();
+            // しゃーない
+            e.currentTarget = document.getElementById('js-tweet-btn');
+            return self.sendTweet(e, self);
+          }
+        });
+
         return this.$el;
     };
     ModalContentTweetView.prototype.sendTweet = function(ev, self) {

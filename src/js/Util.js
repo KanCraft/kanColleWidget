@@ -411,7 +411,7 @@ var Util = Util || {};
      */
     Util.resizeImage = function(dataURI, callback/* , mode */) {
         if(typeof(callback) !== 'function') { callback = function(){/* do nothing */}; }
-        
+
         //mode = 'm';
         var img = new Image();
         var canvas = document.createElement('canvas');
@@ -432,7 +432,7 @@ var Util = Util || {};
                 0,0,
                 canvas.width, canvas.height
             );
-            
+
             return callback(canvas.toDataURL(format));
         });
         img.src = dataURI;
@@ -721,7 +721,7 @@ var Util = Util || {};
         canvas.width  = size.width;
         canvas.height = size.height;
         var ctx = canvas.getContext('2d');
-        
+
         img.addEventListener('load', function(){
             ctx.drawImage(
                 img,
@@ -734,7 +734,7 @@ var Util = Util || {};
                 canvas.width,
                 canvas.height
             );
-    
+
             return callback(canvas.toDataURL('image/' + opt.format));
             /*
             var png24 = new CanvasTool.PngEncoder(canvas, {
@@ -826,7 +826,7 @@ var Util = Util || {};
       var height = width * (Constants.widget.aspect + 0.09);
       chrome.windows.create({
         url: kanColleUrl,
-        width: width, height: height,
+        width: parseInt(width), height: parseInt(height),
         type: 'panel'
       }, function(win) {
         if (!callback) return;
