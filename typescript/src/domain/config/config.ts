@@ -9,6 +9,7 @@ module KCW {
             'share-kousyo-result':    false,
             'report-mention-prefix':   true,
             'dashboard-type':             0,
+            'panelize-ships-status':  false,
             'allow-third-party':      false
         };
         public static local(): Config {

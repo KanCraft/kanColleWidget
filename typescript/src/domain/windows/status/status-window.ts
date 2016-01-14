@@ -8,7 +8,7 @@ module KCW {
 
     export class ShipsStatusWindow extends Infra.WindowFrame {
         private static created: ShipsStatusWindow[] = [];
-        private instance: Window;
+        private instance: any;// Window;
         constructor(params: WinMakeParams, imgURI: string) {
             super(
                 ShipsStatusWindow.url() + "?imgURI=" + imgURI,
@@ -28,8 +28,18 @@ module KCW {
                             imgURI += '&panel=' + opt.panel;
                         }
                         var win = new this(params, imgURI);
-                        win.instance = win.openDefault();
-                        win.register();
+
+                        if (Config.local().get('panelize-ships-status')) {
+                          win.size.width = 132;
+                          win.size.height = 191;
+                          win.openPanel(function(instance) {
+                            win.instance = instance;
+                            win.register();
+                          });
+                        } else {
+                          win.instance = win.openDefault();
+                          win.register();
+                        }
                     });
                 });
             });
@@ -39,7 +49,9 @@ module KCW {
             ShipsStatusWindow.created.push(this);
         }
         private close() {
-            if (this.instance && this.instance.close) this.instance.close();
+          if (!this.instance) return;
+          if (this.instance.close) return this.instance.close();
+          if (this.instance.id) return chrome.windows.remove(this.instance.id);
         }
         public static sweep() {
             for (var i = 0; i < ShipsStatusWindow.created.length; i++) {

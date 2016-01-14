@@ -48,6 +48,7 @@ $(function(){
         (new widgetPages.ClockmodeStyleView()).render(),
         (new KCW.Pages.DashboardType().render().$el),
         (new widgetPages.ShowShipsStatusView()).render(),
+        (new KCW.Pages.PanelizeShipsStatus().render().$el),
         (new widgetPages.ShowOldLaunchView()).render(),
         (new widgetPages.ModifyOriginalTabView()).render(),
         (new widgetPages.UseWhiteModeAsDefaultView()).render(),
