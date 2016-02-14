@@ -3,6 +3,9 @@
   "version": "0.3.4",
   "description": "艦これウィジェット",
   "main": "src/js/background.js",
+  "engines": {
+    "node": "0.12.2"
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
