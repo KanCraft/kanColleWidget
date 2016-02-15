@@ -1,10 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.7.2",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/597',
-        announceVersion : 161,
+        version: "v1.7.4",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/599',
+        announceVersion : 164,
         announcements   : [
-            '大破進撃防止窓を最前面に表示したい設定を追加'
+            'E2-I開戦時に大破進撃防止窓が閉じないバグの修正',
+            'E3-C開戦時に大破進撃防止窓が閉じないバグの修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
