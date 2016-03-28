@@ -38,12 +38,14 @@ var KanColleWidget = KanColleWidget || {};
                 this.action.forMapStart(this.params);
                 break;
             case 'api_req_sortie/battle':
+            case 'api_req_sortie/ld_airbattle':
             case 'api_req_battle_midnight/battle':
             case 'api_req_battle_midnight/sp_midnight':
             case 'api_req_combined_battle/airbattle':
             case 'api_req_combined_battle/battle':
             case 'api_req_combined_battle/sp_midnight':
             case 'api_req_combined_battle/battle_water':
+            case 'api_req_combined_battle/ld_airbattle':
                 this.action.forSortieBattle();
                 break;
             case 'api_auth_member/logincheck':// OBSOLETE?????
