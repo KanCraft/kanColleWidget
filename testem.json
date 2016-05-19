@@ -4,5 +4,5 @@
   "src_files": [],
   "serve_files": [],
   "launch_in_dev": [],
-  "launch_in_ci": ["Firefox", "Chrome"]
+  "launch_in_ci": ["Firefox"]
 }
