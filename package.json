@@ -2,7 +2,6 @@
   "name": "kcwidget",
   "version": "0.0.1",
   "description": "KanColleWidget for Chrome/Firefox",
-  "main": "dest/js/background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/otiai10/kcwidget.git"
   },
-  "author": "",
+  "author": "otiai10",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/otiai10/kcwidget/issues"

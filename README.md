@@ -4,6 +4,6 @@
 
 # Authors
 
-- @hourglassx18
-- @otiai10
+- [@hourglassx18](https://github.com/hourglassx18)
+- [@otiai10](https://github.com/otiai10)
 - and you here
