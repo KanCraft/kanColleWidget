@@ -2,8 +2,12 @@
   "name": "kcwidget",
   "version": "0.0.1",
   "description": "KanColleWidget for Chrome/Firefox",
+  "engines": {
+    "node": "6.2.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -14,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/otiai10/kcwidget/issues"
   },
-  "homepage": "https://github.com/otiai10/kcwidget#readme"
+  "homepage": "https://github.com/otiai10/kcwidget#readme",
+  "dependencies": {
+    "react": "^15.0.2"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "webpack": "^1.13.0"
+  }
 }

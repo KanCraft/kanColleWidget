@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "kcwidget",
-  "version": "0.0.4",
+  "version": "0.0.8",
   "description": "foo bar baz",
   "icons": {
     "48": "dest/img/icons/oppai.48.png"
