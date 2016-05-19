@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "kcwidget",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "foo bar baz",
   "icons": {
     "48": "dest/img/icons/oppai.48.png"
@@ -11,6 +11,9 @@
       "id": "otiai10@gmail.com",
       "strict_min_version": "45.0"
     }
+  },
+  "background": {
+    "scripts": ["dest/js/background.js"]
   },
   "content_scripts": [
     {

@@ -1,6 +1,6 @@
-let version = '001'
-window.alert(version);
-console.log('chrome', chrome);
-chrome.runtime.sendMessage(nil, {act: `version ${version}`}, function(res) {
-  console.log(res);
+console.log('manifest', chrome.runtime.getManifest());
+let extId = chrome.i18n.getMessage("@@extension_id");
+chrome.runtime.connect();
+chrome.runtime.sendMessage({act: `AAA`}, function(res) {
+  console.log(`This is response:\n"${JSON.stringify(res)}"`)
 });
