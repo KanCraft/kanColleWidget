@@ -1,0 +1,8 @@
+{
+  "framework": "mocha+chai",
+  "before_test": "echo `before_test`",
+  "src_files": [],
+  "serve_files": [],
+  "launch_in_dev": [],
+  "launch_in_ci": []
+}

@@ -1,4 +1,4 @@
-# kcwidget
+# kcwidget [![Build Status](https://travis-ci.org/otiai10/kcwidget.svg?branch=develop)](https://travis-ci.org/otiai10/kcwidget)
 
 [KanColleWidget](https://github.com/otiai10/KanColleWidget) for both Firefox and Chrome.
 

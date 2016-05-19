@@ -6,7 +6,9 @@
     "node": "6.2.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "testem ci",
+    "launchers": "testem launchers",
+    "build": "webpack",
     "start": "webpack --watch"
   },
   "repository": {
@@ -28,6 +30,7 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
+    "testem": "^1.7.1",
     "webpack": "^1.13.0"
   }
 }
