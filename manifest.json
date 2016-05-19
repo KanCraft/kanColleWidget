@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "kcwidget",
-  "version": "1.0",
+  "version": "0.0.2",
   "description": "foo bar baz",
   "icons": {
     "48": "dest/img/icons/oppai.48.png"
@@ -14,8 +14,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"],
-      "js": ["dest/js/dmm_kancolle.js"]
+      "matches": [
+        "http://*/*",
+        "https://*/*",
+        "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
+      ],
+      "js": ["dest/js/dmm.js"]
     }
   ]
 }
