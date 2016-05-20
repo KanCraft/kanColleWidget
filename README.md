@@ -22,7 +22,9 @@ npm install && npm start
 
 # Test
 
-// TODO
+```sh
+npm test
+```
 
 # Authors
 

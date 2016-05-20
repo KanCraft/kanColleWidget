@@ -6,8 +6,8 @@
     "node": "6.2.0"
   },
   "scripts": {
-    "test": "testem ci",
-    "launchers": "testem launchers",
+    "test": "testem launchers && testem",
+    "ci": "testem launchers && testem ci",
     "build": "webpack",
     "start": "webpack --watch"
   },
