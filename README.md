@@ -2,6 +2,11 @@
 
 [KanColleWidget](https://github.com/otiai10/KanColleWidget) のFirefoxとChrome両方対応するやつ
 
+# サポート
+
+- Firefox >= 46
+- Chrome ?
+
 # 開発
 
 ## 環境
