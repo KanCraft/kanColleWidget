@@ -1,3 +1,4 @@
+import Hello from './Components/Hello';
 chrome.runtime.onMessage.addListener((a, b, c) => {
   c({hoge: true});
 });
