@@ -1,8 +1,6 @@
 {
   "framework": "mocha+chai",
-  "before_test": "echo `before_test`",
   "src_files": [
-
   ],
   "serve_files": [
     "src/js/Components/**/*.js",

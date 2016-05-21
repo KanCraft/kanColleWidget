@@ -4,4 +4,9 @@ class Hello {
   }
 }
 
-export default Hello;
+// WANT
+// export default Hello;
+// NOT WORKING
+// (module || {}).exports = Hello;
+// exports.Hello = Hello;
+module.exports = Hello;
