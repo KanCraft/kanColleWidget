@@ -5,11 +5,12 @@ node_js:
   - "6.2"
 install:
   - npm install
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 5 # give xvfb some time to start
-  - npm run build
+# before_script:
+  # - "export DISPLAY=:99.0"
+  # - "sh -e /etc/init.d/xvfb start"
+  # - sleep 5 # give xvfb some time to start
+  # - npm run build
 script:
-  - npm run launchers
-  - npm run ci
+  # - npm run launchers
+  # - npm run ci
+  - npm test
