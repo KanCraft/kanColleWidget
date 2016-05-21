@@ -3,3 +3,5 @@ class Hello {
     return 'This is Hello.foo';
   }
 }
+
+export default Hello;

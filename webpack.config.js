@@ -1,5 +1,6 @@
 module.exports = {
   entry: {
+    dmm: './src/js/dmm.js',
     background: './src/js/background.js'
   },
   output: {filename:'./dest/js/[name].js'},
