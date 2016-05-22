@@ -6,6 +6,13 @@
   "icons": {
     "48": "dest/img/icons/oppai.48.png"
   },
+  "browser_action": {
+    "default_icon": {
+      "38": "dest/img/icons/oppai.38.png"
+    },
+    "default_title": "OPPAI?",
+    "default_popup": "dest/html/popup.html"
+  },
   "applications": {
     "gecko": {
       "id": "otiai10@gmail.com",

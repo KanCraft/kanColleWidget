@@ -1,5 +1,6 @@
 module.exports = {
   entry: {
+    popup: './src/js/popup.js',
     dmm: './src/js/dmm.js',
     background: './src/js/background.js'
   },
