@@ -3,6 +3,10 @@
   "name": "kcwidget",
   "version": "0.0.9",
   "description": "foo bar baz",
+  "permissions": [
+    "webRequest",
+    "<all_urls>"
+  ],
   "icons": {
     "48": "dest/img/icons/oppai.48.png"
   },
