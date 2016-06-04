@@ -4,6 +4,7 @@
   "version": "0.0.9",
   "description": "foo bar baz",
   "permissions": [
+    "tabs",
     "webRequest",
     "<all_urls>"
   ],
@@ -29,8 +30,6 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*",
         "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
       ],
       "js": ["dest/js/dmm.js"]

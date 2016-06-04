@@ -1,8 +1,10 @@
 import WindowService from '../../Services/WindowService';
+import {Client} from 'chomex';
 
 const POPUP = 'popup';
 
 const windowService = new WindowService();
+const client = new Client(chrome.tabs);
 
 export function OpenWindow(message) {
   // TODO: https://github.com/otiai10/kcwidget/issues/7
@@ -12,13 +14,16 @@ export function OpenWindow(message) {
     height: 480,
   };
   if (!window.navigator.userAgent.match('Firefox')) {
-    params['type'] = 'panel';
+    params['type'] = 'popup';
   }
-  windowService.open(params).then(win => {
-    console.log('002', win);
+
+  return new Promise((res, rej) => {
+    windowService.open(params).then(win => {
+      const id = win.tabs[0].id;
+      setTimeout(() => {
+        client.message(id, {act: '/page/dmm/resize'});
+      }, 2000);
+      res(win);
+    })
   })
-  // chrome.windows.create({}, (win) => {
-  //   console.log('002', win);
-  // });
-  return 100;
 }
