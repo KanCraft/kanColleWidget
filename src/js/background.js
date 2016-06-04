@@ -1,13 +1,15 @@
 import Hello from './Components/Hello';
 import {Foo} from './Components/Controllers/RequestController'
 import {
-  GetConfig
+  GetConfig,
+  SetConfig,
 } from './Components/Controllers/MessageControllers';
 
 import { Router, WebRequestRouter } from 'chomex';
 
 let router = new Router();
 router.on('/config/get', GetConfig);
+router.on('/config/set', SetConfig);
 
 chrome.runtime.onMessage.addListener(router.listener());
 

@@ -22,6 +22,9 @@ export default class PopupView extends Component {
     client.message({act: '/config/get', key: 'winconfig'}, true).then(res => {
       console.log('/config/get, ok', res);
     });
+    client.message({act: '/config/set', key: 'hoge'}).then(res => {
+      console.log('/config/set ok', res);
+    });
   }
 
   componentDidMount() {
