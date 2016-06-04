@@ -8,6 +8,7 @@
   "scripts": {
     "test": "mocha --recursive spec --compilers js:babel-register",
     "build": "webpack",
+    "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "start": "webpack --watch"
   },
   "repository": {

@@ -1,19 +1,13 @@
 import Hello from './Components/Hello';
 import {Foo} from './Components/Controllers/RequestController'
 import {
-  GetHistory
-} from './Components/Controllers/Message/History';
+  GetConfig
+} from './Components/Controllers/MessageControllers';
 
 import { Router, WebRequestRouter } from 'chomex';
 
-// chrome.runtime.onMessage.addListener((a, b, c) => {
-//   let hello = new Hello();
-//   c({hoge: hello.foo()});
-//   return true;
-// });
-
 let router = new Router();
-router.on('/history/get', GetHistory);
+router.on('/config/get', GetConfig);
 
 chrome.runtime.onMessage.addListener(router.listener());
 

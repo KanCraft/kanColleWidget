@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import History from '../Models/History';
 
 const ENTER = 13;
-const client = new Client(chrome.runtime, true);
+const client = new Client(chrome.runtime);
 
 export default class PopupView extends Component {
 
@@ -19,13 +19,9 @@ export default class PopupView extends Component {
     // client.message({act: '/history/get'}).then(res => {
     //   console.log('/history/getのレスポンス', res);
     // })
-    client.message({act: '/config/get', key: 'frame'})
-      .then(res => {
-        console.log('/config/get, ok', res);
-      })
-      .catch(err => {
-        console.log('/config/get, ng', err);
-      })
+    client.message({act: '/config/get', key: 'winconfig'}, true).then(res => {
+      console.log('/config/get, ok', res);
+    });
   }
 
   componentDidMount() {
