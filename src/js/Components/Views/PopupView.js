@@ -15,12 +15,13 @@ export default class PopupView extends Component {
   constructor() {
     super();
     this.history = new History();
-    this.selectedWinConfig = 2; // History.get('winconfig')
-    // client.message({act: '/history/get'}).then(res => {
-    //   console.log('/history/getのレスポンス', res);
-    // })
+    this.state = {
+      winconfigs: {},
+      selected: '__white',
+    };
+
     client.message({act: '/config/get', key: 'winconfig'}, true).then(res => {
-      console.log('/config/get, ok', res);
+      this.setState({winconfigs: res.data});
     });
     client.message({act: '/config/set', key: 'hoge'}).then(res => {
       console.log('/config/set ok', res);
@@ -30,23 +31,30 @@ export default class PopupView extends Component {
   componentDidMount() {
     // お、いきなりwindowを参照しましたね！
     window.document.addEventListener('keydown', (ev) => {
-      if (ev.which == ENTER) console.log(this.selectedWinConfig);
+      if (ev.which != ENTER) return;
+      client.message({act: '/window/open', win: this.state.winconfigs[this.state.selected]})
+        .then(res => console.log('エンターキーのやつ', res));
     })
   }
 
-  handleChange(ev, index, value) {
-    alert(`${index}\n${value}`);
+  handleChange(ev, index, selected) {
+    this.setState({selected});
+    client.message({act: '/window/open', win: this.state.winconfigs[selected]}, true)
+      .then(res => console.log('/window/open, ok', res))
+      .catch(err => console.log('/window/open, ng', err));
   }
 
   render() {
+
+    const winconfigs = Object.keys(this.state.winconfigs).map(id => {
+      const win = this.state.winconfigs[id];
+      return <MenuItem key={id} value={id} primaryText={win.alias} />;
+    });
+
     return (
       <div>
-        <SelectField value={this.selectedWinConfig} onChange={this.handleChange} ref="foo">
-          <MenuItem value={1} primaryText="Never" />
-          <MenuItem value={2} primaryText="Every Night" />
-          <MenuItem value={3} primaryText="Weeknights" />
-          <MenuItem value={4} primaryText="Weekends" />
-          <MenuItem value={5} primaryText="Weekly" />
+        <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
+          {winconfigs}
         </SelectField>
         <FlatButton label="詳細設定" />
       </div>
