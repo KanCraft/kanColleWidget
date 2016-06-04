@@ -20,6 +20,14 @@ router.on('/page/dmm/resize', (message) => {
     window.outerWidth - window.innerWidth,
     window.outerHeight - window.innerHeight
   );
+  $('body').css({
+    //'transform':'scale(0.8)'
+    'position': 'fixed'
+  });
+  $('body').animate({
+    'top'     : '-77px',
+    'left'    : '-110px'
+  },500);
 });
 
 chrome.runtime.onMessage.addListener(router.listener());
