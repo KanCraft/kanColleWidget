@@ -3,6 +3,7 @@ import { Client } from 'chomex';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 
 import History from '../Models/History';
 
@@ -16,12 +17,7 @@ export default class PopupView extends Component {
     this.history = new History();
     this.selectedWinConfig = 2; // History.get('winconfig')
     client.message({act: '/history/get'}).then(res => {
-      console.log('メッセンジャーOK?', res);
-      debugger;
-      alert('/history/get\nOK')
-    }).catch(err => {
-      console.log('メッセンジャーNG!', err);
-      alert('/history/get\nNG')
+      console.log('/history/getのレスポンス', res);
     })
   }
 
@@ -46,6 +42,7 @@ export default class PopupView extends Component {
           <MenuItem value={4} primaryText="Weekends" />
           <MenuItem value={5} primaryText="Weekly" />
         </SelectField>
+        <FlatButton label="詳細設定" />
       </div>
     );
   }
