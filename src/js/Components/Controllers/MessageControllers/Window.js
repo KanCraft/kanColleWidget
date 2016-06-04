@@ -5,13 +5,20 @@ const POPUP = 'popup';
 const windowService = new WindowService();
 
 export function OpenWindow(message) {
-  windowService.open({
+  // TODO: https://github.com/otiai10/kcwidget/issues/7
+  let params = {
     url: message.win.url,
     width: 800,
     height: 480,
-    type: message.win.type || POPUP
-  }).then(win => {
-    console.log(win);
+  };
+  if (!window.navigator.userAgent.match('Firefox')) {
+    params['type'] = 'panel';
+  }
+  windowService.open(params).then(win => {
+    console.log('002', win);
   })
+  // chrome.windows.create({}, (win) => {
+  //   console.log('002', win);
+  // });
   return 100;
 }
