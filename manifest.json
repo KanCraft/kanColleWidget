@@ -33,7 +33,7 @@
         "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
       ],
       "js": [
-        "dest/js/zepto.min.js",
+        "dest/vendor/zepto.min.js",
         "dest/js/dmm.js"
       ]
     }

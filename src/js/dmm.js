@@ -1,43 +1,33 @@
-// console.log(chrome.runtime.getManifest());
-chrome.runtime.connect();
+import {FRAME_SHIFT} from './Components/Constants';
 
-// chrome.runtime.sendMessage({act: '/history/get'}, (res) => {
-//   console.log("RESPONSE of /foo", res);
-// });
+chrome.runtime.connect();
 
 import {Client,Router} from 'chomex';
 const client = new Client(chrome.runtime);
-// client.message({act: '/config/get', key: 'winconfig'}).then(res => {
-//   console.log("script", res);
-// });
-
 let router = new Router();
-
-// Backgroundからリサイズ要請があったときはなんかする
-router.on('/page/dmm/resize', (message) => {
-  window.alert('メッセージは受け取れた');
+client.message({act: '/window/should-decorate'}, true).then((res) => {
+  // いずれにしもてこれは必要っぽいなと
   window.resizeBy(
     window.outerWidth - window.innerWidth,
     window.outerHeight - window.innerHeight
   );
-  $('body').css({
-    //'transform':'scale(0.8)'
-    'position': 'fixed'
-  });
-  $('body').animate({
-    'top'     : '-77px',
-    'left'    : '-110px'
-  },500);
+
+  switch(res.data.decoration) {
+  case FRAME_SHIFT:
+    $('body').css({position: 'fixed'});
+    $('body').animate({
+      'top'     : '-77px', // TODO: get from res.data.offset
+      'left'    : '-110px' // TODO: get from res.data.offset
+    }, 1000);
+    break;
+  default:
+    alert(`UNKNOWN DECORATION: ${res.data.decoration}`);
+  }
 });
 
+client.message({act: '/config/get', key:'closeconfirm'}, true).then((res = {}) => {
+  if (res) {
+    window.onbeforeunload = () => { return res.value || 'デフォルトのやつ'; };
+  }
+})
 chrome.runtime.onMessage.addListener(router.listener());
-
-//   $('body').css({
-//     //'transform':'scale(0.8)'
-//     'position': 'fixed'
-//   });
-//   $('body').animate({
-//     'top'     : '-77px',
-//     'left'    : '-110px'
-//   },500);
-// };
