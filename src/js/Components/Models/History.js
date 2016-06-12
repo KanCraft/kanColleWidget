@@ -1,12 +1,7 @@
-import Repository from './Repository';
+import {Model} from 'chomex';
 
-export default class History extends Repository {
-  constructor(storage) {
-    super('history', storage);
-  }
-  initialValues() {
-    return {
-      oppai: 'Cカップ'
-    };
-  }
-}
+export default class History extends Model {}
+
+History.default = {
+  'last-win-config': {}
+};
