@@ -44,6 +44,9 @@
   "jest": {
     "verbose": true,
     "testRegex": "tests/.*-test\\.js$",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/chomex"
+    ],
     "setupFiles": [
       "tests/mock/localStorage.js"
     ]

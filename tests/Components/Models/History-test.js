@@ -1,4 +1,4 @@
-jest.unmock('chomex');
+// jest.unmock('chomex');
 jest.unmock('../../../src/js/Components/Models/History');
 import History from '../../../src/js/Components/Models/History';
 
