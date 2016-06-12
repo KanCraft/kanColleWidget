@@ -6,7 +6,7 @@
     "node": "6.2.0"
   },
   "scripts": {
-    "test": "mocha --recursive spec --compilers js:babel-register",
+    "test": "jest",
     "build": "webpack",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "start": "webpack --watch"
@@ -34,6 +34,7 @@
     "babel-preset-stage-1": "^6.5.0",
     "chai": "^3.5.0",
     "chomex": "*",
+    "jest-cli": "^12.1.1",
     "material-ui": "^0.15.0",
     "mocha": "^2.4.5",
     "react-dom": "^15.1.0",
