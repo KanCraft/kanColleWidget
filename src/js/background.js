@@ -6,7 +6,7 @@ import {
   ShouldDecorateWindow,
 } from './Components/Controllers/MessageControllers';
 
-import { Router, WebRequestRouter } from 'chomex';
+import { Router, SequenceRouter } from 'chomex';
 
 let router = new Router();
 router.on('/config/get', GetConfig);
@@ -16,7 +16,7 @@ router.on('/window/should-decorate', ShouldDecorateWindow);
 
 chrome.runtime.onMessage.addListener(router.listener());
 
-let reqrouter = new WebRequestRouter();
+let reqrouter = new SequenceRouter();
 
 reqrouter.on([{url: /api_port/}, {url: /api_get_member/}, {url: /api_port/}], Foo);
 
