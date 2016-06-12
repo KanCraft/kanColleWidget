@@ -31,17 +31,17 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-preset-stage-1": "^6.5.0",
-    "chai": "^3.5.0",
     "chomex": "*",
     "jest-cli": "^12.1.1",
     "material-ui": "^0.15.0",
-    "mocha": "^2.4.5",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
-    "testem": "^1.7.1",
     "webpack": "^1.13.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testRegex": "tests/.*\\.js$"
   }
 }
