@@ -5,7 +5,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 
-import History from '../Models/History';
+const url = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 
 const ENTER = 13;
 const client = new Client(chrome.runtime);
@@ -14,14 +14,21 @@ export default class PopupView extends Component {
 
   constructor() {
     super();
-    this.history = new History();
+    // this.history = new History();
     this.state = {
-      winconfigs: {},
+      winconfigs: [],
       selected: '__white',
     };
 
-    client.message({act: '/config/get', key: 'winconfig'}, true).then(res => {
-      this.setState({winconfigs: res.data});
+    client.message({act: '/config/get', key: 'winconfigs'}, true).then(res => {
+      res.data.value.push({
+        id: '__white',
+        alias: "WHITE (default size)",
+        url: url,
+        decoration: 'FRAME_SHIFT',
+        size: {}
+      });
+      this.setState({winconfigs: res.data.value});
     });
     client.message({act: '/config/set', key: 'hoge'}).then(res => {
       console.log('/config/set ok', res);
@@ -39,16 +46,16 @@ export default class PopupView extends Component {
 
   handleChange(ev, index, selected) {
     this.setState({selected});
-    client.message({act: '/window/open', win: this.state.winconfigs[selected]}, true)
+    const win = this.state.winconfigs.find(win => { return win.id == selected; });
+    client.message({act: '/window/open', win}, true)
       .then(res => console.log('/window/open, ok', res))
       .catch(err => console.log('/window/open, ng', err));
   }
 
   render() {
 
-    const winconfigs = Object.keys(this.state.winconfigs).map(id => {
-      const win = this.state.winconfigs[id];
-      return <MenuItem key={id} value={id} primaryText={win.alias} />;
+    const winconfigs = this.state.winconfigs.map(win => {
+      return <MenuItem key={win.id} value={win.id} primaryText={win.alias} />;
     });
 
     return (

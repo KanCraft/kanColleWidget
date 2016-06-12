@@ -26,7 +26,7 @@ client.message({act: '/window/should-decorate'}, true).then((res) => {
 });
 
 client.message({act: '/config/get', key:'closeconfirm'}, true).then((res = {}) => {
-  if (res) {
+  if (res.data.value) {
     window.onbeforeunload = () => { return res.value || 'デフォルトのやつ'; };
   }
 })
