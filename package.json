@@ -43,6 +43,9 @@
   },
   "jest": {
     "verbose": true,
-    "testRegex": "tests/.*-test\\.js$"
+    "testRegex": "tests/.*-test\\.js$",
+    "setupFiles": [
+      "tests/mock/localStorage.js"
+    ]
   }
 }
