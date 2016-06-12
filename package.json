@@ -43,6 +43,6 @@
   },
   "jest": {
     "verbose": true,
-    "testRegex": "tests/.*\\.js$"
+    "testRegex": "tests/.*-test\\.js$"
   }
 }
