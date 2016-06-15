@@ -1,11 +1,10 @@
 var Constants = {
     release : {
-        version: "v1.7.6",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/604',
-        announceVersion : 166,
+        version: "v1.7.7",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/607',
+        announceVersion : 167,
         announcements   : [
-            'MacのAPPモードで両サイドに黒帯入る問題の修正',
-            'WHITEモードで上部に白線が入る問題の修正'
+          'OCRログサーバの廃止 <a href="https://github.com/otiai10/kanColleWidget/issues/606" class="light">くわしくはここ、</a>なるべく読んでほしいです'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
