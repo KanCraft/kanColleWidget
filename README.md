@@ -6,25 +6,17 @@
 
 # 開発
 
-dependencies
+- node 0.12
+- npm 2.7.4
 
 ```
-npm install -g grunt-cli
-npm install -g bower
-```
-
-setup
-
-```
-npm install
-grunt boot
-bower install
+npm run boot
 ```
 
 build
 
 ```
-grunt build
+npm start
 ```
 
 and import `src/kanColleWidget` as a Chrome Extension.

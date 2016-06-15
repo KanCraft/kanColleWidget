@@ -12,6 +12,7 @@
   },
   "scripts": {
     "test": "testem",
+    "boot": "npm install && ./node_modules/grunt-cli/bin/grunt boot && ./node_modules/bower/bin/bower install && ./node_modules/grunt-cli/bin/grunt build",
     "start": "./node_modules/grunt-cli/bin/grunt watch",
     "build": "./node_modules/grunt-cli/bin/grunt build",
     "release": "./node_modules/grunt-cli/bin/grunt release"
@@ -35,6 +36,7 @@
     "grunt-typescript": "0.2.0"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "grunt-cli": "^1.2.0"
   }
 }
