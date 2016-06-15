@@ -13,3 +13,4 @@ GRTAGS
 GTAGS
 node_modules/*
 src/js/AppConfig.js
+npm-debug.log

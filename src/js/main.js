@@ -63,6 +63,20 @@ var KanColleWidget = KanColleWidget || {};
         }
         */
 
+        if(message.purpose == 'aprilfools'){
+          var message = [
+            "【重要なお知らせ】",
+            "『艦これウィジェット』が垢BAN対象である可能性があるとのことで、公式から公開停止要請を受けました。",
+            "当初よりの表明の通り、『艦これウィジェット』の公開を停止します。",
+            "詳細は以下のURLをご確認ください。",
+            "http://otiai10.github.io/kanColleWidget/"
+          ].join("\n");
+          if (window.confirm(message)) {
+            // Config.set("event-flag", 1);
+            window.open("http://otiai10.github.io/kanColleWidget/aprilfools/2016/");
+          }
+        }
+
         if(message.purpose == 'download'){
             Util.downloadImage(null, message.data);
             return;

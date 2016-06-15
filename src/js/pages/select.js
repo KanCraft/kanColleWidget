@@ -165,17 +165,7 @@ function _toggleArea(e, sw){
     }
 
     if (Config.get("event-flag") < 1 && Util.isSpecialTerm()) {
-        var message = [
-            "【重要なお知らせ】",
-            "『艦これウィジェット』が垢BAN対象であるという指摘を受けました。",
-            "当初よりの表明の通り、『艦これウィジェット』の公開を停止します。",
-            "詳細は以下のURLをご確認ください。",
-            "http://otiai10.github.io/kanColleWidget/"
-        ].join("\n");
-        if (window.confirm(message)) {
-            Config.set("event-flag", 1);
-            window.open("http://otiai10.github.io/kanColleWidget/aprilfools/2015/");
-        }
+      chrome.runtime.sendMessage({purpose: 'aprilfools'});
     }
 
     if (Config.get("display-maintenance-info")) {

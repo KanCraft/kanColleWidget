@@ -1,11 +1,11 @@
 var Constants = {
     release : {
-        version: "v1.7.4",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/599',
-        announceVersion : 164,
+        version: "v1.7.6",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/604',
+        announceVersion : 166,
         announcements   : [
-            'E2-I開戦時に大破進撃防止窓が閉じないバグの修正',
-            'E3-C開戦時に大破進撃防止窓が閉じないバグの修正'
+            'MacのAPPモードで両サイドに黒帯入る問題の修正',
+            'WHITEモードで上部に白線が入る問題の修正'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],

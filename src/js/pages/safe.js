@@ -5,7 +5,7 @@ $(function(){
             'position': 'fixed'
         });
         $('body').animate({
-            'top'     : '-76px',
+            'top'     : '-77px',
             'left'    : '-110px'
         },500);
     },500);

@@ -36,7 +36,7 @@
       <div class="row center-align" style="margin-top: 20px;">
         <div class="input-field col s12">
           <select ng-model="mode" ng-change="modeChanged()">
-            <option ng-repeat="(k, m) in modes" value="{{k}}">{{m.title}}</option>
+            <option ng-repeat="(k, m) in modes" value="{{k}}" ng-selected="{{k == 'equipment'}}">{{m.title}}</option>
           </select>
           <label>{{getMode().description}}</label>
         </div>

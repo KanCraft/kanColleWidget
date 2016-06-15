@@ -1,5 +1,5 @@
 {
-  "name": "kanColleWidget",
+  "name": "kancollewidget",
   "version": "1.3",
   "dependencies": {
     "showv": "https://github.com/otiai10/showv.git",

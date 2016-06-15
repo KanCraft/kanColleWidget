@@ -488,9 +488,9 @@ var Util = Util || {};
      */
     Util.adjustSizeOfWindowsOSImmediately = function(win) {
         if (Util.system.isWindows() && win.outerWidth > 0 && win.outerHeight > 0) {
-            var diffWidth = win.outerWidth - win.innerWidth;
-            var diffHeight = win.outerHeight - win.innerHeight;
-            win.resizeTo(win.outerWidth + diffWidth, win.outerHeight + diffHeight);
+          win.resizeBy(win.outerWidth - win.innerWidth, win.outerHeight - win.innerHeight);
+        } else { // とりあえず分岐しとく。今後どうなるかまじわからん
+          win.resizeBy(win.outerWidth - win.innerWidth, win.outerHeight - win.innerHeight);
         }
     };
 
