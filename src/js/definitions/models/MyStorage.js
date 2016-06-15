@@ -138,7 +138,6 @@ MyStorage.prototype.tearDown = function(){
         'notification-stay-visible'          : '',
         'enable-mission-reminder'            : true,
         'dynamic-reminder-type'              : 0,
-        'allow-ocr-result-log'               : false,
         'tiredness-recovery-minutes'         : 0,
         'prevent-forgetting-quest'           : true,
         'display-maintenance-info'           : false,

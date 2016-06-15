@@ -65,25 +65,8 @@ var KanColleWidget = KanColleWidget || {};
                   res.result      = self._isSucceeded(res.assuredText);
 
                   callback(res);
-
-                  // Logサーバへ送る
-                  if(! self.config.get('allow-ocr-result-log')) return;
-                  self._sendLog(res);
               });
             });
-        });
-    };
-
-    DetectTime.prototype._sendLog = function(res) {
-        res.userAgent   = navigator.userAgent;
-        res.createdTime = Date.now();
-        res.extVer      = this.chrome.app.getDetails().version;
-        res.ocrVer      = res.ocrVer || "1.1-client-AspectRatio";
-        Util.findWidgetWindow(function(w){
-            if (! w) return;
-            res.width = w.width;
-            res.height = w.height;
-            KanColleWidget.Log.send(res, function(){/* */});
         });
     };
 
