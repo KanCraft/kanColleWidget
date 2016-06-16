@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { createStore } from 'redux'
-import PopupView from './Components/Views/PopupView';
+
+import PopupView from '../Components/Views/PopupView';
 
 let store = createStore((state = {}, action) => {
   return state;
