@@ -1,4 +1,4 @@
-# kcwidget [![Build Status](https://travis-ci.org/otiai10/kcwidget.svg?branch=develop)](https://travis-ci.org/otiai10/kcwidget)
+# kcwidget [![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget)
 
 [KanColleWidget](https://github.com/otiai10/KanColleWidget) のFirefoxとChrome両方対応するやつ
 
