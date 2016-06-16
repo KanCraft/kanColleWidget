@@ -13,7 +13,7 @@ import WinconfigsView from './Settings/WinconfigsView';
 
 const styles = {
   title: {
-    fontSize: '4em'
+    fontSize: '2em'
   }
 }
 
@@ -21,7 +21,7 @@ export default class OptionsView extends Component {
   render() {
     return (
       <div>
-        <h1 style={styles.title}><Icon name="cog" /> 窓設定</h1>
+        <h1 style={styles.title}><Icon name="cog" /> Window Configs</h1>
         <WinconfigsView />
       </div>
     )
