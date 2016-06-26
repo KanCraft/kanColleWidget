@@ -2,10 +2,10 @@
 
 import {Model} from 'chomex';
 
-const msec = 1000;
-const S = 1 * msec;
-const M = 60 * S;
-const H = 60 * M;
+const msec = 1000,
+      S = 1 * msec,
+      M = 60 * S,
+      H = 60 * M;
 
 export class ScheduledQueues extends Model {
   static append(type, queue) {
@@ -13,8 +13,22 @@ export class ScheduledQueues extends Model {
     instance.queues.push(queue);
     return instance.save();
   }
-  check() {
-    debugger;
+
+  /**
+   * 終わってるやつを返して、自分からは削除する
+   */
+  scan(now = Date.now()) {
+    let timeup = [], notyet = [];
+    this.queues.map(q => {
+      if (!q) return;
+      if (q.scheduled - now <= 0) {
+        const qm = createQueueModelFromParams(q.params);
+        if (qm) return timeup.push(qm);
+      }
+      return notyet.push(q);
+    })
+    this.queues = notyet;
+    return timeup;
   }
 }
 
@@ -25,7 +39,7 @@ ScheduledQueues.default = {
   recoveries: {
     queues: [],
   },
-  createship: {
+  createships: {
     queues: [],
   },
 };
@@ -37,6 +51,14 @@ export class Queue {
   }
   hasCome(now = Date.now()) {
     return ((parseInt(this.scheduled) - now) <= 0);
+  }
+}
+
+function createQueueModelFromParams(params) {
+  switch(params.type) {
+  case 'mission':
+  default:
+    return Mission.createFromParams(params);
   }
 }
 
@@ -60,6 +82,10 @@ export class Mission extends Queue {
     } catch (err) {
       // return logger.warn(err);
     }
+  }
+  static createFromParams(params) {
+    const {title, time} = Mission.catalog[params.mission];
+    return new this(time, title, params.deck, params.mission);
   }
 }
 

@@ -7,6 +7,11 @@ import {
 } from './Components/Controllers/MessageControllers';
 import * as Req from './Components/Controllers/RequestControllers';
 
+import QueueObserver from './Components/Routine/QueueObserver';
+
+QueueObserver.getInstance().run();
+// QueueObserver.start();
+
 const logger = (() => { return new Logger(); })();
 
 // Message Router
