@@ -1,9 +1,14 @@
 import {ScheduledQueues} from '../Models/Queue/Queue';
+import {Logger} from 'chomex';
+const logger = new Logger();
+
+import BadgeService from '../Services/BadgeService';
 
 export default class QueueObserver {
   constructor(accessor = ScheduledQueues, storage = localStorage) {
     this.accessor = accessor;
     this.storage = storage;
+    this.badgeService = new BadgeService();
   }
 
   static instance = null;
@@ -28,6 +33,7 @@ export default class QueueObserver {
    * ScheduledQueuesからいろいろあれする
    */
   run(now = Date.now()) {
+
     let missions = this.accessor.find('missions');
     let recoveries = this.accessor.find('recoveries');
     let createships = this.accessor.find('createships');
@@ -37,12 +43,24 @@ export default class QueueObserver {
       ...recoveries.scan(),
       ...createships.scan(),
     ];
-    console.log(timeups);
+
+    timeups.map(queue => {
+      // TODO: これ、ブラウザのNotificationクラス使う場合もあるし、
+      // 音鳴らすみたいなこともあるので
+      // やっぱりサービスにしたほうがいい
+      chrome.notifications.create(queue.toNotificationParams());
+    });
 
     // clean up
     missions.save();
     recoveries.save();
     createships.save();
+
+    this.badgeService.update([
+      ...missions.queues,
+      ...recoveries.queues,
+      ...createships.queues
+    ]);
   }
 
 }

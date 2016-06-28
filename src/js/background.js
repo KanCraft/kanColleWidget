@@ -9,8 +9,15 @@ import * as Req from './Components/Controllers/RequestControllers';
 
 import QueueObserver from './Components/Routine/QueueObserver';
 
-QueueObserver.getInstance().run();
-// QueueObserver.start();
+// {{ debug
+import {Mission} from './Components/Models/Queue/Queue';
+// QueueObserver.getInstance().run();
+QueueObserver.getInstance().accessor.append('missions', Mission.createFromFormData({
+  api_deck_id: ['2'],
+  api_mission_id: ['-1']
+}))
+// }}
+QueueObserver.start();
 
 const logger = (() => { return new Logger(); })();
 
