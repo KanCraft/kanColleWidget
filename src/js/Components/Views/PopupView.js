@@ -65,7 +65,10 @@ export default class PopupView extends Component {
         <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
           {winconfigs}
         </SelectField>
-        <FlatButton label="詳細設定" />
+        <FlatButton label="詳細設定" onClick={() => {
+            // TODO: とりあえずwindow.openでいいや
+            window.open('/dest/html/options.html');
+          }} />
       </div>
     );
   }
