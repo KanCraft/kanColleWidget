@@ -1,10 +1,10 @@
-import {FRAME_SHIFT} from '../../Components/Constants';
+import {FRAME_SHIFT, EXTRACT} from '../../Components/Constants';
+import ExtractFlash from '../../Components/Routine/ExtractFlash';
 
 chrome.runtime.connect();
 
-import {Client,Router} from 'chomex';
+import {Client} from 'chomex';
 const client = new Client(chrome.runtime);
-let router = new Router();
 client.message({act: '/window/should-decorate'}, true).then((res) => {
   // いずれにしもてこれは必要っぽいなと
   window.resizeBy(
@@ -20,6 +20,10 @@ client.message({act: '/window/should-decorate'}, true).then((res) => {
       'left'    : '-110px' // TODO: get from res.data.offset
     }, 1000);
     break;
+  case EXTRACT:
+    const routine = ExtractFlash.init(window);
+    routine.onload().then(iframe => routine.replace(iframe));
+    break;
   default:
     alert(`UNKNOWN DECORATION: ${res.data.decoration}`);
   }
@@ -30,4 +34,3 @@ client.message({act: '/config/get', key:'closeconfirm'}, true).then((res = {}) =
     window.onbeforeunload = () => { return res.value || 'デフォルトのやつ'; };
   }
 })
-chrome.runtime.onMessage.addListener(router.listener());

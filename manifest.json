@@ -37,6 +37,14 @@
         "dest/vendor/zepto.min.js",
         "dest/js/dmm.js"
       ]
+    },
+    {
+      "matches": [
+        "http://osapi.dmm.com/gadgets/ifr*"
+      ],
+      "js": [
+        "dest/js/osapi.dmm.js"
+      ]
     }
   ],
   "options_page": "dest/html/options.html"

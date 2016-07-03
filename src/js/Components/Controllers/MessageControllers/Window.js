@@ -10,11 +10,12 @@ const client = new Client(chrome.tabs);
 let generated = [];
 
 export function OpenWindow(message) {
+
   // TODO: https://github.com/otiai10/kcwidget/issues/7
   let params = {
     url: message.win.url,
-    width: 800,
-    height: 480,
+    width: message.win.size.width,
+    height: message.win.size.height,
   };
 
   // TODO: window参照しちゃうんですね
