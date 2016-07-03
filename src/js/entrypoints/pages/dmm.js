@@ -1,4 +1,4 @@
-import {FRAME_SHIFT} from '../Components/Constants';
+import {FRAME_SHIFT} from '../../Components/Constants';
 
 chrome.runtime.connect();
 

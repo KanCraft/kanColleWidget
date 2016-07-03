@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { createStore } from 'redux'
 
-import PopupView from '../Components/Views/PopupView';
+import PopupView from '../../Components/Views/PopupView';
 
 let store = createStore((state = {}, action) => {
   return state;

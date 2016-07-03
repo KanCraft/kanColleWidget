@@ -1,9 +1,9 @@
 module.exports = {
   entry: {
-    options: './src/js/pages/options.js',
-    popup: './src/js/pages/popup.js',
-    dmm: './src/js/pages/dmm.js',
-    background: './src/js/background.js'
+    options:    './src/js/entrypoints/pages/options.js',
+    popup:      './src/js/entrypoints/pages/popup.js',
+    dmm:        './src/js/entrypoints/pages/dmm.js',
+    background: './src/js/entrypoints/background.js'
   },
   output: {filename:'./dest/js/[name].js'},
   module: {
