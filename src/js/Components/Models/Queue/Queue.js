@@ -95,6 +95,10 @@ export class Mission extends Queue {
     return new this(stored.scheduled, title, stored.params.deck, stored.params.mission);
   }
 
+  toNotificationID() {
+    return 'xxx';
+  }
+
   toNotificationParams() {
     return {
       type: 'basic',

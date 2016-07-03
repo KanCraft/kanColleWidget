@@ -3,12 +3,14 @@ import {Logger} from 'chomex';
 const logger = new Logger();
 
 import BadgeService from '../Services/BadgeService';
+import NotificationService from '../Services/NotificationService';
 
 export default class QueueObserver {
   constructor(accessor = ScheduledQueues, storage = localStorage) {
     this.accessor = accessor;
     this.storage = storage;
-    this.badgeService = new BadgeService();
+    this.badge = new BadgeService();
+    this.notification = new NotificationService();
   }
 
   static instance = null;
@@ -45,10 +47,10 @@ export default class QueueObserver {
     ];
 
     timeups.map(queue => {
-      // TODO: これ、ブラウザのNotificationクラス使う場合もあるし、
-      // 音鳴らすみたいなこともあるので
-      // やっぱりサービスにしたほうがいい
-      chrome.notifications.create(queue.toNotificationParams());
+      this.notification.create(
+        queue.toNotificationID(),
+        queue.toNotificationParams()
+      );
     });
 
     // clean up
@@ -56,7 +58,7 @@ export default class QueueObserver {
     recoveries.save();
     createships.save();
 
-    this.badgeService.update([
+    this.badge.update([
       ...missions.queues,
       ...recoveries.queues,
       ...createships.queues
