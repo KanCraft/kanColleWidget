@@ -10,6 +10,14 @@ const url = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 const ENTER = 13;
 const client = new Client(chrome.runtime);
 
+const DefaultWhiteWindow = {
+  id: '__white',
+  alias: "WHITE (default size)",
+  url: url,
+  decoration: 'FRAME_SHIFT',
+  size: {width: 800, height: 480}
+};
+
 export default class PopupView extends Component {
 
   constructor() {
@@ -21,13 +29,7 @@ export default class PopupView extends Component {
     };
 
     client.message({act: '/config/get', key: 'winconfigs'}, true).then(res => {
-      res.data.value.push({
-        id: '__white',
-        alias: "WHITE (default size)",
-        url: url,
-        decoration: 'FRAME_SHIFT',
-        size: {}
-      });
+      res.data.value.push(DefaultWhiteWindow);
       this.setState({winconfigs: res.data.value});
     });
     client.message({act: '/config/set', key: 'hoge'}).then(res => {

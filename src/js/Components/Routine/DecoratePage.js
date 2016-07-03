@@ -1,3 +1,19 @@
+export class DecorateDMMPage {
+  constructor(context) {
+    this.context = context;
+  }
+
+  static init(context) {
+    return new this(context);
+  }
+
+  decorate(params = {top: '-77px', left: '-110px'}) {
+    let body = this.context.document.querySelector('body');
+    body.style.position = 'fixed';
+    body.style.top = params.top;
+    body.style.left = params.left;
+  }
+}
 
 export class DecorateOsapiPage {
 
