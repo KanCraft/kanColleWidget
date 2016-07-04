@@ -61,10 +61,10 @@ export class DecorateOsapiPage {
   }
 
   effort() {
-    if (this.decorateWrap()
-      && this.decorateEmbed()
+    if (this.decorateEmbed()
       && this.decorateSpaceTop()
       && this.decorateSectionWrap()
+      && this.decorateWrap()
     ) return true;
 
     // TODO: 回数制限
