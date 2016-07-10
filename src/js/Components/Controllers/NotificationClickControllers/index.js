@@ -1,3 +1,4 @@
+import Frame from '../../Models/Frame';
 import NotificationService from '../../Services/NotificationService';
 const service = new NotificationService();
 import WindowService from '../../Services/WindowService';
@@ -8,7 +9,8 @@ export function OnNotificationClicked(id) {
   windows.find(true).then(tab => {
     windows.focus(tab);
   }).catch(() => {
-    windows.open();
+    const frame = "small"; // TODO: これはHistoryから持ってくるべき
+    windows.open(Frame.find(frame));
   });
 }
 

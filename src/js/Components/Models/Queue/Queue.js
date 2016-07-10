@@ -79,6 +79,14 @@ export class Mission extends Queue {
     this.title = title;
     this.deck  = deck;
   }
+
+  static dummy() {
+    return this.createFromFormData({
+      api_deck_id: [0],
+      api_mission_id: ['-1']
+    });
+  }
+
   static createFromFormData(data) {
     try {
       const deck = parseInt(data['api_deck_id'][0]);
