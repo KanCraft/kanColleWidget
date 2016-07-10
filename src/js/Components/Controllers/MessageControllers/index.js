@@ -6,6 +6,9 @@ import {
   GetAll,
 } from './Frame';
 import {
+  GetQueues
+} from './Queue';
+import {
   OpenWindow,
   ShouldDecorateWindow,
 } from './Window';
@@ -18,6 +21,7 @@ const MessageControllers = {
   ShouldDecorateWindow,
   GetHistory,
   GetAllFrames: GetAll,
+  GetQueues: GetQueues,
 };
 
 module.exports = MessageControllers;

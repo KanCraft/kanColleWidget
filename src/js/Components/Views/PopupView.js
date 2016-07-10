@@ -4,6 +4,7 @@ import { Client } from 'chomex';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+import QueuesView from './Popup/QueuesView';
 
 const url = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 
@@ -25,6 +26,9 @@ export default class PopupView extends Component {
     // this.history = new History();
     this.state = {
       winconfigs: {},
+      queues:     {
+        missions: {queues: []}, recoveries: {queues: []}, createships: {queues: []}
+      },
       selected: '__white',
     };
 
@@ -33,6 +37,10 @@ export default class PopupView extends Component {
     });
     client.message({act: '/config/set', key: 'hoge'}).then(res => {
       console.log('/config/set ok', res);
+    });
+    client.message('/queues/get', {key: 'all'}).then(res => {
+      console.log('/queues/get', res);
+      this.setState({queues: res.data});
     });
   }
 
@@ -64,6 +72,7 @@ export default class PopupView extends Component {
         <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
           {winconfigs}
         </SelectField>
+        <QueuesView queues={this.state.queues} />
         <FlatButton label="詳細設定" onClick={() => {
             // TODO: とりあえずwindow.openでいいや
             window.open('/dest/html/options.html');
