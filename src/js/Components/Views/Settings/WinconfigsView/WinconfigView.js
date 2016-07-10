@@ -34,8 +34,8 @@ export default class WinconfigView extends Component {
           </RadioButtonGroup>
         </CardText>
         <CardActions expandable={true}>
-          <FlatButton label="OK" />
-          <FlatButton label="DELETE"/>
+          <FlatButton label="OK" disabled={this.state.win.protected} />
+          <FlatButton label="DELETE" disabled={this.state.win.protected}/>
         </CardActions>
       </Card>
     )

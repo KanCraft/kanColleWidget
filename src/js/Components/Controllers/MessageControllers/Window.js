@@ -1,40 +1,34 @@
 import WindowService from '../../Services/WindowService';
 import {Client} from 'chomex';
+import Frame from '../../Models/Frame';
 
 const POPUP = 'popup';
 
-const windowService = new WindowService();
+const windows = WindowService.getInstance();
 const client = new Client(chrome.tabs);
-
-// TODO: オンメモリな何かはどっかにやる
-let generated = [];
 
 export function OpenWindow(message) {
 
-  // TODO: https://github.com/otiai10/kcwidget/issues/7
-  let params = {
-    url: message.win.url,
-    width: message.win.size.width,
-    height: message.win.size.height,
-  };
+  const id = message.frame;
 
-  // TODO: window参照しちゃうんですね
-  if (!window.navigator.userAgent.match('Firefox')) {
-    params['type'] = 'popup';
+  const frame = Frame.find(id);
+  if (!frame) {
+    alert(id);
+    return;
   }
 
-  return new Promise((res, rej) => {
-    windowService.open(params).then(win => {
-      generated.push({tab: win.tabs[0], ...message.win});
-      res(win);
+  return new Promise(resolve => {
+    windows.open(frame).then(win => {
+      resolve(frame);
     });
   });
 }
 
 export function ShouldDecorateWindow(message) {
-  const win = generated.find(win => {
-    return (win.tab.id == this.sender.tab.id);
-  });
-  if (win) return {status: 200, data: win};
-  else return {status: 404};
+  const tab = windows.has(this.sender.tab.id);
+  if (tab) {
+    return {status: 200, tab: tab};
+  } else {
+    return {status: 404};
+  }
 }

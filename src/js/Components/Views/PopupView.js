@@ -24,13 +24,12 @@ export default class PopupView extends Component {
     super();
     // this.history = new History();
     this.state = {
-      winconfigs: [],
+      winconfigs: {},
       selected: '__white',
     };
 
-    client.message({act: '/config/get', key: 'winconfigs'}, true).then(res => {
-      res.data.value.push(DefaultWhiteWindow);
-      this.setState({winconfigs: res.data.value});
+    client.message({act: '/frame/all'}, true).then(res => {
+      this.setState({winconfigs: res.data});
     });
     client.message({act: '/config/set', key: 'hoge'}).then(res => {
       console.log('/config/set ok', res);
@@ -48,16 +47,16 @@ export default class PopupView extends Component {
 
   handleChange(ev, index, selected) {
     this.setState({selected});
-    const win = this.state.winconfigs.find(win => { return win.id == selected; });
-    client.message({act: '/window/open', win}, true)
-      .then(res => console.log('/window/open, ok', res))
-      .catch(err => console.log('/window/open, ng', err));
+    client.message({act: '/window/open', frame: selected}, true)
+      // .then(res => console.log('/window/open, ok', res))
+      // .catch(err => console.log('/window/open, ng', err));
   }
 
   render() {
 
-    const winconfigs = this.state.winconfigs.map(win => {
-      return <MenuItem key={win.id} value={win.id} primaryText={win.alias} />;
+    const winconfigs = Object.keys(this.state.winconfigs).map(id => {
+      const win = this.state.winconfigs[id];
+      return <MenuItem key={id} value={id} primaryText={win.alias} />;
     });
 
     return (

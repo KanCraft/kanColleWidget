@@ -13,14 +13,9 @@ client.message({act: '/window/should-decorate'}, true).then((res) => {
     window.outerHeight - window.innerHeight
   );
 
-  switch(res.data.decoration) {
+  switch(res.tab.frame.decoration) {
   case FRAME_SHIFT:
     DecorateDMMPage.init(window).decorate();
-    // client.message({act: '/config/get', key:'closeconfirm'}, true).then((res = {}) => {
-    //   if (res.data.value) {
-    //     window.onbeforeunload = () => { return res.value || 'デフォルトのやつ'; };
-    //   }
-    // })
     break;
   case EXTRACT:
     let routine = ExtractFlash.init(window);

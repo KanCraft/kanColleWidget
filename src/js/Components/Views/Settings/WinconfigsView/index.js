@@ -7,7 +7,7 @@ import TextField from 'material-ui/TextField';
 import Icon from '../../FontAwesome';
 
 // App
-import Config from '../../../Models/Config';
+import Frame from '../../../Models/Frame';
 
 // Partials
 import WinconfigView from './WinconfigView';
@@ -18,7 +18,7 @@ export default class WinconfigsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wins: Config.find('winconfigs').value,
+      wins: Frame.all(),
       showAddForm: false
     }
   }
@@ -26,12 +26,11 @@ export default class WinconfigsView extends Component {
     this.setState({showAddForm: !this.state.showAddForm});
   }
   render() {
-    const wins = this.state.wins.map((win, i) => {
-      return <WinconfigView key={i} win={win} />;
+    const wins = Object.keys(this.state.wins).map(id => {
+      return <WinconfigView key={id} win={this.state.wins[id]} />;
     });
     return (
       <div>
-        <WinconfigDefaultWhiteView />
 
         {wins}
 
