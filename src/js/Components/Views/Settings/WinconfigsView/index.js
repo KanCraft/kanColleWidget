@@ -10,8 +10,7 @@ import Icon from '../../FontAwesome';
 import Frame from '../../../Models/Frame';
 
 // Partials
-import WinconfigView from './WinconfigView';
-import WinconfigDefaultWhiteView from './WinconfigDefaultWhiteView';
+import WinconfigView     from './WinconfigView';
 import WinconfigFormView from './WinconfigFormView';
 
 export default class WinconfigsView extends Component {
