@@ -2,6 +2,12 @@ import { Router, SerialRouter, Logger } from 'chomex';
 
 // タイマーなんかを監視するintervalをスタート
 import QueueObserver from '../Components/Routine/QueueObserver';
+
+// {{{ DEBUG
+import {Mission, ScheduledQueues} from '../Components/Models/Queue/Queue';
+ScheduledQueues.append('missions', Mission.dummy());
+// }}}
+
 QueueObserver.start();
 
 // sendMessageを受けるroutesを定義
@@ -26,28 +32,42 @@ import TrimService    from '../Components/Services/TrimService';
 const capture = new CaptureService();
 
 import {Picture} from 'crescent';
-let pic0 = new Picture(require('base64-image!../../img/x_0.png'));
-let pic1 = new Picture(require('base64-image!../../img/x_1.png'));
-let pic2 = new Picture(require('base64-image!../../img/x_2.png'));
+let pics = [];
+Promise.all([
+  new Picture(require('base64-image!../../img/x_0.png')).initialized,
+  new Picture(require('base64-image!../../img/x_1.png')).initialized,
+  new Picture(require('base64-image!../../img/x_2.png')).initialized,
+  new Picture(require('base64-image!../../img/x_3.png')).initialized,
+  new Picture(require('base64-image!../../img/x_4.png')).initialized,
+  new Picture(require('base64-image!../../img/x_5.png')).initialized,
+  new Picture(require('base64-image!../../img/x_6.png')).initialized,
+  new Picture(require('base64-image!../../img/x_7.png')).initialized,
+  new Picture(require('base64-image!../../img/x_8.png')).initialized,
+  new Picture(require('base64-image!../../img/x_9.png')).initialized
+]).then(pics => {
 
-setTimeout(() => {
-  pic0.binarize(180); pic1.binarize(180); pic2.binarize(180);
+  pics = pics.map(pic => pic.binarize(200));
+
   windows.find(true).then(tab => {
-    console.log(tab, CaptureService, TrimService);
     capture.capture(tab.windowId).then(uri => {
       const trim = new TrimService(uri);
       return trim.trim();
     }).then(res => {
-      res.map(uri => {
+      return Promise.all(res.map(uri => {
         const pic = new Picture(uri);
-        Promise.all([pic.initialized, pic0.initialized, pic1.initialized, pic2.initialized]).then(() => {
-          pic.binarize(180);
-          pic.compareTo(pic0, pic1, pic2).then(result => {
-            console.log(result);
+        return pic.initialized.then(pic => {
+          pic.binarize(200);
+          pic.debug().open();
+          return pic.compareTo(...pics).then(result => {
+            return Promise.resolve(result.reduce((maxi, x, i, arr) => {
+              return x.score > arr[maxi].score ? i : maxi
+            }, 0));
           });
         });
-      })
+      }));
+    }).then(nums => {
+      console.log(nums);
     });
   }).catch(err => {
   });
-}, 100);
+});
