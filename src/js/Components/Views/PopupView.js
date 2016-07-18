@@ -32,14 +32,10 @@ export default class PopupView extends Component {
       selected: '__white',
     };
 
-    client.message({act: '/frame/all'}, true).then(res => {
+    client.message('/frame/all').then(res => {
       this.setState({winconfigs: res.data});
     });
-    client.message({act: '/config/set', key: 'hoge'}).then(res => {
-      console.log('/config/set ok', res);
-    });
     client.message('/queues/get', {key: 'all'}).then(res => {
-      console.log('/queues/get', res);
       this.setState({queues: res.data});
     });
   }

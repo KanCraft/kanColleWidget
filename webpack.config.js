@@ -1,3 +1,18 @@
+var webpack = require('webpack');
+
+var plugins = [
+  new webpack.optimize.DedupePlugin(),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+  })
+];
+if (process.env.NODE_ENV == 'production') {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: { warnings: false },
+    mangle: false
+  }));
+}
+
 module.exports = {
   entry: {
     options:    './src/js/entrypoints/pages/options.js',
@@ -15,5 +30,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
-  }
+  },
+  plugins: plugins
 }
