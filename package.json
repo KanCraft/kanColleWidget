@@ -8,7 +8,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "release": "NODE_ENV=production webpack && rm -rf release && mkdir -p release/kcwidget && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip release/kcwidget.zip release/kcwidget/*",
+    "release": "NODE_ENV=production webpack && rm -rf release && mkdir -p release/kcwidget && node ./scripts/pre-release && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "start": "webpack --watch"
   },
