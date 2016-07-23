@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "kcwidget",
-  "version": "0.0.9",
-  "description": "foo bar baz",
+  "name": "[v2開発版] beta.艦これウィジェット",
+  "version": "2.0.0",
+  "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
     "webRequest",
@@ -10,13 +10,13 @@
     "<all_urls>"
   ],
   "icons": {
-    "48": "dest/img/icons/oppai.48.png"
+    "48": "dest/img/icons/chang.48.png"
   },
   "browser_action": {
     "default_icon": {
-      "38": "dest/img/icons/oppai.38.png"
+      "38": "dest/img/icons/chang.38.png"
     },
-    "default_title": "OPPAI?",
+    "default_title": "艦これウィジェット",
     "default_popup": "dest/html/popup.html"
   },
   "applications": {

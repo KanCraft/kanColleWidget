@@ -108,12 +108,14 @@ export class Mission extends Queue {
   }
 
   toNotificationParams() {
+    // TODO: ここでchrome参照するのぜったいいや
+    const url = chrome.extension.getURL('dest/img/icons/chang.white.png');
     return {
       type: 'basic',
       title: `遠征帰投報告: ${this.title}`,
       message: `第${this.deck}艦隊がまもなく「${this.title}」より帰投します`,
       requireInteraction: true,
-      iconUrl: 'https://pbs.twimg.com/profile_images/531826570218831873/6AwIeAWO_400x400.png'
+      iconUrl: url,
     };
   }
 
