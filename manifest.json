@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "[v2開発版] beta.艦これウィジェット",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
@@ -36,7 +36,6 @@
         "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
       ],
       "js": [
-        "dest/vendor/zepto.min.js",
         "dest/js/dmm.js"
       ]
     },
