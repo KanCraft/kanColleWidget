@@ -26,26 +26,21 @@ var nextVersion = ((version, args) => {
 manifest.version = nextVersion;
 
 // プロジェクト直下のmanifestに反映
-fs.writeFile(
+fs.writeFileSync(
   path.join(path.dirname(__dirname), 'manifest.json'),
-  JSON.stringify(manifest, null, 2),
-  (err) => {
-    if (err) throw err;
-  }
+  JSON.stringify(manifest, null, 2)
 );
 
 if (
   exec(`git add manifest.json`).code !== 0
-  || exec(`git commit -m '[${manifest.version}]'`).code !== 0
+  || exec(`git commit -m '[${manifest.version}] [release-build]'`).code !== 0
+  || exec(`git tag ${manifest.version}`).code !== 0
 ) {
   // しっぱいしたので戻す
   manifest.version = previousVersion;
-  fs.writeFile(
+  fs.writeFileSync(
     path.join(path.dirname(__dirname), 'manifest.json'),
-    JSON.stringify(manifest, null, 2),
-    (err) => {
-      if (err) throw err;
-    }
+    JSON.stringify(manifest, null, 2)
   );
 }
 
