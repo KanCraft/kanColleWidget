@@ -1,6 +1,11 @@
 var fs       = require('fs');
 var path     = require('path');
 var manifest = require('../manifest.json');
+var exec     = require('shelljs').exec;
+
+if (exec('git status --short')) {
+  throw '[艦これウィジェット][pre-release] git status が clean じゃないっぽい';
+}
 
 // Extensionのversionをインクリメントする
 // -vで与えられてたらアレする
@@ -24,6 +29,9 @@ fs.writeFile(
     if (err) throw err;
   }
 );
+
+console.log(exec('git add manifest.json'));
+console.log(exec(`git commit -m '[${manifest.version}]'`));
 
 // リリース用のmanifestに反映
 fs.writeFile(
