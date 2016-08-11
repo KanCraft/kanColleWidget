@@ -10,7 +10,7 @@
     "build": "webpack",
     "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/pre-release &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
-    "start": "webpack --watch"
+    "start": "webpack --watch --progress"
   },
   "repository": {
     "type": "git",
