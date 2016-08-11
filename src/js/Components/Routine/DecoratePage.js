@@ -27,6 +27,14 @@ export class DecorateOsapiPage {
     return new this(context);
   }
 
+  decorateHTML() {
+    let html = this.context.document.querySelector('html');
+    if (!html) return false;
+    html.style.margin = '0 auto';
+    html.style.overflow = 'hidden';
+    return true;
+  }
+
   decorateWrap() {
     let wrap = this.context.document.querySelector('div#flashWrap');
     if (!wrap) return false;
@@ -61,7 +69,8 @@ export class DecorateOsapiPage {
   }
 
   effort() {
-    if (this.decorateEmbed()
+    if (this.decorateHTML()
+      && this.decorateEmbed()
       && this.decorateSpaceTop()
       && this.decorateSectionWrap()
       && this.decorateWrap()
