@@ -10,6 +10,7 @@ import {
 } from 'material-ui/Table';
 
 import WinconfigsView from './Options/WinconfigsView';
+import DebugView      from './Options/DebugView';
 
 const styles = {
   title: {
@@ -24,6 +25,10 @@ export default class OptionsView extends Component {
         <div>
           <h1 style={styles.title}><Icon name="cog" /> Window Configs</h1>
           <WinconfigsView />
+        </div>
+        <div>
+          <h1 style={styles.title}><Icon name="terminal" /> Debug Options</h1>
+          <DebugView />
         </div>
       </div>
     )

@@ -4,5 +4,8 @@ export default class Config extends Model {}
 Config.default = {
   'closeconfirm': {
     value: 'おっぱああああい!!'
+  },
+  'debug': {
+    value: false
   }
 };
