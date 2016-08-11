@@ -9,7 +9,7 @@ import {
   TableRowColumn
 } from 'material-ui/Table';
 
-import WinconfigsView from './Settings/WinconfigsView';
+import WinconfigsView from './Options/WinconfigsView';
 
 const styles = {
   title: {
@@ -21,8 +21,10 @@ export default class OptionsView extends Component {
   render() {
     return (
       <div>
-        <h1 style={styles.title}><Icon name="cog" /> Window Configs</h1>
-        <WinconfigsView />
+        <div>
+          <h1 style={styles.title}><Icon name="cog" /> Window Configs</h1>
+          <WinconfigsView />
+        </div>
       </div>
     )
   }
