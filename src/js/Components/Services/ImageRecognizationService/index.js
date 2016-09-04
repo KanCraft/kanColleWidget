@@ -7,11 +7,14 @@ import CaptureService from '../CaptureService';
 import TrimService    from '../TrimService';
 const capture = new CaptureService();
 
+import Rectangle from '../Rectangle';
+
 class ImageRecognizationService {
   static pics = [];
   constructor() {
   }
   test(params) {
+    const dock = params.dock;
     return Promise.resolve()
     .then(() => {
       return windows.find(true); // ターゲット画面を取得
@@ -20,8 +23,24 @@ class ImageRecognizationService {
       return capture.capture(tab.windowId) // ターゲット全体画像を取得
     })
     .then(uri => {
-      const trim = new TrimService(uri);
-      return trim.trim(params); // ターゲット数字画像を分割して取得
+      return new Promise((resolve, reject) => {
+        var canvas = document.createElement('canvas');
+        var img = new Image();
+        img.onload = function() {
+          // 複数の画像断片のアレをアレする
+          var rect = new Rectangle(0, 0, img.width, img.height).removeBlackspace()
+          resolve(rect.digitsInRecoveryDock(dock).map(r => {
+            canvas.width = r.width
+            canvas.height = r.height
+            canvas.getContext('2d').drawImage(img, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height);
+            window.open(canvas.toDataURL());
+            return canvas.toDataURL();
+          }))
+        };
+        img.src = uri;
+      });
+      // const trim = new TrimService(uri);
+      // return trim.trim(params); // ターゲット数字画像を分割して取得
     })
     .then(res => {
       return Promise.all(res.map(uri => {

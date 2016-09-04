@@ -47,6 +47,25 @@ class Rectangle {
     );
   }
 
+  /**
+   *
+   */
+  digitsInRecoveryDock(dock) {
+    const dockHeight = this.height/5.9;
+    const digitWidth = this.width/69.26;
+    const digitHeight = this.height/30;
+    const colonWidth = this.width/140;
+    return [0,1,2,3].map(digit => {
+      const colon = (digit < 2) ? 0 : colonWidth;
+      return new Rectangle(
+        this.x + (this.width/1.2845) + colon + (digit * digitWidth),
+        this.y + (this.height/2.98) + ((dock - 1) * dockHeight),
+        digitWidth,
+        digitHeight
+      )
+    });
+  }
+
   isHorizontallyLong() {
     return (this.height / this.width) < Rectangle.aspect.ratio;
   }
