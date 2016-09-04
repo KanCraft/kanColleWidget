@@ -14,8 +14,13 @@ import {
   onKaisouPowerup,
 } from './Kaisou';
 
+import {
+  onBattleResulted,
+} from './Battle'
+
 const RequestControllers = {
   onKoushoCreateShipCompleted: onCreateShipCompleted,
+  onBattleResulted,
   onMissionStart,
   onMapPrepare,
   onKaisouPowerup,

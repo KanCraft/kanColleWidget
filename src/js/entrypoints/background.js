@@ -32,9 +32,12 @@ import MessageListener from '../Components/Routes/MessageRoutes';
 chrome.runtime.onMessage.addListener(MessageListener);
 
 // HTTP Requestを受けるroutesを定義
-import WebRequestListener from '../Components/Routes/WebRequestRoutes';
+import {WebRequestListener, WebRequestOnCompleteListener} from '../Components/Routes/WebRequestRoutes';
 chrome.webRequest.onBeforeRequest.addListener(
   WebRequestListener, {'urls':["*://*/kcsapi/*"]}, ['requestBody']
+);
+chrome.webRequest.onCompleted.addListener(
+  WebRequestOnCompleteListener, {'urls':["*://*/kcsapi/*"]}, []
 );
 
 // NotificationのonClickを受けるroutesを定義

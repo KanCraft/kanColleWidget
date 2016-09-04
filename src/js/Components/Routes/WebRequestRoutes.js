@@ -12,4 +12,15 @@ router.on([{url: /api_get_member\/mapinfo/}], Controllers.onMapPrepare);
 router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 
 const WebRequestListener = router.listener();
-export default WebRequestListener;
+
+let onCompletedRouter = new SerialRouter(2);
+onCompletedRouter.on([
+  {url: /api_req_sortie\/battleresult/},
+  true
+], Controllers.onBattleResulted);
+const WebRequestOnCompleteListener = onCompletedRouter.listener();
+
+export {
+  WebRequestListener,
+  WebRequestOnCompleteListener
+}
