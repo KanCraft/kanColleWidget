@@ -18,12 +18,19 @@ import {
   onBattleResulted,
 } from './Battle'
 
+import {
+  onRecoveryStart,
+  onRecoveryStartCompleted,
+} from './Recovery';
+
 const RequestControllers = {
   onKoushoCreateShipCompleted: onCreateShipCompleted,
   onBattleResulted,
   onMissionStart,
   onMapPrepare,
   onKaisouPowerup,
+  onRecoveryStart,
+  onRecoveryStartCompleted,
 }
 
 module.exports = RequestControllers;

@@ -9,6 +9,8 @@ const capture = new CaptureService();
 
 import Rectangle from '../Rectangle';
 
+const binarizeThreshold = 200;
+
 class ImageRecognizationService {
   static pics = [];
   constructor() {
@@ -33,7 +35,6 @@ class ImageRecognizationService {
             canvas.width = r.width
             canvas.height = r.height
             canvas.getContext('2d').drawImage(img, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height);
-            window.open(canvas.toDataURL());
             return canvas.toDataURL();
           }))
         };
@@ -48,7 +49,8 @@ class ImageRecognizationService {
       }));
     }).then(targets => {
       return Promise.all(targets.map(target => {
-        target.binarize(200); // ターゲットを二値化
+        target.binarize(binarizeThreshold); // ターゲットを二値化
+        // target.debug().open();
         return target.compareTo(...ImageRecognizationService.pics);
       }));
     }).then(results => {
@@ -73,7 +75,8 @@ Promise.all([
   new Picture(require('base64-image!../../../../img/x_8.png')).initialized,
   new Picture(require('base64-image!../../../../img/x_9.png')).initialized
 ]).then(pics => {
-  ImageRecognizationService.pics = pics.map(pic => pic.binarize(200));
+  ImageRecognizationService.pics = pics.map(pic => pic.binarize(binarizeThreshold));
+  // ImageRecognizationService.pics.map(pic => { pic.debug().open(); });
 });
 
 export default ImageRecognizationService;

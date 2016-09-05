@@ -40,7 +40,7 @@ class Rectangle {
    */
   shipsStatus() {
     return new Rectangle(
-      this.x + (this.width/3.57),
+      this.x + (this.width/3.561),
       this.y + (this.height/2.7),
       this.width / 4.5,
       this.height / 1.68
@@ -59,7 +59,7 @@ class Rectangle {
       const colon = (digit < 2) ? 0 : colonWidth;
       return new Rectangle(
         this.x + (this.width/1.2845) + colon + (digit * digitWidth),
-        this.y + (this.height/2.98) + ((dock - 1) * dockHeight),
+        this.y + (this.height/2.985) + ((dock - 1) * dockHeight),
         digitWidth,
         digitHeight
       )
