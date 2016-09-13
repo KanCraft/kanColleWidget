@@ -16,6 +16,7 @@ import {
 
 import {
   onBattleResulted,
+  onBattleStarted,
 } from './Battle'
 
 import {
@@ -26,6 +27,7 @@ import {
 const RequestControllers = {
   onKoushoCreateShipCompleted: onCreateShipCompleted,
   onBattleResulted,
+  onBattleStarted,
   onMissionStart,
   onMapPrepare,
   onKaisouPowerup,

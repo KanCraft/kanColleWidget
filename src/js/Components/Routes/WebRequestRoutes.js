@@ -13,6 +13,7 @@ router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
 // ここでrequestBodyを調達しておく必要がある
 router.on([{url: /api_req_nyukyo\/start/}],   Controllers.onRecoveryStart);
+router.on([{url: /api_req_sortie\/battle/}],   Controllers.onBattleStarted);
 
 const WebRequestListener = router.listener();
 
