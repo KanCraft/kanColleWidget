@@ -24,6 +24,10 @@ import {
   onRecoveryStartCompleted,
 } from './Recovery';
 
+import {
+  onHomePort,
+} from './Port';
+
 const RequestControllers = {
   onKoushoCreateShipCompleted: onCreateShipCompleted,
   onBattleResulted,
@@ -33,6 +37,7 @@ const RequestControllers = {
   onKaisouPowerup,
   onRecoveryStart,
   onRecoveryStartCompleted,
+  onHomePort,
 }
 
 module.exports = RequestControllers;

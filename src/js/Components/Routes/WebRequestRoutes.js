@@ -12,8 +12,11 @@ router.on([{url: /api_get_member\/mapinfo/}], Controllers.onMapPrepare);
 router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
 // ここでrequestBodyを調達しておく必要がある
-router.on([{url: /api_req_nyukyo\/start/}],   Controllers.onRecoveryStart);
-router.on([{url: /api_req_sortie\/battle/}],   Controllers.onBattleStarted);
+router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);
+router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
+
+// 母校帰投
+router.on([{url: /api_port\/port/}],         Controllers.onHomePort)
 
 const WebRequestListener = router.listener();
 
