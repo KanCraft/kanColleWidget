@@ -9,6 +9,9 @@ import { createStore } from 'redux'
 
 import PopupView from '../../Components/Views/PopupView';
 
+import { init } from '../global-pollution';
+init(window);
+
 let store = createStore((state = {}, action) => {
   return state;
 })

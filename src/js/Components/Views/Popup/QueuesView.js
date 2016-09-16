@@ -7,7 +7,7 @@ class QueueListItem extends Component {
     const name = '第' + (this.props.queue.deck || this.props.queue.dock) + this.props.unit;
     return (
       <div>
-        <span>{name}</span> <span>{date.getHours()}:{date.getMinutes()}</span>
+        <span>{name}</span> <span>{date.toClockString()}</span>
       </div>
     );
   }

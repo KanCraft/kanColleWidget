@@ -21,21 +21,5 @@ chrome.webRequest.onCompleted.addListener(
 import NotificationClickListener from '../Components/Routes/NotificationClickRoutes';
 chrome.notifications.onClicked.addListener(NotificationClickListener);
 
-// {{{ Global pollution
-Image.init = function(url) {
-  return new Promise(resolve => {
-    let image = new Image();
-    image.onload = () => {
-      resolve(image);
-    }
-    image.src = url;
-  })
-};
-window.sleep = function(seconds) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, seconds * 1000);
-  });
-}
-// }}}
+import {init} from './global-pollution';
+init(window);
