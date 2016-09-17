@@ -21,5 +21,9 @@ chrome.webRequest.onCompleted.addListener(
 import NotificationClickListener from '../Components/Routes/NotificationClickRoutes';
 chrome.notifications.onClicked.addListener(NotificationClickListener);
 
+// Commandsを受けるroutersの定義
+import CommandRouter from '../Components/Routes/CommandRoutes';
+chrome.commands.onCommand.addListener(CommandRouter);
+
 import {init} from './global-pollution';
 init(window);

@@ -19,6 +19,7 @@ module.exports = {
     popup:      './src/js/entrypoints/pages/popup.js',
     dmm:        './src/js/entrypoints/pages/dmm.js',
     'osapi.dmm':'./src/js/entrypoints/pages/osapi.dmm.js',
+    capture:    './src/js/entrypoints/pages/capture.js',
     background: './src/js/entrypoints/background.js'
   },
   output: {filename:'./dest/js/[name].js'},

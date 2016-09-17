@@ -30,6 +30,17 @@
       "dest/js/background.js"
     ]
   },
+  "commands": {
+    "capture": {
+      "description": "プレイ画面のスクショを撮ります",
+      "suggested_key": {
+        "windows":  "Ctrl+Shift+0",
+        "mac":      "Command+Shift+0",
+        "chromeos": "Ctrl+Shift+0",
+        "linux":    "Ctrl+Shift+0"
+      }
+    }
+  },
   "content_scripts": [
     {
       "matches": [
