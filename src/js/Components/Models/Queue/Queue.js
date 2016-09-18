@@ -104,7 +104,7 @@ export class Mission extends Queue {
   }
 
   toNotificationID() {
-    return 'xxx';
+    return `mission.${this.params.mission}`;
   }
 
   toNotificationParams() {

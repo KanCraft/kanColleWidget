@@ -3,7 +3,8 @@ import {
 } from './Kousho';
 
 import {
-  onMissionStart
+  onMissionStart,
+  onMissionResult,
 } from './Mission';
 
 import {
@@ -33,6 +34,7 @@ const RequestControllers = {
   onBattleResulted,
   onBattleStarted,
   onMissionStart,
+  onMissionResult,
   onMapPrepare,
   onKaisouPowerup,
   onRecoveryStart,

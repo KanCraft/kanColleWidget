@@ -7,7 +7,8 @@ router.on([
   {url: /api_get_member\/kdock/},
   {url: /api_req_kousyou\/createship/}
 ], Controllers.onCreateShipCompleted);
-router.on([{url: /api_req_mission\/start/}], Controllers.onMissionStart);
+router.on([{url: /api_req_mission\/start/}],  Controllers.onMissionStart);
+router.on([{url: /api_req_mission\/result/}], Controllers.onMissionResult)
 router.on([{url: /api_get_member\/mapinfo/}], Controllers.onMapPrepare);
 router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
