@@ -7,6 +7,7 @@
     "tabs",
     "webRequest",
     "notifications",
+    "downloads",
     "<all_urls>"
   ],
   "icons": {

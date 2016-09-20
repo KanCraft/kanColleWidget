@@ -14,6 +14,9 @@ import Download    from 'material-ui/svg-icons/file/file-download';
 import Send        from 'material-ui/svg-icons/content/send';
 import Refresh     from 'material-ui/svg-icons/navigation/refresh';
 
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import TextField from 'material-ui/TextField';
 
@@ -41,6 +44,10 @@ export default class CaptureView extends Component {
     Image.init(url.searchParams.get('img')).then(img => {
       this.drawImage(img);
     })
+
+    this.state = {
+      dialogOpened: false
+    }
   }
   drawImage(img) {
     this.refs.canvas.width = img.width;
@@ -54,31 +61,73 @@ export default class CaptureView extends Component {
           <div style={{flex: 1}}>
             <canvas ref="canvas" style={{maxWidth: '100%', boxShadow: '0 1px 6px #a0a0a0'}}></canvas>
           </div>
-          <div style={{flex: 'initial', width: '224px'}}>
+          <div style={{flex: 'initial', width: '100px'}}>
             <Paper style={styles.paper}>
               <Menu>
                 <MenuItem primaryText={this.colorPicker()} />
-                <MenuItem primaryText="Rect" disabled={true} leftIcon={<PictureInPictureAlt />} />
-                <MenuItem primaryText="Draw" disabled={true} leftIcon={<Gesture />}             />
-                <MenuItem primaryText="Text" disabled={true} leftIcon={<TextFields />}          />
-                <MenuItem primaryText="Crop" disabled={true} leftIcon={<Crop />}                />
+                <MenuItem disabled={true} primaryText={<PictureInPictureAlt />} />
+                <MenuItem disabled={true} primaryText={<Gesture />}             />
+                <MenuItem disabled={true} primaryText={<Crop />}                />
+                <MenuItem disabled={true} primaryText={<TextFields />}          />
                 {(true) ? null : <MenuItem primaryText={<TextField style={{width: '100%'}} />} />}
                 <Divider />
-                <MenuItem primaryText="Download" leftIcon={<Download />} />
-                <MenuItem primaryText="Tweet"    leftIcon={<Avatar src="http://cdn1.www.st-hatena.com/users/ot/otiai10/profile.gif?1381366697" size={20} />} />
+                <MenuItem onTouchTap={this.onDownloadClicked.bind(this)} primaryText={<Download />} />
+                {/*
+                  <MenuItem primaryText={<Avatar src="http://cdn1.www.st-hatena.com/users/ot/otiai10/profile.gif?1381366697" size={20} />} />
+                */}
+                <MenuItem primaryText={<Icon name="twitter" />} />
                 <Divider />
-                <MenuItem primaryText="Reset"    leftIcon={<Refresh />} />
+                <MenuItem primaryText={<Refresh />} onTouchTap={() => { location.reload(); }} />
               </Menu>
             </Paper>
           </div>
         </div>
+        {this.getDialog()}
       </div>
     )
   }
-
+  onDownloadClicked() {
+    this.setState({dialogOpened: true})
+  }
   colorPicker() {
     return (
       <input type="color" style={{width: '100%'}}/>
     )
+  }
+
+  getDialog() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.closeDialog.bind(this)}
+        />,
+      <FlatButton
+        label="Save"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.saveFile.bind(this)}
+        />,
+    ];
+    return (
+      <Dialog
+        title="Save file name"
+        actions={actions}
+        modal={false}
+        open={this.state.dialogOpened}
+        >
+        ~/Downloads/<TextField name="foo" ref="filename"/>.png
+      </Dialog>
+    );
+  }
+  closeDialog() {
+    this.setState({dialogOpened: false});
+  }
+  saveFile() {
+    const filename = this.refs.filename.getValue() + '.png';
+    const url = (new URL(location.href)).searchParams.get('img');
+    chrome.downloads.download({ url, filename }, (id) => {
+      this.setState({dialogOpened: false});
+    });
   }
 }
