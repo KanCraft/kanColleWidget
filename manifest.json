@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "[v2開発版] beta.艦これウィジェット",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
@@ -35,10 +35,10 @@
     "capture": {
       "description": "プレイ画面のスクショを撮ります",
       "suggested_key": {
-        "windows":  "Ctrl+Shift+0",
-        "mac":      "Command+Shift+0",
+        "windows": "Ctrl+Shift+0",
+        "mac": "Command+Shift+0",
         "chromeos": "Ctrl+Shift+0",
-        "linux":    "Ctrl+Shift+0"
+        "linux": "Ctrl+Shift+0"
       }
     }
   },
