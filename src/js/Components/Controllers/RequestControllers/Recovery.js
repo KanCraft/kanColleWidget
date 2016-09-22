@@ -1,6 +1,9 @@
 import ImageRecognizationService from '../../Services/ImageRecognizationService';
 const irs = new ImageRecognizationService();
 
+import {Logger} from 'chomex';
+const logger = new Logger();
+
 var __dock_id = null;
 
 export function onRecoveryStart(detail) {
@@ -24,10 +27,11 @@ export function onRecoveryStartCompleted(detail) {
   })
   .then(nums => {
     // FIXME: とりあえず
-    alert(
-      "画像diffにより、以下を検出\n"
-      + `${nums[0]}${nums[1]}:${nums[2]}${nums[3]}\n`
-      + "あとはこれでタイマーセットすればいい"
-    );
+    // alert(
+    //   "画像diffにより、以下を検出\n"
+    //   + `${nums[0]}${nums[1]}:${nums[2]}${nums[3]}\n`
+    //   + "あとはこれでタイマーセットすればいい"
+    // );
+    logger.info(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`);
   });
 }
