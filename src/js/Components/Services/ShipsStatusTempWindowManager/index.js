@@ -16,8 +16,10 @@ class ShipsStatusTempWindowManager {
   }
 
   openByImageURI(uri) {
+    let url = new URL(chrome.extension.getURL('/dest/html/status.html'));
+    url.searchParams.set('img', uri);
     this.mod.windows.create({
-      url: uri,
+      url: url.toString(),
       width: 100,
       height: 200,
       type: 'panel',
