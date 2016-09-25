@@ -1,6 +1,7 @@
 import WindowService from '../../Services/WindowService';
 import {Client} from 'chomex';
 import Frame from '../../Models/Frame';
+import History from '../../Models/History';
 
 const POPUP = 'popup';
 
@@ -16,6 +17,13 @@ export function OpenWindow(message) {
     alert(id);
     return;
   }
+
+  // last-selected-frameとしてHistoryに保存する
+  let lastSelectedFrame = History.find('last-selected-frame');
+  lastSelectedFrame.id = id;
+  lastSelectedFrame.save();
+  // TODO: 別途、contents_scriptから「窓位置」を記憶するためのMessageを送る
+  // TODO: HistoryクラスってJS標準にあったので、AppHistoryとかにrenameする
 
   return new Promise(resolve => {
     windows.open(frame).then(win => {

@@ -1,16 +1,27 @@
+/**
+ * 通知がクリックされた時に発火するコントローラ群
+ */
 import Frame from '../../Models/Frame';
+import History from '../../Models/History';
 import NotificationService from '../../Services/NotificationService';
-const service = new NotificationService();
 import WindowService from '../../Services/WindowService';
+
+const notifications = new NotificationService();
 const windows = WindowService.getInstance();
 
-export function OnNotificationClicked(id) {
-  service.clear(id);
+function OnNotificationClicked(id) {
+  // まずこの通知は消す
+  notifications.clear(id);
+  // すでに存在してる窓を探す
   windows.find(true).then(tab => {
+    // あればそれをフォーカスするだけにする
     windows.focus(tab);
   }).catch(() => {
-    const frame = "small"; // TODO: これはHistoryから持ってくるべき
-    windows.open(Frame.find(frame));
+    // なければ最後に選択されたFrameをもとに作る
+    // TODO: この`lastSelectedFrame`が`position`みたいなプロパティを持っている必要がある
+    const lastSelectedFrame = History.find('last-selected-frame');
+    const frame = Frame.find(lastSelectedFrame.id);
+    windows.open(frame);
   });
 }
 
