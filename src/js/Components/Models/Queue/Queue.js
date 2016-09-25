@@ -119,6 +119,19 @@ export class Mission extends Queue {
     };
   }
 
+  // 遠征開始時のNotification用パラメータ
+  toNotificationParamsForStart() {
+    // TODO: ここでchrome参照するのぜったいいや
+    const url = chrome.extension.getURL('dest/img/icons/chang.white.png');
+    return {
+      type: 'basic',
+      title: `遠征艦隊出港: ${this.title}`,
+      message: `第${this.deck}艦隊が「${this.title}」へ向かいました。帰投予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
+      requireInteraction: false,
+      iconUrl: url,
+    };
+  }
+
   toBadgeParams() {
     const diff = this.scheduled - Date.now();
     if (diff < 1*M) {
