@@ -27,7 +27,8 @@ module.exports = {
   module: {
     loaders: [
       {test: /.jsx?$/, loader: 'babel-loader'},
-      {test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,loader: 'url'}
+      {test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,loader: 'url'},
+      {test: /.json$/, loader: 'json'}
     ]
   },
   resolve: {

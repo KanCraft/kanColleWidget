@@ -28,9 +28,14 @@
   },
   "background": {
     "scripts": [
+      "dest/oauth/chrome_ex_oauthsimple.js",
+      "dest/oauth/chrome_ex_oauth.js",
       "dest/js/background.js"
     ]
   },
+  "web_accessible_resources": [
+    "chrome_ex_oauth.html*"
+  ],
   "commands": {
     "capture": {
       "description": "プレイ画面のスクショを撮ります",
