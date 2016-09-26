@@ -15,10 +15,12 @@ import Divider     from 'material-ui/Divider';
 import Download    from 'material-ui/svg-icons/file/file-download';
 import Send        from 'material-ui/svg-icons/content/send';
 import Refresh     from 'material-ui/svg-icons/navigation/refresh';
+import IconButton  from 'material-ui/IconButton';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 
 import TextField from 'material-ui/TextField';
 
@@ -52,9 +54,11 @@ export default class CaptureView extends Component {
 
     this.state = {
       imageUri: url.searchParams.get('img'),
+      tweetFeedbackMessage: "",
       dialogOpened: false,
       tweetAction: null,
-      twitterProfile: null
+      twitterProfile: null,
+      nowSending: false,
     }
 
     client.message('/twitter/profile').then(response => {
@@ -78,16 +82,44 @@ export default class CaptureView extends Component {
             <Paper style={styles.paper}>
               <Menu>
                 <MenuItem primaryText={this.colorPicker()} />
-                <MenuItem disabled={true} primaryText={<PictureInPictureAlt />} />
-                <MenuItem disabled={true} primaryText={<Gesture />}             />
-                <MenuItem disabled={true} primaryText={<Crop />}                />
-                <MenuItem disabled={true} primaryText={<TextFields />}          />
-                {(true) ? null : <MenuItem primaryText={<TextField style={{width: '100%'}} />} />}
+                <MenuItem disabled={true} primaryText={
+                    <IconButton tooltip="(coming soon)">
+                      <PictureInPictureAlt />
+                    </IconButton>
+                  }/>
+                <MenuItem disabled={true} primaryText={
+                    <IconButton tooltip="(coming soon)">
+                      <Gesture />
+                    </IconButton>
+                  }/>
+                <MenuItem disabled={true} primaryText={
+                    <IconButton tooltip="(coming soon)">
+                      <Crop />
+                    </IconButton>
+                  }/>
+                <MenuItem disabled={true} primaryText={
+                    <IconButton tooltip="(coming soon)">
+                      <TextFields />
+                    </IconButton>
+                  }/>
+                {(true) ? null : <MenuItem primaryText={<TextField fullWidth={true} />} />}
                 <Divider />
-                <MenuItem onTouchTap={this.onDownloadClicked.bind(this)} primaryText={<Download />} />
-                <MenuItem onTouchTap={this.onTweetClicked.bind(this)}    primaryText={this.getTwitterIcon()} />
+                <MenuItem onTouchTap={this.onDownloadClicked.bind(this)} primaryText={
+                    <IconButton tooltip="Download">
+                      <Download />
+                    </IconButton>
+                }/>
+                <MenuItem onTouchTap={this.onTweetClicked.bind(this)}    primaryText={
+                    <IconButton tooltip="Tweet">
+                      {this.getTwitterIcon()}
+                    </IconButton>
+                }/>
                 <Divider />
-                <MenuItem primaryText={<Refresh />} onTouchTap={() => { location.reload(); }} />
+                <MenuItem onTouchTap={() => { location.reload(); }}  primaryText={
+                    <IconButton tooltip="Refresh">
+                      <Refresh />
+                    </IconButton>
+                }/>
               </Menu>
             </Paper>
           </div>
@@ -95,6 +127,11 @@ export default class CaptureView extends Component {
         {this.getDialog()}
         {this.getTweetModal()}
         {this.getRequestTwitterAuthModal()}
+        <Snackbar
+          open={!!this.state.tweetFeedbackMessage}
+          message={this.state.tweetFeedbackMessage}
+          autoHideDuration={10000}
+        />
       </div>
     )
   }
@@ -107,7 +144,7 @@ export default class CaptureView extends Component {
     )
   }
   getTwitterIcon() {
-    if (!this.state.twitterProfile) return <Icon name="twitter" />;
+    if (!this.state.twitterProfile) return <Icon name="twitter" size={20}/>;
     return <Avatar src={this.state.twitterProfile.profile_image_url} size={20} />;
   }
   onTweetClicked() {
@@ -146,7 +183,7 @@ export default class CaptureView extends Component {
         actions={actions}
         modal={false}
         open={(this.state.tweetAction == 'auth')}
-        >画像付きツイートはTwitterによる認証が必要です。</Dialog>
+        >画像付きツイートはTwitterによる認証が必要です。自動的なツイートの投稿や操作はありません。[AUTHENTICATE]ボタンを押すと、Twitterのページにリダイレクトします。</Dialog>
     );
   }
   getTweetModal() {
@@ -160,7 +197,23 @@ export default class CaptureView extends Component {
         label="Tweet"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={() => { this.setState({tweetAction: null})}}
+        disabled={this.state.nowSending}
+        onTouchTap={() => {
+          this.setState({nowSending: true}, () => {
+            client.message('/twitter/post_with_image', {
+              image: this.state.imageUri,
+              status: this.refs.tweettext.getValue(),
+              type: 'image/jpeg' // うーん
+            }).then(response => {
+              this.setState({
+                tweetPermalink: response.data.permalink,
+                tweetFeedbackMessage: <a href={response.data.permalink} target="_blank" style={{color: '#2196F3'}}>{response.data.permalink}</a>,
+                tweetAction: null,
+                nowSending: false,
+              });
+            });
+          })
+        }}
         />,
     ];
     return (
@@ -171,7 +224,7 @@ export default class CaptureView extends Component {
         open={(this.state.tweetAction == 'tweet')}
         >
         <div style={{display: 'flex', width: '100%'}}>
-          <div style={{flex: 1}}><img src={this.state.imageUri} style={{width: '90%'}} /></div>
+          <div style={{flex: 2}}><img src={this.state.imageUri} style={{width: '90%'}} /></div>
           <div style={{flex: 3, padding: '0 10px'}}>
             <TextField
               name="tweettext"

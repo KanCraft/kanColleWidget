@@ -10,6 +10,7 @@ router.on('/frame/all',              Controllers.GetAllFrames);
 router.on('/queues/get',             Controllers.GetQueues);
 router.on('/twitter/profile',        Controllers.TwitterProfile);
 router.on('/twitter/auth',           Controllers.TwitterAuth);
+router.on('/twitter/post_with_image',Controllers.TwitterPostWithImage);
 
 const MessageListener = router.listener();
 export default MessageListener;

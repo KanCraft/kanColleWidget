@@ -67,11 +67,33 @@ class Twitter {
   }
 
   getProfile() {
-    var url = "https://api.twitter.com/1.1/account/verify_credentials.json";
+    const url = "https://api.twitter.com/1.1/account/verify_credentials.json";
     return this.request("GET", url);
   }
 
-  request(method, url, data) {
+  postWithImage(params) {
+    const url = "https://api.twitter.com/1.1/statuses/update_with_media.json";
+    const blob = this.uri2blob(params.image, params.type);
+    let formData = new FormData();
+    formData.append("media[]", blob);
+    const options = {
+      parameters: { status: params.status },
+      body:       formData,
+    };
+    return this.request("POST", url, options);
+  }
+  uri2blob (uri, type) {
+    uri = uri.split("base64,")[1] || uri;
+    let bin = atob(uri);
+    const len = bin.length;
+    let barr = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      barr[i] = bin.charCodeAt(i);
+    }
+    return new Blob([barr.buffer], { type: type });
+  }
+
+  request(method, url, options) {
     if (method == "GET") {
       let cached = this.cache.get(url);
       if (cached !== undefined) return Promise.resolve(cached);
@@ -88,7 +110,7 @@ class Twitter {
             resolve(data);
           } catch (err) { reject(err); }
         },
-        {method, method}
+        {...options, method}
       );
     })
   }
