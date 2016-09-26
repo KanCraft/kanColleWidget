@@ -12,6 +12,10 @@ import {
   OpenWindow,
   ShouldDecorateWindow,
 } from './Window';
+import {
+  TwitterProfile,
+  TwitterAuth,
+} from './Twitter';
 import { GetHistory } from './History';
 
 const MessageControllers = {
@@ -22,6 +26,8 @@ const MessageControllers = {
   GetHistory,
   GetAllFrames: GetAll,
   GetQueues: GetQueues,
+  TwitterProfile,
+  TwitterAuth,
 };
 
 module.exports = MessageControllers;

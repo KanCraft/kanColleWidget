@@ -1,3 +1,5 @@
+// TODO: さすがにでかすぎるので、分割してくれ、誰か氏〜
+
 import React, {Component} from 'react';
 import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
@@ -21,6 +23,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
 import Icon from '../FontAwesome';
+
+import {Client} from 'chomex';
+const client = new Client(chrome.runtime);
 
 const styles = {
   container: {
@@ -46,8 +51,16 @@ export default class CaptureView extends Component {
     })
 
     this.state = {
-      dialogOpened: false
+      imageUri: url.searchParams.get('img'),
+      dialogOpened: false,
+      tweetAction: null,
+      twitterProfile: null
     }
+
+    client.message('/twitter/profile').then(response => {
+      if (response.data) { this.setState({twitterProfile: response.data}); }
+    });
+
   }
   drawImage(img) {
     this.refs.canvas.width = img.width;
@@ -72,10 +85,7 @@ export default class CaptureView extends Component {
                 {(true) ? null : <MenuItem primaryText={<TextField style={{width: '100%'}} />} />}
                 <Divider />
                 <MenuItem onTouchTap={this.onDownloadClicked.bind(this)} primaryText={<Download />} />
-                {/*
-                  <MenuItem primaryText={<Avatar src="http://cdn1.www.st-hatena.com/users/ot/otiai10/profile.gif?1381366697" size={20} />} />
-                */}
-                <MenuItem primaryText={<Icon name="twitter" />} />
+                <MenuItem onTouchTap={this.onTweetClicked.bind(this)}    primaryText={this.getTwitterIcon()} />
                 <Divider />
                 <MenuItem primaryText={<Refresh />} onTouchTap={() => { location.reload(); }} />
               </Menu>
@@ -83,6 +93,8 @@ export default class CaptureView extends Component {
           </div>
         </div>
         {this.getDialog()}
+        {this.getTweetModal()}
+        {this.getRequestTwitterAuthModal()}
       </div>
     )
   }
@@ -93,6 +105,85 @@ export default class CaptureView extends Component {
     return (
       <input type="color" style={{width: '100%'}}/>
     )
+  }
+  getTwitterIcon() {
+    if (!this.state.twitterProfile) return <Icon name="twitter" />;
+    return <Avatar src={this.state.twitterProfile.profile_image_url} size={20} />;
+  }
+  onTweetClicked() {
+    if (!this.state.twitterProfile) {
+      // モーダルの内容を、連携してください的なやつにする
+      this.setState({tweetAction: 'auth'});
+    } else {
+      // モーダルの内容を、画像とテキストのやつにする
+      this.setState({tweetAction: 'tweet'});
+    }
+  }
+  getRequestTwitterAuthModal() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={() => { this.setState({tweetAction: null})}}
+        />,
+      <FlatButton
+        label="Authenticate"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={() => {
+          client.message('/twitter/auth').then(response => {
+            this.setState({
+              twitterProfile: response.data,
+              tweetAction:    'tweet'
+            })
+          });
+        }}
+        />,
+    ];
+    return (
+      <Dialog
+        title="You should authenticate `艦これウィジェット` on Twitter"
+        actions={actions}
+        modal={false}
+        open={(this.state.tweetAction == 'auth')}
+        >画像付きツイートはTwitterによる認証が必要です。</Dialog>
+    );
+  }
+  getTweetModal() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={() => { this.setState({tweetAction: null})}}
+        />,
+      <FlatButton
+        label="Tweet"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={() => { this.setState({tweetAction: null})}}
+        />,
+    ];
+    return (
+      <Dialog
+        title="Tweet"
+        actions={actions}
+        modal={false}
+        open={(this.state.tweetAction == 'tweet')}
+        >
+        <div style={{display: 'flex', width: '100%'}}>
+          <div style={{flex: 1}}><img src={this.state.imageUri} style={{width: '90%'}} /></div>
+          <div style={{flex: 3, padding: '0 10px'}}>
+            <TextField
+              name="tweettext"
+              ref="tweettext"
+              multiLine={true}
+              rows={4}
+              fullWidth={true}
+              />
+          </div>
+        </div>
+      </Dialog>
+    );
   }
 
   getDialog() {
