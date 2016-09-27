@@ -1,3 +1,4 @@
+// TODO: 開発用のtwitter-configをprocess.envかなんかで出し分けする
 import _config from './twitter-config.json';
 
 // ChromeExOAuth is installed by "manifest.json"

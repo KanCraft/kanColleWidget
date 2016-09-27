@@ -42,3 +42,4 @@ jspm_packages
 dest/js
 release
 src/js/Components/Services/Twitter/twitter-config.json
+src/js/Components/Services/Twitter/twitter-config-dev.json
