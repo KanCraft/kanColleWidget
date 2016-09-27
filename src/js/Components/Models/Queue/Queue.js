@@ -162,6 +162,10 @@ Mission.catalog = {
     title: "防空射撃演習",
     time: 40 * M
   },
+  "19": {
+    title: "北号作戦",
+    time: 6 * H
+  },
   "21": {
     title: "北方鼠輸送作戦",
     time: 2*H + 20*M
