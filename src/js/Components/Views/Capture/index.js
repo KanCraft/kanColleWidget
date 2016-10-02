@@ -281,7 +281,7 @@ export default class CaptureView extends Component {
   }
   saveFile() {
     const filename = this.refs.filename.getValue() + '.png';
-    const url = (new URL(location.href)).searchParams.get('img');
+    const url = this.state.imageUri;
     chrome.downloads.download({ url, filename }, (id) => {
       this.setState({dialogOpened: false});
     });
