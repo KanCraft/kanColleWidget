@@ -20,6 +20,7 @@ module.exports = {
     dmm:        './src/js/entrypoints/pages/dmm.js',
     'osapi.dmm':'./src/js/entrypoints/pages/osapi.dmm.js',
     capture:    './src/js/entrypoints/pages/capture.js',
+    deckcapture:'./src/js/entrypoints/pages/deckcapture.js',
     status:     './src/js/entrypoints/pages/status.js',
     background: './src/js/entrypoints/background.js',
   },

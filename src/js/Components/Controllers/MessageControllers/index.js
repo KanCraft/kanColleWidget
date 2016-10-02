@@ -1,28 +1,16 @@
-import {
-  GetConfig,
-  SetConfig,
-} from './Config';
-import {
-  GetAll,
-} from './Frame';
-import {
-  GetQueues
-} from './Queue';
-import {
-  OpenWindow,
-  ShouldDecorateWindow,
-} from './Window';
+import * as ConfigControllers  from './Config';
+import { GetAll } from './Frame';
+import * as QueuesControllers  from './Queue';
+import * as WindowControllers  from './Window';
 import * as TwitterControllers from './Twitter';
-import { GetHistory } from './History';
+import * as HistoryControllers from './History';
 
 const MessageControllers = {
-  GetConfig,
-  SetConfig,
-  OpenWindow,
-  ShouldDecorateWindow,
-  GetHistory,
+  ...ConfigControllers,
+  ...WindowControllers,
+  ...HistoryControllers,
   GetAllFrames: GetAll,
-  GetQueues: GetQueues,
+  ...QueuesControllers,
   ...TwitterControllers,
 };
 

@@ -1,4 +1,5 @@
 import WindowService from '../../Services/WindowService';
+import CaptureService from '../../Services/CaptureService';
 import {Client} from 'chomex';
 import Frame from '../../Models/Frame';
 import History from '../../Models/History';
@@ -6,6 +7,7 @@ import History from '../../Models/History';
 const POPUP = 'popup';
 
 const windows = WindowService.getInstance();
+const captures = new CaptureService();
 const client = new Client(chrome.tabs);
 
 export function OpenWindow(message) {
@@ -39,4 +41,12 @@ export function ShouldDecorateWindow(message) {
   } else {
     return {status: 404};
   }
+}
+
+export function CaptureWindow(message) {
+  return Promise.resolve().then(() => {
+    return windows.find()
+  }).then(tab => {
+    return captures.capture(tab.windowId);
+  });
 }

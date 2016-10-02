@@ -1,33 +1,27 @@
+import {init} from '../../../entrypoints/global-pollution';
+init(window);
+
 export default class TrimService {
   constructor(dataUrl, mod = chrome) {
     this.url = dataUrl;
     this.module = mod;
   }
-  trim(parameters) {
-    this.canvas = document.createElement('canvas'); // うーん、つらい
-    this.img = new Image();
-    const p = new Promise(resolve => {
-      this.img.onload = () => {
-        const params = this.getTargetRectPositions(parameters);
-        this.canvas.width  = params.width;
-        this.canvas.height = params.height;
-        const ctx = this.canvas.getContext('2d');
-        const urls = params.digits.map(digit => {
-          ctx.drawImage(
-            this.img,
-            digit.x,      digit.y,       // start of source image
-            params.width, params.height, // end of source image
-            0,            0,             // start of destination canvas
-            params.width, params.height  // end of destination canvas
-          );
-          // window.open(this.canvas.toDataURL());
-          return this.canvas.toDataURL();
-        })
-        resolve(urls);
-      };
+
+  trim(rect) {
+    let dest = document.createElement('canvas'); // うーん、つらい
+    return Image.init(this.url).then(img => {
+      // 最終的に流し込むキャンバスの大きさを決める
+      dest.width  = rect.width;
+      dest.height = rect.height;
+      dest.getContext('2d').drawImage(
+        img,
+        // ソースの座標を与える
+        rect.x, rect.y, rect.width, rect.height,
+        // destの座標を与える
+        0, 0, dest.width, dest.height
+      );
+      return Promise.resolve(dest.toDataURL());
     });
-    this.img.src = this.url;
-    return p;
   }
 
   getTargetRectPositions(params) {

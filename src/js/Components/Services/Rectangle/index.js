@@ -66,6 +66,18 @@ class Rectangle {
     });
   }
 
+  /**
+   * 元のRectを、倍率Rectでトランスフォームする
+   */
+  transform(rate) {
+    return new Rectangle(
+      this.x + (this.width  * rate.x),
+      this.y + (this.height * rate.y),
+      this.width * rate.width,
+      this.height * rate.height
+    );
+  }
+
   isHorizontallyLong() {
     return (this.height / this.width) < Rectangle.aspect.ratio;
   }
@@ -73,6 +85,16 @@ class Rectangle {
   isVerticallyLong() {
     return (this.height / this.width) > Rectangle.aspect.ratio;
   }
+}
+
+Rectangle.catalog = {
+  // 編成キャプチャのやつ
+  defaultDeckcapture: new Rectangle(
+    1/2.55,
+    1/5,
+    1/1.66,
+    1/1.285
+  ),
 }
 
 export default Rectangle;

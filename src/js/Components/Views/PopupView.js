@@ -69,6 +69,10 @@ export default class PopupView extends Component {
           {winconfigs}
         </SelectField>
         <QueuesView queues={this.state.queues} />
+        <FlatButton label="編成キャプチャ" onClick={() => {
+            // TODO: とりあえずwindow.openでいいや
+            window.open('/dest/html/deckcapture.html');
+          }} />
         <FlatButton label="詳細設定" onClick={() => {
             // TODO: とりあえずwindow.openでいいや
             window.open('/dest/html/options.html');

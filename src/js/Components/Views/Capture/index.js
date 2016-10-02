@@ -47,13 +47,14 @@ const styles = {
 export default class CaptureView extends Component {
   constructor(props) {
     super(props);
-    let url = new URL(location.href);
-    Image.init(url.searchParams.get('img')).then(img => {
+
+    const uri = this.getImageUriFromCurrentURL();
+    Image.init(uri).then(img => {
       this.drawImage(img);
     })
 
     this.state = {
-      imageUri: url.searchParams.get('img'),
+      imageUri: uri,
       tweetFeedbackMessage: "",
       dialogOpened: false,
       tweetAction: null,
@@ -66,6 +67,17 @@ export default class CaptureView extends Component {
     });
 
   }
+
+  getImageUriFromCurrentURL() {
+    let params = (new URL(location.href)).searchParams;
+    if (params.get('datahash')) {
+      const uri = window.localStorage.getItem(params.get('datahash'));
+      window.localStorage.removeItem(params.get('datahash'));
+      return uri;
+    }
+    return params.get('img');
+  }
+
   drawImage(img) {
     this.refs.canvas.width = img.width;
     this.refs.canvas.height = img.height;
