@@ -27,9 +27,3 @@ npm install && npm start
 ```sh
 npm test
 ```
-
-# 開発者
-
-- [@hourglassx18](https://github.com/hourglassx18)
-- [@otiai10](https://github.com/otiai10)
-- and you here
