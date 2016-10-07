@@ -1,5 +1,5 @@
-import {SerialRouter} from 'chomex';
-import * as Controllers from '../Controllers/RequestControllers';
+import {SerialRouter} from "chomex";
+import * as Controllers from "../Controllers/RequestControllers";
 
 let router = new SerialRouter(4);
 router.on([
@@ -8,7 +8,7 @@ router.on([
   {url: /api_req_kousyou\/createship/}
 ], Controllers.onCreateShipCompleted);
 router.on([{url: /api_req_mission\/start/}],  Controllers.onMissionStart);
-router.on([{url: /api_req_mission\/result/}], Controllers.onMissionResult)
+router.on([{url: /api_req_mission\/result/}], Controllers.onMissionResult);
 router.on([{url: /api_get_member\/mapinfo/}], Controllers.onMapPrepare);
 router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
@@ -17,14 +17,14 @@ router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 
 // 母校帰投
-router.on([{url: /api_port\/port/}],         Controllers.onHomePort)
+router.on([{url: /api_port\/port/}],         Controllers.onHomePort);
 
 const WebRequestListener = router.listener();
 
 let onCompletedRouter = new SerialRouter(2);
 onCompletedRouter.on([
   {url: /api_req_sortie\/battleresult/},
-  true
+    true
 ], Controllers.onBattleResulted);
 onCompletedRouter.on([
   {url: /api_get_member\/ndock/},
@@ -36,4 +36,4 @@ const WebRequestOnCompleteListener = onCompletedRouter.listener();
 export {
   WebRequestListener,
   WebRequestOnCompleteListener
-}
+};

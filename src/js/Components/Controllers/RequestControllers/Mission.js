@@ -3,12 +3,12 @@
  */
 
  // Utilities
-import {Logger} from 'chomex';
-const logger = new Logger();
+// import {Logger} from "chomex";
+// const logger = new Logger();
 
 // Dependencies
-import {Mission, ScheduledQueues} from '../../Models/Queue/Queue';
-import NotificationService from '../../Services/NotificationService';
+import {Mission, ScheduledQueues} from "../../Models/Queue/Queue";
+import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
 
 /**
@@ -16,18 +16,18 @@ const notifications = new NotificationService();
  * 遠征に向かわせたときに発火するやつ
  */
 export function onMissionStart(detail) {
-  const data = detail.requestBody.formData;
-  const mission = Mission.createFromFormData(data);
-  ScheduledQueues.append('missions', mission);
+    const data = detail.requestBody.formData;
+    const mission = Mission.createFromFormData(data);
+    ScheduledQueues.append("missions", mission);
   // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
-  notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
+    notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
 }
 
-export function onMissionResult(detail) {
+export function onMissionResult(/* detail */) {
   // とりあえず
-  chrome.notifications.getAll(notes => {
-    Object.keys(notes).filter(id => { return id.match(/mission/); }).map(id => {
-      chrome.notifications.clear(id);
-    })
-  })
+    chrome.notifications.getAll(notes => {
+        Object.keys(notes).filter(id => { return id.match(/mission/); }).map(id => {
+            chrome.notifications.clear(id);
+        });
+    });
 }

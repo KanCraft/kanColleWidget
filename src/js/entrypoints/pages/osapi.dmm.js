@@ -1,3 +1,3 @@
-import {DecorateOsapiPage} from '../../Components/Routine/DecoratePage';
+import {DecorateOsapiPage} from "../../Components/Routine/DecoratePage";
 
 DecorateOsapiPage.init(window).effort();

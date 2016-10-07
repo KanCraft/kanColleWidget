@@ -1,20 +1,20 @@
 
 class NotificationService {
-  constructor(mod = chrome.notifications) {
-    this.module = mod;
-  }
+    constructor(mod = chrome.notifications) {
+        this.module = mod;
+    }
 
-  create(id, options) {
-    return new Promise(resolve => {
-      this.module.create(id, options, resolve);
-    });
-  }
+    create(id, options) {
+        return new Promise(resolve => {
+            this.module.create(id, options, resolve);
+        });
+    }
 
-  clear(id) {
-    return new Promise(resolve => {
-      this.module.clear(id, resolve);
-    });
-  }
+    clear(id) {
+        return new Promise(resolve => {
+            this.module.clear(id, resolve);
+        });
+    }
 }
 
 export default NotificationService;

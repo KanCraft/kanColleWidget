@@ -1,45 +1,45 @@
 import {
   onCreateShipCompleted
-} from './Kousho';
+} from "./Kousho";
 
 import {
   onMissionStart,
   onMissionResult,
-} from './Mission';
+} from "./Mission";
 
 import {
   onMapPrepare
-} from './Map';
+} from "./Map";
 
 import {
   onKaisouPowerup,
-} from './Kaisou';
+} from "./Kaisou";
 
 import {
   onBattleResulted,
   onBattleStarted,
-} from './Battle'
+} from "./Battle";
 
 import {
   onRecoveryStart,
   onRecoveryStartCompleted,
-} from './Recovery';
+} from "./Recovery";
 
 import {
   onHomePort,
-} from './Port';
+} from "./Port";
 
 const RequestControllers = {
-  onKoushoCreateShipCompleted: onCreateShipCompleted,
-  onBattleResulted,
-  onBattleStarted,
-  onMissionStart,
-  onMissionResult,
-  onMapPrepare,
-  onKaisouPowerup,
-  onRecoveryStart,
-  onRecoveryStartCompleted,
-  onHomePort,
-}
+    onKoushoCreateShipCompleted: onCreateShipCompleted,
+    onBattleResulted,
+    onBattleStarted,
+    onMissionStart,
+    onMissionResult,
+    onMapPrepare,
+    onKaisouPowerup,
+    onRecoveryStart,
+    onRecoveryStartCompleted,
+    onHomePort,
+};
 
 module.exports = RequestControllers;

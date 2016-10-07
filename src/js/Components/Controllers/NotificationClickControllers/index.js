@@ -1,30 +1,30 @@
 /**
  * 通知がクリックされた時に発火するコントローラ群
  */
-import Frame from '../../Models/Frame';
-import History from '../../Models/History';
-import NotificationService from '../../Services/NotificationService';
-import WindowService from '../../Services/WindowService';
+import Frame from "../../Models/Frame";
+import History from "../../Models/History";
+import NotificationService from "../../Services/NotificationService";
+import WindowService from "../../Services/WindowService";
 
 const notifications = new NotificationService();
 const windows = WindowService.getInstance();
 
 function OnNotificationClicked(id) {
   // まずこの通知は消す
-  notifications.clear(id);
+    notifications.clear(id);
   // すでに存在してる窓を探す
-  windows.find(true).then(tab => {
+    windows.find(true).then(tab => {
     // あればそれをフォーカスするだけにする
-    windows.focus(tab);
-  }).catch(() => {
+        windows.focus(tab);
+    }).catch(() => {
     // なければ最後に選択されたFrameをもとに作る
     // TODO: この`lastSelectedFrame`が`position`みたいなプロパティを持っている必要がある
-    const lastSelectedFrame = History.find('last-selected-frame');
-    const frame = Frame.find(lastSelectedFrame.id);
-    windows.open(frame);
-  });
+        const lastSelectedFrame = History.find("last-selected-frame");
+        const frame = Frame.find(lastSelectedFrame.id);
+        windows.open(frame);
+    });
 }
 
 export function OnMissionNotificationClicked(id) {
-  return OnNotificationClicked(id);
+    return OnNotificationClicked(id);
 }

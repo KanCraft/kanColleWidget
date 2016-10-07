@@ -1,24 +1,30 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from "react";
 
 class Row extends Component {
-  render() {
-    return (
-      <div style={{display: 'flex'}}>
-        {this.props.children}
-      </div>
-    )
-  }
+    render() {
+        return (
+          <div style={{display: "flex"}}>
+            {this.props.children}
+          </div>
+        );
+    }
+    static propTypes = {
+        children: PropTypes.object
+    }
 }
 class Col extends Component {
-  render() {
-    return (
-      <div style={{flex: 1}}>
-        {this.props.children}
-      </div>
-    )
-  }
+    render() {
+        return (
+          <div style={{flex: 1}}>
+            {this.props.children}
+          </div>
+        );
+    }
+    static propTypes = {
+        children: PropTypes.object
+    }
 }
 
 export {
   Row, Col
-}
+};

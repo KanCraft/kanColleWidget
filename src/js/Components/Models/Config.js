@@ -1,11 +1,11 @@
-import {Model} from 'chomex';
+import {Model} from "chomex";
 
 export default class Config extends Model {}
 Config.default = {
-  'closeconfirm': {
-    value: 'おっぱああああい!!'
-  },
-  'debug': {
-    value: false
-  }
+    "closeconfirm": {
+        value: "おっぱああああい!!"
+    },
+    "debug": {
+        value: false
+    }
 };

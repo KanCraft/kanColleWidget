@@ -1,2 +1,2 @@
-export function onKaisouPowerup(detail) {
+export function onKaisouPowerup(/* detail */) {
 }
