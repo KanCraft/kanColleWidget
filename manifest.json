@@ -8,6 +8,8 @@
     "webRequest",
     "notifications",
     "downloads",
+    "storage",
+    "unlimitedStorage",
     "<all_urls>"
   ],
   "icons": {

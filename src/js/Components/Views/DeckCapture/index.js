@@ -103,12 +103,13 @@ class DeckCaptureView extends Component {
             });
             let params = new URLSearchParams();
             let uri = canvas.toDataURL();
-      // とりあえず
+            // とりあえず
             if (uri.length > 1 * Math.pow(10, 6)) {
                 const hash = `kcw:tmp:deckimage:${Date.now()}`;
-                window.localStorage.setItem(hash, uri);
-                params.set("datahash", hash);
-                window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
+                chrome.storage.local.set({[hash]:uri}, () => {
+                    params.set("datahash", hash);
+                    window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
+                });
             } else {
                 params.set("img", canvas.toDataURL());
                 window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());

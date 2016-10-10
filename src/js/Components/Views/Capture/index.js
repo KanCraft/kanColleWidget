@@ -48,13 +48,14 @@ export default class CaptureView extends Component {
     constructor(props) {
         super(props);
 
-        const uri = this.getImageUriFromCurrentURL();
-        Image.init(uri).then(img => {
-            this.drawImage(img);
+        this.getImageUriFromCurrentURL().then(uri => {
+            Image.init(uri).then(img => {
+                this.drawImage(img);
+                this.setState({imageUri: uri});
+            });
         });
 
         this.state = {
-            imageUri: uri,
             tweetFeedbackMessage: "",
             dialogOpened: false,
             tweetAction: null,
@@ -70,12 +71,15 @@ export default class CaptureView extends Component {
 
     getImageUriFromCurrentURL() {
         let params = (new URL(location.href)).searchParams;
-        if (params.get("datahash")) {
-            const uri = window.localStorage.getItem(params.get("datahash"));
-            window.localStorage.removeItem(params.get("datahash"));
-            return uri;
+        if (!params.get("datahash")) {
+            return Promise.resolve(params.get("img"));
         }
-        return params.get("img");
+        return new Promise(resolve => {
+            chrome.storage.local.get(params.get("datahash"), (items) => {
+                resolve(items[Object.keys(items)[0]]);
+                chrome.storage.local.remove(params.get("datahash"));
+            });
+        });
     }
 
     drawImage(img) {
