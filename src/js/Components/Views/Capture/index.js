@@ -216,15 +216,22 @@ export default class CaptureView extends Component {
         keyboardFocused={true}
         disabled={this.state.nowSending}
         onTouchTap={() => {
+            const strict = true;
             this.setState({nowSending: true}, () => {
                 client.message("/twitter/post_with_image", {
                     image: this.state.imageUri,
                     status: this.refs.tweettext.getValue(),
                     type: "image/jpeg" // うーん
-                }).then(response => {
+                }, strict).then(response => {
                     this.setState({
                         tweetPermalink: response.data.permalink,
                         tweetFeedbackMessage: <a href={response.data.permalink} target="_blank" style={{color: "#2196F3"}}>{response.data.permalink}</a>,
+                        tweetAction: null,
+                        nowSending: false,
+                    });
+                }).catch(err => {
+                    this.setState({
+                        tweetFeedbackMessage: err.message,
                         tweetAction: null,
                         nowSending: false,
                     });

@@ -26,7 +26,10 @@ function TwitterPostWithImage(message) {
                 permalink: response.entities.media.pop().expanded_url.replace(/\/photo\/[0-9]+$/, "")
             });
         }).catch(error => {
-            reject(error || {status: 500});
+            if (error.code) {
+                return reject({status: error.code, message: error.message});
+            }
+            reject({status: 500, message: JSON.stringify(error)});
         });
     });
 }

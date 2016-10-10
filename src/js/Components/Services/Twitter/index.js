@@ -102,17 +102,19 @@ class Twitter {
         return new Promise((resolve, reject) => {
             if (!this.oauth.hasToken()) return reject();
             this.oauth.sendSignedRequest(
-        url,
-        (res) => {
-            try {
-                let data = JSON.parse(res);
-                if (data.errors && data.errors.length) return reject();
-                if (method == "GET") this.cache.set(url, data);
-                resolve(data);
-            } catch (err) { reject(err); }
-        },
-        {...options, method}
-      );
+              url,
+              (res) => {
+                  try {
+                      let data = JSON.parse(res);
+                      if (data.errors && data.errors.length) return reject(data.errors[0]);
+                      if (method == "GET") this.cache.set(url, data);
+                      resolve(data);
+                  } catch (err) {
+                      reject(err);
+                  }
+              },
+              {...options, method}
+            );
         });
     }
 }
