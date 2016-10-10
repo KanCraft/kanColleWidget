@@ -12,6 +12,7 @@ router.on("/queues/get",             Controllers.GetQueues);
 router.on("/twitter/profile",        Controllers.TwitterProfile);
 router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
+router.on("/launchposition/:update", Controllers.UpdateLaunchPosition);
 
 const MessageListener = router.listener();
 export default MessageListener;

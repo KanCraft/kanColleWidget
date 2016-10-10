@@ -1,13 +1,16 @@
 import {Model} from "chomex";
 
 export default class Frame extends Model {
-    toCreatePrams() {
-        return {
+    toCreatePrams(position) {
+        let params = {
             url:    this.url,
             width:  this.size.width,
             height: this.size.height,
             type:   "popup", // TODO: Firefox
         };
+        if (position.left) params.left = position.left;
+        if (position.top)  params.top  = position.top;
+        return params;
     }
 }
 

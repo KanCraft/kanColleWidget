@@ -14,9 +14,9 @@ class WindowService {
         this.module = mod;
     }
 
-    open(frame) {
+    open(frame, position = {}) {
         return new Promise((resolve/*, reject */) => {
-            this.module.windows.create(frame.toCreatePrams(), (win) => {
+            this.module.windows.create(frame.toCreatePrams(position), (win) => {
                 this.tab = {
                     id: win.tabs[0].id,
                     windowId: win.id,

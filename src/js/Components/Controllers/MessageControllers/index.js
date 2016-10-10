@@ -4,6 +4,7 @@ import * as QueuesControllers  from "./Queue";
 import * as WindowControllers  from "./Window";
 import * as TwitterControllers from "./Twitter";
 import * as HistoryControllers from "./History";
+import * as LaunchPositionControllers from "./LaunchPosition";
 
 const MessageControllers = {
     ...ConfigControllers,
@@ -12,6 +13,7 @@ const MessageControllers = {
     GetAllFrames: GetAll,
     ...QueuesControllers,
     ...TwitterControllers,
+    ...LaunchPositionControllers,
 };
 
 module.exports = MessageControllers;

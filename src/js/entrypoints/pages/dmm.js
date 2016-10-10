@@ -25,3 +25,11 @@ client.message({act: "/window/should-decorate"}, true).then((res) => {
         alert(`UNKNOWN DECORATION: ${res.data.decoration}`);
     }
 });
+
+// Routineとか使ってもうちょっと抽象化しましょう
+setInterval(() => {
+    client.message("/launchposition/:update", {
+        left: window.screenX,
+        top:  window.screenY,
+    });
+}, 5 * 60 * 1000);
