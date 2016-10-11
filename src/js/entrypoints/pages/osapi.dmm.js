@@ -13,4 +13,4 @@ setInterval(() => {
         left: window.screenX,
         top:  window.screenY,
     });
-}, 5 * 60 * 1000);
+}, 60 * 1000);
