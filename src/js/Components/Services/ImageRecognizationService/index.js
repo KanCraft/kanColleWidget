@@ -63,7 +63,6 @@ class ImageRecognizationService {
         }));
     }
     pickupTheBestScoreForEachFragmentPicture(results) {
-        console.log(results);
         return Promise.all(results.map(result => {
             return result.reduce((maxi, x, i, arr) => {
                 return x.score > arr[maxi].score ? i : maxi;
