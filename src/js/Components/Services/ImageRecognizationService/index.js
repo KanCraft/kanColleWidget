@@ -15,42 +15,60 @@ const binarizeThreshold = 200;
 
 class ImageRecognizationService {
     static pics = [];
-    constructor() {
+    constructor(purpose, dock) {
+        this.purpose = purpose;
+        this.dock    = dock;
     }
-    test(params) {
-        const dock = params.dock;
+    test() {
         return Promise.resolve()
-        .then(() => { return windows.find(true); })
-        .then(tab => { return capture.capture(tab.windowId); })
+        .then(this.findKanColleWindow)
+        .then(this.captureWindow)
         .then(Image.init)
-        .then(img => {
-            return new Promise((resolve/* , reject */) => {
-                var canvas = document.createElement("canvas");
-                var rect = new Rectangle(0, 0, img.width, img.height).removeBlackspace();
-                resolve(rect.digitsInRecoveryDock(dock).map(r => {
-                    canvas.width = r.width;
-                    canvas.height = r.height;
-                    canvas.getContext("2d").drawImage(img, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height);
-                    return canvas.toDataURL();
-                }));
-            });
-        })
-        .then(fragments => {
-            console.log(Picture.init);
-            return Promise.all(fragments.map(Picture.init));
-        })
-        .then(fragments => {
-            return Promise.all(fragments.map(fragment => {
-                fragment.binarize(binarizeThreshold);
-                return fragment.compareTo(...ImageRecognizationService.pics);
-            }));
-        }).then(results => { // それぞれのfragmentにおける、比較結果が帰ってくる
-            return Promise.all(results.map(result => {
-                return result.reduce((maxi, x, i, arr) => {
-                    return x.score > arr[maxi].score ? i : maxi;
-                }, 0); // スコアの高いものだけを抽出
+        .then(this.getFragmentsRectangles.bind(this))
+        .then(this.initializedPicturesFromFragmentsImageURI)
+        .then(this.binarizeAllFragmentPictures)
+        .then(this.compareAllFragmentPicturesToPreparedModels)
+        .then(this.pickupTheBestScoreForEachFragmentPicture);
+    }
+
+    findKanColleWindow() {
+        return windows.find(true);
+    }
+    captureWindow(tab) {
+        return capture.capture(tab.windowId);
+    }
+    getFragmentsRectangles(img) {
+        return new Promise((resolve/* , reject */) => {
+            var canvas = document.createElement("canvas");
+            var rect = new Rectangle(0, 0, img.width, img.height).removeBlackspace();
+            resolve(rect.digitsInRecoveryDock(this.dock).map(r => {
+                canvas.width = r.width;
+                canvas.height = r.height;
+                canvas.getContext("2d").drawImage(img, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height);
+                return canvas.toDataURL();
             }));
         });
+    }
+    initializedPicturesFromFragmentsImageURI(fragments) {
+        return Promise.all(fragments.map(Picture.init));
+    }
+    binarizeAllFragmentPictures(pictures) {
+        return Promise.resolve(pictures.map(pic => {
+            return pic.binarize(binarizeThreshold);
+        }));
+    }
+    compareAllFragmentPicturesToPreparedModels(pictures) {
+        return Promise.all(pictures.map(pic => {
+            return pic.compareTo(...ImageRecognizationService.pics);
+        }));
+    }
+    pickupTheBestScoreForEachFragmentPicture(results) {
+        console.log(results);
+        return Promise.all(results.map(result => {
+            return result.reduce((maxi, x, i, arr) => {
+                return x.score > arr[maxi].score ? i : maxi;
+            }, 0); // スコアの高いものだけを抽出
+        }));
     }
 }
 

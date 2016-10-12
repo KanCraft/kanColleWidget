@@ -29,7 +29,6 @@ class ImgDiffDebugView extends Component {
             purpose: "createship",
             dock:    1,
         };
-        this.imageRecognization = new ImageRecognizationService();
     }
     onPurposeChanged(ev, index, purpose) {
         this.setState({ purpose });
@@ -38,7 +37,8 @@ class ImgDiffDebugView extends Component {
         this.setState({ dock });
     }
     execute() {
-        this.imageRecognization.test(this.state).then(nums => {
+        let service = new ImageRecognizationService(this.state.purpose, this.state.dock);
+        service.test(this.state).then(nums => {
             this.props.output(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`);
         });
     }
