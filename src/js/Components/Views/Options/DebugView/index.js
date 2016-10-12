@@ -26,8 +26,8 @@ class ImgDiffDebugView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            purpose: "createship",
-            dock:    1,
+            purpose: "recovery",
+            dock:    4,
         };
     }
     onPurposeChanged(ev, index, purpose) {
