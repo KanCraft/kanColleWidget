@@ -1,4 +1,6 @@
 import {Picture} from "crescent";
+import {init} from "../../../entrypoints/global-pollution";
+init(window);
 
 // {{{ DEBUG
 import WindowService from "../WindowService";
@@ -18,18 +20,12 @@ class ImageRecognizationService {
     test(params) {
         const dock = params.dock;
         return Promise.resolve()
-    .then(() => {
-        return windows.find(true); // ターゲット画面を取得
-    })
-    .then(tab => {
-        return capture.capture(tab.windowId); // ターゲット全体画像を取得
-    })
-    .then(uri => {
-        return new Promise((resolve/* , reject */) => {
-            var canvas = document.createElement("canvas");
-            var img = new Image();
-            img.onload = function() {
-          // 複数の画像断片のアレをアレする
+        .then(() => { return windows.find(true); })
+        .then(tab => { return capture.capture(tab.windowId); })
+        .then(Image.init)
+        .then(img => {
+            return new Promise((resolve/* , reject */) => {
+                var canvas = document.createElement("canvas");
                 var rect = new Rectangle(0, 0, img.width, img.height).removeBlackspace();
                 resolve(rect.digitsInRecoveryDock(dock).map(r => {
                     canvas.width = r.width;
@@ -37,29 +33,24 @@ class ImageRecognizationService {
                     canvas.getContext("2d").drawImage(img, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height);
                     return canvas.toDataURL();
                 }));
-            };
-            img.src = uri;
+            });
+        })
+        .then(fragments => {
+            console.log(Picture.init);
+            return Promise.all(fragments.map(Picture.init));
+        })
+        .then(fragments => {
+            return Promise.all(fragments.map(fragment => {
+                fragment.binarize(binarizeThreshold);
+                return fragment.compareTo(...ImageRecognizationService.pics);
+            }));
+        }).then(results => { // それぞれのfragmentにおける、比較結果が帰ってくる
+            return Promise.all(results.map(result => {
+                return result.reduce((maxi, x, i, arr) => {
+                    return x.score > arr[maxi].score ? i : maxi;
+                }, 0); // スコアの高いものだけを抽出
+            }));
         });
-      // const trim = new TrimService(uri);
-      // return trim.trim(params); // ターゲット数字画像を分割して取得
-    })
-    .then(res => {
-        return Promise.all(res.map(uri => {
-            return (new Picture(uri)).initialized; // ターゲット数字画像を初期化
-        }));
-    }).then(targets => {
-        return Promise.all(targets.map(target => {
-            target.binarize(binarizeThreshold); // ターゲットを二値化
-        // target.debug().open();
-            return target.compareTo(...ImageRecognizationService.pics);
-        }));
-    }).then(results => {
-        return Promise.all(results.map(result => {
-            return result.reduce((maxi, x, i, arr) => {
-                return x.score > arr[maxi].score ? i : maxi;
-            }, 0); // スコアの高いものだけを抽出
-        }));
-    });
     }
 }
 

@@ -36,7 +36,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "base64-image-loader": "^1.0.0",
     "chomex": "*",
-    "crescent": "0.0.6",
+    "crescent": "*",
     "eslint": "^3.7.1",
     "eslint-plugin-react": "^6.3.0",
     "file-loader": "^0.8.5",

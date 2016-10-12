@@ -93,14 +93,14 @@ class DebugView extends Component {
     }
     render() {
         return (
-      <div>
-        <ImgDiffDebugView output={this.setOutput.bind(this)}/>
-        <div style={styles.section}>
-          <Toggle label="Debug" labelPosition="right" toggled={this.state.debug} onToggle={this.onToggle.bind(this)}/>
-        </div>
-        {this.getContents()}
-      </div>
-    );
+          <div>
+            <ImgDiffDebugView output={this.setOutput.bind(this)}/>
+            <div style={styles.section}>
+              <Toggle label="Debug" labelPosition="right" toggled={this.state.debug} onToggle={this.onToggle.bind(this)}/>
+            </div>
+            {this.getContents()}
+          </div>
+        );
     }
 }
 export default DebugView;
