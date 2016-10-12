@@ -47,22 +47,26 @@ class Rectangle {
     );
     }
 
-  /**
-   *
-   */
+    /**
+     * 修復ドックの座標位置のはなし
+     */
     digitsInRecoveryDock(dock) {
-        const dockHeight = this.height/5.9;
+        const start = {
+            x: this.x + (this.width/1.2845),
+            y: this.y + (this.height/2.985)
+        };
         const digitWidth = this.width/69.26;
         const digitHeight = this.height/30;
+        const dockHeight = digitHeight * 5.093378607809847; // 多分ここなんだよな
         const colonWidth = this.width/140;
         return [0,1,2,3].map(digit => {
             const colon = (digit < 2) ? 0 : colonWidth;
             return new Rectangle(
-        this.x + (this.width/1.2845) + colon + (digit * digitWidth),
-        this.y + (this.height/2.985) + ((dock - 1) * dockHeight),
-        digitWidth,
-        digitHeight
-      );
+                start.x + colon + (digit * digitWidth),
+                start.y + ((dock - 1) * dockHeight),
+                digitWidth,
+                digitHeight
+            );
         });
     }
 

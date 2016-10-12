@@ -63,7 +63,8 @@ class ImageRecognizationService {
         }));
     }
     pickupTheBestScoreForEachFragmentPicture(results) {
-        return Promise.all(results.map(result => {
+        return Promise.all(results.map((result /*, idx */) => {
+            // if (idx == 0) result.debug(window);
             return result.reduce((maxi, x, i, arr) => {
                 return x.score > arr[maxi].score ? i : maxi;
             }, 0); // スコアの高いものだけを抽出
