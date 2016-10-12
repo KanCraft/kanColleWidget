@@ -38,7 +38,6 @@ export default class WinconfigsView extends Component {
           /> : null }
 
         {(this.state.showAddForm) ? null : <RaisedButton
-          linkButton={true}
           onClick={this.toggleAddForm.bind(this)}
           icon={<Icon name="plus" />}
           label="ADD"
