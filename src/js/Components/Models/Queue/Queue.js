@@ -25,6 +25,7 @@ export class ScheduledQueues extends Model {
 
             const qm = createQueueModelFromStorage(q);
             if (!qm) return;
+            console.log(qm);
 
             if (q.scheduled - now <= 0) timeup.push(qm);
             else  notyet.push(qm);
@@ -58,11 +59,14 @@ export class Queue {
     }
 }
 
+// これがここにあるからややこしいことになってる
 function createQueueModelFromStorage(stored) {
     switch(stored.params.type) {
     case "mission":
-    default:
         return Mission.createFromStorage(stored);
+    case "recovery":
+        return Recovery.createFromStorage(stored);
+    default:
     }
 }
 
@@ -95,7 +99,7 @@ export class Mission extends Queue {
             const scheduled = Date.now() + time - 1*M;//1分早いのである
             return new this(scheduled, title, deck, mission);
         } catch (err) {
-      // return logger.warn(err);
+          // return logger.warn(err);
         }
     }
     static createFromStorage(stored) {
@@ -108,7 +112,7 @@ export class Mission extends Queue {
     }
 
     toNotificationParams() {
-    // TODO: ここでchrome参照するのぜったいいや
+        // TODO: ここでchrome参照するのぜったいいや
         const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
@@ -119,9 +123,9 @@ export class Mission extends Queue {
         };
     }
 
-  // 遠征開始時のNotification用パラメータ
+    // 遠征開始時のNotification用パラメータ
     toNotificationParamsForStart() {
-    // TODO: ここでchrome参照するのぜったいいや
+        // TODO: ここでchrome参照するのぜったいいや
         const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
@@ -180,9 +184,51 @@ Mission.catalog = {
     }
 };
 
-// const formData = {
-//   api_deck_id: ["4"],
-//   api_mission_id: ["-1"],
-// };
-// ScheduledQueues.append('missions', Mission.createFromFormData(formData));
-// var missions = ScheduledQueues.find('missions');
+/**
+ * 修復のやつ
+ */
+export class Recovery extends Queue {
+    constructor(time, dock, detectedNumbers = []) {
+        const params = {
+            type: "recovery",
+            dock: dock,
+        };
+        super(time, params);
+        this.dock = dock;
+        this.detectedNumbers = detectedNumbers;
+    }
+    toNotificationID() {
+        return `recovery.${this.dock}`;
+    }
+    toNotificationParams() {
+        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
+        // TODO: ここでchrome参照するのぜったいいや
+        // TODO: AssetManagerの実装が必要だー
+        // (new AssetManager(configset)).getNotificationIconURIForType("recovery")
+        // 的なやつ
+        // configsetが持って無ければデフォルト、とかそういうロジックを持っているやつ
+        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+        return {
+            type: "basic",
+            title: `修復終了報告: ${this.dock}番ドック`,
+            message: `第${this.dock}番ドックの修復がまもなく終了します。`,
+            requireInteraction: true,
+            iconUrl: url,
+        };
+    }
+    toNotificationParamsForStart() {
+        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
+        // TODO: AssetManagerの実装が必要だー
+        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+        return {
+            type: "basic",
+            title: `おやすみします ${(this.detectedNumbers.length) ? "> " + this.detectedNumbers.join("") : ""}`,
+            message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
+            requireInteraction: false,
+            iconUrl: url,
+        };
+    }
+    static createFromStorage(stored) {
+        return new this(stored.scheduled, stored.params.dock);
+    }
+}
