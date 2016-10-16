@@ -200,14 +200,14 @@ Mission.catalog = {
  * 修復のやつ
  */
 export class Recovery extends Queue {
-    constructor(time, dock, detectedNumbers = []) {
+    constructor(time, dock, detected = {}) {
         const params = {
             type: "recovery",
             dock: dock,
         };
         super(time, params);
         this.dock = dock;
-        this.detectedNumbers = detectedNumbers;
+        this.detected = detected;
     }
     toNotificationID() {
         return `recovery.${this.dock}`;
@@ -234,7 +234,7 @@ export class Recovery extends Queue {
         const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
-            title: `おやすみします ${(this.detectedNumbers.length) ? "> " + this.detectedNumbers.join("") : ""}`,
+            title: `おやすみします ${("hour" in this.detected) ? this.detected.hours + ":" + this.detected.minutes : ""}`,
             message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
             requireInteraction: false,
             iconUrl: url,

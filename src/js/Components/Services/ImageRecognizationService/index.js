@@ -28,7 +28,8 @@ class ImageRecognizationService {
         .then(this.initializedPicturesFromFragmentsImageURI)
         .then(this.binarizeAllFragmentPictures)
         .then(this.compareAllFragmentPicturesToPreparedModels)
-        .then(this.pickupTheBestScoreForEachFragmentPicture);
+        .then(this.pickupTheBestScoreForEachFragmentPicture)
+        .then(this.parseDigitsToTimeAmount);
     }
 
     findKanColleWindow() {
@@ -69,6 +70,12 @@ class ImageRecognizationService {
                 return x.score > arr[maxi].score ? i : maxi;
             }, 0); // スコアの高いものだけを抽出
         }));
+    }
+    parseDigitsToTimeAmount(digits) {
+        return Promise.resolve({
+            hours: digits[0] * 10 + digits[1],
+            minutes: digits[2] * 10 + digits[3]
+        });
     }
 }
 

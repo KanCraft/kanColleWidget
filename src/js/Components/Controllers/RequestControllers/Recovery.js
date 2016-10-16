@@ -25,12 +25,11 @@ export function onRecoveryStartCompleted(/* detail */) {
     const irs = new ImageRecognizationService("recovery", __dock_id);
     sleep(0.85)
     .then(irs.test.bind(irs))
-    .then(nums => {
-        console.log("あっら", nums);
-        const hours = (nums[0] * 10 + nums[1]) * (60 * 60 * 1000);
-        const minutes = (nums[2] * 10 + nums[3]) * (60 * 1000);
-        console.log(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`, hours + minutes, new Date(Date.now() + hours + minutes));
-        const recovery = new Recovery(Date.now() + hours + minutes - (1 * 60 * 1000), __dock_id, nums);
+    .then(time => {
+        console.log(time);
+        const hours = time.hours * (60 * 60 * 1000);
+        const minutes = time.minutes * (60 * 1000);
+        const recovery = new Recovery(Date.now() + hours + minutes - (1 * 60 * 1000), __dock_id, time);
         ScheduledQueues.append("recoveries", recovery);
         notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
