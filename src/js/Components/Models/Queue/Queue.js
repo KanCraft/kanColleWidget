@@ -25,7 +25,7 @@ export class ScheduledQueues extends Model {
 
             const qm = createQueueModelFromStorage(q);
             if (!qm) return;
-            console.log(qm);
+            // console.log(qm);
 
             if (q.scheduled - now <= 0) timeup.push(qm);
             else  notyet.push(qm);
@@ -56,6 +56,18 @@ export class Queue {
     }
     hasCome(now = Date.now()) {
         return ((parseInt(this.scheduled) - now) <= 0);
+    }
+
+    // Override me
+    toBadgeParams() {
+        const diff = this.scheduled - Date.now();
+        if (diff < 1*M) {
+            return { text: "0" };
+        }
+        if (diff < 1*H) {
+            return { text: Math.floor(diff / (1*M)) + "m" };
+        }
+        return { text: Math.floor(diff / (1*H)) + "h+" };
     }
 }
 
