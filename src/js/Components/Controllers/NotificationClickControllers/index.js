@@ -5,6 +5,7 @@ import Frame from "../../Models/Frame";
 import History from "../../Models/History";
 import NotificationService from "../../Services/NotificationService";
 import WindowService from "../../Services/WindowService";
+import LaunchPosition from "../../Models/LaunchPosition";
 
 const notifications = new NotificationService();
 const windows = WindowService.getInstance();
@@ -21,7 +22,8 @@ function OnNotificationClicked(id) {
     // TODO: この`lastSelectedFrame`が`position`みたいなプロパティを持っている必要がある
         const lastSelectedFrame = History.find("last-selected-frame");
         const frame = Frame.find(lastSelectedFrame.id);
-        windows.open(frame);
+        const position = LaunchPosition.find("default");
+        windows.open(frame, position);
     });
 }
 
