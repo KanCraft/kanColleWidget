@@ -5,7 +5,7 @@ import SelectField  from "material-ui/SelectField";
 import MenuItem     from "material-ui/MenuItem";
 
 import Config from "../../../Models/Config";
-import ImageRecognizationService from "../../../Services/ImageRecognizationService";
+import {Client} from "chomex";
 
 const styles = {
     section: {
@@ -37,9 +37,16 @@ class ImgDiffDebugView extends Component {
         this.setState({ dock });
     }
     execute() {
-        let service = new ImageRecognizationService(this.state.purpose, this.state.dock);
-        service.test(this.state).then(nums => {
-            this.props.output(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`);
+        // let service = new ImageRecognizationService(this.state.purpose, this.state.dock);
+        // service.test(this.state).then(nums => {
+        //     this.props.output(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`);
+        // });
+        const client = new Client(chrome.runtime, true);
+        client.message("/debug/imagerecognize", {
+            purpose: this.state.purpose,
+            index: this.state.dock,
+        }).catch(err => {
+            console.log(err);
         });
     }
     render() {

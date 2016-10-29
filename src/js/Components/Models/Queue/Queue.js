@@ -234,7 +234,7 @@ export class Recovery extends Queue {
         const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
-            title: `おやすみします ${("hour" in this.detected) ? this.detected.hours + ":" + this.detected.minutes : ""}`,
+            title: `おやすみします ${("hours" in this.detected) ? this.detected.hours + "時間" + this.detected.minutes + "分" : ""}`,
             message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
             requireInteraction: false,
             iconUrl: url,

@@ -13,6 +13,7 @@ router.on("/twitter/profile",        Controllers.TwitterProfile);
 router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
 router.on("/launchposition/:update", Controllers.UpdateLaunchPosition);
+router.on("/debug/imagerecognize",   Controllers.ImageRecognizationDebug);
 
 const MessageListener = router.listener();
 export default MessageListener;

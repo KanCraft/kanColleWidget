@@ -12,6 +12,10 @@ class Rectangle {
         this.height = height;
     }
 
+    static init(img) {
+        return new this(0, 0, img.width, img.height);
+    }
+
   /**
    * ヨグロ取り除くやつ
    */
@@ -33,6 +37,28 @@ class Rectangle {
       );
         }
         return new Rectangle(0, 0, this.width, this.height);
+    }
+
+    /**
+     * 修復入渠時の、ひとつのドック全体を切り出す座標.
+     * おもに、GoogleVisionAPIや、GosseractAPIで用いられる.
+     */
+    ofRecovery(dock) {
+        const start = {
+            x: this.x + (this.width/1.29),
+            y: this.y + (this.height/3)
+        };
+        const size = {
+            width: this.width/9.4,
+            height: this.height/26
+        };
+        const dockHeight = size.height * 4.4;
+        return new Rectangle(
+            start.x,
+            start.y + ((dock - 1) * dockHeight),
+            size.width,
+            size.height
+        );
     }
 
   /**
