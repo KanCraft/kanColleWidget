@@ -41,23 +41,20 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
         return client.execute(uri);
     })
     .then(({responses}) => {
-        console.log(responses);
         // TODO: ここのへんはエージェントのタイプによるので、コントローラに書くべきではない
         if (responses.length && responses[0].textAnnotations) {
-            console.log(responses[0].textAnnotations[0]);
             return Promise.resolve(responses[0].textAnnotations[0].description.split(":").map(digits => parseInt(digits)));
         }
         else return Promise.reject();
     })
     .then(nums => {
-        console.log(nums);
-        return Promise.resolve({hours: nums[0], minutes: nums[1]});
+        return Promise.resolve({hours: nums[0], minutes: nums[1], seconds: nums[2]});
     })
     .then(time => {
         console.log(time);
-        const hours = time.hours * (60 * 60 * 1000);
-        const minutes = time.minutes * (60 * 1000);
-        const recovery = new Recovery(Date.now() + hours + minutes - (1 * 60 * 1000), dock, time);
+        const S = 1000; const M = 60 * S; const H = 60 * M;
+        const length = time.hours * H + (time.minutes - 1) * M + time.seconds * S;
+        const recovery = new Recovery(Date.now() + length, dock, time);
         ScheduledQueues.append("recoveries", recovery);
         notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
