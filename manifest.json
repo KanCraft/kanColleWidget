@@ -63,7 +63,7 @@
         "http://osapi.dmm.com/gadgets/ifr*"
       ],
       "js": [
-        "dest/js/osapi.dmm.js"
+        "dest/js/osapi_dmm.js"
       ]
     }
   ],
