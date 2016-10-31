@@ -62,12 +62,12 @@ export class Queue {
     toBadgeParams() {
         const diff = this.scheduled - Date.now();
         if (diff < 1*M) {
-            return { text: "0" };
+            return {text: "0", color: this.badgeColor};
         }
         if (diff < 1*H) {
-            return { text: Math.floor(diff / (1*M)) + "m" };
+            return { text: Math.floor(diff / (1*M)) + "m", color: this.badgeColor };
         }
-        return { text: Math.floor(diff / (1*H)) + "h+" };
+        return { text: Math.floor(diff / (1*H)) + "h+", color: this.badgeColor };
     }
 }
 
@@ -94,6 +94,7 @@ export class Mission extends Queue {
         super(time, params);
         this.title = title;
         this.deck  = deck;
+        this.badgeColor = "#0fabb1";
     }
 
     static dummy() {
@@ -147,17 +148,6 @@ export class Mission extends Queue {
             iconUrl: url,
         };
     }
-
-    toBadgeParams() {
-        const diff = this.scheduled - Date.now();
-        if (diff < 1*M) {
-            return { text: "0" };
-        }
-        if (diff < 1*H) {
-            return { text: Math.floor(diff / (1*M)) + "m" };
-        }
-        return { text: Math.floor(diff / (1*H)) + "h+" };
-    }
 }
 
 Mission.catalog = {
@@ -208,6 +198,7 @@ export class Recovery extends Queue {
         super(time, params);
         this.dock = dock;
         this.detected = detected;
+        this.badgeColor = "#5b84ff";
     }
     toNotificationID() {
         return `recovery.${this.dock}`;

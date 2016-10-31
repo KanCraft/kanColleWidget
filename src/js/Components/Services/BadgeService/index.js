@@ -15,6 +15,9 @@ export default class BadgeService {
             chrome.browserAction.setBadgeText({
                 text: params.text
             });
+            if (params.color) {
+                chrome.browserAction.setBadgeBackgroundColor({color: params.color});
+            }
         }
     }
 
