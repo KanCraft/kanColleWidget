@@ -17,7 +17,7 @@ export default class WinconfigsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            wins: Frame.all(),
+            frames: Frame.all(),
             showAddForm: false
         };
     }
@@ -25,13 +25,13 @@ export default class WinconfigsView extends Component {
         this.setState({showAddForm: !this.state.showAddForm});
     }
     render() {
-        const wins = Object.keys(this.state.wins).map(id => {
-            return <WinconfigView key={id} win={this.state.wins[id]} />;
+        const frames = Object.keys(this.state.frames).map(id => {
+            return <WinconfigView key={id} frame={this.state.frames[id]} />;
         });
         return (
       <div>
 
-        {wins}
+        {frames}
 
         {(this.state.showAddForm) ?  <WinconfigFormView
           toggleAddForm={this.toggleAddForm.bind(this)}

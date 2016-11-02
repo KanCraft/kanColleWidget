@@ -12,6 +12,24 @@ export default class Frame extends Model {
         if (position.top)  params.top  = position.top;
         return params;
     }
+    valid() {
+        if (!this.id || !this.alias) return false;
+        if (this.id != this.alias) return false; // とりあえず
+        if (parseInt(this.size.width) != this.size.width) return false;
+        if (parseInt(this.size.height) != this.size.height) return false;
+        if (this.size.width < 10 || this.size.height < 10) return false;
+        return true;
+    }
+    static template() {
+        return new Frame({
+            id: "",
+            alias: "",
+            url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
+            size: {width: 800, height: 480},
+            decoration: "EXTRACT",
+            protected: false
+        });
+    }
 }
 
 Frame.default = {

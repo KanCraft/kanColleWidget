@@ -1,5 +1,5 @@
 import * as ConfigControllers  from "./Config";
-import { GetAll } from "./Frame";
+import * as FrameControllers   from "./Frame";
 import * as QueuesControllers  from "./Queue";
 import * as WindowControllers  from "./Window";
 import * as TwitterControllers from "./Twitter";
@@ -11,7 +11,7 @@ const MessageControllers = {
     ...ConfigControllers,
     ...WindowControllers,
     ...HistoryControllers,
-    GetAllFrames: GetAll,
+    ...FrameControllers,
     ...QueuesControllers,
     ...TwitterControllers,
     ...LaunchPositionControllers,
