@@ -41,7 +41,4 @@ jspm_packages
 # APPLICATION
 dest/js
 release
-# TODO: これはどうやって管理しようかな。Configはどっかにまとめたほうがいい気がする
-src/js/Components/Services/Twitter/twitter-config.json
-src/js/Components/Services/Twitter/twitter-config-dev.json
-src/js/Components/Services/API/GoogleVisionAPI/google-vision-api-config.json
+app-config.json

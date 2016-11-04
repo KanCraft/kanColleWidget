@@ -1,9 +1,10 @@
-import _config from "./google-vision-api-config.json";
+// TODO: devで出し分け
+import {google} from "../../../../../../app-config.json";
 
 export default class GoogleVisionAPIClient {
-    constructor(config) {
-        const c = {..._config, ...config};
-        this.baseURL = c.base_url;
+    constructor(config = {}) {
+        const c = {...google, ...config};
+        this.baseURL = c.vision_api_url;
         this.apiKey = c.api_key;
     }
     execute(base64string) {

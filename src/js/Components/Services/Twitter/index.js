@@ -1,9 +1,10 @@
+/* global ChromeExOAuth:false */
+// ChromeExOAuth は manifest.json 経由でbackgroundに読み込まれている.
+
 // TODO: 開発用のtwitter-configをprocess.envかなんかで出し分けする
-import _config from "./twitter-config.json";
+import {twitter} from "../../../../../app-config.json";
 
-// ChromeExOAuth is installed by "manifest.json"
-// import ChromeExOAuth from '../../../../../oauth/chrome_ex_oauth';
-
+// {{{ TODO: これはむしろchomexで定義したいなあ...
 class HTTPCachely {
     constructor(namespace) {
         this.namespace = namespace;
@@ -30,6 +31,7 @@ class HTTPCachely {
         localStorage.removeItem(this.namespace);
     }
 }
+// }}}
 
 class Twitter {
 
@@ -40,8 +42,8 @@ class Twitter {
         }
         return this._instance;
     }
-    static init(config = _config) {
-        var oauth = window.ChromeExOAuth.initBackgroundPage(config);
+    static init(config = twitter) {
+        var oauth = ChromeExOAuth.initBackgroundPage(config);
         return new this(oauth);
     }
 
@@ -53,9 +55,8 @@ class Twitter {
     auth(refresh = false) {
         if (refresh) this.clearTokens();
         return new Promise((resolve /*, reject */) => {
-      // ChromeExOAuth.authorizeは、プロジェクトルートのchrome_ex_oauth.htmlを開きます
-      // TODO: chrome_ex_oauth.htmlをdest/oauth以下に移動できないだろうか
-      // TODO: chrome_ex_oauth.htmlをもうちょっとかわいくしたいんだよな
+            // ChromeExOAuth.authorizeは、プロジェクトルートのchrome_ex_oauth.htmlを開きます
+            // TODO: chrome_ex_oauth.htmlをdest/oauth以下に移動できないだろうか
             this.oauth.authorize((/* token, secret */) => {
                 resolve(/* {token, secret} */);
             });
