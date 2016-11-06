@@ -6,7 +6,7 @@
     "node": "7.0.0"
   },
   "scripts": {
-    "postinstall": " if test -f app-config.json ; then echo \"\\033[0;32m[艦これウィジェット]\\033[m app-config.json already exists.\" ; else echo {} > app-config.json && echo \"\\033[0;32m[艦これウィジェット] app-config.json is generated.\\033[m\" ; fi ",
+    "postinstall": "if exist app-config.json (echo [艦これウィジェット] app-config.json already exists.) else (echo {} > app-config.json && echo [艦これウィジェット] app-config.json is generated.)",
     "test": "jest",
     "build": "webpack --progress",
     "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/pre-release &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
