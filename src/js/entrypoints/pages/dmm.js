@@ -1,13 +1,14 @@
 import {FRAME_SHIFT, EXTRACT} from "../../Components/Constants";
 import ExtractFlash from "../../Components/Routine/ExtractFlash";
 import {DecorateDMMPage} from "../../Components/Routine/DecoratePage";
+import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
 
 chrome.runtime.connect();
 
-import {Client} from "chomex";
+import {Client, Router} from "chomex";
 const client = new Client(chrome.runtime);
 client.message({act: "/window/should-decorate"}, true).then((res) => {
-  // いずれにしもてこれは必要っぽいなと
+
     window.resizeBy(
       window.outerWidth - window.innerWidth,
       window.outerHeight - window.innerHeight
@@ -33,3 +34,9 @@ setInterval(() => {
         top:  window.screenY,
     });
 }, 60 * 1000);
+
+let snapshot = new DamageSnapshotDisplay();
+let router = new Router();
+router.on("/snapshot/:show", (message) => snapshot.show(message.uri));
+router.on("/snapshot/:hide", () => snapshot.remove());
+chrome.runtime.onMessage.addListener(router.listener());

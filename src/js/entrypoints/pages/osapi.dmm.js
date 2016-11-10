@@ -1,4 +1,6 @@
+import {Router} from "chomex";
 import {DecorateOsapiPage} from "../../Components/Routine/DecoratePage";
+import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
 
 chrome.runtime.connect();
 
@@ -14,3 +16,9 @@ setInterval(() => {
         top:  window.screenY,
     });
 }, 60 * 1000);
+
+let snapshot = new DamageSnapshotDisplay();
+let router = new Router();
+router.on("/snapshot/:show", (message) => snapshot.show(message.uri));
+router.on("/snapshot/:hide", () => snapshot.remove());
+chrome.runtime.onMessage.addListener(router.listener());
