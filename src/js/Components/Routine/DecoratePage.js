@@ -27,6 +27,21 @@ export class DecorateOsapiPage {
         return new this(context);
     }
 
+    isMaintenanceMode() {
+        let embed = this.context.document.querySelector("embed#maintenanceswf");
+        return !!embed;
+    }
+    decorateMaintenanceWindow() {
+        this.decorateSpaceTop();
+        let wrap = this.context.document.querySelector("div#adFlashWrap");
+        let embed = this.context.document.querySelector("embed#maintenanceswf");
+        wrap.style.width = "100%";
+        wrap.style.height = `${this.context.innerHeight}px`;
+        embed.width = "100%";
+        embed.height = "100%";
+        return true;
+    }
+
     decorateHTML() {
         let html = this.context.document.querySelector("html");
         if (!html) return false;
@@ -69,14 +84,17 @@ export class DecorateOsapiPage {
     }
 
     effort() {
-        if (this.decorateHTML()
-      && this.decorateEmbed()
-      && this.decorateSpaceTop()
-      && this.decorateSectionWrap()
-      && this.decorateWrap()
-    ) return true;
 
-    // TODO: 回数制限
+        if (this.isMaintenanceMode()) return this.decorateMaintenanceWindow();
+
+        if (this.decorateHTML()
+          && this.decorateEmbed()
+          && this.decorateSpaceTop()
+          && this.decorateSectionWrap()
+          && this.decorateWrap()
+        ) return true;
+
+        // TODO: 回数制限
         this.count++;
         this.interval += 100;
         setTimeout(() => {
