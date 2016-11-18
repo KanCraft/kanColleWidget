@@ -1,45 +1,19 @@
-import {
-  onCreateShipCompleted
-} from "./Kousho";
-
-import {
-  onMissionStart,
-  onMissionResult,
-} from "./Mission";
-
-import {
-  onMapPrepare
-} from "./Map";
-
-import {
-  onKaisouPowerup,
-} from "./Kaisou";
-
-import {
-  onBattleResulted,
-  onBattleStarted,
-} from "./Battle";
-
-import {
-  onRecoveryStart,
-  onRecoveryStartCompleted,
-} from "./Recovery";
-
-import {
-  onHomePort,
-} from "./Port";
+import * as KoushoControllers from "./Kousho";
+import * as MissionControllers from "./Mission";
+import * as MapControllers from "./Map";
+import * as KaisouControllers from "./Kaisou";
+import * as BattleControllers from "./Battle";
+import * as RecoveryControllers from "./Recovery";
+import * as PortControllers from "./Port";
 
 const RequestControllers = {
-    onKoushoCreateShipCompleted: onCreateShipCompleted,
-    onBattleResulted,
-    onBattleStarted,
-    onMissionStart,
-    onMissionResult,
-    onMapPrepare,
-    onKaisouPowerup,
-    onRecoveryStart,
-    onRecoveryStartCompleted,
-    onHomePort,
+    ...KoushoControllers,
+    ...BattleControllers,
+    ...MissionControllers,
+    ...MapControllers,
+    ...KaisouControllers,
+    ...RecoveryControllers,
+    ...PortControllers,
 };
 
 module.exports = RequestControllers;
