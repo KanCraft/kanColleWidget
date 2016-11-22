@@ -27,6 +27,9 @@ import {red500} from "material-ui/styles/colors";
 
 import Icon from "../FontAwesome";
 
+import Canvas from "./Canvas";
+import {Pencil} from "./Tools";
+
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
 
@@ -84,18 +87,18 @@ export default class CaptureView extends Component {
     }
 
     drawImage(img) {
-        this.refs.canvas.width = img.width;
-        this.refs.canvas.height = img.height;
-        this.refs.canvas.getContext("2d").drawImage(img, 0, 0, img.width, img.height);
+        this.refs.canvas.initWithImage(img);
     }
     render() {
         var f = true;
         return (
           <div style={styles.container}>
             <div ref="contents" style={styles.flex}>
+
               <div style={{flex: 1}}>
-                <canvas ref="canvas" style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0"}}></canvas>
+                <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
               </div>
+
               <div style={{flex: "initial", width: "100px"}}>
                 <Paper style={styles.paper}>
                   <Menu>
@@ -313,6 +316,10 @@ export default class CaptureView extends Component {
         chrome.downloads.download({ url, filename }, (/* id */) => {
             this.setState({dialogOpened: false});
         });
+    }
+    getTool(canvas) /* Tool */ {
+        // return new Tool();
+        return new Pencil(canvas);
     }
     compressImageSize() {
         const rate = this.getFileSize()/(3*1000*1000);
