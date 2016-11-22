@@ -5,11 +5,13 @@ export default class Canvas extends Component {
         super(props);
         this.tool = null;
         this.isMouseDown = false;
+        this.defaultCursor = "pointer";
+        this.state = {cursor: this.defaultCursor};
     }
     render() {
         return <canvas
           ref="canvas"
-          style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0"}}
+          style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0", cursor: this.state.cursor}}
           onMouseDown={this.onMouseDown.bind(this)}
           onMouseMove={this.onMouseMove.bind(this)}
           onMouseUp={this.onMouseUp.bind(this)}
@@ -26,6 +28,7 @@ export default class Canvas extends Component {
     onMouseDown(ev) {
         this.tool = this.props.getTool(this.refs.canvas);
         this.isMouseDown = true;
+        this.setState({cursor: this.tool.cursor});
         this.tool.onStart(ev);
     }
     onMouseMove(ev) {
@@ -38,6 +41,7 @@ export default class Canvas extends Component {
         if (!this.isMouseDown) return;
         this.isMouseDown = false;
         this.tool.onEnd(ev);
+        this.setState({cursor: this.defaultCursor});
     }
     static propTypes = {
         getTool: PropTypes.any // TODO: なんでfuncでvalidじゃないんだ

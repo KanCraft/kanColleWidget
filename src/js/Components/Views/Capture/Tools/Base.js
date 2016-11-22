@@ -4,6 +4,7 @@ export default class Tool {
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
         this.growth = this.canvas.width / this.canvas.offsetWidth;
+        this.cursor = "default";
     }
     onStart() {
         this.context.save();
