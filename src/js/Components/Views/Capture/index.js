@@ -23,6 +23,7 @@ import FlatButton from "material-ui/FlatButton";
 import Snackbar from "material-ui/Snackbar";
 
 import TextField from "material-ui/TextField";
+import {red500} from "material-ui/styles/colors";
 
 import Icon from "../FontAwesome";
 
@@ -132,6 +133,10 @@ export default class CaptureView extends Component {
                         </IconButton>
                     }/>
                     <Divider />
+                    <MenuItem onTouchTap={this.compressImageSize.bind(this)}
+                      title={"画像ファイル容量を削減します"}
+                      primaryText={this.getFileSizeText()}
+                      style={(this.getFileSize() > 3*1000*1000) ? {color:red500} : null} />
                     <MenuItem onTouchTap={() => { location.reload(); }}  primaryText={
                         <IconButton tooltip="Refresh">
                           <Refresh />
@@ -291,11 +296,30 @@ export default class CaptureView extends Component {
     closeDialog() {
         this.setState({dialogOpened: false});
     }
+    getFileSize() {
+        if (!this.state.imageUri) return 0;
+        return this.state.imageUri.length * (3/4);
+    }
+    getFileSizeText() {
+        const size = this.getFileSize();
+        if (size > 1000 * 1000) {
+            return Math.floor(size/(10*1000))/100 + "M";
+        }
+        return Math.floor(size/100)/10 + "K";
+    }
     saveFile() {
         const filename = this.refs.filename.getValue() + ".png";
-        const url = this.state.imageUri;
+        const url = this.refs.canvas.toDataURL();
         chrome.downloads.download({ url, filename }, (/* id */) => {
             this.setState({dialogOpened: false});
         });
+    }
+    compressImageSize() {
+        const rate = this.getFileSize()/(3*1000*1000);
+        let uri = this.refs.canvas.toDataURL("image/jpeg", rate);
+        let url = new URL(location.href);
+        url.searchParams.delete("datahash");
+        url.searchParams.set("img", uri);
+        location.href = url.toString();
     }
 }
