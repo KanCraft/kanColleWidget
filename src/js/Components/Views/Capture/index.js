@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 
 // Components
-import NavigationBar            from "./Navigation";
+import NavigationBar            from "./Navigation/NavigationBar";
+import SubNavigationBar         from "./Navigation/SubNavigationBar";
 import DownloadFileDialog       from "./Dialogs/DownloadFileDialog";
 import TweetDialog              from "./Dialogs/TweetDialog";
 import RequestTwitterAuthDialog from "./Dialogs/RequestTwitterAuthDialog";
@@ -48,7 +49,7 @@ export default class CaptureView extends Component {
         .then(Image.init)
         .then(img => {
             this.refs.canvas.initWithImage(img);
-            this.setState({imageUri: img.src});
+            this.setState({imageUri: img.src, imageWidth: img.width});
         });
 
         // Fetch Twitter Profile
@@ -72,7 +73,6 @@ export default class CaptureView extends Component {
         return (
           <div style={styles.container}>
             <div style={styles.flex}>
-              <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
               <NavigationBar
                 onColorChanged={this.onColorChanged.bind(this)}
                 twitterProfile={this.state.twitterProfile}
@@ -85,6 +85,14 @@ export default class CaptureView extends Component {
                 setTool={this.setTool.bind(this)}
                 selectedTool={this.state.tool.name}
               />
+              <div style={{flex: 1}}>
+                <SubNavigationBar
+                  ref="subnav"
+                  imageWidth={this.state.imageWidth}
+                  onColorChanged={this.onColorChanged.bind(this)}
+                />
+                <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
+              </div>
             </div>
             <DownloadFileDialog
               ref="filename"
@@ -188,7 +196,7 @@ export default class CaptureView extends Component {
     getTool(canvas) {
         const params = {
             color: this.state.color,
-            text: "hoge",
+            text:  this.refs.subnav.getText(),
         };
         return new this.state.tool(canvas, params);
     }

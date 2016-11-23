@@ -11,7 +11,7 @@ export default class Canvas extends Component {
     }
     render() {
         return (
-          <div style={{flex: 1}}>
+          <div style={{flex: 1, marginTop: "12px"}}>
             <canvas
               ref="canvas"
               style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0", cursor: this.state.cursor}}

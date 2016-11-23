@@ -48,7 +48,6 @@ export default class NavigationBar extends Component {
           <div style={{flex: "initial", width: "100px"}}>
             <Paper style={styles.paper}>
               <Menu value={this.props.selectedTool} selectedMenuItemStyle={styles.selected}>
-                {this.renderColorPickerMenuItem()}
                 {this.renderRectAngleMenuItem()}
                 {this.renderPencilMenuItem()}
                 {this.renderCropItem()}
@@ -63,13 +62,6 @@ export default class NavigationBar extends Component {
               </Menu>
             </Paper>
           </div>
-        );
-    }
-    renderColorPickerMenuItem() {
-        return (
-          <MenuItem
-            primaryText={<input type="color" onChange={this.props.onColorChanged} />}
-          />
         );
     }
     renderRectAngleMenuItem() {
