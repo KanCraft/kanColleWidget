@@ -140,7 +140,7 @@ export default class CaptureView extends Component {
         const strict = true;
         this.setState({nowSending: true}, () => {
             client.message("/twitter/post_with_image", {
-                image: this.state.imageUri,
+                image: this.getImageURI(),
                 status: this.refs.tweettext.getValue(),
                 type: "image/jpeg" // うーん
             }, strict).then(response => {

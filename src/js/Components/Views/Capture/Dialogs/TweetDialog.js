@@ -47,6 +47,9 @@ export default class TweetDialog extends Component {
           onTouchTap={this.props.tweet}
         />;
     }
+    getValue() {
+        return this.refs.tweettext.getValue();
+    }
     static propTypes = {
         tweet:       PropTypes.any,
         tweetAction: PropTypes.any,
