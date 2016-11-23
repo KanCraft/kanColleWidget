@@ -1,13 +1,16 @@
 import Tool from "./Base";
 
 export default class Pencil extends Tool {
-    constructor(canvas) {
+    constructor(canvas, params = {}) {
         super(canvas);
-        this.width = 6;
+        this.width = params.width || 6;
+        this.color = params.color || "#000";
     }
     onStart(ev) {
         super.onStart();
         this.context.lineWidth = this.width;
+        this.context.fillStyle = this.color;
+        this.context.strokeStyle = this.color;
         const start = this.position(ev);
         this.drawPoint(start);
         this.prev = start;
