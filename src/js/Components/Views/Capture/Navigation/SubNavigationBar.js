@@ -5,6 +5,7 @@ import TextField from "material-ui/TextField";
 
 const styles = {
     bar: {
+        width: "100%",
         height: "48px",
         alignItems: "center",
     },
@@ -29,7 +30,7 @@ class Item extends Component {
 export default class SubNavigationBar extends Component {
     render() {
         return (
-            <Paper style={styles.bar, {width: this.props.imageWidth || "100%"}}>
+            <Paper style={styles.bar}>
               {this.renderColorPicker()}
               {this.renderTextField()}
             </Paper>
@@ -57,6 +58,5 @@ export default class SubNavigationBar extends Component {
     }
     static propTypes = {
         onColorChanged: PropTypes.func.isRequired,
-        imageWidth:     PropTypes.any,
     }
 }

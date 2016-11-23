@@ -49,7 +49,7 @@ export default class CaptureView extends Component {
         .then(Image.init)
         .then(img => {
             this.refs.canvas.initWithImage(img);
-            this.setState({imageUri: img.src, imageWidth: img.width});
+            this.setState({imageUri: img.src});
         });
 
         // Fetch Twitter Profile
@@ -88,7 +88,6 @@ export default class CaptureView extends Component {
               <div style={{flex: 1}}>
                 <SubNavigationBar
                   ref="subnav"
-                  imageWidth={this.state.imageWidth}
                   onColorChanged={this.onColorChanged.bind(this)}
                 />
                 <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
