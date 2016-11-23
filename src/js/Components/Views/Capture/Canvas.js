@@ -7,6 +7,7 @@ export default class Canvas extends Component {
         this.isMouseDown = false;
         this.defaultCursor = "pointer";
         this.state = {cursor: this.defaultCursor};
+        this.history = [];
     }
     render() {
         return (
@@ -33,6 +34,7 @@ export default class Canvas extends Component {
         this.tool = this.props.getTool(this.refs.canvas);
         this.isMouseDown = true;
         this.setState({cursor: this.tool.cursor});
+        this.pushHistory();
         this.tool.onStart(ev);
     }
     onMouseMove(ev) {
@@ -47,7 +49,23 @@ export default class Canvas extends Component {
         this.tool.onEnd(ev);
         this.setState({cursor: this.defaultCursor});
     }
+    pushHistory() {
+        const mem = {
+            data: this.refs.canvas.getContext("2d").getImageData(
+              0, 0, this.refs.canvas.width, this.refs.canvas.height
+          )
+        };
+        this.history.push(mem);
+    }
+    popHistory() {
+        const mem = this.history.pop();
+        if (!mem) return;// なにもしない
+        this.refs.canvas.getContext("2d").putImageData(mem.data, 0, 0);
+    }
+    undo() {
+        this.popHistory();
+    }
     static propTypes = {
-        getTool: PropTypes.any // TODO: なんでfuncでvalidじゃないんだ
+        getTool: PropTypes.func.isRequired
     }
 }

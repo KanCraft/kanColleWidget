@@ -81,6 +81,7 @@ export default class CaptureView extends Component {
                 getFileSizeText={this.getFileSizeText.bind(this)}
                 onTweetClicked={this.onTweetClicked.bind(this)}
                 onDownloadClicked={this.onDownloadClicked.bind(this)}
+                onClickUndo={this.onClickUndo.bind(this)}
                 setTool={this.setTool.bind(this)}
               />
             </div>
@@ -173,6 +174,9 @@ export default class CaptureView extends Component {
         chrome.downloads.download({ url, filename }, () => {
             this.setState({dialogOpened: false});
         });
+    }
+    onClickUndo() {
+        this.refs.canvas.undo();
     }
     onColorChanged(ev) {
         this.setState({color: ev.target.value});

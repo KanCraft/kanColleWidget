@@ -16,6 +16,7 @@ import TextFields          from "material-ui/svg-icons/editor/text-fields";
 import Divider             from "material-ui/Divider";
 import Download            from "material-ui/svg-icons/file/file-download";
 import Refresh             from "material-ui/svg-icons/navigation/refresh";
+import Undo                from "material-ui/svg-icons/content/undo";
 
 // Colors
 import {red500} from "material-ui/styles/colors";
@@ -54,6 +55,7 @@ export default class NavigationBar extends Component {
                 <Divider />
                 {this.renderCompressItem()}
                 {this.renderRefreshItem()}
+                {this.renderUndoMenuItem()}
               </Menu>
             </Paper>
           </div>
@@ -143,6 +145,15 @@ export default class NavigationBar extends Component {
           }/>
         );
     }
+    renderUndoMenuItem() {
+        return (
+          <MenuItem onTouchTap={this.props.onClickUndo}  primaryText={
+              <IconButton tooltip="ひとつもどる">
+                <Undo />
+              </IconButton>
+          }/>
+        );
+    }
     static propTypes = {
         twitterProfile:    PropTypes.any,
         getFileSize:       PropTypes.any,
@@ -151,6 +162,7 @@ export default class NavigationBar extends Component {
         onTweetClicked:    PropTypes.any,
         onDownloadClicked: PropTypes.any,
         onColorChanged:    PropTypes.any,
+        onClickUndo:       PropTypes.func.isRequired,
         setTool:           PropTypes.any, // TODO: ぜんぶanyじゃあかんやろ
     }
 }
