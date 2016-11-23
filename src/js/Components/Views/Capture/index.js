@@ -83,6 +83,7 @@ export default class CaptureView extends Component {
                 onDownloadClicked={this.onDownloadClicked.bind(this)}
                 onClickUndo={this.onClickUndo.bind(this)}
                 setTool={this.setTool.bind(this)}
+                selectedTool={this.state.tool.name}
               />
             </div>
             <DownloadFileDialog

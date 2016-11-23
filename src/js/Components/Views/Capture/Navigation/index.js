@@ -19,7 +19,7 @@ import Refresh             from "material-ui/svg-icons/navigation/refresh";
 import Undo                from "material-ui/svg-icons/content/undo";
 
 // Colors
-import {red500} from "material-ui/styles/colors";
+import {red500, grey200} from "material-ui/styles/colors";
 
 // Class
 import {Pencil, Text} from "../Tools";
@@ -30,6 +30,10 @@ const styles = {
         float: "left",
         margin: "0 32px 16px 0",
     },
+    selected: {
+        backgroundColor: grey200,
+        zIndex: "-1",
+    }
 };
 
 export default class NavigationBar extends Component {
@@ -43,7 +47,7 @@ export default class NavigationBar extends Component {
         return (
           <div style={{flex: "initial", width: "100px"}}>
             <Paper style={styles.paper}>
-              <Menu>
+              <Menu value={this.props.selectedTool} selectedMenuItemStyle={styles.selected}>
                 {this.renderColorPickerMenuItem()}
                 {this.renderRectAngleMenuItem()}
                 {this.renderPencilMenuItem()}
@@ -79,8 +83,8 @@ export default class NavigationBar extends Component {
     }
     renderPencilMenuItem() {
         return (
-          <MenuItem primaryText={
-              <IconButton iconStyle={null} tooltip="ペン">
+          <MenuItem value="Pencil" primaryText={
+              <IconButton tooltip="ペン">
                 <Gesture />
               </IconButton>
           } onTouchTap={() => this.props.setTool(Pencil)}/>
@@ -97,7 +101,7 @@ export default class NavigationBar extends Component {
     }
     renderTextMenueItem() {
         return (
-          <MenuItem primaryText={
+          <MenuItem value="Text" primaryText={
               <IconButton tooltip="テキスト">
                 <TextFields />
               </IconButton>
@@ -163,6 +167,7 @@ export default class NavigationBar extends Component {
         onDownloadClicked: PropTypes.any,
         onColorChanged:    PropTypes.any,
         onClickUndo:       PropTypes.func.isRequired,
+        selectedTool:      PropTypes.any,
         setTool:           PropTypes.any, // TODO: ぜんぶanyじゃあかんやろ
     }
 }
