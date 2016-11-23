@@ -9,13 +9,17 @@ export default class Canvas extends Component {
         this.state = {cursor: this.defaultCursor};
     }
     render() {
-        return <canvas
-          ref="canvas"
-          style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0", cursor: this.state.cursor}}
-          onMouseDown={this.onMouseDown.bind(this)}
-          onMouseMove={this.onMouseMove.bind(this)}
-          onMouseUp={this.onMouseUp.bind(this)}
-          />;
+        return (
+          <div style={{flex: 1}}>
+            <canvas
+              ref="canvas"
+              style={{maxWidth: "100%", boxShadow: "0 1px 6px #a0a0a0", cursor: this.state.cursor}}
+              onMouseDown={this.onMouseDown.bind(this)}
+              onMouseMove={this.onMouseMove.bind(this)}
+              onMouseUp={this.onMouseUp.bind(this)}
+            />
+          </div>
+        );
     }
     initWithImage(img) {
         this.refs.canvas.width = img.width;

@@ -1,34 +1,15 @@
-// TODO: さすがにでかすぎるので、分割してくれ、誰か氏〜
-
 import React, {Component} from "react";
-import Paper from "material-ui/Paper";
-import Menu from "material-ui/Menu";
-import MenuItem from "material-ui/MenuItem";
 
-import Avatar from "material-ui/Avatar";
-
-import PictureInPictureAlt from "material-ui/svg-icons/action/picture-in-picture-alt";
-import Gesture     from "material-ui/svg-icons/content/gesture";
-import Crop        from "material-ui/svg-icons/image/crop";
-import TextFields  from "material-ui/svg-icons/editor/text-fields";
-import Divider     from "material-ui/Divider";
-import Download    from "material-ui/svg-icons/file/file-download";
-// import Send        from "material-ui/svg-icons/content/send";
-import Refresh     from "material-ui/svg-icons/navigation/refresh";
-import IconButton  from "material-ui/IconButton";
-
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-// import RaisedButton from "material-ui/RaisedButton";
-import Snackbar from "material-ui/Snackbar";
-
-import TextField from "material-ui/TextField";
-import {red500} from "material-ui/styles/colors";
-
-import Icon from "../FontAwesome";
+// Components
+import NavigationBar            from "./Navigation";
+import DownloadFileDialog       from "./Dialogs/DownloadFileDialog";
+import TweetDialog              from "./Dialogs/TweetDialog";
+import RequestTwitterAuthDialog from "./Dialogs/RequestTwitterAuthDialog";
+import Snackbar                 from "material-ui/Snackbar";
 
 import Canvas from "./Canvas";
-import {Pencil} from "./Tools";
+
+import Tool from "./Tools/Base";
 
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
@@ -52,33 +33,34 @@ export default class CaptureView extends Component {
     constructor(props) {
         super(props);
 
-        this.getImageUriFromCurrentURL().then(uri => {
-            Image.init(uri).then(img => {
-                this.drawImage(img);
-                this.setState({imageUri: uri});
-            });
-        });
-
+        // Initial State
         this.state = {
             tweetFeedbackMessage: "",
             dialogOpened: false,
             tweetAction: null,
             twitterProfile: null,
             nowSending: false,
+            tool:       Tool,
         };
 
+        // Initialize canvas
+        this.getImageUriFromCurrentURL()
+        .then(Image.init)
+        .then(img => {
+            this.refs.canvas.initWithImage(img);
+            this.setState({imageUri: img.src});
+        });
+
+        // Fetch Twitter Profile
         client.message("/twitter/profile").then(response => {
             if (response.data) { this.setState({twitterProfile: response.data}); }
         });
-
     }
 
     getImageUriFromCurrentURL() {
         let params = (new URL(location.href)).searchParams;
-        if (!params.get("datahash")) {
-            return Promise.resolve(params.get("img"));
-        }
-        return new Promise(resolve => {
+        if (!params.get("datahash")) return Promise.resolve(params.get("img"));
+        else return new Promise(resolve => {
             chrome.storage.local.get(params.get("datahash"), (items) => {
                 resolve(items[Object.keys(items)[0]]);
                 chrome.storage.local.remove(params.get("datahash"));
@@ -86,72 +68,41 @@ export default class CaptureView extends Component {
         });
     }
 
-    drawImage(img) {
-        this.refs.canvas.initWithImage(img);
-    }
     render() {
-        var f = true;
         return (
           <div style={styles.container}>
-            <div ref="contents" style={styles.flex}>
-
-              <div style={{flex: 1}}>
-                <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
-              </div>
-
-              <div style={{flex: "initial", width: "100px"}}>
-                <Paper style={styles.paper}>
-                  <Menu>
-                    <MenuItem primaryText={this.colorPicker()} />
-                    <MenuItem disabled={true} primaryText={
-                        <IconButton tooltip="(coming soon)">
-                          <PictureInPictureAlt />
-                        </IconButton>
-                      }/>
-                    <MenuItem disabled={true} primaryText={
-                        <IconButton tooltip="(coming soon)">
-                          <Gesture />
-                        </IconButton>
-                      }/>
-                    <MenuItem disabled={true} primaryText={
-                        <IconButton tooltip="(coming soon)">
-                          <Crop />
-                        </IconButton>
-                      }/>
-                    <MenuItem disabled={true} primaryText={
-                        <IconButton tooltip="(coming soon)">
-                          <TextFields />
-                        </IconButton>
-                      }/>
-                    {(f) ? null : <MenuItem primaryText={<TextField fullWidth={true} />} />}
-                    <Divider />
-                    <MenuItem onTouchTap={this.onDownloadClicked.bind(this)} primaryText={
-                        <IconButton tooltip="Download">
-                          <Download />
-                        </IconButton>
-                    }/>
-                    <MenuItem onTouchTap={this.onTweetClicked.bind(this)}    primaryText={
-                        <IconButton tooltip="Tweet">
-                          {this.getTwitterIcon()}
-                        </IconButton>
-                    }/>
-                    <Divider />
-                    <MenuItem onTouchTap={this.compressImageSize.bind(this)}
-                      title={"画像ファイル容量を削減します"}
-                      primaryText={this.getFileSizeText()}
-                      style={(this.getFileSize() > 3*1000*1000) ? {color:red500} : null} />
-                    <MenuItem onTouchTap={() => { location.reload(); }}  primaryText={
-                        <IconButton tooltip="Refresh">
-                          <Refresh />
-                        </IconButton>
-                    }/>
-                  </Menu>
-                </Paper>
-              </div>
+            <div style={styles.flex}>
+              <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
+              <NavigationBar
+                onColorChanged={this.onColorChanged.bind(this)}
+                twitterProfile={this.state.twitterProfile}
+                compressImageSize={this.compressImageSize.bind(this)}
+                getFileSize={this.getFileSize.bind(this)}
+                getFileSizeText={this.getFileSizeText.bind(this)}
+                onTweetClicked={this.onTweetClicked.bind(this)}
+                onDownloadClicked={this.onDownloadClicked.bind(this)}
+                setTool={this.setTool.bind(this)}
+              />
             </div>
-            {this.getDialog()}
-            {this.getTweetModal()}
-            {this.getRequestTwitterAuthModal()}
+            <DownloadFileDialog
+              ref="filename"
+              dialogOpened={this.state.dialogOpened}
+              closeDialog={this.closeDialog.bind(this)}
+              saveFile={this.saveFile.bind(this)}
+            />
+            <TweetDialog
+              ref="tweettext"
+              tweet={this.tweet.bind(this)}
+              tweetAction={this.state.tweetAction}
+              getImageURI={this.getImageURI.bind(this)}
+              nowSending={this.state.nowSending}
+              closeDialog={this.closeDialog.bind(this)}
+            />
+            <RequestTwitterAuthDialog
+              auth={this.auth.bind(this)}
+              tweetAction={this.state.tweetAction}
+              closeDialog={this.closeDialog.bind(this)}
+            />
             <Snackbar
               open={!!this.state.tweetFeedbackMessage}
               message={this.state.tweetFeedbackMessage}
@@ -163,141 +114,47 @@ export default class CaptureView extends Component {
     onDownloadClicked() {
         this.setState({dialogOpened: true});
     }
-    colorPicker() {
-        return (
-      <input type="color" style={{width: "100%"}}/>
-    );
-    }
-    getTwitterIcon() {
-        if (!this.state.twitterProfile) return <Icon name="twitter" size={20}/>;
-        return <Avatar src={this.state.twitterProfile.profile_image_url} size={20} />;
-    }
     onTweetClicked() {
-        if (!this.state.twitterProfile) {
-      // モーダルの内容を、連携してください的なやつにする
-            this.setState({tweetAction: "auth"});
-        } else {
-      // モーダルの内容を、画像とテキストのやつにする
-            this.setState({tweetAction: "tweet"});
-        }
+        if (!this.state.twitterProfile) this.setState({tweetAction: "auth"});
+        else this.setState({tweetAction: "tweet"});
     }
-    getRequestTwitterAuthModal() {
-        const actions = [
-            <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={() => { this.setState({tweetAction: null});}}
-        />,
-            <FlatButton
-        label="Authenticate"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={() => {
-            client.message("/twitter/auth").then(response => {
+    auth() {
+        client.message("/twitter/auth").then(response => {
+            this.setState({
+                twitterProfile: response.data,
+                tweetAction:    "tweet"
+            });
+        });
+    }
+    tweet() {
+        const strict = true;
+        this.setState({nowSending: true}, () => {
+            client.message("/twitter/post_with_image", {
+                image: this.state.imageUri,
+                status: this.refs.tweettext.getValue(),
+                type: "image/jpeg" // うーん
+            }, strict).then(response => {
                 this.setState({
-                    twitterProfile: response.data,
-                    tweetAction:    "tweet"
+                    tweetPermalink: response.data.permalink,
+                    tweetFeedbackMessage: <a
+                    href={response.data.permalink}
+                    target="_blank"
+                    style={{color: "#2196F3"}}
+                    >{response.data.permalink}</a>,
+                    tweetAction: null,
+                    nowSending: false,
+                });
+            }).catch(err => {
+                this.setState({
+                    tweetFeedbackMessage: err.message,
+                    tweetAction: null,
+                    nowSending: false,
                 });
             });
-        }}
-        />,
-        ];
-        return (
-      <Dialog
-        title="You should authenticate `艦これウィジェット` on Twitter"
-        actions={actions}
-        modal={false}
-        open={(this.state.tweetAction == "auth")}
-        >画像付きツイートはTwitterによる認証が必要です。自動的なツイートの投稿や操作はありません。[AUTHENTICATE]ボタンを押すと、Twitterのページにリダイレクトします。</Dialog>
-    );
-    }
-    getTweetModal() {
-        const actions = [
-            <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={() => { this.setState({tweetAction: null});}}
-        />,
-            <FlatButton
-        label="Tweet"
-        primary={true}
-        keyboardFocused={true}
-        disabled={this.state.nowSending}
-        onTouchTap={() => {
-            const strict = true;
-            this.setState({nowSending: true}, () => {
-                client.message("/twitter/post_with_image", {
-                    image: this.state.imageUri,
-                    status: this.refs.tweettext.getValue(),
-                    type: "image/jpeg" // うーん
-                }, strict).then(response => {
-                    this.setState({
-                        tweetPermalink: response.data.permalink,
-                        tweetFeedbackMessage: <a href={response.data.permalink} target="_blank" style={{color: "#2196F3"}}>{response.data.permalink}</a>,
-                        tweetAction: null,
-                        nowSending: false,
-                    });
-                }).catch(err => {
-                    this.setState({
-                        tweetFeedbackMessage: err.message,
-                        tweetAction: null,
-                        nowSending: false,
-                    });
-                });
-            });
-        }}
-        />,
-        ];
-        return (
-      <Dialog
-        title="Tweet"
-        actions={actions}
-        modal={false}
-        open={(this.state.tweetAction == "tweet")}
-        >
-        <div style={{display: "flex", width: "100%"}}>
-          <div style={{flex: 2}}><img src={this.state.imageUri} style={{width: "90%"}} /></div>
-          <div style={{flex: 3, padding: "0 10px"}}>
-            <TextField
-              name="tweettext"
-              ref="tweettext"
-              multiLine={true}
-              rows={4}
-              fullWidth={true}
-              />
-          </div>
-        </div>
-      </Dialog>
-    );
-    }
-
-    getDialog() {
-        const actions = [
-            <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={this.closeDialog.bind(this)}
-        />,
-            <FlatButton
-        label="Save"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.saveFile.bind(this)}
-        />,
-        ];
-        return (
-      <Dialog
-        title="Save file name"
-        actions={actions}
-        modal={false}
-        open={this.state.dialogOpened}
-        >
-        ~/Downloads/<TextField name="foo" ref="filename"/>.png
-      </Dialog>
-    );
+        });
     }
     closeDialog() {
-        this.setState({dialogOpened: false});
+        this.setState({dialogOpened: false, tweetAction: null});
     }
     getFileSize() {
         if (!this.state.imageUri) return 0;
@@ -313,13 +170,22 @@ export default class CaptureView extends Component {
     saveFile() {
         const filename = this.refs.filename.getValue() + ".png";
         const url = this.refs.canvas.toDataURL();
-        chrome.downloads.download({ url, filename }, (/* id */) => {
+        chrome.downloads.download({ url, filename }, () => {
             this.setState({dialogOpened: false});
         });
     }
-    getTool(canvas) /* Tool */ {
-        // return new Tool();
-        return new Pencil(canvas);
+    onColorChanged(ev) {
+        this.setState({color: ev.target.value});
+    }
+    setTool(tool) {
+        this.setState({tool});
+    }
+    getTool(canvas) {
+        const params = {
+            color: this.state.color,
+            text: "hoge",
+        };
+        return new this.state.tool(canvas, params);
     }
     compressImageSize() {
         const rate = this.getFileSize()/(3*1000*1000);
@@ -328,5 +194,9 @@ export default class CaptureView extends Component {
         url.searchParams.delete("datahash");
         url.searchParams.set("img", uri);
         location.href = url.toString();
+    }
+    getImageURI() {
+        if (!this.refs.canvas) return this.state.imageUri;
+        return this.refs.canvas.toDataURL();
     }
 }
