@@ -1,10 +1,15 @@
 var Constants = {
     release : {
-        version: "v1.7.7",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/607',
-        announceVersion : 167,
+        version: "v1.7.8",
+        link: 'https://github.com/otiai10/kanColleWidget/pull/627',
+        announceVersion : 168,
         announcements   : [
-          'OCRログサーバの廃止 <a href="https://github.com/otiai10/kanColleWidget/issues/606" class="light">くわしくはここ、</a>なるべく読んでほしいです'
+          'DMMページのレイアウトの変更に対応',
+          '-----',
+          '現在、v2を開発中です',
+          'v2を試したい方は<a class="light" href="https://chrome.google.com/webstore/detail/egkgleinehaapbpijnlpbllfeejjpceb">ここ</a>からインストールできます。',
+          '問題の切り分けのため、v2を試す場合は、v1を削除するのが望ましいです',
+          'イベント進捗どうですか？'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
