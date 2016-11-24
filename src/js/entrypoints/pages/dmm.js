@@ -16,7 +16,8 @@ client.message({act: "/window/should-decorate"}, true).then((res) => {
 
     switch(res.tab.frame.decoration) {
     case FRAME_SHIFT:
-        DecorateDMMPage.init(window).decorate();
+        DecorateDMMPage.init(window).decorate(res.tab.frame);
+        client.message("/window/zoom:set", {zoom: res.tab.frame.zoom});
         break;
     case EXTRACT:
         var routine = ExtractFlash.init(window);

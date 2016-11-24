@@ -50,3 +50,7 @@ export function CaptureWindow(/* message */) {
         return captures.capture(tab.windowId);
     });
 }
+
+export function ZoomWindow(message) {
+    return windows.zoom(this.sender.tab.id, message.zoom);
+}

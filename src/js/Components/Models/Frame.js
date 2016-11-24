@@ -26,6 +26,8 @@ export default class Frame extends Model {
             alias: "",
             url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
             size: {width: 800, height: 480},
+            zoom: 1.0,
+            position: {},
             decoration: "EXTRACT",
             protected: false
         });
@@ -38,6 +40,8 @@ Frame.default = {
         alias: "DEFAULT WHITE",
         url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
         size: {width: 800, height: 480},
+        zoom: 1.0,
+        position: {top: "-77px", left: "-124px"},
         decoration: "FRAME_SHIFT",
         protected: true,
     },
@@ -46,6 +50,8 @@ Frame.default = {
         alias: "小型",
         url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
         size: {width: 400, height: 240},
+        zoom: 1.0,
+        position: {},
         decoration: "EXTRACT",
         protected: true,
     },

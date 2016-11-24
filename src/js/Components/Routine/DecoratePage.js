@@ -7,11 +7,11 @@ export class DecorateDMMPage {
         return new this(context);
     }
 
-    decorate(params = {top: "-77px", left: "-124px"}) {
+    decorate(frame) {
         let body = this.context.document.querySelector("body");
         body.style.position = "fixed";
-        body.style.top = params.top;
-        body.style.left = params.left;
+        body.style.top = frame.position.top;
+        body.style.left = frame.position.left;
     }
 }
 

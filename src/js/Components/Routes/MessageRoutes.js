@@ -7,6 +7,7 @@ router.on("/config/set",             Controllers.SetConfig);
 router.on("/window/open",            Controllers.OpenWindow);
 router.on("/window/should-decorate", Controllers.ShouldDecorateWindow);
 router.on("/window/capture",         Controllers.CaptureWindow);
+router.on("/window/zoom:set",        Controllers.ZoomWindow);
 router.on("/frame/all",              Controllers.GetAllFrames);
 router.on("/frame/new",              Controllers.SaveNewFrame);
 router.on("/frame/delete",           Controllers.DeleteFrame);

@@ -54,6 +54,12 @@ class WindowService {
             }, resolve);
         });
     }
+
+    zoom(tabId, zoom) {
+        return new Promise(resolve => {
+            this.module.tabs.setZoom(tabId, zoom, resolve);
+        });
+    }
 }
 
 export default WindowService;
