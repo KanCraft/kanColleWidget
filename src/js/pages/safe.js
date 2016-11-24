@@ -6,7 +6,7 @@ $(function(){
         });
         $('body').animate({
             'top'     : '-77px',
-            'left'    : '-110px'
+            'left'    : '-124px'
         },500);
     },500);
 
