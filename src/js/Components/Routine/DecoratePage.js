@@ -7,7 +7,7 @@ export class DecorateDMMPage {
         return new this(context);
     }
 
-    decorate(params = {top: "-77px", left: "-110px"}) {
+    decorate(params = {top: "-77px", left: "-124px"}) {
         let body = this.context.document.querySelector("body");
         body.style.position = "fixed";
         body.style.top = params.top;
