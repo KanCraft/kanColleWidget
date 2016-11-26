@@ -1,11 +1,20 @@
 import React, {Component, PropTypes} from "react";
 
 import {Card, CardHeader, CardText,CardActions} from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
-import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
-import TextField from "material-ui/TextField";
+import {RadioButton, RadioButtonGroup}          from "material-ui/RadioButton";
+import FlatButton  from "material-ui/FlatButton";
+import TextField   from "material-ui/TextField";
+import {orange500} from "material-ui/styles/colors";
 
 import {Client} from "chomex";
+
+const styles = {
+    warning: {
+        display: "inline-block",
+        fontSize: "0.6em",
+        color:    orange500,
+    }
+};
 
 export default class WinconfigView extends Component {
     constructor(props) {
@@ -24,11 +33,22 @@ export default class WinconfigView extends Component {
                 />
                 <CardText expandable={true}>
                   <div>
-                    name <TextField name="alias" value={this.state.frame.alias}/>
+                    <TextField
+                      name="alias"
+                      floatingLabelText="name"
+                      value={this.state.frame.alias}/>
                   </div>
                   <div>
-                    width <TextField name="width" value={this.state.frame.size.width} onChange={this.onSizeChanged.bind(this)}/>
-                   height <TextField name="height" value={this.state.frame.size.height} onChange={this.onSizeChanged.bind(this)}/>
+                    <TextField
+                      name="width"
+                      floatingLabelText="width"
+                      value={this.state.frame.size.width}
+                      onChange={this.onSizeChanged.bind(this)}/>
+                    <TextField
+                      name="height"
+                      floatingLabelText="height"
+                      value={this.state.frame.size.height}
+                      onChange={this.onSizeChanged.bind(this)}/>
                   </div>
                   {this.renderPositionFields()}
                   <RadioButtonGroup name="decoration" defaultSelected={this.state.frame.decoration}>
@@ -38,7 +58,10 @@ export default class WinconfigView extends Component {
                 </CardText>
                 <CardActions expandable={true}>
                   <FlatButton label="UPDATE" onClick={this.updateFrame.bind(this)} />
-                  <FlatButton label="DELETE" disabled={this.state.frame.protected} onClick={this.deleteFrame.bind(this)}/>
+                  <FlatButton
+                    label={(this.state.frame.protected) ? "PROTECTED" : "DELETE"}
+                    disabled={this.state.frame.protected}
+                    onClick={this.deleteFrame.bind(this)}/>
                 </CardActions>
             </Card>
         );
@@ -47,9 +70,22 @@ export default class WinconfigView extends Component {
         if (this.state.frame.decoration == "EXTRACT") return null;
         return (
             <div>
-              left <TextField value={this.state.frame.position.left} name="left" onChange={this.onPositionChanged.bind(this)} />
-               top <TextField value={this.state.frame.position.top} name="top" onChange={this.onPositionChanged.bind(this)} />
-              zoom <TextField value={this.state.frame.zoom} name="zoom" onChange={this.onZoomChanged.bind(this)}/>
+              <TextField
+                name="left"
+                floatingLabelText="left"
+                value={this.state.frame.position.left}
+                onChange={this.onPositionChanged.bind(this)}/>
+              <TextField
+                name="top"
+                floatingLabelText="top"
+                value={this.state.frame.position.top}
+                onChange={this.onPositionChanged.bind(this)}/>
+              <TextField
+                name="zoom"
+                floatingLabelText="zoom"
+                value={this.state.frame.zoom}
+                onChange={this.onZoomChanged.bind(this)}/>
+              <span style={styles.warning}>zoomの指定はDMM.comドメイン全体に反映されます</span>
             </div>
         );
     }
