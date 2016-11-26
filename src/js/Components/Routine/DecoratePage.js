@@ -10,8 +10,8 @@ export class DecorateDMMPage {
     decorate(frame) {
         let body = this.context.document.querySelector("body");
         body.style.position = "fixed";
-        body.style.top = frame.position.top;
-        body.style.left = frame.position.left;
+        body.style.top = frame.position.top + "px";
+        body.style.left = frame.position.left + "px";
     }
 }
 

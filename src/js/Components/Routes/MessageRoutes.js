@@ -10,6 +10,7 @@ router.on("/window/capture",         Controllers.CaptureWindow);
 router.on("/window/zoom:set",        Controllers.ZoomWindow);
 router.on("/frame/all",              Controllers.GetAllFrames);
 router.on("/frame/new",              Controllers.SaveNewFrame);
+router.on("/frame/update",           Controllers.UpdateFrame);
 router.on("/frame/delete",           Controllers.DeleteFrame);
 router.on("/queues/get",             Controllers.GetQueues);
 router.on("/twitter/profile",        Controllers.TwitterProfile);

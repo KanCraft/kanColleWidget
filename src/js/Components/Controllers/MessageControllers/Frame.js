@@ -22,3 +22,12 @@ export function DeleteFrame(message) {
     frame.delete();
     return {};
 }
+
+export function UpdateFrame(message) {
+    let frame = Frame.find(message.frame._id);
+    frame.position = message.frame.position;
+    frame.size     = message.frame.size;
+    frame.zoom     = parseFloat(message.frame.zoom);
+    frame.save();
+    return frame;
+}

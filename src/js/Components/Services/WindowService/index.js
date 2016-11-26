@@ -57,7 +57,11 @@ class WindowService {
 
     zoom(tabId, zoom) {
         return new Promise(resolve => {
-            this.module.tabs.setZoom(tabId, zoom, resolve);
+            this.module.tabs.setZoomSettings(tabId, {
+                mode: "automatic", scope: "per-tab", defaultZoomFactor: 1
+            }, () => {
+                this.module.tabs.setZoom(tabId, zoom, resolve);
+            });
         });
     }
 }

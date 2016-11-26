@@ -25,7 +25,8 @@ export default class WinconfigFormView extends Component {
                 width <TextField name="width" value={this.state.frame.size.width} onChange={this.onSizeChanged.bind(this)}/>
               height <TextField name="height" value={this.state.frame.size.height} onChange={this.onSizeChanged.bind(this)}/>
               </div>
-              <RadioButtonGroup name="decoration" defaultSelected="FRAME_SHIFT" valueSelected={this.state.frame.decoration}>
+              {this.renderPositionFields()}
+              <RadioButtonGroup name="decoration" defaultSelected="FRAME_SHIFT" valueSelected={this.state.frame.decoration} onChange={this.onDecorationChanged.bind(this)}>
                 <RadioButton value="FRAME_SHIFT" label="ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
                 <RadioButton value="EXTRACT" label="ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
               </RadioButtonGroup>
@@ -37,6 +38,16 @@ export default class WinconfigFormView extends Component {
           </Card>
         );
     }
+    renderPositionFields() {
+        if (this.state.frame.decoration == "EXTRACT") return null;
+        return (
+            <div>
+              left <TextField value={this.state.frame.position.left} name="left" onChange={this.onPositionChanged.bind(this)} />
+               top <TextField value={this.state.frame.position.top} name="top" onChange={this.onPositionChanged.bind(this)} />
+              zoom <TextField value={this.state.frame.zoom} name="zoom" onChange={this.onZoomChanged.bind(this)} />
+            </div>
+        );
+    }
     onNameChanged(ev) {
         let frame   = this.state.frame;
         frame.id    = ev.target.value;
@@ -45,8 +56,23 @@ export default class WinconfigFormView extends Component {
     }
     onSizeChanged(ev) {
         let frame   = this.state.frame;
-        frame.size[ev.target.name] = parseInt(ev.target.value);
-        this.setState({frame: this.state.frame});
+        frame.size[ev.target.name] = ev.target.value;
+        this.setState({frame});
+    }
+    onPositionChanged(ev) {
+        let frame   = this.state.frame;
+        frame.position[ev.target.name] = ev.target.value;
+        this.setState({frame});
+    }
+    onZoomChanged(ev) {
+        let frame = this.state.frame;
+        frame.zoom = ev.target.value;
+        this.setState({frame});
+    }
+    onDecorationChanged(ev) {
+        let frame = this.state.frame;
+        frame.decoration = ev.target.value;
+        this.setState({frame});
     }
     commit() {
         const client = new Client(chrome.runtime, true);

@@ -20,6 +20,16 @@ export default class Frame extends Model {
         if (this.size.width < 10 || this.size.height < 10) return false;
         return true;
     }
+    // XXX: これでいいんかなー. validateにくっつけたほうがいいかも
+    regulate() {
+        this.size.width    = parseInt(this.size.width);
+        this.size.height   = parseInt(this.size.height);
+        this.position      = this.position || {};
+        this.position.left = parseInt(this.position.left);
+        this.position.top  = parseInt(this.position.top);
+        this.zoom          = parseFloat(this.zoom);
+        return this;
+    }
     static template() {
         return new Frame({
             id: "",
@@ -27,8 +37,8 @@ export default class Frame extends Model {
             url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
             size: {width: 800, height: 480},
             zoom: 1.0,
-            position: {},
-            decoration: "EXTRACT",
+            position: {top: -77, left: -124},
+            decoration: "FRAME_SHIFT",
             protected: false
         });
     }
@@ -41,7 +51,7 @@ Frame.default = {
         url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
         size: {width: 800, height: 480},
         zoom: 1.0,
-        position: {top: "-77px", left: "-124px"},
+        position: {top: -77, left: -124},
         decoration: "FRAME_SHIFT",
         protected: true,
     },
