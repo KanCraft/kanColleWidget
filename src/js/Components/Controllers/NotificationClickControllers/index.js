@@ -30,3 +30,7 @@ function OnNotificationClicked(id) {
 export function OnMissionNotificationClicked(id) {
     return OnNotificationClicked(id);
 }
+
+export function OnRecoveryNotificationClicked(id) {
+    return OnNotificationClicked(id);
+}

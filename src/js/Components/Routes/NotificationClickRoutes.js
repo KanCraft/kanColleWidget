@@ -7,6 +7,7 @@ let router = new Router(id => {
 });
 
 router.on("mission", Controllers.OnMissionNotificationClicked);
+router.on("recovery",Controllers.OnRecoveryNotificationClicked);
 
 const NotificationClickListener = router.listener();
 export default NotificationClickListener;
