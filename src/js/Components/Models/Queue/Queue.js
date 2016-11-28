@@ -9,6 +9,7 @@ const msec = 1000,
 
 export class ScheduledQueues extends Model {
     static append(type, queue) {
+        if (queue.scheduled == null) return;
         let instance = this.find(type);
         instance.queues.push(queue);
         return instance.save();
@@ -112,8 +113,23 @@ export class Mission extends Queue {
             const scheduled = Date.now() + time - 1*M;//1分早いのである
             return new this(scheduled, title, deck, mission);
         } catch (err) {
-          // return logger.warn(err);
+            return this.unknown(parseInt(data["api_mission_id"][0]));
         }
+    }
+    static unknown(missionID) {
+        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+        return {
+            toNotificationID: () => "mission.unknown",
+            toNotificationParamsForStart: () => {
+                return {
+                    type: "basic",
+                    title: "遠征艦隊出港",
+                    message: `遠征ID${missionID}？ 知らない子ですね`,
+                    requireInteraction: false,
+                    iconUrl: url,
+                };
+            }
+        };
     }
     static createFromStorage(stored) {
         const {title, /* time */} = Mission.catalog[stored.params.mission];
