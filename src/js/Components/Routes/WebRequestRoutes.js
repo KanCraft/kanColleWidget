@@ -22,10 +22,8 @@ router.on([{url: /api_port\/port/}],         Controllers.onHomePort);
 const WebRequestListener = router.listener();
 
 let onCompletedRouter = new SerialRouter(2);
-onCompletedRouter.on([
-  {url: /api_req_sortie\/battleresult/},
-    true
-], Controllers.onBattleResulted);
+onCompletedRouter.on([{url: /api_req_sortie\/battleresult/},true],          Controllers.onBattleResulted);
+onCompletedRouter.on([{url: /api_req_combined_battle\/battleresult/},true], Controllers.onCombinedBattleResulted);
 onCompletedRouter.on([
   {url: /api_get_member\/ndock/},
   {url: /api_req_nyukyo\/start/}

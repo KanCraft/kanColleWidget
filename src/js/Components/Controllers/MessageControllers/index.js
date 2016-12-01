@@ -5,6 +5,7 @@ import * as WindowControllers  from "./Window";
 import * as TwitterControllers from "./Twitter";
 import * as HistoryControllers from "./History";
 import * as LaunchPositionControllers from "./LaunchPosition";
+import * as DamageSnapshotControllers from "./DamageSnapshot";
 import * as DebugControllers   from "./Debug";
 
 const MessageControllers = {
@@ -15,6 +16,7 @@ const MessageControllers = {
     ...QueuesControllers,
     ...TwitterControllers,
     ...LaunchPositionControllers,
+    ...DamageSnapshotControllers,
     ...DebugControllers,
 };
 

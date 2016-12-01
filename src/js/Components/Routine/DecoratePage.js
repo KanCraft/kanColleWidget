@@ -83,7 +83,9 @@ export class DecorateOsapiPage {
         return true;
     }
 
-    effort() {
+    effort(inIframe = false) {
+
+        if (inIframe) return true;
 
         if (this.isMaintenanceMode()) return this.decorateMaintenanceWindow();
 

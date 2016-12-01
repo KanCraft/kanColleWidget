@@ -6,13 +6,8 @@ import Rectangle from "../../Services/Rectangle";
 const windows = WindowService.getInstance();
 const capture = new CaptureService();
 
-import ShipsStatusTempWindowManager from "../../Services/ShipsStatusTempWindowManager";
-const sstwManager = ShipsStatusTempWindowManager.getInstance();
-
-export function onBattleResulted(/* detail */) {
-    let tab = null;
-    sleep(3.1).then(windows.find.bind(windows)).then(_tab => {
-        tab = _tab; // うーんこの...
+export function onBattleResulted(detail) {
+    sleep(3.1).then(windows.find.bind(windows)).then(tab => {
         return capture.capture(tab.windowId);
     }).then(Image.init).then(img => {
         // ここの、「全体のURIをもらって、Rectを決めて、URIをconvertする」っていうの、ルーチンなのでどっかにやる
@@ -23,16 +18,18 @@ export function onBattleResulted(/* detail */) {
         return Promise.resolve(canvas.toDataURL());
     }).then(uri => {
         // chomexのclientでどうにかしてくれ
-        chrome.tabs.sendMessage(tab.id, {action:"/snapshot/:show", uri});
-        // TODO: オプションで開けるようにすっか
+        chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/show", uri});
         // sstwManager.openByImageURI(uri);
     });
 }
 
+export function onCombinedBattleResulted(detail) {
+    chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
+}
+
 export function onBattleStarted(/* detail */) {
     WindowService.getInstance().find().then(tab => {
-        chrome.tabs.sendMessage(tab.id, {action:"/snapshot/:hide"});
+        chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"});
     });
-    // TODO: オプションで開けるようにすっか
     // sstwManager.sweep();
 }
