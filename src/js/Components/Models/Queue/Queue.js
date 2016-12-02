@@ -11,7 +11,9 @@ export class ScheduledQueues extends Model {
     static append(type, queue) {
         if (queue.scheduled == null) return;
         let instance = this.find(type);
-        instance.queues.push(queue);
+        let queues = instance.queues.filter(q => (q.deck || q.dock) != (queue.deck || queue.dock));
+        queues.push(queue);
+        instance.queues = queues;
         return instance.save();
     }
 
@@ -199,6 +201,14 @@ Mission.catalog = {
     "38": {
         title: "東京急行２",
         time: 2 * H + 55 * M
+    },
+    "197": {
+        title: "前衛支援任務",
+        time: 15*M
+    },
+    "198": {
+        title: "決戦支援任務",
+        time: 30*M
     }
 };
 
