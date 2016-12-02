@@ -14,8 +14,9 @@ export default class DamageSnapshotDisplay {
         container = this.context.document.createElement("div");
         container.id = this.id;
         container.style.position ="fixed";
-        container.style.left = "0px";
-        container.style.top  = "0px";
+        let embed = this.context.document.querySelector("embed");
+        container.style.left = `${embed.offsetLeft}px`;
+        container.style.top  = `${embed.offsetTop}px`;
         container.style.transition = "0.2s all";
         container.style.opacity = 1;
         container.addEventListener("mouseover", () => container.style.opacity = 1);
