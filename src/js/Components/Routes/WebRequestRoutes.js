@@ -16,6 +16,11 @@ router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 
+// 連合艦隊戦開戦時
+router.on([{url: /api_req_combined_battle\/battle/}],      Controllers.onCombinedBattleStarted);
+router.on([{url: /api_req_combined_battle\/each_battle/}], Controllers.onCombinedBattleStarted);
+router.on([{url: /api_req_combined_battle\/ld_airbattle/}],Controllers.onCombinedBattleStarted);
+
 // 母校帰投
 router.on([{url: /api_port\/port/}],         Controllers.onHomePort);
 

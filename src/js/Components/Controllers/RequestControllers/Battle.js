@@ -27,6 +27,10 @@ export function onCombinedBattleResulted(detail) {
     chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
 }
 
+export function onCombinedBattleStarted(req) {
+    chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
+}
+
 export function onBattleStarted(/* detail */) {
     WindowService.getInstance().find().then(tab => {
         chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"});
