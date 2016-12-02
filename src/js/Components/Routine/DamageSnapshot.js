@@ -27,7 +27,7 @@ export default class DamageSnapshotDisplay {
     createImage(uri) {
         let img = this.context.document.createElement("img");
         img.src = uri;
-        img.style.height = (this.context.innerHeight / 3) + "px";
+        img.style.height = (this.context.innerHeight / 4.2) + "px";
         return img;
     }
     show(uri) {
@@ -42,7 +42,7 @@ export default class DamageSnapshotDisplay {
     onmousedown() {
         if (this.count > 1) return this.cleanup();
         this.count++;
-        this.client.message("/snapshot/take", {count: this.count}).then(this.appendImage);
+        this.client.message("/snapshot/take").then(this.appendImage);
     }
     prepare() {
         console.log("DamageSnapshot", "prepare");

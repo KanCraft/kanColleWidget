@@ -72,6 +72,17 @@ class Rectangle {
       this.height / 1.68
     );
     }
+    /**
+     * 大破進撃で、クリック後にとるやつ、X座標がちょっとちがう
+     */
+    shipsStatusAfterClick() {
+        return new Rectangle(
+          this.x + (this.width/4.18),
+          this.y + (this.height/2.7),
+          this.width / 4.5,
+          this.height / 1.68
+        );
+    }
 
     /**
      * 修復ドックの座標位置のはなし
