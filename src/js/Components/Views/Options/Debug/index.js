@@ -4,6 +4,8 @@ import RaisedButton from "material-ui/RaisedButton";
 import SelectField  from "material-ui/SelectField";
 import MenuItem     from "material-ui/MenuItem";
 
+import Icon from "../../FontAwesome";
+
 import Config from "../../../Models/Config";
 import {Client} from "chomex";
 
@@ -98,16 +100,26 @@ class DebugView extends Component {
     setOutput(output) {
         this.setState({output: output});
     }
+    getSwitch() {
+        return (
+          <div>
+            <Toggle label={<span><Icon name="terminal" /> DEBUG</span>} labelPosition="right" toggled={this.state.debug} onToggle={this.onToggle.bind(this)}/>
+          </div>
+        );
+    }
     render() {
         return (
           <div>
-            <ImgDiffDebugView output={this.setOutput.bind(this)}/>
-            <div style={styles.section}>
-              <Toggle label="Debug" labelPosition="right" toggled={this.state.debug} onToggle={this.onToggle.bind(this)}/>
+            <h1 style={this.props.styles.title}>{this.getSwitch()}</h1>
+            <div>
+              <ImgDiffDebugView output={this.setOutput.bind(this)}/>
+              {this.getContents()}
             </div>
-            {this.getContents()}
           </div>
         );
+    }
+    static propTypes = {
+        styles: PropTypes.object.isRequired
     }
 }
 export default DebugView;

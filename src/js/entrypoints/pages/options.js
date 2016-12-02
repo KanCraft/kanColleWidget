@@ -13,7 +13,7 @@ injectTapEventPlugin();
 // })
 import "font-awesome-webpack";
 
-import OptionsView from "../../Components/Views/OptionsView";
+import OptionsView from "../../Components/Views/Options";
 
 render(
   <MuiThemeProvider muiTheme={getMuiTheme()}>

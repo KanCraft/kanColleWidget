@@ -1,9 +1,5 @@
-import React, {Component} from "react";
-// import {Card, CardHeader, CardText,CardActions} from "material-ui/Card";
-// import FlatButton from "material-ui/FlatButton";
+import React, {Component, PropTypes} from "react";
 import RaisedButton from "material-ui/RaisedButton";
-// import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
-// import TextField from "material-ui/TextField";
 import Icon from "../../FontAwesome";
 
 // App
@@ -29,20 +25,23 @@ export default class WinconfigsView extends Component {
             return <WinconfigView key={id} frame={this.state.frames[id]} />;
         });
         return (
-      <div>
-
-        {frames}
-
-        {(this.state.showAddForm) ?  <WinconfigFormView
-          toggleAddForm={this.toggleAddForm.bind(this)}
-          /> : null }
-
-        {(this.state.showAddForm) ? null : <RaisedButton
-          onClick={this.toggleAddForm.bind(this)}
-          icon={<Icon name="plus" />}
-          label="ADD"
-          /> }
-      </div>
-    );
+          <div>
+            <h1 style={this.props.styles.title}><Icon name="cog" /> 窓設定</h1>
+            <div>
+              {frames}
+              {(this.state.showAddForm) ?  <WinconfigFormView
+                toggleAddForm={this.toggleAddForm.bind(this)}
+              /> : null }
+              {(this.state.showAddForm) ? null : <RaisedButton
+                onClick={this.toggleAddForm.bind(this)}
+                icon={<Icon name="plus" />}
+                label="ADD"
+              />}
+            </div>
+          </div>
+        );
+    }
+    static propTypes = {
+        styles: PropTypes.object.isRequired
     }
 }
