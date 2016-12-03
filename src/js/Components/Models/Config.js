@@ -5,6 +5,9 @@ Config.default = {
     "closeconfirm": {
         value: "おっぱああああい!!"
     },
+    "download-folder": {
+        value: "艦これ"
+    },
     "debug": {
         value: false
     }

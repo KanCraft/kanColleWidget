@@ -4,9 +4,13 @@ import FlatButton from "material-ui/FlatButton";
 import Dialog     from "material-ui/Dialog";
 import TextField  from "material-ui/TextField";
 
+import Config from "../../../Models/Config";
+
 export default class DownloadFileDialog extends Component {
     constructor(props) {
         super(props);
+        let path = Config.find("download-folder").value;
+        this.folder = path ? path + "/" : "";
     }
     render() {
         return (
@@ -19,7 +23,7 @@ export default class DownloadFileDialog extends Component {
             modal={false}
             open={this.props.dialogOpened}
             >
-            ~/Downloads/<TextField name="foo" ref="filename"/>.png
+            ~/Downloads/{this.folder}<TextField name="foo" ref="filename"/>.png
           </Dialog>
         );
     }
@@ -39,7 +43,7 @@ export default class DownloadFileDialog extends Component {
         />;
     }
     getValue() {
-        return this.refs.filename.getValue();
+        return this.folder + this.refs.filename.getValue();
     }
     static propTypes = {
         dialogOpened: PropTypes.any,
