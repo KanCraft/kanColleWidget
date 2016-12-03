@@ -52,7 +52,7 @@ export default class PopupView extends Component {
     }
     render() {
         let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);
-        sorted.unshift(this.state.last.id);
+        if (this.state.winconfigs[this.state.last.id]) sorted.unshift(this.state.last.id);
         const winconfigs = Object.keys(this.state.winconfigs).length ? sorted.map(id => {
             const win = this.state.winconfigs[id];
             return <MenuItem key={id} value={id} primaryText={win.alias} />;
