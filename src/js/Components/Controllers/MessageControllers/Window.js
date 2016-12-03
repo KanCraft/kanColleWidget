@@ -27,11 +27,9 @@ export function OpenWindow(message) {
 
     let position = LaunchPosition.find("default");
 
-    return new Promise(resolve => {
-        windows.open(frame, position).then((/* win */) => {
-            resolve(frame);
-        });
-    });
+    return windows.find(true)
+    .then(tab => windows.focus(tab))
+    .catch(() => windows.open(frame, position));
 }
 
 export function ShouldDecorateWindow(/* message */) {
