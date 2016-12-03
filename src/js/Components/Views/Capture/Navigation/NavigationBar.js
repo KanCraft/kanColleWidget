@@ -19,7 +19,7 @@ import Refresh             from "material-ui/svg-icons/navigation/refresh";
 import Undo                from "material-ui/svg-icons/content/undo";
 
 // Colors
-import {red500, grey200} from "material-ui/styles/colors";
+import {red500, grey600} from "material-ui/styles/colors";
 
 // Class
 import {Pencil, Text} from "../Tools";
@@ -31,8 +31,7 @@ const styles = {
         margin: "0 32px 16px 0",
     },
     selected: {
-        backgroundColor: grey200,
-        zIndex: "-1",
+        boxShadow: `inset -7px 0 9px -7px ${grey600}`
     }
 };
 

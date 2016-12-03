@@ -28,6 +28,12 @@ class Item extends Component {
 }
 
 export default class SubNavigationBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: ""
+        };
+    }
     render() {
         return (
             <Paper style={styles.bar}>
