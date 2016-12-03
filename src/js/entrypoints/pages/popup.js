@@ -6,7 +6,7 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 import { createStore } from "redux";
 
-import PopupView from "../../Components/Views/PopupView";
+import PopupView from "../../Components/Views/Popup/PopupView";
 
 import { init } from "../global-pollution";
 init(window);

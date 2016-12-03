@@ -12,8 +12,8 @@ class QueueListItem extends Component {
         );
     }
     static propTypes = {
-        queue: PropTypes.object.required,
-        unit: PropTypes.string.required
+        queue: PropTypes.object.isRequired,
+        unit:  PropTypes.string.isRequired
     }
 }
 
@@ -32,9 +32,9 @@ class QueueList extends Component {
         );
     }
     static propTypes = {
-        title: PropTypes.string,
-        queues: PropTypes.Array,
-        unit: PropTypes.Number
+        title:  PropTypes.string,
+        queues: PropTypes.array,
+        unit:   PropTypes.string
     }
 }
 
@@ -51,6 +51,6 @@ export default class QueuesView extends Component {
     }
 
     static propTypes = {
-        queues: PropTypes.object.required
+        queues: PropTypes.object.isRequired
     }
 }

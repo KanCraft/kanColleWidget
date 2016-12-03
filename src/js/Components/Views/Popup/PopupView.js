@@ -4,7 +4,9 @@ import { Client } from "chomex";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import FlatButton from "material-ui/FlatButton";
-import QueuesView from "./Popup/QueuesView";
+import QueuesView from "./QueuesView";
+
+import History from "../../Models/History";
 
 // const url = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 
@@ -23,13 +25,14 @@ export default class PopupView extends Component {
 
     constructor() {
         super();
-    // this.history = new History();
+        let last = History.find("last-selected-frame");
         this.state = {
             winconfigs: {},
             queues:     {
                 missions: {queues: []}, recoveries: {queues: []}, createships: {queues: []}
             },
-            selected: "__white",
+            last: last,
+            selected: last.id
         };
 
         client.message("/frame/all").then(res => {
@@ -58,10 +61,12 @@ export default class PopupView extends Component {
 
     render() {
 
-        const winconfigs = Object.keys(this.state.winconfigs).map(id => {
+        let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);
+        sorted.unshift(this.state.last.id);
+        const winconfigs = Object.keys(this.state.winconfigs).length ? sorted.map(id => {
             const win = this.state.winconfigs[id];
             return <MenuItem key={id} value={id} primaryText={win.alias} />;
-        });
+        }) : [];
 
         return (
       <div>
