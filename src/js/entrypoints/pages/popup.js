@@ -17,7 +17,7 @@ let store = createStore((state = {}/* , action */) => {
 
 render(
   <MuiThemeProvider store={store} muiTheme={getMuiTheme()}>
-    <PopupView />
+    <PopupView context={window} />
   </MuiThemeProvider>,
   document.getElementById("main")
 );
