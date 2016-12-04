@@ -64,6 +64,12 @@ class WindowService {
             });
         });
     }
+
+    mute(tab, muted = true) {
+        return new Promise(resolve => {
+            this.module.tabs.update(tab.id, {muted}, resolve);
+        });
+    }
 }
 
 export default WindowService;

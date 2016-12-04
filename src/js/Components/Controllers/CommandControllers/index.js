@@ -13,3 +13,10 @@ export function CaptureController() {
         window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
     });
 }
+
+export function MuteController() {
+    windows.find().then(tab => {
+        // Mute状態をToggleする
+        windows.mute(tab, !tab.mutedInfo.muted);
+    });
+}

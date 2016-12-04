@@ -7,6 +7,7 @@ const resolve = (name) => {
 
 let router = new Router(resolve);
 router.on("capture", Controllers.CaptureController);
+router.on("mute",    Controllers.MuteController);
 
 const CommandRouter = router.listener();
 export default CommandRouter;
