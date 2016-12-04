@@ -16,6 +16,9 @@ router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
 router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 
+// 入渠画面への遷移時
+router.on([{url: /api_get_member\/ndock/}],  Controllers.onRecoveryDocksDisplayed);
+
 // 連合艦隊戦開戦時
 router.on([{url: /api_req_combined_battle\/battle/}],      Controllers.onCombinedBattleStarted);
 router.on([{url: /api_req_combined_battle\/each_battle/}], Controllers.onCombinedBattleStarted);

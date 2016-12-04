@@ -72,3 +72,12 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
     });
   */
 }
+
+export function onRecoveryDocksDisplayed() {
+    // TODO: Controllerからchromeを参照するのはやめましょう
+    chrome.notifications.getAll(notes => {
+        Object.keys(notes).filter(id => { return id.match(/^recovery/); }).map(id => {
+            chrome.notifications.clear(id);
+        });
+    });
+}
