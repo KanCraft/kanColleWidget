@@ -28,7 +28,7 @@ class ReactiveIconButton extends Component {
         return (
             <IconButton
               ref="self"
-              style={{position: "relative", transition: "all 1s"}}
+              style={{position: "relative", transition: "all 1s", ...this.props.style || {}}}
               onClick={this.props.onClick}
               onMouseEnter={this.onMouseEnter.bind(this)}
               onMouseLeave={this.onMouseLeave.bind(this)}
@@ -50,8 +50,9 @@ class ReactiveIconButton extends Component {
         this.setState({hovered: false});
     }
     static propTypes = {
-        children: PropTypes.any,
+        children: PropTypes.object,
         onClick:  PropTypes.func.isRequired,
+        style:    PropTypes.object,
     }
 }
 
@@ -111,7 +112,7 @@ export default class PopupView extends Component {
             <QueuesView queues={this.state.queues} />
             <div style={{position:"absolute",bottom:"0",left:"0",right:"0"}}>
               <ReactiveIconButton onClick={this.openOptions.bind(this)}    ><Build     /></ReactiveIconButton>
-              <ReactiveIconButton onClick={this.openDeckCapture.bind(this)}><ViewModule/></ReactiveIconButton>
+              <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
             </div>
           </div>
