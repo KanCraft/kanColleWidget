@@ -41,7 +41,7 @@ class Rectangle {
 
     /**
      * 修復入渠時の、ひとつのドック全体を切り出す座標.
-     * おもに、GoogleVisionAPIや、GosseractAPIで用いられる.
+     * おもに、GosseractAPIで用いられる.
      */
     ofRecovery(dock) {
         const start = {

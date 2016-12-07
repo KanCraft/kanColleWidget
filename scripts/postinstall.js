@@ -17,10 +17,6 @@ const createAppConfigFileIfNotExists = (fpath) => {
             "access_url":      "https://api.twitter.com/oauth/access_token",
             "consumer_key":    "https://apps.twitter.com/ でCreate New Appするともらえるやつ",
             "consumer_secret": "https://apps.twitter.com/ でCreate New Appするともらえるやつ"
-        },
-        "google": {
-            "vision_api_url": "https://vision.googleapis.com/v1/images:annotate",
-            "api_key": "https://console.cloud.google.com/apis/api/vision.googleapis.com/overview でつくれるやつ"
         }
     };
     fs.writeFileSync(fpath, JSON.stringify(appConfigTemplate, null, 2));
@@ -30,7 +26,6 @@ const createAppConfigFileIfNotExists = (fpath) => {
     }
     console.log(`${appConfigFilePath} が作成されました :)`);
     console.log("Twitter連携をデバッグする場合は https://apps.twitter.com/ で Consumer Key/Secret を作成してください".yellow);
-    console.log("GoogleVisionAPIのデバッグする場合は https://console.cloud.google.com/apis/api/vision.googleapis.com/overview で Google API Key を作成してください".yellow);
 };
 
 createAppConfigFileIfNotExists(appConfigFilePath);

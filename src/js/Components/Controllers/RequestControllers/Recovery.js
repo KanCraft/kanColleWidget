@@ -1,5 +1,4 @@
 /* global sleep:false */
-// import ImageRecognizationService from "../../Services/ImageRecognizationService";
 import {ScheduledQueues, Recovery} from "../../Models/Queue/Queue";
 
 import NotificationService from "../../Services/NotificationService";
@@ -10,7 +9,7 @@ import CaptureService from "../../Services/CaptureService";
 import TrimService from "../../Services/TrimService";
 import Rectangle from "../../Services/Rectangle";
 
-import GoogleVisionAPIClient from "../../Services/API/GoogleVisionAPI";
+import OCR from "../../Services/API/OCR";
 
 var __dock_id = null;
 
@@ -31,46 +30,24 @@ export function onRecoveryStart(detail) {
 export function onRecoveryStartCompleted(detail, dock = __dock_id) {
     const windows = WindowService.getInstance();
     const captures = new CaptureService();
-    const client = new GoogleVisionAPIClient();
+    const ocr = new OCR();
     sleep(0.85)
     .then(() => windows.find(true))
     .then(tab => captures.capture(tab.windowId))
     .then(uri => Image.init(uri))
     .then(img => TrimService.init(img).trim(Rectangle.init(img).ofRecovery(dock)))
-    .then(uri => {
-        return client.execute(uri);
-    })
-    .then(({responses}) => {
-        // TODO: ここのへんはエージェントのタイプによるので、コントローラに書くべきではない
-        if (responses.length && responses[0].textAnnotations) {
-            return Promise.resolve(responses[0].textAnnotations[0].description.split(":").map(digits => parseInt(digits)));
-        }
-        else return Promise.reject();
-    })
-    .then(nums => {
-        return Promise.resolve({hours: nums[0], minutes: nums[1], seconds: nums[2]});
-    })
+    .then(uri => Promise.resolve(uri.replace(/data:image\/[png|jpeg|gif];base64,/, "")))
+    .then(uri => ocr.execute(uri))
+    .then(({result}) => Promise.resolve(result.split(":").map(n => parseInt(n))))
+    .then(([h, m, s]) => Promise.resolve({h, m, s}))
     .then(time => {
-        console.log(time);
+        console.log("OCR", time);
         const S = 1000; const M = 60 * S; const H = 60 * M;
-        const length = time.hours * H + (time.minutes - 1) * M + time.seconds * S;
+        const length = time.h * H + (time.m - 1) * M + time.s * S;
         const recovery = new Recovery(Date.now() + length, dock, time);
         ScheduledQueues.append("recoveries", recovery);
         notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
-  /*
-    const irs = new ImageRecognizationService("recovery", __dock_id);
-    sleep(0.85)
-    .then(irs.test.bind(irs))
-    .then(time => {
-        console.log(time);
-        const hours = time.hours * (60 * 60 * 1000);
-        const minutes = time.minutes * (60 * 1000);
-        const recovery = new Recovery(Date.now() + hours + minutes - (1 * 60 * 1000), __dock_id, time);
-        ScheduledQueues.append("recoveries", recovery);
-        notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
-    });
-  */
 }
 
 export function onRecoveryDocksDisplayed() {
