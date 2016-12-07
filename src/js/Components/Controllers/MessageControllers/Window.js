@@ -9,6 +9,8 @@ const windows = WindowService.getInstance();
 const captures = new CaptureService();
 // const client = new Client(chrome.tabs);
 
+import OCR from "../../Services/API/OCR";
+
 export function OpenWindow(message) {
 
     const id = message.frame;
@@ -33,6 +35,12 @@ export function OpenWindow(message) {
 }
 
 export function ShouldDecorateWindow(/* message */) {
+
+    // Herokuのインスタンスが寝てたら起こす
+    (new OCR()).status()
+    .then(res => console.log("OK", res))
+    .catch(err => console.log("NG", err));
+
     const tab = windows.has(this.sender.tab.id);
     if (tab) {
         return {status: 200, tab: tab};
