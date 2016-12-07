@@ -20,3 +20,13 @@ export function MuteController() {
         windows.mute(tab, !tab.mutedInfo.muted);
     });
 }
+
+export function OpenDashboard() {
+    // TODO: Controllerでchromeネームスペースを参照するのはやめましょう
+    chrome.windows.create({
+        url: chrome.extension.getURL("dest/html/dashboard.html"),
+        type: "popup",
+        height: 292,
+        width: 400,
+    });
+}

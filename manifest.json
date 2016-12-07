@@ -46,7 +46,8 @@
         "mac": "Command+Shift+0",
         "chromeos": "Ctrl+Shift+0",
         "linux": "Ctrl+Shift+0"
-      }
+      },
+      "global": true
     },
     "mute": {
       "description": "艦これ画面だけミュートします",
@@ -55,7 +56,18 @@
         "mac": "Command+Shift+9",
         "chromeos": "Ctrl+Shift+9",
         "linux": "Ctrl+Shift+9"
-      }
+      },
+      "global": true
+    },
+    "dashboard": {
+      "description": "ダッシュボードを開きます",
+      "suggested_key": {
+        "windows": "Ctrl+Shift+2",
+        "mac": "Command+Shift+2",
+        "chromeos": "Ctrl+Shift+2",
+        "linux": "Ctrl+Shift+2"
+      },
+      "global": true
     }
   },
   "content_scripts": [

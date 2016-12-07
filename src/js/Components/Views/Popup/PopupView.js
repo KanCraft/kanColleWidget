@@ -3,14 +3,57 @@ import { Client } from "chomex";
 
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import FlatButton from "material-ui/FlatButton";
 import QueuesView from "./QueuesView";
 
 // TODO: これ、名前かえような...
 import History from "../../Models/History";
 
+import IconButton from "material-ui/IconButton";
+import ViewModule from "material-ui/svg-icons/action/view-module";
+import Schedule   from "material-ui/svg-icons/action/schedule";
+import Build      from "material-ui/svg-icons/action/build";
+import {grey400, grey800} from "material-ui/styles/colors";
+
 const ENTER = 13;
 const client = new Client(chrome.runtime);
+
+class ReactiveIconButton extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hovered: false
+        };
+    }
+    render() {
+        return (
+            <IconButton
+              ref="self"
+              style={{position: "relative", transition: "all 1s"}}
+              onClick={this.props.onClick}
+              onMouseEnter={this.onMouseEnter.bind(this)}
+              onMouseLeave={this.onMouseLeave.bind(this)}
+              >
+              {this.cloneIcon(this.props.children)}
+            </IconButton>
+        );
+    }
+    cloneIcon(icon) {
+        return React.cloneElement(icon, {
+            style: {transition: "all 1s"},
+            color: this.state.hovered ? grey800 : grey400
+        });
+    }
+    onMouseEnter() {
+        this.setState({hovered: true});
+    }
+    onMouseLeave() {
+        this.setState({hovered: false});
+    }
+    static propTypes = {
+        children: PropTypes.any,
+        onClick:  PropTypes.func.isRequired,
+    }
+}
 
 export default class PopupView extends Component {
 
@@ -44,6 +87,9 @@ export default class PopupView extends Component {
         this.setState({selected});
         client.message({act: "/window/open", frame: selected}, true);
     }
+    openDashboard() {
+        client.message("/window/dashboard");
+    }
     openDeckCapture() {
         this.props.context.open("/dest/html/deckcapture.html");
     }
@@ -63,8 +109,11 @@ export default class PopupView extends Component {
               {winconfigs}
             </SelectField>
             <QueuesView queues={this.state.queues} />
-            <FlatButton label="編成キャプチャ" onClick={this.openDeckCapture.bind(this)} />
-            <FlatButton label="詳細設定" onClick={this.openOptions.bind(this)} />
+            <div style={{position:"absolute",bottom:"0",left:"0",right:"0"}}>
+              <ReactiveIconButton onClick={this.openOptions.bind(this)}    ><Build     /></ReactiveIconButton>
+              <ReactiveIconButton onClick={this.openDeckCapture.bind(this)}><ViewModule/></ReactiveIconButton>
+              <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
+            </div>
           </div>
         );
     }

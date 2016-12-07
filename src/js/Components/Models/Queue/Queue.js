@@ -16,6 +16,18 @@ export class ScheduledQueues extends Model {
         instance.queues = queues;
         return instance.save();
     }
+    // get only
+    static dict() {
+        let dict = {};
+        let all = this.all();
+        for (let key in all) {
+            dict[key] = Array(4).fill({});
+            all[key].queues.map(q => {
+                dict[key][parseInt(q.deck || q.dock) - 1] = q;
+            });
+        }
+        return dict;
+    }
 
   /**
    * 終わってるやつを返して、自分からは削除する
@@ -50,6 +62,9 @@ ScheduledQueues.default = {
     createships: {
         queues: [],
     },
+    tiredness: {
+        queues: [],
+    }
 };
 
 export class Queue {

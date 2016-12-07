@@ -52,3 +52,28 @@ export function CaptureWindow(/* message */) {
 export function ZoomWindow(message) {
     return windows.zoom(this.sender.tab.id, message.zoom);
 }
+
+export function CurrentActionForWindow() {
+    let frame = Frame.find(History.find("last-selected-frame").id);
+    let position = LaunchPosition.find("default");
+    return windows.find(true)
+    .then(windows.focus.bind(windows))
+    .then(captures.capture.bind(captures))
+    .then(uri => {
+        let params = new URLSearchParams();
+        params.set("img", uri);
+        // TODO: Controllerでwindowオブジェクト参照したくないあな
+        window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
+    })
+    .catch(() => windows.open(frame, position));
+}
+
+export function OpenDashboard() {
+    // TODO: Controllerでchromeネームスペースを参照するのはやめましょう
+    chrome.windows.create({
+        url: chrome.extension.getURL("dest/html/dashboard.html"),
+        type: "popup",
+        height: 292,
+        width: 400,
+    });
+}

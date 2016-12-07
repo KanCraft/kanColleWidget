@@ -23,6 +23,7 @@ module.exports = {
         capture:    "./src/js/entrypoints/pages/capture.js",
         deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
         status:     "./src/js/entrypoints/pages/status.js",
+        dashboard:  "./src/js/entrypoints/pages/dashboard.js",
         background: "./src/js/entrypoints/background.js",
     },
     output: {filename:"./dest/js/[name].js"},
