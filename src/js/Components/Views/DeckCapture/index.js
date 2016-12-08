@@ -39,6 +39,7 @@ class DeckCaptureView extends Component {
             pictures: [],
             whole: null,
             settings: [def1, def2].concat(History.find("custom-capture").settings),
+            modified: false,
             openSaveSettingDialog: false,
             settingName: "", // TODO: これなんかもダイアログ分離して置くべき
         };
@@ -144,12 +145,12 @@ class DeckCaptureView extends Component {
     onGridChanged(ev) {
         let config = this.state.config;
         config[ev.target.name] = parseInt(ev.target.value);
-        this.setState({config});
+        this.setState({config, modified:true});
     }
     onRectChanged(ev) {
         let config = this.state.config;
         config.rect[ev.target.name] = ev.target.value / 100;
-        this.setState({config});
+        this.setState({config, modified:true});
     }
     handleSaveSettingDialogClose() {
         this.setState({openSaveSettingDialog: false});
@@ -252,7 +253,7 @@ class DeckCaptureView extends Component {
               floatingLabelFixed={true}
               onChange={this.onRectChanged.bind(this)}
               />
-            <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)}/>
+            <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)} disabled={!this.state.modified}/>
             {/* TODO: このダイアログ分離したよほうがいいぞ */}
             <Dialog
               title="この設定に名前をつけて保存"
