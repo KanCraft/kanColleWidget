@@ -46,8 +46,12 @@ class DeckCaptureView extends Component {
             this.setState({whole: res.data});
         });
     }
+    deleteCell(idx) {
+        this.state.pictures.splice(idx, 1);
+        this.setState({pictures: this.state.pictures});
+    }
     getTileForIndex(idx) {
-        if (this.state.pictures[idx]) return <Col key={idx}><ImageCell src={this.state.pictures[idx]} /></Col>;
+        if (this.state.pictures[idx]) return <Col key={idx}><ImageCell src={this.state.pictures[idx]} index={idx} deleteCell={this.deleteCell.bind(this)} /></Col>;
         if (this.state.pictures.length != idx) return <Col key={idx}><EmptyCell /></Col>;
         return <Col key={idx}><CameraCell onClick={this.captureCurrentScreen.bind(this)} /></Col>;
     }

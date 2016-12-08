@@ -3,16 +3,52 @@ import React, {Component, PropTypes} from "react";
 import IconButton  from "material-ui/IconButton";
 import CameraEnhance from "material-ui/svg-icons/action/camera-enhance";
 
+import Avatar from "material-ui/Avatar";
+import Close  from "material-ui/svg-icons/navigation/close";
+
 class ImageCell extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hovered: false
+        };
+    }
     render() {
         return (
-          <div>
+          <div style={{position: "relative"}}>
+            {this.getDeleteButton()}
             <img src={this.props.src} style={{width: "100%"}} />
           </div>
         );
     }
+    getDeleteButton() {
+        const style = {
+            position:        "absolute",
+            right:           "0",
+            cursor:          "pointer",
+            transition:      "all 0.1s",
+            backgroundColor: "transparent",
+            opacity: this.state.hovered ? "1" : "0",
+        };
+        return (
+          <Avatar
+            onClick={() => this.props.deleteCell(this.props.index)}
+            onMouseEnter={this.onMouseEnter.bind(this)}
+            onMouseLeave={this.onMouseLeave.bind(this)}
+            icon={<Close />}
+            style={style} />
+        );
+    }
+    onMouseEnter() {
+        this.setState({hovered: true});
+    }
+    onMouseLeave() {
+        this.setState({hovered: false});
+    }
     static propTypes = {
-        src: PropTypes.string.isRequired
+        src:        PropTypes.string.isRequired,
+        deleteCell: PropTypes.func.isRequired,
+        index:      PropTypes.number.isRequired,
     }
 }
 
