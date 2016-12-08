@@ -185,7 +185,12 @@ class DeckCaptureView extends Component {
         return JSON.stringify(this.getCurrentSetting(), null, 4);
     }
     onChangeSetting(ev, index, name) {
-        this.setState({config: this.state.settings.filter(s => s.name == name).pop()});
+        client.message("/window/capture").then(res => {
+            this.setState({
+                whole: res.data,
+                config: this.state.settings.filter(s => s.name == name).pop()
+            });
+        });
     }
     render() {
         return (
