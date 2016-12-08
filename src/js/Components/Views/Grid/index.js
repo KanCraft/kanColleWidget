@@ -9,7 +9,7 @@ class Row extends Component {
         );
     }
     static propTypes = {
-        children: PropTypes.object
+        children: PropTypes.any
     }
 }
 class Col extends Component {
@@ -21,7 +21,7 @@ class Col extends Component {
         );
     }
     static propTypes = {
-        children: PropTypes.object
+        children: PropTypes.any
     }
 }
 

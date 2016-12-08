@@ -1,8 +1,13 @@
 import React, {Component} from "react";
 import {Client} from "chomex";
 
-import TextField from "material-ui/TextField";
+import TextField    from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
+import SelectField  from "material-ui/SelectField";
+import MenuItem     from "material-ui/MenuItem";
+import FlatButton   from "material-ui/FlatButton";
+import Dialog       from "material-ui/Dialog";
+
 import Rectangle from "../../Services/Rectangle";
 import TrimService from "../../Services/TrimService";
 
@@ -10,18 +15,32 @@ import {Row, Col} from "../Grid";
 
 import {ImageCell, EmptyCell, CameraCell} from "./Cells";
 
+import History from "../../Models/History";
+
 const client = new Client(chrome.runtime);
 
 class DeckCaptureView extends Component {
     constructor(props) {
         super(props);
+        // TODO: きちゃないなーこのへん
+        let def1 = {
+            row: 3, col: 2, name: "編成キャプチャ",
+            rect: Rectangle.catalog.defaultDeckcapture,
+            protected: true,
+        };
+        let def2 = {
+            row: 3, col: 2, name: "連合編成キャプチャ",
+            rect: Rectangle.catalog.defaultDeckcapture,
+            protected: true,
+            disabled: true,
+        };
         this.state = {
-            config: {
-                row: 3, col: 2,
-                rect: Rectangle.catalog.defaultDeckcapture,
-            },
+            config: def1,
             pictures: [],
-            whole: null
+            whole: null,
+            settings: [def1, def2].concat(History.find("custom-capture").settings),
+            openSaveSettingDialog: false,
+            settingName: "", // TODO: これなんかもダイアログ分離して置くべき
         };
         client.message("/window/capture").then(res => {
             this.setState({whole: res.data});
@@ -45,10 +64,12 @@ class DeckCaptureView extends Component {
         });
         return (
           <div style={{flex: 5, margin: "14px 14px 0 0"}}>
-            {tiles}
+            <div style={{marginBottom: "12px"}}>
+              {tiles}
+            </div>
             <RaisedButton
               label={`DONE (${this.state.config.row}×${this.state.config.col})`}
-              disabled={(this.state.pictures.length != (this.state.config.row * this.state.config.col))}
+              disabled={this.state.pictures.length == 0}
               primary={true}
               onClick={this.onDoneButtonClicked.bind(this)}
               style={{width: "100%"}} />
@@ -83,11 +104,11 @@ class DeckCaptureView extends Component {
             backgroundColor: "rgba(0,0,0,0.6)"
         };
         return (
-      <div style={{position: "relative"}}>
-        <div style={areaIndicateStyle} />
-        <img src={this.state.whole} width="100%" />
-      </div>
-    );
+          <div style={{position: "relative"}}>
+            <div style={areaIndicateStyle} />
+            <img src={this.state.whole} width="100%" />
+          </div>
+        );
     }
 
     onDoneButtonClicked() {
@@ -116,19 +137,70 @@ class DeckCaptureView extends Component {
             }
         });
     }
-
+    onGridChanged(ev) {
+        let config = this.state.config;
+        config[ev.target.name] = parseInt(ev.target.value);
+        this.setState({config});
+    }
+    onRectChanged(ev) {
+        let config = this.state.config;
+        config.rect[ev.target.name] = ev.target.value / 100;
+        this.setState({config});
+    }
+    handleSaveSettingDialogClose() {
+        this.setState({openSaveSettingDialog: false});
+    }
+    openSaveSettingDialog() {
+        this.setState({openSaveSettingDialog: true});
+    }
+    onChangeSettingName(ev) {
+        this.setState({settingName: ev.target.value});
+    }
+    saveSetting() {
+        // Historyにぶっこむ
+        let history = History.find("custom-capture");
+        history.settings.push(this.getCurrentSetting());
+        if (history.settings.length > 2) history.settings.unshift();
+        history.save();
+        this.setState({openSaveSettingDialog: false});
+    }
+    getCurrentSetting() {
+        return {
+            row: this.state.config.row,
+            col: this.state.config.col,
+            rect: {
+                x:      this.state.config.rect.x,
+                y:      this.state.config.rect.y,
+                width:  this.state.config.rect.width,
+                height: this.state.config.rect.height,
+            },
+            name: this.state.settingName,
+        };
+    }
+    getJSONizedSetting() {
+        return JSON.stringify(this.getCurrentSetting(), null, 4);
+    }
+    onChangeSetting(ev, index, name) {
+        this.setState({config: this.state.settings.filter(s => s.name == name).pop()});
+    }
     render() {
         return (
       <div style={{width: "80%", margin: "0 auto"}}>
         <div style={{display: "flex", width: "100%"}}>
           {this.getTilesUI()}
           <div style={{flex: 2, width:"240px"}}>
+            <SelectField value={this.state.config.name} fullWidth={true} underlineStyle={{color: "red"}} onChange={this.onChangeSetting.bind(this)}>
+              {this.state.settings.map(s => {
+                  return <MenuItem value={s.name} key={s.name} primaryText={s.name} disabled={s.disabled}/>;
+              })}
+            </SelectField>
             <TextField
               ref="row" name="row" type="number"
               value={this.state.config.row} min={1} max={4}
               fullWidth={true}
               floatingLabelText="行"
               floatingLabelFixed={true}
+              onChange={this.onGridChanged.bind(this)}
               />
             <TextField
               ref="col" name="col" type="number"
@@ -136,36 +208,59 @@ class DeckCaptureView extends Component {
               fullWidth={true}
               floatingLabelText="列"
               floatingLabelFixed={true}
+              onChange={this.onGridChanged.bind(this)}
               />
             {this.getWholeScreenView()}
             <TextField
               ref="x" name="x" type="number"
-              value={100/2.55} step={0.1} min={0} max={100}
+              value={this.state.config.rect.x * 100} step={1} min={0} max={100}
               fullWidth={true}
               floatingLabelText="x座標 (%)"
               floatingLabelFixed={true}
+              onChange={this.onRectChanged.bind(this)}
               />
             <TextField
               ref="y" name="y" type="number"
-              value={100/5} step={0.1} min={0} max={100}
+              value={this.state.config.rect.y * 100} step={1} min={0} max={100}
               fullWidth={true}
               floatingLabelText="y座標 (%)"
               floatingLabelFixed={true}
+              onChange={this.onRectChanged.bind(this)}
               />
             <TextField
               ref="width" name="width" type="number"
-              value={100/1.66} step={0.1} min={1} max={100}
+              value={this.state.config.rect.width * 100} step={1} min={1} max={100}
               fullWidth={true}
               floatingLabelText="幅 (%)"
               floatingLabelFixed={true}
+              onChange={this.onRectChanged.bind(this)}
               />
             <TextField
               ref="height" name="height" type="number"
-              value={100/1.285} step={0.1} min={1} max={100}
+              value={this.state.config.rect.height * 100} step={1} min={1} max={100}
               fullWidth={true}
               floatingLabelText="高さ (%)"
               floatingLabelFixed={true}
+              onChange={this.onRectChanged.bind(this)}
               />
+            <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)}/>
+            {/* TODO: このダイアログ分離したよほうがいいぞ */}
+            <Dialog
+              title="この設定に名前をつけて保存"
+              open={this.state.openSaveSettingDialog}
+              onRequestClose={this.handleSaveSettingDialogClose.bind(this)}
+              >
+              <div style={{display:"flex"}}>
+                <div style={{flex:"1", overflow:"scroll"}}>
+                  <pre style={{fontSize: "0.8em"}}>{this.getJSONizedSetting()}</pre>
+                </div>
+                <div style={{flex:"1"}}>
+                  <div style={{width:"80%", margin: "0 auto"}}>{this.getWholeScreenView()}</div>
+                </div>
+              </div>
+              <TextField hintText="この設定の名前" onChange={this.onChangeSettingName.bind(this)}/>
+              <FlatButton label="DONE" primary={true} disabled={this.state.settingName.length == 0} onClick={this.saveSetting.bind(this)}/>
+            </Dialog>
           </div>
         </div>
       </div>

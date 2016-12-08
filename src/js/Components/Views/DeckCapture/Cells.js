@@ -12,7 +12,7 @@ class ImageCell extends Component {
         );
     }
     static propTypes = {
-        src: PropTypes.string.required
+        src: PropTypes.string.isRequired
     }
 }
 
@@ -44,9 +44,9 @@ class EmptyCell extends Component {
   // <img src="https://pbs.twimg.com/profile_images/768484427412467717/pH5kS7Kw_400x400.jpg" width="100%"/>
     render() {
         return (
-      <div style={{width: "96%", border: "thick dashed #f0f0f0", height: "100px", marginBottom: "10px", textAlign: "center"}}>
-      </div>
-    );
+          <div style={{width: "96%", border: "thick dashed #f0f0f0", height: "100px", textAlign: "center"}}>
+          </div>
+        );
     }
 }
 

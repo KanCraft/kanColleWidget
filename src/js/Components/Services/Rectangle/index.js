@@ -129,13 +129,13 @@ class Rectangle {
 }
 
 Rectangle.catalog = {
-  // 編成キャプチャのやつ
+    // 編成キャプチャのやつ
     defaultDeckcapture: new Rectangle(
-    1/2.55,
-    1/5,
-    1/1.66,
-    1/1.285
-  ),
+      1/2.55,
+      1/5,
+      1/1.66,
+      1/1.285
+    ),
 };
 
 export default Rectangle;
