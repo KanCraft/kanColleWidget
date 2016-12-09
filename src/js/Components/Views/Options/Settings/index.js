@@ -2,7 +2,8 @@ import React, {Component,PropTypes} from "react";
 
 import {Table, TableBody} from "material-ui/Table";
 
-import SettingText from "./SettingText";
+import SettingText   from "./SettingText";
+import SettingSwitch from "./SettingSwitch";
 
 import Icon from "../../FontAwesome";
 
@@ -16,6 +17,10 @@ export default class SettingsView extends Component {
                 <SettingText
                   title="スクショのダウンロードフォルダ"
                   model="download-folder" />
+                <SettingSwitch
+                  title="スクショしたらそのままダウンロードする"
+                  model="directly-download-on-capture"
+                  description="{YYYY-MM-dd-HHmmss}.(png|jpeg)" />
               </TableBody>
             </Table>
           </div>

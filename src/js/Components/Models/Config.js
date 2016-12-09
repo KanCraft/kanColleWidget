@@ -8,6 +8,9 @@ Config.default = {
     "download-folder": {
         value: "艦これ"
     },
+    "directly-download-on-capture": {
+        value: false
+    },
     "debug": {
         value: false
     }
