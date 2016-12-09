@@ -4,6 +4,7 @@ import { Client } from "chomex";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import QueuesView from "./QueuesView";
+import {ScheduledQueues} from "../../Models/Queue/Queue";
 
 // TODO: これ、名前かえような...
 import History from "../../Models/History";
@@ -63,17 +64,12 @@ export default class PopupView extends Component {
         let last = History.find("last-selected-frame");
         this.state = {
             winconfigs: {},
-            queues:     {
-                missions: {queues: []}, recoveries: {queues: []}, createships: {queues: []}
-            },
+            queues: ScheduledQueues.all(),
             last: last,
             selected: last.id
         };
         client.message("/frame/all").then(res => {
             this.setState({winconfigs: res.data});
-        });
-        client.message("/queues/get", {key: "all"}).then(res => {
-            this.setState({queues: res.data});
         });
     }
 

@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from "react";
 
 class QueueListItem extends Component {
     render() {
-        console.log(this.props.queue);
         const date = new Date(this.props.queue.scheduled);
         const name = "第" + (this.props.queue.deck || this.props.queue.dock) + this.props.unit;
         return (
