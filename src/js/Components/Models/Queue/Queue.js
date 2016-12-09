@@ -37,7 +37,6 @@ export class ScheduledQueues extends Model {
         let timeup = [], notyet = [];
         this.queues.map(q => {
             if (!q) return;
-
             const qm = createQueueModelFromStorage(q);
             if (!qm) return;
             // console.log(qm);
@@ -96,6 +95,8 @@ function createQueueModelFromStorage(stored) {
         return Mission.createFromStorage(stored);
     case "recovery":
         return Recovery.createFromStorage(stored);
+    case "createship":
+        return CreateShip.createFromStorage(stored);
     default:
     }
 }
@@ -284,7 +285,7 @@ export class CreateShip extends Queue {
     constructor(time, dock, detected = {}) {
         const params = {
             type: "createship",
-            deck: dock,
+            dock: dock,
         };
         super(time, params);
         this.dock = dock;

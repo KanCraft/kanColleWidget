@@ -48,12 +48,12 @@ export default class QueueObserver {
 
         timeups.map(queue => {
             this.notification.create(
-        queue.toNotificationID(),
-        queue.toNotificationParams()
-      );
+              queue.toNotificationID(),
+              queue.toNotificationParams()
+            );
         });
 
-    // clean up
+        // clean up
         missions.save();
         recoveries.save();
         createships.save();
