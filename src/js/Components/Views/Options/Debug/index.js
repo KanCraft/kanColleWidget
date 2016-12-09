@@ -28,25 +28,21 @@ class ImgDiffDebugView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            purpose: "recovery",
-            dock:    4,
+            purpose: "createship",
+            index:    1,
         };
     }
     onPurposeChanged(ev, index, purpose) {
         this.setState({ purpose });
     }
-    onDockChanged(ev, index, dock) {
-        this.setState({ dock });
+    onDockChanged(ev, index) {
+        this.setState({index:index+1});
     }
     execute() {
-        // let service = new ImageRecognizationService(this.state.purpose, this.state.dock);
-        // service.test(this.state).then(nums => {
-        //     this.props.output(`${nums[0]}${nums[1]}:${nums[2]}${nums[3]}`);
-        // });
         const client = new Client(chrome.runtime, true);
         client.message("/debug/imagerecognize", {
             purpose: this.state.purpose,
-            index: this.state.dock,
+            index: this.state.index,
         }).catch(err => {
             console.log(err);
         });
@@ -58,7 +54,7 @@ class ImgDiffDebugView extends Component {
               <MenuItem value="recovery"   primaryText="修復画面" />
               <MenuItem value="createship" primaryText="建造画面" />
             </SelectField>
-            <SelectField value={this.state.dock} onChange={this.onDockChanged.bind(this)}>
+            <SelectField value={this.state.index} onChange={this.onDockChanged.bind(this)}>
               <MenuItem value={1} primaryText="第一ドック" />
               <MenuItem value={2} primaryText="第二ドック" />
               <MenuItem value={3} primaryText="第三ドック" />

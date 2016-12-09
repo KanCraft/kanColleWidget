@@ -60,6 +60,27 @@ class Rectangle {
             size.height
         );
     }
+    /**
+     * 建造時の、ひとつのドック全体を切り出す座標.
+     * おもに、GosseractAPIで用いられる.
+     */
+    ofCreateShip(dock) {
+        const start = {
+            x: this.x + (this.width/2.00),
+            y: this.y + (this.height/2.6)
+        };
+        const size = {
+            width: this.width/9,
+            height: this.height/26
+        };
+        const dockHeight = size.height * 4.236;
+        return new Rectangle(
+            start.x,
+            start.y + ((dock - 1) * dockHeight),
+            size.width,
+            size.height
+        );
+    }
 
   /**
    * 大破進撃防止のあれ

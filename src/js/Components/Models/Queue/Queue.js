@@ -276,3 +276,47 @@ export class Recovery extends Queue {
         return new this(stored.scheduled, stored.params.dock);
     }
 }
+
+/**
+ * 建造のやつ
+ */
+export class CreateShip extends Queue {
+    constructor(time, dock, detected = {}) {
+        const params = {
+            type: "createship",
+            deck: dock,
+        };
+        super(time, params);
+        this.dock = dock;
+        this.detected = detected;
+        this.badgeColor = "#5b84ff";
+    }
+    toNotificationID() {
+        return `createship.${this.dock}`;
+    }
+    toNotificationParams() {
+        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+        return {
+            type: "basic",
+            title: `建造終了報告: ${this.dock}番建造ドック`,
+            message: `第${this.dock}番ドックの建造がまもなく終了します。`,
+            requireInteraction: true,
+            iconUrl: url,
+        };
+    }
+    toNotificationParamsForStart() {
+        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
+        // TODO: AssetManagerの実装が必要だー
+        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+        return {
+            type: "basic",
+            title: `建造所要時間 ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
+            message: `第${this.dock}ドックでの建造完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
+            requireInteraction: false,
+            iconUrl: url,
+        };
+    }
+    static createFromStorage(stored) {
+        return new this(stored.scheduled, stored.params.dock);
+    }
+}
