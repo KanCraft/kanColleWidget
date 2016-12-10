@@ -4,13 +4,15 @@ import FlatButton from "material-ui/FlatButton";
 import Dialog     from "material-ui/Dialog";
 import TextField  from "material-ui/TextField";
 
-import Config from "../../../Models/Config";
+import Config      from "../../../Models/Config";
+import FileService from "../../../Services/FileService";
 
 export default class DownloadFileDialog extends Component {
     constructor(props) {
         super(props);
         let path = Config.find("download-folder").value;
         this.folder = path ? path + "/" : "";
+        this.fs = new FileService(Config);
     }
     render() {
         return (
@@ -23,7 +25,7 @@ export default class DownloadFileDialog extends Component {
             modal={false}
             open={this.props.dialogOpened}
             >
-            ~/Downloads/{this.folder}<TextField name="foo" ref="filename"/>.png
+            ~/Downloads/{this.folder}<TextField name="foo" defaultValue={this.fs.getDefaultDownloadFileName()} ref="filename"/>.png
           </Dialog>
         );
     }

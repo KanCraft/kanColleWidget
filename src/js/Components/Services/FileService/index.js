@@ -4,9 +4,9 @@ export default class FileService {
         this.module = module;
     }
     downloadImageURL(url) {
-        const filepath = this.getDownloadFolder() + "/" + this.getDownloadFilename(url);
+        const filename = this.getDownloadFolder() + "/" + this.getDownloadFilename(url);
         return new Promise(resolve => {
-            this.module.downloads.download({url, filepath}, resolve);
+            this.module.downloads.download({url, filename}, resolve);
         });
     }
     getDownloadFolder() {
@@ -17,10 +17,7 @@ export default class FileService {
         const name = this.getDefaultDownloadFileName();
         return [name, ext].join(".");
     }
-    getDefaultDownloadFileName() {
-        return (new Date()).toISOString()
-        .replace("T", "-")
-        .replace(/:/g,"")
-        .replace(/\..*$/,"");
+    getDefaultDownloadFileName(now = new Date()) {
+        return now.format();
     }
 }
