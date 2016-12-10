@@ -32,7 +32,8 @@ class DeckCaptureView extends Component {
             row: 3, col: 2, name: "連合編成キャプチャ",
             rect: Rectangle.catalog.defaultDeckcapture,
             protected: true,
-            disabled: true,
+            panels: 2,
+            labels: ["第一艦隊", "第二艦隊"],
         };
         this.state = {
             config: def1,
@@ -57,20 +58,14 @@ class DeckCaptureView extends Component {
         return <Col key={idx}><CameraCell onClick={this.captureCurrentScreen.bind(this)} /></Col>;
     }
     getTilesUI() {
-        const tiles = (Array.from(Array(this.state.config.row))).map((_, row) => {
-            return (
-              <Row key={`row-${row}`}>
-                {(Array.from(Array(this.state.config.col))).map((_, col) => {
-                    let idx = (row * this.state.config.col) + col;
-                    return this.getTileForIndex(idx);
-                })}
-              </Row>
-            );
-        });
         return (
           <div style={{flex: 5, margin: "14px 14px 0 0"}}>
             <div style={{marginBottom: "12px"}}>
-              {tiles}
+              <div style={{display: "flex"}}>
+                {this.getTilesForPanel(0)}
+                {/* TODO: ここもっと抽象化できるんだけど、オーバーキルなような気もする */}
+                {(this.state.config.panels > 1) ? this.getTilesForPanel(1) : null}
+              </div>
             </div>
             <RaisedButton
               label={`DONE (${this.state.config.row}×${this.state.config.col})`}
@@ -81,7 +76,19 @@ class DeckCaptureView extends Component {
           </div>
         );
     }
-
+    getTilesForPanel(panel) {
+        const origin = panel * (this.state.config.row * this.state.config.col);
+        return <div style={{flex: "1"}}>{(Array.from(Array(this.state.config.row))).map((_, row) => {
+            return (
+              <Row key={`row-${row}`}>
+                {(Array.from(Array(this.state.config.col))).map((_, col) => {
+                    let idx = origin + (row * this.state.config.col) + col;
+                    return this.getTileForIndex(idx);
+                })}
+              </Row>
+            );
+        })}</div>;
+    }
     captureCurrentScreen() {
         Promise.resolve().then(() => {
             return client.message("/window/capture");
@@ -119,12 +126,14 @@ class DeckCaptureView extends Component {
     onDoneButtonClicked() {
         let canvas = document.createElement("canvas");
         Promise.all(this.state.pictures.map(Image.init)).then(images => {
-            canvas.width = images[0].width * this.state.config.col;
+            canvas.width  = images[0].width * this.state.config.col * (this.state.config.panels || 1);
             canvas.height = images[0].height * this.state.config.row;
             let ctx = canvas.getContext("2d");
+            var panel = -1;
             images.map((img, i) => {
-                const c = i % this.state.config.col;
-                const r = Math.floor(i / this.state.config.col);
+                if (i % (this.state.config.row * this.state.config.col) == 0) panel++;
+                const c = i % this.state.config.col + (this.state.config.col * panel);
+                const r = Math.floor(i / this.state.config.col) % this.state.config.row;
                 ctx.drawImage(img, c * img.width, r * img.height, img.width, img.height);
             });
             let params = new URLSearchParams();
