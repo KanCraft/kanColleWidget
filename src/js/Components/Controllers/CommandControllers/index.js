@@ -4,7 +4,7 @@ import CaptureService from "../../Services/CaptureService";
 const captures = new CaptureService();
 
 import Config      from "../../Models/Config";
-import FileService from "../../Services/FileService";
+import FileService from "../../Services/Assets/FileService";
 
 export function CaptureController() {
     const fs = new FileService(Config);

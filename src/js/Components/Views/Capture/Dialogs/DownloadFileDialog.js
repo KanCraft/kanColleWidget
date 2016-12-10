@@ -5,7 +5,7 @@ import Dialog     from "material-ui/Dialog";
 import TextField  from "material-ui/TextField";
 
 import Config      from "../../../Models/Config";
-import FileService from "../../../Services/FileService";
+import FileService from "../../../Services/Assets/FileService";
 
 export default class DownloadFileDialog extends Component {
     constructor(props) {
