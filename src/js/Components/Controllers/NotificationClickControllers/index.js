@@ -34,3 +34,7 @@ export function OnMissionNotificationClicked(id) {
 export function OnRecoveryNotificationClicked(id) {
     return OnNotificationClicked(id);
 }
+
+export function OnDebugNotificationClicked(id) {
+    notifications.clear(id);
+}

@@ -21,4 +21,31 @@ export default class Assets {
     getDefaultDownloadFileName(now = new Date()) {
         return now.format();
     }
+    getNotificationIcon(name) {
+        if (this.config.find(`notification-for-${name}`).icon) {
+            return this.config.find(`notification-for-${name}`).icon;
+        }
+        if (this.config.find("notification-for-default").icon) {
+            return this.config.find("notification-for-default").icon;
+        }
+        return this.module.extension.getURL("dest/img/icons/chang.white.png");
+    }
+    getNotificationSound(name) {
+        if (this.config.find(`notification-for-${name}`).sound) {
+            return this.config.find(`notification-for-${name}`).sound;
+        }
+        if (this.config.find("notification-for-default").sound) {
+            return this.config.find("notification-for-default").sound;
+        }
+        return null;
+    }
+    playSoundIfSet(name) {
+        let url = this.getNotificationSound(name);
+        if (!url) return;
+        let audio = document.createElement("audio");
+        audio.src = url;
+        let volume = this.config.find("notification-for-default").volume;
+        audio.volume = volume / 100;
+        audio.play();
+    }
 }
