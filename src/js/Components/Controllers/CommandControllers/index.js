@@ -3,15 +3,15 @@ const windows = WindowService.getInstance();
 import CaptureService from "../../Services/CaptureService";
 const captures = new CaptureService();
 
-import Config      from "../../Models/Config";
-import FileService from "../../Services/Assets/FileService";
+import Config from "../../Models/Config";
+import Assets from "../../Services/Assets";
 
 export function CaptureController() {
-    const fs = new FileService(Config);
+    const assets = new Assets(Config);
     windows.find().then(tab => {
         return captures.capture(tab.windowId);
     }).then(uri => {
-        if (Config.find("directly-download-on-capture").value) return fs.downloadImageURL(uri);
+        if (Config.find("directly-download-on-capture").value) return assets.downloadImageURL(uri);
         let params = new URLSearchParams();
         params.set("img", uri);
     // とりあえず

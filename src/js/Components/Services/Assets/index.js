@@ -1,4 +1,5 @@
-export default class FileService {
+
+export default class Assets {
     constructor(config, module = chrome) {
         this.config = config;
         this.module = module;
