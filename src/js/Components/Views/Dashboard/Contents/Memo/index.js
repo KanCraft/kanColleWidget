@@ -1,10 +1,11 @@
 import React, {Component,PropTypes} from "react";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default class DashboardMemo extends Component {
     render() {
         return (
           <div style={{...this.props.style}}>
-            <span>ｃ⌒っﾟдﾟ)っφ　ﾒﾓﾒﾓ... 建設予定地</span>
+              <RaisedButton label="WIKIの早見表" onClick={() => window.open("/dest/html/wiki.html")} />
           </div>
         );
     }

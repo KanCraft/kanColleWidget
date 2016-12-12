@@ -1,25 +1,4 @@
-
-class HTTPClient {
-    post(url, params) {
-        return this.request("POST", url, params);
-    }
-    get(url, params) {
-        return this.request("GET", url, params);
-    }
-    request(method, url, params) {
-        let xhr = new XMLHttpRequest();
-        xhr.open(method, url, true);
-        const p = new Promise((resolve, reject) => {
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState != XMLHttpRequest.DONE) return;
-                if (xhr.status >= 400) return reject({status: xhr.status,message: xhr.statusText});
-                return resolve(JSON.parse(xhr.responseText));
-            };
-        });
-        xhr.send(JSON.stringify(params));
-        return p;
-    }
-}
+import HTTPClient from "../HTTPClient"; // 上流をimportってしていい哲学だっけ？
 
 export default class OCR {
     constructor(http = new HTTPClient()) {
