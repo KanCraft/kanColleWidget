@@ -42,11 +42,13 @@ export default class QueueObserver {
         let missions = this.accessor.find("missions");
         let recoveries = this.accessor.find("recoveries");
         let createships = this.accessor.find("createships");
+        let tiredness   = this.accessor.find("tiredness");
 
         const timeups = [
             ...missions.scan(now),
             ...recoveries.scan(now),
             ...createships.scan(now),
+            ...tiredness.scan(now),
         ];
 
         timeups.map(queue => {
@@ -61,6 +63,7 @@ export default class QueueObserver {
         missions.save();
         recoveries.save();
         createships.save();
+        tiredness.save();
 
         this.badge.update([
             ...missions.queues,
