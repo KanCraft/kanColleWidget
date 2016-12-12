@@ -11,6 +11,7 @@
     "build": "webpack --progress",
     "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
+    "add-mission": "node ./scripts/add-mission",
     "start": "webpack --watch --progress"
   },
   "repository": {
@@ -47,6 +48,7 @@
     "jest-cli": "^12.1.1",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
+    "lodash": "^4.17.2",
     "material-ui": "^0.16.4",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
