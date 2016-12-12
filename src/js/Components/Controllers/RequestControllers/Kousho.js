@@ -10,6 +10,7 @@ import OCR                 from "../../Services/API/OCR";
 import NotificationService from "../../Services/NotificationService";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
+import Config from "../../Models/Config";
 
 var __dock_id = 1;
 
@@ -22,6 +23,9 @@ export function onCreateShipStart(detail) {
  * 建造のやつ
  */
 export function onCreateShipCompleted(detail, dock = __dock_id) {
+
+    if (!Config.isNotificationEnabled("createship")) return;
+
     const windows = WindowService.getInstance();
     const captures = new CaptureService();
     const ocr = new OCR();

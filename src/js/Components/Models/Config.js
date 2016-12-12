@@ -1,6 +1,13 @@
 import {Model} from "chomex";
 
-export default class Config extends Model {}
+export default class Config extends Model {
+    static isNotificationEnabled(purpose) {
+        if (!this.find("notification-for-default").enabled) return false;
+        let c = this.find(`notification-for-${purpose}`);
+        if (c.time > 0) return true;
+        return c.enabled;
+    }
+}
 Config.default = {
     "closeconfirm": {
         value: "おっぱああああい!!"

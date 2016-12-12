@@ -8,6 +8,7 @@
 
 // Dependencies
 import {Mission, ScheduledQueues} from "../../Models/Queue/Queue";
+import Config from "../../Models/Config";
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
 
@@ -16,6 +17,9 @@ const notifications = new NotificationService();
  * 遠征に向かわせたときに発火するやつ
  */
 export function onMissionStart(detail) {
+
+    if (!Config.isNotificationEnabled("mission")) return;
+
     const data = detail.requestBody.formData;
     const mission = Mission.createFromFormData(data);
     ScheduledQueues.append("missions", mission);

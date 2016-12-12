@@ -1,5 +1,6 @@
 /* global sleep:false */
 import {ScheduledQueues, Recovery} from "../../Models/Queue/Queue";
+import Config from "../../Models/Config";
 
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
@@ -28,6 +29,9 @@ export function onRecoveryStart(detail) {
  * したがって、上記のコントローラが保存したドック番号を参照している.
  */
 export function onRecoveryStartCompleted(detail, dock = __dock_id) {
+
+    if (!Config.isNotificationEnabled("recovery")) return;
+
     const windows = WindowService.getInstance();
     const captures = new CaptureService();
     const ocr = new OCR();
