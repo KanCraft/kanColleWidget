@@ -150,6 +150,7 @@ export class Mission extends Queue {
                     message: `遠征ID${missionID}？ 知らない子ですね`,
                     requireInteraction: false,
                     iconUrl: url,
+                    buttons: [{title: `GitHubで遠征ID${missionID}を追加する`,iconUrl:"https://assets-cdn.github.com/favicon.ico"}],
                 };
             }
         };

@@ -21,6 +21,9 @@ chrome.webRequest.onCompleted.addListener(
 import NotificationClickListener from "../Components/Routes/NotificationClickRoutes";
 chrome.notifications.onClicked.addListener(NotificationClickListener);
 
+import NotificationButtonClickListener from "../Components/Routes/NotificationButtonClickRoutes";
+chrome.notifications.onButtonClicked.addListener(NotificationButtonClickListener);
+
 // Commandsを受けるroutersの定義
 import CommandRouter from "../Components/Routes/CommandRoutes";
 chrome.commands.onCommand.addListener(CommandRouter);
