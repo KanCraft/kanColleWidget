@@ -5,7 +5,7 @@ export default class Assets {
         this.module = module;
     }
     downloadImageURL(url) {
-        const filename = this.getDownloadFolder() + "/" + this.getDownloadFilename(url);
+        const filename = [this.getDownloadFolder(), this.getDownloadFilename(url)].filter(p => !!p).join("/");
         return new Promise(resolve => {
             this.module.downloads.download({url, filename}, resolve);
         });
