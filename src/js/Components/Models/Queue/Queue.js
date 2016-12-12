@@ -4,6 +4,8 @@ import {Model} from "chomex";
 import Config from "../Config";
 import Assets from "../../Services/Assets";
 
+import catalog from "./missions.json";
+
 // TODO: ファイルいい感じに分割せねばな
 const msec = 1000,
     S = 1 * msec,
@@ -187,49 +189,7 @@ export class Mission extends Queue {
     }
 }
 
-Mission.catalog = {
-    "-1": {
-        title: "DEBUG: 今すぐのやつ",
-        time: 0,
-    // time: 10 * M,
-    },
-    "2": {
-        title: "長距離練習航海",
-        time: 30 * M
-    },
-    "5": {
-        title: "海上護衛任務",
-        time: 1 * H + 30 * M
-    },
-    "6": {
-        title: "防空射撃演習",
-        time: 40 * M
-    },
-    "19": {
-        title: "北号作戦",
-        time: 6 * H
-    },
-    "21": {
-        title: "北方鼠輸送作戦",
-        time: 2*H + 20*M
-    },
-    "37": {
-        title: "東京急行",
-        time: 2 * H + 45 * M
-    },
-    "38": {
-        title: "東京急行２",
-        time: 2 * H + 55 * M
-    },
-    "197": {
-        title: "前衛支援任務",
-        time: 15*M
-    },
-    "198": {
-        title: "決戦支援任務",
-        time: 30*M
-    }
-};
+Mission.catalog = catalog;
 
 /**
  * 修復のやつ
