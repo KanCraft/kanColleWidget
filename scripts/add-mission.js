@@ -4,6 +4,13 @@ const fs = require("fs");
 require("colors"); // String.{color} が使えるようになる
 const msec = 1000, S = 1 * msec, M = 60 * S, H = 60 * M;
 
+var exec     = require("shelljs").exec;
+
+if (exec("git status --short").stdout) {
+    console.log("[艦これウィジェット][add-mission] git status が clean じゃないっぽい".yellow);
+    process.exit(0);
+}
+
 var catalog = require("../src/js/Components/Models/Queue/missions.json");
 
 const params = _.chain(process.argv).filter(arg => arg.match("=")).map(arg => {
@@ -24,6 +31,12 @@ const err = ((p) => {
     return null;
 })(params);
 
+if (catalog[params.id]) {
+    console.log(`遠征ID${params.id}はすでに以下の内容でカタログにあるっぽいです`.yellow);
+    console.log(JSON.stringify(catalog[params.id], null, 2).yellow);
+    process.exit(0);
+}
+
 if (err != null) {
     console.log(JSON.stringify(err, null, 2).red);
     process.exit(0);// npm-debug.logがうざいんで0でいいや
@@ -37,8 +50,15 @@ catalog[String(params.id)] = {
     time:  params.millisec
 };
 
-fs.writeFileSync("./src/js/Components/Models/Queue/missions.json", JSON.stringify(catalog, null, 2));
+const f = "./src/js/Components/Models/Queue/missions.json";
+fs.writeFileSync(f, JSON.stringify(catalog, null, 2));
 
 console.log("遠征カタログの追加が完了しました".green);
-console.log("next> git diff");
-console.log("next> git commit");
+exec("git diff");
+console.log("next> git add && git commit");
+const stderr = exec(`git add ${f} && git commit -m "遠征ID:${params.id}「${params.title}」の追加"`).stderr;
+if (stderr) {
+    console.log("コミット失敗したんでマニュアルでやってください".yellow);
+} else {
+    console.log("next> pull-reqお待ちしております".green);
+}
