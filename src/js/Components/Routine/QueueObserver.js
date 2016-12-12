@@ -1,4 +1,6 @@
 import {ScheduledQueues} from "../Models/Queue/Queue";
+import Config from "../Models/Config";
+import Assets from "../Services/Assets";
 // import {Logger} from "chomex";
 // const logger = new Logger();
 
@@ -11,6 +13,7 @@ export default class QueueObserver {
         this.storage = storage;
         this.badge = new BadgeService();
         this.notification = new NotificationService();
+        this.assets = new Assets(Config);
     }
 
     static instance = null;
@@ -51,6 +54,7 @@ export default class QueueObserver {
               queue.toNotificationID(),
               queue.toNotificationParams()
             );
+            this.assets.playSoundIfSet(queue.params.type);
         });
 
         // clean up
