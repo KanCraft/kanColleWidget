@@ -5,6 +5,9 @@ import Frame from "../../Models/Frame";
 import History from "../../Models/History";
 import LaunchPosition from "../../Models/LaunchPosition";
 
+import Config from "../../Models/Config";
+import Assets from "../../Services/Assets";
+
 const windows = WindowService.getInstance();
 const captures = new CaptureService();
 // const client = new Client(chrome.tabs);
@@ -62,12 +65,14 @@ export function ZoomWindow(message) {
 }
 
 export function CurrentActionForWindow() {
+    let assets = new Assets(Config);
     let frame = Frame.find(History.find("last-selected-frame").id);
     let position = LaunchPosition.find("default");
     return windows.find(true)
     .then(windows.focus.bind(windows))
     .then(captures.capture.bind(captures))
     .then(uri => {
+        if (Config.find("directly-download-on-capture").value) return assets.downloadImageURL(uri);
         let params = new URLSearchParams();
         params.set("img", uri);
         // TODO: Controllerでwindowオブジェクト参照したくないあな
