@@ -4,12 +4,13 @@ import LinearProgress from "material-ui/LinearProgress";
 import {red600, orange400, limeA200, lightGreenA400} from "material-ui/styles/colors";
 
 import {ScheduledQueues} from "../../../../Models/Queue/Queue";
+import Config from "../../../../Models/Config";
 
 export default class TirednessRow extends Component {
     constructor(props) {
         super(props);
         this.state = {tiredness: ScheduledQueues.find("tiredness").queues};
-        this.duration = (1000 * 60 * 15);
+        this.duration = Config.find("notification-for-tiredness").time * (1000 * 60);
     }
     componentDidMount() {
         this.setState({

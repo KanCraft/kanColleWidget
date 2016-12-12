@@ -1,7 +1,10 @@
-// TODO: ファイルいい感じに分割せねばな
-
 import {Model} from "chomex";
 
+// TODO: いやーこれ設計崩壊してるだろ
+import Config from "../Config";
+import Assets from "../../Services/Assets";
+
+// TODO: ファイルいい感じに分割せねばな
 const msec = 1000,
     S = 1 * msec,
     M = 60 * S,
@@ -321,3 +324,35 @@ export class CreateShip extends Queue {
         return new this(stored.scheduled, stored.params.dock);
     }
 }
+
+export class Tiredness extends Queue {
+    constructor(time, deck) {
+        const params = {
+            type: "tiredness",
+            deck: deck,
+        };
+        super(time, params);
+        this.deck = deck;
+        this.badgeColor = "#5b84ff";
+    }
+
+    toNotificationID() {
+        return `tiredness.${this.deck}`;
+    }
+    toNotificationParams() {
+        const assets = new Assets(Config);
+        return {
+            type: "basic",
+            title: "疲労回復",
+            message: `第${this.deck}艦隊の疲労がだいたい回復しそうです`,
+            requireInteraction: true,
+            iconUrl: assets.getNotificationIcon("tiredness"),
+        };
+    }
+    toNotificationParamsForStart() {
+        return {};
+    }
+    static createFromStorage(stored) {
+        return new this(stored.scheduled, stored.params.deck);
+    }
+  }

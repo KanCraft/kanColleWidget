@@ -6,6 +6,7 @@ router.on([{url: /api_req_mission\/start/}],  Controllers.onMissionStart);
 router.on([{url: /api_req_mission\/result/}], Controllers.onMissionResult);
 router.on([{url: /api_get_member\/mapinfo/}], Controllers.onMapPrepare);
 router.on([{url: /api_req_kaisou\/powerup/}], Controllers.onKaisouPowerup);
+router.on([{url: /api_req_map\/start/}],      Controllers.onSortieStart);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
 // ここでrequestBodyを調達しておく必要がある
 router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);

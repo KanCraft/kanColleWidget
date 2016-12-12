@@ -5,6 +5,7 @@ import * as KaisouControllers from "./Kaisou";
 import * as BattleControllers from "./Battle";
 import * as RecoveryControllers from "./Recovery";
 import * as PortControllers from "./Port";
+import * as SortieControllers from "./Sortie";
 
 const RequestControllers = {
     ...KoushoControllers,
@@ -14,6 +15,7 @@ const RequestControllers = {
     ...KaisouControllers,
     ...RecoveryControllers,
     ...PortControllers,
+    ...SortieControllers,
 };
 
 module.exports = RequestControllers;
