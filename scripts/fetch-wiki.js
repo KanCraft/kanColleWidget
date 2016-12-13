@@ -1,5 +1,14 @@
+/* global process:false */
 require("colors"); // String.{color} が使えるようになる
 const Client = require("cheerio-httpcli"), _ = require("lodash");
+const fs = require("fs");
+const readline = require("readline");
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const catalog = "./src/js/Components/Models/Queue/missions.json";
 
 const fixed_missions = [
     {id: "33",  title: "前衛支援任務(南方)",     time: 900000},
@@ -29,5 +38,16 @@ Client.fetch("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC")
     return Promise.resolve(dict);
 }).then(missions => {
     console.log("以下の遠征をwikiから取得しました".green);
-    console.log(missions);
+    console.log(missions, "\n");
+    return new Promise((resolve, reject) => {
+        rl.question(`${catalog}を更新しますか？ (y/n) `.green, (answer) => {
+            rl.close();
+            if (answer.match(/y/i)) resolve(missions);
+            else reject("Declined");
+        });
+    });
+}).then(missions => {
+    fs.writeFileSync(catalog, JSON.stringify(missions, null, 2));
+}).catch(err => {
+    console.log("中断しました".yellow, err);
 });
