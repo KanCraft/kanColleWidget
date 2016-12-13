@@ -61,6 +61,30 @@ export function CaptureWindow(/* message */) {
 }
 
 export function ZoomWindow(message) {
+    // あるべき「タブサイズ」
+    const base = {
+        width: 800 * parseFloat(message.zoom),
+        height: 480 * parseFloat(message.zoom)
+    };
+    // 現在の「タブサイズ」
+    const tab  = {
+        width: this.sender.tab.width,
+        height: this.sender.tab.height
+    };
+    // アドレスバーやエアロ領域によって生まれる「タブサイズ」の差分
+    const diff = {
+        width:  base.width - tab.width,
+        height: base.height - tab.height,
+    };
+    // 現在のwindowの大きさを取得
+    windows.get(this.sender.tab.windowId)
+    // タブコンテンツの大きさは直接変えられないので、外枠（ウィンドウ）を変えることで実現
+    .then(win => {
+        chrome.windows.update(win.id, {
+            width:  win.width + diff.width,
+            height: win.height + diff.height,
+        });
+    });
     return windows.zoom(this.sender.tab.id, message.zoom);
 }
 

@@ -26,6 +26,13 @@ class WindowService {
             });
         });
     }
+    get(id, type = "window") {
+        return new Promise(resolve => {
+            this.module[type + "s"].get(id, res => {
+                resolve(res);
+            });
+        });
+    }
 
     has(tabId) {
         if (this.tab.id == tabId) return this.tab;

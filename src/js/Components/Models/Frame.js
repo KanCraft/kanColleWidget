@@ -6,7 +6,7 @@ export default class Frame extends Model {
             url:    this.url,
             width:  this.size.width,
             height: this.size.height,
-            type:   "popup", // TODO: Firefox
+            type:   (this.decoration == "FRAME_SHIFT" && this.addressbar) ? "normal": "popup",
         };
         if (position.left) params.left = position.left;
         if (position.top)  params.top  = position.top;
