@@ -10,6 +10,7 @@ router.on([{url: /api_req_map\/start/}],      Controllers.onSortieStart);
 // onCompletedではrequestBodyが取れないので、onRecoveryStartCompletedのために
 // ここでrequestBodyを調達しておく必要がある
 router.on([{url: /api_req_nyukyo\/start/}],  Controllers.onRecoveryStart);
+router.on([{url: /api_req_nyukyo\/speedchange/}], Controllers.onRecoverySpeedup);
 router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 

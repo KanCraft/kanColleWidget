@@ -62,3 +62,9 @@ export function onRecoveryDocksDisplayed() {
         });
     });
 }
+
+export function onRecoverySpeedup(detail) {
+    const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
+    let recoveries = ScheduledQueues.find("recoveries");
+    recoveries.clear(dock_id);
+}
