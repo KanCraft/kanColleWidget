@@ -9,8 +9,9 @@ const fixed_missions = [
     {id: "-1",  title: "DEBUG: 今すぐのやつ", time: 0},
 ];
 
-
-Client.fetch("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC", (err, $, res) => {
+Client.fetch("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC")
+.then(res => {
+    const $ = res.$;
     const missions = $("h2#h2_content_1_4").next().next().find("tr").map((index, element) => {
         const id    = $(element).find("td:nth-child(1)").text();
         const title = $(element).find("td:nth-child(2)").text();
