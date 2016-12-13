@@ -4,6 +4,7 @@ import {Table, TableBody} from "material-ui/Table";
 
 import SettingText   from "../SettingText";
 import SettingSwitch from "../SettingSwitch";
+import SettingScreenShotFile from "./SettingScreenShotFile";
 
 import Settings      from "material-ui/svg-icons/action/settings";
 
@@ -19,8 +20,8 @@ export default class ScreenShotSettingsView extends Component {
                   model="download-folder" />
                 <SettingSwitch
                   title="スクショしたらそのままダウンロードする"
-                  model="directly-download-on-capture"
-                  description="{YYYY-MM-dd-HHmmss}.(png|jpeg)" />
+                  model="directly-download-on-capture" />
+                <SettingScreenShotFile />
               </TableBody>
             </Table>
           </div>

@@ -13,6 +13,8 @@ Config.default = {
         value: "おっぱああああい!!"
     },
     "download-folder": {value: "艦これ"},
+    "download-file-name": {value: "yyyy-MM-dd-HHmmss"},
+    "download-file-ext":  {value: "png"},
     "directly-download-on-capture": {value: false},
     "notification-for-default": {
         label:   "通知",
