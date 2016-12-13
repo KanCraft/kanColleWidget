@@ -27,8 +27,13 @@ export function onMissionStart(detail) {
     notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
 }
 
-export function onMissionResult(/* detail */) {
-  // とりあえず
+export function onMissionResult(detail) {
+
+    const {requestBody:{formData:{api_deck_id:[deck_id]}}} = detail;
+    let missions = ScheduledQueues.find("missions");
+    missions.clear(deck_id);
+
+    // TODO: Controllerレイヤーでchromeを参照するのはやめましょう
     chrome.notifications.getAll(notes => {
         Object.keys(notes).filter(id => { return id.match(/mission/); }).map(id => {
             chrome.notifications.clear(id);
