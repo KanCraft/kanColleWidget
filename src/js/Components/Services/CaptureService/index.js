@@ -1,3 +1,5 @@
+// TODO: ここはimportじゃなくてコンストラクタ引数にしたいぞい
+import Config from "../../Models/Config";
 
 export default class CaptureService {
     constructor(mod = chrome) {
@@ -9,7 +11,9 @@ export default class CaptureService {
             windowId = windowId.id;
         }
         return new Promise(resolve => {
-            this.module.tabs.captureVisibleTab(windowId, {}, resolve);
+            let format = Config.find("download-file-ext").value;
+            let quality = 100;
+            this.module.tabs.captureVisibleTab(windowId, {format, quality}, resolve);
         });
     }
 }

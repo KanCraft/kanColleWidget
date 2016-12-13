@@ -27,7 +27,7 @@ export default class Canvas extends Component {
         this.refs.canvas.height = img.height;
         this.refs.canvas.getContext("2d").drawImage(img, 0, 0, img.width, img.height);
     }
-    toDataURL(fmt = "image/png", quality = 1) {
+    toDataURL(fmt = ("image/" + this.props.ext), quality = 1) {
         return this.refs.canvas.toDataURL(fmt, quality);
     }
     onMouseDown(ev) {
@@ -66,6 +66,7 @@ export default class Canvas extends Component {
         this.popHistory();
     }
     static propTypes = {
-        getTool: PropTypes.func.isRequired
+        getTool: PropTypes.func.isRequired,
+        ext:     PropTypes.string.isRequired,
     }
 }

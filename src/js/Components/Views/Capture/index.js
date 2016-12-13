@@ -12,6 +12,8 @@ import Canvas from "./Canvas";
 
 import Tool from "./Tools/Base";
 
+import Config from "../../Models/Config";
+
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
 
@@ -42,6 +44,7 @@ export default class CaptureView extends Component {
             twitterProfile: null,
             nowSending: false,
             tool:       Tool,
+            ext: Config.find("download-file-ext").value,
         };
 
         // Initialize canvas
@@ -90,7 +93,7 @@ export default class CaptureView extends Component {
                   ref="subnav"
                   onColorChanged={this.onColorChanged.bind(this)}
                 />
-                <Canvas ref="canvas" getTool={this.getTool.bind(this)} />
+                <Canvas ref="canvas" getTool={this.getTool.bind(this)} ext={this.state.ext}/>
               </div>
             </div>
             <DownloadFileDialog
@@ -177,7 +180,7 @@ export default class CaptureView extends Component {
         return Math.floor(size/100)/10 + "K";
     }
     saveFile() {
-        const filename = this.refs.filename.getValue() + ".png";
+        const filename = this.refs.filename.getValue() + "." + this.state.ext;
         const url = this.refs.canvas.toDataURL();
         chrome.downloads.download({ url, filename }, () => {
             this.setState({dialogOpened: false});
