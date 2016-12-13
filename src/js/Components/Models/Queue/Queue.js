@@ -54,6 +54,13 @@ export class ScheduledQueues extends Model {
         });
         return timeup;
     }
+    clear(identifier) {
+        this.queues = this.queues.filter(q => {
+            if ((q.params.deck || q.params.dock) == identifier) return false;
+            return true;
+        });
+        this.save();
+    }
 }
 
 ScheduledQueues.default = {
