@@ -48,3 +48,9 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
         return Promise.resolve(time);
     });
 }
+
+export function onCreateShipSpeedup(detail) {
+    const {requestBody:{formData:{api_kdock_id:[dock_id]}}} = detail;
+    let createships = ScheduledQueues.find("createships");
+    createships.clear(dock_id);
+}
