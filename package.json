@@ -12,6 +12,7 @@
     "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "add-mission": "node ./scripts/add-mission",
+    "fetch-wiki": "node ./scripts/fetch-wiki",
     "start": "webpack --watch --progress"
   },
   "repository": {
@@ -37,6 +38,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "base64-image-loader": "^1.0.0",
+    "cheerio-httpcli": "^0.6.9",
     "chomex": "*",
     "colors": "^1.1.2",
     "crescent": "*",
