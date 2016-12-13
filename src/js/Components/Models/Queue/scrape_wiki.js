@@ -2,8 +2,10 @@
 let Client = require('cheerio-httpcli');
 
 let fixed_missions = [
-    {id: '197', title: '前衛支援任務',        time: 900000},
-    {id: '198', title: '決戦支援任務',        time: 1800000},
+    {id: '33',  title: '前衛支援任務(南方)',     time: 900000},
+    {id: '34',  title: '決戦支援任務(南方)',     time: 1800000},
+    {id: '197', title: '前衛支援任務(イベント)', time: 900000},
+    {id: '198', title: '決戦支援任務(イベント)', time: 1800000},
     {id: '-1',  title: 'DEBUG: 今すぐのやつ', time: 0},
 ];
 
