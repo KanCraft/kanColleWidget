@@ -102,6 +102,8 @@ function createQueueModelFromStorage(stored) {
         return Recovery.createFromStorage(stored);
     case "createship":
         return CreateShip.createFromStorage(stored);
+    case "tiredness":
+        return Tiredness.createFromStorage(stored);
     default:
     }
 }
