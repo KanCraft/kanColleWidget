@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import {Card, CardText, CardActions} from "material-ui/Card";
 import TextField from "material-ui/TextField";
+import Checkbox  from "material-ui/Checkbox";
 import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
 import FlatButton from "material-ui/FlatButton";
 
@@ -26,6 +27,7 @@ export default class WinconfigFormView extends Component {
               height <TextField name="height" value={this.state.frame.size.height} onChange={this.onSizeChanged.bind(this)}/>
               </div>
               {this.renderPositionFields()}
+              {this.getAddressbarCheckbox()}
               <RadioButtonGroup name="decoration" defaultSelected="FRAME_SHIFT" valueSelected={this.state.frame.decoration} onChange={this.onDecorationChanged.bind(this)}>
                 <RadioButton value="FRAME_SHIFT" label="ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
                 <RadioButton value="EXTRACT" label="ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
@@ -37,6 +39,14 @@ export default class WinconfigFormView extends Component {
             </CardActions>
           </Card>
         );
+    }
+    getAddressbarCheckbox() {
+        if (this.state.frame.decoration == "EXTRACT") return null;
+        return <Checkbox label="アドレスバー表示" checked={this.state.frame.addressbar || false} onCheck={(ev, checked) => {
+            let frame = this.state.frame;
+            frame.addressbar = checked;
+            this.setState({frame});
+        }}/>;
     }
     renderPositionFields() {
         if (this.state.frame.decoration == "EXTRACT") return null;
@@ -76,8 +86,7 @@ export default class WinconfigFormView extends Component {
     }
     commit() {
         const client = new Client(chrome.runtime, true);
-        client.message("/frame/new", this.state.frame).then(res => {
-            console.log(res);
+        client.message("/frame/new", this.state.frame.regulate()).then(() => {
             location.reload(); // TODO: なんかreduxとかそういうの使って親のstate変える
         });
     }

@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from "react";
 import {Card, CardHeader, CardText,CardActions} from "material-ui/Card";
 import {RadioButton, RadioButtonGroup}          from "material-ui/RadioButton";
 import FlatButton  from "material-ui/FlatButton";
+import Checkbox    from "material-ui/Checkbox";
 import TextField   from "material-ui/TextField";
 import {orange500} from "material-ui/styles/colors";
 
@@ -51,9 +52,10 @@ export default class WinconfigView extends Component {
                       onChange={this.onSizeChanged.bind(this)}/>
                   </div>
                   {this.renderPositionFields()}
+                  {this.getAddressbarCheckbox()}
                   <RadioButtonGroup name="decoration" defaultSelected={this.state.frame.decoration}>
-                    <RadioButton disabled={this.state.frame.protected} value="FRAME_SHIFT" label="ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
-                    <RadioButton disabled={this.state.frame.protected} value="EXTRACT" label="ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
+                    <RadioButton disabled={this.state.frame.protected} value="FRAME_SHIFT" label="[WHITE] ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
+                    <RadioButton disabled={this.state.frame.protected} value="EXTRACT" label="[APP] ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
                   </RadioButtonGroup>
                 </CardText>
                 <CardActions expandable={true}>
@@ -65,6 +67,14 @@ export default class WinconfigView extends Component {
                 </CardActions>
             </Card>
         );
+    }
+    getAddressbarCheckbox() {
+        if (this.state.frame.decoration == "EXTRACT") return null;
+        return <Checkbox label="アドレスバー表示" checked={this.state.frame.addressbar || false} onCheck={(ev, checked) => {
+            let frame = this.state.frame;
+            frame.addressbar = checked;
+            this.setState({frame});
+        }}/>;
     }
     renderPositionFields() {
         if (this.state.frame.decoration == "EXTRACT") return null;

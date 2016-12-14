@@ -28,6 +28,7 @@ export default class Frame extends Model {
         this.position.left = parseInt(this.position.left);
         this.position.top  = parseInt(this.position.top);
         this.zoom          = parseFloat(this.zoom);
+        this.addressbar    = !!this.addressbar;
         return this;
     }
     static template() {
@@ -54,6 +55,7 @@ Frame.default = {
         position: {top: -77, left: -124},
         decoration: "FRAME_SHIFT",
         protected: true,
+        addressbar: false,
     },
     "small": {
         id: "小型",
@@ -64,5 +66,6 @@ Frame.default = {
         position: {},
         decoration: "EXTRACT",
         protected: true,
+        addressbar: false,
     },
 };
