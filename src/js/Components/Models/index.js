@@ -6,24 +6,27 @@ export class Sync {
     save(keys = [], reset = false) {
         let items = {};
         keys.map(key => {
-            items[key] = JSON.parse(this.local.getItem(key) || {});
+            let item = this.local.getItem(key);
+            if (item) items[key] = JSON.parse(item);
         });
         let clear = (reset) ? new Promise(resolve => this.sync.clear(resolve)) : Promise.resolve();
         return clear.then(() => {
             return new Promise(resolve => {
-                this.sync.set(items, resolve);
+                this.sync.set(items, () => resolve(items));
             });
         });
     }
-    load(keys = [], dry = false) {
+    load(keys = [], commit = true) {
         return new Promise(resolve => {
             this.sync.get(keys, items => {
-                if (dry) return resolve(items);
-                Object.keys(items).map(key => {
-                    this.local.setItem(key, JSON.stringify(items[key]));
-                });
+                if (commit) this.commit(items);
                 resolve(items);
             });
+        });
+    }
+    commit(items) {
+        Object.keys(items).map(key => {
+            this.local.setItem(key, JSON.stringify(items[key]));
         });
     }
 }
