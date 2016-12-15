@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 
+import {init} from "../../../entrypoints/global-pollution";
+init(window);
+
 // もっと設定項目が増えてきたら、これは"Settings"じゃなくてXxxSettingsとなるのが望ましい
 import NotificationSettingsView from "./Settings/Notifications";
 import ScreenShotSettingsView   from "./Settings/ScreenShots";
+import SyncSettingsView         from "./Settings/Syncs";
 import WinconfigsView from "./Winconfigs";
 import DebugView      from "./Debug";
 
@@ -18,6 +22,7 @@ export default class OptionsView extends Component {
           <div>
             <NotificationSettingsView styles={styles} />
             <ScreenShotSettingsView   styles={styles} />
+            <SyncSettingsView         styles={styles} />
             <WinconfigsView styles={styles} />
             <DebugView      styles={styles} />
           </div>

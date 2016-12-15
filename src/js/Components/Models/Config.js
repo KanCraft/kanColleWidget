@@ -9,13 +9,13 @@ export default class Config extends Model {
     }
 }
 Config.default = {
-    "closeconfirm": {
-        value: "おっぱああああい!!"
-    },
     "download-folder": {value: "艦これ"},
     "download-file-name": {value: "yyyy-MM-dd-HHmmss"},
     "download-file-ext":  {value: "png"},
     "directly-download-on-capture": {value: false},
+    "data-sync": {
+        keys: []
+    },
     "notification-for-default": {
         label:   "通知",
         enabled: true,
