@@ -13,6 +13,7 @@ import IconButton from "material-ui/IconButton";
 import ViewModule from "material-ui/svg-icons/action/view-module";
 import Schedule   from "material-ui/svg-icons/action/schedule";
 import Build      from "material-ui/svg-icons/action/build";
+import ChromeReaderMode   from "material-ui/svg-icons/action/chrome-reader-mode";
 import {grey400, grey800} from "material-ui/styles/colors";
 
 const ENTER = 13;
@@ -93,6 +94,10 @@ export default class PopupView extends Component {
     openOptions() {
         this.props.context.open("/dest/html/options.html");
     }
+    openWiki() {
+        // TODO: windowオブジェクトを参照するのはいやだなー
+        window.open("/dest/html/wiki.html");
+    }
     render() {
         let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);
         if (this.state.winconfigs[this.state.last.id]) sorted.unshift(this.state.last.id);
@@ -109,6 +114,7 @@ export default class PopupView extends Component {
             <div style={{position:"absolute",bottom:"0",left:"0",right:"0"}}>
               <ReactiveIconButton onClick={this.openOptions.bind(this)}    ><Build     /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
+              <ReactiveIconButton onClick={this.openWiki.bind(this)}       ><ChromeReaderMode /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
             </div>
           </div>
