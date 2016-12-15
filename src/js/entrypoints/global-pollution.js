@@ -14,6 +14,9 @@ export function init(context) {
           .replace("mm", (this.getMinutes()).zp())
           .replace("ss", (this.getSeconds()).zp());
     };
+    context.Array.prototype.has = function(e) {
+        return this.filter(v => v == e).length !== 0;
+    };
     context.Image.init = function(url) {
         return new Promise(resolve => {
             let image = new Image();
