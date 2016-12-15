@@ -16,6 +16,7 @@ router.on("/frame/update",           Controllers.UpdateFrame);
 router.on("/frame/delete",           Controllers.DeleteFrame);
 router.on("/snapshot/take",          Controllers.TakeDamageSnapshot);
 router.on("/queues/get",             Controllers.GetQueues);
+router.on("/queues/manual",          Controllers.SetQueueManual);
 router.on("/twitter/profile",        Controllers.TwitterProfile);
 router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
