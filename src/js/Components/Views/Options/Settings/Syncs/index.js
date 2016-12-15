@@ -91,7 +91,15 @@ export default class SyncSettingsView extends Component {
         });
     }
     load() {
-        this.sync.load(this.state.config.keys, true).then(items => {
+        this.sync.load(this.state.config.keys, false).then(items => {
+            if (this.state.config.keys.has("ScheduledQueues")) {
+                for (let name in items["ScheduledQueues"]) {
+                    items["ScheduledQueues"][name].queues = items["ScheduledQueues"][name].queues.filter(q => q.scheduled > Date.now());
+                }
+            }
+            return Promise.resolve(items);
+        }).then(items => {
+            this.sync.commit(items);
             this.setState({output: "Data loaded:\n------------\n" + JSON.stringify(items, null, 2)});
         });
     }
