@@ -25,7 +25,7 @@ export default class DownloadFileDialog extends Component {
             modal={false}
             open={this.props.dialogOpened}
             >
-            ~/Downloads/{this.folder}<TextField name="foo" defaultValue={this.assets.getDefaultDownloadFileName()} ref="filename"/>.png
+            ~/Downloads/{this.folder}<TextField name="foo" defaultValue={this.assets.getDefaultDownloadFileName()} ref="filename"/>.{this.assets.getDefaultDownloadFileExt()}
           </Dialog>
         );
     }
