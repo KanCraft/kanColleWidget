@@ -35,6 +35,14 @@ export function OnRecoveryNotificationClicked(id) {
     return OnNotificationClicked(id);
 }
 
+export function OnCreateshipNotificationClicked(id) {
+    return OnNotificationClicked(id);
+}
+
+export function OnTirednessNotificationClicked(id) {
+    return OnNotificationClicked(id);
+}
+
 export function OnDebugNotificationClicked(id) {
     notifications.clear(id);
 }

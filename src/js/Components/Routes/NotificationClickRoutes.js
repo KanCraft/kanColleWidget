@@ -6,9 +6,11 @@ let router = new Router(id => {
     return {name};
 });
 
-router.on("mission", Controllers.OnMissionNotificationClicked);
-router.on("recovery",Controllers.OnRecoveryNotificationClicked);
-router.on("debug",   Controllers.OnDebugNotificationClicked);
+router.on("mission",    Controllers.OnMissionNotificationClicked);
+router.on("recovery",   Controllers.OnRecoveryNotificationClicked);
+router.on("createship", Controllers.OnCreateshipNotificationClicked);
+router.on("tiredness",  Controllers.OnTirednessNotificationClicked);
+router.on("debug",      Controllers.OnDebugNotificationClicked);
 
 const NotificationClickListener = router.listener();
 export default NotificationClickListener;
