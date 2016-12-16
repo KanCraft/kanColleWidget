@@ -8,16 +8,24 @@ export default class Tool {
     }
     onStart() {
         this.context.save();
+        this.getBackup();
     }
     onMove() {
     }
     onEnd() {
         this.context.restore();
     }
+    // Utilities
     position(ev) {
         return {
             x: ev.nativeEvent.offsetX * this.growth,
             y: ev.nativeEvent.offsetY * this.growth
         };
+    }
+    getBackup() {
+        this._backup = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    }
+    putBackup() {
+        this.context.putImageData(this._backup, 0, 0);
     }
 }
