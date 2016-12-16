@@ -22,7 +22,7 @@ import Undo                from "material-ui/svg-icons/content/undo";
 import {red500, grey600} from "material-ui/styles/colors";
 
 // Class
-import {Pencil, Text, Rect} from "../Tools";
+import {Pencil, Text, Rect, Trim} from "../Tools";
 
 const styles = {
     paper: {
@@ -83,11 +83,11 @@ export default class NavigationBar extends Component {
     }
     renderCropItem() {
         return (
-          <MenuItem disabled={true} primaryText={
-              <IconButton tooltip="未実装">
+          <MenuItem value="Trim" primaryText={
+              <IconButton tooltip="切り抜き">
                 <Crop />
               </IconButton>
-          }/>
+          } onTouchTap={() => this.props.setTool(Trim)}/>
         );
     }
     renderTextMenueItem() {
