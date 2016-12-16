@@ -16,12 +16,10 @@ export default class SettingSwitch extends Component {
           <TableRow>
             <TableRowColumn>
               {this.props.title}
+              <span style={{fontSize:"0.6em"}}>{this.props.description}</span>
             </TableRowColumn>
             <TableRowColumn>
               <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)}/>
-            </TableRowColumn>
-            <TableRowColumn>
-              {this.props.description}
             </TableRowColumn>
           </TableRow>
         );

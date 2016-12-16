@@ -16,15 +16,13 @@ export default class SettingText extends Component {
           <TableRow>
             <TableRowColumn>
               {this.props.title}
+              <span style={{fontSize:"0.6em"}}>{this.props.description}</span>
             </TableRowColumn>
             <TableRowColumn>
               <TextField
                 name={this.state.model._id}
                 value={this.state.model.value}
                 onChange={this.onChange.bind(this)}/>
-            </TableRowColumn>
-            <TableRowColumn>
-              {this.props.description}
             </TableRowColumn>
           </TableRow>
         );

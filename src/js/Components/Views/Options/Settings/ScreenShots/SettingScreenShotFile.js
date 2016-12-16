@@ -21,13 +21,17 @@ export default class SettingScreenShotFile extends Component {
               スクショファイル名
             </TableRowColumn>
             <TableRowColumn>
-              <TextField name="name" value={this.state.name.value} onChange={this.onNameChange.bind(this)}/>
-            </TableRowColumn>
-            <TableRowColumn>
-              <SelectField style={{maxWidth:"6em"}} value={this.state.ext.value} onChange={this.onExtChange.bind(this)}>
-                <MenuItem value="png"  primaryText=".png"/>
-                <MenuItem value="jpeg" primaryText=".jpeg"/>
-              </SelectField>
+              <div style={{display:"flex"}}>
+                <div>
+                  <TextField name="name" value={this.state.name.value} onChange={this.onNameChange.bind(this)}/>
+                </div>
+                <div>
+                  <SelectField style={{maxWidth:"6em"}} value={this.state.ext.value} onChange={this.onExtChange.bind(this)}>
+                    <MenuItem value="png"  primaryText=".png"/>
+                    <MenuItem value="jpeg" primaryText=".jpeg"/>
+                  </SelectField>
+                </div>
+              </div>
             </TableRowColumn>
           </TableRow>
         );
