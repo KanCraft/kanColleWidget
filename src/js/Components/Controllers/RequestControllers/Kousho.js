@@ -54,3 +54,12 @@ export function onCreateShipSpeedup(detail) {
     let createships = ScheduledQueues.find("createships");
     createships.clear(dock_id);
 }
+
+export function onGetShip(detail) {
+    // TODO: Controllerからchromeを参照するのはやめましょう
+    chrome.notifications.getAll(notes => {
+        Object.keys(notes).filter(id => { return id.match(/^createship/); }).map(id => {
+            chrome.notifications.clear(id);
+        });
+    });
+}
