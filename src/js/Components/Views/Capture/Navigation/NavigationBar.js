@@ -22,7 +22,7 @@ import Undo                from "material-ui/svg-icons/content/undo";
 import {red500, grey600} from "material-ui/styles/colors";
 
 // Class
-import {Pencil, Text} from "../Tools";
+import {Pencil, Text, Rect} from "../Tools";
 
 const styles = {
     paper: {
@@ -65,11 +65,11 @@ export default class NavigationBar extends Component {
     }
     renderRectAngleMenuItem() {
         return  (
-          <MenuItem disabled={true} primaryText={
-            <IconButton tooltip="未実装">
+          <MenuItem value="Rect" primaryText={
+            <IconButton tooltip="長方形">
             <PictureInPictureAlt />
             </IconButton>
-          }/>
+          } onTouchTap={() => this.props.setTool(Rect)}/>
         );
     }
     renderPencilMenuItem() {
