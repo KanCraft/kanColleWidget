@@ -21,6 +21,9 @@ export default class Assets {
     getDefaultDownloadFileName(now = new Date()) {
         return now.format(this.config.find("download-file-name").value);
     }
+    getDefaultDownloadFileExt() {
+        return this.config.find("download-file-ext").value;
+    }
     getNotificationIcon(name) {
         if (this.config.find(`notification-for-${name}`).icon) {
             return this.config.find(`notification-for-${name}`).icon;
