@@ -2,21 +2,10 @@ import React, {Component} from "react";
 
 import {TableRow, TableRowColumn} from "material-ui/Table";
 import TextField                  from "material-ui/TextField";
+import SelectField                from "material-ui/SelectField";
+import MenuItem                   from "material-ui/MenuItem";
 import Config                     from "../../../../Models/Config";
 
-const styles = {
-    select: {
-        background:   "transparent",
-        width:        "60px",
-        padding:      "7px",
-        fontSize:     "1.25em",
-        borderRadius: "0",
-        border:       "none",
-        borderBottom: "1px solid #ddd",
-        cursor:       "pointer",
-        WebkitAppearance: "none",
-    }
-};
 export default class SettingScreenShotFile extends Component {
     constructor(props) {
         super(props);
@@ -33,12 +22,12 @@ export default class SettingScreenShotFile extends Component {
             </TableRowColumn>
             <TableRowColumn>
               <TextField name="name" value={this.state.name.value} onChange={this.onNameChange.bind(this)}/>
-              <select style={styles.select} value={this.state.ext.value} onChange={this.onExtChange.bind(this)}>
-                <option value="png">.png</option>
-                <option value="jpeg">.jpeg</option>
-              </select>
             </TableRowColumn>
             <TableRowColumn>
+              <SelectField style={{maxWidth:"6em"}} value={this.state.ext.value} onChange={this.onExtChange.bind(this)}>
+                <MenuItem value="png"  primaryText=".png"/>
+                <MenuItem value="jpeg" primaryText=".jpeg"/>
+              </SelectField>
             </TableRowColumn>
           </TableRow>
         );
@@ -49,11 +38,10 @@ export default class SettingScreenShotFile extends Component {
         name.save();
         this.setState({name});
     }
-    onExtChange(ev) {
+    onExtChange(ev, i, value) {
         let ext = this.state.ext;
-        ext.value = ev.target.value;
+        ext.value = value;
         ext.save();
         this.setState({ext});
-        ev.target.blur();
     }
 }
