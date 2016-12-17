@@ -13,6 +13,8 @@ export default class DownloadFileDialog extends Component {
         let path = Config.find("download-folder").value;
         this.folder = path ? path + "/" : "";
         this.assets = new Assets(Config);
+        // なんかいろんなところでassets持つのだるいんでここでどうにかしちゃいますね
+        document.querySelector("title").innerHTML = this.assets.getDefaultDownloadFileName();
     }
     render() {
         return (
