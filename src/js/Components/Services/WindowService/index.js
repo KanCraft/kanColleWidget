@@ -26,6 +26,16 @@ class WindowService {
             });
         });
     }
+    openDashboard(position = {}) {
+        this.module.windows.create({
+            url:    this.module.extension.getURL("dest/html/dashboard.html"),
+            type:  "popup",
+            height: 292,
+            width:  400,
+            left:   position.left || 0,
+            top:    position.top  || 0,
+        });
+    }
     get(id, type = "window") {
         return new Promise(resolve => {
             this.module[type + "s"].get(id, res => {

@@ -3,6 +3,7 @@ const windows = WindowService.getInstance();
 import CaptureService from "../../Services/CaptureService";
 const captures = new CaptureService();
 
+import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
 
@@ -27,11 +28,6 @@ export function MuteController() {
 }
 
 export function OpenDashboard() {
-    // TODO: Controllerでchromeネームスペースを参照するのはやめましょう
-    chrome.windows.create({
-        url: chrome.extension.getURL("dest/html/dashboard.html"),
-        type: "popup",
-        height: 292,
-        width: 400,
-    });
+    const position = LaunchPosition.find("dashboard");
+    windows.openDashboard(position);
 }

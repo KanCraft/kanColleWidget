@@ -106,11 +106,6 @@ export function CurrentActionForWindow() {
 }
 
 export function OpenDashboard() {
-    // TODO: Controllerでchromeネームスペースを参照するのはやめましょう
-    chrome.windows.create({
-        url: chrome.extension.getURL("dest/html/dashboard.html"),
-        type: "popup",
-        height: 292,
-        width: 400,
-    });
+    const position = LaunchPosition.find("dashboard");
+    windows.openDashboard(position);
 }
