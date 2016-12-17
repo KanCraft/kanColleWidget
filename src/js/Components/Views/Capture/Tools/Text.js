@@ -5,7 +5,7 @@ export default class Text extends Tool {
         super(canvas);
         this.color = params.color || "#000";
         this.text  = params.text  || "";
-        this.font  = params.font  || "4em Arial";
+        this.font  = [params.size, params.font].join(" ");
     }
     onStart(ev) {
         super.onStart();

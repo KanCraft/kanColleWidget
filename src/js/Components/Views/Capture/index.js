@@ -199,6 +199,8 @@ export default class CaptureView extends Component {
         const params = {
             color: this.state.color,
             text:  this.refs.subnav.getText(),
+            size:  this.refs.subnav.getSize(),
+            font:  this.refs.subnav.getFont(),
         };
         return new this.state.tool(canvas, params);
     }
