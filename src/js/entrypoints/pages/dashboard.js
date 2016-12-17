@@ -12,12 +12,22 @@ import { createStore } from "redux";
 import { init } from "../global-pollution";
 init(window);
 
+import {Client} from "chomex";
+
 import DashboardView from "../../Components/Views/Dashboard";
 
 // Redux使うかもな
 let store = createStore((state = {} /*, action */) => {
     return state;
 });
+
+const client = new Client(chrome.runtime);
+setInterval(() => {
+    client.message("/launchposition/dashboard/update", {
+        left: window.screenX,
+        top:  window.screenY,
+    });
+}, 60 * 1000);
 
 render(
   <MuiThemeProvider store={store} muiTheme={getMuiTheme()}>
