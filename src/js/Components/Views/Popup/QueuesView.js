@@ -16,7 +16,32 @@ class QueueListItem extends Component {
     }
 }
 
-class QueueList extends Component {
+export class TLQueueEntry extends Component {
+    render() {
+        const scheduled = new Date(this.props.queue.scheduled);
+        return (
+            <div>
+                <span style={{marginRight: "2px"}}>{scheduled.toClockString()}</span>
+                <span style={{marginRight: "2px", color: this.props.queue.badgeColor}}>▸</span>
+                <span style={{marginRight: "2px", textDecoration: "underline"}}>{this.getIdentity()}</span>
+                <span style={{fontSize:"0.8em"}}>{this.props.queue.title ? this.props.queue.title : null}</span>
+            </div>
+        );
+    }
+    getIdentity() {
+        switch (this.props.queue.params.type) {
+        case "mission": return `第${this.props.queue.deck}艦隊`;
+        case "recovery": return `第${this.props.queue.dock}修復ドック`;
+        case "createship": return `第${this.props.queue.dock}建造ドック`;
+        default: return `${this.props.queue.params} is unknown type for queue`;
+        }
+    }
+    static propTypes = {
+        queue: PropTypes.object.isRequired,
+    }
+}
+
+export class QueueList extends Component {
     render() {
         const items = this.props.queues.sort((prev, next) => {
             return (prev.deck || prev.dock) > (next.deck || next.dock);
@@ -37,8 +62,7 @@ class QueueList extends Component {
     }
 }
 
-export default class QueuesView extends Component {
-
+export class HorizontalQueuesView extends Component {
     render() {
         return (
           <div style={{display: "flex"}}>
@@ -48,7 +72,19 @@ export default class QueuesView extends Component {
           </div>
         );
     }
-
+    static propTypes = {
+        queues: PropTypes.object.isRequired
+    }
+}
+export class VerticalTimelineView extends Component {
+    render() {
+        const items = this.props.queues.missions.queues.concat(this.props.queues.recoveries.queues).concat(this.props.queues.createships.queues).sort((prev, next) => {
+            return prev.scheduled < next.scheduled ? -1 : 1;
+        }).map((q, i) => <TLQueueEntry key={i} queue={q} />);
+        return (
+              <div style={{marginBottom: "8px"}}>{items}</div>
+        );
+    }
     static propTypes = {
         queues: PropTypes.object.isRequired
     }

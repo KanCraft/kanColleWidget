@@ -4,6 +4,8 @@ import {Model} from "chomex";
 import Config from "../Config";
 import Assets from "../../Services/Assets";
 
+import {green600, blueA700, orange600} from "material-ui/styles/colors";
+
 import catalog from "./missions.json";
 
 // TODO: ファイルいい感じに分割せねばな
@@ -127,7 +129,7 @@ export class Mission extends Queue {
         super(time, params);
         this.title = title;
         this.deck  = deck;
-        this.badgeColor = "#0fabb1";
+        this.badgeColor = blueA700;
     }
 
     static dummy() {
@@ -213,7 +215,7 @@ export class Recovery extends Queue {
         super(time, params);
         this.dock = dock;
         this.detected = detected;
-        this.badgeColor = "#5b84ff";
+        this.badgeColor = green600;
     }
     toNotificationID() {
         return `recovery.${this.dock}`;
@@ -263,7 +265,7 @@ export class CreateShip extends Queue {
         super(time, params);
         this.dock = dock;
         this.detected = detected;
-        this.badgeColor = "#5b84ff";
+        this.badgeColor = orange600;
     }
     toNotificationID() {
         return `createship.${this.dock}`;

@@ -6,5 +6,9 @@ LaunchPosition.default = {
     "default": {
         left: 100,
         top:  100
-    }
+    },
+    "dashboard": {
+        left: 0,
+        top:  0,
+    },
 };

@@ -7,8 +7,9 @@ init(window);
 import NotificationSettingsView from "./Settings/Notifications";
 import ScreenShotSettingsView   from "./Settings/ScreenShots";
 import SyncSettingsView         from "./Settings/Syncs";
+import PopupSettingsView        from "./Settings/Popup";
 import WinconfigsView from "./Winconfigs";
-import DebugView      from "./Debug";
+// import DebugView      from "./Debug";
 
 const styles = {
     title: {
@@ -22,9 +23,10 @@ export default class OptionsView extends Component {
           <div>
             <NotificationSettingsView styles={styles} />
             <ScreenShotSettingsView   styles={styles} />
+            <PopupSettingsView        styles={styles} />
             <SyncSettingsView         styles={styles} />
-            <WinconfigsView styles={styles} />
-            <DebugView      styles={styles} />
+            <WinconfigsView           styles={styles} />
+            {/* <DebugView            styles={styles} /> */}
           </div>
         );
     }

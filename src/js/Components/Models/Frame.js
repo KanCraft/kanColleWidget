@@ -68,4 +68,15 @@ Frame.default = {
         protected: true,
         addressbar: false,
     },
+    "large": {
+        id: "大型",
+        alias: "大型",
+        url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
+        size: {width: 1200, height: 720},
+        zoom: 1.0,
+        position: {},
+        decoration: "EXTRACT",
+        protected: true,
+        addressbar: false,
+    },
 };
