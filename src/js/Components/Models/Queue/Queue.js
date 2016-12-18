@@ -4,7 +4,7 @@ import {Model} from "chomex";
 import Config from "../Config";
 import Assets from "../../Services/Assets";
 
-import {green600, blueA700, orange600} from "material-ui/styles/colors";
+import {greenA400, blueA700, orange600} from "material-ui/styles/colors";
 
 import catalog from "./missions.json";
 
@@ -215,7 +215,7 @@ export class Recovery extends Queue {
         super(time, params);
         this.dock = dock;
         this.detected = detected;
-        this.badgeColor = green600;
+        this.badgeColor = greenA400;
     }
     toNotificationID() {
         return `recovery.${this.dock}`;
