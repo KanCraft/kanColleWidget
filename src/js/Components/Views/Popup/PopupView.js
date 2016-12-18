@@ -3,11 +3,12 @@ import { Client } from "chomex";
 
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import QueuesView from "./QueuesView";
+import {HorizontalQueuesView, VerticalTimelineView} from "./QueuesView";
 import {ScheduledQueues} from "../../Models/Queue/Queue";
 
 // TODO: これ、名前かえような...
 import History from "../../Models/History";
+import Config  from "../../Models/Config";
 
 import IconButton from "material-ui/IconButton";
 import ViewModule from "material-ui/svg-icons/action/view-module";
@@ -98,6 +99,14 @@ export default class PopupView extends Component {
         // TODO: windowオブジェクトを参照するのはいやだなー
         window.open("/dest/html/wiki.html");
     }
+    getScheduleView() {
+        switch (Config.find("schedule-display-mode").value) {
+        case "vertical-timeline":
+            return <VerticalTimelineView queues={this.state.queues} />;
+        default:
+            return <HorizontalQueuesView queues={this.state.queues} />;
+        }
+    }
     render() {
         let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);
         if (this.state.winconfigs[this.state.last.id]) sorted.unshift(this.state.last.id);
@@ -110,7 +119,7 @@ export default class PopupView extends Component {
             <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
               {winconfigs}
             </SelectField>
-            <QueuesView queues={this.state.queues} />
+            {this.getScheduleView()}
             <div style={{position:"absolute",bottom:"0",left:"0",right:"0"}}>
               <ReactiveIconButton onClick={this.openOptions.bind(this)}    ><Build     /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>

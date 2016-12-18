@@ -48,6 +48,9 @@ Config.default = {
         time:    15,
         description: "出撃からの固定時間通知です",
     },
+    "schedule-display-mode": {
+        value: "horizontal", // vertical-timeline
+    },
     "debug": {
         value: false
     }
