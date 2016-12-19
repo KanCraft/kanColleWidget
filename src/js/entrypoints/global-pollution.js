@@ -6,6 +6,10 @@ export function init(context) {
     context.Date.prototype.toClockString = function() {
         return this.toTimeString().split(":").slice(0,2).join(":");
     };
+    context.Date.prototype.toRemainingMinutes = function(target = new Date()) {
+        const rest = Math.ceil((this.getTime() - target.getTime()) / 1000 / 60);
+        return (rest <= 0) ? 0 : rest;
+    };
     context.Date.prototype.format = function (fmt = "yyyy-MM-dd-HHmmss") {
         return fmt.replace("yyyy", this.getFullYear())
           .replace("MM", (this.getMonth() + 1).zp())
