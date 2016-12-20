@@ -8,6 +8,7 @@ import NotificationSettingsView from "./Settings/Notifications";
 import ScreenShotSettingsView   from "./Settings/ScreenShots";
 import SyncSettingsView         from "./Settings/Syncs";
 import PopupSettingsView        from "./Settings/Popup";
+import UncategorizedSettings    from "./Settings/Uncategorized";
 import WinconfigsView from "./Winconfigs";
 // import DebugView      from "./Debug";
 
@@ -25,6 +26,7 @@ export default class OptionsView extends Component {
             <ScreenShotSettingsView   styles={styles} />
             <PopupSettingsView        styles={styles} />
             <SyncSettingsView         styles={styles} />
+            <UncategorizedSettings    styles={styles} />
             <WinconfigsView           styles={styles} />
             {/* <DebugView            styles={styles} /> */}
           </div>

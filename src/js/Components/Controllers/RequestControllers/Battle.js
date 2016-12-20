@@ -6,6 +6,20 @@ import Rectangle from "../../Services/Rectangle";
 const windows = WindowService.getInstance();
 const capture = new CaptureService();
 
+import Config from "../../Models/Config";
+
+function getWindowForDamageSnapshot(detail) {
+    switch (Config.find("damageshapshot-window").value) {
+    case "separate":
+        return windows.openDamagaSnapshot().then(({tabs:[tab]}) => Promise.resolve(tab));
+    case "inwindow":
+        return Promise.resolve({id:detail.tabId});
+    case "disabled":
+    default:
+        return Promise.resolve(null);
+    }
+}
+
 export function onBattleResulted(detail) {
     sleep(3.1).then(windows.find.bind(windows)).then(tab => {
         return capture.capture(tab.windowId);
@@ -17,9 +31,12 @@ export function onBattleResulted(detail) {
         canvas.getContext("2d").drawImage(img, rect.x, rect.y, rect.width, rect.height, 0, 0, rect.width, rect.height);
         return Promise.resolve(canvas.toDataURL());
     }).then(uri => {
-        // chomexのclientでどうにかしてくれ
-        chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/show", uri});
-        // sstwManager.openByImageURI(uri);
+        return Promise.all([Promise.resolve(uri), getWindowForDamageSnapshot(detail)]);
+    }).then(([uri, tab]) => {
+        if (!tab) return;// TODO: これ、けっきょくやんねえなら上の重い処理しなくてええやん
+        sleep(0.2).then(() => {
+            chrome.tabs.sendMessage(tab.id, {action:"/snapshot/show", uri});
+        });
     });
 }
 
@@ -32,6 +49,9 @@ export function onCombinedBattleStarted(req) {
 }
 
 export function onBattleStarted(/* detail */) {
+    windows.getDamageSnapshot().then(tabs => {
+        tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"}));
+    });
     WindowService.getInstance().find().then(tab => {
         chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"});
     });

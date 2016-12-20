@@ -204,86 +204,86 @@ class DeckCaptureView extends Component {
     }
     render() {
         return (
-      <div style={{width: "80%", margin: "0 auto"}}>
-        <div style={{display: "flex", width: "100%"}}>
-          {this.getTilesUI()}
-          <div style={{flex: 2, width:"240px"}}>
-            <SelectField value={this.state.config.name} fullWidth={true} underlineStyle={{color: "red"}} onChange={this.onChangeSetting.bind(this)}>
-              {this.state.settings.map(s => {
-                  return <MenuItem value={s.name} key={s.name} primaryText={s.name} disabled={s.disabled}/>;
-              })}
-            </SelectField>
-            <TextField
-              ref="row" name="row" type="number"
-              value={this.state.config.row} min={1} max={4}
-              fullWidth={true}
-              floatingLabelText="行"
-              floatingLabelFixed={true}
-              onChange={this.onGridChanged.bind(this)}
-              />
-            <TextField
-              ref="col" name="col" type="number"
-              value={this.state.config.col} min={1} max={4}
-              fullWidth={true}
-              floatingLabelText="列"
-              floatingLabelFixed={true}
-              onChange={this.onGridChanged.bind(this)}
-              />
-            {this.getWholeScreenView()}
-            <TextField
-              ref="x" name="x" type="number"
-              value={this.state.config.rect.x * 100} step={1} min={0} max={100}
-              fullWidth={true}
-              floatingLabelText="x座標 (%)"
-              floatingLabelFixed={true}
-              onChange={this.onRectChanged.bind(this)}
-              />
-            <TextField
-              ref="y" name="y" type="number"
-              value={this.state.config.rect.y * 100} step={1} min={0} max={100}
-              fullWidth={true}
-              floatingLabelText="y座標 (%)"
-              floatingLabelFixed={true}
-              onChange={this.onRectChanged.bind(this)}
-              />
-            <TextField
-              ref="width" name="width" type="number"
-              value={this.state.config.rect.width * 100} step={1} min={1} max={100}
-              fullWidth={true}
-              floatingLabelText="幅 (%)"
-              floatingLabelFixed={true}
-              onChange={this.onRectChanged.bind(this)}
-              />
-            <TextField
-              ref="height" name="height" type="number"
-              value={this.state.config.rect.height * 100} step={1} min={1} max={100}
-              fullWidth={true}
-              floatingLabelText="高さ (%)"
-              floatingLabelFixed={true}
-              onChange={this.onRectChanged.bind(this)}
-              />
-            <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)} disabled={!this.state.modified}/>
-            {/* TODO: このダイアログ分離したよほうがいいぞ */}
-            <Dialog
-              title="この設定に名前をつけて保存"
-              open={this.state.openSaveSettingDialog}
-              onRequestClose={this.handleSaveSettingDialogClose.bind(this)}
-              >
-              <div style={{display:"flex"}}>
-                <div style={{flex:"1", overflow:"scroll"}}>
-                  <pre style={{fontSize: "0.8em"}}>{this.getJSONizedSetting()}</pre>
-                </div>
-                <div style={{flex:"1"}}>
-                  <div style={{width:"80%", margin: "0 auto"}}>{this.getWholeScreenView()}</div>
-                </div>
+          <div style={{width: "80%", margin: "0 auto"}}>
+            <div style={{display: "flex", width: "100%"}}>
+              {this.getTilesUI()}
+              <div style={{flex: 2, width:"240px"}}>
+                <SelectField value={this.state.config.name} fullWidth={true} underlineStyle={{color: "red"}} onChange={this.onChangeSetting.bind(this)}>
+                  {this.state.settings.map(s => {
+                      return <MenuItem value={s.name} key={s.name} primaryText={s.name} disabled={s.disabled}/>;
+                  })}
+                </SelectField>
+                <TextField
+                  ref="row" name="row" type="number"
+                  value={this.state.config.row} min={1} max={4}
+                  fullWidth={true}
+                  floatingLabelText="行"
+                  floatingLabelFixed={true}
+                  onChange={this.onGridChanged.bind(this)}
+                  />
+                <TextField
+                  ref="col" name="col" type="number"
+                  value={this.state.config.col} min={1} max={4}
+                  fullWidth={true}
+                  floatingLabelText="列"
+                  floatingLabelFixed={true}
+                  onChange={this.onGridChanged.bind(this)}
+                  />
+                {this.getWholeScreenView()}
+                <TextField
+                  ref="x" name="x" type="number"
+                  value={this.state.config.rect.x * 100} step={1} min={0} max={100}
+                  fullWidth={true}
+                  floatingLabelText="x座標 (%)"
+                  floatingLabelFixed={true}
+                  onChange={this.onRectChanged.bind(this)}
+                  />
+                <TextField
+                  ref="y" name="y" type="number"
+                  value={this.state.config.rect.y * 100} step={1} min={0} max={100}
+                  fullWidth={true}
+                  floatingLabelText="y座標 (%)"
+                  floatingLabelFixed={true}
+                  onChange={this.onRectChanged.bind(this)}
+                  />
+                <TextField
+                  ref="width" name="width" type="number"
+                  value={this.state.config.rect.width * 100} step={1} min={1} max={100}
+                  fullWidth={true}
+                  floatingLabelText="幅 (%)"
+                  floatingLabelFixed={true}
+                  onChange={this.onRectChanged.bind(this)}
+                  />
+                <TextField
+                  ref="height" name="height" type="number"
+                  value={this.state.config.rect.height * 100} step={1} min={1} max={100}
+                  fullWidth={true}
+                  floatingLabelText="高さ (%)"
+                  floatingLabelFixed={true}
+                  onChange={this.onRectChanged.bind(this)}
+                  />
+                <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)} disabled={!this.state.modified}/>
+                {/* TODO: このダイアログ分離したよほうがいいぞ */}
+                <Dialog
+                  title="この設定に名前をつけて保存"
+                  open={this.state.openSaveSettingDialog}
+                  onRequestClose={this.handleSaveSettingDialogClose.bind(this)}
+                  >
+                  <div style={{display:"flex"}}>
+                    <div style={{flex:"1", overflow:"scroll"}}>
+                      <pre style={{fontSize: "0.8em"}}>{this.getJSONizedSetting()}</pre>
+                    </div>
+                    <div style={{flex:"1"}}>
+                      <div style={{width:"80%", margin: "0 auto"}}>{this.getWholeScreenView()}</div>
+                    </div>
+                  </div>
+                  <TextField hintText="この設定の名前" onChange={this.onChangeSettingName.bind(this)}/>
+                  <FlatButton label="DONE" primary={true} disabled={this.state.settingName.length == 0} onClick={this.saveSetting.bind(this)}/>
+                </Dialog>
               </div>
-              <TextField hintText="この設定の名前" onChange={this.onChangeSettingName.bind(this)}/>
-              <FlatButton label="DONE" primary={true} disabled={this.state.settingName.length == 0} onClick={this.saveSetting.bind(this)}/>
-            </Dialog>
+            </div>
           </div>
-        </div>
-      </div>
-    );
+        );
     }
 }
 

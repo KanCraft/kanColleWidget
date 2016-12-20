@@ -26,6 +26,25 @@ class WindowService {
             });
         });
     }
+    openDamagaSnapshot(position = {}) {
+        const r = 124 / 200;
+        const h = 200; // TODO: これLaunchPositionからとってくる
+        return new Promise(resolve => {
+            this.module.windows.create({
+                url:    this.module.extension.getURL("dest/html/dsnapshot.html"),
+                type:  "popup",
+                height: h,
+                width:  h * r,
+                left:   position.left || 0,
+                top:    position.top  || 0,
+            }, resolve);
+        });
+    }
+    getDamageSnapshot() {
+        return new Promise(resolve => {
+            this.module.tabs.query({url: this.module.extension.getURL("dest/html/dsnapshot.html")}, resolve);
+        });
+    }
     openDashboard(position = {}) {
         this.module.windows.create({
             url:    this.module.extension.getURL("dest/html/dashboard.html"),

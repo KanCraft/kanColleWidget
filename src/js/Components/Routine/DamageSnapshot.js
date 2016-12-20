@@ -8,26 +8,34 @@ export default class DamageSnapshotDisplay {
         this.onmousedown = this.onmousedown.bind(this);
         this.appendImage = this.appendImage.bind(this);
     }
+    embed() {
+        return this.context.document.querySelector("embed");
+    }
     getContainer() {
         let container = this.context.document.querySelector(`div#${this.id}`);
         if (container) return container;
         container = this.context.document.createElement("div");
         container.id = this.id;
         container.style.position ="fixed";
-        let embed = this.context.document.querySelector("embed");
-        container.style.left = `${embed.offsetLeft}px`;
-        container.style.top  = `${embed.offsetTop}px`;
+        if (this.embed()) {
+            container.style.left = `${this.embed().offsetLeft}px`;
+            container.style.top  = `${this.embed().offsetTop}px`;
+            container.addEventListener("mouseover", () => container.style.opacity = 1);
+            container.addEventListener("mouseleave", () => container.style.opacity = 0);
+        }
         container.style.transition = "0.2s all";
         container.style.opacity = 1;
-        container.addEventListener("mouseover", () => container.style.opacity = 1);
-        container.addEventListener("mouseleave", () => container.style.opacity = 0);
         this.context.document.body.appendChild(container);
         return container;
     }
     createImage(uri) {
         let img = this.context.document.createElement("img");
         img.src = uri;
-        img.style.height = (this.context.innerHeight / 4.2) + "px";
+        if (this.embed()) {
+            img.style.height = (this.context.innerHeight / 4.2) + "px";
+        } else {
+            img.style.height = "100%";
+        }
         return img;
     }
     show(uri) {
@@ -35,7 +43,6 @@ export default class DamageSnapshotDisplay {
         this.getContainer().appendChild(img);
     }
     appendImage({data: uri}) {
-        console.log("DamageSnapshot", "appendImage", this.count);
         let img = this.createImage(uri);
         this.getContainer().appendChild(img);
     }
