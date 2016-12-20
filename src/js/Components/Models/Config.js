@@ -51,6 +51,9 @@ Config.default = {
     "schedule-display-mode": {
         value: "horizontal", // vertical-timeline
     },
+    "damageshapshot-window": {
+        value: "disabled"
+    },
     "debug": {
         value: false
     }
