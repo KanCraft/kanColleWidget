@@ -4,29 +4,12 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Toggle             from "material-ui/Toggle";
 import Settings           from "material-ui/svg-icons/action/settings";
 import RaisedButton       from "material-ui/RaisedButton";
-import {grey400}          from "material-ui/styles/colors";
 import CloudUpload        from "material-ui/svg-icons/file/cloud-upload";
 import CloudDownload      from "material-ui/svg-icons/file/cloud-download";
 
 import {Sync} from "../../../../Models";
 import Config from "../../../../Models/Config";
-
-// TODO: このコンポーネント、他の設定項目にも使えるしもうちょっとパブリックにしようや
-class Description extends Component {
-    render() {
-        const style = {
-            marginLeft:  "24px",
-            paddingLeft: "24px",
-            borderLeft:  `4px solid ${grey400}`,
-        };
-        return (
-            <blockquote style={style}>{this.props.children}</blockquote>
-        );
-    }
-    static propTypes = {
-        children: PropTypes.any.isRequired,
-    }
-}
+import Description from "../Description";
 
 export default class SyncSettingsView extends Component {
     constructor(props) {
