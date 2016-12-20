@@ -24,6 +24,7 @@ module.exports = {
         deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
         status:     "./src/js/entrypoints/pages/status.js",
         dashboard:  "./src/js/entrypoints/pages/dashboard.js",
+        dsnapshot:  "./src/js/entrypoints/pages/dsnapshot.js",
         wiki:       "./src/js/entrypoints/pages/wiki.js",
         background: "./src/js/entrypoints/background.js",
     },
