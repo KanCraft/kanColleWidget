@@ -7,7 +7,9 @@ export default class DamageSnapshotDisplay {
         this.count   = 0;
         this.onmousedown = this.onmousedown.bind(this);
         this.appendImage = this.appendImage.bind(this);
-        this.embed = this.context.document.querySelector("embed");
+    }
+    embed() {
+        return this.context.document.querySelector("embed");
     }
     getContainer() {
         let container = this.context.document.querySelector(`div#${this.id}`);
@@ -15,9 +17,9 @@ export default class DamageSnapshotDisplay {
         container = this.context.document.createElement("div");
         container.id = this.id;
         container.style.position ="fixed";
-        if (this.embed) {
-            container.style.left = `${this.embed.offsetLeft}px`;
-            container.style.top  = `${this.embed.offsetTop}px`;
+        if (this.embed()) {
+            container.style.left = `${this.embed().offsetLeft}px`;
+            container.style.top  = `${this.embed().offsetTop}px`;
             container.addEventListener("mouseover", () => container.style.opacity = 1);
             container.addEventListener("mouseleave", () => container.style.opacity = 0);
         }
@@ -29,7 +31,7 @@ export default class DamageSnapshotDisplay {
     createImage(uri) {
         let img = this.context.document.createElement("img");
         img.src = uri;
-        if (this.embed) {
+        if (this.embed()) {
             img.style.height = (this.context.innerHeight / 4.2) + "px";
         } else {
             img.style.height = "100%";
