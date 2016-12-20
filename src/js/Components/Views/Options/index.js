@@ -7,7 +7,7 @@ init(window);
 import NotificationSettingsView from "./Settings/Notifications";
 import ScreenShotSettingsView   from "./Settings/ScreenShots";
 import SyncSettingsView         from "./Settings/Syncs";
-import PopupSettingsView        from "./Settings/Popup";
+import TimerSettingsView        from "./Settings/Timer";
 import UncategorizedSettings    from "./Settings/Uncategorized";
 import WinconfigsView from "./Winconfigs";
 // import DebugView      from "./Debug";
@@ -24,7 +24,7 @@ export default class OptionsView extends Component {
           <div>
             <NotificationSettingsView styles={styles} />
             <ScreenShotSettingsView   styles={styles} />
-            <PopupSettingsView        styles={styles} />
+            <TimerSettingsView        styles={styles} />
             <SyncSettingsView         styles={styles} />
             <UncategorizedSettings    styles={styles} />
             <WinconfigsView           styles={styles} />

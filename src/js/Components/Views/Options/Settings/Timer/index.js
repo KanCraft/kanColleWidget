@@ -39,7 +39,8 @@ class TimerExample extends Component {
         mode: PropTypes.string.isRequired,
     }
 }
-export default class PopupSettingsView extends Component {
+
+export default class TimerSettingsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,23 +56,27 @@ export default class PopupSettingsView extends Component {
     render() {
         return (
           <div>
-            <h1 style={this.props.styles.title}><Settings /> ポップアップ表示設定</h1>
-            <Table selectable={false}>
-              <TableBody displayRowCheckbox={false}>
-                <TableRow>
-                  <TableRowColumn>タイマー表示</TableRowColumn>
-                  <TableRowColumn>
-                      <SelectField value={this.state.model.value} onChange={this.onChange.bind(this)}>
-                        <MenuItem value="horizontal" primaryText="水平分割ドック/艦隊順" />
-                        <MenuItem value="vertical-timeline" primaryText="垂直混合時間順" />
-                      </SelectField>
-                  </TableRowColumn>
-                  <TableRowColumn>
-                      <TimerExample mode={this.state.model.value}/>
-                  </TableRowColumn>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <h1 style={this.props.styles.title}><Settings /> タイマー設定</h1>
+            <div style={{display:"flex"}}>
+              <div style={{flex: "1"}}>
+                <Table selectable={false}>
+                  <TableBody displayRowCheckbox={false}>
+                    <TableRow>
+                      <TableRowColumn>タイマー表示形式</TableRowColumn>
+                      <TableRowColumn>
+                          <SelectField value={this.state.model.value} onChange={this.onChange.bind(this)}>
+                            <MenuItem value="horizontal"        primaryText="種類別艦隊順形式" />
+                            <MenuItem value="vertical-timeline" primaryText="タイムライン形式" />
+                          </SelectField>
+                      </TableRowColumn>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+              <div style={{width: "240px", border:"thin solid #e0e0e0",padding: "12px"}}>
+                <TimerExample mode={this.state.model.value}/>
+              </div>
+            </div>
           </div>
         );
     }
