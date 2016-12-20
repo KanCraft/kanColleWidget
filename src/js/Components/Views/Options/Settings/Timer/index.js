@@ -36,7 +36,8 @@ class TimerExample extends Component {
         );
     }
     static propTypes = {
-        mode: PropTypes.string.isRequired,
+        mode:   PropTypes.string.isRequired,
+        format: PropTypes.string.isRequired,
     }
 }
 
@@ -44,7 +45,8 @@ export default class TimerSettingsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            model: Config.find("schedule-display-mode")
+            model: Config.find("schedule-display-mode"),
+            timefmt: Config.find("time-format"), // FIXME: うえで`model`つかっちゃってるからなあw
         };
     }
     onChange(ev, i, value) {
@@ -52,6 +54,12 @@ export default class TimerSettingsView extends Component {
         model.value = value;
         model.save();
         this.setState({model});
+    }
+    onTimeFormatChange(ev, i, value) {
+        let timefmt = this.state.timefmt;
+        timefmt.value = value;
+        timefmt.save();
+        this.setState({timefmt});
     }
     render() {
         return (
@@ -70,11 +78,20 @@ export default class TimerSettingsView extends Component {
                           </SelectField>
                       </TableRowColumn>
                     </TableRow>
+                    <TableRow>
+                      <TableRowColumn>時間表示</TableRowColumn>
+                      <TableRowColumn>
+                          <SelectField value={this.state.timefmt.value} onChange={this.onTimeFormatChange.bind(this)}>
+                            <MenuItem value="clock" primaryText="時刻表示" />
+                            <MenuItem value="rest"  primaryText="のこり時間表示" />
+                          </SelectField>
+                      </TableRowColumn>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </div>
               <div style={{width: "240px", border:"thin solid #e0e0e0",padding: "12px"}}>
-                <TimerExample mode={this.state.model.value}/>
+                <TimerExample mode={this.state.model.value} format={this.state.timefmt.value}/>
               </div>
             </div>
           </div>

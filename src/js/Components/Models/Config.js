@@ -51,6 +51,9 @@ Config.default = {
     "schedule-display-mode": {
         value: "horizontal", // vertical-timeline
     },
+    "time-format": {
+        value: "clock", // rest
+    },
     "damageshapshot-window": {
         value: "disabled"
     },
