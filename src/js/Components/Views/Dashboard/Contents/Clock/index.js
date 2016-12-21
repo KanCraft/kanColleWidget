@@ -7,6 +7,8 @@ import {grey200}   from "material-ui/styles/colors";
 import ClockRow     from "./ClockRow";
 import SchedulesRow from "./SchedulesRow";
 import TirednessRow from "./TirednessRow";
+import Config       from "../../../../Models/Config";
+import Assets       from "../../../../Services/Assets";
 
 import {Client} from "chomex";
 
@@ -14,6 +16,7 @@ export default class DashboardClock extends Component {
     constructor(props) {
         super(props);
         this.client = new Client(chrome.runtime);
+        this.assets = new Assets(Config);
     }
     render() {
         return (
@@ -32,6 +35,10 @@ export default class DashboardClock extends Component {
             margin: "0 auto",
             backgroundColor: grey200
         };
+        let icon = this.assets.getNotificationIcon("default");
+        if (icon) {
+            return <Avatar src={icon} style={style} onClick={this.onClickAvatar.bind(this)} />;
+        }
         return <Avatar icon={<PhotoCamera />} style={style} onClick={this.onClickAvatar.bind(this)}/>;
     }
     onClickAvatar() {
