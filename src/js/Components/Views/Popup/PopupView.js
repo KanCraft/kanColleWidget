@@ -3,7 +3,7 @@ import { Client } from "chomex";
 
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import {HorizontalQueuesView, VerticalTimelineView} from "./QueuesView";
+import {SeparatedIDsQueuesView, SeparatedTimelineQueuesView, MergedTimelineView} from "./QueuesView";
 import {ScheduledQueues} from "../../Models/Queue/Queue";
 
 // TODO: これ、名前かえような...
@@ -114,10 +114,10 @@ export default class PopupView extends Component {
     }
     getScheduleView() {
         switch (Config.find("schedule-display-mode").value) {
-        case "vertical-timeline":
-            return <VerticalTimelineView queues={this.state.queues} />;
-        default:
-            return <HorizontalQueuesView queues={this.state.queues} />;
+        case "merged-timeline": return <MergedTimelineView queues={this.state.queues} />;
+        case "separated-ids":   return <SeparatedTimelineQueuesView queues={this.state.queues} />;
+        case "separated-timeline":
+        default: return <SeparatedIDsQueuesView queues={this.state.queues} />;
         }
     }
     render() {
