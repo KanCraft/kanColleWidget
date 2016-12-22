@@ -170,7 +170,7 @@ export default class CaptureView extends Component {
     }
     getFileSize() {
         if (!this.state.imageUri) return 0;
-        return this.state.imageUri.length * (3/4);
+        return this.getImageURI().length * (3/4);
     }
     getFileSizeText() {
         const size = this.getFileSize();
