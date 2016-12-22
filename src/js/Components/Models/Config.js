@@ -57,6 +57,9 @@ Config.default = {
     "time-format": {
         value: "clock", // rest
     },
+    "dashboard-layout": {
+        value: "tab", // scroll
+    },
     "damageshapshot-window": {
         value: "disabled"
     },

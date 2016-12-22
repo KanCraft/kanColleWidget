@@ -21,10 +21,11 @@ export default class DashboardContents extends Component {
     display(index) {
         return {
             display: (this.props.shouldShowContentOfIndex(index)) ? "" : "none",
-            padding: "12px 36px 12px 12px",
+            padding: (this.props.layout == "tab") ? "12px 36px 12px 12px" : "12px",
         };
     }
     static propTypes = {
         shouldShowContentOfIndex: PropTypes.func.isRequired,
+        layout: PropTypes.string.isRequired,
     }
 }
