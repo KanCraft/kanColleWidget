@@ -34,20 +34,20 @@ export default class ManualTimerDialog extends Component {
     }
     getUnit() {
         if (!this.props.queue) return;
-        switch (this.props.queue.type) {
-        case "missions":    return "艦隊";
-        case "recoveries":  return "ドック";
-        case "createships": return "ドック";
-        case "default":     return "なんか";
+        switch ((this.props.queue.params || this.props.queue).type) {
+        case "mission":    case "missions":    return "艦隊";
+        case "recovery":   case "recoveries":  return "ドック";
+        case "createship": case "createships": return "ドック";
+        case "default":    return "なんか";
         }
     }
     getName() {
         if (!this.props.queue) return;
-        switch (this.props.queue.type) {
-        case "missions":    return "遠征";
-        case "recoveries":  return "修復";
-        case "createships": return "建造";
-        case "default":     return "なんか";
+        switch ((this.props.queue.params || this.props.queue).type) {
+        case "mission":    case "missions":    return "遠征";
+        case "recovery":   case "recoveries":  return "修復";
+        case "createship": case "createships": return "建造";
+        case "default":    return "なんか";
         }
     }
     getID() {
