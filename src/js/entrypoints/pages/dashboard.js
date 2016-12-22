@@ -24,8 +24,10 @@ let store = createStore((state = {} /*, action */) => {
 const client = new Client(chrome.runtime);
 setInterval(() => {
     client.message("/launchposition/dashboard/update", {
-        left: window.screenX,
-        top:  window.screenY,
+        height: window.outerHeight,
+        width:  window.outerWidth,
+        left:   window.screenX,
+        top:    window.screenY,
     });
 }, 60 * 1000);
 
