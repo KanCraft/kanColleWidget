@@ -9,13 +9,14 @@ import {ScheduledQueues} from "../../Models/Queue/Queue";
 // TODO: これ、名前かえような...
 import History from "../../Models/History";
 import Config  from "../../Models/Config";
+import Meta    from "../../Services/Meta";
 
 import IconButton from "material-ui/IconButton";
 import ViewModule from "material-ui/svg-icons/action/view-module";
 import Schedule   from "material-ui/svg-icons/action/schedule";
 import Build      from "material-ui/svg-icons/action/build";
 import ChromeReaderMode   from "material-ui/svg-icons/action/chrome-reader-mode";
-import {grey400, grey800} from "material-ui/styles/colors";
+import {grey400, grey800, red500} from "material-ui/styles/colors";
 
 const ENTER = 13;
 const client = new Client(chrome.runtime);
@@ -29,15 +30,18 @@ class ReactiveIconButton extends Component {
     }
     render() {
         return (
-            <IconButton
-              ref="self"
-              style={{position: "relative", transition: "all 1s", ...this.props.style || {}}}
-              onClick={this.props.onClick}
-              onMouseEnter={this.onMouseEnter.bind(this)}
-              onMouseLeave={this.onMouseLeave.bind(this)}
-              >
-              {this.cloneIcon(this.props.children)}
-            </IconButton>
+            <div style={{position:"relative"}}>
+              <IconButton
+                ref="self"
+                style={{position: "relative", transition: "all 1s", ...this.props.style || {}}}
+                onClick={this.props.onClick}
+                onMouseEnter={this.onMouseEnter.bind(this)}
+                onMouseLeave={this.onMouseLeave.bind(this)}
+                >
+                {this.cloneIcon(this.props.children)}
+              </IconButton>
+              {this.getBadge()}
+            </div>
         );
     }
     cloneIcon(icon) {
@@ -52,10 +56,18 @@ class ReactiveIconButton extends Component {
     onMouseLeave() {
         this.setState({hovered: false});
     }
+    getBadge() {
+        if (!this.props.badge) return null;
+        const txt = (typeof this.props.badge == "string") ? this.props.badge : "";
+        return (
+          <div style={{position:"absolute",right:"6px",top:"6px",width:"12px",height:"12px",borderRadius:"6px",backgroundColor:red500}}>{txt}</div>
+        );
+    }
     static propTypes = {
         children: PropTypes.object,
         onClick:  PropTypes.func.isRequired,
         style:    PropTypes.object,
+        badge:    PropTypes.any,
     }
 }
 
@@ -70,6 +82,7 @@ export default class PopupView extends Component {
             last: last,
             selected: last.id
         };
+        this.meta = new Meta(History.find("update-checked"));
         client.message("/frame/all").then(res => {
             this.setState({winconfigs: res.data});
         });
@@ -120,8 +133,8 @@ export default class PopupView extends Component {
               {winconfigs}
             </SelectField>
             {this.getScheduleView()}
-            <div style={{position:"absolute",bottom:"0",left:"0",right:"0"}}>
-              <ReactiveIconButton onClick={this.openOptions.bind(this)}    ><Build     /></ReactiveIconButton>
+            <div style={{position:"absolute",bottom:"0",left:"0",right:"0",display:"flex"}}>
+              <ReactiveIconButton onClick={this.openOptions.bind(this)} badge={this.meta.hasUpdate()}><Build     /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openWiki.bind(this)}       ><ChromeReaderMode /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
