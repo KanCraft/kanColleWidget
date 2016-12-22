@@ -48,6 +48,7 @@ export default class TimerSettingsView extends Component {
         super(props);
         this.state = {
             model: Config.find("schedule-display-mode"),
+            dashboard: Config.find("schedule-display-mode-dashboard"), // FIXME: うえで`model`つかっちゃってるからなあw
             timefmt: Config.find("time-format"), // FIXME: うえで`model`つかっちゃってるからなあw
         };
     }
@@ -56,6 +57,12 @@ export default class TimerSettingsView extends Component {
         model.value = value;
         model.save();
         this.setState({model});
+    }
+    onChangeDashboardTimer(ev, i, value) {
+        let dashboard = this.state.dashboard;
+        dashboard.value = value;
+        dashboard.save();
+        this.setState({dashboard});
     }
     onTimeFormatChange(ev, i, value) {
         let timefmt = this.state.timefmt;
@@ -75,6 +82,16 @@ export default class TimerSettingsView extends Component {
                       <TableRowColumn>右上のタイマー表示形式</TableRowColumn>
                       <TableRowColumn>
                           <SelectField value={this.state.model.value} onChange={this.onChange.bind(this)}>
+                            <MenuItem value="separated-ids"      primaryText="種類別艦隊/ドック順形式" />
+                            <MenuItem value="separated-timeline" primaryText="種類別艦時間順形式" />
+                            <MenuItem value="merged-timeline"    primaryText="タイムライン形式" />
+                          </SelectField>
+                      </TableRowColumn>
+                    </TableRow>
+                    <TableRow>
+                      <TableRowColumn>クロックモードのタイマー表示形式</TableRowColumn>
+                      <TableRowColumn>
+                          <SelectField value={this.state.dashboard.value} onChange={this.onChangeDashboardTimer.bind(this)}>
                             <MenuItem value="separated-ids"      primaryText="種類別艦隊/ドック順形式" />
                             <MenuItem value="separated-timeline" primaryText="種類別艦時間順形式" />
                             <MenuItem value="merged-timeline"    primaryText="タイムライン形式" />

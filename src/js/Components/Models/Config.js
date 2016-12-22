@@ -51,6 +51,9 @@ Config.default = {
     "schedule-display-mode": {
         value: "separated-ids", // separated-timeline, merged-timeline
     },
+    "schedule-display-mode-dashboard": {
+        value: "separated-ids", // separated-timeline, merged-timeline
+    },
     "time-format": {
         value: "clock", // rest
     },
