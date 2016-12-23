@@ -41,7 +41,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
     .then(([h, m, s]) => Promise.resolve({h, m, s}))
     .then(time => {
         const S = 1000; const M = 60 * S; const H = 60 * M;
-        const length = time.h * H + (time.m - 1) * M + time.s * S;
+        const length = time.h * H + time.m * M + time.s * S;
         const createship = new CreateShip(Date.now() + length, dock, time);
         ScheduledQueues.append("createships", createship);
         notifications.create(createship.toNotificationID(), createship.toNotificationParamsForStart());
