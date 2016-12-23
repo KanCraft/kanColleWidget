@@ -10,5 +10,7 @@ LaunchPosition.default = {
     "dashboard": {
         left: 0,
         top:  0,
+        width:  400,
+        height: 292
     },
 };

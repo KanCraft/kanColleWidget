@@ -9,8 +9,9 @@ export function UpdateLaunchPosition(message) {
 
 export function UpdateDashboardLaunchPosition(message) {
     let position = LaunchPosition.find("dashboard");
-    console.log(position);
     position.left = message.left;
     position.top  = message.top;
+    position.height = message.height;
+    position.width  = message.width;
     position.save();
 }

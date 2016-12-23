@@ -49,10 +49,16 @@ Config.default = {
         description: "出撃からの固定時間通知です",
     },
     "schedule-display-mode": {
-        value: "horizontal", // vertical-timeline
+        value: "separated-ids", // separated-timeline, merged-timeline
+    },
+    "schedule-display-mode-dashboard": {
+        value: "separated-ids", // separated-timeline, merged-timeline
     },
     "time-format": {
         value: "clock", // rest
+    },
+    "dashboard-layout": {
+        value: "tab", // scroll
     },
     "damageshapshot-window": {
         value: "disabled"

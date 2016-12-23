@@ -47,9 +47,9 @@ export class TLQueueEntry extends Component {
 
 export class QueueList extends Component {
     render() {
-        const items = this.props.queues.sort((prev, next) => {
+        const items = this.props.queues.sort(this.props.sort || ((prev, next) => {
             return (prev.deck || prev.dock) > (next.deck || next.dock);
-        }).map((queue, i) => {
+        })).map((queue, i) => {
             return <QueueListItem key={i} queue={queue} unit={this.props.unit} />;
         });
         return (
@@ -62,25 +62,44 @@ export class QueueList extends Component {
     static propTypes = {
         title:  PropTypes.string,
         queues: PropTypes.array,
-        unit:   PropTypes.string
+        unit:   PropTypes.string,
+        sort:   PropTypes.func,
     }
 }
 
-export class HorizontalQueuesView extends Component {
+export class SeparatedQueuesViewBase extends Component {
     render() {
         return (
           <div style={{display: "flex"}}>
-            <QueueList queues={this.props.queues.missions.queues}    title={"遠征"} unit={"艦隊"} />
-            <QueueList queues={this.props.queues.recoveries.queues}  title={"修復"} unit={"dock"} />
-            <QueueList queues={this.props.queues.createships.queues} title={"建造"} unit={"dock"} />
+            <QueueList queues={this.props.queues.missions.queues}    sort={this.sort} title={"遠征"} unit={"艦隊"} />
+            <QueueList queues={this.props.queues.recoveries.queues}  sort={this.sort} title={"修復"} unit={"dock"} />
+            <QueueList queues={this.props.queues.createships.queues} sort={this.sort} title={"建造"} unit={"dock"} />
           </div>
         );
+    }
+    static propTypes = {
+        queues: PropTypes.object.isRequired,
+    }
+}
+
+export class SeparatedIDsQueuesView extends SeparatedQueuesViewBase {
+    constructor(props) {
+        super(props);
     }
     static propTypes = {
         queues: PropTypes.object.isRequired
     }
 }
-export class VerticalTimelineView extends Component {
+export class SeparatedTimelineQueuesView extends SeparatedQueuesViewBase {
+    constructor(props) {
+        super(props);
+        this.sort = (prev, next) => { return (prev.scheduled < next.scheduled) ? -1 : 1; };
+    }
+    static propTypes = {
+        queues: PropTypes.object.isRequired
+    }
+}
+export class MergedTimelineView extends Component {
     render() {
         const items = this.props.queues.missions.queues.concat(this.props.queues.recoveries.queues).concat(this.props.queues.createships.queues).sort((prev, next) => {
             return prev.scheduled < next.scheduled ? -1 : 1;

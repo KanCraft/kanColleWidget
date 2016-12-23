@@ -29,6 +29,9 @@ export class ScheduledQueues extends Model {
         let all = this.all();
         for (let key in all) {
             dict[key] = Array(4).fill({type:key});
+            for (let i = 0; i < dict[key].length; i++) {
+                dict[key][i] = {type:key, deck: i + 1, dock: i + 1};
+            }
             all[key].queues.map(q => {
                 dict[key][parseInt(q.deck || q.dock) - 1] = q;
             });

@@ -5,7 +5,7 @@ import Settings           from "material-ui/svg-icons/action/settings";
 import SelectField        from "material-ui/SelectField";
 import MenuItem           from "material-ui/MenuItem";
 
-import {HorizontalQueuesView, VerticalTimelineView} from "../../../Popup/QueuesView";
+import {SeparatedIDsQueuesView, SeparatedTimelineQueuesView, MergedTimelineView} from "../../../Popup/QueuesView";
 import {ScheduledQueues}        from "../../../../Models/Queue/Queue";
 import Config                   from "../../../../Models/Config";
 
@@ -14,18 +14,20 @@ class TimerExample extends Component {
         super(props);
         this.queues = ScheduledQueues.all();
     }
-    getHorizontalList() {
-        return <HorizontalQueuesView queues={this.queues} />;
+    getSeparatedIdentifiers() {
+        return <SeparatedIDsQueuesView queues={this.queues} />;
     }
-    getTimelineList() {
-        return <VerticalTimelineView queues={this.queues} />;
+    getSeparatedTimeline() {
+        return <SeparatedTimelineQueuesView queues={this.queues} />;
+    }
+    getMergedTimeline() {
+        return <MergedTimelineView queues={this.queues} />;
     }
     getList() {
         switch (this.props.mode) {
-        case "vertical-timeline": return this.getTimelineList();
-        case "horizontal":
-        default:
-            return this.getHorizontalList();
+        case "merged-timeline":        return this.getMergedTimeline();
+        case "separated-timeline":     return this.getSeparatedTimeline();
+        case "separated-ids": default: return this.getSeparatedIdentifiers();
         }
     }
     render() {
@@ -46,6 +48,7 @@ export default class TimerSettingsView extends Component {
         super(props);
         this.state = {
             model: Config.find("schedule-display-mode"),
+            dashboard: Config.find("schedule-display-mode-dashboard"), // FIXME: うえで`model`つかっちゃってるからなあw
             timefmt: Config.find("time-format"), // FIXME: うえで`model`つかっちゃってるからなあw
         };
     }
@@ -54,6 +57,12 @@ export default class TimerSettingsView extends Component {
         model.value = value;
         model.save();
         this.setState({model});
+    }
+    onChangeDashboardTimer(ev, i, value) {
+        let dashboard = this.state.dashboard;
+        dashboard.value = value;
+        dashboard.save();
+        this.setState({dashboard});
     }
     onTimeFormatChange(ev, i, value) {
         let timefmt = this.state.timefmt;
@@ -70,11 +79,22 @@ export default class TimerSettingsView extends Component {
                 <Table selectable={false}>
                   <TableBody displayRowCheckbox={false}>
                     <TableRow>
-                      <TableRowColumn>タイマー表示形式</TableRowColumn>
+                      <TableRowColumn>右上のタイマー表示形式</TableRowColumn>
                       <TableRowColumn>
                           <SelectField value={this.state.model.value} onChange={this.onChange.bind(this)}>
-                            <MenuItem value="horizontal"        primaryText="種類別艦隊順形式" />
-                            <MenuItem value="vertical-timeline" primaryText="タイムライン形式" />
+                            <MenuItem value="separated-ids"      primaryText="種類別艦隊/ドック順形式" />
+                            <MenuItem value="separated-timeline" primaryText="種類別艦時間順形式" />
+                            <MenuItem value="merged-timeline"    primaryText="タイムライン形式" />
+                          </SelectField>
+                      </TableRowColumn>
+                    </TableRow>
+                    <TableRow>
+                      <TableRowColumn>クロックモードのタイマー表示形式</TableRowColumn>
+                      <TableRowColumn>
+                          <SelectField value={this.state.dashboard.value} onChange={this.onChangeDashboardTimer.bind(this)}>
+                            <MenuItem value="separated-ids"      primaryText="種類別艦隊/ドック順形式" />
+                            <MenuItem value="separated-timeline" primaryText="種類別艦時間順形式" />
+                            <MenuItem value="merged-timeline"    primaryText="タイムライン形式" />
                           </SelectField>
                       </TableRowColumn>
                     </TableRow>

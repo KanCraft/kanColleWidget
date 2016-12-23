@@ -9,8 +9,11 @@ import ScreenShotSettingsView   from "./Settings/ScreenShots";
 import SyncSettingsView         from "./Settings/Syncs";
 import TimerSettingsView        from "./Settings/Timer";
 import UncategorizedSettings    from "./Settings/Uncategorized";
+import Announcement   from "./Announcement";
 import WinconfigsView from "./Winconfigs";
 // import DebugView      from "./Debug";
+import Meta from "../../Services/Meta";
+import History from "../../Models/History";
 
 const styles = {
     title: {
@@ -19,9 +22,20 @@ const styles = {
 };
 
 export default class OptionsView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            meta: new Meta(History.find("update-checked")),
+            ts:   Date.now(),// FIXME: これReactっぽくないなー
+        };
+    }
+    update() {
+        this.setState({ts: Date.now()});
+    }
     render() {
         return (
           <div>
+            {this.state.meta.hasUpdate() ? <Announcement meta={this.state.meta} update={this.update.bind(this)} /> : null}
             <NotificationSettingsView styles={styles} />
             <ScreenShotSettingsView   styles={styles} />
             <TimerSettingsView        styles={styles} />

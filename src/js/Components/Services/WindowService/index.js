@@ -49,8 +49,8 @@ class WindowService {
         this.module.windows.create({
             url:    this.module.extension.getURL("dest/html/dashboard.html"),
             type:  "popup",
-            height: 292,
-            width:  400,
+            height: position.height || 292,
+            width:  position.width || 400,
             left:   position.left || 0,
             top:    position.top  || 0,
         });

@@ -14,6 +14,7 @@ export default class UncategorizedSettings extends Component {
               <h1 style={this.props.styles.title}><Settings /> 未分類の設定置き場</h1>
               <Description>わりと設定項目が細かいし隅々まで散らばってるので、セクションつくるほど類似した設定がない設定はここにつっこむ的な。</Description>
               <DamageSnapshotSetting />
+              <DashboardLayoutSetting />
             </div>
         );
     }
@@ -48,6 +49,40 @@ class DamageSnapshotSetting extends Component {
                 </TableRow>
               </TableBody>
             </Table>
+        );
+    }
+    onChange(ev, i, value) {
+        let model = this.state.model;
+        model.value = value;
+        model.save();
+        this.setState({model});
+    }
+}
+
+class DashboardLayoutSetting extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("dashboard-layout")
+        };
+    }
+    render() {
+        return (
+          <Table selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>
+                  クロックモードのレイアウト
+                </TableRowColumn>
+                <TableRowColumn>
+                  <SelectField value={this.state.model.value} onChange={this.onChange.bind(this)}>
+                    <MenuItem value="tab" primaryText="タブ表示"   />
+                    <MenuItem value="scroll" primaryText="スクロール表示"/>
+                  </SelectField>
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
         );
     }
     onChange(ev, i, value) {
