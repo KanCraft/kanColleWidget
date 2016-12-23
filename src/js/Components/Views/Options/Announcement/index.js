@@ -69,7 +69,7 @@ export default class Announcement extends Component {
         super(props);
     }
     html(text) {
-        text.match(/\[[^\]]+\]/g).map(matched => {
+        (text.match(/\[[^\]]+\]/g) || []).map(matched => {
             let contents = matched.replace(/[\[\]]/g, "");
             let fragments = contents.split("|");
             if (fragments.length > 1) {
