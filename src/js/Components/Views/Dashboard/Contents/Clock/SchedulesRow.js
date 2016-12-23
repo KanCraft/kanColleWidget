@@ -20,7 +20,6 @@ class Schedule extends Component {
         );
     }
     static propTypes = {
-        index: PropTypes.number.isRequired,
         unit:  PropTypes.string.isRequired,
         queue: PropTypes.object.isRequired,
         manual:PropTypes.func.isRequired,
@@ -65,17 +64,17 @@ export default class SchedulesRow extends Component {
           <div style={{display: "flex", marginBottom: "12px"}}>
             <div style={col}>
               {this.state.queues.missions.sort(s).map((m,i) => {
-                  return <Schedule queue={m} key={i} index={i} unit={"艦隊"} manual={this.openManualDialog}/>;
+                  return <Schedule queue={m} key={i} unit={"艦隊"} manual={this.openManualDialog}/>;
               })}
             </div>
             <div style={col}>
               {this.state.queues.recoveries.sort(s).map((r, i) => {
-                  return <Schedule queue={r} key={i} index={i} unit={"修復"} manual={this.openManualDialog}/>;
+                  return <Schedule queue={r} key={i} unit={"修復"} manual={this.openManualDialog}/>;
               })}
             </div>
             <div style={col}>
               {this.state.queues.createships.sort(s).map((c, i) => {
-                  return <Schedule queue={c} key={i} index={i} unit={"建造"} manual={this.openManualDialog}/>;
+                  return <Schedule queue={c} key={i} unit={"建造"} manual={this.openManualDialog}/>;
               })}
             </div>
           </div>
