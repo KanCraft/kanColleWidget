@@ -114,10 +114,9 @@ export default class PopupView extends Component {
     }
     getScheduleView() {
         switch (Config.find("schedule-display-mode").value) {
-        case "merged-timeline": return <MergedTimelineView queues={this.state.queues} />;
-        case "separated-ids":   return <SeparatedTimelineQueuesView queues={this.state.queues} />;
-        case "separated-timeline":
-        default: return <SeparatedIDsQueuesView queues={this.state.queues} />;
+        case "merged-timeline":    return <MergedTimelineView queues={this.state.queues} />;
+        case "separated-timeline": return <SeparatedTimelineQueuesView queues={this.state.queues} />;
+        case "separated-ids": default: return <SeparatedIDsQueuesView queues={this.state.queues} />;
         }
     }
     render() {
