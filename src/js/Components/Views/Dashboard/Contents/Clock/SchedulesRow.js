@@ -16,7 +16,7 @@ class Schedule extends Component {
         const name = `第${this.props.queue.deck || this.props.queue.dock}${this.props.unit}`;
         const time = this.props.queue.scheduled ? (new Date(this.props.queue.scheduled)).toClockString(rest) : "--:--";
         return (
-          <div style={styles.row} onClick={() => this.props.manual(this.props.queue, this.props.index + 1)}><div style={styles.col}>{time}</div><div style={styles.col}>{name}</div></div>
+          <div style={styles.row} onClick={() => this.props.manual(this.props.queue, this.props.queue.deck || this.props.queue.dock)}><div style={styles.col}>{time}</div><div style={styles.col}>{name}</div></div>
         );
     }
     static propTypes = {
