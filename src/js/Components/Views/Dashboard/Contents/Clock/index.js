@@ -35,7 +35,7 @@ export default class DashboardClock extends Component {
             margin: "0 auto",
             backgroundColor: grey200
         };
-        let icon = this.assets.getNotificationIcon("default");
+        let icon = this.assets.getNotificationIcon("default", false);
         if (icon) {
             return <Avatar src={icon} style={style} onClick={this.onClickAvatar.bind(this)} />;
         }

@@ -24,13 +24,14 @@ export default class Assets {
     getDefaultDownloadFileExt() {
         return this.config.find("download-file-ext").value;
     }
-    getNotificationIcon(name) {
+    getNotificationIcon(name, useDefault = true) {
         if (this.config.find(`notification-for-${name}`).icon) {
             return this.config.find(`notification-for-${name}`).icon;
         }
         if (this.config.find("notification-for-default").icon) {
             return this.config.find("notification-for-default").icon;
         }
+        if (!useDefault) return null;
         return this.module.extension.getURL("dest/img/icons/chang.white.png");
     }
     getNotificationSound(name) {
