@@ -13,4 +13,10 @@ LaunchPosition.default = {
         width:  400,
         height: 292
     },
+    "dsnapshot": {
+        left: 0,
+        top:  0,
+        width:  124,
+        height: 200,
+    },
 };

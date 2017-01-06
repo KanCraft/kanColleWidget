@@ -7,11 +7,13 @@ const windows = WindowService.getInstance();
 const capture = new CaptureService();
 
 import Config from "../../Models/Config";
+import LaunchPosition from "../../Models/LaunchPosition";
 
 function getWindowForDamageSnapshot(detail) {
+    let position = LaunchPosition.find("dsnapshot");
     switch (Config.find("damageshapshot-window").value) {
     case "separate":
-        return windows.openDamagaSnapshot().then(({tabs:[tab]}) => Promise.resolve(tab));
+        return windows.openDamagaSnapshot(position).then(({tabs:[tab]}) => Promise.resolve(tab));
     case "inwindow":
         return Promise.resolve({id:detail.tabId});
     case "disabled":

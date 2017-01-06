@@ -28,13 +28,14 @@ class WindowService {
     }
     openDamagaSnapshot(position = {}) {
         const r = 124 / 200;
-        const h = 200; // TODO: これLaunchPositionからとってくる
+        const h = position.height || 200;
+        const w = position.width  || h * r;
         return new Promise(resolve => {
             this.module.windows.create({
                 url:    this.module.extension.getURL("dest/html/dsnapshot.html"),
                 type:  "popup",
                 height: h,
-                width:  h * r,
+                width:  w,
                 left:   position.left || 0,
                 top:    position.top  || 0,
             }, resolve);

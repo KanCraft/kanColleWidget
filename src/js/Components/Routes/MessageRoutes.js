@@ -24,6 +24,7 @@ router.on("/debug/imagerecognize",   Controllers.ImageRecognizationDebug);
 router.on("/debug/notification",     Controllers.NotificationDebug);
 router.on("/launchposition/:update",          Controllers.UpdateLaunchPosition);
 router.on("/launchposition/dashboard/update", Controllers.UpdateDashboardLaunchPosition);
+router.on("/launchposition/dsnapshot/update", Controllers.UpdateDamageSnapshotLaunchPosition);
 
 const MessageListener = router.listener();
 export default MessageListener;
