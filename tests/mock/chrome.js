@@ -2,15 +2,14 @@
  * このファイルは巨大になる気がするけど、まあいいよね
 **/
 
-// いずれchromeネームスペースが状態を持たなきゃいけなくなる気もするので、
-// クロージャーで返す
-var chrome = (() => {
+const extension = (() => {
     return {
-        extension: {
-            getURL: () => {
-                return "this is default";
-            },
-        },
+        getURL: () => {
+            return "this is default";
+        }
     };
 })();
-Object.defineProperty(window, "chrome", {value:chrome});
+
+Object.defineProperty(window, "chrome", {value: {
+    extension,
+}});
