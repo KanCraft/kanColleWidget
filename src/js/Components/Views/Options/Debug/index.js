@@ -1,13 +1,9 @@
 import React, {Component, PropTypes} from "react";
 import Toggle       from "material-ui/Toggle";
-import RaisedButton from "material-ui/RaisedButton";
-import SelectField  from "material-ui/SelectField";
-import MenuItem     from "material-ui/MenuItem";
 
 import Icon from "../../FontAwesome";
 
 import Config from "../../../Models/Config";
-import {Client} from "chomex";
 
 const styles = {
     section: {
@@ -23,51 +19,6 @@ const styles = {
         fontFamily: "monospace",
     }
 };
-
-class ImgDiffDebugView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            purpose: "createship",
-            index:    1,
-        };
-    }
-    onPurposeChanged(ev, index, purpose) {
-        this.setState({ purpose });
-    }
-    onDockChanged(ev, index) {
-        this.setState({index:index+1});
-    }
-    execute() {
-        const client = new Client(chrome.runtime, true);
-        client.message("/debug/imagerecognize", {
-            purpose: this.state.purpose,
-            index: this.state.index,
-        }).catch(err => {
-            console.log(err);
-        });
-    }
-    render() {
-        return (
-          <div style={styles.section}>
-            <SelectField value={this.state.purpose} onChange={this.onPurposeChanged.bind(this)}>
-              <MenuItem value="recovery"   primaryText="修復画面" />
-              <MenuItem value="createship" primaryText="建造画面" />
-            </SelectField>
-            <SelectField value={this.state.index} onChange={this.onDockChanged.bind(this)}>
-              <MenuItem value={1} primaryText="第一ドック" />
-              <MenuItem value={2} primaryText="第二ドック" />
-              <MenuItem value={3} primaryText="第三ドック" />
-              <MenuItem value={4} primaryText="第四ドック" />
-            </SelectField>
-            <RaisedButton style={styles.inline} secondary={true} label={"画像認識"} onClick={this.execute.bind(this)} />
-          </div>
-        );
-    }
-    static propTypes = {
-        output: PropTypes.func
-    }
-}
 
 class DebugView extends Component {
     constructor(props) {
@@ -108,7 +59,6 @@ class DebugView extends Component {
           <div>
             <h1 style={this.props.styles.title}>{this.getSwitch()}</h1>
             <div>
-              <ImgDiffDebugView output={this.setOutput.bind(this)}/>
               {this.getContents()}
             </div>
           </div>

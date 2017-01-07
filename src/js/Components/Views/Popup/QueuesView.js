@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 
 import Config from "../../Models/Config";
+import {MISSION,RECOVERY,CREATESHIP} from "../../../Constants";
 
 class QueueListItem extends Component {
     render() {
@@ -34,9 +35,9 @@ export class TLQueueEntry extends Component {
     }
     getIdentity() {
         switch (this.props.queue.params.type) {
-        case "mission": return `第${this.props.queue.deck}艦隊`;
-        case "recovery": return `第${this.props.queue.dock}修復ドック`;
-        case "createship": return `第${this.props.queue.dock}建造ドック`;
+        case MISSION:    return `第${this.props.queue.deck}艦隊`;
+        case RECOVERY:   return `第${this.props.queue.dock}修復ドック`;
+        case CREATESHIP: return `第${this.props.queue.dock}建造ドック`;
         default: return `${this.props.queue.params} is unknown type for queue`;
         }
     }

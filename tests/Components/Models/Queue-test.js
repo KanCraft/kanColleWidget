@@ -4,6 +4,7 @@ jest.unmock("../../../src/js/Components/Models/Queue/Queue");
 import {Mission} from "../../../src/js/Components/Models/Queue/Queue";
 
 // Dependencies
+jest.unmock("../../../src/js/Components/Services/Assets");
 jest.unmock("../../../src/js/Components/Models/Config");
 import Config from "../../../src/js/Components/Models/Config";
 
@@ -18,7 +19,6 @@ describe("Mission Model", () => {
     describe("toNotificationParams", () => {
         it("個別設定されたアイコンURLか、なければデフォルト値を返す", () => {
             let mission = new Mission(Date.now(), "<manual>", 1, 0);
-            expect(true).toBe(true);
             expect(mission.toNotificationParams().iconUrl).toBe("this is default");
 
             let config = Config.find("notification-for-mission");

@@ -4,6 +4,8 @@ import Assets from "../Services/Assets";
 // import {Logger} from "chomex";
 // const logger = new Logger();
 
+import {MISSION, RECOVERY, CREATESHIP, TIREDNESS} from "../../Constants";
+
 import BadgeService from "../Services/BadgeService";
 import NotificationService from "../Services/NotificationService";
 
@@ -39,10 +41,11 @@ export default class QueueObserver {
    */
     run(now = Date.now()) {
 
-        let missions = this.accessor.find("missions");
-        let recoveries = this.accessor.find("recoveries");
-        let createships = this.accessor.find("createships");
-        let tiredness   = this.accessor.find("tiredness");
+        // FIXME: 表記ゆれの名残。"~複数形"のほうはいずれ消す。
+        let missions = this.accessor.find(MISSION)       || this.accessor.find("missions");
+        let recoveries = this.accessor.find(RECOVERY)    || this.accessor.find("recoveries");
+        let createships = this.accessor.find(CREATESHIP) || this.accessor.find("createships");
+        let tiredness   = this.accessor.find(TIREDNESS)  || this.accessor.find("tiredness");
 
         const timeups = [
             ...missions.scan(now),

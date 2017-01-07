@@ -1,6 +1,7 @@
 /* global sleep:false */
 import {ScheduledQueues, Recovery} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
+import {RECOVERY} from "../../../Constants";
 
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
@@ -30,7 +31,7 @@ export function onRecoveryStart(detail) {
  */
 export function onRecoveryStartCompleted(detail, dock = __dock_id) {
 
-    if (!Config.isNotificationEnabled("recovery")) return;
+    if (!Config.isNotificationEnabled(RECOVERY)) return;
 
     const windows = WindowService.getInstance();
     const captures = new CaptureService();
@@ -49,7 +50,7 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
         const S = 1000; const M = 60 * S; const H = 60 * M;
         const length = time.h * H + (time.m - 1) * M + time.s * S;
         const recovery = new Recovery(Date.now() + length, dock, time);
-        ScheduledQueues.append("recoveries", recovery);
+        ScheduledQueues.append(RECOVERY, recovery);
         notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
 }
@@ -65,6 +66,6 @@ export function onRecoveryDocksDisplayed() {
 
 export function onRecoverySpeedup(detail) {
     const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
-    let recoveries = ScheduledQueues.find("recoveries");
+    let recoveries = ScheduledQueues.find(RECOVERY) || ScheduledQueues.find("recoveries");
     recoveries.clear(dock_id);
 }

@@ -11,6 +11,7 @@ import NotificationService from "../../Services/NotificationService";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
+import {CREATESHIP} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -24,7 +25,7 @@ export function onCreateShipStart(detail) {
  */
 export function onCreateShipCompleted(detail, dock = __dock_id) {
 
-    if (!Config.isNotificationEnabled("createship")) return;
+    if (!Config.isNotificationEnabled(CREATESHIP)) return;
 
     const windows = WindowService.getInstance();
     const captures = new CaptureService();
@@ -43,7 +44,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
         const S = 1000; const M = 60 * S; const H = 60 * M;
         const length = time.h * H + time.m * M + time.s * S;
         const createship = new CreateShip(Date.now() + length, dock, time);
-        ScheduledQueues.append("createships", createship);
+        ScheduledQueues.append(CREATESHIP, createship);
         notifications.create(createship.toNotificationID(), createship.toNotificationParamsForStart());
         return Promise.resolve(time);
     });
@@ -51,7 +52,8 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
 
 export function onCreateShipSpeedup(detail) {
     const {requestBody:{formData:{api_kdock_id:[dock_id]}}} = detail;
-    let createships = ScheduledQueues.find("createships");
+    // FIXME: 表記ゆれの名残。いずれ消す
+    let createships = ScheduledQueues.find(CREATESHIP) || ScheduledQueues.find("createships");
     createships.clear(dock_id);
 }
 

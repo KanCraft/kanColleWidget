@@ -1,6 +1,7 @@
 /**
  * 遠征関係のAPIリクエストが飛んだ時に発火するコントローラ群
  */
+import {MISSION} from "../../../Constants";
 
  // Utilities
 // import {Logger} from "chomex";
@@ -18,19 +19,20 @@ const notifications = new NotificationService();
  */
 export function onMissionStart(detail) {
 
-    if (!Config.isNotificationEnabled("mission")) return;
+    if (!Config.isNotificationEnabled(MISSION)) return;
 
     const data = detail.requestBody.formData;
     const mission = Mission.createFromFormData(data);
-    ScheduledQueues.append("missions", mission);
-  // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
+    ScheduledQueues.append(MISSION, mission);
+    // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
     notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
 }
 
 export function onMissionResult(detail) {
 
     const {requestBody:{formData:{api_deck_id:[deck_id]}}} = detail;
-    let missions = ScheduledQueues.find("missions");
+    // FIXME: 表記ゆれの名残。"missions"のほうはいずれ消す。
+    let missions = ScheduledQueues.find(MISSION) || ScheduledQueues.find("missions");
     missions.clear(deck_id);
 
     // TODO: Controllerレイヤーでchromeを参照するのはやめましょう

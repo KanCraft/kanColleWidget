@@ -4,6 +4,8 @@ import Dialog from "material-ui/Dialog";
 import {grey600} from "material-ui/styles/colors";
 import FlatButton from "material-ui/FlatButton";
 
+import {MISSION, RECOVERY, CREATESHIP} from "../../../../../Constants";
+
 const styles = {
     title: {
         fontSize: "0.8em",
@@ -35,19 +37,21 @@ export default class ManualTimerDialog extends Component {
     getUnit() {
         if (!this.props.queue) return;
         switch ((this.props.queue.params || this.props.queue).type) {
-        case "mission":    case "missions":    return "艦隊";
-        case "recovery":   case "recoveries":  return "ドック";
-        case "createship": case "createships": return "ドック";
-        case "default":    return "なんか";
+        // FIXME: 表記ゆれの名残。複数形の方はいずれ消す
+        case MISSION:    case "missions":    return "艦隊";
+        case RECOVERY:   case "recoveries":  return "ドック";
+        case CREATESHIP: case "createships": return "ドック";
+        case "default":  return "なんか";
         }
     }
     getName() {
         if (!this.props.queue) return;
         switch ((this.props.queue.params || this.props.queue).type) {
-        case "mission":    case "missions":    return "遠征";
-        case "recovery":   case "recoveries":  return "修復";
-        case "createship": case "createships": return "建造";
-        case "default":    return "なんか";
+        // FIXME: 表記ゆれの名残。複数形の方はいずれ消す
+        case MISSION:    case "missions":    return "遠征";
+        case RECOVERY:   case "recoveries":  return "修復";
+        case CREATESHIP: case "createships": return "建造";
+        case "default":  return "なんか";
         }
     }
     getID() {
