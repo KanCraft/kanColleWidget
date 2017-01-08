@@ -3,6 +3,7 @@ import {Model} from "chomex";
 // TODO: いやーこれ設計崩壊してるだろ
 import Config from "../Config";
 import Assets from "../../Services/Assets";
+import {MISSION,RECOVERY,CREATESHIP,TIREDNESS} from "../../../Constants";
 
 import {greenA400, blueA700, orange600} from "material-ui/styles/colors";
 
@@ -69,16 +70,16 @@ export class ScheduledQueues extends Model {
 }
 
 ScheduledQueues.default = {
-    missions: {
+    [MISSION]: {
         queues: [],
     },
-    recoveries: {
+    [RECOVERY]: {
         queues: [],
     },
-    createships: {
+    [CREATESHIP]: {
         queues: [],
     },
-    tiredness: {
+    [TIREDNESS]: {
         queues: [],
     }
 };
@@ -87,6 +88,7 @@ export class Queue {
     constructor(scheduledTimeStamp, params) {
         this.scheduled = scheduledTimeStamp;
         this.params = params;
+        this.assets = new Assets(Config);
     }
     hasCome(now = Date.now()) {
         return ((parseInt(this.scheduled) - now) <= 0);
@@ -108,13 +110,13 @@ export class Queue {
 // これがここにあるからややこしいことになってる
 function createQueueModelFromStorage(stored) {
     switch(stored.params.type) {
-    case "mission":
+    case MISSION:
         return Mission.createFromStorage(stored);
-    case "recovery":
+    case RECOVERY:
         return Recovery.createFromStorage(stored);
-    case "createship":
+    case CREATESHIP:
         return CreateShip.createFromStorage(stored);
-    case "tiredness":
+    case TIREDNESS:
         return Tiredness.createFromStorage(stored);
     default:
     }
@@ -124,7 +126,7 @@ function createQueueModelFromStorage(stored) {
 export class Mission extends Queue {
     constructor(time, title, deck, mission) {
         const params = {
-            type: "mission",
+            type: MISSION,
             title: title,
             deck: deck,
             mission: mission,
@@ -156,7 +158,7 @@ export class Mission extends Queue {
     static unknown(missionID) {
         const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
-            toNotificationID: () => "mission.unknown",
+            toNotificationID: () => `${MISSION}.unknown`,
             toNotificationParamsForStart: () => {
                 return {
                     type: "basic",
@@ -175,31 +177,27 @@ export class Mission extends Queue {
     }
 
     toNotificationID() {
-        return `mission.${this.params.mission}`;
+        return `${MISSION}.${this.params.mission}`;
     }
 
     toNotificationParams() {
-        // TODO: ここでchrome参照するのぜったいいや
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `遠征帰投報告: ${this.title}`,
             message: `第${this.deck}艦隊がまもなく「${this.title}」より帰投します`,
             requireInteraction: true,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(MISSION),
         };
     }
 
     // 遠征開始時のNotification用パラメータ
     toNotificationParamsForStart() {
-        // TODO: ここでchrome参照するのぜったいいや
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `遠征艦隊出港: ${this.title}`,
             message: `第${this.deck}艦隊が「${this.title}」へ向かいました。帰投予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
             requireInteraction: false,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(MISSION),
         };
     }
 }
@@ -212,7 +210,7 @@ Mission.catalog = catalog;
 export class Recovery extends Queue {
     constructor(time, dock, detected = {}) {
         const params = {
-            type: "recovery",
+            type: RECOVERY,
             dock: dock,
         };
         super(time, params);
@@ -221,34 +219,24 @@ export class Recovery extends Queue {
         this.badgeColor = greenA400;
     }
     toNotificationID() {
-        return `recovery.${this.dock}`;
+        return `${RECOVERY}.${this.dock}`;
     }
     toNotificationParams() {
-        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
-        // TODO: ここでchrome参照するのぜったいいや
-        // TODO: AssetManagerの実装が必要だー
-        // (new AssetManager(configset)).getNotificationIconURIForType("recovery")
-        // 的なやつ
-        // configsetが持って無ければデフォルト、とかそういうロジックを持っているやつ
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `修復終了報告: ${this.dock}番ドック`,
             message: `第${this.dock}番ドックの修復がまもなく終了します。`,
             requireInteraction: true,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(RECOVERY),
         };
     }
     toNotificationParamsForStart() {
-        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
-        // TODO: AssetManagerの実装が必要だー
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `おやすみします ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
             message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
             requireInteraction: false,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(RECOVERY),
         };
     }
     static createFromStorage(stored) {
@@ -262,7 +250,7 @@ export class Recovery extends Queue {
 export class CreateShip extends Queue {
     constructor(time, dock, detected = {}) {
         const params = {
-            type: "createship",
+            type: CREATESHIP,
             dock: dock,
         };
         super(time, params);
@@ -271,28 +259,24 @@ export class CreateShip extends Queue {
         this.badgeColor = orange600;
     }
     toNotificationID() {
-        return `createship.${this.dock}`;
+        return `${CREATESHIP}.${this.dock}`;
     }
     toNotificationParams() {
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `建造終了報告: ${this.dock}番建造ドック`,
             message: `第${this.dock}番ドックの建造がまもなく終了します。`,
             requireInteraction: true,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(CREATESHIP),
         };
     }
     toNotificationParamsForStart() {
-        // (´ε｀；)ｳｰﾝ…ここでchrome参照...
-        // TODO: AssetManagerの実装が必要だー
-        const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
         return {
             type: "basic",
             title: `建造所要時間 ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
             message: `第${this.dock}ドックでの建造完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
             requireInteraction: false,
-            iconUrl: url,
+            iconUrl: this.assets.getNotificationIcon(CREATESHIP),
         };
     }
     static createFromStorage(stored) {
@@ -303,7 +287,7 @@ export class CreateShip extends Queue {
 export class Tiredness extends Queue {
     constructor(time, deck) {
         const params = {
-            type: "tiredness",
+            type: TIREDNESS,
             deck: deck,
         };
         super(time, params);
@@ -312,16 +296,15 @@ export class Tiredness extends Queue {
     }
 
     toNotificationID() {
-        return `tiredness.${this.deck}`;
+        return `${TIREDNESS}.${this.deck}`;
     }
     toNotificationParams() {
-        const assets = new Assets(Config);
         return {
             type: "basic",
             title: "疲労回復",
             message: `第${this.deck}艦隊の疲労がだいたい回復しそうです`,
             requireInteraction: true,
-            iconUrl: assets.getNotificationIcon("tiredness"),
+            iconUrl: this.assets.getNotificationIcon(TIREDNESS),
         };
     }
     toNotificationParamsForStart() {

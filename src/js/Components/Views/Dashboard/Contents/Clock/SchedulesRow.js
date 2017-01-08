@@ -63,17 +63,17 @@ export default class SchedulesRow extends Component {
         return (
           <div style={{display: "flex", marginBottom: "12px"}}>
             <div style={col}>
-              {this.state.queues.missions.sort(s).map((m,i) => {
+              {this.state.queues.mission.sort(s).map((m,i) => {
                   return <Schedule queue={m} key={i} unit={"艦隊"} manual={this.openManualDialog}/>;
               })}
             </div>
             <div style={col}>
-              {this.state.queues.recoveries.sort(s).map((r, i) => {
+              {this.state.queues.recovery.sort(s).map((r, i) => {
                   return <Schedule queue={r} key={i} unit={"修復"} manual={this.openManualDialog}/>;
               })}
             </div>
             <div style={col}>
-              {this.state.queues.createships.sort(s).map((c, i) => {
+              {this.state.queues.createship.sort(s).map((c, i) => {
                   return <Schedule queue={c} key={i} unit={"建造"} manual={this.openManualDialog}/>;
               })}
             </div>

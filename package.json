@@ -67,6 +67,7 @@
       "<rootDir>/node_modules/chomex"
     ],
     "setupFiles": [
+      "tests/mock/chrome.js",
       "tests/mock/localStorage.js"
     ]
   }

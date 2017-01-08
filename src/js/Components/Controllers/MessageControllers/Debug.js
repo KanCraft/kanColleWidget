@@ -1,19 +1,8 @@
-import {onRecoveryStartCompleted} from "../RequestControllers/Recovery";
-import {onCreateShipCompleted}    from "../RequestControllers/Kousho";
 import NotificationService        from "../../Services/NotificationService";
 
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
-
-export function ImageRecognizationDebug(params) {
-    switch (params.purpose) {
-    case "createship":
-        return onCreateShipCompleted({}, params.index);
-    case "recovery":
-    default:
-        return onRecoveryStartCompleted({}, params.index);
-    }
-}
+import {MISSION,RECOVERY,CREATESHIP,TIREDNESS} from "../../../Constants";
 
 export function NotificationDebug(params) {
     const notifications = new NotificationService();
@@ -29,40 +18,40 @@ export function NotificationDebug(params) {
             iconUrl: assets.getNotificationIcon("default"),
         });
     case "notification-for-mission":
-        assets.playSoundIfSet("mission");
+        assets.playSoundIfSet(MISSION);
         return notifications.create(`debug.${Date.now()}`, {
             type: "basic",
             title: "[TEST] 遠征通知テスト",
             message: "遠征帰投",
             requireInteraction: false,
-            iconUrl: assets.getNotificationIcon("mission"),
+            iconUrl: assets.getNotificationIcon(MISSION),
         });
     case "notification-for-recovery":
-        assets.playSoundIfSet("recovery");
+        assets.playSoundIfSet(RECOVERY);
         return notifications.create(`debug.${Date.now()}`, {
             type: "basic",
             title: "[TEST] 修復通知テスト",
             message: "修復完了",
             requireInteraction: false,
-            iconUrl: assets.getNotificationIcon("recovery"),
+            iconUrl: assets.getNotificationIcon(RECOVERY),
         });
     case "notification-for-createship":
-        assets.playSoundIfSet("createship");
+        assets.playSoundIfSet(CREATESHIP);
         return notifications.create(`debug.${Date.now()}`, {
             type: "basic",
             title: "[TEST] 建造通知テスト",
             message: "建造完了",
             requireInteraction: false,
-            iconUrl: assets.getNotificationIcon("createship"),
+            iconUrl: assets.getNotificationIcon(CREATESHIP),
         });
     case "notification-for-tiredness":
-        assets.playSoundIfSet("tiredness");
+        assets.playSoundIfSet(TIREDNESS);
         return notifications.create(`debug.${Date.now()}`, {
             type: "basic",
             title: "[TEST] 疲労回復通知テスト",
             message: "疲労回復",
             requireInteraction: false,
-            iconUrl: assets.getNotificationIcon("tiredness"),
+            iconUrl: assets.getNotificationIcon(TIREDNESS),
         });
     default:
         console.log(params);
