@@ -7,19 +7,13 @@ import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
 
+import CaptureWindowURL from "../../Routine/CaptureWindowURL";
+
 function OpenCaptureWindow(uri) {
-    let params = new URLSearchParams();
-    if (uri.length > 1 * Math.pow(10, 6)) {
-        const hash = `kcw:tmp:deckimage:${Date.now()}`;
-        // TODO: chrome直接参照〜
-        chrome.storage.local.set({[hash]:uri}, () => {
-            params.set("datahash", hash);
-            window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
-        });
-    } else {
-        params.set("img", uri);
+    let url = new CaptureWindowURL(Date.now());
+    url.params(uri).then(params => {
         window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
-    }
+    });
 }
 
 export function CaptureController() {
