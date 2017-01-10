@@ -68,6 +68,7 @@
     ],
     "setupFiles": [
       "tests/mock/chrome.js",
+      "tests/mock/URLSearchParams.js",
       "tests/mock/localStorage.js"
     ]
   }
