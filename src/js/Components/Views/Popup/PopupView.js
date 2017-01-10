@@ -10,11 +10,14 @@ import {ScheduledQueues} from "../../Models/Queue/Queue";
 import History from "../../Models/History";
 import Config  from "../../Models/Config";
 import Meta    from "../../Services/Meta";
+// TODO: messageのほうがいいかな...
+import WindowService from "../../Services/WindowService";
 
 import IconButton from "material-ui/IconButton";
 import ViewModule from "material-ui/svg-icons/action/view-module";
 import Schedule   from "material-ui/svg-icons/action/schedule";
 import Build      from "material-ui/svg-icons/action/build";
+import PhotoCamera        from "material-ui/svg-icons/image/photo-camera";
 import ChromeReaderMode   from "material-ui/svg-icons/action/chrome-reader-mode";
 import {grey400, grey800, red500} from "material-ui/styles/colors";
 
@@ -80,12 +83,18 @@ export default class PopupView extends Component {
             winconfigs: {},
             queues: ScheduledQueues.all(),
             last: last,
+            captureIcon: null,
             selected: last.id
         };
         this.meta = new Meta(History.find("update-checked"));
         client.message("/frame/all").then(res => {
             this.setState({winconfigs: res.data});
         });
+        WindowService.getInstance().find(true).then(() => {
+            this.setState({
+                captureIcon: <ReactiveIconButton onClick={this.captureTab.bind(this)}><PhotoCamera /></ReactiveIconButton>
+            });
+        }).catch(() => console.log("CAPTURE ICON NOT RENDERED"));
     }
 
     componentDidMount() {
@@ -112,6 +121,9 @@ export default class PopupView extends Component {
         // TODO: windowオブジェクトを参照するのはいやだなー
         window.open("/dest/html/wiki.html");
     }
+    captureTab() {
+        client.message("/window/current-action");
+    }
     getScheduleView() {
         switch (Config.find("schedule-display-mode").value) {
         case "merged-timeline":    return <MergedTimelineView queues={this.state.queues} />;
@@ -137,6 +149,7 @@ export default class PopupView extends Component {
               <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openWiki.bind(this)}       ><ChromeReaderMode /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
+              {this.state.captureIcon}
             </div>
           </div>
         );
