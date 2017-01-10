@@ -72,9 +72,9 @@ export class SeparatedQueuesViewBase extends Component {
     render() {
         return (
           <div style={{display: "flex"}}>
-            <QueueList queues={this.props.queues.missions.queues}    sort={this.sort} title={"遠征"} unit={"艦隊"} />
-            <QueueList queues={this.props.queues.recoveries.queues}  sort={this.sort} title={"修復"} unit={"dock"} />
-            <QueueList queues={this.props.queues.createships.queues} sort={this.sort} title={"建造"} unit={"dock"} />
+            <QueueList queues={this.props.queues[MISSION].queues}    sort={this.sort} title={"遠征"} unit={"艦隊"} />
+            <QueueList queues={this.props.queues[RECOVERY].queues}   sort={this.sort} title={"修復"} unit={"dock"} />
+            <QueueList queues={this.props.queues[CREATESHIP].queues} sort={this.sort} title={"建造"} unit={"dock"} />
           </div>
         );
     }
@@ -102,7 +102,7 @@ export class SeparatedTimelineQueuesView extends SeparatedQueuesViewBase {
 }
 export class MergedTimelineView extends Component {
     render() {
-        const items = this.props.queues.missions.queues.concat(this.props.queues.recoveries.queues).concat(this.props.queues.createships.queues).sort((prev, next) => {
+        const items = this.props.queues[MISSION].queues.concat(this.props.queues[RECOVERY].queues).concat(this.props.queues[CREATESHIP].queues).sort((prev, next) => {
             return prev.scheduled < next.scheduled ? -1 : 1;
         }).map((q, i) => <TLQueueEntry key={i} queue={q} />);
         return (
