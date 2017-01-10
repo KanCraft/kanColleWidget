@@ -5,6 +5,7 @@ import {ScheduledQueues} from "../../../../Models/Queue/Queue";
 import ManualTimerDialog from "../Dialogs/ManualTimerDialog";
 import {MergedTimelineView} from "../../../Popup/QueuesView";
 import Config from "../../../../Models/Config";
+import {MISSION,RECOVERY,CREATESHIP} from "../../../../../Constants";
 
 class Schedule extends Component {
     render() {
@@ -94,9 +95,9 @@ export default class SchedulesRow extends Component {
     getMergedTimeline() {
         const f = (q) => { return !!q.scheduled; };
         const queues = {
-            missions:    {queues: this.state.queues.missions.filter(f)},
-            recoveries:  {queues: this.state.queues.recoveries.filter(f)},
-            createships: {queues: this.state.queues.createships.filter(f)},
+            [MISSION]:    {queues: this.state.queues[MISSION].filter(f)},
+            [RECOVERY]:   {queues: this.state.queues[RECOVERY].filter(f)},
+            [CREATESHIP]: {queues: this.state.queues[CREATESHIP].filter(f)},
         };
         return <MergedTimelineView queues={queues} />;
     }
