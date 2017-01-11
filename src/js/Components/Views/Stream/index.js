@@ -47,8 +47,13 @@ class VideoController extends Component {
     }
     stopRecording() {
         this.setState({recording: false});
-        this.client.message("/stream/recording/stop").then(res => {
-            console.log(res);
+        this.client.message("/stream/recording/stop").then(({data}) => {
+            if (!data.url) return; // FIXME: とりあえず
+            let a = document.createElement("a");
+            a.href = data.url;
+            a.download = `video_${Date.now()}.webm`;
+            a.click();
+            window.revokeObjectURL(data.url);
         });
     }
     render() {
