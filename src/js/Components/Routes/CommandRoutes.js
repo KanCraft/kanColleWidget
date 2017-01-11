@@ -9,6 +9,7 @@ let router = new Router(resolve);
 router.on("capture", Controllers.CaptureController);
 router.on("mute",    Controllers.MuteController);
 router.on("dashboard",Controllers.OpenDashboard);
+router.on("stream",  Controllers.OpenStreaming);
 
 const CommandRouter = router.listener();
 export default CommandRouter;

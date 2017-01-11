@@ -5,6 +5,8 @@
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
+    "activeTab",
+    "tabCapture",
     "webRequest",
     "notifications",
     "downloads",
@@ -58,6 +60,16 @@
         "linux": "Ctrl+Shift+9"
       },
       "global": true
+    },
+    "stream": {
+      "description": "動画キャプチャを開始します",
+      "suggested_key": {
+        "windows": "Ctrl+Shift+8",
+        "mac": "Command+Shift+8",
+        "chromeos": "Ctrl+Shift+8",
+        "linux": "Ctrl+Shift+8"
+      },
+      "global": false
     },
     "dashboard": {
       "description": "ダッシュボードを開きます",
