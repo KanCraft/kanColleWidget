@@ -27,14 +27,27 @@ export default class Achievement extends Model {
         daily.save();
         return daily;
     }
+    // TODO: 超だるいロジックをここに書く...
+    static needsUpdateForWeekly() {
+        return false;
+    }
+    static weekly() {
+        let weekly = this.find("weekly");
+        if (this.needsUpdateForWeekly(weekly.lastTouched)) {
+            weekly.records = this.default.weekly.records;
+        }
+        weekly.lastTouched = Date.now();
+        weekly.save();
+        return weekly;
+    }
     /**
      * dailyもweeklyもincrementするやつ
     **/
     static count(key) {
         let daily = this.daily();
         daily.increment(key);
-        // let weekly = this.weekly();
-        // weekly.increment(key);
+        let weekly = this.weekly();
+        weekly.increment(key);
     }
     increment(key) {
         this.records[key].count++;
