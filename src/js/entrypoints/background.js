@@ -30,3 +30,6 @@ chrome.commands.onCommand.addListener(CommandRouter);
 
 import {init} from "./global-pollution";
 init(window);
+
+import Achievement from "../Components/Models/Achievement";
+console.log(Achievement.daily());
