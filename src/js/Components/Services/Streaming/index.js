@@ -1,4 +1,4 @@
-
+/* global MediaRecorder:false */
 export default class Streaming {
     static options = {
         audio:false, video: true,
@@ -26,5 +26,21 @@ export default class Streaming {
     }
     toBlobURL() {
         return URL.createObjectURL(this.stream);
+    }
+    onMediaRecorderStarted(ev) {
+        this.chunks.push(ev.data);
+    }
+    startRecording() {
+        this.chunks = [];
+        this.recorder = new MediaRecorder(this.stream);
+        this.recorder.ondataavailable = this.onMediaRecorderStarted.bind(this);
+        this.recorder.start();
+    }
+    stopRecording() {
+        this.recorder.stop();
+        const blob = new Blob(this.chunks, {"type" : "video/webm; codecs=vp9"});
+        // const blob = new Blob(this.chunks);
+        this.chunks = [];
+        return URL.createObjectURL(blob);
     }
 }
