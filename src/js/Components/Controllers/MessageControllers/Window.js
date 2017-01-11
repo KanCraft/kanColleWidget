@@ -7,6 +7,7 @@ import LaunchPosition from "../../Models/LaunchPosition";
 
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
+import CaptureWindowURL from "../../Routine/CaptureWindowURL";
 
 const windows = WindowService.getInstance();
 const captures = new CaptureService();
@@ -97,10 +98,10 @@ export function CurrentActionForWindow() {
     .then(captures.capture.bind(captures))
     .then(uri => {
         if (Config.find("directly-download-on-capture").value) return assets.downloadImageURL(uri);
-        let params = new URLSearchParams();
-        params.set("img", uri);
-        // TODO: Controllerでwindowオブジェクト参照したくないあな
-        window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
+        let url = new CaptureWindowURL(Date.now());
+        url.params(uri).then(params => {
+            window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
+        });
     })
     .catch(() => windows.open(frame, position));
 }
