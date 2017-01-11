@@ -21,6 +21,7 @@ module.exports = {
         dmm:        "./src/js/entrypoints/pages/dmm.js",
         osapi_dmm  :"./src/js/entrypoints/pages/osapi.dmm.js",
         capture:    "./src/js/entrypoints/pages/capture.js",
+        stream:     "./src/js/entrypoints/pages/stream.js",
         deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
         status:     "./src/js/entrypoints/pages/status.js",
         dashboard:  "./src/js/entrypoints/pages/dashboard.js",

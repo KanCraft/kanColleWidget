@@ -6,6 +6,7 @@ const captures = new CaptureService();
 import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
+import Streaming from "../../Services/Streaming";
 
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
 
@@ -36,4 +37,12 @@ export function MuteController() {
 export function OpenDashboard() {
     const position = LaunchPosition.find("dashboard");
     windows.openDashboard(position);
+}
+
+export function OpenStreaming() {
+    Streaming.instance().then(streaming => {
+        let params = new URLSearchParams();
+        params.set("src", streaming.toBlobURL());
+        window.open("/dest/html/stream.html" + "?" + params.toString());
+    });
 }

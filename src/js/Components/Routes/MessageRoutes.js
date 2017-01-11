@@ -20,6 +20,8 @@ router.on("/queues/manual",          Controllers.SetQueueManual);
 router.on("/twitter/profile",        Controllers.TwitterProfile);
 router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
+router.on("/stream/recording/start", Controllers.StreamStartRecording);
+router.on("/stream/recording/stop",  Controllers.StreamStopRecording);
 router.on("/debug/notification",     Controllers.NotificationDebug);
 router.on("/launchposition/:update",          Controllers.UpdateLaunchPosition);
 router.on("/launchposition/dashboard/update", Controllers.UpdateDashboardLaunchPosition);
