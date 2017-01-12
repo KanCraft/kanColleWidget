@@ -8,7 +8,22 @@ class AchievementView extends Component {
         this.state = {
             daily: Achievement.daily(),
             weekly: Achievement.weekly(),
+            interval: null,
         };
+    }
+    componentDidMount() {
+        this.setState({
+            interval: setInterval(() => {
+                // FIXME: なんかこれキモいけどとりあえず
+                this.setState({
+                    daily: Achievement.daily(),
+                    weekly: Achievement.weekly(),
+                });
+            }, 1000)
+        });
+    }
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
     }
     render() {
         return (
