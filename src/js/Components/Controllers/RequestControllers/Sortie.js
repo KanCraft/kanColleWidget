@@ -1,7 +1,12 @@
 import Config from "../../Models/Config";
 import {ScheduledQueues, Tiredness} from "../../Models/Queue/Queue";
 
+import {SORTIE} from "../../../Constants";
+import Achievement from "../../Models/Achievement";
+
 export function onSortieStart(detail) {
+
+    Achievement.increment(SORTIE);
 
     if (!Config.isNotificationEnabled("tiredness")) return;
 
