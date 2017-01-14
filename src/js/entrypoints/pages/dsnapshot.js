@@ -5,11 +5,6 @@ chrome.runtime.connect();
 
 const client = new Client(chrome.runtime);
 
-window.resizeBy(
-  window.outerWidth - window.innerWidth,
-  window.outerHeight - window.innerHeight
-);
-
 let snapshot = new DamageSnapshotDisplay(client);
 let router = new Router();
 router.on("/snapshot/show", (message) => snapshot.show(message.uri));
