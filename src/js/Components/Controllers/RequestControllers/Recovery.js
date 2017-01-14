@@ -1,7 +1,8 @@
 /* global sleep:false */
 import {ScheduledQueues, Recovery} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {RECOVERY} from "../../../Constants";
+import Achievement from "../../Models/Achievement";
+import {RECOVERY,SUPPLY} from "../../../Constants";
 
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
@@ -68,4 +69,9 @@ export function onRecoverySpeedup(detail) {
     const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
     let recoveries = ScheduledQueues.find(RECOVERY) || ScheduledQueues.find("recoveries");
     recoveries.clear(dock_id);
+}
+
+// FIXME: とりあえずファイル分割せずにここにおいちゃえと
+export function onSupply() {
+    Achievement.increment(SUPPLY);
 }

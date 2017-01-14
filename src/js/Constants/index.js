@@ -1,11 +1,6 @@
-import QueueTypes from "./QueueTypes";
-
-// const Constants = {
-//     ...QueueTypes,
-// };
-//
-// export default Constants;
-
+import QueueTypes       from "./QueueTypes";
+import AchievementTypes from "./AchievementTypes";
 module.exports = {
     ...QueueTypes,
+    ...AchievementTypes,
 };

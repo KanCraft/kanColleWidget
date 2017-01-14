@@ -23,6 +23,14 @@ export function init(context) {
           .replace("mm", (this.getMinutes()).zp())
           .replace("ss", (this.getSeconds()).zp());
     };
+    context.Date.prototype.toJST = function() {
+        let copy = new Date(this.getFullYear(), this.getMonth(), this.getDate(), this.getHours(), this.getMinutes(), this.getSeconds(), this.getMilliseconds());
+        copy.setTime(copy.getTime() + (copy.getTimezoneOffset()*60*1000) + (9*60*60*1000));
+        return copy;
+    };
+    context.Date.prototype.isBefore5AM = function() {
+        return this.getHours() < 5;
+    };
     context.Array.prototype.has = function(e) {
         return this.filter(v => v == e).length !== 0;
     };
