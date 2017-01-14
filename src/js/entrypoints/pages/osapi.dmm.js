@@ -7,7 +7,7 @@ chrome.runtime.connect();
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
 
-DecorateOsapiPage.init(window).effort(window != window.parent);
+DecorateOsapiPage.init(window).effort();
 
 // Routineとか使ってもうちょっと抽象化しましょう
 setInterval(() => {

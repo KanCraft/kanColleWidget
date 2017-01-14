@@ -83,9 +83,10 @@ export class DecorateOsapiPage {
         return true;
     }
 
-    effort(inIframe = false) {
+    effort() {
 
-        if (inIframe) return true;
+        // contextがiframe内（parentを持っている）なら、effortはparetがする
+        if (this.context != this.context.parent) return true;
 
         if (this.isMaintenanceMode()) return this.decorateMaintenanceWindow();
 
