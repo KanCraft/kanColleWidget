@@ -1,6 +1,7 @@
 import {Router} from "chomex";
 import {DecorateOsapiPage} from "../../Components/Routine/DecoratePage";
 import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
+import LaunchPositionRecorder from "../../Components/Routine/LaunchPositionRecorder";
 
 chrome.runtime.connect();
 
@@ -9,13 +10,7 @@ const client = new Client(chrome.runtime);
 
 DecorateOsapiPage.init(window).effort();
 
-// Routineとか使ってもうちょっと抽象化しましょう
-setInterval(() => {
-    client.message("/launchposition/:update", {
-        left: window.screenX,
-        top:  window.screenY,
-    });
-}, 60 * 1000);
+(new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
 
 let snapshot = new DamageSnapshotDisplay(client);
 let router = new Router();
