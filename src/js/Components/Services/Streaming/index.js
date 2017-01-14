@@ -1,4 +1,6 @@
-/* global MediaRecorder:false */
+import MediaStreamRecorder from "msr";
+// MediaRecorder = MediaStreamRecorder;
+
 export default class Streaming {
     static options = {
         audio:false, video: true,
@@ -27,20 +29,24 @@ export default class Streaming {
     toBlobURL() {
         return URL.createObjectURL(this.stream);
     }
-    onMediaRecorderStarted(ev) {
-        this.chunks.push(ev.data);
-    }
     startRecording() {
-        this.chunks = [];
-        this.recorder = new MediaRecorder(this.stream);
-        this.recorder.ondataavailable = this.onMediaRecorderStarted.bind(this);
+        this.recorder = new MediaStreamRecorder(this.stream);
+        // this.recorder.mimeType = "video/mp4";
+        this.recorder.mimeType = "video/webm";
+        this.onDataAvailable = new Promise(resolve => {
+            this.recorder.ondataavailable = (blob) => {
+                resolve(blob);
+            };
+        });
         this.recorder.start();
     }
     stopRecording() {
         this.recorder.stop();
-        const blob = new Blob(this.chunks, {"type" : "video/webm; codecs=vp9"});
-        // const blob = new Blob(this.chunks);
-        this.chunks = [];
-        return URL.createObjectURL(blob);
+        return this.onDataAvailable.then(blob => {
+            return Promise.resolve({
+                url: URL.createObjectURL(blob),
+                type: blob.type,
+            });
+        });
     }
 }

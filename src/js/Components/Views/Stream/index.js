@@ -49,11 +49,12 @@ class VideoController extends Component {
         this.setState({recording: false});
         this.client.message("/stream/recording/stop").then(({data}) => {
             if (!data.url) return; // FIXME: とりあえず
+            const ext = data.type.match("mp4") ? "" : data.type.split("/").pop();
             let a = document.createElement("a");
             a.href = data.url;
-            a.download = `video_${Date.now()}.webm`;
+            a.download = `video_${Date.now()}.${ext}`;
             a.click();
-            window.revokeObjectURL(data.url);
+            window.URL.revokeObjectURL(data.url);
         });
     }
     render() {

@@ -34,6 +34,7 @@
     "scripts": [
       "dest/oauth/chrome_ex_oauthsimple.js",
       "dest/oauth/chrome_ex_oauth.js",
+      "dest/gif-recorder.js",
       "dest/js/background.js"
     ]
   },
