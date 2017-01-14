@@ -43,7 +43,7 @@ export default class Achievement extends Model {
     /**
      * dailyもweeklyもincrementするやつ
     **/
-    static count(key) {
+    static increment(key) {
         let daily = this.daily();
         daily.increment(key);
         let weekly = this.weekly();
