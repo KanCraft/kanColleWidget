@@ -1,4 +1,5 @@
 import React, {Component,PropTypes} from "react";
+import {Client} from "chomex";
 
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Toggle             from "material-ui/Toggle";
@@ -7,7 +8,6 @@ import RaisedButton       from "material-ui/RaisedButton";
 import CloudUpload        from "material-ui/svg-icons/file/cloud-upload";
 import CloudDownload      from "material-ui/svg-icons/file/cloud-download";
 
-import {Sync} from "../../../../Models";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 
@@ -18,7 +18,7 @@ export default class SyncSettingsView extends Component {
             config: Config.find("data-sync"),
             output: "",
         };
-        this.sync = new Sync(chrome.storage.sync);
+        this.client = new Client(chrome.runtime);
     }
     render() {
         const output = {
@@ -69,21 +69,13 @@ export default class SyncSettingsView extends Component {
         );
     }
     save() {
-        this.sync.save(this.state.config.keys, true).then(items => {
-            this.setState({output: "Data saved:\n------------\n" + JSON.stringify(items, null, 2)});
+        this.client.message("/sync/save", {keys: this.state.config.keys}).then(({data}) => {
+            this.setState({output: "Data saved:\n------------\n" + JSON.stringify(data, null, 2)});
         });
     }
     load() {
-        this.sync.load(this.state.config.keys, false).then(items => {
-            if (this.state.config.keys.has("ScheduledQueues")) {
-                for (let name in items["ScheduledQueues"]) {
-                    items["ScheduledQueues"][name].queues = items["ScheduledQueues"][name].queues.filter(q => q.scheduled > Date.now());
-                }
-            }
-            return Promise.resolve(items);
-        }).then(items => {
-            this.sync.commit(items);
-            this.setState({output: "Data loaded:\n------------\n" + JSON.stringify(items, null, 2)});
+        this.client.message("/sync/load", {keys: this.state.config.keys}).then(({data}) => {
+            this.setState({output: "Data loaded:\n------------\n" + JSON.stringify(data, null, 2)});
         });
     }
     onToggle(key) {

@@ -1,4 +1,5 @@
 import * as ConfigControllers  from "./Config";
+import * as SyncControllers    from "./Sync";
 import * as FrameControllers   from "./Frame";
 import * as QueuesControllers  from "./Queue";
 import * as WindowControllers  from "./Window";
@@ -11,6 +12,7 @@ import * as DebugControllers   from "./Debug";
 
 const MessageControllers = {
     ...ConfigControllers,
+    ...SyncControllers,
     ...WindowControllers,
     ...HistoryControllers,
     ...FrameControllers,

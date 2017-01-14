@@ -4,6 +4,8 @@ import * as Controllers from "../Controllers/MessageControllers";
 let router = new Router();
 router.on("/config/get",             Controllers.GetConfig);
 router.on("/config/set",             Controllers.SetConfig);
+router.on("/sync/save",              Controllers.SyncSave);
+router.on("/sync/load",              Controllers.SyncLoad);
 router.on("/window/open",            Controllers.OpenWindow);
 router.on("/window/dashboard",       Controllers.OpenDashboard);
 router.on("/window/should-decorate", Controllers.ShouldDecorateWindow);
