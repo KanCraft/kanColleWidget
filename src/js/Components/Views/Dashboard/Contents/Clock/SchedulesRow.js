@@ -8,17 +8,61 @@ import Config from "../../../../Models/Config";
 import {MISSION,RECOVERY,CREATESHIP} from "../../../../../Constants";
 
 class Schedule extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {hovered: false};
+        this.rest = Config.find("time-format").value == "rest";
+    }
     render() {
-        const rest = Config.find("time-format").value == "rest";
         const styles = {
-            row: {display:"flex", alignItems:"center",cursor:"pointer"},
-            col: {flex: "1"}
+            row: {display:"flex", alignItems:"center",cursor:"pointer",position:"relative"},
+            col: {flex: "1"},
+            tooltip: {
+                position: "absolute",
+                fontSize: "0.8em",
+                color:    "white",
+                padding:  "4px",
+                width:    "120px",
+                top:      "-42px",
+                backgroundColor: "rgba(0,0,0,0.8)",
+                display: this.state.hovered ? "block" : "none",
+            },
+            balloony: {
+                position: "absolute",
+                width: "0", height: "0",
+                bottom:       "-6px",
+                borderTop:    "solid 6px rgba(0,0,0,0.8)",
+                borderLeft:   "solid 6px transparent",
+                borderRight:  "solid 6px transparent",
+                borderBottom: "none"
+            }
         };
+        const schedule = new Date(this.props.queue.scheduled);
         const name = `第${this.props.queue.deck || this.props.queue.dock}${this.props.unit}`;
-        const time = this.props.queue.scheduled ? (new Date(this.props.queue.scheduled)).toClockString(rest) : "--:--";
+        const time = this.props.queue.scheduled ? schedule.toClockString(this.rest) : "--:--";
+        const tooltip = [<div key={0}>{this.props.queue.title}</div>,<div key={1}>{this.rest ? "時刻" : "のこり" + " " + schedule.toClockString(!this.rest)}</div>];
         return (
-          <div style={styles.row} onClick={() => this.props.manual(this.props.queue, this.props.queue.deck || this.props.queue.dock)}><div style={styles.col}>{time}</div><div style={styles.col}>{name}</div></div>
+          <div
+            style={styles.row}
+            onClick={() => this.props.manual(this.props.queue, this.props.queue.deck || this.props.queue.dock)}
+            onMouseEnter={this.onMouseEnter.bind(this)}
+            onMouseLeave={this.onMouseLeave.bind(this)}
+            >
+            <div style={styles.col}>{time}</div>
+            <div style={styles.col}>{name}</div>
+            <div style={styles.tooltip}>
+              <div style={styles.balloony}></div>
+              {tooltip}
+            </div>
+          </div>
         );
+    }
+    onMouseEnter() {
+        if (!this.props.queue.scheduled) return;
+        this.setState({hovered:true});
+    }
+    onMouseLeave() {
+        this.setState({hovered:false});
     }
     static propTypes = {
         unit:  PropTypes.string.isRequired,
