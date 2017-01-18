@@ -23,7 +23,7 @@ class Schedule extends Component {
                 color:    "white",
                 padding:  "4px",
                 width:    "120px",
-                top:      "-42px",
+                top:      "-42px", // FIXME: ここは行数を考慮すべき
                 backgroundColor: "rgba(0,0,0,0.8)",
                 display: this.state.hovered ? "block" : "none",
             },
