@@ -63,6 +63,9 @@ Config.default = {
     "damageshapshot-window": {
         value: "disabled"
     },
+    "use-inapp-action-buttons": {
+        value: false,
+    },
     "debug": {
         value: false
     }

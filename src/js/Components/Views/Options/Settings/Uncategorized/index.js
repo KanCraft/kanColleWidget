@@ -3,6 +3,7 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 
@@ -15,6 +16,7 @@ export default class UncategorizedSettings extends Component {
               <Description>わりと設定項目が細かいし隅々まで散らばってるので、セクションつくるほど類似した設定がない設定はここにつっこむ的な。</Description>
               <DamageSnapshotSetting />
               <DashboardLayoutSetting />
+              <UseInAppActionButtonsSetting />
             </div>
         );
     }
@@ -86,6 +88,37 @@ class DashboardLayoutSetting extends Component {
         );
     }
     onChange(ev, i, value) {
+        let model = this.state.model;
+        model.value = value;
+        model.save();
+        this.setState({model});
+    }
+}
+
+class UseInAppActionButtonsSetting extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("use-inapp-action-buttons"),
+        };
+    }
+    render() {
+        return (
+          <Table selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>
+                  ゲーム画面にミュートなどのボタンを表示する
+                </TableRowColumn>
+                <TableRowColumn>
+                  <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)}/>
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        );
+    }
+    onToggle(ev, value) {
         let model = this.state.model;
         model.value = value;
         model.save();

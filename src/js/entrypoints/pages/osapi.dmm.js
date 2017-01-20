@@ -12,9 +12,12 @@ const client = new Client(chrome.runtime);
 DecorateOsapiPage.init(window).effort();
 
 // これが必要かどうかは聞く必要がある
-client.message("/window/self", ({self}) => {
-    let inAppActionButtons = new InAppActionButtons(self, client);
-    document.body.appendChild(inAppActionButtons.html());
+client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
+    if (!data.value) return; // Do nothing
+    client.message("/window/self", ({self}) => {
+        let inAppActionButtons = new InAppActionButtons(self, client);
+        document.body.appendChild(inAppActionButtons.html());
+    });
 });
 
 (new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
