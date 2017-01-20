@@ -37,6 +37,7 @@ export default class InAppActionButtons {
         div.style.top      = 0;
         div.style.right    = 0;
         div.style.transition = "all 0.2s";
+        div.style.opacity  = 0;
         div.addEventListener("mouseover", () => { div.style.opacity = 1; });
         div.addEventListener("mouseleave", () => { div.style.opacity = 0; });
         div.appendChild(this.getMuteButton());
