@@ -12,6 +12,8 @@ router.on("/window/should-decorate", Controllers.ShouldDecorateWindow);
 router.on("/window/capture",         Controllers.CaptureWindow);
 router.on("/window/zoom:set",        Controllers.ZoomWindow);
 router.on("/window/current-action",  Controllers.CurrentActionForWindow);
+router.on("/window/self",            Controllers.GetMyself);
+router.on("/window/mute",            Controllers.MuteWindow);
 router.on("/frame/all",              Controllers.GetAllFrames);
 router.on("/frame/new",              Controllers.SaveNewFrame);
 router.on("/frame/update",           Controllers.UpdateFrame);

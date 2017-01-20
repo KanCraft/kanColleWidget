@@ -19,6 +19,7 @@ class WindowService {
             this.module.windows.create(frame.toCreatePrams(position), (win) => {
                 this.tab = {
                     id: win.tabs[0].id,
+                    mutedInfo: win.tabs[0].mutedInfo,
                     windowId: win.id,
                     frame:    frame,
                 };

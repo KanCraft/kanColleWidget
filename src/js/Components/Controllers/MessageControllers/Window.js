@@ -61,6 +61,19 @@ export function CaptureWindow(/* message */) {
     });
 }
 
+export function GetMyself() {
+    return {status: 200, self: this.sender};
+}
+
+export function MuteWindow(message) {
+    return new Promise(resolve => {
+        // TODO: chromeモジュールここで参照しないように
+        chrome.tabs.update(message.tab.id, {muted: message.mute}, tab => {
+            resolve({status: 200, tab});
+        });
+    });
+}
+
 export function ZoomWindow(message) {
     // あるべき「タブサイズ」
     const base = {
