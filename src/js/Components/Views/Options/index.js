@@ -9,6 +9,7 @@ import NotificationSettingsView from "./Settings/Notifications";
 import ScreenShotSettingsView   from "./Settings/ScreenShots";
 import SyncSettingsView         from "./Settings/Syncs";
 import TimerSettingsView        from "./Settings/Timer";
+import TwitterSettingsView      from "./Settings/Twitter";
 import UncategorizedSettings    from "./Settings/Uncategorized";
 import Announcement   from "./Announcement";
 import WinconfigsView from "./Winconfigs";
@@ -47,6 +48,7 @@ export default class OptionsView extends Component {
             <ScreenShotSettingsView   styles={styles} />
             <TimerSettingsView        styles={styles} />
             <SyncSettingsView         styles={styles} />
+            <TwitterSettingsView      styles={styles} />
             <UncategorizedSettings    styles={styles} />
             <WinconfigsView           styles={styles} />
             {/* <DebugView            styles={styles} /> */}

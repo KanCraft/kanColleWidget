@@ -66,6 +66,7 @@ class Twitter {
     clearTokens() {
         this.oauth.clearTokens();
         this.cache.flush();
+        return true;
     }
 
     getProfile() {
@@ -101,7 +102,7 @@ class Twitter {
             if (cached !== undefined) return Promise.resolve(cached);
         }
         return new Promise((resolve, reject) => {
-            if (!this.oauth.hasToken()) return reject();
+            if (!this.oauth.hasToken()) return reject({msg:"no token stored"});
             this.oauth.sendSignedRequest(
               url,
               (res) => {

@@ -4,14 +4,18 @@ function TwitterProfile(/* message */) {
     return new Promise((resolve, reject) => {
         Twitter.sharedInstance().getProfile().then(profile => {
             resolve(profile);
-        }).catch((/* error */) => {
-            reject({status: 404});
+        }).catch(error => {
+            reject({status: 404, error});
         });
     });
 }
 
 function TwitterAuth(/* message */) {
     return Twitter.sharedInstance().auth().then(TwitterProfile);
+}
+
+export function TwitterRevoke() {
+    return Twitter.sharedInstance().clearTokens();
 }
 
 function TwitterPostWithImage(message) {
