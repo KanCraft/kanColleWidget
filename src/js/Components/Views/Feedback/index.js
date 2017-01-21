@@ -200,7 +200,7 @@ export default class FeedbackView extends Component {
                   label="機能要望" style={{width: "100%"}}
                   onClick={() => this.hash("#request")}/>
               </div>
-              <FlatButton primary={true} label="現在あがっているissue" onClick={() => location.href = "https://github.com/otiai10/kanColleWidget/issues?q=is%3Aissue+is%3Aopen+label%3A2.0"} />
+              <FlatButton primary={true} label="現在あがっているissue" onClick={() => location.href = "https://github.com/otiai10/kanColleWidget/issues?q=is%3Aissue+label%3A2.0"} />
               <BonoChan />
             </div>
             <div style={{flex:"1"}}>

@@ -40,7 +40,7 @@ export default class OptionsView extends Component {
               <Announcement meta={this.state.meta} update={this.update.bind(this)} /> :
               <div style={{textAlign:"right"}}>
                 <FlatButton secondary={true} label="バグ報告・機能要望" onClick={() => location.href = "/dest/html/feedback.html#bug"} />
-                <FlatButton primary={true} label="現在あがっているissue" onClick={() => location.href = "https://github.com/otiai10/kanColleWidget/issues?q=is%3Aissue+is%3Aopen+label%3A2.0"} />
+                <FlatButton primary={true} label="現在あがっているissue" onClick={() => location.href = "https://github.com/otiai10/kanColleWidget/issues?q=is%3Aissue+label%3A2.0"} />
               </div>
             }
             <NotificationSettingsView styles={styles} />
