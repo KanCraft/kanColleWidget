@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import FlatButton from "material-ui/FlatButton";
 import {init} from "../../../entrypoints/global-pollution";
 init(window);
 
@@ -35,7 +36,12 @@ export default class OptionsView extends Component {
     render() {
         return (
           <div>
-            {this.state.meta.hasUpdate() ? <Announcement meta={this.state.meta} update={this.update.bind(this)} /> : null}
+            {this.state.meta.hasUpdate() ?
+              <Announcement meta={this.state.meta} update={this.update.bind(this)} /> :
+              <div style={{textAlign:"right"}}>
+                <FlatButton secondary={true} label="バグ報告・機能要望" onClick={() => location.href = "/dest/html/feedback.html#bug"} />
+              </div>
+            }
             <NotificationSettingsView styles={styles} />
             <ScreenShotSettingsView   styles={styles} />
             <TimerSettingsView        styles={styles} />

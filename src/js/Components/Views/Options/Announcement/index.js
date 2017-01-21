@@ -3,6 +3,7 @@ import React, {Component,PropTypes} from "react";
 import Paper  from "material-ui/Paper";
 import Avatar from "material-ui/Avatar";
 import Close  from "material-ui/svg-icons/navigation/close";
+import FlatButton from "material-ui/FlatButton";
 import {grey600} from "material-ui/styles/colors";
 
 // TODO: これどっかに持ってく
@@ -108,6 +109,7 @@ export default class Announcement extends Component {
                 <ul>{this.getFeatures()}</ul>
                 {this.getComment()}
               </Paper>
+              <FlatButton secondary={true} label="バグ報告・機能要望" onClick={() => location.href = "/dest/html/feedback.html#bug"} />
             </div>
             <div>
               <BonoChan meta={this.props.meta} update={this.props.update} />
