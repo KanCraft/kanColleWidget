@@ -93,7 +93,7 @@ export default class Announcement extends Component {
     }
     render() {
         const balloon = {
-            margin: "0 20px 12px 0",
+            margin: "0 0 12px 20px",
             padding: "12px",
             borderRadius: "6px",
         };
@@ -102,7 +102,10 @@ export default class Announcement extends Component {
         };
         const url = `https://github.com/otiai10/kanColleWidget/releases/tag/${this.props.meta.version()}`;
         return (
-          <div style={{display:"flex", margin: "36px 0"}}>
+          <div style={{display:"flex", paddingTop: "36px", marginBottom: "36px"}}>
+            <div>
+              <BonoChan meta={this.props.meta} update={this.props.update} />
+            </div>
             <div style={{flex: "1"}}>
               <Paper style={balloon} zDepth={3}>
                 <h1 style={title}>{this.props.meta.version()} <a href={url}><GitHubIcon /></a></h1>
@@ -110,9 +113,6 @@ export default class Announcement extends Component {
                 {this.getComment()}
               </Paper>
               <FlatButton secondary={true} label="バグ報告・機能要望" onClick={() => location.href = "/dest/html/feedback.html#bug"} />
-            </div>
-            <div>
-              <BonoChan meta={this.props.meta} update={this.props.update} />
             </div>
           </div>
         );
