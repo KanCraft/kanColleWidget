@@ -14,6 +14,7 @@ Config.default = {
     "download-file-ext":  {value: "png"},
     "directly-download-on-capture": {value: false},
     "staff-tweet": {value: false},
+    "popup-background-image": {url: null},
     "data-sync": {
         keys: []
     },

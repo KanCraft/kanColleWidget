@@ -57,7 +57,7 @@ class NotificationSettingRow extends Component {
             }).catch(err => console.info("NG", err));
         };
         return input;
-    }ut
+    }
     render() {
         return (
           <TableRow>
@@ -68,7 +68,9 @@ class NotificationSettingRow extends Component {
             <TableRowColumn>
               {this.getSwitchColumn()}
             </TableRowColumn>
-            <TableRowColumn>{this.getIconInput()}</TableRowColumn>
+            <TableRowColumn>
+              {this.getIconInput()}
+            </TableRowColumn>
             <TableRowColumn>
               {this.getSoundInput()}
             </TableRowColumn>

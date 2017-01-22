@@ -107,6 +107,7 @@ export default class PopupView extends Component {
             client.message({act: "/window/open", frame: this.state.selected});
         });
         this.renderStaffTwitterView();
+        this.renderBackgroundImage();
     }
     handleChange(ev, index, selected) {
         this.setState({selected});
@@ -147,6 +148,10 @@ export default class PopupView extends Component {
                 Tweet.activateAllLinks(window.document);
             });
         }, 500);
+    }
+    renderBackgroundImage() {
+        let html = document.querySelector("html");
+        html.style.backgroundImage = `url('${Config.find("popup-background-image").url}')`;
     }
     render() {
         let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);

@@ -110,7 +110,7 @@ export default class TimerSettingsView extends Component {
                   </TableBody>
                 </Table>
               </div>
-              <div style={{width: "240px", border:"thin solid #e0e0e0",padding: "12px"}}>
+              <div style={{width: "240px", border:"thin solid #e0e0e0",padding: "12px", backgroundColor:"white"}}>
                 <TimerExample mode={this.state.model.value} format={this.state.timefmt.value}/>
               </div>
             </div>

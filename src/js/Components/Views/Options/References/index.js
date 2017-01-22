@@ -9,7 +9,7 @@ export default class ReferencesView extends Component {
             h2: {marginBottom:"0"}
         };
         return (
-          <div style={{marginBottom:"48px"}}>
+          <div>
             <h1 style={this.props.styles.title}><InfoOutline /> このChrome拡張について</h1>
             <Description>
               『艦これウィジェット』は、開発者が艦これを程よく気軽に楽しむために開発され、ついでに公開されたものです。
