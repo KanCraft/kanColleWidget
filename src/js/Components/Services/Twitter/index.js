@@ -74,6 +74,10 @@ class Twitter {
         return this.request("GET", url);
     }
 
+    getKanColleSTAFFTweets() {
+        const url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
+        return this.request("GET", url, {parameters:{screen_name:"KanColle_STAFF"}}, false);
+    }
     postWithImage(params) {
         const url = "https://api.twitter.com/1.1/statuses/update_with_media.json";
         const blob = this.uri2blob(params.image, params.type);
@@ -96,8 +100,8 @@ class Twitter {
         return new Blob([barr.buffer], { type: type });
     }
 
-    request(method, url, options) {
-        if (method == "GET") {
+    request(method, url, options, usecache = true) {
+        if (method == "GET" && usecache) {
             let cached = this.cache.get(url);
             if (cached !== undefined) return Promise.resolve(cached);
         }

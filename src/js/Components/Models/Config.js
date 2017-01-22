@@ -13,6 +13,7 @@ Config.default = {
     "download-file-name": {value: "yyyy-MM-dd-HHmmss"},
     "download-file-ext":  {value: "png"},
     "directly-download-on-capture": {value: false},
+    "staff-tweet": {value: false},
     "data-sync": {
         keys: []
     },

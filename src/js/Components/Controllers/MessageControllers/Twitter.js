@@ -18,6 +18,10 @@ export function TwitterRevoke() {
     return Twitter.sharedInstance().clearTokens();
 }
 
+export function GetKanColleSTAFFTweets() {
+    return Twitter.sharedInstance().getKanColleSTAFFTweets();
+}
+
 function TwitterPostWithImage(message) {
     const params = {
         image:  message.image,

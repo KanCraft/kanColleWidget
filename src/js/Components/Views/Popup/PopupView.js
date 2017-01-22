@@ -6,6 +6,8 @@ import MenuItem from "material-ui/MenuItem";
 import {SeparatedIDsQueuesView, SeparatedTimelineQueuesView, MergedTimelineView} from "./QueuesView";
 import {ScheduledQueues} from "../../Models/Queue/Queue";
 
+import Tweet from "../Tweet.js";
+
 // TODO: これ、名前かえような...
 import History from "../../Models/History";
 import Config  from "../../Models/Config";
@@ -84,7 +86,8 @@ export default class PopupView extends Component {
             queues: ScheduledQueues.all(),
             last: last,
             captureIcon: null,
-            selected: last.id
+            selected: last.id,
+            staffTweet: null,
         };
         this.meta = new Meta(History.find("update-checked"));
         client.message("/frame/all").then(res => {
@@ -103,6 +106,7 @@ export default class PopupView extends Component {
             ev.preventDefault();
             client.message({act: "/window/open", frame: this.state.selected});
         });
+        this.renderStaffTwitterView();
     }
     handleChange(ev, index, selected) {
         this.setState({selected});
@@ -131,6 +135,19 @@ export default class PopupView extends Component {
         case "separated-ids": default: return <SeparatedIDsQueuesView queues={this.state.queues} />;
         }
     }
+    renderStaffTwitterView() {
+        if (!Config.find("staff-tweet").value) return;
+        this.setState({staffTweet: <p style={{textAlign:"center", padding:"24px"}}>
+          <img src="/dest/img/loader.gif" />
+        </p>});
+        setTimeout(() => {
+            client.message("/twitter/announce").then(({data}) => {
+                const tweets = data.map(tweet => <Tweet tweet={tweet} key={tweet.id} />);
+                this.setState({staffTweet: <div>{tweets}</div>});
+                Tweet.activateAllLinks(window.document);
+            });
+        }, 500);
+    }
     render() {
         let sorted = Object.keys(this.state.winconfigs).filter(id => id != this.state.last.id);
         if (this.state.winconfigs[this.state.last.id]) sorted.unshift(this.state.last.id);
@@ -144,7 +161,8 @@ export default class PopupView extends Component {
               {winconfigs}
             </SelectField>
             {this.getScheduleView()}
-            <div style={{position:"absolute",bottom:"0",left:"0",right:"0",display:"flex"}}>
+            {this.state.staffTweet}
+            <div style={{position:"fixed",bottom:"0",left:"0",right:"0",display:"flex",backgroundColor:"rgba(255,255,255,0.9)"}}>
               <ReactiveIconButton onClick={this.openOptions.bind(this)} badge={this.meta.hasUpdate()}><Build     /></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
               <ReactiveIconButton onClick={this.openWiki.bind(this)}       ><ChromeReaderMode /></ReactiveIconButton>

@@ -5,6 +5,7 @@ import Toggle      from "material-ui/Toggle";
 import Settings    from "material-ui/svg-icons/action/settings";
 import Avatar      from "material-ui/Avatar";
 import Description from "../Description";
+import Config from "../../../../Models/Config";
 
 import {Client} from "chomex";
 
@@ -12,13 +13,16 @@ export default class TwitterSettingsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: null
+            profile: null,
+            staff: Config.find("staff-tweet"),
         };
         this.client = new Client(chrome.runtime);
         this.client.message("/twitter/profile").then(({data}) => {
-            console.log(data);
             this.setState({profile: data});
         });
+        // this.client.message("/twitter/announce").then(res => {
+        //     console.log("ressss", res);
+        // });
     }
     onTwitterAuthToggle(ev, value) {
         if (value) this.client.message("/twitter/auth").then(({data}) => {
@@ -27,6 +31,12 @@ export default class TwitterSettingsView extends Component {
         else this.client.message("/twitter/revoke").then(() => {
             this.setState({profile: null});
         });
+    }
+    onStaffTwitterToggle(ev, value) {
+        let staff = this.state.staff;
+        staff.value = value;
+        staff.save();
+        this.setState({staff});
     }
     render() {
         return (
@@ -50,6 +60,15 @@ export default class TwitterSettingsView extends Component {
                     <Toggle
                       onToggle={this.onTwitterAuthToggle.bind(this)}
                       toggled={!!this.state.profile}
+                      />
+                  </TableRowColumn>
+                </TableRow>
+                <TableRow>
+                  <TableRowColumn>運営電文</TableRowColumn>
+                  <TableRowColumn>
+                    <Toggle
+                      onToggle={this.onStaffTwitterToggle.bind(this)}
+                      toggled={!!this.state.profile && !!this.state.staff.value}
                       />
                   </TableRowColumn>
                 </TableRow>
