@@ -196,6 +196,9 @@ class PopupBackgroundImageSetting extends Component {
               <TableRow>
                 <TableRowColumn>
                   右上ポップアップの背景カスタマイズ
+                  <div>
+                    <small>運営電文表示時で280x600です</small>
+                  </div>
                 </TableRowColumn>
                 <TableRowColumn>
                   {this.getIconInput()}
