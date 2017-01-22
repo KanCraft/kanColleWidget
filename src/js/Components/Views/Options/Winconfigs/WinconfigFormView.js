@@ -29,8 +29,8 @@ export default class WinconfigFormView extends Component {
               {this.renderPositionFields()}
               {this.getAddressbarCheckbox()}
               <RadioButtonGroup name="decoration" defaultSelected="FRAME_SHIFT" valueSelected={this.state.frame.decoration} onChange={this.onDecorationChanged.bind(this)}>
-                <RadioButton value="FRAME_SHIFT" label="ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
-                <RadioButton value="EXTRACT" label="ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
+                <RadioButton value="FRAME_SHIFT" label="[WHITE] ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
+                <RadioButton value="EXTRACT" label="[APP] ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
               </RadioButtonGroup>
             </CardText>
             <CardActions>
