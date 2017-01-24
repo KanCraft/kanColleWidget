@@ -11,7 +11,7 @@ import LaunchPosition from "../../Models/LaunchPosition";
 
 function getWindowForDamageSnapshot(detail) {
     let position = LaunchPosition.find("dsnapshot");
-    switch (Config.find("damageshapshot-window").value) {
+    switch (Config.find("damagesnapshot-window").value) {
     case "separate":
         return windows.openDamagaSnapshot(position).then(({tabs:[tab]}) => Promise.resolve(tab));
     case "inwindow":

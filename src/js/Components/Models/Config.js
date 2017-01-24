@@ -62,7 +62,7 @@ Config.default = {
     "dashboard-layout": {
         value: "tab", // scroll
     },
-    "damageshapshot-window": {
+    "damagesnapshot-window": {
         value: "disabled"
     },
     "use-inapp-action-buttons": {

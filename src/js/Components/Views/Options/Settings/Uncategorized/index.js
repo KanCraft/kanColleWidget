@@ -31,7 +31,7 @@ class DamageSnapshotSetting extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            model: Config.find("damageshapshot-window")
+            model: Config.find("damagesnapshot-window")
         };
     }
     render() {
