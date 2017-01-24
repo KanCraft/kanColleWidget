@@ -43,6 +43,8 @@ export function onBattleResulted(detail) {
 }
 
 export function onCombinedBattleResulted(detail) {
+    // TODO: この"disabled"っていうのもConstにしたい
+    if (Config.find("damagesnapshot-window").value == "disabled") return;
     chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
 }
 
