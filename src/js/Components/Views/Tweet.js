@@ -50,7 +50,10 @@ export default class Tweet extends Component {
                 cursor: "pointer",
             },
             text: {
-                marginTop: "0",
+                marginTop:       "0",
+                padding:         "4px",
+                borderRadius:    "4px",
+                backgroundColor: "#fff",
             },
         };
         return (
