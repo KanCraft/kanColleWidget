@@ -1,4 +1,5 @@
 import {Model} from "chomex";
+import KanColleDate from "../Services/KanColleDate";
 
 export const YET    = 0;
 export const NOW    = 1;
@@ -8,7 +9,16 @@ export const HIDDEN = 3;
 export const DAILY = "DAILY";
 
 export default class Quest extends Model {
+    static refreshIfUpdateNeeded() {
+        const now = new KanColleDate();
+        const last = this.find("lastTouched");
+        if (!now.needsUpdateForDaily(last.timestamp)) return;
+        this.drop();
+        last.timestamp = Date.now();
+        last.save();
+    }
     static daily(all = true) {
+        this.refreshIfUpdateNeeded();
         return Quest.filter(quest => {
             return quest.type == DAILY && (all ? true : quest.isAvailable());
         }).sort((prev, next) => {
@@ -42,7 +52,7 @@ export default class Quest extends Model {
 
 Quest.default = {
     // ちょっとアレだけど、タイムスタンプ管理用のやつ
-    0: {type:"TIMESTAMP", timestamp: Date.now()},
+    "lastTouched": {type:"TIMESTAMP", timestamp: 0},
     // 出撃 計8
     201: {type: DAILY, title:"敵艦隊を撃破せよ！",             id: 201, required: [],     state: YET, restrict: "_date28"},
     216: {type: DAILY, title:"敵艦隊主力を撃滅せよ！",         id: 216, required: [201],  state: YET},
