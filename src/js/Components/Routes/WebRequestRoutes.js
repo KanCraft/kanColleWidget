@@ -17,6 +17,11 @@ router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart)
 router.on([{url: /api_req_kousyou\/getship/}], Controllers.onGetShip);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 
+// 任務関係
+router.on([{url: /api_req_quest\/start/}],        Controllers.onQuestStart);
+router.on([{url: /api_req_quest\/stop/}],         Controllers.onQuestStop);
+router.on([{url: /api_req_quest\/clearitemget/}], Controllers.onQuestDone);
+
 // 入渠画面への遷移時
 router.on([{url: /api_get_member\/ndock/}],  Controllers.onRecoveryDocksDisplayed);
 
