@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from "react";
 
 import {grey300, grey400, orange500, orangeA700, tealA200} from "material-ui/styles/colors";
 
+import KanColleDate from "../../../../Services/KanColleDate";
 import Achievement from "../../../../Models/Achievement";
 import Quest, {YET,NOW,DONE,HIDDEN} from "../../../../Models/Quest";
 
@@ -91,10 +92,11 @@ class QuestView extends Component {
         console.log("// TODO: このquestのステータスをマニュアルで変えるdialogを出す", quest);
     }
     render() {
+        let now = new KanColleDate();
         return (
             <table style={{width: "96%"}}>
               <tbody>
-                <tr><th colSpan="2">任務進捗</th></tr>
+                <tr><th colSpan="2">任務進捗 <span style={{fontWeight:"200"}}>/ {now.timeLeftToNextUpdate()}</span></th></tr>
                 {this.state.daily.map(quest => {
                     return (
                         <tr
