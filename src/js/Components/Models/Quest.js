@@ -15,9 +15,21 @@ export default class Quest extends Model {
             return (prev.id < next.id) ? -1 : 1;
         });
     }
+    // 着手
+    undertake() { return this._update(NOW); }
+    // 中断
+    cancel() { return this._update(YET); }
+    // 達成
+    done() { return this._update(DONE); }
+    // 非表示
+    hide() { return this._update(HIDDEN); }
+    _update(state) {
+        this.state = state;
+        return this.save();
+    }
     isAvailable() {
         if (this.ristrict) {
-            console.log(!this[this.ristrict]((new Date()).toJST()));
+            // console.log(!this[this.ristrict]((new Date()).toJST()));
             if (!this[this.ristrict]((new Date()).toJST())) return false;
         }
         // FIXME: これもっとかっちょいい再帰にしたいな

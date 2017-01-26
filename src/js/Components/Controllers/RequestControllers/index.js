@@ -6,6 +6,7 @@ import * as BattleControllers from "./Battle";
 import * as RecoveryControllers from "./Recovery";
 import * as PortControllers from "./Port";
 import * as SortieControllers from "./Sortie";
+import * as QuestControllers from "./Quest";
 
 const RequestControllers = {
     ...KoushoControllers,
@@ -16,6 +17,7 @@ const RequestControllers = {
     ...RecoveryControllers,
     ...PortControllers,
     ...SortieControllers,
+    ...QuestControllers,
 };
 
 module.exports = RequestControllers;

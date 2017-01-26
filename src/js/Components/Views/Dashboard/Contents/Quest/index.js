@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 
-import {grey500, orange500, tealA200} from "material-ui/styles/colors";
+import {grey300, grey400, orange500, orangeA700, tealA200} from "material-ui/styles/colors";
 
 import Achievement from "../../../../Models/Achievement";
 import Quest, {YET,NOW,DONE,HIDDEN} from "../../../../Models/Quest";
@@ -51,9 +51,9 @@ class AchievementView extends Component {
 class QuestStatus extends Component {
     style() {
         const styles = {
-            base:     {padding:"2px"},
-            [YET]:    {color: grey500},
-            [NOW]:    {backgroundColor: orange500},
+            base:     {padding:"2px",borderRadius:"2px"},
+            [YET]:    {color: grey400, border: `thin solid ${grey300}`},
+            [NOW]:    {backgroundColor: orange500, color: "white", textShadow: `0 0 1px ${orangeA700}`},
             [DONE]:   {backgroundColor: tealA200},
             [HIDDEN]: {},
         };
@@ -61,8 +61,8 @@ class QuestStatus extends Component {
     }
     render() {
         switch (this.props.quest.state) {
-        case YET:    return <span style={this.style()}>[未着手]</span>;
-        case NOW:    return <span style={this.style()}>進行中</span>;
+        case YET:    return <span style={this.style()}>未着手</span>;
+        case NOW:    return <span style={this.style()}>遂行中</span>;
         case DONE:   return <span style={this.style()}>完了</span>;
         case HIDDEN: return <span style={this.style()}>非表示</span>;
         }
@@ -79,15 +79,27 @@ class QuestView extends Component {
             daily: Quest.daily(false),
         };
     }
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            this.setState({daily: Quest.daily(false)});
+        }, 2 * 1000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+    showDialog(quest) {
+        console.log("// TODO: このquestのステータスをマニュアルで変えるdialogを出す", quest);
+    }
     render() {
-        console.log(this.state.daily);
         return (
             <table style={{width: "96%"}}>
               <tbody>
                 <tr><th colSpan="2">任務進捗</th></tr>
                 {this.state.daily.map(quest => {
                     return (
-                        <tr key={quest.id}>
+                        <tr
+                          key={quest.id} style={{cursor:"pointer"}}
+                          onClick={() => { this.showDialog(quest); }}>
                             <td>{quest.title}</td>
                             <td><QuestStatus quest={quest}/></td>
                         </tr>
