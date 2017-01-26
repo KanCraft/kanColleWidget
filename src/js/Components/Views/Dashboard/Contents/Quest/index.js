@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 
-import {grey300, grey400, orange500, orangeA700, tealA200} from "material-ui/styles/colors";
+import {grey300, grey400, orange500, orangeA700, cyan500, cyan800} from "material-ui/styles/colors";
 
 import KanColleDate from "../../../../Services/KanColleDate";
 import Achievement from "../../../../Models/Achievement";
@@ -52,21 +52,24 @@ class AchievementView extends Component {
 class QuestStatus extends Component {
     style() {
         const styles = {
-            base:     {padding:"2px",borderRadius:"2px"},
+            base:     {padding:"2px",borderRadius:"2px",color:"white",},
             [YET]:    {color: grey400, border: `thin solid ${grey300}`},
-            [NOW]:    {backgroundColor: orange500, color: "white", textShadow: `0 0 1px ${orangeA700}`},
-            [DONE]:   {backgroundColor: tealA200},
+            [NOW]:    {backgroundColor: orange500, textShadow: `0 0 1px ${orangeA700}`},
+            [DONE]:   {backgroundColor: cyan500,   textShadow: `0 0 2px ${cyan800}`},
             [HIDDEN]: {},
         };
         return {...styles.base, ...styles[this.props.quest.state]};
     }
-    render() {
+    text() {
         switch (this.props.quest.state) {
-        case YET:    return <span style={this.style()}>未着手</span>;
-        case NOW:    return <span style={this.style()}>遂行中</span>;
-        case DONE:   return <span style={this.style()}>完了</span>;
-        case HIDDEN: return <span style={this.style()}>非表示</span>;
+        case YET:    return "未着手";
+        case NOW:    return "遂行中";
+        case DONE:   return "達成済";
+        case HIDDEN: return "非表示";
         }
+    }
+    render() {
+        return <span style={this.style()}>{this.text()}</span>;
     }
     static propTypes = {
         quest: PropTypes.object.isRequired,
@@ -91,6 +94,9 @@ class QuestView extends Component {
     showDialog(quest) {
         console.log("// TODO: このquestのステータスをマニュアルで変えるdialogを出す", quest);
     }
+    caret() {
+        return <span style={{color: grey400}}>▸</span>;
+    }
     render() {
         let now = new KanColleDate();
         return (
@@ -102,7 +108,7 @@ class QuestView extends Component {
                         <tr
                           key={quest.id} style={{cursor:"pointer"}}
                           onClick={() => { this.showDialog(quest); }}>
-                            <td>{quest.title}</td>
+                            <td>{this.caret()} {quest.title}</td>
                             <td><QuestStatus quest={quest}/></td>
                         </tr>
                     );
