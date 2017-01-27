@@ -14,7 +14,7 @@ export default class RemodelsWikiView extends Component {
             var tmp = document.implementation.createHTMLDocument(); tmp.body.innerHTML = res.response;
             return Promise.resolve(tmp);
         }).then(document => {
-            let table = document.querySelector("h3#h3_content_1_15").nextElementSibling.querySelector("table");
+            let table = document.querySelector("h3#h3_content_1_17").nextElementSibling.querySelector("table");
             this.setState({
                 table: <table style={{width: "100%", margin: "0 auto"}} dangerouslySetInnerHTML={{__html: table.innerHTML}}></table>,
                 loader: null,
