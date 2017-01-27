@@ -9,6 +9,9 @@ History.default = {
     "last-selected-frame": {
         id: "__white"
     },
+    "last-muted-status": {
+        muted: false,
+    },
     "custom-capture": {
         settings: []
     }

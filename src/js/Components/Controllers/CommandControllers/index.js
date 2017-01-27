@@ -5,6 +5,7 @@ const captures = new CaptureService();
 
 import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
+import History from "../../Models/History";
 import Assets from "../../Services/Assets";
 import Streaming from "../../Services/Streaming";
 
@@ -29,6 +30,9 @@ export function CaptureController() {
 
 export function MuteController() {
     windows.find().then(tab => {
+        let h = History.find("last-muted-status");
+        h.muted = !tab.mutedInfo.muted;
+        h.save();
         // Mute状態をToggleする
         windows.mute(tab, !tab.mutedInfo.muted);
     });

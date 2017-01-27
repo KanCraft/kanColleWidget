@@ -35,7 +35,8 @@ export function OpenWindow(message) {
 
     return windows.find(true)
     .then(tab => windows.focus(tab))
-    .catch(() => windows.open(frame, position));
+    .catch(() => windows.open(frame, position))
+    .then(win => windows.mute(win.tabs[0], History.find("last-muted-status").muted));
 }
 
 export function ShouldDecorateWindow(/* message */) {
@@ -69,6 +70,9 @@ export function MuteWindow(message) {
     return new Promise(resolve => {
         // TODO: chromeモジュールここで参照しないように
         chrome.tabs.update(message.tab.id, {muted: message.mute}, tab => {
+            let h = History.find("last-muted-status");
+            h.muted = tab.mutedInfo.muted;
+            h.save();
             resolve({status: 200, tab});
         });
     });
