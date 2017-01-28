@@ -93,7 +93,9 @@ export class Queue {
     hasCome(now = Date.now()) {
         return ((parseInt(this.scheduled) - now) <= 0);
     }
-
+    isValid() {
+        return !isNaN(new Date(this.scheduled));
+    }
     // Override me
     toBadgeParams() {
         const diff = this.scheduled - Date.now();
@@ -219,7 +221,7 @@ export class Recovery extends Queue {
         this.badgeColor = greenA400;
     }
     toNotificationID() {
-        return `${RECOVERY}.${this.dock}`;
+        return `${RECOVERY}.${this.dock}${this.isValid() ? "" : ".failed"}`;
     }
     toNotificationParams() {
         return {
@@ -231,13 +233,24 @@ export class Recovery extends Queue {
         };
     }
     toNotificationParamsForStart() {
-        return {
-            type: "basic",
-            title: `おやすみします ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
-            message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
-            requireInteraction: false,
-            iconUrl: this.assets.getNotificationIcon(RECOVERY),
-        };
+        if (this.isValid()) {
+            return {
+                type: "basic",
+                title: `おやすみします ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
+                message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
+                requireInteraction: false,
+                iconUrl: this.assets.getNotificationIcon(RECOVERY),
+            };
+        } else {
+            return {
+                type: "basic",
+                title: "修復時間の取得に失敗しました",
+                message: `第${this.dock}ドックの修復時間取得に失敗しました。OCRを使用しているため、画面が小さすぎたりすると失敗します。以下のボタンから手動登録することも可能です。`,
+                requireInteraction: false,
+                iconUrl: this.assets.errorIcon(),
+                buttons: [{title:"手動登録する"}]
+            };
+        }
     }
     static createFromStorage(stored) {
         return new this(stored.scheduled, stored.params.dock);

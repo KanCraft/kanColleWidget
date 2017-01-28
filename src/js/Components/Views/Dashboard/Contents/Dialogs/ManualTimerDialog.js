@@ -22,13 +22,12 @@ const styles = {
     }
 };
 
-export default class ManualTimerDialog extends Component {
+export class ManualTimerContents extends Component {
     constructor(props) {
         super(props);
         this.state = {
             hours:   0,
             minutes: 0,
-            open:    this.props.open,
         };
     }
     onChange(ev) {
@@ -47,10 +46,9 @@ export default class ManualTimerDialog extends Component {
     getName() {
         if (!this.props.queue) return;
         switch ((this.props.queue.params || this.props.queue).type) {
-        // FIXME: 表記ゆれの名残。複数形の方はいずれ消す
-        case MISSION:    case "missions":    return "遠征";
-        case RECOVERY:   case "recoveries":  return "修復";
-        case CREATESHIP: case "createships": return "建造";
+        case MISSION:    return "遠征";
+        case RECOVERY:   return "修復";
+        case CREATESHIP: return "建造";
         case "default":  return "なんか";
         }
     }
@@ -60,10 +58,7 @@ export default class ManualTimerDialog extends Component {
     }
     render() {
         return (
-            <Dialog
-              open={this.props.open}
-              onRequestClose={() => this.props.close()}
-              >
+          <div>
               <span style={styles.title}>{`第${this.getID()}${this.getUnit()}の${this.getName()}完了通知を登録しますか？`}</span>
               <div style={{display: "flex", fontSize: "1.6em"}}>
                 <div style={{flex: "1"}}>
@@ -79,13 +74,44 @@ export default class ManualTimerDialog extends Component {
               </div>
               <div>
                 <FlatButton label="登録"    primary={true} style={{float: "right"}} onClick={this.onCommit.bind(this)}/>
-                <FlatButton label="しません" style={{color: grey600}} onClick={() => this.props.close()}/>
+                <FlatButton label="しません" style={{color: grey600}} onClick={this.props.onCancel}/>
               </div>
-            </Dialog>
+          </div>
         );
     }
     onCommit() {
         let time = {h:this.state.hours, m:this.state.minutes, s:0};
+        this.props.onCommit(time);
+    }
+    static propTypes = {
+        onCommit: PropTypes.func.isRequired,
+        onCancel: PropTypes.func.isRequired,
+        queue:    PropTypes.object,
+    }
+}
+
+export default class ManualTimerDialog extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open:    this.props.open,
+        };
+    }
+    render() {
+        return (
+            <Dialog
+              open={this.props.open}
+              onRequestClose={() => this.props.close()}
+              >
+              <ManualTimerContents
+                queue={this.props.queue}
+                onCommit={this.onCommit.bind(this)}
+                onCancel={() => this.props.close()}
+                />
+            </Dialog>
+        );
+    }
+    onCommit(time) {
         this.props.onCommit(time).then(() => this.props.close());
     }
     static propTypes = {

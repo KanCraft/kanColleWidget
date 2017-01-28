@@ -28,6 +28,7 @@ module.exports = {
         dsnapshot:  "./src/js/entrypoints/pages/dsnapshot.js",
         wiki:       "./src/js/entrypoints/pages/wiki.js",
         feedback:   "./src/js/entrypoints/pages/feedback.js",
+        manual:     "./src/js/entrypoints/pages/manual.js",
         background: "./src/js/entrypoints/background.js",
     },
     output: {filename:"./dest/js/[name].js"},

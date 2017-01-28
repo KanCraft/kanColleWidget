@@ -4,6 +4,9 @@ export default class Assets {
         this.config = config;
         this.module = module;
     }
+    errorIcon() {
+        return "http://otiai10.github.io/kanColleWidget/src/img/icon.png";
+    }
     downloadImageURL(url) {
         const filename = [this.getDownloadFolder(), this.getDownloadFilename(url)].filter(p => !!p).join("/");
         return new Promise(resolve => {

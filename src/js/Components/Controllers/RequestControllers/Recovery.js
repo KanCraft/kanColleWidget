@@ -51,7 +51,7 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
         const S = 1000; const M = 60 * S; const H = 60 * M;
         const length = time.h * H + (time.m - 1) * M + time.s * S;
         const recovery = new Recovery(Date.now() + length, dock, time);
-        ScheduledQueues.append(RECOVERY, recovery);
+        if (recovery.isValid()) ScheduledQueues.append(RECOVERY, recovery);
         notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
 }

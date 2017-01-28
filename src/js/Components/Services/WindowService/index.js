@@ -27,6 +27,18 @@ class WindowService {
             });
         });
     }
+    openManualWindow(type, identifier) {
+        const w = 300;
+        const h = 170;
+        return new Promise(resolve => {
+            this.module.windows.create({
+                url: `/dest/html/manual.html?type=${type}&identifier=${identifier}`,
+                type: "popup",
+                width: w,
+                height: h,
+            }, resolve);
+        });
+    }
     openDamagaSnapshot(position = {}) {
         const r = 124 / 200;
         const h = position.height || 200;
