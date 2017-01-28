@@ -28,6 +28,7 @@ class FeedbackContents extends Component {
             asIs:  "",
             toBe:  "",
             issue: "",
+            errors: {},
             env:   window.navigator.userAgent,
             version: chrome.runtime.getManifest().version,
         };
@@ -39,6 +40,14 @@ class FeedbackContents extends Component {
     onTextFieldChange(ev) {
         this.setState({[ev.target.name]:ev.target.value});
     }
+    _validate() {
+        let errors = [];
+        if (this.state.issue.length == 0) {
+            const description = "「概要」が入力されていません。";
+            errors.push({key: "title", description});
+        }
+        return errors;
+    }
     render() {
         return (
             <div>
@@ -46,7 +55,7 @@ class FeedbackContents extends Component {
                 <TextField name="title" fullWidth={true}
                   value={this.state.title}
                   onChange={this.onTextFieldChange}
-                  errorText={this.state.title.length > 30 ? "30字以内でかいつまんでください" : null}
+                  errorText={(!this.state.title && this.state.errors["title"]) ? "概要をかんたんに書いてください。" : null}
                   hintText="30字以内"
                   floatingLabelText="概要"/>
               </div>
@@ -77,6 +86,7 @@ class BugReportView extends FeedbackContents {
               <TextField name="view" fullWidth={true}
                 value={this.state.view}
                 onChange={this.onTextFieldChange}
+                errorText={(!this.state.view && this.state.errors["view"]) ? this.state.errors["view"] : null}
                 hintText="バグが発生している画面はどこですか？"
                 floatingLabelText="問題のある画面"/>
             </div>,
@@ -85,6 +95,7 @@ class BugReportView extends FeedbackContents {
                 value={this.state.asIs}
                 multiLine={true}
                 onChange={this.onTextFieldChange}
+                errorText={(!this.state.asIs && this.state.errors["asIs"]) ? "「期待される挙動」に反してどのようになっているか書いてください。" : null}
                 hintText="現状どのような挙動になっていますか？"
                 floatingLabelText="観測される問題"/>
             </div>,
@@ -93,6 +104,7 @@ class BugReportView extends FeedbackContents {
                 value={this.state.toBe}
                 multiLine={true}
                 onChange={this.onTextFieldChange}
+                errorText={(!this.state.toBe && this.state.errors["toBe"]) ? "本来どのようでなければならないかを書いてください。" : null}
                 hintText="本来どのような挙動が期待されますか？"
                 floatingLabelText="期待される挙動"/>
             </div>,
@@ -106,6 +118,25 @@ class BugReportView extends FeedbackContents {
                 floatingLabelText="再現方法" />
             </div>
         ];
+    }
+    validate() {
+        let errors = this._validate();
+        if (this.state.view.length == 0) {
+            const description = "「問題のある画面」が入力されていません。";
+            errors.push({key: "view", description});
+        }
+        if (this.state.asIs.length == 0) {
+            const description = "「観測される問題」が入力されていません。";
+            errors.push({key: "asIs", description});
+        }
+        if (this.state.toBe.length == 0) {
+            const description = "「期待される挙動」が入力されていません。";
+            errors.push({key: "toBe", description});
+        }
+        let errState = {};
+        errors.map(err => errState[err.key] = err.description);
+        this.setState({errors:errState});
+        return errors;
     }
     getSearchParams() {
         let params = new URLSearchParams();
@@ -141,11 +172,23 @@ class RequestView extends FeedbackContents {
                 multiLine={true}
                 value={this.state.issue}
                 onChange={this.onTextFieldChange}
+                errorText={(!this.state.issue.length && this.state.errors["issue"]) ? this.state.errors["issue"] : null}
                 hintText="この機能を実装した場合に解決される問題はなんですか？"
                 rows={2}
                 floatingLabelText="解決される問題" />
             </div>
         ];
+    }
+    validate() {
+        let errors = this._validate();
+        if (this.state.issue.length == 0) {
+            const description = "「解決される問題」が入力されていません。";
+            errors.push({key: "issue", description});
+        }
+        let errState = {};
+        errors.map(err => errState[err.key] = err.description);
+        this.setState({errors:errState});
+        return errors;
     }
     getSearchParams() {
         let params = new URLSearchParams();
@@ -174,6 +217,8 @@ export default class FeedbackView extends Component {
         this.setState({hash});
     }
     onCommit() {
+        let errors = this.refs.contents.validate();
+        if (errors.length != 0) return alert(errors.map(err => err.description).join("\n"));
         let params = this.refs.contents.getSearchParams();
         params.append("labels[]", "2.0");// TODO: ラベルの作り方が悪かったけど、動的にしたい
         params.append("labels[]", this.state.hash.replace("#",""));
@@ -205,11 +250,7 @@ export default class FeedbackView extends Component {
               <FlatButton primary={true} style={{width:"100%",color:"#ddd"}} label="ほしいものリスト" onClick={() => window.open("https://www.amazon.de/registry/wishlist/1E8SJJI13GLUD/?tag=otiai10-22")} />
             </div>
             <div style={{flex:"1"}}>
-              {
-                this.state.hash == "#bug" ?
-                <BugReportView ref="contents"/>
-                : <RequestView ref="contents"/>
-              }
+              {this.state.hash == "#bug" ? <BugReportView ref="contents"/> : <RequestView ref="contents"/>}
               <div style={{...rows, ...{display:"flex"}}}>
                 <Chip style={{...chip, ...{backgroundColor: orange700}}}>2.0</Chip>
                 <Chip style={{...chip, ...{backgroundColor: red500}}}>{this.state.hash.replace("#", "")}</Chip>
