@@ -1,15 +1,14 @@
 var Constants = {
     release : {
-        version: "v1.7.8",
-        link: 'https://github.com/otiai10/kanColleWidget/pull/627',
-        announceVersion : 168,
+        version: "v1.7.9",
+        link: 'https://github.com/otiai10/kanColleWidget/pulls',
+        announceVersion : 170,
         announcements   : [
-          'DMMページのレイアウトの変更に対応',
-          '-----',
-          '現在、v2を開発中です',
-          'v2を試したい方は<a class="light" href="https://chrome.google.com/webstore/detail/egkgleinehaapbpijnlpbllfeejjpceb">ここ</a>からインストールできます。',
-          '問題の切り分けのため、v2を試す場合は、v1を削除するのが望ましいです',
-          'イベント進捗どうですか？'
+          '現在開発中のv2に、だいたいの機能が実装できてきたので、そろそろv1のストアリンクでリリースされるものをv2に置き換えようと思っています。',
+          'v2は今の所<a class="light" href="https://chrome.google.com/webstore/detail/egkgleinehaapbpijnlpbllfeejjpceb">[v2開発版] beta.艦これウィジェット</a>ここで試すことができます。v2を試す場合は必ずv1を完全に削除して使ってください。',
+          '『艦これウィジェット』は<b>開発者自身が</b>『艦これ』を気軽にストレス無く遊びやすくするために開発がはじめられ、今でも開発が続いています（じつに３年め！）。ガチ提督諸氏や、『艦これウィジェット』を使用することに心配やストレスを感じられるひとは、そもそも使用されないことをおすすめします。',
+          'v2以降を機に、他のツールへの引っ越しもぜひ検討していただければと思います。また、『艦これウィジェット』は『艦これ』公式のUIが改善され、『艦これウィジェット』が必要なくなることを望んでおります。',
+          '気楽で快適な提督ライフと、提督各位の艦娘への愛と、『艦これ』の末長いサービス継続に、寄与していければいいなと思います。ダンケダンケ！'
         ]
     },
     area: ["鎮守府海域","南西諸島海域","北方海域","西方海域","南方海域"],
