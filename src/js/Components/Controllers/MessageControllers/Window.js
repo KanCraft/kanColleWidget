@@ -17,7 +17,8 @@ import OCR from "../../Services/API/OCR";
 
 export function OpenWindow(message) {
 
-    const id = message.frame;
+    let lastSelectedFrame = History.find("last-selected-frame");
+    const id = message.frame || lastSelectedFrame.id;
 
     const frame = Frame.find(id);
     if (!frame) {
@@ -26,10 +27,8 @@ export function OpenWindow(message) {
     }
 
     // last-selected-frameとしてHistoryに保存する
-    let lastSelectedFrame = History.find("last-selected-frame");
     lastSelectedFrame.id = id;
     lastSelectedFrame.save();
-    // TODO: HistoryクラスってJS標準にあったので、AppHistoryとかにrenameする
 
     let position = LaunchPosition.find("default");
 

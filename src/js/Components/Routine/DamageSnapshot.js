@@ -35,6 +35,7 @@ export default class DamageSnapshotDisplay {
             img.style.height = (this.context.innerHeight / 4.2) + "px";
         } else {
             img.style.height = "100%";
+            img.addEventListener("click", () => this.client.message("/window/open", {}));
         }
         return img;
     }
