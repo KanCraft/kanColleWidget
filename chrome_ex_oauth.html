@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- うーん、このページ、./oauthに閉じ込めたいんだけどなあ -->
 <!--
  * Copyright (c) 2009 The Chromium Authors. All rights reserved.  Use of this
  * source code is governed by a BSD-style license that can be found in the
@@ -6,6 +7,7 @@
 -->
 <html>
   <head>
+    <meta charset="utf-8">
     <title>OAuth Redirect Page</title>
     <style type="text/css">
       body {
@@ -13,11 +15,13 @@
         color: #333;
       }
     </style>
-    <script type="text/javascript" src="src/js/definitions/share/chrome_ex_oauthsimple.js"></script>
-    <script type="text/javascript" src="src/js/definitions/share/chrome_ex_oauth.js"></script>
-    <script type="text/javascript" src="src/js/definitions/share/onload.js"></script>
+    <script type="text/javascript" src="dest/oauth/chrome_ex_oauthsimple.js"></script>
+    <script type="text/javascript" src="dest/oauth/chrome_ex_oauth.js"></script>
+    <script type="text/javascript" src="dest/oauth/onload.js"></script>
   </head>
   <body>
-    Redirecting...
+    <h1>Twitterのページにリダイレクトしています</h1>
+    <img src="dest/img/icons/chang.128.png">
+    <p>問題が発生した場合は @KanColleWidget まで</p>
   </body>
 </html>

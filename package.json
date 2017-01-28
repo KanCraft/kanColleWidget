@@ -1,42 +1,76 @@
 {
-  "name": "kanColleWidget",
-  "version": "0.3.4",
-  "description": "艦これウィジェット",
-  "main": "src/js/background.js",
+  "name": "kcwidget",
+  "version": "0.0.1",
+  "description": "KanColleWidget for Chrome/Firefox",
   "engines": {
-    "node": "0.12.2"
-  },
-  "directories": {
-    "doc": "doc",
-    "test": "tests"
+    "node": "7.0.0"
   },
   "scripts": {
-    "test": "testem",
-    "boot": "npm install && ./node_modules/grunt-cli/bin/grunt boot && ./node_modules/bower/bin/bower install && ./node_modules/grunt-cli/bin/grunt build",
-    "start": "./node_modules/grunt-cli/bin/grunt watch",
-    "build": "./node_modules/grunt-cli/bin/grunt build",
-    "release": "./node_modules/grunt-cli/bin/grunt release"
+    "postinstall": "node ./scripts/postinstall",
+    "test": "jest",
+    "build": "webpack --progress",
+    "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
+    "add-mission": "node ./scripts/add-mission",
+    "fetch-wiki": "node ./scripts/fetch-wiki",
+    "start": "webpack --watch --progress"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/otiai10/kanColleWidget.git"
+    "url": "git+https://github.com/otiai10/kcwidget.git"
   },
-  "keywords": [
-    "艦これウィジェット"
-  ],
   "author": "otiai10",
-  "license": "BSD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/otiai10/kcwidget/issues"
+  },
+  "homepage": "https://github.com/otiai10/kcwidget#readme",
   "dependencies": {
-    "grunt": "0.4.5",
-    "grunt-exec": "0.4.6",
-    "grunt-regarde": "0.1.1",
-    "grunt-contrib-concat": "0.5.0",
-    "grunt-contrib-uglify": "0.6.0",
-    "grunt-contrib-handlebars": "0.9.1",
-    "grunt-typescript": "0.2.0"
+    "react": "^15.0.2"
   },
   "devDependencies": {
-    "bower": "^1.7.9",
-    "grunt-cli": "^1.2.0"
+    "babel": "^6.5.2",
+    "babel-core": "^6.9.0",
+    "babel-eslint": "^7.0.0",
+    "babel-jest": "^12.1.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "base64-image-loader": "^1.0.0",
+    "cheerio-httpcli": "^0.6.9",
+    "chomex": "*",
+    "colors": "^1.1.2",
+    "crescent": "*",
+    "eslint": "^3.7.1",
+    "eslint-plugin-react": "^6.3.0",
+    "file-loader": "^0.8.5",
+    "font-awesome": "^4.6.3",
+    "font-awesome-webpack": "0.0.4",
+    "jest-cli": "^12.1.1",
+    "json-loader": "^0.5.4",
+    "less": "^2.7.1",
+    "lodash": "^4.17.2",
+    "material-ui": "^0.16.4",
+    "msr": "^1.3.4",
+    "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "react-tap-event-plugin": "^1.0.0",
+    "redux": "^3.5.2",
+    "shelljs": "^0.7.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0"
+  },
+  "jest": {
+    "verbose": true,
+    "testRegex": "tests/.*-test\\.js$",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/chomex"
+    ],
+    "setupFiles": [
+      "tests/mock/chrome.js",
+      "tests/mock/URLSearchParams.js",
+      "tests/mock/localStorage.js"
+    ]
   }
 }

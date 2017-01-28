@@ -1,22 +1,29 @@
-# 艦これウィジェット <img width="40px" src="src/img/icon.png" />
+# kcwidget [![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget)
 
-艦これウィジェットは推奨環境であるChromeを艦これに最適化させるChrome拡張です.
+[KanColleWidget](https://github.com/otiai10/KanColleWidget) のきれいなやつ
 
-詳しくは[ここ](http://otiai10.github.io/kanColleWidget/).
+# サポート
+
+- ~~Firefox >= 46~~
+- Chrome ?
 
 # 開発
 
-- node 0.12
-- npm 2.7.4
+- nodejs: 6.2.0
+- npm: 3.8.9
 
-```
-npm run boot
-```
-
-build
-
-```
-npm start
+```sh
+git clone git@github.com:otiai10/kcwidget.git
+cd kcwidget
+npm install && npm start
 ```
 
-and import `src/kanColleWidget` as a Chrome Extension.
+- `npm run build` きれいなjsをビルドするやつ
+- `npm start` 編集差分を見てビルドするやつ
+- `npm release` **release/kcwidget** にリリースビルドをつくるやつ
+
+# テスト
+
+```sh
+npm test
+```
