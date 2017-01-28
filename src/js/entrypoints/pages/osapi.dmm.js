@@ -14,6 +14,7 @@ DecorateOsapiPage.init(window).effort();
 // これが必要かどうかは聞く必要がある
 client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
     if (!data.value) return; // Do nothing
+    if (window.parent != window) return;
     client.message("/window/self", ({self}) => {
         let inAppActionButtons = new InAppActionButtons(self, client);
         document.body.appendChild(inAppActionButtons.html());
