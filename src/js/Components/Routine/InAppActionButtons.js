@@ -43,8 +43,21 @@ export default class InAppActionButtons {
         });
         return this.wrap(img);
     }
+    getScreenShotButton() {
+        let img = this.getBaseImageTemplate();
+        img.src = `chrome-extension://${this.extId}/dest/img/icons/camera.svg`;
+        img.addEventListener("click", () => {
+            this.container.style.transition = "all 0s";
+            this.container.style.opacity = 0;
+            this.client.message("/window/current-action").then(() => {
+                setTimeout(() => this.container.style.transition = "all 0.1s", 600);
+            });
+        });
+        return this.wrap(img);
+    }
     html() {
         this.container.appendChild(this.getMuteButton());
+        this.container.appendChild(this.getScreenShotButton());
         return this.container;
     }
 }
