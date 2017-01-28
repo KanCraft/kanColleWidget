@@ -30,7 +30,3 @@ chrome.commands.onCommand.addListener(CommandRouter);
 
 import {init} from "./global-pollution";
 init(window);
-
-import Quest from "../Components/Models/Quest";
-console.log(Quest.daily());
-console.log(Quest.daily(false));
