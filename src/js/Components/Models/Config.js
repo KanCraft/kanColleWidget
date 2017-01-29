@@ -15,6 +15,7 @@ Config.default = {
     "directly-download-on-capture": {value: false},
     "staff-tweet": {value: false},
     "popup-background-image": {url: null},
+    "alert-on-before-unload": {value:false},
     "data-sync": {
         keys: []
     },

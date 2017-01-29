@@ -19,6 +19,9 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
         let inAppActionButtons = new InAppActionButtons(self, client);
         document.body.appendChild(inAppActionButtons.html());
     });
+    client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
+        if (data.value) window.onbeforeunload = () => {return "TEST002"; };
+    });
 });
 
 (new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);

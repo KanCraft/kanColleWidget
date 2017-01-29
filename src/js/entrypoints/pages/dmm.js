@@ -19,6 +19,9 @@ client.message({act: "/window/should-decorate"}, true).then((res) => {
         DecorateDMMPage.init(window).decorate(res.tab.frame);
         client.message("/window/zoom:set", {zoom: res.tab.frame.zoom});
         (new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
+        client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
+            if (data.value) window.onbeforeunload = () => {return "TEST002"; };
+        });
         break;
     case EXTRACT:
         var routine = ExtractFlash.init(window);
