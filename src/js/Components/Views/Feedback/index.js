@@ -42,7 +42,7 @@ class FeedbackContents extends Component {
     }
     _validate() {
         let errors = [];
-        if (this.state.issue.length == 0) {
+        if (this.state.title.length == 0) {
             const description = "「概要」が入力されていません。";
             errors.push({key: "title", description});
         }
