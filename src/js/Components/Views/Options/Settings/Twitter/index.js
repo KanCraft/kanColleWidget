@@ -29,7 +29,10 @@ export default class TwitterSettingsView extends Component {
             this.setState({profile: data});
         });
         else this.client.message("/twitter/revoke").then(() => {
-            this.setState({profile: null});
+            let staff = this.state.staff;
+            staff.value = false;
+            staff.save();
+            this.setState({profile: null, staff});
         });
     }
     onStaffTwitterToggle(ev, value) {
