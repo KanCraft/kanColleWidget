@@ -16,11 +16,46 @@ export default class UncategorizedSettings extends Component {
               <Description>わりと設定項目が細かいし隅々まで散らばってるので、セクションつくるほど類似した設定がない設定はここにつっこむ的な。ゲーム内ボタン表示はとりあえずAPPモードのみ対応です。好評だったらWHITEモードにも追加します。</Description>
               <DashboardLayoutSetting />
               <PopupBackgroundImageSetting />
+              <StrictMissionRotation />
             </div>
         );
     }
     static propTypes = {
         styles: PropTypes.object.isRequired,
+    }
+}
+
+class StrictMissionRotation extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("strict-mission-rotation")
+        };
+    }
+    render() {
+        return (
+          <Table selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>
+                  遠征強化令
+                  <div style={{whiteSpace:"pre-line"}}>
+                    <small>一定時間、遠征帰投を回収していなかったり遠征に出していない艦隊があると、クロックモードのアイコンがぶるぶる震えます</small>
+                  </div>
+                </TableRowColumn>
+                <TableRowColumn>
+                  <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)} />
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        );
+    }
+    onToggle(ev, value) {
+        let model = this.state.model;
+        model.value = value;
+        model.save();
+        this.setState({model});
     }
 }
 
