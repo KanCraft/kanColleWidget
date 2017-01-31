@@ -10,11 +10,33 @@ import Assignment       from "material-ui/svg-icons/action/assignment";
 
 import {VTabs, VTabItem} from "./VerticalTabs";
 
+import {ScheduledQueues} from "../../../Models/Queue/Queue";
+import Config from "../../../Models/Config";
+
 export class MenuNavigation extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            schedule: {}
+        };
+    }
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            const actives = ScheduledQueues.dict()["mission"].filter(q => !!q.scheduled);
+            if (actives.length != 3 && Config.find("strict-mission-rotation").value) {
+                this.setState({schedule: {animation:"SHAKE 0.5s infinite"}});
+            } else {
+                this.setState({schedule: {}});
+            }
+        }, 5 * 1000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
     render() {
         return (
           <VTabs selectedIndex={this.props.index} onItemSelected={this.props.select}>
-            <VTabItem icon={<Schedule         />} />
+            <VTabItem icon={<Schedule style={this.state.schedule} />} />
             <VTabItem icon={<PlaylistAddCheck />} />
             <VTabItem icon={<Timeline         />} />
             <VTabItem icon={<Assignment       />} />
