@@ -23,7 +23,7 @@ export class MenuNavigation extends Component {
     componentDidMount() {
         this.interval = setInterval(() => {
             const actives = ScheduledQueues.dict()["mission"].filter(q => !!q.scheduled);
-            if (actives.length != 3 && Config.find("strict-mission-rotation").value) {
+            if (actives.length != 3 && Config.find("strict-mission-rotation").value == "clockicon") {
                 this.setState({schedule: {animation:"SHAKE 0.5s infinite"}});
             } else {
                 this.setState({schedule: {}});

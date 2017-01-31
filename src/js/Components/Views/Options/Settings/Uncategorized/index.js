@@ -6,6 +6,7 @@ import MenuItem from "material-ui/MenuItem";
 import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
+import Detail from "../../Detail";
 
 // 各項目はなるべく分離可能なように、ちゃんとクラスにする
 export default class UncategorizedSettings extends Component {
@@ -13,7 +14,7 @@ export default class UncategorizedSettings extends Component {
         return (
             <div>
               <h1 style={this.props.styles.title}><Settings /> 未分類の設定置き場</h1>
-              <Description>わりと設定項目が細かいし隅々まで散らばってるので、セクションつくるほど類似した設定がない設定はここにつっこむ的な。ゲーム内ボタン表示はとりあえずAPPモードのみ対応です。好評だったらWHITEモードにも追加します。</Description>
+              <Description>わりと設定項目が細かいし隅々まで散らばってるので、セクションつくるほど類似した設定がない設定はここにつっこむ的な。</Description>
               <DashboardLayoutSetting />
               <PopupBackgroundImageSetting />
               <StrictMissionRotation />
@@ -39,23 +40,25 @@ class StrictMissionRotation extends Component {
               <TableRow>
                 <TableRowColumn>
                   遠征強化令
-                  <div style={{whiteSpace:"pre-line"}}>
-                    <small>一定時間、遠征帰投を回収していなかったり遠征に出していない艦隊があると、クロックモードのアイコンがぶるぶる震えます</small>
-                  </div>
+                  <Detail>
+                    一定時間、遠征帰投を回収していなかったり遠征に出していない艦隊があると、なんか知らせるようにします
+                  </Detail>
                 </TableRowColumn>
                 <TableRowColumn>
-                  <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)} />
+                  <div>
+                    <SelectField value={this.state.model.value} fullWidth={true} onChange={(ev, i, value) => {
+                        let model = this.state.model; model.value = value; model.save(); this.setState({model});
+                    }}>
+                      <MenuItem value={"disabled"}     primaryText={"無効"} />
+                      <MenuItem value={"clockicon"}    primaryText={"発令: クロックモードのアイコンによる"} />
+                      <MenuItem value={"notification"} primaryText={"発令: 通知ポップアップによる"} />
+                    </SelectField>
+                  </div>
                 </TableRowColumn>
               </TableRow>
             </TableBody>
           </Table>
         );
-    }
-    onToggle(ev, value) {
-        let model = this.state.model;
-        model.value = value;
-        model.save();
-        this.setState({model});
     }
 }
 
@@ -164,9 +167,7 @@ class PopupBackgroundImageSetting extends Component {
               <TableRow>
                 <TableRowColumn>
                   右上ポップアップの背景カスタマイズ
-                  <div>
-                    <small>運営電文表示時で280x600です</small>
-                  </div>
+                  <Detail>運営電文表示時で280x600です</Detail>
                 </TableRowColumn>
                 <TableRowColumn>
                   {this.getIconInput()}

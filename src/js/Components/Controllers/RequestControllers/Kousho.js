@@ -45,7 +45,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
         const length = time.h * H + time.m * M + time.s * S;
         const createship = new CreateShip(Date.now() + length, dock, time);
         ScheduledQueues.append(CREATESHIP, createship);
-        notifications.create(createship.toNotificationID(), createship.toNotificationParamsForStart());
+        if (Config.find("notification-display").onstart) notifications.create(createship.toNotificationID(), createship.toNotificationParamsForStart());
         return Promise.resolve(time);
     });
 }

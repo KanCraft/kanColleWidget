@@ -3,6 +3,7 @@ import React, {Component, PropTypes} from "react";
 import {TableRow, TableRowColumn} from "material-ui/Table";
 import Toggle                     from "material-ui/Toggle";
 import Config                     from "../../../Models/Config";
+import Detail from "../Detail";
 
 export default class SettingSwitch extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class SettingSwitch extends Component {
           <TableRow>
             <TableRowColumn>
               {this.props.title}
-              <span style={{fontSize:"0.6em"}}>{this.props.description}</span>
+              {(this.props.detail) ? <Detail>{this.props.detail}</Detail> : null}
             </TableRowColumn>
             <TableRowColumn>
               <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)}/>
@@ -31,8 +32,8 @@ export default class SettingSwitch extends Component {
         this.setState({model});
     }
     static propTypes = {
-        title:       PropTypes.string.isRequired,
-        description: PropTypes.string,
-        model:       PropTypes.string.isRequired
+        title:  PropTypes.string.isRequired,
+        detail: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+        model:  PropTypes.string.isRequired
     }
 }

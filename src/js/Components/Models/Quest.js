@@ -47,6 +47,7 @@ export default class Quest extends Model {
     // 非表示
     hide() { return this._update(HIDDEN); }
     _update(state) {
+        this.constructor.refreshIfUpdateNeeded();
         this.state = state;
         return this.save();
     }

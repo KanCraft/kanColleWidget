@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from "react";
 import RaisedButton from "material-ui/RaisedButton";
-import Icon from "../../FontAwesome";
+import Settings from "material-ui/svg-icons/action/settings";
+import Add      from "material-ui/svg-icons/content/add";
 
 // App
 import Frame from "../../../Models/Frame";
@@ -26,7 +27,7 @@ export default class WinconfigsView extends Component {
         });
         return (
           <div>
-            <h1 style={this.props.styles.title}><Icon name="cog" /> 窓設定</h1>
+            <h1 style={this.props.styles.title}><Settings /> 窓設定</h1>
             <div>
               {frames}
               {(this.state.showAddForm) ?  <WinconfigFormView
@@ -34,7 +35,7 @@ export default class WinconfigsView extends Component {
               /> : null }
               {(this.state.showAddForm) ? null : <RaisedButton
                 onClick={this.toggleAddForm.bind(this)}
-                icon={<Icon name="plus" />}
+                icon={<Add />}
                 label="ADD"
               />}
             </div>

@@ -247,7 +247,7 @@ export default class FeedbackView extends Component {
               </div>
               <FlatButton primary={true} label="現在あがっているissue" onClick={() => location.href = "https://github.com/otiai10/kanColleWidget/issues?q=is%3Aissue+label%3A2.0"} />
               <BonoChan />
-              <FlatButton primary={true} style={{width:"100%",color:"#ddd"}} label="ほしいものリスト" onClick={() => window.open("https://www.amazon.de/registry/wishlist/1E8SJJI13GLUD/?tag=otiai10-22")} />
+              <FlatButton primary={true} style={{width:"100%",color:"#ddd"}} label="ほしいものリスト" onClick={() => window.open("https://www.amazon.co.jp/registry/wishlist/1K4E93FSE3UQ4/?tag=otiai10-22")} />
             </div>
             <div style={{flex:"1"}}>
               {this.state.hash == "#bug" ? <BugReportView ref="contents"/> : <RequestView ref="contents"/>}

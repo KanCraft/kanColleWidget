@@ -16,9 +16,13 @@ Config.default = {
     "staff-tweet": {value: false},
     "popup-background-image": {url: null},
     "alert-on-before-unload": {value:false},
-    "strict-mission-rotation": {value:false},
+    "strict-mission-rotation": {value: "disabled"},
     "data-sync": {
         keys: []
+    },
+    "notification-display": {
+        onstart:  true,
+        onfinish: true,
     },
     "notification-for-default": {
         label:   "通知",

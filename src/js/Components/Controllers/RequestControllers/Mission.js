@@ -25,7 +25,8 @@ export function onMissionStart(detail) {
     const mission = Mission.createFromFormData(data);
     ScheduledQueues.append(MISSION, mission);
     // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
-    notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
+
+    if (Config.find("notification-display").onstart) notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
 }
 
 export function onMissionResult(detail) {

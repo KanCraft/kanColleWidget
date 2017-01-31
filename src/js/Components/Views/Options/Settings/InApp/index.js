@@ -3,10 +3,10 @@ import React, {Component,PropTypes} from "react";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import SelectField from "material-ui/SelectField";
 import MenuItem    from "material-ui/MenuItem";
-import Toggle      from "material-ui/Toggle";
 
 import SettingSwitch from "../SettingSwitch";
 import Config from "../../../../Models/Config";
+import Detail from "../../Detail";
 
 import Settings from "material-ui/svg-icons/action/settings";
 
@@ -53,6 +53,7 @@ export default class InAppSettingsView extends Component {
                 <DamageSnapshotSetting />
                 <SettingSwitch
                   title="ゲーム画面右上にミュートなどのボタンを表示する"
+                  detail="右上にマウスオーバーで出現するボタンを設置します。現在のところ、APPモードのみで利用可能です。好評ならWHITEにもつけます。"
                   model="use-inapp-action-buttons" />
                 <SettingSwitch
                   title="ゲーム画面を閉じるときアラートを出す"

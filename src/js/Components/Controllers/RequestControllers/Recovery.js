@@ -52,7 +52,7 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
         const length = time.h * H + (time.m - 1) * M + time.s * S;
         const recovery = new Recovery(Date.now() + length, dock, time);
         if (recovery.isValid()) ScheduledQueues.append(RECOVERY, recovery);
-        notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
+        if (Config.find("notification-display").onstart) notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
 }
 

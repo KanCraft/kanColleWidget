@@ -48,6 +48,11 @@ export default class ReferencesView extends Component {
                     <li><a href="http://www.slideshare.net/otiai10/ss-26631311">加賀さんと僕 ~艦これウィジェットの紹介と説明~</a></li>
                   </ul>
                 </li>
+                <li>バレンタイン近いのでほしいものリスト貼ります！
+                  <ul>
+                    <li><a href="https://www.amazon.co.jp/registry/wishlist/1K4E93FSE3UQ4/?tag=otiai10-22">ほしいものリスト</a></li>
+                  </ul>
+                </li>
               </ul>
             </div>
             <p style={{textAlign:"right"}}>
