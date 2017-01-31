@@ -1,6 +1,6 @@
 {
-  "name": "kcwidget",
-  "version": "0.0.1",
+  "name": "kanColleWidget",
+  "version": "2.0.39",
   "description": "KanColleWidget for Chrome/Firefox",
   "engines": {
     "node": "7.0.0"
@@ -9,16 +9,13 @@
     "postinstall": "node ./scripts/postinstall",
     "test": "jest",
     "build": "webpack --progress",
-    "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
-    "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
+    "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && yarn run build",
     "add-mission": "node ./scripts/add-mission",
     "fetch-wiki": "node ./scripts/fetch-wiki",
     "start": "webpack --watch --progress"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/otiai10/kcwidget.git"
-  },
+  "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
   "license": "MIT",
   "bugs": {
@@ -68,5 +65,6 @@
       "tests/mock/URLSearchParams.js",
       "tests/mock/localStorage.js"
     ]
-  }
+  },
+  "main": "src/js/entrypoints/background.js"
 }
