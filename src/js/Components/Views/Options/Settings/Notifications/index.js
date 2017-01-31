@@ -167,6 +167,48 @@ class NotificationSettingRow extends Component {
     }
 }
 
+class NotificationDisplay extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("notification-display"),
+        };
+    }
+    render() {
+        return (
+          <TableRow>
+            <TableRowColumn>
+              通知ポップアップを出す
+              <div style={{whiteSpace:"pre-line"}}>
+                <span style={{fontSize: "0.6em"}}>音声通知は使うけど通知ポップアップはいらないというひと向け</span>
+              </div>
+            </TableRowColumn>
+            <TableRowColumn>
+              <Toggle
+                toggled={this.state.model.onstart} name={"onstart"}
+                label={"登録時"} labelPosition={"right"}
+                onToggle={this.onToggle.bind(this)}
+                />
+            </TableRowColumn>
+            <TableRowColumn>
+              <Toggle
+                toggled={this.state.model.onfinish} name={"onfinish"}
+                label={"終了時"} labelPosition={"right"}
+                onToggle={this.onToggle.bind(this)}
+                />
+            </TableRowColumn>
+            <TableRowColumn colSpan={2}>{/* この無駄感つらい */}</TableRowColumn>
+          </TableRow>
+        );
+    }
+    onToggle(ev, value) {
+        let model = this.state.model;
+        model[ev.target.name] = value;
+        model.save();
+        this.setState({model});
+    }
+}
+
 export default class NotificationSettingsView extends Component {
     constructor(props) {
         super(props);
@@ -191,6 +233,7 @@ export default class NotificationSettingsView extends Component {
                     <NotificationSettingRow key={2} name="notification-for-createship"/>,
                     <NotificationSettingRow key={3} name="notification-for-tiredness" />
                 ] : null}
+                <NotificationDisplay />
               </TableBody>
             </Table>
           </div>

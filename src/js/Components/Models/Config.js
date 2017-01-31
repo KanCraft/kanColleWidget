@@ -20,6 +20,10 @@ Config.default = {
     "data-sync": {
         keys: []
     },
+    "notification-display": {
+        onstart:  true,
+        onfinish: true,
+    },
     "notification-for-default": {
         label:   "通知",
         enabled: true,
