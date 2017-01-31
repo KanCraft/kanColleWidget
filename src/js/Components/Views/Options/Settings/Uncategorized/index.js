@@ -41,22 +41,24 @@ class StrictMissionRotation extends Component {
                 <TableRowColumn>
                   遠征強化令
                   <Detail>
-                    一定時間、遠征帰投を回収していなかったり遠征に出していない艦隊があると、クロックモードのアイコンがぶるぶる震えます
+                    一定時間、遠征帰投を回収していなかったり遠征に出していない艦隊があると、なんか知らせるようにします
                   </Detail>
                 </TableRowColumn>
                 <TableRowColumn>
-                  <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)} />
+                  <div>
+                    <SelectField value={this.state.model.value} fullWidth={true} onChange={(ev, i, value) => {
+                        let model = this.state.model; model.value = value; model.save(); this.setState({model});
+                    }}>
+                      <MenuItem value={"disabled"}     primaryText={"無効"} />
+                      <MenuItem value={"clockicon"}    primaryText={"発令: クロックモードのアイコンによる"} />
+                      <MenuItem value={"notification"} primaryText={"発令: 通知ポップアップによる"} />
+                    </SelectField>
+                  </div>
                 </TableRowColumn>
               </TableRow>
             </TableBody>
           </Table>
         );
-    }
-    onToggle(ev, value) {
-        let model = this.state.model;
-        model.value = value;
-        model.save();
-        this.setState({model});
     }
 }
 

@@ -46,3 +46,7 @@ export function OnTirednessNotificationClicked(id) {
 export function OnDebugNotificationClicked(id) {
     notifications.clear(id);
 }
+
+export function OnStrictMissionWarningClicked(id) {
+    return OnNotificationClicked(id);
+}
