@@ -55,7 +55,7 @@ export default class QueueObserver {
         ];
 
         timeups.map(queue => {
-            this.notification.create(
+            if (Config.find("notification-display").onfinish) this.notification.create(
               queue.toNotificationID(),
               queue.toNotificationParams()
             );
