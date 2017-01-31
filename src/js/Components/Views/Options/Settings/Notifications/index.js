@@ -13,6 +13,7 @@ import {grey400, grey800}  from "material-ui/styles/colors";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 
+import Detail     from "../../Detail";
 import Config     from "../../../../Models/Config";
 import FileSystem from "../../../../Services/Assets/FileSystem";
 
@@ -62,8 +63,8 @@ class NotificationSettingRow extends Component {
         return (
           <TableRow>
             <TableRowColumn>
-              <div>{this.state.model.label}</div>
-              {this.state.model.description ? <span style={{fontSize: "0.6em"}}>{this.state.model.description}</span> : null}
+              {this.state.model.label}
+              {this.state.model.description ? <Detail>{this.state.model.description}</Detail> : null}
             </TableRowColumn>
             <TableRowColumn>
               {this.getSwitchColumn()}
@@ -179,9 +180,7 @@ class NotificationDisplay extends Component {
           <TableRow>
             <TableRowColumn>
               通知ポップアップを出す
-              <div style={{whiteSpace:"pre-line"}}>
-                <span style={{fontSize: "0.6em"}}>音声通知は使うけど通知ポップアップはいらないというひと向け</span>
-              </div>
+              <Detail>音声通知は使うけど通知ポップアップはいらないというひと向け</Detail>
             </TableRowColumn>
             <TableRowColumn>
               <Toggle
