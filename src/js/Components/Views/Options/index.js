@@ -16,7 +16,6 @@ import Announcement   from "./Announcement";
 import WinconfigsView from "./Winconfigs";
 import ReferencesView from "./References";
 
-// import DebugView      from "./Debug";
 import Meta from "../../Services/Meta";
 import History from "../../Models/History";
 
@@ -56,7 +55,6 @@ export default class OptionsView extends Component {
             <UncategorizedSettings    styles={styles} />
             <WinconfigsView           styles={styles} />
             <ReferencesView           styles={styles} />
-            {/* <DebugView            styles={styles} /> */}
           </div>
         );
     }

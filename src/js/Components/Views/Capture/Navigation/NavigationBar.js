@@ -6,7 +6,6 @@ import MenuItem    from "material-ui/MenuItem";
 import IconButton  from "material-ui/IconButton";
 import Paper       from "material-ui/Paper";
 import Avatar      from "material-ui/Avatar";
-import Icon        from "../../FontAwesome";
 
 // Icons
 import PictureInPictureAlt from "material-ui/svg-icons/action/picture-in-picture-alt";
@@ -118,7 +117,7 @@ export default class NavigationBar extends Component {
         );
     }
     getTwitterIcon() {
-        if (!this.props.twitterProfile) return <Icon name="twitter" size={20}/>;
+        if (!this.props.twitterProfile) return <img src="/dest/img/icons/twitter.svg" width="20"/>;
         return <Avatar src={this.props.twitterProfile.profile_image_url} size={20} />;
     }
     renderCompressItem() {
