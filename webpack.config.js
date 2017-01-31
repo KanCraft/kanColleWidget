@@ -2,7 +2,6 @@
 var webpack = require("webpack");
 
 var plugins = [
-    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development")
     })
@@ -36,11 +35,11 @@ module.exports = {
         loaders: [
             {test: /.jsx?$/, loader: "babel-loader"},
             {test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,loader: "url"},
-            {test: /.json$/, loader: "json"}
+            {test: /.json$/, loader: "json-loader"}
         ]
     },
     resolve: {
-        extensions: ["", ".js", ".jsx"]
+        extensions: [".js", ".jsx"]
     },
     plugins: plugins
 };
