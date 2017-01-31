@@ -1,6 +1,6 @@
 # KanColleWidget
 
-[![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget) [![Dependency Status](https://gemnasium.com/badges/github.com/otiai10/kanColleWidget.svg)](https://gemnasium.com/github.com/otiai10/kanColleWidget) [![CircleCI](https://circleci.com/gh/otiai10/kanColleWidget.svg?style=svg)](https://circleci.com/gh/otiai10/kanColleWidget)
+[![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget)  [![CircleCI](https://circleci.com/gh/otiai10/kanColleWidget.svg?style=svg)](https://circleci.com/gh/otiai10/kanColleWidget)
 
 # サポート
 
