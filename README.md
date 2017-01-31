@@ -1,6 +1,6 @@
-# kcwidget [![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget)
+# KanColleWidget
 
-[KanColleWidget](https://github.com/otiai10/KanColleWidget) のきれいなやつ
+[![Build Status](https://travis-ci.org/otiai10/kanColleWidget.svg?branch=v2%2Fmaster)](https://travis-ci.org/otiai10/kanColleWidget) [![Dependency Status](https://gemnasium.com/badges/github.com/otiai10/kanColleWidget.svg)](https://gemnasium.com/github.com/otiai10/kanColleWidget) [![CircleCI](https://circleci.com/gh/otiai10/kanColleWidget.svg?style=svg)](https://circleci.com/gh/otiai10/kanColleWidget)
 
 # サポート
 
@@ -13,8 +13,8 @@
 - npm: 3.8.9
 
 ```sh
-git clone git@github.com:otiai10/kcwidget.git
-cd kcwidget
+git clone git@github.com:otiai10/kanColleWidget.git
+cd kanColleWidget
 npm install && npm start
 ```
 
