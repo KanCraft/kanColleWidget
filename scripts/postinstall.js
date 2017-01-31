@@ -30,4 +30,4 @@ const createAppConfigFileIfNotExists = (fpath) => {
 
 createAppConfigFileIfNotExists(appConfigFilePath);
 
-console.log(prefix.green, "開発の準備が整いました. next) yarn start".underline);
+console.log(prefix.green, "開発の準備が整いました. next) npm start".underline);
