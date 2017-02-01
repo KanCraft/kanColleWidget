@@ -6,13 +6,12 @@
     "node": "7.0.0"
   },
   "scripts": {
-    "postinstall": "node ./scripts/postinstall",
+    "postinstall": "coffee ./scripts/postinstall.coffee",
     "test": "jest --no-cache",
     "build": "webpack --progress",
-    "release": "rm -rf release && mkdir -p release/kcwidget && node ./scripts/prerelease &&NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "release": "rm -rf release && mkdir -p release/kcwidget && coffee ./scripts/prerelease.coffee && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
-    "add-mission": "node ./scripts/add-mission",
-    "fetch-wiki": "node ./scripts/fetch-wiki",
+    "fetch-wiki": "coffee ./scripts/fetch-wiki.coffee",
     "start": "webpack --watch --progress"
   },
   "repository": {
@@ -38,6 +37,7 @@
     "base64-image-loader": "^1.0.0",
     "cheerio-httpcli": "^0.6.9",
     "chomex": "*",
+    "coffee-script": "^1.12.3",
     "colors": "^1.1.2",
     "crescent": "*",
     "eslint": "^3.7.1",
@@ -48,6 +48,7 @@
     "less": "^2.7.1",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.4",
+    "moment": "^2.17.1",
     "msr": "^1.3.4",
     "react": "^15.4.2",
     "react-dom": "^15.1.0",
