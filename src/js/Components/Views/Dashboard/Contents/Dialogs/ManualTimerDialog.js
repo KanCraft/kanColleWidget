@@ -25,10 +25,13 @@ const styles = {
 export class ManualTimerContents extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            hours:   0,
-            minutes: 0,
-        };
+        this.state = this._getInitialState();
+    }
+    _getInitialState() {
+        if (!this.props.queue.scheduled) return {hours:0,minutes: 0};
+        const hours = Math.floor((this.props.queue.scheduled - Date.now())/(60*60*1000));
+        const minutes = Math.floor((this.props.queue.scheduled - Date.now() - hours*60*60*1000)/(60*1000));
+        return {hours, minutes};
     }
     onChange(ev) {
         this.setState({[ev.target.name]:parseInt(ev.target.value)});
