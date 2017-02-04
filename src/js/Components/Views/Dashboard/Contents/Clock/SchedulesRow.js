@@ -99,6 +99,9 @@ export default class SchedulesRow extends Component {
     commitManualDialg(time) {
         return this.client.message("/queues/manual", {queue: this.state.queue, time});
     }
+    clearQueueManualDialog() {
+        return this.client.message("/queues/clear",  {queue: this.state.queue});
+    }
     getSeparatedBase(s = () => { return 0; }) {
         const col = {
             listStyleType: "none",
@@ -158,6 +161,7 @@ export default class SchedulesRow extends Component {
             {this.getTimers()}
             <ManualTimerDialog
               onCommit={this.commitManualDialg.bind(this)}
+              onClear={this.clearQueueManualDialog.bind(this)}
               open={!!this.state.queue}
               queue={this.state.queue}
               close={() => this.setState({queue: null})}

@@ -76,8 +76,9 @@ export class ManualTimerContents extends Component {
                 </div>
               </div>
               <div>
-                <FlatButton label="登録"    primary={true} style={{float: "right"}} onClick={this.onCommit.bind(this)}/>
-                <FlatButton label="しません" style={{color: grey600}} onClick={this.props.onCancel}/>
+                <FlatButton label="しません" onClick={this.props.onCancel}/>
+                <FlatButton label="解除"    onClick={this.props.onClear} disabled={!this.props.queue.scheduled}/>
+                <FlatButton label="登録"    primary={true} onClick={this.onCommit.bind(this)} disabled={!this.state.hours && !this.state.minutes}/>
               </div>
           </div>
         );
@@ -88,6 +89,7 @@ export class ManualTimerContents extends Component {
     }
     static propTypes = {
         onCommit: PropTypes.func.isRequired,
+        onClear:  PropTypes.func.isRequired,
         onCancel: PropTypes.func.isRequired,
         queue:    PropTypes.object,
     }
@@ -109,6 +111,7 @@ export default class ManualTimerDialog extends Component {
               <ManualTimerContents
                 queue={this.props.queue}
                 onCommit={this.onCommit.bind(this)}
+                onClear={this.onClear.bind(this)}
                 onCancel={() => this.props.close()}
                 />
             </Dialog>
@@ -117,10 +120,14 @@ export default class ManualTimerDialog extends Component {
     onCommit(time) {
         this.props.onCommit(time).then(() => this.props.close());
     }
+    onClear() {
+        this.props.onClear().then(() => this.props.close());
+    }
     static propTypes = {
         open:     PropTypes.bool.isRequired,
         close:    PropTypes.func.isRequired,
         onCommit: PropTypes.func.isRequired,
+        onClear:  PropTypes.func.isRequired,
         queue:    PropTypes.object,
     }
 }

@@ -24,6 +24,11 @@ export class ScheduledQueues extends Model {
         instance.queues = queues;
         return instance.save();
     }
+    static remove(type, identifier) {
+        let instance = this.find(type);
+        instance.queues = instance.queues.filter(q => (q.deck || q.dock) != identifier);
+        return instance.save();
+    }
     // get only
     static dict() {
         let dict = {};

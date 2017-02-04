@@ -25,3 +25,10 @@ export function SetQueueManual({queue, time}) {
     ScheduledQueues.append(type, q);
     return Promise.resolve({status: 200, queue: q});
 }
+
+export function ClearQueue({queue}) {
+    const type = queue.type || queue.params.type;
+    const identifier = queue.identifier || queue.params.identifier;
+    ScheduledQueues.remove(type, identifier);
+    return Promise.resolve({status: 200, type, identifier});
+}
