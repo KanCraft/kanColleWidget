@@ -208,6 +208,46 @@ class NotificationDisplay extends Component {
     }
 }
 
+class NotificationStayVisible extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("notification-stay-visible"),
+        };
+    }
+    render() {
+        return (
+          <TableRow>
+            <TableRowColumn>
+              通知ポップアップを見えるまんまにする
+              <Detail>なんかしない限り消えないようにします</Detail>
+            </TableRowColumn>
+            <TableRowColumn>
+              <Toggle
+                toggled={this.state.model.onstart} name={"onstart"}
+                label={"登録時"} labelPosition={"right"}
+                onToggle={this.onToggle.bind(this)}
+                />
+            </TableRowColumn>
+            <TableRowColumn>
+              <Toggle
+                toggled={this.state.model.onfinish} name={"onfinish"}
+                label={"終了時"} labelPosition={"right"}
+                onToggle={this.onToggle.bind(this)}
+                />
+            </TableRowColumn>
+            <TableRowColumn colSpan={2}>{/* この無駄感つらい */}</TableRowColumn>
+          </TableRow>
+        );
+    }
+    onToggle(ev, value) {
+        let model = this.state.model;
+        model[ev.target.name] = value;
+        model.save();
+        this.setState({model});
+    }
+}
+
 export default class NotificationSettingsView extends Component {
     constructor(props) {
         super(props);
@@ -233,6 +273,7 @@ export default class NotificationSettingsView extends Component {
                     <NotificationSettingRow key={3} name="notification-for-tiredness" />
                 ] : null}
                 <NotificationDisplay />
+                <NotificationStayVisible />
               </TableBody>
             </Table>
           </div>

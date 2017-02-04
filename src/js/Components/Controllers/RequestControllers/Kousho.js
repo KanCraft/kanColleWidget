@@ -16,8 +16,9 @@ import {CREATESHIP} from "../../../Constants";
 var __dock_id = 1;
 
 export function onCreateShipStart(detail) {
-    const {requestBody:{formData:{api_kdock_id:[dock_id]}}} = detail;
+    const {requestBody:{formData:{api_kdock_id:[dock_id],api_highspeed}}} = detail;
     __dock_id = parseInt(dock_id);
+    if (api_highspeed == 1) __dock_id = null;
 }
 
 /**
@@ -25,6 +26,7 @@ export function onCreateShipStart(detail) {
  */
 export function onCreateShipCompleted(detail, dock = __dock_id) {
 
+    if (__dock_id == null) return;
     if (!Config.isNotificationEnabled(CREATESHIP)) return;
 
     const windows = WindowService.getInstance();

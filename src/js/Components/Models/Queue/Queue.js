@@ -24,6 +24,11 @@ export class ScheduledQueues extends Model {
         instance.queues = queues;
         return instance.save();
     }
+    static remove(type, identifier) {
+        let instance = this.find(type);
+        instance.queues = instance.queues.filter(q => (q.deck || q.dock) != identifier);
+        return instance.save();
+    }
     // get only
     static dict() {
         let dict = {};
@@ -107,6 +112,9 @@ export class Queue {
         }
         return { text: Math.floor(diff / (1*H)) + "h+", color: this.badgeColor };
     }
+    requireInteractionFor(key) {
+        return Config.find("notification-stay-visible")[key];
+    }
 }
 
 // これがここにあるからややこしいことになってる
@@ -187,7 +195,7 @@ export class Mission extends Queue {
             type: "basic",
             title: `遠征帰投報告: ${this.title}`,
             message: `第${this.deck}艦隊がまもなく「${this.title}」より帰投します`,
-            requireInteraction: true,
+            requireInteraction: this.requireInteractionFor("onfinish"),
             iconUrl: this.assets.getNotificationIcon(MISSION),
         };
     }
@@ -198,7 +206,7 @@ export class Mission extends Queue {
             type: "basic",
             title: `遠征艦隊出港: ${this.title}`,
             message: `第${this.deck}艦隊が「${this.title}」へ向かいました。帰投予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
-            requireInteraction: false,
+            requireInteraction: this.requireInteractionFor("onstart"),
             iconUrl: this.assets.getNotificationIcon(MISSION),
         };
     }
@@ -228,7 +236,7 @@ export class Recovery extends Queue {
             type: "basic",
             title: `修復終了報告: ${this.dock}番ドック`,
             message: `第${this.dock}番ドックの修復がまもなく終了します。`,
-            requireInteraction: true,
+            requireInteraction: this.requireInteractionFor("onfinish"),
             iconUrl: this.assets.getNotificationIcon(RECOVERY),
         };
     }
@@ -238,7 +246,7 @@ export class Recovery extends Queue {
                 type: "basic",
                 title: `おやすみします ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
                 message: `第${this.dock}ドックでおやすみします。修復完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
-                requireInteraction: false,
+                requireInteraction: this.requireInteractionFor("onstart"),
                 iconUrl: this.assets.getNotificationIcon(RECOVERY),
             };
         } else {
@@ -246,7 +254,7 @@ export class Recovery extends Queue {
                 type: "basic",
                 title: "修復時間の取得に失敗しました",
                 message: `第${this.dock}ドックの修復時間取得に失敗しました。OCRを使用しているため、画面が小さすぎたりすると失敗します。以下のボタンから手動登録することも可能です。`,
-                requireInteraction: false,
+                requireInteraction: true,
                 iconUrl: this.assets.errorIcon(),
                 buttons: [{title:"手動登録する"}]
             };
@@ -279,7 +287,7 @@ export class CreateShip extends Queue {
             type: "basic",
             title: `建造終了報告: ${this.dock}番建造ドック`,
             message: `第${this.dock}番ドックの建造がまもなく終了します。`,
-            requireInteraction: true,
+            requireInteraction: this.requireInteractionFor("onfinish"),
             iconUrl: this.assets.getNotificationIcon(CREATESHIP),
         };
     }
@@ -288,7 +296,7 @@ export class CreateShip extends Queue {
             type: "basic",
             title: `建造所要時間 ${("h" in this.detected) ? this.detected.h + "時間" + this.detected.m + "分" : ""}`,
             message: `第${this.dock}ドックでの建造完了予定時刻は${(new Date(this.scheduled)).toClockString()}です。`,
-            requireInteraction: false,
+            requireInteraction: this.requireInteractionFor("onstart"),
             iconUrl: this.assets.getNotificationIcon(CREATESHIP),
         };
     }
@@ -316,7 +324,7 @@ export class Tiredness extends Queue {
             type: "basic",
             title: "疲労回復",
             message: `第${this.deck}艦隊の疲労がだいたい回復しそうです`,
-            requireInteraction: true,
+            requireInteraction: this.requireInteractionFor("onfinish"),
             iconUrl: this.assets.getNotificationIcon(TIREDNESS),
         };
     }

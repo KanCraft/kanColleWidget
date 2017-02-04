@@ -27,6 +27,7 @@ export function onMissionStart(detail) {
     // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
 
     if (Config.find("notification-display").onstart) notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
+    notifications.clear(id => id == "strict-mission-warning");
 }
 
 export function onMissionResult(detail) {

@@ -3,6 +3,7 @@ import { Client } from "chomex";
 
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import ExitToApp from "material-ui/svg-icons/action/exit-to-app";
 import {SeparatedIDsQueuesView, SeparatedTimelineQueuesView, MergedTimelineView} from "./QueuesView";
 import {ScheduledQueues} from "../../Models/Queue/Queue";
 
@@ -113,6 +114,9 @@ export default class PopupView extends Component {
         this.setState({selected});
         client.message({act: "/window/open", frame: selected}, true);
     }
+    onClickLaunchButton() {
+        client.message("/window/open", {frame: this.state.selected}, true);
+    }
     openDashboard() {
         client.message("/window/dashboard");
     }
@@ -162,9 +166,14 @@ export default class PopupView extends Component {
         }) : [];
         return (
           <div>
-            <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
-              {winconfigs}
-            </SelectField>
+            <div style={{display:"flex"}}>
+              <SelectField value={this.state.selected} onChange={this.handleChange.bind(this)}>
+                {winconfigs}
+              </SelectField>
+              <div style={{display:"flex",alignItems:"center",cursor:"pointer"}} onClick={this.onClickLaunchButton.bind(this)}>
+                <ExitToApp style={{color:"#9E9E9E"}}/>
+              </div>
+            </div>
             {this.getScheduleView()}
             {this.state.staffTweet}
             <div style={{position:"fixed",bottom:"0",left:"0",right:"0",display:"flex",backgroundColor:"rgba(255,255,255,0.9)"}}>
