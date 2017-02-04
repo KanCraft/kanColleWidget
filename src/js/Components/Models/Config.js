@@ -24,6 +24,10 @@ Config.default = {
         onstart:  true,
         onfinish: true,
     },
+    "notification-stay-visible": {
+        onstart:  false,
+        onfinish: true,
+    },
     "notification-for-default": {
         label:   "通知",
         enabled: true,
