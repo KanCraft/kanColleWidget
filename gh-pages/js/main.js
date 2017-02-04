@@ -22,18 +22,17 @@
     var main = function() {
         http("GET", "https://raw.githubusercontent.com/otiai10/kanColleWidget/develop/release.json")
         .then(res => Promise.resolve(JSON.parse(res)))
-        .then(json => Promise.resolve({json:json, keys:Object.keys(json)}))
-        .then(set => {
+        .then(versions => {
             var release = document.querySelector("ul#release");
-            set.keys.map(key => {
+            versions.map(version => {
                 var features = document.createElement("ul");
-                set.json[key].features.map(feature => {
+                version.features.map(feature => {
                     var f = document.createElement("li");
                     f.innerHTML = feature;
                     features.appendChild(f);
                 });
                 var ver = document.createElement("li");
-                ver.innerHTML = key + " （" + set.json[key].date + "）";
+                ver.innerHTML = version.version + " （" + version.date + "）";
                 ver.appendChild(features);
                 release.appendChild(ver);
             });
