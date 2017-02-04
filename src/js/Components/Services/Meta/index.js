@@ -12,10 +12,10 @@ export default class Meta {
         return this.manifest().version;
     }
     hasUpdate() {
-        return (this.history.version != this.version() && !!release[this.version()]);
+        return (this.history.version != this.version() && release.some(r => r.version == this.version()));
     }
     release() {
-        return release[this.version()];
+        return release.filter(r => r.version == this.version())[0];
     }
     checkUpdate() {
         this.history.version = this.version();
