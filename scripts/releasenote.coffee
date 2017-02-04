@@ -23,10 +23,9 @@ class ReleaseNote
   json: () ->
     return {
       version: @version
-      contents:
-        features: @features()
-        date: @date
-        comment: @comment()
+      features: @features()
+      date: @date
+      comment: @comment()
     }
   pretty: () ->
     console.log "VERSION:".green
