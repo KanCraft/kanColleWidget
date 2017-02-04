@@ -9,6 +9,7 @@
     "postinstall": "coffee ./scripts/postinstall.coffee",
     "test": "jest --no-cache",
     "build": "webpack --progress",
+    "releasenote": "coffee ./scripts/releasenote.coffee",
     "release": "rm -rf release && mkdir -p release/kcwidget && coffee ./scripts/prerelease.coffee && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "fetch-wiki": "coffee ./scripts/fetch-wiki.coffee",

@@ -7,8 +7,8 @@ logger = (verbose) =>
   () => console.log.apply(console, arguments) if verbose
 
 releasenote = (verbose = false) =>
-  latest = exec("git describe --tags", {silent:true}).stdout
-  out = exec("git log --pretty=%b #{latest}..HEAD", silent:true).stdout || ""
+  latest = exec("git describe --tags --abbrev=0", {silent:true}).stdout.replace("\n", "")
+  out = exec("git log --pretty=%s%n%b #{latest}..HEAD", silent:true).stdout || ""
 
   trace = logger verbose
 
@@ -38,5 +38,8 @@ releasenote = (verbose = false) =>
       date: moment.utc().add(9, "hours").format("YYYY/MM/DD")
       comment: comment
   }
+
+out = process.argv.some((arg) => arg is "--out")
+releasenote out
 
 module.exports = releasenote
