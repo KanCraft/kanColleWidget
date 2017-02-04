@@ -2,12 +2,14 @@ import React, {Component, PropTypes} from "react";
 
 import InfoOutline from "material-ui/svg-icons/action/info-outline";
 import Description from "../Settings/Description";
+import Meta from "../../../Services/Meta";
 
 export default class ReferencesView extends Component {
     render() {
         const styles = {
             h2: {marginBottom:"0"}
         };
+        const meta = new Meta();
         return (
           <div>
             <h1 style={this.props.styles.title}><InfoOutline /> このChrome拡張について</h1>
@@ -20,6 +22,16 @@ export default class ReferencesView extends Component {
               otiai10
             </Description>
             <div>
+              <h2>バージョン</h2>
+              <ul>
+                <li><a href="https://github.com/otiai10/kanColleWidget/releases">{meta.version()}</a> : {meta.release().date}
+                  <ul>
+                    {meta.release().features.map((f, i) => {
+                        return <li key={i}>{f}</li>;
+                    })}
+                  </ul>
+                </li>
+              </ul>
               <h2 style={styles.h2}>開発者</h2>
               <ul>
                 <li>
