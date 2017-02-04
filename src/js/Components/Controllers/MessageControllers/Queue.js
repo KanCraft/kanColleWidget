@@ -8,9 +8,10 @@ export function GetQueues(/* message */) {
 }
 
 export function SetQueueManual({queue, time}) {
+    const type = queue.type || queue.params.type;
     let t = Date.now() + time.h * H + time.m * M;
     let q = (() => {
-        switch (queue.type) {
+        switch (type) {
         case "missions":    // FIXME: 表記ゆれの名残で、ちょっと存命させる。将来的に消す行
         case MISSION:    return new Mission(t, "<manual>", queue.identifier, 0);
         case "recoveries":  // FIXME: 表記ゆれの名残で、ちょっと存命させる。将来的に消す行
@@ -21,6 +22,6 @@ export function SetQueueManual({queue, time}) {
         }
     })();
     if (!q) return Promise.reject({status: 400});
-    ScheduledQueues.append(queue.type, q);
+    ScheduledQueues.append(type, q);
     return Promise.resolve({status: 200, queue: q});
 }
