@@ -6,8 +6,9 @@
     "node": "7.0.0"
   },
   "scripts": {
+    "lint": "eslint src",
     "postinstall": "coffee ./scripts/postinstall.coffee",
-    "test": "jest --no-cache",
+    "test": "eslint src && jest --no-cache",
     "build": "webpack --progress",
     "releasenote": "coffee ./scripts/releasenote.coffee --out",
     "release": "rm -rf release && mkdir -p release/kcwidget && coffee ./scripts/prerelease.coffee && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
