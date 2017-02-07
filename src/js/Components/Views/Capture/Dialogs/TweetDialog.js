@@ -29,7 +29,7 @@ export default class TweetDialog extends Component {
               </div>
             </div>
           </Dialog>
-      );
+        );
     }
     renderCancelButton() {
         return <FlatButton

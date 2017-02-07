@@ -6,7 +6,6 @@ import MenuItem    from "material-ui/MenuItem";
 
 import SettingSwitch from "../SettingSwitch";
 import Config from "../../../../Models/Config";
-import Detail from "../../Detail";
 
 import Settings from "material-ui/svg-icons/action/settings";
 
