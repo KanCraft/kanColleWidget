@@ -6,6 +6,7 @@ import * as BattleControllers from "./Battle";
 import * as RecoveryControllers from "./Recovery";
 import * as PortControllers from "./Port";
 import * as SortieControllers from "./Sortie";
+import * as SupplyControllers from "./Supply";
 import * as QuestControllers from "./Quest";
 
 const RequestControllers = {
@@ -17,6 +18,7 @@ const RequestControllers = {
     ...RecoveryControllers,
     ...PortControllers,
     ...SortieControllers,
+    ...SupplyControllers,
     ...QuestControllers,
 };
 
