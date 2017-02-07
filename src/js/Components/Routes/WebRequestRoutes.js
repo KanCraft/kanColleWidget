@@ -16,6 +16,7 @@ router.on([{url: /api_req_kousyou\/createship_speedchange/}], Controllers.onCrea
 router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart);
 router.on([{url: /api_req_kousyou\/getship/}], Controllers.onGetShip);
 router.on([{url: /api_req_kousyou\/createitem/}], Controllers.onCreateItem);
+router.on([{url: /api_req_kousyou\/remodel_slot$/}], Controllers.onRemodelItem);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 router.on([{url: /api_req_kousyou\/destroyitem2/}], Controllers.onDestroyItem);
 

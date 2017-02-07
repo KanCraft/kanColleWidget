@@ -12,7 +12,7 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP,CREATEITEM,DESTROYITEM} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM,REMODEL} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -78,4 +78,8 @@ export function onGetShip(/* detail */) {
 
 export function onDestroyItem() {
     Achievement.increment(DESTROYITEM);
+}
+
+export function onRemodelItem() {
+    Achievement.increment(REMODEL);
 }
