@@ -8,6 +8,7 @@ import TrimService         from "../../Services/TrimService";
 import Rectangle           from "../../Services/Rectangle";
 import OCR                 from "../../Services/API/OCR";
 import NotificationService from "../../Services/NotificationService";
+import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
@@ -19,6 +20,9 @@ export function onCreateShipStart(detail) {
     const {requestBody:{formData:{api_kdock_id:[dock_id],api_highspeed}}} = detail;
     __dock_id = parseInt(dock_id);
     if (api_highspeed == 1) __dock_id = null;
+
+    Achievement.increment(CREATESHIP);
+
 }
 
 /**
