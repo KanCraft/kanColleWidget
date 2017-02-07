@@ -12,7 +12,7 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP} from "../../../Constants";
+import {CREATESHIP,CREATEITEM} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -61,6 +61,10 @@ export function onCreateShipSpeedup(detail) {
     // FIXME: 表記ゆれの名残。いずれ消す
     let createships = ScheduledQueues.find(CREATESHIP) || ScheduledQueues.find("createships");
     createships.clear(dock_id);
+}
+
+export function onCreateItem() {
+    Achievement.increment(CREATEITEM);
 }
 
 export function onGetShip(/* detail */) {
