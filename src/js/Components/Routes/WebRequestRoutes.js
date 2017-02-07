@@ -17,6 +17,9 @@ router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart)
 router.on([{url: /api_req_kousyou\/getship/}], Controllers.onGetShip);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
 
+// 演習関係
+router.on([{url: /api_req_practice\/battle/}], Controllers.onPracticeStart);
+
 // 任務関係
 router.on([{url: /api_req_quest\/start/}],        Controllers.onQuestStart);
 router.on([{url: /api_req_quest\/stop/}],         Controllers.onQuestStop);
