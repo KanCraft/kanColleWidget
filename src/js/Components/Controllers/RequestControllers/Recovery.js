@@ -2,7 +2,7 @@
 import {ScheduledQueues, Recovery} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
 import Achievement from "../../Models/Achievement";
-import {RECOVERY,SUPPLY} from "../../../Constants";
+import {RECOVERY} from "../../../Constants";
 
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
@@ -25,6 +25,9 @@ export function onRecoveryStart(detail) {
     const {requestBody:{formData:{api_ndock_id:[dock_id],api_highspeed}}} = detail;
     __dock_id = parseInt(dock_id);
     if (api_highspeed == 1) __dock_id = null;
+    
+    Achievement.increment(RECOVERY);
+    
 }
 
 /**
@@ -71,9 +74,4 @@ export function onRecoverySpeedup(detail) {
     const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
     let recoveries = ScheduledQueues.find(RECOVERY) || ScheduledQueues.find("recoveries");
     recoveries.clear(dock_id);
-}
-
-// FIXME: とりあえずファイル分割せずにここにおいちゃえと
-export function onSupply() {
-    Achievement.increment(SUPPLY);
 }
