@@ -12,7 +12,7 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP,CREATEITEM} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -74,4 +74,8 @@ export function onGetShip(/* detail */) {
             chrome.notifications.clear(id);
         });
     });
+}
+
+export function onDestroyItem() {
+    Achievement.increment(DESTROYITEM);
 }

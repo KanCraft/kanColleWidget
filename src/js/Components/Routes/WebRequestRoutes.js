@@ -17,6 +17,7 @@ router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart)
 router.on([{url: /api_req_kousyou\/getship/}], Controllers.onGetShip);
 router.on([{url: /api_req_kousyou\/createitem/}], Controllers.onCreateItem);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
+router.on([{url: /api_req_kousyou\/destroyitem2/}], Controllers.onDestroyItem);
 
 // 演習関係
 router.on([{url: /api_req_practice\/battle/}], Controllers.onPracticeStart);
