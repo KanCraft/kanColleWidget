@@ -1,4 +1,4 @@
-
+const S = 1000, M = 60*S, H = 60*M, D = 24*H;
 export default class KanColleDate {
     constructor(localDate = new Date()) {
         if (typeof localDate === "number") {
@@ -24,6 +24,9 @@ export default class KanColleDate {
     toPrettyString() {
         return `${this.jst.getMonth() + 1}月${this.jst.getDate()}日 ${(this.jst.getHours()).zp()}:${(this.jst.getMinutes()).zp()}`;
     }
+    getJstDay() {
+        return (this.jst.getDay() + 6) % 7;
+    }
     // この時刻から次回更新までの時間長を文字列で返す
     timeLeftToNextUpdate() {
         if (this.jst.isBefore5AM()) {
@@ -47,8 +50,15 @@ export default class KanColleDate {
         // 以下、日付の差が1日であり、かつ現在時刻が5時より前、かつ最終更新が5時より後
         return false;
     }
-    // TODO: 超だるいロジックをここに書く
-    needsUpdateForWeekly(/* lastTouched */) {
+    needsUpdateForWeekly(lastTouched) {
+        const last = new this.constructor(lastTouched);
+        // 7日以上の差がある場合は、問答無用で更新が必要
+        if (this.jst.getTime() - last.jst.getTime() > 7*D) return true;
+        // 最終更新の曜日より、現時刻の曜日が先に進んでいる場合は更新が必要無い
+        if (last.getJstDay() < this.getJstDay()) return false;
+        // 同じ日ってことなので、5時をまたいでいたら更新が必要
+        if (last.jst.isBefore5AM() !== this.jst.isBefore5AM()) return true;
+        // 同じ日で5時をまたいでいないので更新の必要は無い
         return false;
     }
 }
