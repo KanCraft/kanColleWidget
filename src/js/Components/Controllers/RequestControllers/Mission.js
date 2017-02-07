@@ -12,12 +12,15 @@ import {Mission, ScheduledQueues} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
+import Achievement from "../../Models/Achievement";
 
 /**
  * onMissionStart
  * 遠征に向かわせたときに発火するやつ
  */
 export function onMissionStart(detail) {
+
+    Achievement.increment(MISSION);
 
     if (!Config.isNotificationEnabled(MISSION)) return;
 
