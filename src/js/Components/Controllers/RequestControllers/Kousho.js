@@ -12,7 +12,7 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM,REMODEL} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -63,6 +63,10 @@ export function onCreateShipSpeedup(detail) {
     createships.clear(dock_id);
 }
 
+export function onCreateItem() {
+    Achievement.increment(CREATEITEM);
+}
+
 export function onGetShip(/* detail */) {
     // TODO: Controllerからchromeを参照するのはやめましょう
     chrome.notifications.getAll(notes => {
@@ -70,4 +74,12 @@ export function onGetShip(/* detail */) {
             chrome.notifications.clear(id);
         });
     });
+}
+
+export function onDestroyItem() {
+    Achievement.increment(DESTROYITEM);
+}
+
+export function onRemodelItem() {
+    Achievement.increment(REMODEL);
 }

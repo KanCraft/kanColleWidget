@@ -15,7 +15,13 @@ router.on([{url: /api_req_hokyu\/charge/}],  Controllers.onSupply);
 router.on([{url: /api_req_kousyou\/createship_speedchange/}], Controllers.onCreateShipSpeedup);
 router.on([{url: /api_req_kousyou\/createship/}], Controllers.onCreateShipStart);
 router.on([{url: /api_req_kousyou\/getship/}], Controllers.onGetShip);
+router.on([{url: /api_req_kousyou\/createitem/}], Controllers.onCreateItem);
+router.on([{url: /api_req_kousyou\/remodel_slot$/}], Controllers.onRemodelItem);
 router.on([{url: /api_req_sortie\/battle/}], Controllers.onBattleStarted);
+router.on([{url: /api_req_kousyou\/destroyitem2/}], Controllers.onDestroyItem);
+
+// 演習関係
+router.on([{url: /api_req_practice\/battle/}], Controllers.onPracticeStart);
 
 // 任務関係
 router.on([{url: /api_req_quest\/start/}],        Controllers.onQuestStart);
