@@ -58,6 +58,7 @@ export default class KanColleDate {
             // 現時刻が月曜5時以降なら更新が必要
             if (this.getKcDay() == 0 && !this.jst.isBefore5AM()) return true;
             // 現時刻が月曜より先の日付なら更新が必要
+            if ((last.jst.getDate() != this.jst.getDate()) && (this.getKcDay() <= last.getKcDay())) return true;
         }
 
         // 最終更新が月曜日の場合
