@@ -46,7 +46,7 @@ describe("KanColleDate", () => {
             const x = new Date("Mon Feb 06 2017 06:00:00 GMT+09:00");
             const d = new KanColleDate(x);
             const lastTouched = (new Date("Mon Jan 30 2017 07:00:00 GMT+09:00")).getTime();
-            expect(d.needsupdateForWeekly(lastTouched)).toBe(true);
+            expect(d.needsUpdateForWeekly(lastTouched)).toBe(true);
         });
     });
 });
