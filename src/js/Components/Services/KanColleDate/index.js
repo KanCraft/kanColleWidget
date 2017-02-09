@@ -52,11 +52,32 @@ export default class KanColleDate {
         const last = new this.constructor(lastTouched);
         // 7日以上の差がある場合は、問答無用で更新が必要
         if (this.jst.getTime() - last.jst.getTime() > 7*D) return true;
-        // 最終更新の曜日より、現時刻の曜日が先に進んでいる場合は更新が必要無い
-        if (last.getKcDay() < this.getKcDay()) return false;
-        // 同じ日ってことなので、5時をまたいでいたら更新が必要
-        if (last.jst.isBefore5AM() !== this.jst.isBefore5AM()) return true;
-        // 同じ日で5時をまたいでいないので更新の必要は無い
+
+        // 最終更新が月曜日でない場合
+        if (last.getKcDay() > 0) {
+            // 現時刻が月曜5時以降なら更新が必要
+            if (this.getKcDay() == 0 && !this.jst.isBefore5AM()) return true;
+            // 現時刻が月曜より先の日付なら更新が必要
+        }
+
+        // 最終更新が月曜日の場合
+        else {
+
+            // 最終更新時刻が5時前の場合
+            if (last.jst.isBefore5AM()) {
+                // 現時刻が月曜の5時以降なら更新が必要
+                if (this.getKcDay() == 0 && !this.jst.isBefore5AM()) return true;
+                // 現時刻が火曜以降なら更新が必要
+                if (this.getKcDay() > 0) return true;
+            }
+
+            // 最終更新時刻が5時以降の場合
+            else {
+                // 現時刻が最終更新と日付違いの月曜かつ5時以降なら更新が必要
+                if ((this.getKcDay() == 0 && !this.jst.isBefore5AM()) && (last.jst.getDate() != this.jst.getDate())) return true;
+            }
+        }
+
         return false;
     }
 }
