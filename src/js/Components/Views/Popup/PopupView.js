@@ -105,17 +105,17 @@ export default class PopupView extends Component {
         this.props.context.document.addEventListener("keydown", (ev) => {
             if (ev.which != ENTER) return;
             ev.preventDefault();
-            client.message({act: "/window/open", frame: this.state.selected});
+            client.message("/window/open", {frame: this.state.selected});
         });
         this.renderStaffTwitterView();
         this.renderBackgroundImage();
     }
     handleChange(ev, index, selected) {
         this.setState({selected});
-        client.message({act: "/window/open", frame: selected}, true);
+        client.message("/window/open", {frame: selected});
     }
     onClickLaunchButton() {
-        client.message("/window/open", {frame: this.state.selected}, true);
+        client.message("/window/open", {frame: this.state.selected});
     }
     openDashboard() {
         client.message("/window/dashboard");
