@@ -7,7 +7,7 @@ chrome.runtime.connect();
 
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
-client.message({act: "/window/should-decorate"}, true).then((res) => {
+client.message("/window/should-decorate").then((res) => {
 
     window.resizeBy(
       window.outerWidth - window.innerWidth,
