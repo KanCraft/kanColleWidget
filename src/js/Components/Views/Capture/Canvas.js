@@ -65,6 +65,21 @@ export default class Canvas extends Component {
     undo() {
         this.popHistory();
     }
+    getSmallerImageURI() {
+        const rate = 2/3; // TODO: 変えれるようにする？
+        let canvas = document.createElement("canvas");
+        canvas.width  = this.refs.canvas.width  * rate;
+        canvas.height = this.refs.canvas.height * rate;
+        const original = this.refs.canvas.toDataURL("image/png");
+        return Image.init(original).then(img => {
+            canvas.getContext("2d").drawImage(
+              img,
+              0, 0, img.width, img.height,
+              0, 0, canvas.width, canvas.height
+            );
+            return Promise.resolve(canvas);
+        }).then(cnvs => Promise.resolve(cnvs.toDataURL("image/png")));
+    }
     static propTypes = {
         getTool: PropTypes.func.isRequired,
         ext:     PropTypes.string.isRequired,
