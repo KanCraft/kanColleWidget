@@ -40,6 +40,7 @@ export default class DamageSnapshotDisplay {
         return img;
     }
     show(uri) {
+        console.log("DamageSnapshot", "show");
         let img = this.createImage(uri);
         this.getContainer().appendChild(img);
     }
@@ -50,7 +51,7 @@ export default class DamageSnapshotDisplay {
     onmousedown() {
         if (this.count > 1) return this.cleanup();
         this.count++;
-        this.client.message("/snapshot/take").then(this.appendImage);
+        this.client.message("/snapshot/take");
     }
     prepare() {
         console.log("DamageSnapshot", "prepare");
