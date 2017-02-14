@@ -136,6 +136,15 @@ class DeckCaptureView extends Component {
                 const r = Math.floor(i / this.state.config.col) % this.state.config.row;
                 ctx.drawImage(img, c * img.width, r * img.height, img.width, img.height);
             });
+            // 中央分離線をひく
+            if (this.state.config.panels > 1) {
+                for (let i = 1; i < this.state.config.panels; i++) {
+                    const x = images[0].width * this.state.config.col * i;
+                    const h = images[0].height * this.state.config.row;
+                    ctx.fillStyle = "#4e8252";
+                    ctx.fillRect(x - 4, 0, 8, h);
+                }
+            }
             let params = new URLSearchParams();
             let uri = canvas.toDataURL();
             // とりあえず

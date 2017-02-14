@@ -78,6 +78,9 @@ Config.default = {
     "use-inapp-action-buttons": {
         value: false,
     },
+    "quest-manager-alert": { // 任務着手忘れ防止アラート
+        value: false,
+    },
     "debug": {
         value: false
     }

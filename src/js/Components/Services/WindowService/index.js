@@ -41,8 +41,8 @@ class WindowService {
     }
     openDamagaSnapshot(position = {}, cols = 1) {
         const r = (124 * cols) / 200;
-        const h = position.height || 200;// 記憶している高さしか採用しない
-        const w = h * r;
+        const h = Math.floor(position.height) || 200;// 記憶している高さしか採用しない
+        const w = Math.floor(h * r);
         return new Promise(resolve => {
             this.module.windows.create({
                 url:    this.module.extension.getURL("dest/html/dsnapshot.html"),

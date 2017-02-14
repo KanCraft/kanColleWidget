@@ -3,6 +3,7 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 import Detail from "../../Detail";
@@ -17,6 +18,7 @@ export default class UncategorizedSettings extends Component {
               <DashboardLayoutSetting />
               <PopupBackgroundImageSetting />
               <StrictMissionRotation />
+              <QuestManagerAlert />
             </div>
         );
     }
@@ -53,6 +55,34 @@ class StrictMissionRotation extends Component {
                       <MenuItem value={"notification"} primaryText={"発令: 通知ポップアップによる"} />
                     </SelectField>
                   </div>
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        );
+    }
+}
+
+class QuestManagerAlert extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("quest-manager-alert")
+        };
+    }
+    render() {
+        return (
+          <Table selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>
+                  任務着手忘れ防止アラートを出す
+                </TableRowColumn>
+                <TableRowColumn>
+                  <Toggle toggled={this.state.model.value} onToggle={(ev, value) => {
+                      this.state.model.update({value});
+                      this.setState({model:this.state.model});
+                  }} />
                 </TableRowColumn>
               </TableRow>
             </TableBody>
