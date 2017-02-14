@@ -11,12 +11,15 @@ function updateLaunchPosition(name, message) {
 
 export function UpdateLaunchPosition(message) {
     updateLaunchPosition("default", message);
+    return true;
 }
 
 export function UpdateDashboardLaunchPosition(message) {
     updateLaunchPosition("dashboard", message);
+    return true;
 }
 
 export function UpdateDamageSnapshotLaunchPosition(message) {
     updateLaunchPosition("dsnapshot", message);
+    return true;
 }

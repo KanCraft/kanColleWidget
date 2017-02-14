@@ -3,16 +3,17 @@
   "version": "0.0.1",
   "description": "KanColleWidget for Chrome/Firefox",
   "engines": {
-    "node": "7.0.0"
+    "node": "7.5.0"
   },
   "scripts": {
-    "postinstall": "coffee ./scripts/postinstall.coffee",
-    "test": "jest --no-cache",
+    "lint": "eslint src",
+    "postinstall": "./node_modules/.bin/coffee ./scripts/postinstall.coffee",
+    "test": "eslint src && jest --no-cache",
     "build": "webpack --progress",
-    "releasenote": "coffee ./scripts/releasenote.coffee --out",
-    "release": "rm -rf release && mkdir -p release/kcwidget && coffee ./scripts/prerelease.coffee && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "releasenote": "./node_modules/.bin/coffee ./scripts/releasenote.coffee --out",
+    "release": "rm -rf release && mkdir -p release/kcwidget && ./node_modules/.bin/coffee ./scripts/prerelease.coffee && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
-    "fetch-wiki": "coffee ./scripts/fetch-wiki.coffee",
+    "fetch-wiki": "./node_modules/.bin/coffee ./scripts/fetch-wiki.coffee",
     "start": "webpack --watch --progress"
   },
   "repository": {
@@ -40,7 +41,6 @@
     "chomex": "*",
     "coffee-script": "^1.12.3",
     "colors": "^1.1.2",
-    "crescent": "*",
     "eslint": "^3.7.1",
     "eslint-plugin-react": "^6.3.0",
     "file-loader": "^0.10.0",
@@ -48,7 +48,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "lodash": "^4.17.2",
-    "material-ui": "^0.16.4",
+    "material-ui": "^0.17.0",
     "moment": "^2.17.1",
     "msr": "^1.3.4",
     "react": "^15.4.2",

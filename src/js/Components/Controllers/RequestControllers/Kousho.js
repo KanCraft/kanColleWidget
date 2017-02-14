@@ -8,10 +8,11 @@ import TrimService         from "../../Services/TrimService";
 import Rectangle           from "../../Services/Rectangle";
 import OCR                 from "../../Services/API/OCR";
 import NotificationService from "../../Services/NotificationService";
+import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM,REMODEL} from "../../../Constants";
 
 var __dock_id = 1;
 
@@ -19,6 +20,9 @@ export function onCreateShipStart(detail) {
     const {requestBody:{formData:{api_kdock_id:[dock_id],api_highspeed}}} = detail;
     __dock_id = parseInt(dock_id);
     if (api_highspeed == 1) __dock_id = null;
+
+    Achievement.increment(CREATESHIP);
+
 }
 
 /**
@@ -59,11 +63,23 @@ export function onCreateShipSpeedup(detail) {
     createships.clear(dock_id);
 }
 
-export function onGetShip(detail) {
+export function onCreateItem() {
+    Achievement.increment(CREATEITEM);
+}
+
+export function onGetShip(/* detail */) {
     // TODO: Controllerからchromeを参照するのはやめましょう
     chrome.notifications.getAll(notes => {
         Object.keys(notes).filter(id => { return id.match(/^createship/); }).map(id => {
             chrome.notifications.clear(id);
         });
     });
+}
+
+export function onDestroyItem() {
+    Achievement.increment(DESTROYITEM);
+}
+
+export function onRemodelItem() {
+    Achievement.increment(REMODEL);
 }

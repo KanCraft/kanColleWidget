@@ -9,8 +9,8 @@
 
 # 開発
 
-- nodejs: 6.2.0
-- npm: 3.8.9
+- nodejs: 7.5.0
+- npm: 4.1.2
 
 ```sh
 git clone git@github.com:otiai10/kanColleWidget.git

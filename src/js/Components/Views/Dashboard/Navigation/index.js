@@ -41,7 +41,7 @@ export class MenuNavigation extends Component {
             <VTabItem icon={<Timeline         />} />
             <VTabItem icon={<Assignment       />} />
           </VTabs>
-       );
+        );
     }
     static propTypes = {
         index:  PropTypes.number.isRequired,

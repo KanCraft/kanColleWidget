@@ -9,10 +9,13 @@ import MessageListener from "../Components/Routes/MessageRoutes";
 chrome.runtime.onMessage.addListener(MessageListener);
 
 // HTTP Requestを受けるroutesを定義
-import {WebRequestListener, WebRequestOnCompleteListener} from "../Components/Routes/WebRequestRoutes";
+import {WebRequestListener} from "../Components/Routes/WebRequestRoutes";
 chrome.webRequest.onBeforeRequest.addListener(
   WebRequestListener, {"urls":["*://*/kcsapi/*"]}, ["requestBody"]
 );
+
+// HTTP Requestが完了したときのroutesを定義
+import {WebRequestOnCompleteListener} from "../Components/Routes/WebRequestOnCompleteRoutes";
 chrome.webRequest.onCompleted.addListener(
   WebRequestOnCompleteListener, {"urls":["*://*/kcsapi/*"]}, []
 );

@@ -3,19 +3,23 @@
 import WindowService from "../../Services/WindowService";
 import CaptureService from "../../Services/CaptureService";
 import Rectangle from "../../Services/Rectangle";
+import SortieContext from "../../Services/SortieContext";
 const windows = WindowService.getInstance();
 const capture = new CaptureService();
 
 import Config from "../../Models/Config";
 import LaunchPosition from "../../Models/LaunchPosition";
 
-function getWindowForDamageSnapshot(detail) {
+function getWindowForDamageSnapshot(detail, uri) {
     let position = LaunchPosition.find("dsnapshot");
     switch (Config.find("damagesnapshot-window").value) {
     case "separate":
         return windows.openDamagaSnapshot(position).then(({tabs:[tab]}) => Promise.resolve(tab));
     case "inwindow":
         return Promise.resolve({id:detail.tabId});
+    case "notification":
+        SortieContext.sharedInstance().damagesnapshot(uri);
+        return Promise.resolve(null);
     case "disabled":
     default:
         return Promise.resolve(null);
@@ -33,9 +37,9 @@ export function onBattleResulted(detail) {
         canvas.getContext("2d").drawImage(img, rect.x, rect.y, rect.width, rect.height, 0, 0, rect.width, rect.height);
         return Promise.resolve(canvas.toDataURL());
     }).then(uri => {
-        return Promise.all([Promise.resolve(uri), getWindowForDamageSnapshot(detail)]);
+        return Promise.all([Promise.resolve(uri), getWindowForDamageSnapshot(detail, uri)]);
     }).then(([uri, tab]) => {
-        if (!tab) return;// TODO: これ、けっきょくやんねえなら上の重い処理しなくてええやん
+        if (!tab) return;
         sleep(0.2).then(() => {
             chrome.tabs.sendMessage(tab.id, {action:"/snapshot/show", uri});
         });
@@ -45,19 +49,29 @@ export function onBattleResulted(detail) {
 export function onCombinedBattleResulted(detail) {
     // TODO: この"disabled"っていうのもConstにしたい
     if (Config.find("damagesnapshot-window").value == "disabled") return;
+    let position = LaunchPosition.find("dsnapshot");
+
+    // とりあえずprepareはする
     chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
+
+    switch (Config.find("damagesnapshot-window").value) {
+    case "separate": windows.openDamagaSnapshot(position, 2);
+    }
+    return true;
 }
 
 export function onCombinedBattleStarted(req) {
+    SortieContext.sharedInstance().battle();
+    // 大破進撃防止表示を消す
+    windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
+    // 大破進撃防止表示を消す
     chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }
 
-export function onBattleStarted(/* detail */) {
-    windows.getDamageSnapshot().then(tabs => {
-        tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"}));
-    });
-    WindowService.getInstance().find().then(tab => {
-        chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"});
-    });
-    // sstwManager.sweep();
+export function onBattleStarted(req) {
+    SortieContext.sharedInstance().battle();
+    // 大破進撃防止表示を消す
+    windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
+    // 大破進撃防止表示を消す
+    chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }

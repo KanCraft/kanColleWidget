@@ -10,6 +10,7 @@
     "webRequest",
     "notifications",
     "downloads",
+    "downloads.shelf",
     "storage",
     "unlimitedStorage",
     "<all_urls>"

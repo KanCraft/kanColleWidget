@@ -18,6 +18,7 @@ export default class UncategorizedSettings extends Component {
               <DashboardLayoutSetting />
               <PopupBackgroundImageSetting />
               <StrictMissionRotation />
+              <QuestManagerAlert />
             </div>
         );
     }
@@ -54,6 +55,34 @@ class StrictMissionRotation extends Component {
                       <MenuItem value={"notification"} primaryText={"発令: 通知ポップアップによる"} />
                     </SelectField>
                   </div>
+                </TableRowColumn>
+              </TableRow>
+            </TableBody>
+          </Table>
+        );
+    }
+}
+
+class QuestManagerAlert extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            model: Config.find("quest-manager-alert")
+        };
+    }
+    render() {
+        return (
+          <Table selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn>
+                  任務着手忘れ防止アラートを出す
+                </TableRowColumn>
+                <TableRowColumn>
+                  <Toggle toggled={this.state.model.value} onToggle={(ev, value) => {
+                      this.state.model.update({value});
+                      this.setState({model:this.state.model});
+                  }} />
                 </TableRowColumn>
               </TableRow>
             </TableBody>

@@ -8,6 +8,8 @@ import TweetDialog              from "./Dialogs/TweetDialog";
 import RequestTwitterAuthDialog from "./Dialogs/RequestTwitterAuthDialog";
 import Snackbar                 from "material-ui/Snackbar";
 
+import CaptureWindowURL from "../../Routine/CaptureWindowURL";
+
 import Canvas from "./Canvas";
 
 import Tool from "./Tools/Base";
@@ -139,13 +141,12 @@ export default class CaptureView extends Component {
         });
     }
     tweet() {
-        const strict = true;
         this.setState({nowSending: true}, () => {
             client.message("/twitter/post_with_image", {
                 image: this.getImageURI(),
                 status: this.refs.tweettext.getValue(),
                 type: "image/jpeg" // うーん
-            }, strict).then(response => {
+            }).then(response => {
                 this.setState({
                     tweetPermalink: response.data.permalink,
                     tweetFeedbackMessage: <a
@@ -205,12 +206,12 @@ export default class CaptureView extends Component {
         return new this.state.tool(canvas, params);
     }
     compressImageSize() {
-        const rate = this.getFileSize()/(3*1000*1000);
-        let uri = this.refs.canvas.toDataURL("image/jpeg", rate);
-        let url = new URL(location.href);
-        url.searchParams.delete("datahash");
-        url.searchParams.set("img", uri);
-        location.href = url.toString();
+        this.refs.canvas.getSmallerImageURI().then(uri => {
+            let url = new CaptureWindowURL(Date.now());
+            return url.params(uri);
+        }).then(params => {
+            location.href = "?" + params.toString();
+        });
     }
     getImageURI() {
         if (!this.refs.canvas) return this.state.imageUri;

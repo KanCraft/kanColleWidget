@@ -9,9 +9,12 @@ export default class Assets {
     }
     downloadImageURL(url) {
         const filename = [this.getDownloadFolder(), this.getDownloadFilename(url)].filter(p => !!p).join("/");
-        return new Promise(resolve => {
-            this.module.downloads.download({url, filename}, resolve);
-        });
+        this.module.downloads.setShelfEnabled(false);
+        const saveAs = false;
+        return new Promise(resolve => this.module.downloads.download({url, filename, saveAs}, () => {
+            resolve();
+            setTimeout(() => this.module.downloads.setShelfEnabled(true), 1000);
+        }));
     }
     getDownloadFolder() {
         return this.config.find("download-folder").value;
