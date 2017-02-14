@@ -1,14 +1,10 @@
 /* global process:false */
 var webpack = require("webpack");
-var Visualizer = require("webpack-visualizer-plugin");
 
 var plugins = [
     new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development")
-    }),
-    new Visualizer({
-        filename: "./gh-pages/webpack.html",
-    }),
+    })
 ];
 if (process.env.NODE_ENV == "production") {
     plugins.push(new webpack.optimize.UglifyJsPlugin({
