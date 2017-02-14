@@ -43,6 +43,7 @@ export default class DamageSnapshotDisplay {
         console.log("DamageSnapshot", "show");
         let img = this.createImage(uri);
         this.getContainer().appendChild(img);
+        return true;
     }
     appendImage({data: uri}) {
         let img = this.createImage(uri);
@@ -57,8 +58,9 @@ export default class DamageSnapshotDisplay {
         console.log("DamageSnapshot", "prepare");
         let embed = this.context.document.querySelector("embed");
         embed.setAttribute("wmode", "transparent");
-        if (typeof embed.onmousedown == "function") return;
+        if (typeof embed.onmousedown == "function") return true;
         embed.addEventListener("mousedown", this.onmousedown);
+        return true;
     }
     cleanup() {
         let embed = this.context.document.querySelector("embed");
@@ -69,5 +71,6 @@ export default class DamageSnapshotDisplay {
     }
     remove() {
         this.getContainer().remove();
+        return true;
     }
 }

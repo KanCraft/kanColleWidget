@@ -51,10 +51,13 @@ export function onCombinedBattleResulted(detail) {
     if (Config.find("damagesnapshot-window").value == "disabled") return;
     let position = LaunchPosition.find("dsnapshot");
 
-    // もし別窓指定なら
-    windows.openDamagaSnapshot(position, 2);
-    // ゲーム内表示なら
+    // とりあえずprepareはする
     chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
+
+    switch (Config.find("damagesnapshot-window").value) {
+    case "separate": windows.openDamagaSnapshot(position, 2);
+    }
+    return true;
 }
 
 export function onCombinedBattleStarted(req) {
