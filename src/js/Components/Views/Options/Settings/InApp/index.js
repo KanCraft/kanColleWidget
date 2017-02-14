@@ -28,7 +28,7 @@ class DamageSnapshotSetting extends Component {
                   <MenuItem value="disabled" primaryText="使用しない"   />
                   <MenuItem value="inwindow" primaryText="ゲーム画面左上"/>
                   <MenuItem value="separate" primaryText="別窓表示"     />
-                  <MenuItem value="notification" primaryText="通知ポップアップを使う"/>
+                  {/* <MenuItem value="notification" primaryText="通知ポップアップを使う"/> */}
                 </SelectField>
               </TableRowColumn>
             </TableRow>
