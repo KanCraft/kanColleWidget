@@ -50,7 +50,7 @@ export default class SimulatorView extends Component {
               <h1 style={this.props.styles.title}><BugReport /> シミュレータ</h1>
               <div>
                 <div>
-                  <select onChange={ev => this.setState({kind:ev.target.value})} value={this.state.kind}>
+                  <select onChange={ev => this.setState({kind:ev.target.value, controller:controllers[ev.target.value][0]})} value={this.state.kind}>
                     <option value="request">RequestControllers</option>
                     <option value="message">MessageControllers</option>
                   </select>
@@ -71,7 +71,7 @@ export default class SimulatorView extends Component {
                   <div style={{flex: 3}}>
                     <pre
                       style={{
-                          width: "80%", height: "240px",
+                          width: "100%", height: "240px",
                           backgroundColor:"#2b2c34",
                           color: "#b0baca",
                           textShadow: "0 1px 0 #000",
