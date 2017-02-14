@@ -28,6 +28,7 @@ router.on(["api_req_kousyou/destroyitem2"], Controllers.onDestroyItem);
 
 // 演習関係
 router.on(["api_req_practice/battle"], Controllers.onPracticeStart);
+router.on(["api_get_member/practice"], Controllers.onPracticePrepare);
 
 // 任務関係
 router.on(["api_req_quest/start"],        Controllers.onQuestStart);
