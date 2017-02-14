@@ -1,3 +1,4 @@
+/* global process:false */
 import NotificationService        from "../../Services/NotificationService";
 
 import Config from "../../Models/Config";
@@ -56,4 +57,29 @@ export function NotificationDebug(params) {
     default:
         console.log(params);
     }
+}
+
+if (process.env.NODE_ENV != "production") {
+    var ConfigControllers = require("./Config");
+    var registry = {
+        "message": {
+            ...ConfigControllers,
+        }
+    };
+    module.exports.ExecuteController = ({kind, controller, params}) => {
+        const request = {kind, controller, params};
+        if (!registry[kind]) return Promise.reject({
+            status: 400, request, error: `No controller for kind "${kind}" found"`
+        });
+        if (typeof registry[kind][controller] != "function") return Promise.reject({
+            status: 400, request, error: `No controller for name "${controller}" found`
+        });
+        const response = registry[kind][controller].call(params.__this, params);
+        if (response instanceof Promise) {
+            return response.then(res => Promise.resolve({status: 200, request, response: res}))
+            .catch(res => Promise.resolve({status: 200, request, response: res}));
+        } else {
+            return Promise.resolve({status: 200, request,response});
+        }
+    };
 }

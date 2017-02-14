@@ -56,7 +56,8 @@
     "react-tap-event-plugin": "^2.0.1",
     "shelljs": "^0.7.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "webpack-visualizer-plugin": "^0.1.10"
   },
   "jest": {
     "verbose": true,
