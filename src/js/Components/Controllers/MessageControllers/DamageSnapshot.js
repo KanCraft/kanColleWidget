@@ -2,6 +2,7 @@
 import CaptureService from "../../Services/CaptureService";
 import Rectangle      from "../../Services/Rectangle";
 const capture = new CaptureService();
+import WindowService from "../../Services/WindowService";
 
 export function TakeDamageSnapshot() {
     return sleep(1.6)
@@ -14,5 +15,16 @@ export function TakeDamageSnapshot() {
         canvas.width = rect.width; canvas.height = rect.height;
         canvas.getContext("2d").drawImage(img, rect.x, rect.y, rect.width, rect.height, 0, 0, rect.width, rect.height);
         return Promise.resolve(canvas.toDataURL());
+    }).then(uri => {
+
+        // もし別窓指定なら
+        WindowService.getInstance().getDamageSnapshot().then(tabs => {
+            tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action: "/snapshot/show", uri}));
+        });
+
+        // もしゲーム内表示指定なら
+        // chrome.tabs.sendMessage(this.sender.tab.id, {
+        //     action: "/snapshot/show", uri,
+        // });
     });
 }

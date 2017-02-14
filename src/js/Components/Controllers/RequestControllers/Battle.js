@@ -49,22 +49,26 @@ export function onBattleResulted(detail) {
 export function onCombinedBattleResulted(detail) {
     // TODO: この"disabled"っていうのもConstにしたい
     if (Config.find("damagesnapshot-window").value == "disabled") return;
+    let position = LaunchPosition.find("dsnapshot");
+
+    // もし別窓指定なら
+    windows.openDamagaSnapshot(position, 2);
+    // ゲーム内表示なら
     chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
 }
 
 export function onCombinedBattleStarted(req) {
+    SortieContext.sharedInstance().battle();
+    // 大破進撃防止表示を消す
+    windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
+    // 大破進撃防止表示を消す
     chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }
 
-export function onBattleStarted(/* detail */) {
-
+export function onBattleStarted(req) {
     SortieContext.sharedInstance().battle();
-
-    windows.getDamageSnapshot().then(tabs => {
-        tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"}));
-    });
-    WindowService.getInstance().find().then(tab => {
-        chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"});
-    });
-    // sstwManager.sweep();
+    // 大破進撃防止表示を消す
+    windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
+    // 大破進撃防止表示を消す
+    chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }
