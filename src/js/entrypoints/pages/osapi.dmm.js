@@ -11,12 +11,14 @@ const client = new Client(chrome.runtime);
 
 DecorateOsapiPage.init(window).effort();
 
+let inAppActionButtons = new InAppActionButtons(client);
+
 // これが必要かどうかは聞く必要がある
 client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
     if (!data.value) return; // Do nothing
     if (window.parent != window) return;
     client.message("/window/self", ({self}) => {
-        let inAppActionButtons = new InAppActionButtons(self, client);
+        inAppActionButtons.setContext(self);
         document.body.appendChild(inAppActionButtons.html());
     });
     client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
@@ -24,11 +26,13 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
     });
 });
 
-(new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
+(new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);
 
 let snapshot = new DamageSnapshotDisplay(client);
 let router = new Router();
 router.on("/snapshot/show", (message) => snapshot.show(message.uri));
 router.on("/snapshot/hide", () => snapshot.remove());
 router.on("/snapshot/prepare", () => snapshot.prepare());
+
+router.on("/mute/changed", ({muted}) => inAppActionButtons.muteChanged(muted));
 chrome.runtime.onMessage.addListener(router.listener());

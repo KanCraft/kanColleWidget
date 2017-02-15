@@ -29,12 +29,15 @@ export function CaptureController() {
 }
 
 export function MuteController() {
-    windows.find().then(tab => {
+    return windows.find().then(tab => {
         let h = History.find("last-muted-status");
-        h.muted = !tab.mutedInfo.muted;
+        const muted = !tab.mutedInfo.muted;
+        h.muted = muted;
         h.save();
         // Mute状態をToggleする
-        windows.mute(tab, !tab.mutedInfo.muted);
+        windows.mute(tab, muted);
+        // ゲーム画面にmutedを知らせる
+        chrome.tabs.sendMessage(tab.id, {action: "/mute/changed", muted});
     });
 }
 
