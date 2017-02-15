@@ -1,11 +1,11 @@
 
 export default class InAppActionButtons {
-    constructor(self, client, context = window) {
-        this.extId   = self.id;
-        this.tab     = self.tab;
+    constructor(client, context = window) {
+        // this.extId   = self.id;
+        // this.tab     = self.tab;
         this.client  = client;
         this.context = context;
-        this.muted   = this.tab.mutedInfo.muted;
+        this.muted   = false; //this.tab.mutedInfo.muted;
 
         let div = this.context.document.createElement("div");
         div.style.position = "fixed";
@@ -19,6 +19,11 @@ export default class InAppActionButtons {
     }
     static create(tab, client, context) {
         return new this(tab, client, context);
+    }
+    setContext(self) {
+        this.extId = self.id;
+        this.tab   = self.tab;
+        this.muted = this.tab.mutedInfo.muted;
     }
     wrap(img) {
         let div = this.context.document.createElement("div");
@@ -35,6 +40,7 @@ export default class InAppActionButtons {
     getMuteButton() {
         let img = this.getBaseImageTemplate();
         img.src = `chrome-extension://${this.extId}/dest/img/icons/vol_${this.muted ? "off" : "on"}.svg`;
+        img.id = "kcw-inapp-mute";
         img.addEventListener("click", () => {
             this.client.message("/window/mute", {tab: this.tab, mute: !this.muted}).then(res => {
                 this.muted = res.tab.mutedInfo.muted;
@@ -46,6 +52,7 @@ export default class InAppActionButtons {
     getScreenShotButton() {
         let img = this.getBaseImageTemplate();
         img.src = `chrome-extension://${this.extId}/dest/img/icons/camera.svg`;
+        img.id = "kcw-inapp-camera";
         img.addEventListener("click", () => {
             this.container.style.transition = "all 0s";
             this.container.style.opacity = 0;
@@ -59,5 +66,11 @@ export default class InAppActionButtons {
         this.container.appendChild(this.getMuteButton());
         this.container.appendChild(this.getScreenShotButton());
         return this.container;
+    }
+    muteChanged(muted) {
+        this.muted = muted;
+        // FIXME: querySelector使っちゃうかあw
+        let img = this.context.document.querySelector("img#kcw-inapp-mute");
+        img.src = `chrome-extension://${this.extId}/dest/img/icons/vol_${muted ? "off" : "on"}.svg`;
     }
 }
