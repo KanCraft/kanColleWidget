@@ -62,6 +62,25 @@ export default class Quest extends Model {
     }
     _date28(d) { return d.getDate() == 2 || d.getDate() == 8; }
     _date370(d) { return d.getDate() == 3 || d.getDate() == 7 || d.getDate() == 0; }
+
+    static alert(quests) {
+        return [
+            "quest-alert",
+            {
+                type:    "list",
+                iconUrl: "./dest/img/icons/chang.white.png",
+                title:   "未着手任務があります",
+                message: "",
+                items: quests.map(q => q._alertItem())
+            }
+        ];
+    }
+    _alertItem() {
+        return {
+            title: `${this.title}`,
+            message: `${this._id}`,
+        };
+    }
 }
 
 Quest.default = {
