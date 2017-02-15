@@ -6,6 +6,7 @@ function updateLaunchPosition(name, message) {
     position.top  = message.top;
     position.height = message.height;
     position.width  = message.width;
+    position.architrave = message.architrave || {};
     position.save();
 }
 

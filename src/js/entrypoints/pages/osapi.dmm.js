@@ -26,7 +26,7 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
     });
 });
 
-(new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
+(new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);
 
 let snapshot = new DamageSnapshotDisplay(client);
 let router = new Router();

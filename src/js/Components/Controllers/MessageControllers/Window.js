@@ -34,6 +34,7 @@ export function OpenWindow(message) {
 
     return windows.find(true)
     .then(tab => windows.focus(tab))
+    .then(win => windows.resize(win, frame.size, position.architrave))
     .catch(() => windows.open(frame, position))
     .then(win => windows.mute(win.tabs[0], History.find("last-muted-status").muted));
 }
