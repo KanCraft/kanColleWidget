@@ -30,6 +30,7 @@ router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
 router.on("/stream/recording/start", Controllers.StreamStartRecording);
 router.on("/stream/recording/stop",  Controllers.StreamStopRecording);
 router.on("/debug/notification",     Controllers.NotificationDebug);
+router.on("/debug/x/controller",     Controllers.ExecuteController);
 router.on("/launchposition/:update",          Controllers.UpdateLaunchPosition);
 router.on("/launchposition/dashboard/update", Controllers.UpdateDashboardLaunchPosition);
 router.on("/launchposition/dsnapshot/update", Controllers.UpdateDamageSnapshotLaunchPosition);

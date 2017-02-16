@@ -34,6 +34,7 @@ export function OpenWindow(message) {
 
     return windows.find(true)
     .then(tab => windows.focus(tab))
+    .then(win => windows.resize(win, frame.size, position.architrave))
     .catch(() => windows.open(frame, position))
     .then(win => windows.mute(win.tabs[0], History.find("last-muted-status").muted));
 }
@@ -47,7 +48,13 @@ export function ShouldDecorateWindow(/* message */) {
 
     const tab = windows.has(this.sender.tab.id);
     if (tab) {
-        return {status: 200, tab: tab};
+        // XXX: https://github.com/otiai10/kanColleWidget/issues/726
+        // XXX: エアロ領域計算のためにzoom値が必要なので取得しといてあげる
+        return new Promise(resolve => {
+            chrome.tabs.getZoom(this.sender.tab.id, zoom => {
+                resolve({status: 200, tab, zoom});
+            });
+        });
     } else {
         return {status: 404};
     }

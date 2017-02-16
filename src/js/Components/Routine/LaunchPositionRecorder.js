@@ -13,6 +13,10 @@ export default class LaunchPositionRecorder {
             this.client.message("/launchposition/:update", {
                 left: this.context.screenX,
                 top:  this.context.screenY,
+                architrave: { // エアロ領域とか言われる部分の大きさも記録しとく
+                    x: this.context.outerWidth  - this.context.innerWidth,
+                    y: this.context.outerHeight - this.context.innerHeight,
+                }
             });
         }, delay);
     }

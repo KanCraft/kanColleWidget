@@ -1,3 +1,4 @@
+/* global process:false */
 import React, { Component } from "react";
 
 import FlatButton from "material-ui/FlatButton";
@@ -15,6 +16,8 @@ import UncategorizedSettings    from "./Settings/Uncategorized";
 import Announcement   from "./Announcement";
 import WinconfigsView from "./Winconfigs";
 import ReferencesView from "./References";
+
+import SimulatorView  from "./Simulator";
 
 import Meta from "../../Services/Meta";
 import History from "../../Models/History";
@@ -55,6 +58,7 @@ export default class OptionsView extends Component {
             <UncategorizedSettings    styles={styles} />
             <WinconfigsView           styles={styles} />
             <ReferencesView           styles={styles} />
+            {process.env.NODE_ENV == "production" ? null : <SimulatorView styles={styles} />}
           </div>
         );
     }

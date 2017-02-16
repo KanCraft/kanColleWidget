@@ -104,6 +104,14 @@ class WindowService {
             }, resolve);
         });
     }
+    resize(win, size = {}, architrave = {}) {
+        return new Promise(resolve => {
+            this.module.windows.update(win.id, {
+                width:  size.width  + (architrave.x || 0),
+                height: size.height + (architrave.y || 0),
+            }, resolve);
+        });
+    }
 
     zoom(tabId, zoom) {
         return new Promise(resolve => {

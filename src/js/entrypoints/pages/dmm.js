@@ -9,9 +9,17 @@ import {Client} from "chomex";
 const client = new Client(chrome.runtime);
 client.message("/window/should-decorate").then((res) => {
 
+    // XXX: https://github.com/otiai10/kanColleWidget/issues/726
+    // XXX: なんでかしらんけど、ブラウザの機能でzoomをいじってると、
+    // XXX: innerXXXのほうが、1/zoomの割合で取得できるので、元に戻して
+    // XXX: エアロ領域の計算をする（いみわかんね）
+    const innerWidth  = Math.floor(window.innerWidth * res.zoom);
+    const innerHeight = Math.floor(window.innerHeight * res.zoom);
+
+    // エアロ領域分大きくして、コンテンツサイズを指定の大きさに合わせる
     window.resizeBy(
-      window.outerWidth - window.innerWidth,
-      window.outerHeight - window.innerHeight
+      window.outerWidth - innerWidth,
+      window.outerHeight - innerHeight
     );
 
     switch(res.tab.frame.decoration) {
