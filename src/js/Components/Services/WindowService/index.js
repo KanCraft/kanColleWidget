@@ -40,7 +40,7 @@ class WindowService {
         });
     }
     openDamagaSnapshot(position = {}, cols = 1) {
-        const r = (124 * cols) / 200;
+        const r = (114 * cols) / 200;
         const h = Math.floor(position.height) || 200;// 記憶している高さしか採用しない
         const w = Math.floor(h * r);
         return new Promise(resolve => {
