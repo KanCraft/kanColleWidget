@@ -22,7 +22,6 @@ module.exports = {
         capture:    "./src/js/entrypoints/pages/capture.js",
         stream:     "./src/js/entrypoints/pages/stream.js",
         deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
-        status:     "./src/js/entrypoints/pages/status.js",
         dashboard:  "./src/js/entrypoints/pages/dashboard.js",
         dsnapshot:  "./src/js/entrypoints/pages/dsnapshot.js",
         wiki:       "./src/js/entrypoints/pages/wiki.js",
