@@ -5,11 +5,12 @@ export const GIF  = "gif";
 export const WEBM = "webm";
 
 export default class Recorder {
-    constructor(stream, option = {type:GIF}) {
+    constructor(stream, option = {type:WEBM}) {
         let Implement = () => {};
         switch(option.type) {
-        case GIF: Implement = GifRecorder; break;
-        default: Implement = WebmRecorder; break;
+        case GIF:  Implement = GifRecorder;  break;
+        case WEBM: Implement = WebmRecorder; break;
+        default:   Implement = WebmRecorder; break;
         }
         this.imple = new Implement(stream, option);
     }

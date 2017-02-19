@@ -29,8 +29,8 @@ export default class Streaming {
         // TODO: これrevokeしないといけない気がするんだよなあ
         return URL.createObjectURL(this.stream);
     }
-    startRecording() {
-        this.recorder = new Recorder(this.stream);
+    startRecording(option) {
+        this.recorder = new Recorder(this.stream, option);
         this.recorder.start();
     }
     stopRecording() {

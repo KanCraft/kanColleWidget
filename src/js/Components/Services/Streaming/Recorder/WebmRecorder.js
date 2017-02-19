@@ -12,16 +12,26 @@ export default class WebmRecorder {
         this.recorder.ondataavailable = (ev) => {
             this.chunks.push(ev.data);
         };
-        return this.recorder.start();
+        this.recorder.start();
+        this.onMediaRecorderStoppedPromise = new Promise((resolve, reject) => {
+            try {
+                this.recorder.onstop = () => {
+                    const blob = new Blob(this.chunks, {type:this.mimeType});
+                    this.chunks = [];
+                    resolve({
+                        type: "video/webm",
+                        ext:  ".webm",
+                        url:  URL.createObjectURL(blob),
+                    });
+                };
+            } catch(err) {
+                reject(err);
+            }
+        });
+        return;
     }
     stop() {
         this.recorder.stop();
-        const blob = new Blob(this.chunks, {mimeType:this.mimeType});
-        this.chunks = [];
-        return Promise.resolve({
-            type: "video/webm",
-            ext:  ".webm",
-            url:  URL.createObjectURL(blob),
-        });
+        return this.onMediaRecorderStoppedPromise;
     }
 }

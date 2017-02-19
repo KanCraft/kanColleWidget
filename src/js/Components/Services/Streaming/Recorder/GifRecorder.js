@@ -30,11 +30,6 @@ export default class GifRecorder {
                     ext:  ".gif",
                     url: URL.createObjectURL(this._toBlob(message.data.base64)),
                 });
-                // XXX: It works!!
-                // window.open("data:image/gif;base64," + message.data.base64);
-                // XXX: It works!!!!
-                // const blob = this._toBlob(message.data.base64);
-                // window.open(URL.createObjectURL(blob));
             });
         });
         this.worker.postMessage({
