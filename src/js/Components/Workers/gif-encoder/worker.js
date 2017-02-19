@@ -4,7 +4,6 @@
 import imports from "../imports";
 
 const _init = (data) => {
-    // TODO: jsgif内のスクリプトはuglifyする（ただしlicense表記は残す）
     imports(data.root)("jsgif/GIFEncoder.js", "jsgif/LZWEncoder.js", "jsgif/NeuQuant.js", "jsgif/b64.js");
     self.encoder = new GIFEncoder();
     self.encoder.setRepeat(0);
