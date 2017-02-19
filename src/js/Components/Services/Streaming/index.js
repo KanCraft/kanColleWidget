@@ -1,5 +1,4 @@
-import MediaStreamRecorder from "msr";
-// MediaRecorder = MediaStreamRecorder;
+import Recorder from "./Recorder";
 
 export default class Streaming {
     static options = {
@@ -27,26 +26,14 @@ export default class Streaming {
         this.stream = stream;
     }
     toBlobURL() {
+        // TODO: これrevokeしないといけない気がするんだよなあ
         return URL.createObjectURL(this.stream);
     }
     startRecording() {
-        this.recorder = new MediaStreamRecorder(this.stream);
-        // this.recorder.mimeType = "video/mp4";
-        this.recorder.mimeType = "video/webm";
-        this.onDataAvailable = new Promise(resolve => {
-            this.recorder.ondataavailable = (blob) => {
-                resolve(blob);
-            };
-        });
+        this.recorder = new Recorder(this.stream);
         this.recorder.start();
     }
     stopRecording() {
-        this.recorder.stop();
-        return this.onDataAvailable.then(blob => {
-            return Promise.resolve({
-                url: URL.createObjectURL(blob),
-                type: blob.type,
-            });
-        });
+        return this.recorder.stop();
     }
 }
