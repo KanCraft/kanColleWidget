@@ -39,9 +39,11 @@ router.on(["api_req_quest/clearitemget"], Controllers.onQuestDone);
 router.on(["api_get_member/ndock"],  Controllers.onRecoveryDocksDisplayed);
 
 // 連合艦隊戦開戦時
-router.on(["api_req_combined_battle/battle"],      Controllers.onCombinedBattleStarted);
-router.on(["api_req_combined_battle/each_battle"], Controllers.onCombinedBattleStarted);
-router.on(["api_req_combined_battle/ld_airbattle"],Controllers.onCombinedBattleStarted);
+router.on(["api_req_combined_battle/battle"],           Controllers.onCombinedBattleStarted);
+router.on(["api_req_combined_battle/each_battle"],      Controllers.onCombinedBattleStarted);
+router.on(["api_req_combined_battle/battle_water"],     Controllers.onCombinedBattleStarted);
+router.on(["api_req_combined_battle/each_battle_water"],Controllers.onCombinedBattleStarted);
+router.on(["api_req_combined_battle/ld_airbattle"],     Controllers.onCombinedBattleStarted);
 
 // 母校帰投
 router.on(["api_port/port"],         Controllers.onHomePort);
