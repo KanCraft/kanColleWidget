@@ -157,6 +157,13 @@ Rectangle.catalog = {
       1/1.66,
       1/1.285
     ),
+    // 基地航空隊の編成キャプチャのやつ
+    defaultAviation: new Rectangle(
+      72/100,
+      22/100,
+      27/100,
+      73/100
+    ),
 };
 
 export default Rectangle;
