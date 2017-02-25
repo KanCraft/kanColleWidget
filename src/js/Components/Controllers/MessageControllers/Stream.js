@@ -15,3 +15,7 @@ export function StreamStopRecording() {
         return Promise.resolve(true);
     });
 }
+
+export function StreamRevoke() {
+    return Streaming.revokeInstance();
+}

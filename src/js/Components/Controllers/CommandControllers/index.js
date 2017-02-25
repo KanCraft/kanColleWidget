@@ -29,6 +29,11 @@ export function CaptureController() {
 }
 
 export function MuteController() {
+    if (Streaming.active()) {
+        // TODO: window.alertじゃなくてなにか
+        window.alert("動画キャプチャが有効な状態でのミュート操作はできません");
+        return true;
+    }
     return windows.find().then(tab => {
         let h = History.find("last-muted-status");
         const muted = !tab.mutedInfo.muted;

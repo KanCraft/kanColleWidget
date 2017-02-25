@@ -22,6 +22,15 @@ export default class Streaming {
         }
         return Promise.resolve(this.__instance);
     }
+    static revokeInstance() {
+        this.__instance.stream.getVideoTracks()[0].stop();
+        this.__instance = null;
+    }
+    static active() {
+        if (this.__instance == null) return false;
+        if (!this.__instance.stream) return false;
+        return this.__instance.stream.active;
+    }
     constructor(stream) {
         this.stream = stream;
     }

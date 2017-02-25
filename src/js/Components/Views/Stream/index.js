@@ -25,7 +25,6 @@ class VideoController extends Component {
             recording: false,
             started:   0,
         };
-        this.client = new Client(chrome.runtime);
     }
     getActionButton() {
         if (this.state.recording) {
@@ -43,11 +42,11 @@ class VideoController extends Component {
     }
     startRecording() {
         this.setState({recording: true, started: Date.now()});
-        this.client.message("/stream/recording/start");
+        this.props.client.message("/stream/recording/start");
     }
     stopRecording() {
         this.setState({recording: false});
-        this.client.message("/stream/recording/stop").then(({data}) => {
+        this.props.client.message("/stream/recording/stop").then(({data}) => {
             if (!data.url) return; // FIXME: とりあえず
             const ext = data.type.match("mp4") ? "" : data.type.split("/").pop();
             let a = document.createElement("a");
@@ -64,9 +63,20 @@ class VideoController extends Component {
           </div>
         );
     }
+    static propTypes = {
+        client: PropTypes.object.isRequired,
+    }
 }
 
 export default class StreamView extends Component {
+    constructor(props) {
+        super(props);
+        this.client = new Client(chrome.runtime);
+        window.onbeforeunload = () => {
+            this.client.message("/stream/revoke");
+            return;
+        };
+    }
     render() {
         let url = new URL(location.href);
         return (
@@ -79,7 +89,9 @@ export default class StreamView extends Component {
               </div>
             </div>
             <div>
-              <VideoController />
+              <VideoController
+                client={this.client}
+              />
             </div>
           </div>
         );
