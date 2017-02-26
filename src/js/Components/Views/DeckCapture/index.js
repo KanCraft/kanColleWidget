@@ -35,11 +35,16 @@ class DeckCaptureView extends Component {
             panels: 2,
             labels: ["第一艦隊", "第二艦隊"],
         };
+        let def3 = {
+            row: 1, col: 3, name: "基地航空隊",
+            rect: Rectangle.catalog.defaultAviation,
+            protected: true,
+        };
         this.state = {
             config: def1,
             pictures: [],
             whole: null,
-            settings: [def1, def2].concat(History.find("custom-capture").settings),
+            settings: [def1, def2, def3].concat(History.find("custom-capture").settings),
             modified: false,
             openSaveSettingDialog: false,
             settingName: "", // TODO: これなんかもダイアログ分離して置くべき

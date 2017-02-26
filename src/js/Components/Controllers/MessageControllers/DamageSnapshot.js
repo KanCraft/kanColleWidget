@@ -6,7 +6,7 @@ import WindowService from "../../Services/WindowService";
 import Config from "../../Models/Config";
 
 export function TakeDamageSnapshot() {
-    return sleep(1.6)
+    sleep(1.6)
     .then(() => capture.capture(this.sender.tab.windowId))
     .then(Image.init)
     .then(img => {
@@ -32,5 +32,9 @@ export function TakeDamageSnapshot() {
         default:
             return Promise.resolve(true);
         }
+    }).catch(err => {
+        // TODO: chomex.Log.error(err);
+        console.log("TakeDamageSnapshot", err);
     });
+    return true;
 }

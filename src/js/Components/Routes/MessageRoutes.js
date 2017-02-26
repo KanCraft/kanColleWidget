@@ -27,8 +27,10 @@ router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/revoke",         Controllers.TwitterRevoke);
 router.on("/twitter/announce",       Controllers.GetKanColleSTAFFTweets);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
+// 動画キャプチャ関係
 router.on("/stream/recording/start", Controllers.StreamStartRecording);
 router.on("/stream/recording/stop",  Controllers.StreamStopRecording);
+router.on("/stream/revoke",          Controllers.StreamRevoke);
 router.on("/debug/notification",     Controllers.NotificationDebug);
 router.on("/debug/x/controller",     Controllers.ExecuteController);
 router.on("/launchposition/:update",          Controllers.UpdateLaunchPosition);

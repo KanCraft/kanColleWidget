@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "[v2開発版] beta.艦これウィジェット",
-  "version": "2.0.44",
+  "version": "2.0.45",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
@@ -35,7 +35,6 @@
     "scripts": [
       "dest/oauth/chrome_ex_oauthsimple.js",
       "dest/oauth/chrome_ex_oauth.js",
-      "dest/gif-recorder.js",
       "dest/js/background.js"
     ]
   },
