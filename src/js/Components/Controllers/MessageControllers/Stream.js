@@ -12,3 +12,7 @@ export function StreamStopRecording() {
         return streaming.stopRecording();
     });
 }
+
+export function StreamRevoke() {
+    return Streaming.revokeInstance();
+}

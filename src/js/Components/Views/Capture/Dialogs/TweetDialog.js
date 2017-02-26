@@ -21,10 +21,19 @@ export default class TweetDialog extends Component {
               <div style={{flex: 3, padding: "0 10px"}}>
                 <TextField
                   name="tweettext"
-                  ref="tweettext"
+                  ref={tweettext => {
+                      if (!tweettext) return;
+                      tweettext.focus();
+                      this.tweettext = tweettext;
+                  }}
                   multiLine={true}
                   rows={4}
                   fullWidth={true}
+                  onKeyDown={ev => {
+                      if (ev.key == "Enter" && (ev.ctrlKey || ev.metaKey)) {
+                          this.props.onTweetKeyMapEntered();
+                      }
+                  }}
                   />
               </div>
             </div>
@@ -34,7 +43,6 @@ export default class TweetDialog extends Component {
     renderCancelButton() {
         return <FlatButton
           label="Cancel"
-          primary={true}
           onTouchTap={this.props.closeDialog}
         />;
     }
@@ -42,13 +50,12 @@ export default class TweetDialog extends Component {
         return <FlatButton
           label="Tweet"
           primary={true}
-          keyboardFocused={true}
           disabled={this.props.nowSending}
           onTouchTap={this.props.tweet}
         />;
     }
     getValue() {
-        return this.refs.tweettext.getValue();
+        return this.tweettext.getValue();
     }
     static propTypes = {
         tweet:       PropTypes.any,
@@ -56,5 +63,6 @@ export default class TweetDialog extends Component {
         closeDialog: PropTypes.any,
         getImageURI: PropTypes.any,
         nowSending:  PropTypes.bool,
+        onTweetKeyMapEntered: PropTypes.func.isRequired,
     }
 }

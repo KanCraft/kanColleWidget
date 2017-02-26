@@ -63,6 +63,15 @@ export default class CaptureView extends Component {
         });
     }
 
+    componentDidMount() {
+        // まあとりあえずだよ
+        window.document.body.addEventListener("keydown", (ev) => {
+            if (ev.key == "Enter" && (ev.metaKey || ev.ctrlKey)) {
+                this.onTweetClicked();
+            }
+        }, false);
+    }
+
     getImageUriFromCurrentURL() {
         let params = (new URL(location.href)).searchParams;
         if (!params.get("datahash")) return Promise.resolve(params.get("img"));
@@ -111,6 +120,7 @@ export default class CaptureView extends Component {
               getImageURI={this.getImageURI.bind(this)}
               nowSending={this.state.nowSending}
               closeDialog={this.closeDialog.bind(this)}
+              onTweetKeyMapEntered={() => this.tweet()}
             />
             <RequestTwitterAuthDialog
               auth={this.auth.bind(this)}
