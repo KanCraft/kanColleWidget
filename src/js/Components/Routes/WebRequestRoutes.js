@@ -23,7 +23,6 @@ router.on(["api_req_kousyou/createship"], Controllers.onCreateShipStart);
 router.on(["api_req_kousyou/getship"], Controllers.onGetShip);
 router.on(["api_req_kousyou/createitem"], Controllers.onCreateItem);
 router.on(["api_req_kousyou/remodel_slot"], Controllers.onRemodelItem);
-router.on(["api_req_sortie/battle"], Controllers.onBattleStarted);
 router.on(["api_req_kousyou/destroyitem2"], Controllers.onDestroyItem);
 
 // 演習関係
@@ -38,6 +37,9 @@ router.on(["api_req_quest/clearitemget"], Controllers.onQuestDone);
 // 入渠画面への遷移時
 router.on(["api_get_member/ndock"],  Controllers.onRecoveryDocksDisplayed);
 
+// 通常艦隊の戦闘開戦時
+router.on(["api_req_sortie/battle"],       Controllers.onBattleStarted);
+router.on(["api_req_sortie/ld_airbattle"], Controllers.onBattleStarted);
 // 連合艦隊戦開戦時
 router.on(["api_req_combined_battle/battle"],           Controllers.onCombinedBattleStarted);
 router.on(["api_req_combined_battle/each_battle"],      Controllers.onCombinedBattleStarted);

@@ -9,9 +9,10 @@ export function StreamStartRecording() {
 
 export function StreamStopRecording() {
     return Streaming.instance().then(streaming => {
-        streaming.stopRecording().then(res => {
-            window.open(res.url);
-        });
-        return Promise.resolve(true);
+        return streaming.stopRecording();
     });
+}
+
+export function StreamRevoke() {
+    return Streaming.revokeInstance();
 }
