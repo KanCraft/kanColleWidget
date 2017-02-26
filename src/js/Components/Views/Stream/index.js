@@ -3,7 +3,6 @@ import React, {Component} from "react";
 import muiThemeable from "material-ui/styles/muiThemeable";
 import Drawer       from "material-ui/Drawer";
 
-import Row               from "./parts/Row";
 import VideoPlayer       from "./parts/Player";
 import VideoControlPanel from "./parts/ControlPanel";
 import VideoComposer     from "./parts/Composer";
@@ -22,12 +21,10 @@ export default class StreamView extends Component {
             recordedBlobURL: null,
         };
         this.client = new Client(chrome.runtime);
-        /* XXX: debug
         window.onbeforeunload = () => {
             this.client.message("/stream/revoke");
             return;
         };
-        */
         this.drawerWidth = 180;
     }
     startRecording() {
@@ -36,13 +33,12 @@ export default class StreamView extends Component {
     stopRecording() {
         this.client.message("/stream/recording/stop").then(({data}) => {
             if (!data.url) return; // FIXME: とりあえず
+            window.onbeforeunload = () => {
+                this.client.message("/stream/revoke");
+                window.URL.revokeObjectURL(data.url);
+                return;
+            };
             this.setState({recordedBlobURL: data.url});
-            // const ext = data.type.match("mp4") ? "" : data.type.split("/").pop();
-            // let a = document.createElement("a");
-            // a.href = data.url;
-            // a.download = `video_${Date.now()}.${ext}`;
-            // a.click();
-            // window.URL.revokeObjectURL(data.url);
         });
     }
     getRecordingPanel(url) {
