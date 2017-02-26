@@ -3,7 +3,3 @@ addons:
   firefox: "46.0"
 node_js:
   - "7.5"
-install:
-  - yarn install
-script:
-  - yarn test
