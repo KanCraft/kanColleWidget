@@ -64,9 +64,9 @@ class WindowService {
             url:    this.module.extension.getURL("dest/html/dashboard.html"),
             type:  "popup",
             height: position.height || 292,
-            width:  position.width || 400,
-            left:   position.left || 0,
-            top:    position.top  || 0,
+            width:  position.width  || 420,
+            left:   position.left   || 0,
+            top:    position.top    || 0,
         });
     }
     get(id, type = "window") {
