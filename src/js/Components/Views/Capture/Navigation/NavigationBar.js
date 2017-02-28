@@ -14,6 +14,7 @@ import Crop                from "material-ui/svg-icons/image/crop";
 import TextFields          from "material-ui/svg-icons/editor/text-fields";
 import Divider             from "material-ui/Divider";
 import Download            from "material-ui/svg-icons/file/file-download";
+import Folder              from "material-ui/svg-icons/file/folder";
 import Refresh             from "material-ui/svg-icons/navigation/refresh";
 import Undo                from "material-ui/svg-icons/content/undo";
 
@@ -52,6 +53,7 @@ export default class NavigationBar extends Component {
                 {this.renderTextMenueItem()}
                 <Divider />
                 {this.renderDownloadItem()}
+                {this.renderScrapBookItem()}
                 {this.renderTweetItem()}
                 <Divider />
                 {this.renderCompressItem()}
@@ -107,6 +109,15 @@ export default class NavigationBar extends Component {
           }/>
         );
     }
+    renderScrapBookItem() {
+        return (
+          <MenuItem onTouchTap={this.props.onScrapBookClicked} primaryText={
+              <IconButton tooltip="スクラップブックに保存">
+                <Folder />
+              </IconButton>
+          }/>
+        );
+    }
     renderTweetItem() {
         return (
           <MenuItem onTouchTap={this.props.onTweetClicked} primaryText={
@@ -155,6 +166,7 @@ export default class NavigationBar extends Component {
         compressImageSize: PropTypes.any,
         onTweetClicked:    PropTypes.any,
         onDownloadClicked: PropTypes.any,
+        onScrapBookClicked:PropTypes.func.isRequired,
         onColorChanged:    PropTypes.any,
         onClickUndo:       PropTypes.func.isRequired,
         selectedTool:      PropTypes.any,

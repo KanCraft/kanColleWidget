@@ -6,6 +6,7 @@ import SubNavigationBar         from "./Navigation/SubNavigationBar";
 import DownloadFileDialog       from "./Dialogs/DownloadFileDialog";
 import TweetDialog              from "./Dialogs/TweetDialog";
 import RequestTwitterAuthDialog from "./Dialogs/RequestTwitterAuthDialog";
+import ScrapBookDialog          from "./Dialogs/ScrapBookDialog";
 import Snackbar                 from "material-ui/Snackbar";
 
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
@@ -95,6 +96,7 @@ export default class CaptureView extends Component {
                 getFileSizeText={this.getFileSizeText.bind(this)}
                 onTweetClicked={this.onTweetClicked.bind(this)}
                 onDownloadClicked={this.onDownloadClicked.bind(this)}
+                onScrapBookClicked={this.onScrapBookClicked.bind(this)}
                 onClickUndo={this.onClickUndo.bind(this)}
                 setTool={this.setTool.bind(this)}
                 selectedTool={this.state.tool.name}
@@ -127,6 +129,12 @@ export default class CaptureView extends Component {
               tweetAction={this.state.tweetAction}
               closeDialog={this.closeDialog.bind(this)}
             />
+            <ScrapBookDialog
+              ref="scrapbook"
+              opened={this.state.scrapbookDialogOpened}
+              close={() => this.setState({scrapbookDialogOpened: false})}
+              saveAsScrapBook={this.saveAsScrapBook.bind(this)}
+            />
             <Snackbar
               open={!!this.state.tweetFeedbackMessage}
               message={this.state.tweetFeedbackMessage}
@@ -137,6 +145,9 @@ export default class CaptureView extends Component {
     }
     onDownloadClicked() {
         this.setState({dialogOpened: true});
+    }
+    onScrapBookClicked() {
+        this.setState({scrapbookDialogOpened: true});
     }
     onTweetClicked() {
         if (!this.state.twitterProfile) this.setState({tweetAction: "auth"});
@@ -196,6 +207,10 @@ export default class CaptureView extends Component {
         chrome.downloads.download({ url, filename }, () => {
             this.setState({dialogOpened: false});
         });
+    }
+    saveAsScrapBook(name) {
+        // TODO: ここでScrapBookを保存する
+        alert(name);
     }
     onClickUndo() {
         this.refs.canvas.undo();
