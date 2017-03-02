@@ -10,12 +10,14 @@ import ScrapBookDialog          from "./Dialogs/ScrapBookDialog";
 import Snackbar                 from "material-ui/Snackbar";
 
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
+import FileSystem       from "../../Services/Assets/FileSystem";
 
 import Canvas from "./Canvas";
 
 import Tool from "./Tools/Base";
 
 import Config from "../../Models/Config";
+import Scrap  from "../../Models/Scrap";
 
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
@@ -41,7 +43,7 @@ export default class CaptureView extends Component {
 
         // Initial State
         this.state = {
-            tweetFeedbackMessage: "",
+            snackbarMessage: "",
             dialogOpened: false,
             tweetAction: null,
             twitterProfile: null,
@@ -136,8 +138,8 @@ export default class CaptureView extends Component {
               saveAsScrapBook={this.saveAsScrapBook.bind(this)}
             />
             <Snackbar
-              open={!!this.state.tweetFeedbackMessage}
-              message={this.state.tweetFeedbackMessage}
+              open={!!this.state.snackbarMessage}
+              message={this.state.snackbarMessage}
               autoHideDuration={10000}
             />
           </div>
@@ -170,7 +172,7 @@ export default class CaptureView extends Component {
             }).then(response => {
                 this.setState({
                     tweetPermalink: response.data.permalink,
-                    tweetFeedbackMessage: <a
+                    snackbarMessage: <a
                     href={response.data.permalink}
                     target="_blank"
                     style={{color: "#2196F3"}}
@@ -180,7 +182,7 @@ export default class CaptureView extends Component {
                 });
             }).catch(err => {
                 this.setState({
-                    tweetFeedbackMessage: err.message,
+                    snackbarMessage: err.message,
                     tweetAction: null,
                     nowSending: false,
                 });
@@ -209,8 +211,32 @@ export default class CaptureView extends Component {
         });
     }
     saveAsScrapBook(name) {
-        // TODO: ここでScrapBookを保存する
-        alert(name);
+        const fs = new FileSystem();
+        const url = this.refs.canvas.toDataURL();
+        const mimetype = fs.getMimeType(url);
+        let scrap = Scrap.new();
+        scrap.name = name;
+        scrap.filename += `.${mimetype.split("/")[1]}`;
+        fs.fileFromBase64(url, scrap.filename, mimetype).then(f => {
+            return fs.set(scrap.filename, f);
+        }).then(({entry}) => {
+            scrap.created = Date.now();
+            scrap.url = entry.toURL();
+            scrap.save();
+            this.setState({
+                scrapbookDialogOpened: false,
+                snackbarMessage: <a
+                  href="/dest/html/scrapbook.html"
+                  target="_blank"
+                  style={{color: "#2196F3"}}
+                  >スクラップブックに保存しました 確認</a>,
+            });
+        }).catch(err => {
+            this.setState({
+                scrapbookDialogOpened: false,
+                snackbarMessage: `保存失敗: ${err}`,
+            });
+        });
     }
     onClickUndo() {
         this.refs.canvas.undo();

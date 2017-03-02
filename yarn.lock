@@ -1247,9 +1247,9 @@ chokidar@^1.4.3, chokidar@^1.6.1:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chomex@*:
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/chomex/-/chomex-0.0.65.tgz#2a606f6a6aa750abd949432327c5f2a39b95475d"
+chomex@^0.0.68:
+  version "0.0.68"
+  resolved "https://registry.yarnpkg.com/chomex/-/chomex-0.0.68.tgz#72c3f824306f7905a1662c2af1c659db8be98fe5"
 
 ci-info@^1.0.0:
   version "1.0.0"

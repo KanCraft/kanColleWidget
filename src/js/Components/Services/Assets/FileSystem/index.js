@@ -5,7 +5,7 @@ export default class FileSystem {
         this.context = context;
         this.LIMIT   = 1024 * 1024 * 5;
     }
-    fs() {
+    _fs() {
         return new Promise((resolve, reject) => {
             requestFileSystem(this.context.PERSISTENT, this.LIMIT, resolve, reject);
         });
@@ -15,7 +15,7 @@ export default class FileSystem {
      * あらゆるFileEntryをかえす
      */
     _file(filepath) {
-        return this.fs().then(fs => {
+        return this._fs().then(fs => {
             return new Promise((resolve, reject) => {
                 fs.root.getFile(filepath, {create:true,exclusive:false},resolve,reject);
             });
@@ -31,6 +31,16 @@ export default class FileSystem {
             // execute
             writer.write(file);
         });
+    }
+
+    getMimeType(base64) {
+        const [ , mimetype, ] = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9]+);base64,(.+)$/);
+        return mimetype;
+    }
+    fileFromBase64(base64, name, type) {
+        // return new Blob([btoa(content)], {type: mimetype});
+        return fetch(base64).then(res => res.arrayBuffer())
+        .then(buf => Promise.resolve(new File([buf], name, {type})));
     }
 
     /**
