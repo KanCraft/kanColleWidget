@@ -25,151 +25,151 @@ import {red500, grey600} from "material-ui/styles/colors";
 import {Pencil, Text, Rect, Trim} from "../Tools";
 
 const styles = {
-    paper: {
-        display: "inline-block",
-        float: "left",
-        margin: "0 32px 16px 0",
-    },
-    selected: {
-        boxShadow: `inset -7px 0 9px -7px ${grey600}`
-    }
+  paper: {
+    display: "inline-block",
+    float: "left",
+    margin: "0 32px 16px 0",
+  },
+  selected: {
+    boxShadow: `inset -7px 0 9px -7px ${grey600}`
+  }
 };
 
 export default class NavigationBar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            twitterProfile: null
-        };
-    }
-    render() {
-        return (
-          <div style={{flex: "initial", width: "100px"}}>
-            <Paper style={styles.paper}>
-              <Menu value={this.props.selectedTool} selectedMenuItemStyle={styles.selected}>
-                {this.renderRectAngleMenuItem()}
-                {this.renderPencilMenuItem()}
-                {this.renderCropItem()}
-                {this.renderTextMenueItem()}
-                <Divider />
-                {this.renderDownloadItem()}
-                {this.renderScrapBookItem()}
-                {this.renderTweetItem()}
-                <Divider />
-                {this.renderCompressItem()}
-                {this.renderRefreshItem()}
-                {this.renderUndoMenuItem()}
-              </Menu>
-            </Paper>
-          </div>
-        );
-    }
-    renderRectAngleMenuItem() {
-        return  (
-          <MenuItem value="Rect" primaryText={
-            <IconButton tooltip="長方形">
-            <PictureInPictureAlt />
-            </IconButton>
+  constructor(props) {
+    super(props);
+    this.state = {
+      twitterProfile: null
+    };
+  }
+  render() {
+    return (
+      <div style={{flex: "initial", width: "100px"}}>
+        <Paper style={styles.paper}>
+          <Menu value={this.props.selectedTool} selectedMenuItemStyle={styles.selected}>
+            {this.renderRectAngleMenuItem()}
+            {this.renderPencilMenuItem()}
+            {this.renderCropItem()}
+            {this.renderTextMenueItem()}
+            <Divider />
+            {this.renderDownloadItem()}
+            {this.renderScrapBookItem()}
+            {this.renderTweetItem()}
+            <Divider />
+            {this.renderCompressItem()}
+            {this.renderRefreshItem()}
+            {this.renderUndoMenuItem()}
+          </Menu>
+        </Paper>
+      </div>
+    );
+  }
+  renderRectAngleMenuItem() {
+    return  (
+      <MenuItem value="Rect" primaryText={
+        <IconButton tooltip="長方形">
+          <PictureInPictureAlt />
+        </IconButton>
           } onTouchTap={() => this.props.setTool(Rect)}/>
-        );
-    }
-    renderPencilMenuItem() {
-        return (
-          <MenuItem value="Pencil" primaryText={
-              <IconButton tooltip="ペン">
-                <Gesture />
-              </IconButton>
+    );
+  }
+  renderPencilMenuItem() {
+    return (
+      <MenuItem value="Pencil" primaryText={
+        <IconButton tooltip="ペン">
+          <Gesture />
+        </IconButton>
           } onTouchTap={() => this.props.setTool(Pencil)}/>
-        );
-    }
-    renderCropItem() {
-        return (
-          <MenuItem value="Trim" primaryText={
-              <IconButton tooltip="切り抜き">
-                <Crop />
-              </IconButton>
+    );
+  }
+  renderCropItem() {
+    return (
+      <MenuItem value="Trim" primaryText={
+        <IconButton tooltip="切り抜き">
+          <Crop />
+        </IconButton>
           } onTouchTap={() => this.props.setTool(Trim)}/>
-        );
-    }
-    renderTextMenueItem() {
-        return (
-          <MenuItem value="Text" primaryText={
-              <IconButton tooltip="テキスト">
-                <TextFields />
-              </IconButton>
+    );
+  }
+  renderTextMenueItem() {
+    return (
+      <MenuItem value="Text" primaryText={
+        <IconButton tooltip="テキスト">
+          <TextFields />
+        </IconButton>
           } onTouchTap={() => this.props.setTool(Text)}/>
-        );
-    }
-    renderDownloadItem() {
-        return (
-          <MenuItem onTouchTap={this.props.onDownloadClicked} primaryText={
-              <IconButton tooltip="保存">
-                <Download />
-              </IconButton>
+    );
+  }
+  renderDownloadItem() {
+    return (
+      <MenuItem onTouchTap={this.props.onDownloadClicked} primaryText={
+        <IconButton tooltip="保存">
+          <Download />
+        </IconButton>
           }/>
-        );
-    }
-    renderScrapBookItem() {
-        return (
-          <MenuItem onTouchTap={this.props.onScrapBookClicked} primaryText={
-              <IconButton tooltip="スクラップブックに保存">
-                <Folder />
-              </IconButton>
+    );
+  }
+  renderScrapBookItem() {
+    return (
+      <MenuItem onTouchTap={this.props.onScrapBookClicked} primaryText={
+        <IconButton tooltip="スクラップブックに保存">
+          <Folder />
+        </IconButton>
           }/>
-        );
-    }
-    renderTweetItem() {
-        return (
-          <MenuItem onTouchTap={this.props.onTweetClicked} primaryText={
-              <IconButton tooltip="ツイート">
-                {this.getTwitterIcon()}
-              </IconButton>
+    );
+  }
+  renderTweetItem() {
+    return (
+      <MenuItem onTouchTap={this.props.onTweetClicked} primaryText={
+        <IconButton tooltip="ツイート">
+          {this.getTwitterIcon()}
+        </IconButton>
           }/>
-        );
-    }
-    getTwitterIcon() {
-        if (!this.props.twitterProfile) return <img src="/dest/img/icons/twitter.svg" width="20"/>;
-        return <Avatar src={this.props.twitterProfile.profile_image_url} size={20} />;
-    }
-    renderCompressItem() {
-        return (
-          <MenuItem
+    );
+  }
+  getTwitterIcon() {
+    if (!this.props.twitterProfile) return <img src="/dest/img/icons/twitter.svg" width="20"/>;
+    return <Avatar src={this.props.twitterProfile.profile_image_url} size={20} />;
+  }
+  renderCompressItem() {
+    return (
+      <MenuItem
             onTouchTap={this.props.compressImageSize}
             title={"画像ファイル容量を削減します"}
             primaryText={this.props.getFileSizeText()}
             style={(this.props.getFileSize() > 3*1000*1000) ? {color:red500} : null}
           />
-        );
-    }
-    renderRefreshItem() {
-        return (
-          <MenuItem onTouchTap={() => { location.reload(); }}  primaryText={
-              <IconButton tooltip="リセット">
-                <Refresh />
-              </IconButton>
+    );
+  }
+  renderRefreshItem() {
+    return (
+      <MenuItem onTouchTap={() => { location.reload(); }}  primaryText={
+        <IconButton tooltip="リセット">
+          <Refresh />
+        </IconButton>
           }/>
-        );
-    }
-    renderUndoMenuItem() {
-        return (
-          <MenuItem onTouchTap={this.props.onClickUndo}  primaryText={
-              <IconButton tooltip="ひとつもどる">
-                <Undo />
-              </IconButton>
+    );
+  }
+  renderUndoMenuItem() {
+    return (
+      <MenuItem onTouchTap={this.props.onClickUndo}  primaryText={
+        <IconButton tooltip="ひとつもどる">
+          <Undo />
+        </IconButton>
           }/>
-        );
-    }
-    static propTypes = {
-        twitterProfile:    PropTypes.any,
-        getFileSize:       PropTypes.any,
-        getFileSizeText:   PropTypes.any,
-        compressImageSize: PropTypes.any,
-        onTweetClicked:    PropTypes.any,
-        onDownloadClicked: PropTypes.any,
-        onScrapBookClicked:PropTypes.func.isRequired,
-        onColorChanged:    PropTypes.any,
-        onClickUndo:       PropTypes.func.isRequired,
-        selectedTool:      PropTypes.any,
-        setTool:           PropTypes.any, // TODO: ぜんぶanyじゃあかんやろ
-    }
+    );
+  }
+  static propTypes = {
+    twitterProfile:    PropTypes.any,
+    getFileSize:       PropTypes.any,
+    getFileSizeText:   PropTypes.any,
+    compressImageSize: PropTypes.any,
+    onTweetClicked:    PropTypes.any,
+    onDownloadClicked: PropTypes.any,
+    onScrapBookClicked:PropTypes.func.isRequired,
+    onColorChanged:    PropTypes.any,
+    onClickUndo:       PropTypes.func.isRequired,
+    selectedTool:      PropTypes.any,
+    setTool:           PropTypes.any, // TODO: ぜんぶanyじゃあかんやろ
+  }
 }
