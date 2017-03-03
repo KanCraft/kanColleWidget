@@ -16,7 +16,7 @@ rules:
   no-console: 0
   indent:
     - error
-    - 4
+    - 2
   linebreak-style:
     - error
     - unix
@@ -26,6 +26,9 @@ rules:
   semi:
     - error
     - always
+  react/jsx-indent:
+    - error
+    - 2
 globals:
     chrome: true
     require: true
