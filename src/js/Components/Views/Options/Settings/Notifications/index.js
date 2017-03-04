@@ -178,7 +178,7 @@ class NotificationDisplay extends Component {
   render() {
     return (
       <TableRow>
-        <TableRowColumn>
+        <TableRowColumn colSpan={2}>
               通知ポップアップを出す
               <Detail>音声通知は使うけど通知ポップアップはいらないというひと向け</Detail>
         </TableRowColumn>
@@ -189,14 +189,13 @@ class NotificationDisplay extends Component {
                 onToggle={this.onToggle.bind(this)}
                 />
         </TableRowColumn>
-        <TableRowColumn>
+        <TableRowColumn colSpan={2}>
           <Toggle
                 toggled={this.state.model.onfinish} name={"onfinish"}
                 label={"終了時"} labelPosition={"right"}
                 onToggle={this.onToggle.bind(this)}
                 />
         </TableRowColumn>
-        <TableRowColumn colSpan={2}>{/* この無駄感つらい */}</TableRowColumn>
       </TableRow>
     );
   }
@@ -218,7 +217,7 @@ class NotificationStayVisible extends Component {
   render() {
     return (
       <TableRow>
-        <TableRowColumn>
+        <TableRowColumn colSpan={2}>
               通知ポップアップを見えるまんまにする
               <Detail>なんかしない限り消えないようにします</Detail>
         </TableRowColumn>
@@ -229,14 +228,13 @@ class NotificationStayVisible extends Component {
                 onToggle={this.onToggle.bind(this)}
                 />
         </TableRowColumn>
-        <TableRowColumn>
+        <TableRowColumn colSpan={2}>
           <Toggle
                 toggled={this.state.model.onfinish} name={"onfinish"}
                 label={"終了時"} labelPosition={"right"}
                 onToggle={this.onToggle.bind(this)}
                 />
         </TableRowColumn>
-        <TableRowColumn colSpan={2}>{/* この無駄感つらい */}</TableRowColumn>
       </TableRow>
     );
   }
