@@ -11,17 +11,17 @@ import * as DamageSnapshotControllers from "./DamageSnapshot";
 import * as DebugControllers   from "./Debug";
 
 const MessageControllers = {
-    ...ConfigControllers,
-    ...SyncControllers,
-    ...WindowControllers,
-    ...HistoryControllers,
-    ...FrameControllers,
-    ...QueuesControllers,
-    ...TwitterControllers,
-    ...StreamControllers,
-    ...LaunchPositionControllers,
-    ...DamageSnapshotControllers,
-    ...DebugControllers,
+  ...ConfigControllers,
+  ...SyncControllers,
+  ...WindowControllers,
+  ...HistoryControllers,
+  ...FrameControllers,
+  ...QueuesControllers,
+  ...TwitterControllers,
+  ...StreamControllers,
+  ...LaunchPositionControllers,
+  ...DamageSnapshotControllers,
+  ...DebugControllers,
 };
 
 module.exports = MessageControllers;

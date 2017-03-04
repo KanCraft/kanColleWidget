@@ -8,50 +8,50 @@ import Config from "../../../Models/Config";
 import Assets from "../../../Services/Assets";
 
 export default class DownloadFileDialog extends Component {
-    constructor(props) {
-        super(props);
-        let path = Config.find("download-folder").value;
-        this.folder = path ? path + "/" : "";
-        this.assets = new Assets(Config);
+  constructor(props) {
+    super(props);
+    let path = Config.find("download-folder").value;
+    this.folder = path ? path + "/" : "";
+    this.assets = new Assets(Config);
         // なんかいろんなところでassets持つのだるいんでここでどうにかしちゃいますね
-        document.querySelector("title").innerHTML = this.assets.getDefaultDownloadFileName();
-    }
-    render() {
-        return (
-          <Dialog
+    document.querySelector("title").innerHTML = this.assets.getDefaultDownloadFileName();
+  }
+  render() {
+    return (
+      <Dialog
             title="Save file name"
             actions={[
-                this.renderCancelButton(),
-                this.renderSaveButton()
+              this.renderCancelButton(),
+              this.renderSaveButton()
             ]}
             modal={false}
             open={this.props.dialogOpened}
             >
             ~/Downloads/{this.folder}<TextField name="foo" defaultValue={this.assets.getDefaultDownloadFileName()} ref="filename"/>.{this.assets.getDefaultDownloadFileExt()}
-          </Dialog>
-        );
-    }
-    renderCancelButton() {
-        return <FlatButton
+      </Dialog>
+    );
+  }
+  renderCancelButton() {
+    return <FlatButton
           label="Cancel"
           primary={true}
           onTouchTap={this.props.closeDialog}
         />;
-    }
-    renderSaveButton() {
-        return <FlatButton
+  }
+  renderSaveButton() {
+    return <FlatButton
           label="Save"
           primary={true}
           keyboardFocused={true}
           onTouchTap={this.props.saveFile}
         />;
-    }
-    getValue() {
-        return this.folder + this.refs.filename.getValue();
-    }
-    static propTypes = {
-        dialogOpened: PropTypes.any,
-        closeDialog:  PropTypes.any,
-        saveFile:     PropTypes.any,
-    }
+  }
+  getValue() {
+    return this.folder + this.refs.filename.getValue();
+  }
+  static propTypes = {
+    dialogOpened: PropTypes.any,
+    closeDialog:  PropTypes.any,
+    saveFile:     PropTypes.any,
+  }
 }

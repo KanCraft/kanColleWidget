@@ -13,38 +13,38 @@ import Assets       from "../../../../Services/Assets";
 import {Client} from "chomex";
 
 export default class DashboardClock extends Component {
-    constructor(props) {
-        super(props);
-        this.client = new Client(chrome.runtime);
-        this.assets = new Assets(Config);
+  constructor(props) {
+    super(props);
+    this.client = new Client(chrome.runtime);
+    this.assets = new Assets(Config);
+  }
+  render() {
+    return (
+      <div style={{...this.props.style}}>
+        <ClockRow avatar={this.getAvatar()}/>
+        <SchedulesRow />
+        <TirednessRow />
+      </div>
+    );
+  }
+  getAvatar() {
+    const style = {
+      cursor: "pointer",
+      width: "80px",
+      height: "80px",
+      margin: "0 auto",
+      backgroundColor: grey200
+    };
+    let icon = this.assets.getNotificationIcon("default", false);
+    if (icon) {
+      return <Avatar src={icon} style={style} onClick={this.onClickAvatar.bind(this)} />;
     }
-    render() {
-        return (
-          <div style={{...this.props.style}}>
-            <ClockRow avatar={this.getAvatar()}/>
-            <SchedulesRow />
-            <TirednessRow />
-          </div>
-        );
-    }
-    getAvatar() {
-        const style = {
-            cursor: "pointer",
-            width: "80px",
-            height: "80px",
-            margin: "0 auto",
-            backgroundColor: grey200
-        };
-        let icon = this.assets.getNotificationIcon("default", false);
-        if (icon) {
-            return <Avatar src={icon} style={style} onClick={this.onClickAvatar.bind(this)} />;
-        }
-        return <Avatar icon={<PhotoCamera />} style={style} onClick={this.onClickAvatar.bind(this)}/>;
-    }
-    onClickAvatar() {
-        this.client.message("/window/current-action");
-    }
-    static propTypes = {
-        style: PropTypes.object.isRequired,
-    }
+    return <Avatar icon={<PhotoCamera />} style={style} onClick={this.onClickAvatar.bind(this)}/>;
+  }
+  onClickAvatar() {
+    this.client.message("/window/current-action");
+  }
+  static propTypes = {
+    style: PropTypes.object.isRequired,
+  }
 }

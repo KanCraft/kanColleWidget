@@ -15,15 +15,15 @@ let inAppActionButtons = new InAppActionButtons(client);
 
 // これが必要かどうかは聞く必要がある
 client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
-    if (!data.value) return; // Do nothing
-    if (window.parent != window) return;
-    client.message("/window/self", ({self}) => {
-        inAppActionButtons.setContext(self);
-        document.body.appendChild(inAppActionButtons.html());
-    });
-    client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
-        if (data.value) window.onbeforeunload = () => {return "TEST002"; };
-    });
+  if (!data.value) return; // Do nothing
+  if (window.parent != window) return;
+  client.message("/window/self", ({self}) => {
+    inAppActionButtons.setContext(self);
+    document.body.appendChild(inAppActionButtons.html());
+  });
+  client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
+    if (data.value) window.onbeforeunload = () => {return "TEST002"; };
+  });
 });
 
 (new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);

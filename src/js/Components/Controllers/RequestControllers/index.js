@@ -11,17 +11,17 @@ import * as QuestControllers from "./Quest";
 import * as PracticeControllers from "./Practice";
 
 const RequestControllers = {
-    ...KoushoControllers,
-    ...BattleControllers,
-    ...MissionControllers,
-    ...MapControllers,
-    ...KaisouControllers,
-    ...RecoveryControllers,
-    ...PortControllers,
-    ...SortieControllers,
-    ...SupplyControllers,
-    ...QuestControllers,
-    ...PracticeControllers,
+  ...KoushoControllers,
+  ...BattleControllers,
+  ...MissionControllers,
+  ...MapControllers,
+  ...KaisouControllers,
+  ...RecoveryControllers,
+  ...PortControllers,
+  ...SortieControllers,
+  ...SupplyControllers,
+  ...QuestControllers,
+  ...PracticeControllers,
 };
 
 module.exports = RequestControllers;

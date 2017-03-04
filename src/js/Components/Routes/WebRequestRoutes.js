@@ -3,7 +3,7 @@ import * as Controllers from "../Controllers/RequestControllers";
 
 const resolver = (detail) => {
     // host部分を削除したものをrouting nameとして使う
-    return (detail.url || "").replace(/^https?:\/\/.+\/kcsapi\//, "");
+  return (detail.url || "").replace(/^https?:\/\/.+\/kcsapi\//, "");
 };
 // XXX: いったいこれはなんでlength:4のSerialRouterなの？
 let router = new SerialRouter(4, resolver);

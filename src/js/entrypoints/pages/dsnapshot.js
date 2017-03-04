@@ -13,10 +13,10 @@ router.on("/snapshot/prepare", () => snapshot.prepare());
 chrome.runtime.onMessage.addListener(router.listener());
 
 setInterval(() => {
-    client.message("/launchposition/dsnapshot/update", {
-        height: window.outerHeight,
-        width:  window.outerWidth,
-        left:   window.screenX,
-        top:    window.screenY,
-    });
+  client.message("/launchposition/dsnapshot/update", {
+    height: window.outerHeight,
+    width:  window.outerWidth,
+    left:   window.screenX,
+    top:    window.screenY,
+  });
 }, 1 * 1000);

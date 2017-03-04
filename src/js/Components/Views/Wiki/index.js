@@ -5,26 +5,26 @@ import MissionsWikiView from "./MissionsWiki";
 import RemodelsWikiView from "./RemodelsWiki";
 
 const styles = {
-    contents: {
-        padding: "32px"
-    }
+  contents: {
+    padding: "32px"
+  }
 };
 
 export default class WikiView extends Component {
-    render() {
-        return (
-            <Tabs>
-              <Tab label="遠征早見表">
-                <div style={styles.contents}>
-                  <MissionsWikiView />
-                </div>
-              </Tab>
-              <Tab label="改修工廠早見表">
-                <div style={styles.contents}>
-                  <RemodelsWikiView />
-                </div>
-              </Tab>
-            </Tabs>
-        );
-    }
+  render() {
+    return (
+      <Tabs>
+        <Tab label="遠征早見表">
+          <div style={styles.contents}>
+            <MissionsWikiView />
+          </div>
+        </Tab>
+        <Tab label="改修工廠早見表">
+          <div style={styles.contents}>
+            <RemodelsWikiView />
+          </div>
+        </Tab>
+      </Tabs>
+    );
+  }
 }

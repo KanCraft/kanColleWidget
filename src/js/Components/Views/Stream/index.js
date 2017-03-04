@@ -11,71 +11,71 @@ import {Client} from "chomex";
 
 @muiThemeable()
 export default class StreamView extends Component {
-    constructor(props) {
-        super(props);
-        const url = new URL(location.href);
-        this.state = {
+  constructor(props) {
+    super(props);
+    const url = new URL(location.href);
+    this.state = {
             // プレー画面のキャプチャストリームURL
-            capturedBlobURL: url.searchParams.get("src"),
+      capturedBlobURL: url.searchParams.get("src"),
             // STARTからSTOPまでの動画URL
-            recordedBlobURL: null,
-        };
-        this.client = new Client(chrome.runtime);
-        window.onbeforeunload = () => {
-            this.client.message("/stream/revoke");
-            return;
-        };
-        this.drawerWidth = 180;
-    }
-    startRecording() {
-        this.client.message("/stream/recording/start");
-    }
-    stopRecording() {
-        this.client.message("/stream/recording/stop").then(({data}) => {
-            if (!data.url) return; // FIXME: とりあえず
-            window.onbeforeunload = () => {
-                this.client.message("/stream/revoke");
-                window.URL.revokeObjectURL(data.url);
-                return;
-            };
-            this.setState({recordedBlobURL: data.url});
-        });
-    }
-    getRecordingPanel(url) {
-        return (
-          <Drawer open={true} width={this.drawerWidth} containerStyle={{backgroundColor:"#2b2c34"}}>
-            <div style={{padding:"24px"}}>
-              <div style={{marginBottom: "24px"}}>
-                <VideoPlayer src={url.searchParams.get("src")} />
-              </div>
-              <div style={{marginBottom: "24px"}}>
-                <VideoControlPanel
+      recordedBlobURL: null,
+    };
+    this.client = new Client(chrome.runtime);
+    window.onbeforeunload = () => {
+      this.client.message("/stream/revoke");
+      return;
+    };
+    this.drawerWidth = 180;
+  }
+  startRecording() {
+    this.client.message("/stream/recording/start");
+  }
+  stopRecording() {
+    this.client.message("/stream/recording/stop").then(({data}) => {
+      if (!data.url) return; // FIXME: とりあえず
+      window.onbeforeunload = () => {
+        this.client.message("/stream/revoke");
+        window.URL.revokeObjectURL(data.url);
+        return;
+      };
+      this.setState({recordedBlobURL: data.url});
+    });
+  }
+  getRecordingPanel(url) {
+    return (
+      <Drawer open={true} width={this.drawerWidth} containerStyle={{backgroundColor:"#2b2c34"}}>
+        <div style={{padding:"24px"}}>
+          <div style={{marginBottom: "24px"}}>
+            <VideoPlayer src={url.searchParams.get("src")} />
+          </div>
+          <div style={{marginBottom: "24px"}}>
+            <VideoControlPanel
                   client={this.client}
                   startRecording={this.startRecording.bind(this)}
                   stopRecording={this.stopRecording.bind(this)}
                   />
-              </div>
-            </div>
-          </Drawer>
-        );
-    }
-    getComposerPanel() {
-        if (!this.state.recordedBlobURL) return null;
-        return (
-          <div style={{marginLeft: `${this.drawerWidth}px`}}>
-            <VideoComposer
+          </div>
+        </div>
+      </Drawer>
+    );
+  }
+  getComposerPanel() {
+    if (!this.state.recordedBlobURL) return null;
+    return (
+      <div style={{marginLeft: `${this.drawerWidth}px`}}>
+        <VideoComposer
               src={this.state.recordedBlobURL}
               />
-          </div>
-        );
-    }
-    render() {
-        let url = new URL(location.href);
-        return (
-          <div>
-            {this.getRecordingPanel(url)}
-            {this.getComposerPanel()}
-          </div>
-        );
-    }
+      </div>
+    );
+  }
+  render() {
+    let url = new URL(location.href);
+    return (
+      <div>
+        {this.getRecordingPanel(url)}
+        {this.getComposerPanel()}
+      </div>
+    );
+  }
 }

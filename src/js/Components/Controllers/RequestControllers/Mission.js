@@ -20,30 +20,30 @@ import Achievement from "../../Models/Achievement";
  */
 export function onMissionStart(detail) {
 
-    Achievement.increment(MISSION);
+  Achievement.increment(MISSION);
 
-    if (!Config.isNotificationEnabled(MISSION)) return;
+  if (!Config.isNotificationEnabled(MISSION)) return;
 
-    const data = detail.requestBody.formData;
-    const mission = Mission.createFromFormData(data);
-    ScheduledQueues.append(MISSION, mission);
+  const data = detail.requestBody.formData;
+  const mission = Mission.createFromFormData(data);
+  ScheduledQueues.append(MISSION, mission);
     // FIXME: ParamsをMissionモデルに考えさせるより、もっとControllerをファットにすべきなんじゃないか？
 
-    if (Config.find("notification-display").onstart) notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
-    notifications.clear(id => id == "strict-mission-warning");
+  if (Config.find("notification-display").onstart) notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
+  notifications.clear(id => id == "strict-mission-warning");
 }
 
 export function onMissionResult(detail) {
 
-    const {requestBody:{formData:{api_deck_id:[deck_id]}}} = detail;
+  const {requestBody:{formData:{api_deck_id:[deck_id]}}} = detail;
     // FIXME: 表記ゆれの名残。"missions"のほうはいずれ消す。
-    let missions = ScheduledQueues.find(MISSION) || ScheduledQueues.find("missions");
-    missions.clear(deck_id);
+  let missions = ScheduledQueues.find(MISSION) || ScheduledQueues.find("missions");
+  missions.clear(deck_id);
 
     // TODO: Controllerレイヤーでchromeを参照するのはやめましょう
-    chrome.notifications.getAll(notes => {
-        Object.keys(notes).filter(id => { return id.match(/mission/); }).map(id => {
-            chrome.notifications.clear(id);
-        });
+  chrome.notifications.getAll(notes => {
+    Object.keys(notes).filter(id => { return id.match(/mission/); }).map(id => {
+      chrome.notifications.clear(id);
     });
+  });
 }

@@ -22,11 +22,11 @@ var __dock_id = null;
  * 保存したうえで、修復開始リクエスト完了トリガー時にそれを使用する必要がある.
  */
 export function onRecoveryStart(detail) {
-    const {requestBody:{formData:{api_ndock_id:[dock_id],api_highspeed}}} = detail;
-    __dock_id = parseInt(dock_id);
-    if (api_highspeed == 1) __dock_id = null;
+  const {requestBody:{formData:{api_ndock_id:[dock_id],api_highspeed}}} = detail;
+  __dock_id = parseInt(dock_id);
+  if (api_highspeed == 1) __dock_id = null;
 
-    Achievement.increment(RECOVERY);
+  Achievement.increment(RECOVERY);
 
 }
 
@@ -36,13 +36,13 @@ export function onRecoveryStart(detail) {
  */
 export function onRecoveryStartCompleted(detail, dock = __dock_id) {
 
-    if (__dock_id == null) return;
-    if (!Config.isNotificationEnabled(RECOVERY)) return;
+  if (__dock_id == null) return;
+  if (!Config.isNotificationEnabled(RECOVERY)) return;
 
-    const windows = WindowService.getInstance();
-    const captures = new CaptureService();
-    const ocr = new OCR();
-    sleep(0.85)
+  const windows = WindowService.getInstance();
+  const captures = new CaptureService();
+  const ocr = new OCR();
+  sleep(0.85)
     .then(() => windows.find(true))
     .then(tab => captures.capture(tab.windowId))
     .then(uri => Image.init(uri))
@@ -52,26 +52,26 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
     .then(({result}) => Promise.resolve(result.split(":").map(n => parseInt(n))))
     .then(([h, m, s]) => Promise.resolve({h, m, s}))
     .then(time => {
-        console.log("OCR", time);
-        const S = 1000; const M = 60 * S; const H = 60 * M;
-        const length = time.h * H + (time.m - 1) * M + time.s * S;
-        const recovery = new Recovery(Date.now() + length, dock, time);
-        if (recovery.isValid()) ScheduledQueues.append(RECOVERY, recovery);
-        if (Config.find("notification-display").onstart) notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
+      console.log("OCR", time);
+      const S = 1000; const M = 60 * S; const H = 60 * M;
+      const length = time.h * H + (time.m - 1) * M + time.s * S;
+      const recovery = new Recovery(Date.now() + length, dock, time);
+      if (recovery.isValid()) ScheduledQueues.append(RECOVERY, recovery);
+      if (Config.find("notification-display").onstart) notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
     });
 }
 
 export function onRecoveryDocksDisplayed() {
     // TODO: Controllerからchromeを参照するのはやめましょう
-    chrome.notifications.getAll(notes => {
-        Object.keys(notes).filter(id => { return id.match(/^recovery/); }).map(id => {
-            chrome.notifications.clear(id);
-        });
+  chrome.notifications.getAll(notes => {
+    Object.keys(notes).filter(id => { return id.match(/^recovery/); }).map(id => {
+      chrome.notifications.clear(id);
     });
+  });
 }
 
 export function onRecoverySpeedup(detail) {
-    const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
-    let recoveries = ScheduledQueues.find(RECOVERY) || ScheduledQueues.find("recoveries");
-    recoveries.clear(dock_id);
+  const {requestBody:{formData:{api_ndock_id:[dock_id]}}} = detail;
+  let recoveries = ScheduledQueues.find(RECOVERY) || ScheduledQueues.find("recoveries");
+  recoveries.clear(dock_id);
 }
