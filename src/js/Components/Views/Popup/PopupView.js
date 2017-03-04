@@ -16,12 +16,13 @@ import Meta    from "../../Services/Meta";
 // TODO: messageのほうがいいかな...
 import WindowService from "../../Services/WindowService";
 
-import IconButton from "material-ui/IconButton";
-import ViewModule from "material-ui/svg-icons/action/view-module";
-import Schedule   from "material-ui/svg-icons/action/schedule";
-import Build      from "material-ui/svg-icons/action/build";
-import PhotoCamera        from "material-ui/svg-icons/image/photo-camera";
-import ChromeReaderMode   from "material-ui/svg-icons/action/chrome-reader-mode";
+import IconButton       from "material-ui/IconButton";
+import ViewModule       from "material-ui/svg-icons/action/view-module";
+import Schedule         from "material-ui/svg-icons/action/schedule";
+import Build            from "material-ui/svg-icons/action/build";
+import ImportContacts   from "material-ui/svg-icons/communication/import-contacts";
+import PhotoCamera      from "material-ui/svg-icons/image/photo-camera";
+import ChromeReaderMode from "material-ui/svg-icons/action/chrome-reader-mode";
 import {grey400, grey800, red500} from "material-ui/styles/colors";
 
 const ENTER = 13;
@@ -120,6 +121,9 @@ export default class PopupView extends Component {
   openDashboard() {
     client.message("/window/dashboard");
   }
+  openArchive() {
+    this.props.context.open("/dest/html/archive.html");
+  }
   openDeckCapture() {
     this.props.context.open("/dest/html/deckcapture.html");
   }
@@ -178,6 +182,7 @@ export default class PopupView extends Component {
         {this.state.staffTweet}
         <div style={{position:"fixed",bottom:"0",left:"0",right:"0",display:"flex",backgroundColor:"rgba(255,255,255,0.9)"}}>
           <ReactiveIconButton onClick={this.openOptions.bind(this)} badge={this.meta.hasUpdate()}><Build     /></ReactiveIconButton>
+          <ReactiveIconButton onClick={this.openArchive.bind(this)}><ImportContacts /></ReactiveIconButton>
           <ReactiveIconButton onClick={this.openDeckCapture.bind(this)} style={{transform:"rotate(90deg)"}}><ViewModule/></ReactiveIconButton>
           <ReactiveIconButton onClick={this.openWiki.bind(this)}       ><ChromeReaderMode /></ReactiveIconButton>
           <ReactiveIconButton onClick={this.openDashboard.bind(this)}  ><Schedule  /></ReactiveIconButton>
