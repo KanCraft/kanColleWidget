@@ -62,7 +62,7 @@ export default class ArchiveView extends Component {
       color: grey500,
     };
     return (
-      <p style={style}>該当するスクラップ写真がありません。</p>
+      <p style={style}>該当するアーカイブがありません。アーカイブは、スクショ編集画面の左のツールバーから保存できます。</p>
     );
   }
   render() {
@@ -77,7 +77,6 @@ export default class ArchiveView extends Component {
                       name="search" fullWidth={true}
                       value={this.state.query}
                       onChange={this.onQueryChanged.bind(this)}
-                      placeholder={"*"}
                     />
         </div>
         {this.state.scraps.length ? <GridList>{this._getTiles()}</GridList> : this._getNotFoundMessage()}
