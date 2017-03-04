@@ -9,7 +9,7 @@ import Dialog     from "material-ui/Dialog";
 import {grey500}  from "material-ui/styles/colors";
 
 import Scrap from "../../Models/Scrap";
-
+import FileSystem from "../../Services/Assets/FileSystem";
 
 export default class ArchiveView extends Component {
   constructor(props) {
@@ -23,8 +23,13 @@ export default class ArchiveView extends Component {
   onClickDelete(scrap, ev) {
     ev.stopPropagation(); ev.preventDefault();
     if (!window.confirm(`「${scrap.name}」を削除しますか？`)) return;
-    scrap.delete();
-    this.setState({scraps: Scrap.list(), shown: {}});
+    const fs = new FileSystem();
+    fs.delete(scrap.filename).then(() => {
+      scrap.delete();
+      this.setState({scraps: Scrap.list(), shown: {}});
+    }).catch(err => {
+      window.alert(JSON.stringify(err));
+    });
   }
   onQueryChanged(ev) {
     const q = ev.target.value;
