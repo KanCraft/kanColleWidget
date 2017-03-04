@@ -60,6 +60,9 @@ Config.default = {
     time:    15,
     description: "出撃からの固定時間通知です",
   },
+  "tiredness-unit": {
+    value: "deck", // "timestamp"
+  },
   "schedule-display-mode": {
     value: "separated-ids", // separated-timeline, merged-timeline
   },

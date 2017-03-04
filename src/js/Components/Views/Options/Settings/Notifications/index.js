@@ -248,6 +248,45 @@ class NotificationStayVisible extends Component {
   }
 }
 
+class NotificationTirednessUnit extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      model: Config.find("tiredness-unit"),
+    };
+  }
+  render() {
+    return (
+      <TableRow>
+        <TableRowColumn
+          colSpan={2}
+          >
+          疲労タイマーの登録単位
+          <Detail>ローテーション出撃などの場合は「出撃時刻」としてください</Detail>
+        </TableRowColumn>
+        <TableRowColumn
+          colSpan={3}
+          >
+          <SelectField
+            value={this.state.model.value}
+            fullWidth={true}
+            onChange={(ev,i,value) => {
+              this.state.model.update({value});
+              this.setState({model: this.state.model});
+            }}>
+            <MenuItem value={"deck"}      primaryText={
+              <span>出撃艦隊単位<span style={{fontSize:"0.6em"}}>（連続出撃した場合、上書きされます）</span></span>
+            }/>
+            <MenuItem value={"timestamp"} primaryText={
+              <span>出撃時刻単位<span style={{fontSize:"0.6em"}}>（連続出撃した場合、新しいタイマーがセットされます</span></span>
+            }/>
+          </SelectField>
+        </TableRowColumn>
+      </TableRow>
+    );
+  }
+}
+
 export default class NotificationSettingsView extends Component {
   constructor(props) {
     super(props);
@@ -272,6 +311,7 @@ export default class NotificationSettingsView extends Component {
               <NotificationSettingRow key={2} name="notification-for-createship"/>,
               <NotificationSettingRow key={3} name="notification-for-tiredness" />
             ] : null}
+            <NotificationTirednessUnit />
             <NotificationDisplay />
             <NotificationStayVisible />
           </TableBody>
