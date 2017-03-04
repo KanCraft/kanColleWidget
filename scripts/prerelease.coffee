@@ -28,8 +28,7 @@ fs.writeFileSync(
 
 ops = """
 git add manifest.json release.json \
-&& git commit -m '[#{manifest.version}] [release-build]' \
-&& git tag #{manifest.version}
+&& git commit -m '[#{manifest.version}] [release-build]'
 """
 if (exec(ops).code != 0)
   # しっぱいしたので戻す
