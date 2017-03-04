@@ -15,8 +15,7 @@ class Scrap extends Model {
   static template = {
     filename: () => `scrap-${Date.now()}`,
   }
-    // TODO: chomex.Model.sequentialIDにバグがある
-    // static nextID = Model.sequentialID;
+  static nextID = Model.sequentialID;
 }
 
 export default Scrap;
