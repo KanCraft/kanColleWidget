@@ -15,9 +15,11 @@ export function onSortieStart(detail) {
 
   if (!Config.isNotificationEnabled("tiredness")) return;
 
-  const {requestBody:{formData:{api_deck_id:[deck]}}} = detail;
+  // const {requestBody:{formData:{api_deck_id:[deck]}}} = detail;
   const time = Date.now() + Config.find("notification-for-tiredness").time * (1000 * 60);
-  const tiredness = new Tiredness(time, parseInt(deck));
+  // TODO:ここで設定をみる
+  // const tiredness = new Tiredness(time, parseInt(deck));
+  const tiredness = new Tiredness(time, Date.now());
 
     // TODO: Controllerからchromeを参照するのはやめましょう
   chrome.notifications.getAll(notes => {

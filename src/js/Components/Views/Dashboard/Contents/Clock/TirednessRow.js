@@ -31,7 +31,11 @@ export default class TirednessRow extends Component {
     );
   }
   getText(t) {
-    return `第${t.deck}艦隊疲労 ${(new Date(t.scheduled)).toRemainingMinutes()}分`;
+    if (t.deck < 5) {
+      return `第${t.deck}艦隊疲労 ${(new Date(t.scheduled)).toRemainingMinutes()}分`;
+    }
+    const d = new Date(t.deck);
+    return `${d.toClockString()}出撃編成 ${(new Date(t.scheduled)).toRemainingMinutes()}分`;
   }
   getColor(t) {
     let p = this.getProgress(t);

@@ -315,7 +315,13 @@ export class Tiredness extends Queue {
     this.deck = deck;
     this.badgeColor = "#5b84ff";
   }
-
+  _getNotificationMessage() {
+    if (this.deck < 5) {
+      return `第${this.deck}艦隊の疲労がだいたい回復しそうです`;
+    }
+    const d = new Date(this.deck);
+    return `${d.toClockString()}出撃編成の疲労がたいたい回復しそうです`;
+  }
   toNotificationID() {
     return `${TIREDNESS}.${this.deck}`;
   }
@@ -323,7 +329,7 @@ export class Tiredness extends Queue {
     return {
       type: "basic",
       title: "疲労回復",
-      message: `第${this.deck}艦隊の疲労がだいたい回復しそうです`,
+      message: this._getNotificationMessage(),
       requireInteraction: this.requireInteractionFor("onfinish"),
       iconUrl: this.assets.getNotificationIcon(TIREDNESS),
     };
