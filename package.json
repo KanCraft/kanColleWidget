@@ -1,6 +1,6 @@
 {
   "name": "kcwidget",
-  "version": "0.0.1",
+  "version": "2.0.45",
   "description": "KanColleWidget for Chrome/Firefox",
   "engines": {
     "node": "7.5.0"
@@ -16,10 +16,7 @@
     "fetch-wiki": "./node_modules/.bin/coffee ./scripts/fetch-wiki.coffee",
     "start": "webpack --watch --progress"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/otiai10/kcwidget.git"
-  },
+  "repository": "git+https://github.com/otiai10/kcwidget.git",
   "author": "otiai10",
   "license": "MIT",
   "bugs": {
@@ -39,7 +36,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "base64-image-loader": "^1.0.0",
     "cheerio-httpcli": "^0.6.9",
-    "chomex": "*",
+    "chomex": "^0.0.70",
     "coffee-script": "^1.12.3",
     "colors": "^1.1.2",
     "eslint": "^3.7.1",
@@ -57,7 +54,7 @@
     "shelljs": "^0.7.1",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
-    "worker-loader": "^0.7.1"
+    "worker-loader": "^0.8.0"
   },
   "jest": {
     "verbose": true,

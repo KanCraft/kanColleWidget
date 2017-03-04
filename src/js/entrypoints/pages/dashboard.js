@@ -15,12 +15,12 @@ import DashboardView from "../../Components/Views/Dashboard";
 
 const client = new Client(chrome.runtime);
 setInterval(() => {
-    client.message("/launchposition/dashboard/update", {
-        height: window.outerHeight,
-        width:  window.outerWidth,
-        left:   window.screenX,
-        top:    window.screenY,
-    });
+  client.message("/launchposition/dashboard/update", {
+    height: window.outerHeight,
+    width:  window.outerWidth,
+    left:   window.screenX,
+    top:    window.screenY,
+  });
 }, 60 * 1000);
 
 render(

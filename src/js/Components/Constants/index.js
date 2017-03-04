@@ -1,4 +1,4 @@
 module.exports = {
-    FRAME_SHIFT: "FRAME_SHIFT",
-    EXTRACT: "EXTRACT",
+  FRAME_SHIFT: "FRAME_SHIFT",
+  EXTRACT: "EXTRACT",
 };
