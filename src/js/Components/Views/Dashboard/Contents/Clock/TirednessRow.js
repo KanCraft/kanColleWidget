@@ -35,7 +35,11 @@ export default class TirednessRow extends Component {
       return `第${t.deck}艦隊疲労 ${(new Date(t.scheduled)).toRemainingMinutes()}分`;
     }
     const d = new Date(t.deck);
-    return `${d.toClockString()}出撃編成 ${(new Date(t.scheduled)).toRemainingMinutes()}分`;
+    return (
+      <span style={{cursor:"pointer"}} onClick={() => ScheduledQueues.remove("tiredness", t.deck)}>
+        {d.toClockString()}出撃編成 {(new Date(t.scheduled)).toRemainingMinutes()}分
+      </span>
+    );
   }
   getColor(t) {
     let p = this.getProgress(t);
