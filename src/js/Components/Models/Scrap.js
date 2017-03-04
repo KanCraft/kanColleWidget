@@ -1,7 +1,7 @@
 import {Model} from "chomex";
 
 /**
- * ScrapBookアーカイブに使えるやつ
+ * アーカイブに使えるやつ
  */
 class Scrap extends Model {
   static schema = {

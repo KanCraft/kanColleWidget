@@ -6,7 +6,7 @@ import SubNavigationBar         from "./Navigation/SubNavigationBar";
 import DownloadFileDialog       from "./Dialogs/DownloadFileDialog";
 import TweetDialog              from "./Dialogs/TweetDialog";
 import RequestTwitterAuthDialog from "./Dialogs/RequestTwitterAuthDialog";
-import ScrapBookDialog          from "./Dialogs/ScrapBookDialog";
+import ArchiveDialog            from "./Dialogs/ArchiveDialog";
 import Snackbar                 from "material-ui/Snackbar";
 
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
@@ -98,7 +98,7 @@ export default class CaptureView extends Component {
                 getFileSizeText={this.getFileSizeText.bind(this)}
                 onTweetClicked={this.onTweetClicked.bind(this)}
                 onDownloadClicked={this.onDownloadClicked.bind(this)}
-                onScrapBookClicked={this.onScrapBookClicked.bind(this)}
+                onArchiveClicked={this.onArchiveClicked.bind(this)}
                 onClickUndo={this.onClickUndo.bind(this)}
                 setTool={this.setTool.bind(this)}
                 selectedTool={this.state.tool.name}
@@ -131,11 +131,11 @@ export default class CaptureView extends Component {
               tweetAction={this.state.tweetAction}
               closeDialog={this.closeDialog.bind(this)}
             />
-        <ScrapBookDialog
-              ref="scrapbook"
-              opened={this.state.scrapbookDialogOpened}
-              close={() => this.setState({scrapbookDialogOpened: false})}
-              saveAsScrapBook={this.saveAsScrapBook.bind(this)}
+        <ArchiveDialog
+              ref="archive"
+              opened={this.state.archiveDialogOpened}
+              close={() => this.setState({archiveDialogOpened: false})}
+              saveAsArchive={this.saveAsArchive.bind(this)}
             />
         <Snackbar
               open={!!this.state.snackbarMessage}
@@ -148,8 +148,8 @@ export default class CaptureView extends Component {
   onDownloadClicked() {
     this.setState({dialogOpened: true});
   }
-  onScrapBookClicked() {
-    this.setState({scrapbookDialogOpened: true});
+  onArchiveClicked() {
+    this.setState({archiveDialogOpened: true});
   }
   onTweetClicked() {
     if (!this.state.twitterProfile) this.setState({tweetAction: "auth"});
@@ -210,7 +210,7 @@ export default class CaptureView extends Component {
       this.setState({dialogOpened: false});
     });
   }
-  saveAsScrapBook(name) {
+  saveAsArchive(name) {
     const fs = new FileSystem();
     const url = this.refs.canvas.toDataURL();
     const mimetype = fs.getMimeType(url);
@@ -224,16 +224,16 @@ export default class CaptureView extends Component {
       scrap.url = entry.toURL();
       scrap.save();
       this.setState({
-        scrapbookDialogOpened: false,
+        archiveDialogOpened: false,
         snackbarMessage: <a
-                  href="/dest/html/scrapbook.html"
+                  href="/dest/html/archive.html"
                   target="_blank"
                   style={{color: "#2196F3"}}
-                  >スクラップブックに保存しました 確認</a>,
+                  >アーカイブに保存しました 確認</a>,
       });
     }).catch(err => {
       this.setState({
-        scrapbookDialogOpened: false,
+        archiveDialogOpened: false,
         snackbarMessage: `保存失敗: ${err}`,
       });
     });

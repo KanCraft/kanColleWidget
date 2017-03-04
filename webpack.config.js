@@ -33,7 +33,7 @@ module.exports = {
         deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
         dashboard:  "./src/js/entrypoints/pages/dashboard.js",
         dsnapshot:  "./src/js/entrypoints/pages/dsnapshot.js",
-        scrapbook:  "./src/js/entrypoints/pages/scrapbook.js",
+        archive:    "./src/js/entrypoints/pages/archive.js",
         wiki:       "./src/js/entrypoints/pages/wiki.js",
         feedback:   "./src/js/entrypoints/pages/feedback.js",
         manual:     "./src/js/entrypoints/pages/manual.js",

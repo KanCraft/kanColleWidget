@@ -5,14 +5,14 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
-import  ScrapBookView from "../../Components/Views/ScrapBook";
+import  ArchiveView from "../../Components/Views/Archive";
 
 import { init } from "../global-pollution";
 init(window);
 
 render(
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    <ScrapBookView />
+    <ArchiveView />
   </MuiThemeProvider>,
   document.getElementById("main")
 );

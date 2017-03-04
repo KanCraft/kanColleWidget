@@ -53,7 +53,7 @@ export default class NavigationBar extends Component {
             {this.renderTextMenueItem()}
             <Divider />
             {this.renderDownloadItem()}
-            {this.renderScrapBookItem()}
+            {this.renderArchiveItem()}
             {this.renderTweetItem()}
             <Divider />
             {this.renderCompressItem()}
@@ -109,10 +109,10 @@ export default class NavigationBar extends Component {
           }/>
     );
   }
-  renderScrapBookItem() {
+  renderArchiveItem() {
     return (
-      <MenuItem onTouchTap={this.props.onScrapBookClicked} primaryText={
-        <IconButton tooltip="スクラップブックに保存">
+      <MenuItem onTouchTap={this.props.onArchiveClicked} primaryText={
+        <IconButton tooltip="アーカイブに保存">
           <Folder />
         </IconButton>
           }/>
@@ -166,7 +166,7 @@ export default class NavigationBar extends Component {
     compressImageSize: PropTypes.any,
     onTweetClicked:    PropTypes.any,
     onDownloadClicked: PropTypes.any,
-    onScrapBookClicked:PropTypes.func.isRequired,
+    onArchiveClicked:PropTypes.func.isRequired,
     onColorChanged:    PropTypes.any,
     onClickUndo:       PropTypes.func.isRequired,
     selectedTool:      PropTypes.any,

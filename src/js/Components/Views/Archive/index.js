@@ -11,7 +11,7 @@ import {grey500}  from "material-ui/styles/colors";
 import Scrap from "../../Models/Scrap";
 
 
-export default class ScrapBookView extends Component {
+export default class ArchiveView extends Component {
   constructor(props) {
     super(props);
     this.state = {

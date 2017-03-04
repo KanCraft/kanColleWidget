@@ -7,7 +7,7 @@ import TextField  from "material-ui/TextField";
 // import Config from "../../../Models/Config";
 // import Assets from "../../../Services/Assets";
 
-export default class ScrapBookDialog extends Component {
+export default class ArchiveDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ export default class ScrapBookDialog extends Component {
   render() {
     return (
       <Dialog
-            title="スクラップブックに保存"
+            title="アーカイブに保存"
             actions={[
               this.renderCancelButton(),
               this.renderSaveButton()
@@ -28,7 +28,7 @@ export default class ScrapBookDialog extends Component {
             >
         <TextField
               ref="scrapname"
-              name="scrapbook-name"
+              name="scrap-name"
               placeholder="2-5編成"
               onChange={ev => this._validate(ev.target.value)}
               errorText={this.state.error}
@@ -48,7 +48,7 @@ export default class ScrapBookDialog extends Component {
           primary={true}
           onTouchTap={() => {
             if (this._validate(this.refs.scrapname.getValue())) return;
-            this.props.saveAsScrapBook(this.refs.scrapname.getValue());
+            this.props.saveAsArchive(this.refs.scrapname.getValue());
           }}
         />;
   }
@@ -63,7 +63,7 @@ export default class ScrapBookDialog extends Component {
   static propTypes = {
     opened:          PropTypes.bool,
     close:           PropTypes.func.isRequired,
-    saveAsScrapBook: PropTypes.func.isRequired,
+    saveAsArchive:   PropTypes.func.isRequired,
   }
   static defaultProps = {
     opened: false,
