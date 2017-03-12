@@ -14,6 +14,8 @@ import Rectangle from "../../Services/Rectangle";
 
 import OCR from "../../Services/API/OCR";
 
+import {checkQuestStatus} from "./common";
+
 var __dock_id = null;
 
 /**
@@ -68,6 +70,7 @@ export function onRecoveryDocksDisplayed() {
       chrome.notifications.clear(id);
     });
   });
+  checkQuestStatus(RECOVERY);
 }
 
 export function onRecoverySpeedup(detail) {
