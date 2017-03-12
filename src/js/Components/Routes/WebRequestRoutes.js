@@ -26,6 +26,7 @@ router.on(["api_req_kousyou/createship_speedchange"], Controllers.onCreateShipSp
 router.on(["api_req_kousyou/createship"], Controllers.onCreateShipStart);
 router.on(["api_req_kousyou/getship"], Controllers.onGetShip);
 router.on(["api_req_kousyou/createitem"], Controllers.onCreateItem);
+router.on(["api_req_kousyou/remodel_slotlist"],Controllers.onRemodelItemPrepare);
 router.on(["api_req_kousyou/remodel_slot"], Controllers.onRemodelItem);
 router.on(["api_req_kousyou/destroyitem2"], Controllers.onDestroyItem);
 router.on(["api_req_kousyou/destroyship"],  Controllers.onDestroyShip);

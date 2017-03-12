@@ -86,6 +86,10 @@ export function onDestroyItem() {
   Achievement.increment(DESTROYITEM);
 }
 
+export function onRemodelItemPrepare() {
+  checkQuestStatus(REMODEL);
+}
+
 export function onRemodelItem() {
   Achievement.increment(REMODEL);
 }
