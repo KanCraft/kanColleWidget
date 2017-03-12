@@ -8,6 +8,8 @@ const resolver = (detail) => {
 // XXX: いったいこれはなんでlength:4のSerialRouterなの？
 let router = new SerialRouter(4, resolver);
 
+// 遠征関係
+router.on(["api_get_member/mission"], Controllers.onMissionPrepare);
 router.on(["api_req_mission/start"],  Controllers.onMissionStart);
 router.on(["api_req_mission/result"], Controllers.onMissionResult);
 router.on(["api_get_member/mapinfo"], Controllers.onMapPrepare);
