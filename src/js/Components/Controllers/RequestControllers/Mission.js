@@ -14,6 +14,8 @@ import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
 import Achievement from "../../Models/Achievement";
 
+import {checkQuestStatus} from "./common";
+
 /**
  * onMissionStart
  * 遠征に向かわせたときに発火するやつ
@@ -46,4 +48,8 @@ export function onMissionResult(detail) {
       chrome.notifications.clear(id);
     });
   });
+}
+
+export function onMissionPrepare() {
+  checkQuestStatus(MISSION);
 }

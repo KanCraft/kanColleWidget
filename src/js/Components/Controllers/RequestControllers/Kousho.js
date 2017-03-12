@@ -12,7 +12,9 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP,CREATEITEM,DESTROYITEM,REMODEL} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM,DESTROYSHIP,REMODEL} from "../../../Constants";
+
+import {checkQuestStatus} from "./common";
 
 var __dock_id = 1;
 
@@ -22,7 +24,7 @@ export function onCreateShipStart(detail) {
   if (api_highspeed == 1) __dock_id = null;
 
   Achievement.increment(CREATESHIP);
-
+  checkQuestStatus(CREATESHIP);
 }
 
 /**
@@ -76,8 +78,16 @@ export function onGetShip(/* detail */) {
   });
 }
 
+export function onDestroyShip() {
+  checkQuestStatus(DESTROYSHIP);
+}
+
 export function onDestroyItem() {
   Achievement.increment(DESTROYITEM);
+}
+
+export function onRemodelItemPrepare() {
+  checkQuestStatus(REMODEL);
 }
 
 export function onRemodelItem() {
