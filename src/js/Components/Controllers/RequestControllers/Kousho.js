@@ -12,7 +12,7 @@ import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
-import {CREATESHIP,CREATEITEM,DESTROYITEM,REMODEL} from "../../../Constants";
+import {CREATESHIP,CREATEITEM,DESTROYITEM,DESTROYSHIP,REMODEL} from "../../../Constants";
 
 import {checkQuestStatus} from "./common";
 
@@ -76,6 +76,10 @@ export function onGetShip(/* detail */) {
       chrome.notifications.clear(id);
     });
   });
+}
+
+export function onDestroyShip() {
+  checkQuestStatus(DESTROYSHIP);
 }
 
 export function onDestroyItem() {

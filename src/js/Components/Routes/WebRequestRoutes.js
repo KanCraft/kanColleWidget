@@ -20,12 +20,15 @@ router.on(["api_req_map/start"],      Controllers.onSortieStart);
 router.on(["api_req_nyukyo/start"],  Controllers.onRecoveryStart);
 router.on(["api_req_nyukyo/speedchange"], Controllers.onRecoverySpeedup);
 router.on(["api_req_hokyu/charge"],  Controllers.onSupply);
+
+// 工廠関係
 router.on(["api_req_kousyou/createship_speedchange"], Controllers.onCreateShipSpeedup);
 router.on(["api_req_kousyou/createship"], Controllers.onCreateShipStart);
 router.on(["api_req_kousyou/getship"], Controllers.onGetShip);
 router.on(["api_req_kousyou/createitem"], Controllers.onCreateItem);
 router.on(["api_req_kousyou/remodel_slot"], Controllers.onRemodelItem);
 router.on(["api_req_kousyou/destroyitem2"], Controllers.onDestroyItem);
+router.on(["api_req_kousyou/destroyship"],  Controllers.onDestroyShip);
 
 // 演習関係
 router.on(["api_req_practice/battle"], Controllers.onPracticeStart);
