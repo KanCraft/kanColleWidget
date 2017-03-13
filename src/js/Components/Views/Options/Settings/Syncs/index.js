@@ -64,6 +64,13 @@ export default class SyncSettingsView extends Component {
               </TableRowColumn>
             </TableRow>
             <TableRow>
+              <TableRowColumn>メモ帳</TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.config.keys.has("Memo")}
+                      onToggle={() => this.onToggle("Memo")}/>
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
               <TableRowColumn>
                 <RaisedButton label="save" icon={<CloudUpload />} style={{marginRight: "12px"}} onClick={this.save.bind(this)}/>
                 <RaisedButton label="load" labelPosition="before" icon={<CloudDownload />}      onClick={this.load.bind(this)}/>
