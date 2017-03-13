@@ -21,9 +21,11 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
     inAppActionButtons.setContext(self);
     document.body.appendChild(inAppActionButtons.html());
   });
+  let onBeforeUnloadFuncs = [() => {client.message("/sync/save");return false;}];
   client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
-    if (data.value) window.onbeforeunload = () => {return "TEST002"; };
+    if (data.value) onBeforeUnloadFuncs.push(() => true);
   });
+  window.onbeforeunload = () => onBeforeUnloadFuncs.map(f => f()).filter(r => !!r).length ? true : null;
 });
 
 (new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);

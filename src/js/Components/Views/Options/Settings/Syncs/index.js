@@ -10,12 +10,14 @@ import CloudDownload      from "material-ui/svg-icons/file/cloud-download";
 
 import Config from "../../../../Models/Config";
 import Description from "../Description";
+import Detail      from "../../Detail";
 
 export default class SyncSettingsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: Config.find("data-sync"),
+      config:   Config.find("data-sync"),
+      autosave: Config.find("data-sync-autosave"),
       output: "",
     };
     this.client = new Client(chrome.runtime);
@@ -50,6 +52,27 @@ export default class SyncSettingsView extends Component {
               </TableRowColumn>
             </TableRow>
             <TableRow>
+              <TableRowColumn>任務進捗</TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.config.keys.has("Quest")}
+                      onToggle={() => this.onToggle("Quest")}/>
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>鎮守府実績記録</TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.config.keys.has("Achievement")}
+                      onToggle={() => this.onToggle("Achievement")}/>
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>メモ帳</TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.config.keys.has("Memo")}
+                      onToggle={() => this.onToggle("Memo")}/>
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
               <TableRowColumn>
                 <RaisedButton label="save" icon={<CloudUpload />} style={{marginRight: "12px"}} onClick={this.save.bind(this)}/>
                 <RaisedButton label="load" labelPosition="before" icon={<CloudDownload />}      onClick={this.load.bind(this)}/>
@@ -60,8 +83,13 @@ export default class SyncSettingsView extends Component {
             </TableRow>
             <TableRow>
               <TableRowColumn>
+                オートセーブ
+                <Detail>ゲーム画面を閉じるときにSAVEが走ります</Detail>
               </TableRowColumn>
-              <TableRowColumn></TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.autosave.value}
+                  onToggle={(ev, value) => this.onAutoSaveToggle(value)}/>
+              </TableRowColumn>
             </TableRow>
           </TableBody>
         </Table>
@@ -84,6 +112,10 @@ export default class SyncSettingsView extends Component {
     else config.keys = config.keys.concat([key]);
     config.save();
     this.setState({config});
+  }
+  onAutoSaveToggle(value) {
+    this.state.autosave.update({value});
+    this.setState({autosave:this.state.autosave});
   }
   static propTypes = {
     styles: PropTypes.object.isRequired

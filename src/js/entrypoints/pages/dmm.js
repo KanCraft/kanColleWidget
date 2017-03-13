@@ -22,14 +22,17 @@ client.message("/window/should-decorate").then((res) => {
       window.outerHeight - innerHeight
     );
 
+  let onBeforeUnloadFuncs = [() => {client.message("/sync/save");return false;}];
+
   switch(res.tab.frame.decoration) {
   case FRAME_SHIFT:
     DecorateDMMPage.init(window).decorate(res.tab.frame);
     client.message("/window/zoom:set", {zoom: res.tab.frame.zoom});
     (new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
     client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
-      if (data.value) window.onbeforeunload = () => {return "TEST002"; };
+      if (data.value) onBeforeUnloadFuncs.push(() => true);
     });
+    window.onbeforeunload = () => onBeforeUnloadFuncs.map(f => f()).filter(r => !!r).length ? true : null;
     break;
   case EXTRACT:
     var routine = ExtractFlash.init(window);
