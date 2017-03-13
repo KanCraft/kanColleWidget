@@ -10,12 +10,14 @@ import CloudDownload      from "material-ui/svg-icons/file/cloud-download";
 
 import Config from "../../../../Models/Config";
 import Description from "../Description";
+import Detail      from "../../Detail";
 
 export default class SyncSettingsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: Config.find("data-sync"),
+      config:   Config.find("data-sync"),
+      autosave: Config.find("data-sync-autosave"),
       output: "",
     };
     this.client = new Client(chrome.runtime);
@@ -81,8 +83,13 @@ export default class SyncSettingsView extends Component {
             </TableRow>
             <TableRow>
               <TableRowColumn>
+                オートセーブ
+                <Detail>ゲーム画面を閉じるときにSAVEが走ります</Detail>
               </TableRowColumn>
-              <TableRowColumn></TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.autosave.value}
+                  onToggle={(ev, value) => this.onAutoSaveToggle(value)}/>
+              </TableRowColumn>
             </TableRow>
           </TableBody>
         </Table>
@@ -105,6 +112,10 @@ export default class SyncSettingsView extends Component {
     else config.keys = config.keys.concat([key]);
     config.save();
     this.setState({config});
+  }
+  onAutoSaveToggle(value) {
+    this.state.autosave.update({value});
+    this.setState({autosave:this.state.autosave});
   }
   static propTypes = {
     styles: PropTypes.object.isRequired

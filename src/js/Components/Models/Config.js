@@ -20,6 +20,7 @@ Config.default = {
   "data-sync": {
     keys: []
   },
+  "data-sync-autosave": {value: false},
   "notification-display": {
     onstart:  true,
     onfinish: true,
