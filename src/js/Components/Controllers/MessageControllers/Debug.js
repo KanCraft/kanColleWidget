@@ -64,6 +64,10 @@ if (process.env.NODE_ENV != "production") {
   var registry = {
     "message": {
       ...ConfigControllers,
+    },
+    "request": {
+      ...require("../RequestControllers/Port"),
+      ...require("../RequestControllers/Deck"),
     }
   };
   module.exports.ExecuteController = ({kind, controller, params}) => {

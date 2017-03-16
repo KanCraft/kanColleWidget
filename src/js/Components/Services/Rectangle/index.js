@@ -39,6 +39,91 @@ class Rectangle {
     return new Rectangle(0, 0, this.width, this.height);
   }
 
+  /**
+   * 資源推移のやつ（燃料）
+   */
+  static resource = {
+    x: [1/1.18, 1/1.071],
+    y: [1/14.5, 1/9.2],
+    w: 1/16, h: 1/29,
+  }
+  ofResourceFuel() {
+    const start = {
+      x: this.x + (this.width  * Rectangle.resource.x[0]),
+      y: this.y + (this.height * Rectangle.resource.y[0]),
+    };
+    const size = {
+      width:  this.width  * Rectangle.resource.w,
+      height: this.height * Rectangle.resource.h,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
+  /**
+   * 資源推移のやつ（弾薬）
+   */
+  ofResourceAmmo() {
+    const start = {
+      x: this.x + (this.width  * Rectangle.resource.x[0]),
+      y: this.y + (this.height * Rectangle.resource.y[1]),
+    };
+    const size = {
+      width:  this.width  * Rectangle.resource.w,
+      height: this.height * Rectangle.resource.h,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
+  ofResourceSteel() {
+    const start = {
+      x: this.x + (this.width  * Rectangle.resource.x[1]),
+      y: this.y + (this.height * Rectangle.resource.y[0]),
+    };
+    const size = {
+      width:  this.width  * Rectangle.resource.w,
+      height: this.height * Rectangle.resource.h,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
+  ofResourceBauxite() {
+    const start = {
+      x: this.x + (this.width  * Rectangle.resource.x[1]),
+      y: this.y + (this.height * Rectangle.resource.y[1]),
+    };
+    const size = {
+      width:  this.width  * Rectangle.resource.w,
+      height: this.height * Rectangle.resource.h,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
+  /**
+   * 資源推移のやつ（バケツ）
+   */
+  ofResourceBuckets() {
+    const start = {
+      x: this.x + (this.width/1.18),
+      y: this.y + (this.height/49),
+    };
+    const size = {
+      width:  this.width/6.65,
+      height: this.height/8.2,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
+
     /**
      * 修復入渠時の、ひとつのドック全体を切り出す座標.
      * おもに、GosseractAPIで用いられる.

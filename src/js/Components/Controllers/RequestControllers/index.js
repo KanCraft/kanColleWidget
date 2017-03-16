@@ -9,6 +9,7 @@ import * as SortieControllers from "./Sortie";
 import * as SupplyControllers from "./Supply";
 import * as QuestControllers from "./Quest";
 import * as PracticeControllers from "./Practice";
+import * as DeckControllers from "./Deck";
 
 const RequestControllers = {
   ...KoushoControllers,
@@ -22,6 +23,7 @@ const RequestControllers = {
   ...SupplyControllers,
   ...QuestControllers,
   ...PracticeControllers,
+  ...DeckControllers,
 };
 
 module.exports = RequestControllers;

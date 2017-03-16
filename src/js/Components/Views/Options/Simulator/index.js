@@ -8,7 +8,8 @@ export default class SimulatorView extends Component {
     super(props);
     this.state = {
       kind:       "request",
-      controller: "onCombinedBattleResulted",
+      // controller: "onCombinedBattleResulted",
+      controller: "onDeck",
       params:     {__this:{}},
       raw:        JSON.stringify({__this:{}}, null, 2),
       error:      null,
@@ -106,6 +107,7 @@ const controllers = {
     "onBattleStarted",
     "onCombinedBattleResulted",
     "onCombinedBattleStarted",
+    "onDeck",
   ],
   "message": [
     "GetConfig",

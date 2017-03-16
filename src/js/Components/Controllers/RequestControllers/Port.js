@@ -12,9 +12,3 @@ export function onHomePort(/* detail */) {
 
   SortieContext.sharedInstance().sweepsnapshot();
 }
-
-// とりあえずここでいいや
-import Resource from "../../Models/Resource";
-export function onDeck() {
-  Resource.tracker().snapshot();
-}
