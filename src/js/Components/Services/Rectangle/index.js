@@ -111,12 +111,12 @@ class Rectangle {
    */
   ofResourceBuckets() {
     const start = {
-      x: this.x + (this.width/1.18),
-      y: this.y + (this.height/49),
+      x: this.x + (this.width/1.16),
+      y: this.y + (this.height/42),
     };
     const size = {
-      width:  this.width/6.65,
-      height: this.height/8.2,
+      width:  this.width/19,
+      height: this.height/32,
     };
     return new Rectangle(
       start.x, start.y,
