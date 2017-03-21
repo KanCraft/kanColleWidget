@@ -32,7 +32,8 @@ export default class DashboardStatistics extends Component {
         <LineChart width={w * 0.8} height={h * 0.9} data={this.state.list}>
           <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
 
-          <XAxis dataKey={r => (new Date(r.created)).toDateString()} />
+          <XAxis dataKey={r => (new Date(r.created)).format("MM/dd HH:mm")} />
+
           <Tooltip />
           <Legend />
 
