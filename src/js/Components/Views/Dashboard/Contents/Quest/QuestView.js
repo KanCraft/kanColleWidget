@@ -6,6 +6,45 @@ import KanColleDate from "../../../../Services/KanColleDate";
 import Quest, {DONE, HIDDEN} from "../../../../Models/Quest";
 import QuestStatus from "./QuestStatus";
 
+import Done from "material-ui/svg-icons/action/done";
+
+class QuestClearView extends Component {
+  render() {
+    const styles = {
+      outline: {
+        width: "96%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      },
+      title: {
+        textAlign: "center",
+      },
+      container: {
+        flex: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      done: {
+        color: grey400,
+        width:  "80px",
+        height: "80px",
+      }
+    };
+    return (
+      <div style={styles.outline}>
+        <div style={styles.title}>
+          <b>本日の任務は全て達成されました</b>
+        </div>
+        <div style={styles.container}>
+          <Done style={styles.done}/>
+        </div>
+      </div>
+    );
+  }
+}
+
 export default class QuestView extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +75,7 @@ export default class QuestView extends Component {
     );
   }
   render() {
+    if (this.state.daily.length == 0) return <QuestClearView />;
     let now = new KanColleDate();
     return (
       <table style={{width: "96%"}}>
