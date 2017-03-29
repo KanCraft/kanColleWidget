@@ -83,7 +83,7 @@ Config.default = {
     value: false,
   },
   "quest-manager-alert": { // 任務着手忘れ防止アラート
-    value: false,
+    value: "disabled", // "notification", "alert"
   },
   "debug": {
     value: false
