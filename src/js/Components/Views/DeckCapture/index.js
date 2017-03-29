@@ -15,36 +15,18 @@ import {Row, Col} from "../Grid";
 
 import {ImageCell, EmptyCell, CameraCell} from "./Cells";
 
-import History from "../../Models/History";
+import DeckCaptureConfig from "../../Models/DeckCaptureConfig";
 
 const client = new Client(chrome.runtime);
 
 class DeckCaptureView extends Component {
   constructor(props) {
     super(props);
-        // TODO: きちゃないなーこのへん
-    let def1 = {
-      row: 3, col: 2, name: "編成キャプチャ",
-      rect: Rectangle.catalog.defaultDeckcapture,
-      protected: true,
-    };
-    let def2 = {
-      row: 3, col: 2, name: "連合編成キャプチャ",
-      rect: Rectangle.catalog.defaultDeckcapture,
-      protected: true,
-      panels: 2,
-      labels: ["第一艦隊", "第二艦隊"],
-    };
-    let def3 = {
-      row: 1, col: 3, name: "基地航空隊",
-      rect: Rectangle.catalog.defaultAviation,
-      protected: true,
-    };
     this.state = {
-      config: def1,
+      config: DeckCaptureConfig.find("normal"),
       pictures: [],
       whole: null,
-      settings: [def1, def2, def3].concat(History.find("custom-capture").settings),
+      settings: DeckCaptureConfig.list(),
       modified: false,
       openSaveSettingDialog: false,
       settingName: "", // TODO: これなんかもダイアログ分離して置くべき
@@ -185,11 +167,7 @@ class DeckCaptureView extends Component {
     this.setState({settingName: ev.target.value});
   }
   saveSetting() {
-        // Historyにぶっこむ
-    let history = History.find("custom-capture");
-    history.settings.push(this.getCurrentSetting());
-    if (history.settings.length > 2) history.settings.unshift();
-    history.save();
+    DeckCaptureConfig.create(this.getCurrentSetting());
     this.setState({openSaveSettingDialog: false});
   }
   getCurrentSetting() {
