@@ -255,6 +255,7 @@ class DeckCaptureView extends Component {
                   onChange={this.onRectChanged.bind(this)}
                   />
             <FlatButton label="↑この設定に名前をつけて保存" primary={true} style={{width:"100%"}} onClick={this.openSaveSettingDialog.bind(this)} disabled={!this.state.modified}/>
+            {this.state.config.protected ? null : <FlatButton label="この設定を削除" secondary={true} style={{width:"100%"}} onClick={() => this.state.config.delete() && location.reload()} />}
             {/* TODO: このダイアログ分離したよほうがいいぞ */}
             <Dialog
                   title="この設定に名前をつけて保存"
