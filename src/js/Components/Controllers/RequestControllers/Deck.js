@@ -17,8 +17,10 @@ export function onDeck() {
   const ocr = new OCR();
   const captures = new CaptureService();
   WindowService.getInstance().find(true)
-  // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので、rejectする
-  .then(tab => tab.width < 400 ? Promise.reject() : Promise.resolve(tab))
+  // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので除外する
+  .then(tab => tab.width < 800 ? Promise.reject() : Promise.resolve(tab))
+  // 画面比がぴったりでない場合は、めんどいので除外する
+  .then(tab => tab.width/tab.height == 800/480 ? Promise.resolve(tab) : Promise.reject())
   .then(tab => captures.capture(tab.windowId))
   .then(uri => Image.init(uri))
   .then(img => {
