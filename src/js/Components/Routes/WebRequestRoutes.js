@@ -55,6 +55,8 @@ router.on(["api_req_combined_battle/ld_airbattle"],     Controllers.onCombinedBa
 
 // 母校帰投
 router.on(["api_port/port"],         Controllers.onHomePort);
+// 編成画面表示
+router.on(["api_get_member/preset_deck"], Controllers.onDeck);
 
 const WebRequestListener = router.listener();
 export {

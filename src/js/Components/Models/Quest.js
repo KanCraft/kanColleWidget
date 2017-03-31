@@ -70,13 +70,17 @@ export default class Quest extends Model {
     return d.getDate() == 3 || d.getDate() == 7 || d.getDate() == 0;
   }
 
-  static alert(quests) {
+  static alert(quests, plain = false) {
+    const title = "未着手任務があります";
+    if (plain) {
+      return `${title}\n\n${quests.map(q => "→" + q.title).join("\n")}`;
+    }
     return [
       "quest-alert",
       {
         type:    "list",
         iconUrl: "./dest/img/icons/chang.white.png",
-        title:   "未着手任務があります",
+        title,
         message: "",
         items: quests.map(q => q._alertItem())
       }
