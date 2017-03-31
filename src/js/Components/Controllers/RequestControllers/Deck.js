@@ -8,17 +8,22 @@ import Rectangle      from "../../Services/Rectangle";
 import WindowService  from "../../Services/WindowService";
 import OCR            from "../../Services/API/OCR";
 
+function _isSameDate(x, y) {
+  const a = new Date(x), b = new Date(y);
+  return a.getMonth()*100+a.getDate() == b.getMonth()*100+b.getDate();
+}
+
 export function onDeck() {
-  // {{{ とりあえず頻繁すぎるのは無視する。4時間ごと
-  const th = 4*60*60*1000;
-  let last = Resource.last();
-  if (last && Date.now() - last.created < th) return false;
-  // }}}
   const ocr = new OCR();
   const captures = new CaptureService();
+  const last = Resource.last() || {};
+  const _10min = 10*60*1000;
+  if (Date.now() - last.created < _10min) return true;// あんまりherokuを酷使しない
   WindowService.getInstance().find(true)
-  // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので、rejectする
-  .then(tab => tab.width < 400 ? Promise.reject() : Promise.resolve(tab))
+  // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので除外する
+  .then(tab => tab.width < 800 ? Promise.reject() : Promise.resolve(tab))
+  // 画面比がぴったりでない場合は、めんどいので除外する
+  .then(tab => tab.width/tab.height == 800/480 ? Promise.resolve(tab) : Promise.reject())
   .then(tab => captures.capture(tab.windowId))
   .then(uri => Image.init(uri))
   .then(img => {
@@ -37,6 +42,7 @@ export function onDeck() {
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, created: Date.now(),
+    _id: _isSameDate(last.created, Date.now()) ? last._id : undefined
   })))
   .then(resource => resource.save());
   return true;

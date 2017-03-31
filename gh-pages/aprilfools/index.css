@@ -1,0 +1,28 @@
+body {
+  background-image: url('../img/background-akebono.png');
+  background-size: auto 70%;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.section {
+  background-color: transparent;
+}
+a {
+  color: #ffacc4;
+  text-shadow: 0 1px 0 white;
+}
+a:hover {
+  color: #ff0cc0;
+}
+h2.subtitle {
+  font-size: 0.8em;
+  width: 80%;
+  margin: 0 auto;
+}
+.hero-body {
+  padding-bottom: 20px;
+}
+small.note {
+  color: #ffacc4;
+}

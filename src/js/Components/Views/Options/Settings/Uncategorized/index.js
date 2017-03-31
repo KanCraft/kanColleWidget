@@ -3,7 +3,6 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 import Detail from "../../Detail";
@@ -79,10 +78,15 @@ class QuestManagerAlert extends Component {
                   任務着手忘れ防止アラートを出す
                 </TableRowColumn>
             <TableRowColumn>
-              <Toggle toggled={this.state.model.value} onToggle={(ev, value) => {
-                this.state.model.update({value});
-                this.setState({model:this.state.model});
-              }} />
+              <div>
+                <SelectField value={this.state.model.value} fullWidth={true} onChange={(ev, i, value) => {
+                  let model = this.state.model; model.update({value}); this.setState({model});
+                }}>
+                  <MenuItem value={"disabled"}     primaryText={"無効"} />
+                  <MenuItem value={"notification"} primaryText={"通知ポップアップを使う"} />
+                  <MenuItem value={"alert"}        primaryText={"アラートダイアログを使う"} />
+                </SelectField>
+              </div>
             </TableRowColumn>
           </TableRow>
         </TableBody>

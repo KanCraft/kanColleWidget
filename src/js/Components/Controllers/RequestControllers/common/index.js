@@ -4,8 +4,12 @@ import NotificationService from "../../../Services/NotificationService";
 
 export function checkQuestStatus(trigger) {
   const quests = Quest.daily(false).filter(q => q.trigger == trigger && q.state == YET);
-  if (quests.length && Config.find("quest-manager-alert").value) {
-    const notifications = new NotificationService();
-    notifications.create(...Quest.alert(quests));
+  const config = Config.find("quest-manager-alert");
+  if (quests.length == 0) return;
+  switch (config.value) {
+  case false:      return;
+  case "disabled": return;
+  case "notification": return (new NotificationService()).create(...Quest.alert(quests));
+  case "alert":        return window.alert(Quest.alert(quests, true));
   }
 }
