@@ -67,5 +67,8 @@
       "./tests/mock/URLSearchParams.js",
       "./tests/mock/localStorage.js"
     ]
+  },
+  "dependencies": {
+    "recharts": "^0.21.2"
   }
 }
