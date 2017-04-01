@@ -1,5 +1,5 @@
 {
-  "name": "kcwidget",
+  "name": "kanColleWidget",
   "version": "2.0.45",
   "description": "KanColleWidget for Chrome/Firefox",
   "engines": {
@@ -16,13 +16,13 @@
     "fetch-wiki": "./node_modules/.bin/coffee ./scripts/fetch-wiki.coffee",
     "start": "webpack --watch --progress"
   },
-  "repository": "git+https://github.com/otiai10/kcwidget.git",
+  "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/otiai10/kcwidget/issues"
+    "url": "https://github.com/otiai10/kanColleWidget/issues"
   },
-  "homepage": "https://github.com/otiai10/kcwidget#readme",
+  "homepage": "https://github.com/otiai10/kanColleWidget#readme",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.24.0",
