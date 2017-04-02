@@ -12,6 +12,8 @@ import {Mission, ScheduledQueues} from "../../Models/Queue/Queue";
 import Config from "../../Models/Config";
 import NotificationService from "../../Services/NotificationService";
 const notifications = new NotificationService();
+import Publisher   from "../../Services/Publisher";
+import Subscriber  from "../../Models/Subscriber";
 import Achievement from "../../Models/Achievement";
 
 import {checkQuestStatus} from "./common";
@@ -33,6 +35,7 @@ export function onMissionStart(detail) {
 
   if (Config.find("notification-display").onstart) notifications.create(mission.toNotificationID(), mission.toNotificationParamsForStart());
   notifications.clear(id => id == "strict-mission-warning");
+  Publisher.to(Subscriber.list()).publish(mission);
 }
 
 export function onMissionResult(detail) {

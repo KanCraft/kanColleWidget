@@ -14,6 +14,9 @@ import Rectangle from "../../Services/Rectangle";
 
 import OCR from "../../Services/API/OCR";
 
+import Publisher   from "../../Services/Publisher";
+import Subscriber  from "../../Models/Subscriber";
+
 import {checkQuestStatus} from "./common";
 
 var __dock_id = null;
@@ -60,6 +63,7 @@ export function onRecoveryStartCompleted(detail, dock = __dock_id) {
       const recovery = new Recovery(Date.now() + length, dock, time);
       if (recovery.isValid()) ScheduledQueues.append(RECOVERY, recovery);
       if (Config.find("notification-display").onstart) notifications.create(recovery.toNotificationID(), recovery.toNotificationParamsForStart());
+      Publisher.to(Subscriber.list()).publish(recovery);
     });
 }
 
