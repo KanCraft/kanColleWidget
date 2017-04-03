@@ -85,6 +85,7 @@ Config.default = {
   "quest-manager-alert": { // 任務着手忘れ防止アラート
     value: "disabled", // "notification", "alert"
   },
+  "allow-external-api": {value: false},
   "debug": {
     value: false
   }
