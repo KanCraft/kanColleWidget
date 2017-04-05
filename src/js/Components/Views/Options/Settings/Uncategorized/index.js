@@ -118,7 +118,7 @@ class ResourceStatistics extends Component {
             </TableRowColumn>
             <TableRowColumn>
               <div style={{display:"flex"}}>
-                <div style={{flex:1}}>
+                <div style={{paddingRight: "36px"}}>
                   <Toggle toggled={this.state.model.enabled} onToggle={this.onToggle.bind(this)}/>
                 </div>
                 {this.state.model.enabled ? <div style={{flex:1}}>
