@@ -51,6 +51,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.1.0",
     "react-tap-event-plugin": "^2.0.1",
+    "recharts": "^0.21.2",
     "shelljs": "^0.7.7",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
@@ -67,8 +68,5 @@
       "./tests/mock/URLSearchParams.js",
       "./tests/mock/localStorage.js"
     ]
-  },
-  "dependencies": {
-    "recharts": "^0.21.2"
   }
 }
