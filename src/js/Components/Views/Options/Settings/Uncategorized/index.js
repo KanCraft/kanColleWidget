@@ -3,6 +3,7 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 import Detail from "../../Detail";
@@ -18,6 +19,7 @@ export default class UncategorizedSettings extends Component {
         <PopupBackgroundImageSetting />
         <StrictMissionRotation />
         <QuestManagerAlert />
+        <ResourceStatistics />
       </div>
     );
   }
@@ -86,6 +88,42 @@ class QuestManagerAlert extends Component {
                   <MenuItem value={"notification"} primaryText={"通知ポップアップを使う"} />
                   <MenuItem value={"alert"}        primaryText={"アラートダイアログを使う"} />
                 </SelectField>
+              </div>
+            </TableRowColumn>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+  }
+}
+
+class ResourceStatistics extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      model: Config.find("resource-statistics"),
+    };
+  }
+  onToggle(ev, enabled) {
+    this.state.model.update({enabled});
+    this.setState({model: this.state.model});
+  }
+  render() {
+    return (
+      <Table selectable={false}>
+        <TableBody displayRowCheckbox={false}>
+          <TableRow>
+            <TableRowColumn>
+              資源推移表を使う
+            </TableRowColumn>
+            <TableRowColumn>
+              <div style={{display:"flex"}}>
+                <div style={{flex:1}}>
+                  <Toggle toggled={this.state.model.enabled} onToggle={this.onToggle.bind(this)}/>
+                </div>
+                {this.state.model.enabled ? <div style={{flex:1}}>
+                  <a href="/dest/html/statistics.html">資源推移表</a>
+                </div> : null}
               </div>
             </TableRowColumn>
           </TableRow>

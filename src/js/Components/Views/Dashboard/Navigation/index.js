@@ -19,6 +19,12 @@ export class MenuNavigation extends Component {
     this.state = {
       schedule: {}
     };
+    this.tabs = [
+      <VTabItem key={0} icon={<Schedule style={this.state.schedule} />} />,
+      <VTabItem key={1} icon={<PlaylistAddCheck />} />,
+      <VTabItem key={2} icon={<Assignment       />} />,
+    ];
+    if (Config.find("resource-statistics").enabled) this.tabs.push(<VTabItem key={3} icon={<Timeline/>}/>);
   }
   componentDidMount() {
     this.interval = setInterval(() => {
@@ -36,10 +42,7 @@ export class MenuNavigation extends Component {
   render() {
     return (
       <VTabs selectedIndex={this.props.index} onItemSelected={this.props.select}>
-        <VTabItem icon={<Schedule style={this.state.schedule} />} />
-        <VTabItem icon={<PlaylistAddCheck />} />
-        <VTabItem icon={<Timeline         />} />
-        <VTabItem icon={<Assignment       />} />
+        {this.tabs}
       </VTabs>
     );
   }
