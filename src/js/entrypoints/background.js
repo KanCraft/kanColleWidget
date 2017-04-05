@@ -31,5 +31,9 @@ chrome.notifications.onButtonClicked.addListener(NotificationButtonClickListener
 import CommandRouter from "../Components/Routes/CommandRoutes";
 chrome.commands.onCommand.addListener(CommandRouter);
 
+// 外部Chrome拡張からのsendMessageを受けるroutesの定義
+import ExternalMessageRouter from "../Components/Routes/ExternalMessageRoutes";
+chrome.runtime.onMessageExternal.addListener(ExternalMessageRouter);
+
 import {init} from "./global-pollution";
 init(window);
