@@ -36,6 +36,7 @@ module.exports = {
     archive:    "./src/js/entrypoints/pages/archive.js",
     wiki:       "./src/js/entrypoints/pages/wiki.js",
     feedback:   "./src/js/entrypoints/pages/feedback.js",
+    statistics: "./src/js/entrypoints/pages/statistics.js",
     manual:     "./src/js/entrypoints/pages/manual.js",
     background: "./src/js/entrypoints/background.js",
   },
