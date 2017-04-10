@@ -115,6 +115,11 @@ class ResourceStatistics extends Component {
           <TableRow>
             <TableRowColumn>
               資源推移表を使う
+              <Detail>
+                この設定をonにすると、以下の条件で右上の資源の表示を画像解析で取得します。
+                (1) 編成画面への遷移時で、(2) 画面が中型以上の大きさを持っており、(3) 縦横比が800x480ぴったり、
+                (4) なお取得成功した場合も同日中のレコードは上書きして1つのレコードとして保存されます。
+              </Detail>
             </TableRowColumn>
             <TableRowColumn>
               <div style={{display:"flex"}}>

@@ -12,7 +12,7 @@ import {Table,TableHeader,TableBody} from "material-ui/Table";
 import ResourceRow from "./ResourceRow";
 import ControlRow  from "./ControlRow";
 
-import {green500} from "material-ui/styles/colors";
+import {green500,grey400} from "material-ui/styles/colors";
 
 export default class StatisticsView extends Component {
   constructor(props) {
@@ -69,6 +69,13 @@ export default class StatisticsView extends Component {
               {rows.map(r => <ResourceRow resource={r} key={r._id} refresh={this.refresh.bind(this)}/>)}
             </TableBody>
           </Table>
+        </div>
+        <div>
+          <p style={{textAlign:"center", padding:"48px", color:grey400}}>
+            資源推移表は、以下の条件で右上の資源の表示を画像解析で取得します。
+            (1) 編成画面への遷移時で、(2) 画面が中型（通常プレー画面）以上の大きさを持っており、(3) 縦横比が800x480ぴったり、
+            (4) なお取得成功した場合も同日中のレコードは上書きして1つのレコードとして保存されます。
+          </p>
         </div>
       </div>
     );
