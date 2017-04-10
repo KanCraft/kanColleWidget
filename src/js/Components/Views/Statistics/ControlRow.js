@@ -5,9 +5,25 @@ import RaisedButton from "material-ui/RaisedButton";
 import {Client} from "chomex";
 
 export default class ResourceRow extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nowloading: false,
+    };
+  }
   onClick() {
+    this.setState({nowloading:true});
     const client = new Client(chrome.runtime);
-    client.message("/resources/capture").then(() => this.props.refresh());
+    client.message("/resources/capture").then(() => {
+      setTimeout(() => {
+        this.setState({nowloading:false}, () => {
+          this.props.refresh();
+        });
+      }, 100);
+    }).catch(err => {
+      this.setState({nowloading:false});
+      window.alert(JSON.stringify(err));
+    });
   }
   render() {
     return (
@@ -19,7 +35,7 @@ export default class ResourceRow extends Component {
         <TableHeaderColumn>ボーキサイト</TableHeaderColumn>
         <TableHeaderColumn>修復材</TableHeaderColumn>
         <TableHeaderColumn>
-          <RaisedButton onClick={this.onClick.bind(this)} style={{width:"100%"}} label="取得" />
+          <RaisedButton disabled={this.state.nowloading} onClick={this.onClick.bind(this)} style={{width:"100%"}} label="取得" />
         </TableHeaderColumn>
       </TableRow>
     );
