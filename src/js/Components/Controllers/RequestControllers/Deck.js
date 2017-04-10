@@ -13,12 +13,12 @@ function _isSameDate(x, y) {
   return a.getMonth()*100+a.getDate() == b.getMonth()*100+b.getDate();
 }
 
-export function onDeck() {
+export function onDeck(force = false) {
   const ocr = new OCR();
   const captures = new CaptureService();
   const last = Resource.last() || {};
   const _10min = 10*60*1000;
-  if (Date.now() - last.created < _10min) return true;// あんまりherokuを酷使しない
+  if (!force && Date.now() - last.created < _10min) return true;// あんまりherokuを酷使しない
   WindowService.getInstance().find(true)
   // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので除外する
   .then(tab => tab.width < 800 ? Promise.reject() : Promise.resolve(tab))
