@@ -1,7 +1,7 @@
 import React, {Component,PropTypes} from "react";
 import {TableRow, TableHeaderColumn} from "material-ui/Table";
 import RaisedButton from "material-ui/RaisedButton";
-
+import c from "../../../Constants/colors";
 import {Client} from "chomex";
 
 export default class ResourceRow extends Component {
@@ -29,11 +29,11 @@ export default class ResourceRow extends Component {
     return (
       <TableRow>
         <TableHeaderColumn>日付</TableHeaderColumn>
-        <TableHeaderColumn>燃料</TableHeaderColumn>
-        <TableHeaderColumn>弾薬</TableHeaderColumn>
-        <TableHeaderColumn>鋼材</TableHeaderColumn>
-        <TableHeaderColumn>ボーキサイト</TableHeaderColumn>
-        <TableHeaderColumn>修復材</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.fuel}}>燃料</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.ammo}}>弾薬</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.steel}}>鋼材</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.bauxite}}>ボーキサイト</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.buckets}}>修復材</TableHeaderColumn>
         <TableHeaderColumn>
           <RaisedButton disabled={this.state.nowloading} onClick={this.onClick.bind(this)} style={{width:"100%"}} label="取得" />
         </TableHeaderColumn>
