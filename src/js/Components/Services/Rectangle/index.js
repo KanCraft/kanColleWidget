@@ -123,6 +123,23 @@ class Rectangle {
       size.width, size.height
     );
   }
+  /**
+   * 資源推移のやつ（開発資材）
+   */
+  ofResourceMaterial() {
+    const start = {
+      x: this.x + (this.width/1.06),
+      y: this.y + (this.height/42),
+    };
+    const size = {
+      width:  this.width/19,
+      height: this.height/32,
+    };
+    return new Rectangle(
+      start.x, start.y,
+      size.width, size.height
+    );
+  }
 
     /**
      * 修復入渠時の、ひとつのドック全体を切り出す座標.

@@ -34,6 +34,7 @@ export default class ResourceRow extends Component {
         <TableHeaderColumn style={{color:c.steel}}>鋼材</TableHeaderColumn>
         <TableHeaderColumn style={{color:c.bauxite}}>ボーキサイト</TableHeaderColumn>
         <TableHeaderColumn style={{color:c.buckets}}>修復材</TableHeaderColumn>
+        <TableHeaderColumn style={{color:c.material}}>開発材</TableHeaderColumn>
         <TableHeaderColumn>
           <RaisedButton disabled={this.state.nowloading} onClick={this.onClick.bind(this)} style={{width:"100%"}} label="取得" />
         </TableHeaderColumn>

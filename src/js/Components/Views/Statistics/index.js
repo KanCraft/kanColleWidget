@@ -52,6 +52,7 @@ export default class StatisticsView extends Component {
 
             <YAxis yAxisId="資材" orientation="right" stroke="#000" />
             <Line type="natural" yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
+            <Line type="natural" yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
           </LineChart>
         </div>
         <div>

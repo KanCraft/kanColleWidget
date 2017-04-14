@@ -15,6 +15,7 @@ export default class ResourceRow extends Component {
         <TableRowColumn>{r.steel}</TableRowColumn>
         <TableRowColumn>{r.bauxite}</TableRowColumn>
         <TableRowColumn>{r.buckets}</TableRowColumn>
+        <TableRowColumn>{r.material}</TableRowColumn>
         <TableRowColumn style={{textAlign:"center"}}>
           <Delete color={grey500} style={{cursor:"pointer"}} onClick={this.onClickDelete.bind(this)}/>
         </TableRowColumn>

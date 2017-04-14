@@ -35,13 +35,14 @@ export function onDeck(force = false) {
       trim.trim(rect.ofResourceSteel(), true),
       trim.trim(rect.ofResourceBauxite(), true),
       trim.trim(rect.ofResourceBuckets(), true),
+      trim.trim(rect.ofResourceMaterial(), true),
     ]);
   })
   //  .then(urls => urls.map(url => window.open(url)));
   .then(urls => Promise.all(urls.map(url => ocr.execute(url))))
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
-  .then(([fuel, ammo, steel, bauxite, buckets]) => Promise.resolve(Resource.new({
-    fuel, ammo, steel, bauxite, buckets, created: Date.now(),
+  .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
+    fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
     _id: _isSameDate(last.created, Date.now()) ? last._id : undefined
   })))
   .then(resource => resource.save());
