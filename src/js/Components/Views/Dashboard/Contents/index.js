@@ -13,8 +13,8 @@ export default class DashboardContents extends Component {
       <div>
         <DashboardClock      style={this.display(0)} />
         <DashboardQuest      style={this.display(1)} />
-        <DashboardStatistics style={this.display(2)} />
-        <DashboardMemo       style={this.display(3)} />
+        <DashboardMemo       style={this.display(2)} />
+        <DashboardStatistics style={this.display(3)} />
       </div>
     );
   }

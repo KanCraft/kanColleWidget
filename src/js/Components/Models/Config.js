@@ -86,6 +86,9 @@ Config.default = {
     value: "disabled", // "notification", "alert"
   },
   "allow-external-api": {value: false},
+  "resource-statistics": {
+    enabled: true,
+  },
   "debug": {
     value: false
   }

@@ -8,6 +8,7 @@ import * as StreamControllers  from "./Stream";
 import * as HistoryControllers from "./History";
 import * as LaunchPositionControllers from "./LaunchPosition";
 import * as DamageSnapshotControllers from "./DamageSnapshot";
+import * as ResourceControllers from "./Resource";
 import * as DebugControllers   from "./Debug";
 
 const MessageControllers = {
@@ -21,6 +22,7 @@ const MessageControllers = {
   ...StreamControllers,
   ...LaunchPositionControllers,
   ...DamageSnapshotControllers,
+  ...ResourceControllers,
   ...DebugControllers,
 };
 

@@ -8,6 +8,7 @@ export default class Resource extends Model {
     steel:   Model.Types.number.isRequired,
     bauxite: Model.Types.number.isRequired,
     buckets: Model.Types.number.isRequired,
+    material:Model.Types.number.isRequired,
     created: Model.Types.number.isRequired,
   }
   static list() {

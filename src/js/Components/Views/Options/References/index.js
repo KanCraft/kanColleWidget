@@ -60,10 +60,12 @@ export default class ReferencesView extends Component {
                     <li><a href="http://www.slideshare.net/otiai10/ss-26631311">加賀さんと僕 ~艦これウィジェットの紹介と説明~</a></li>
                   </ul>
             </li>
-            <li>バレンタイン近いのでほしいものリスト貼ります！
-                  <ul>
-                    <li><a href="https://www.amazon.co.jp/registry/wishlist/1K4E93FSE3UQ4/?tag=otiai10-22">ほしいものリスト</a></li>
-                  </ul>
+            <li>支援
+              <ul>
+                <li><a href="https://www.amazon.co.jp/registry/wishlist/2TM2C8W3AIRMH?tag=otiai10-22">ほしいものリスト</a></li>
+                <li><a href="https://enty.jp/otiai10">Enty</a></li>
+                <li><a href="https://gist.github.com/otiai10/512e6443a89c6a4a2ef08697b819bef9">その他</a></li>
+              </ul>
             </li>
           </ul>
         </div>

@@ -11,7 +11,7 @@ LaunchPosition.default = {
   "dashboard": {
     left: 0,
     top:  0,
-    width:  400,
+    width:  430,
     height: 292,
     architrave: {x:0, y:0},
   },
