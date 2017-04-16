@@ -9,7 +9,9 @@ import {
   CartesianGrid,
 } from "recharts";
 import {Table,TableHeader,TableBody} from "material-ui/Table";
+import FlatButton from "material-ui/FlatButton";
 import ResourceRow from "./ResourceRow";
+import InsertDriveFile from "material-ui/svg-icons/editor/insert-drive-file";
 import ControlRow  from "./ControlRow";
 
 import c from "../../../Constants/colors";
@@ -28,12 +30,32 @@ export default class StatisticsView extends Component {
       ts:        Date.now(),
     });
   }
+  exportAsCSV() {
+    // TODO: これをサービスにしてテスタブルにするのたのしいはずだから誰かやって
+    const rows = [["日付","燃料","弾薬","鋼材","ボーキサイト","修復材","開発材"]].concat(Resource.list().map(r => {
+      return [(new Date(r.created).toISOString()), r.fuel, r.ammo, r.steel, r.bauxite, r.buckets, r.material || 0];
+    }));
+    const str = rows.map(row => row.map(col => col || 0).join(",")).join("\n");
+    const blob = new Blob([str], {encoding:"UTF-8",type:"text/comma-separated-values"});
+    const url = window.URL.createObjectURL(blob);
+    let anchor = document.createElement("a");
+    anchor.download = "資源推移.csv";
+    anchor.href = url;
+    anchor.click();
+    window.URL.revokeObjectURL(url);
+  }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
     return (
       <div>
-        <h1>資源推移記録</h1>
+        <FlatButton
+          onClick={this.exportAsCSV.bind(this)}
+          label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
+        />
+        <h1>
+          資源推移記録
+        </h1>
         <div>
           {/* TODO: DRY */}
           <LineChart width={w*0.9} height={h*0.4} data={this.state.resources}>
