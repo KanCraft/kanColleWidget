@@ -8,6 +8,8 @@ import TrimService         from "../../Services/TrimService";
 import Rectangle           from "../../Services/Rectangle";
 import OCR                 from "../../Services/API/OCR";
 import NotificationService from "../../Services/NotificationService";
+import Publisher           from "../../Services/Publisher";
+import Subscriber          from "../../Models/Subscriber";
 import Achievement         from "../../Models/Achievement";
 
 import {ScheduledQueues,CreateShip} from "../../Models/Queue/Queue";
@@ -54,6 +56,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
       const createship = new CreateShip(Date.now() + length, dock, time);
       ScheduledQueues.append(CREATESHIP, createship);
       if (Config.find("notification-display").onstart) notifications.create(createship.toNotificationID(), createship.toNotificationParamsForStart());
+      Publisher.to(Subscriber.list()).publish(createship);
       return Promise.resolve(time);
     });
 }

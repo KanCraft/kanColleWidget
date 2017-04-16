@@ -27,6 +27,8 @@ router.on("/twitter/auth",           Controllers.TwitterAuth);
 router.on("/twitter/revoke",         Controllers.TwitterRevoke);
 router.on("/twitter/announce",       Controllers.GetKanColleSTAFFTweets);
 router.on("/twitter/post_with_image",Controllers.TwitterPostWithImage);
+// 資源推移表
+router.on("/resources/capture",      Controllers.ResourceCapture);
 // 動画キャプチャ関係
 router.on("/stream/recording/start", Controllers.StreamStartRecording);
 router.on("/stream/recording/stop",  Controllers.StreamStopRecording);

@@ -13,12 +13,12 @@ function _isSameDate(x, y) {
   return a.getMonth()*100+a.getDate() == b.getMonth()*100+b.getDate();
 }
 
-export function onDeck() {
+export function onDeck(force = false) {
   const ocr = new OCR();
   const captures = new CaptureService();
   const last = Resource.last() || {};
   const _10min = 10*60*1000;
-  if (Date.now() - last.created < _10min) return true;// あんまりherokuを酷使しない
+  if (!force && Date.now() - last.created < _10min) return true;// あんまりherokuを酷使しない
   WindowService.getInstance().find(true)
   // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので除外する
   .then(tab => tab.width < 800 ? Promise.reject() : Promise.resolve(tab))
@@ -35,13 +35,14 @@ export function onDeck() {
       trim.trim(rect.ofResourceSteel(), true),
       trim.trim(rect.ofResourceBauxite(), true),
       trim.trim(rect.ofResourceBuckets(), true),
+      trim.trim(rect.ofResourceMaterial(), true),
     ]);
   })
   //  .then(urls => urls.map(url => window.open(url)));
   .then(urls => Promise.all(urls.map(url => ocr.execute(url))))
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
-  .then(([fuel, ammo, steel, bauxite, buckets]) => Promise.resolve(Resource.new({
-    fuel, ammo, steel, bauxite, buckets, created: Date.now(),
+  .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
+    fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
     _id: _isSameDate(last.created, Date.now()) ? last._id : undefined
   })))
   .then(resource => resource.save());

@@ -16,7 +16,7 @@ class ReleaseNote
     comments = @out().split("\n")
       .filter((line) => !!line and line.match(/^COMMENT: /))
       .map((line) => line.replace /^COMMENT: /, "")
-    return if comments.length is 0 then null else comments.join()
+    return if comments.length is 0 then "" else comments.join()
   out: () ->
     @_out = @_out || exec("git log --pretty=%s%n%b #{@latest}..HEAD", silent:true).stdout || ""
     return @_out
@@ -29,12 +29,13 @@ class ReleaseNote
     }
   pretty: () ->
     console.log "VERSION:".green
-    console.log @version
-    console.log "\n"
+    console.log "- #{@version}"
+    console.log ""
     console.log "FEATURES:".green
-    console.log @features().join("\n")
-    console.log "\n"
+    console.log @features().map((f) -> "- #{f}").join("\n")
+    console.log ""
     console.log "COMMENT:".green
     console.log @comment()
+    console.log ""
 
 module.exports = ReleaseNote

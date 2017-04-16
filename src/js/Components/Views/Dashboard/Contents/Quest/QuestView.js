@@ -3,9 +3,11 @@ import React, {Component} from "react";
 import {grey400} from "material-ui/styles/colors";
 
 import KanColleDate from "../../../../Services/KanColleDate";
-import Quest, {DONE, HIDDEN} from "../../../../Models/Quest";
+import Quest, {DONE, HIDDEN, NOW, YET} from "../../../../Models/Quest";
 import QuestStatus from "./QuestStatus";
 
+import Dialog from "material-ui/Dialog";
+import RaisedButton from "material-ui/RaisedButton";
 import Done from "material-ui/svg-icons/action/done";
 
 class QuestClearView extends Component {
@@ -50,6 +52,8 @@ export default class QuestView extends Component {
     super(props);
     this.state = {
       daily: this.getQuests(),
+      open:  false,
+      questOnManual: {},
     };
   }
   getQuests() {
@@ -67,7 +71,16 @@ export default class QuestView extends Component {
     if (quest.state == DONE) {
       quest.update({state: HIDDEN});
       this.setState({daily: this.getQuests()});
+    } else {
+      this.setState({questOnManual: quest});
     }
+  }
+  _handleDialogClose() {
+    this.setState({questOnManual: {}});
+  }
+  updateStatus(state) {
+    this.state.questOnManual.update({state});
+    this.setState({questOnManual: {}});
   }
   caret() {
     return (
@@ -92,6 +105,21 @@ export default class QuestView extends Component {
             );
           })}
         </tbody>
+        <Dialog
+          open={!!this.state.questOnManual._id}
+          onRequestClose={this._handleDialogClose.bind(this)}
+        >
+          <div>
+            <div>
+              <h5 style={{marginTop:0}}>{this.state.questOnManual.title}</h5>
+            </div>
+            <div>
+              <RaisedButton label="未着手" onClick={this.updateStatus.bind(this, YET)}/>
+              <RaisedButton label="遂行中" onClick={this.updateStatus.bind(this, NOW)}/>
+              <RaisedButton label="達成"  onClick={this.updateStatus.bind(this, DONE)}/>
+            </div>
+          </div>
+        </Dialog>
       </table>
     );
   }

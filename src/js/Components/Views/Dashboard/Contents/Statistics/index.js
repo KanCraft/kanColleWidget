@@ -9,7 +9,10 @@ import {
   CartesianGrid,
 } from "recharts";
 
+import OpenInNew  from "material-ui/svg-icons/action/open-in-new";
 import {green500} from "material-ui/styles/colors";
+
+import colors from "../../../../../Constants/colors";
 
 export default class DashboardStatistics extends Component {
   constructor(props) {
@@ -20,15 +23,12 @@ export default class DashboardStatistics extends Component {
   }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
-    // TODO: これどっかに1元定義したい
-    const colors = {
-      fuel:    "#00BFA5",
-      ammo:    "#8884d8",
-      steel:   "#757575",
-      bauxite: "#FF5722",
-    };
     return (
       <div style={{...this.props.style}}>
+        <div style={{
+          position: "absolute",
+          right: "58px", bottom: "14px",
+        }}><OpenInNew color="#bdbdbd" style={{cursor:"pointer"}} onClick={() => window.open("/dest/html/statistics.html")}/></div>
         <LineChart width={w * 0.8} height={h * 0.9} data={this.state.list}>
           <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
 
