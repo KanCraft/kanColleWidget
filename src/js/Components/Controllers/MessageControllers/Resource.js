@@ -1,4 +1,4 @@
-import {onDeck} from "../RequestControllers";
+import RecordResource from "../../Routine/ResourceRecording";
 export function ResourceCapture() {
-  return onDeck(true);
+  return RecordResource(true);
 }

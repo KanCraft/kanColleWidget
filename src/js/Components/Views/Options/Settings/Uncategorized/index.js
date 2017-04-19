@@ -3,7 +3,6 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import Toggle from "material-ui/Toggle";
 import Config from "../../../../Models/Config";
 import Description from "../Description";
 import Detail from "../../Detail";
@@ -116,19 +115,28 @@ class ResourceStatistics extends Component {
             <TableRowColumn>
               資源推移表を使う
               <Detail>
-                この設定をonにすると、以下の条件で右上の資源の表示を画像解析で取得します。
+                この設定を「自動取得」にすると、以下の条件で右上の資源の表示を画像解析で自動に取得します。
                 (1) 編成画面への遷移時で、(2) 画面が中型以上の大きさを持っており、(3) 縦横比が800x480ぴったり、
                 (4) なお取得成功した場合も同日中のレコードは上書きして1つのレコードとして保存されます。
+                <br />
+                この設定を「手動取得」にすると、ダッシュボードおよび資源推移ページの「取得」ボタンが押されたタイミングで取得を試みます。
+                この場合、取得成功したレコードは同日中であっても別レコードとして保存されます。
+                <br />
+                いずれにしても画像解析を使っていますので、画面が大きく画質が良いほうが精度は高いです。
               </Detail>
             </TableRowColumn>
             <TableRowColumn>
-              <div style={{display:"flex"}}>
-                <div style={{paddingRight: "36px"}}>
-                  <Toggle toggled={this.state.model.enabled} onToggle={this.onToggle.bind(this)}/>
-                </div>
-                {this.state.model.enabled ? <div style={{flex:1}}>
-                  <a href="/dest/html/statistics.html">資源推移表</a>
-                </div> : null}
+              <div>
+                <SelectField value={this.state.model.value || "disabled"} fullWidth={true} onChange={(ev, i, value) => {
+                  let model = this.state.model; model.update({value}); this.setState({model});
+                }}>
+                  <MenuItem value={"disabled"}  primaryText={"使わない"} />
+                  <MenuItem value={"manual"}    primaryText={"手動取得"} />
+                  <MenuItem value={"automatic"} primaryText={"自動取得"} />
+                </SelectField>
+              </div>
+              <div>
+                <a href="/dest/html/statistics.html">資源推移表</a>
               </div>
             </TableRowColumn>
           </TableRow>
