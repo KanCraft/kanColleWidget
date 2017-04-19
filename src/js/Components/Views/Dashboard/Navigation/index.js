@@ -24,7 +24,7 @@ export class MenuNavigation extends Component {
       <VTabItem key={1} icon={<PlaylistAddCheck />} />,
       <VTabItem key={2} icon={<Assignment       />} />,
     ];
-    if (Config.find("resource-statistics").enabled) this.tabs.push(<VTabItem key={3} icon={<Timeline/>}/>);
+    if (Config.find("resource-statistics").value != "disabled") this.tabs.push(<VTabItem key={3} icon={<Timeline/>}/>);
   }
   componentDidMount() {
     this.interval = setInterval(() => {
