@@ -1,4 +1,3 @@
-
 import Resource       from "../Models/Resource";
 import CaptureService from "../Services/CaptureService";
 import TrimService    from "../Services/TrimService";
@@ -11,12 +10,12 @@ function _isSameDate(x, y) {
   return a.getMonth()*100+a.getDate() == b.getMonth()*100+b.getDate();
 }
 
-export default function record(force = false) {
+export default function record(auto = true) {
   const ocr = new OCR();
   const captures = new CaptureService();
   const last = Resource.last() || {};
   const _10min = 10*60*1000;
-  if (!force && Date.now() - last.created < _10min) return Promise.reject("やりすぎ問題");// あんまりherokuを酷使しない
+  if (auto && Date.now() - last.created < _10min) return Promise.reject("やりすぎ問題");// あんまりherokuを酷使しない
   return WindowService.getInstance().find(true)
   // 画面が小さすぎると精度が落ちるのと、誤認識したときの対応がめんどいので除外する
   .then(tab => tab.width < 800 ? Promise.reject("小さすぎ問題") : Promise.resolve(tab))
@@ -41,7 +40,8 @@ export default function record(force = false) {
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
-    _id: _isSameDate(last.created, Date.now()) ? last._id : undefined
+    // これが自動取得でありなおかつ同日中であれば、最後のレコードに上書きする
+    _id: auto && _isSameDate(last.created, Date.now()) ? last._id : undefined
   })))
   .then(resource => resource.save());
 }
