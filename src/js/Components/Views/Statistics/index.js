@@ -39,7 +39,7 @@ export default class StatisticsView extends Component {
     const blob = new Blob([str], {encoding:"UTF-8",type:"text/comma-separated-values"});
     const url = window.URL.createObjectURL(blob);
     let anchor = document.createElement("a");
-    anchor.download = "資源推移.csv";
+    anchor.download = `資源推移_${(new Date()).format("yyyyMMdd")}.csv`;
     anchor.href = url;
     anchor.click();
     window.URL.revokeObjectURL(url);
