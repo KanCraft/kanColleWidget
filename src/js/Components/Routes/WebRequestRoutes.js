@@ -45,6 +45,7 @@ router.on(["api_get_member/ndock"],  Controllers.onRecoveryDocksDisplayed);
 
 // 通常艦隊の戦闘開戦時
 router.on(["api_req_sortie/battle"],       Controllers.onBattleStarted);
+router.on(["api_req_sortie/airbattle"],    Controllers.onBattleStarted);
 router.on(["api_req_sortie/ld_airbattle"], Controllers.onBattleStarted);
 // 連合艦隊戦開戦時
 router.on(["api_req_combined_battle/battle"],           Controllers.onCombinedBattleStarted);
