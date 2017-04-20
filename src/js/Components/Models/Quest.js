@@ -1,6 +1,11 @@
 import {Model} from "chomex";
 import KanColleDate from "../Services/KanColleDate";
 
+import Config from "./Config";
+import Assets from "../Services/Assets";
+
+const assets = new Assets(Config);
+
 import {
   SORTIE,
   PRACTICE,
@@ -79,7 +84,7 @@ export default class Quest extends Model {
       "quest-alert",
       {
         type:    "list",
-        iconUrl: "./dest/img/icons/chang.white.png",
+        iconUrl: assets.getDefaultIcon(),
         title,
         message: "",
         items: quests.map(q => q._alertItem())
