@@ -82,7 +82,7 @@ export default class Announcement extends Component {
     return {__html: text};
   }
   getFeatures() {
-    return this.props.meta.release().features.map((feature,i) => {
+    return this.props.meta.release().features.reverse().map((feature,i) => {
       return <li key={i} dangerouslySetInnerHTML={{__html:feature}} />;
     });
   }
