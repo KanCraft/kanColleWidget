@@ -27,7 +27,7 @@ class StrictMissionManager {
         type: "basic",
         title: "遠征強化令が発令中です",
         message: "遠征帰投から回収されていない艦隊か、次の遠征へ出港していない艦隊があります。早急に次の遠征の指示をお願いいたします",
-        iconUrl: "/dest/img/icons/chang.white.png",
+        iconUrl: (new Assets(Config)).getDefaultIcon(),
         requireInteraction: true,
       });
     }

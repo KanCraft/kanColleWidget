@@ -40,6 +40,12 @@ export default class Assets {
     if (!useDefault) return null;
     return this.module.extension.getURL("dest/img/icons/chang.white.png");
   }
+  getDefaultIcon() {
+    if (this.config.find("notification-for-default").icon) {
+      return this.config.find("notification-for-default").icon;
+    }
+    return this.module.extension.getURL("dest/img/icons/chang.white.png");
+  }
   getNotificationSound(name) {
     if (this.config.find(`notification-for-${name}`).sound) {
       return this.config.find(`notification-for-${name}`).sound;

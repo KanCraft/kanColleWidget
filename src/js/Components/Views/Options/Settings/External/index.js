@@ -1,8 +1,7 @@
 import React, {Component,PropTypes} from "react";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
-import Toggle from "material-ui/Toggle";
-import Config from "../../../../Models/Config";
+import RaisedButton from "material-ui/RaisedButton";
 import Description from "../Description";
 import Detail from "../../Detail";
 import Subscriber from "../../../../Models/Subscriber";
@@ -29,27 +28,15 @@ export default class ExternalExtensionView extends Component {
 }
 
 class ExternalAPIView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      model: Config.find("allow-external-api"),
-    };
-  }
-  onToggle(ev, value) {
-    let model = this.state.model;
-    if (value == false) Subscriber.drop();
-    model.update({value});
-    this.setState({model});
-  }
   render() {
     return (
       <TableRow>
         <TableRowColumn>
-          外部Chrome拡張の連携を許す
-          <Detail>オフにすると登録されている外部Chrome拡張のリストはすべて削除されます。</Detail>
+          外部Chrome拡張の連携
+          <Detail>リセットボタンを押すと登録されている外部Chrome拡張のリストはすべて削除されます。</Detail>
         </TableRowColumn>
         <TableRowColumn>
-          <Toggle toggled={this.state.model.value} onToggle={this.onToggle.bind(this)}/>
+          <RaisedButton label="リセット" onClick={() => { Subscriber.drop(); location.reload(); }}/>
           <ul>
             {Subscriber.list().map(sub => (
               <li key={sub._id}>

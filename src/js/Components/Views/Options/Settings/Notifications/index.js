@@ -145,7 +145,7 @@ class NotificationSettingRow extends Component {
   }
   getIconInput() {
     if (this.state.model.icon) return (
-      <div style={{displey:"flex", justifyContents:"center", alignItems:"center", height:"48%"}}>
+      <div style={{displey:"flex", justifyContents:"center", alignItems:"center", height:"48px"}}>
         <img src={this.state.model.icon} height="100%" onClick={() => this.iconInput.click()} style={styles.icon}/>
         <Clear style={{...styles.icon, height:"50%"}} onClick={this.onIconDelete.bind(this)}/>
       </div>

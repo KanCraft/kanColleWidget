@@ -53,7 +53,7 @@ export default class SortieContext {
   toNotificationParams(uri) {
     return {
       type: "image",
-      iconUrl: "/dest/img/icons/chang.white.png",
+      iconUrl: "/dest/img/icons/chang.white.png", // TODO: ここどうするかな
       title: "艦隊被害状況",
       message: this.getNotificationMessage(),
       imageUrl: uri,

@@ -166,7 +166,7 @@ export class Mission extends Queue {
     }
   }
   static unknown(missionID) {
-    const url = chrome.extension.getURL("dest/img/icons/chang.white.png");
+    const url = (new Assets(Config)).getDefaultIcon();
     return {
       toNotificationID: () => `${MISSION}.unknown`,
       toNotificationParamsForStart: () => {
