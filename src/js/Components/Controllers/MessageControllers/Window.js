@@ -26,9 +26,8 @@ export function OpenWindow(message) {
     return;
   }
 
-    // last-selected-frameとしてHistoryに保存する
-  lastSelectedFrame.id = id;
-  lastSelectedFrame.save();
+  // last-selected-frameとしてHistoryに保存する
+  lastSelectedFrame.update({id});
 
   let position = LaunchPosition.find("default");
 
@@ -126,7 +125,9 @@ export function CurrentActionForWindow() {
         window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
       });
     })
-    .catch(() => windows.open(frame, position));
+    .catch(() => windows.open(frame, position).then(win => {
+      windows.mute(win.tabs[0], History.find("last-muted-status").muted);
+    }));
 }
 
 export function OpenDashboard() {
