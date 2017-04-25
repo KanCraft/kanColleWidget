@@ -47,7 +47,7 @@ export default class ReferencesView extends Component {
           <h2 style={styles.h2}>ソフトウェアライセンス</h2>
           <ul>
             <li>
-              <a href="https://github.com/otiai10/kanColleWidget/blob/v2/master/LICENSE">https://github.com/otiai10/kanColleWidget/blob/v2/master/LICENSE</a>
+              <a href="https://github.com/otiai10/kanColleWidget/blob/master/LICENSE">https://github.com/otiai10/kanColleWidget/blob/master/LICENSE</a>
             </li>
           </ul>
           <h2 style={styles.h2}>リンク</h2>
