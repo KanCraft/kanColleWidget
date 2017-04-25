@@ -15,7 +15,14 @@ const captures = new CaptureService();
 
 import OCR from "../../Services/API/OCR";
 
-export function OpenWindow(message) {
+/**
+ * 1. ゲーム画面がすでにあればそれをまずフォーカスする
+ *     a. メッセージによりフレームを指定されていればそのサイズに回復させる（誤操作からの回復）
+ *     b. フレームを指定されていない場合は、リサイズをせずフォーカスだけする
+ * 2. ゲーム画面が存在しなければ、指定されたフレームあるいは最後に指定したフレームで画面を作る
+ *     a. その際、最後に指定したミュート状態を引き継ぐ
+ */
+export function OpenWindow(message = {}) {
 
   let lastSelectedFrame = History.find("last-selected-frame");
   const id = message.frame || lastSelectedFrame.id;
@@ -33,7 +40,7 @@ export function OpenWindow(message) {
 
   return windows.find(true)
     .then(tab => windows.focus(tab))
-    .then(win => windows.resize(win, frame.size, position.architrave))
+    .then(win => message.frame ? windows.resize(win, frame.size, position.architrave) : Promise.resolve(win))
     .catch(() => windows.open(frame, position))
     .then(win => windows.mute(win.tabs[0], History.find("last-muted-status").muted));
 }
