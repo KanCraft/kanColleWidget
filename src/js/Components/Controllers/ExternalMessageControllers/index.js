@@ -8,7 +8,7 @@ export function SubscribeStart() {
   const allow_list = Subscriber.list();
   for (var i = 0; i < allow_list.length; i++) {
     if (allow_list[i]._id == sub._id) {
-      return {status:304,message:"Your application is already subscribed."};
+      return {status:304, message:"Your application is already subscribed."};
     }
   }
   if (!window.confirm(`Extension ID "${sub._id}" が『艦これウィジェット』との連携を要求しています。許可しますか？`)) {
