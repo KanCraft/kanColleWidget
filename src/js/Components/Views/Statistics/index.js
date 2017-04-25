@@ -67,14 +67,14 @@ export default class StatisticsView extends Component {
             <Legend />
 
             <YAxis yAxisId="資源" orientation="left" stroke="#000" />
-            <Line type="natural" yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
-            <Line type="natural" yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
-            <Line type="natural" yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
-            <Line type="natural" yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
+            <Line type="natural" dot={false} yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
+            <Line type="natural" dot={false} yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
+            <Line type="natural" dot={false} yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
+            <Line type="natural" dot={false} yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
 
             <YAxis yAxisId="資材" orientation="right" stroke="#000" />
-            <Line type="natural" yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
-            <Line type="natural" yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
+            <Line type="natural" dot={false} yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
+            <Line type="natural" dot={false} yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
           </LineChart>
         </div>
         <div>
