@@ -1,16 +1,14 @@
 import Subscriber from "../../Models/Subscriber";
 
 export function SubscribeStart() {
+  // すでに登録済みであれば304を返す
+  if (Subscriber.list().some(sub => sub._id == this.sender.id)) {
+    return {status:304, message:"Your application is already subscribed."};
+  }
   const sub = Subscriber.new({
     _id:   this.sender.id, // 一応Chrome拡張につき一意に制限する
     extID: this.sender.id,
   });
-  const allow_list = Subscriber.list();
-  for (var i = 0; i < allow_list.length; i++) {
-    if (allow_list[i]._id == sub._id) {
-      return {status:304, message:"Your application is already subscribed."};
-    }
-  }
   if (!window.confirm(`Extension ID "${sub._id}" が『艦これウィジェット』との連携を要求しています。許可しますか？`)) {
     return {status:403,message:"ユーザが連携を拒否しました"};
   }
