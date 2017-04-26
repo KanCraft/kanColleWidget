@@ -12,6 +12,7 @@ class ReleaseNote
     return @out().split("\n")
       .filter((line) => !!line and line.match(/^FEATURE: /))
       .map((line) => line.replace /^FEATURE: +/, "")
+      .reverse()
   comment: () ->
     comments = @out().split("\n")
       .filter((line) => !!line and line.match(/^COMMENT: /))
