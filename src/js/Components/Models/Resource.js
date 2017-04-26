@@ -17,4 +17,15 @@ export default class Resource extends Model {
   static last() {
     return this.list().pop();
   }
+  toText() {
+    return [
+      `燃料: ${this.fuel}`,
+      `弾薬: ${this.ammo}`,
+      `鋼材: ${this.steel}`,
+      `ボーキサイト: ${this.bauxite}`,
+      `修復材: ${this.buckets}`,
+      `開発材: ${this.material}`,
+      `#資源記録 ${(new Date(this.created)).format("yyyy/MM/dd")}`,
+    ].join("\n");
+  }
 }

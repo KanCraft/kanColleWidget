@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Client} from "chomex";
 import Resource from "../../Models/Resource";
 import {
   LineChart,
@@ -44,11 +45,29 @@ export default class StatisticsView extends Component {
     anchor.click();
     window.URL.revokeObjectURL(url);
   }
+  exportToTweet() {
+    const client = new Client(chrome.runtime);
+    const r = window.devicePixelRatio || 1;
+    const {left,top,width,height} = document.querySelector("div.recharts-wrapper").getBoundingClientRect();
+    client.message("/window/capture", {
+      me:true,
+      trim:{left:left*r,top:top*r,width:width*r,height:height*r},
+    }).then(res => {
+      let p = new URLSearchParams();
+      p.set("img", res.data);
+      p.set("text", Resource.last().toText());
+      window.open(`/dest/html/capture.html?${p.toString()}`);
+    });
+  }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
     return (
       <div>
+        <FlatButton
+          onClick={this.exportToTweet.bind(this)}
+          label="IMAGE EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
+        />
         <FlatButton
           onClick={this.exportAsCSV.bind(this)}
           label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
@@ -58,7 +77,7 @@ export default class StatisticsView extends Component {
         </h1>
         <div>
           {/* TODO: DRY */}
-          <LineChart width={w*0.9} height={h*0.4} data={this.state.resources}>
+          <LineChart width={w*0.9} height={h*0.7} data={this.state.resources}>
             <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
 
             <XAxis dataKey={r => (new Date(r.created)).format("MM/dd HH:mm")} />
