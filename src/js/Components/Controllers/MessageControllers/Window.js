@@ -15,6 +15,9 @@ const captures = new CaptureService();
 
 import OCR from "../../Services/API/OCR";
 
+import TrimService from "../../Services/TrimService";
+import Rectangle   from "../../Services/Rectangle";
+
 /**
  * 1. ゲーム画面がすでにあればそれをまずフォーカスする
  *     a. メッセージによりフレームを指定されていればそのサイズに回復させる（誤操作からの回復）
@@ -66,11 +69,16 @@ export function ShouldDecorateWindow(/* message */) {
   }
 }
 
-export function CaptureWindow(/* message */) {
+export function CaptureWindow({trim, me}) {
   return Promise.resolve().then(() => {
-    return windows.find();
+    return me ? Promise.resolve(this.sender.tab) : windows.find(true);
   }).then(tab => {
     return captures.capture(tab.windowId);
+  }).then(uri => {
+    if (!trim) return Promise.resolve(uri);
+    const trims = new TrimService(uri);
+    const rect = new Rectangle(trim.left, trim.top, trim.width, trim.height);
+    return trims.trim(rect);
   });
 }
 

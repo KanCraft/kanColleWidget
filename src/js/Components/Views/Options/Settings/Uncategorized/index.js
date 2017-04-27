@@ -123,6 +123,8 @@ class ResourceStatistics extends Component {
                 この場合、取得成功したレコードは同日中であっても別レコードとして保存されます。
                 <br />
                 いずれにしても画像解析を使っていますので、画面が大きく画質が良いほうが精度は高いです。
+                <br />
+                画面の解像度などの問題で画像解析での取得がもうまったく動かねえ！っていう場合は「手動入力」にすると、自分で数値を入力する感じでどうにかしてください。
               </Detail>
             </TableRowColumn>
             <TableRowColumn>
@@ -131,8 +133,9 @@ class ResourceStatistics extends Component {
                   let model = this.state.model; model.update({value}); this.setState({model});
                 }}>
                   <MenuItem value={"disabled"}  primaryText={"使わない"} />
+                  <MenuItem value={"input"}     primaryText={"手動入力（画像解析を使わない）"} />
                   <MenuItem value={"manual"}    primaryText={"手動取得"} />
-                  <MenuItem value={"automatic"} primaryText={"自動取得"} />
+                  <MenuItem value={"automatic"} primaryText={"自動取得（高解像度ディスプレイ向き）"} />
                 </SelectField>
               </div>
               <div>

@@ -253,6 +253,7 @@ export default class CaptureView extends Component {
       text:  this.refs.subnav.getText(),
       size:  this.refs.subnav.getSize(),
       font:  this.refs.subnav.getFont(),
+      fill:  this.refs.subnav.getFill(),
     };
     return new this.state.tool(canvas, params);
   }

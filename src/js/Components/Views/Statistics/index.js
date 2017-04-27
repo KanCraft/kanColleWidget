@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Client} from "chomex";
 import Resource from "../../Models/Resource";
 import {
   LineChart,
@@ -13,6 +14,7 @@ import FlatButton from "material-ui/FlatButton";
 import ResourceRow from "./ResourceRow";
 import InsertDriveFile from "material-ui/svg-icons/editor/insert-drive-file";
 import ControlRow  from "./ControlRow";
+import FilterControl from "./FilterControl";
 
 import c from "../../../Constants/colors";
 
@@ -22,12 +24,33 @@ export default class StatisticsView extends Component {
     this.state = {
       resources: Resource.list(),
       ts:        Date.now(),
+      filter: {
+        term: {
+          from: new Date(Resource.first().created),
+          to:   new Date(),
+        }
+      }
+    };
+  }
+  filterer(f) {
+    return (r) => {
+      if (r.created < f.term.from.getTime()) return false;
+      if (r.created > f.term.to.getTime()) return false;
+      return true;
     };
   }
   refresh() {
     this.setState({
-      resources: Resource.list(),
+      resources: Resource.filter(this.filterer(this.state.filter)),
       ts:        Date.now(),
+    });
+  }
+  onTermChanged(key, date) {
+    const term = {...this.state.filter.term, [key]:date};
+    const filter = {...this.state.filter, term};
+    this.setState({
+      filter,
+      resources: Resource.filter(this.filterer(filter)),
     });
   }
   exportAsCSV() {
@@ -44,41 +67,76 @@ export default class StatisticsView extends Component {
     anchor.click();
     window.URL.revokeObjectURL(url);
   }
+  exportToTweet() {
+    const client = new Client(chrome.runtime);
+    const r = window.devicePixelRatio || 1;
+    const {left,top,width,height} = document.querySelector("div.recharts-wrapper").getBoundingClientRect();
+    client.message("/window/capture", {
+      me:true,
+      trim:{left:left*r,top:top*r,width:width*r,height:height*r},
+    }).then(res => {
+      let p = new URLSearchParams();
+      p.set("img", res.data);
+      p.set("text", Resource.last().toText());
+      window.open(`/dest/html/capture.html?${p.toString()}`);
+    });
+  }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
+    const data = Resource.round(this.state.resources);
     return (
       <div>
+        <FlatButton
+          onClick={this.exportToTweet.bind(this)}
+          label="IMAGE EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
+        />
         <FlatButton
           onClick={this.exportAsCSV.bind(this)}
           label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
         />
-        <h1>
-          資源推移記録
-        </h1>
+        <div style={{display:"flex"}}>
+          <div><h1>資源推移記録</h1></div>
+          <FilterControl onTermChanged={this.onTermChanged.bind(this)}/>
+        </div>
         <div>
           {/* TODO: DRY */}
-          <LineChart width={w*0.9} height={h*0.4} data={this.state.resources}>
+          <LineChart width={w*0.9} height={h*0.7} data={data}>
             <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
 
-            <XAxis dataKey={r => (new Date(r.created)).format("MM/dd HH:mm")} />
+            <XAxis
+              type={"number"}
+              domain={["dataMin", "dataMax"]}
+              dataKey={"created"}
+              ticks={(() => {
+                return data.reduce((self, r, i) => {
+                  const prev = self[i - 1];
+                  if (prev && r.created - prev.created > 24*60*60*1000) {
+                    self.push(Math.floor((r.created + prev.created)/2));
+                  }
+                  self.push(r.created);
+                  return self;
+                }, []);
+              })()}
+              tickFormatter={created => (new Date(created)).format("MM/dd HH:mm")}
+            />
 
-            <Tooltip />
+            <Tooltip labelFormatter={created => (new Date(created)).format("MM/dd HH:mm")}/>
             <Legend />
 
             <YAxis yAxisId="資源" orientation="left" stroke="#000" />
-            <Line type="natural" yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
-            <Line type="natural" yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
-            <Line type="natural" yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
-            <Line type="natural" yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
 
             <YAxis yAxisId="資材" orientation="right" stroke="#000" />
-            <Line type="natural" yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
-            <Line type="natural" yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
+            <Line type="monotone" dot={false} yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
+            <Line type="monotone" dot={false} yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
           </LineChart>
         </div>
         <div>
-          <Table>
+          <Table fixedHeader={true} height={"600px"}>
             <TableHeader>
               <ControlRow refresh={this.refresh.bind(this)} />
             </TableHeader>
