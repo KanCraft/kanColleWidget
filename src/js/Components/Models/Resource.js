@@ -14,6 +14,9 @@ export default class Resource extends Model {
   static list() {
     return super.list().sort((p, n) => p.created < n.created ? -1 : 1);
   }
+  static first() {
+    return this.list().shift();
+  }
   static last() {
     return this.list().pop();
   }

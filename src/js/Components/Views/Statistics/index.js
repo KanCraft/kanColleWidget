@@ -14,6 +14,7 @@ import FlatButton from "material-ui/FlatButton";
 import ResourceRow from "./ResourceRow";
 import InsertDriveFile from "material-ui/svg-icons/editor/insert-drive-file";
 import ControlRow  from "./ControlRow";
+import FilterControl from "./FilterControl";
 
 import c from "../../../Constants/colors";
 
@@ -23,12 +24,33 @@ export default class StatisticsView extends Component {
     this.state = {
       resources: Resource.list(),
       ts:        Date.now(),
+      filter: {
+        term: {
+          from: new Date(Resource.first().created),
+          to:   new Date(),
+        }
+      }
+    };
+  }
+  filterer(f) {
+    return (r) => {
+      if (r.created < f.term.from.getTime()) return false;
+      if (r.created > f.term.to.getTime()) return false;
+      return true;
     };
   }
   refresh() {
     this.setState({
-      resources: Resource.list(),
+      resources: Resource.filter(this.filterer(this.state.filter)),
       ts:        Date.now(),
+    });
+  }
+  onTermChanged(key, date) {
+    const term = {...this.state.filter.term, [key]:date};
+    const filter = {...this.state.filter, term};
+    this.setState({
+      filter,
+      resources: Resource.filter(this.filterer(filter)),
     });
   }
   exportAsCSV() {
@@ -73,9 +95,10 @@ export default class StatisticsView extends Component {
           onClick={this.exportAsCSV.bind(this)}
           label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
         />
-        <h1>
-          資源推移記録
-        </h1>
+        <div style={{display:"flex"}}>
+          <div><h1>資源推移記録</h1></div>
+          <FilterControl onTermChanged={this.onTermChanged.bind(this)}/>
+        </div>
         <div>
           {/* TODO: DRY */}
           <LineChart width={w*0.9} height={h*0.7} data={data}>
