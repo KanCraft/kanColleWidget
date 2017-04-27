@@ -1,5 +1,6 @@
 import React, {Component,PropTypes} from "react";
 import Resource from "../../../../Models/Resource";
+import Config from "../../../../Models/Config";
 import {
   LineChart,
   Line,
@@ -12,17 +13,26 @@ import {
 import {Client} from "chomex";
 
 import FlatButton from "material-ui/FlatButton";
-import {green500} from "material-ui/styles/colors";
 
 import colors from "../../../../../Constants/colors";
+
+// FIXME: 画面が小さすぎて無理だ...
+// import ResourceInputDialog from "../../../Common/ResourceInputDialog";
 
 export default class DashboardStatistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: Resource.list(),
+      // inputDialogOpen: false,
+      // dialogImage: "",
+      // dialogError: "",
     };
     this.client = new Client(chrome.runtime);
+  }
+  renderActionButton() {
+    if (Config.find("resource-statistics").value == "input") return null;
+    return <FlatButton label="取得" style={{flex:1}} onClick={() => this.client.message("/resources/capture").then(() => this.setState({list:Resource.list()}))}/>;
   }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
@@ -37,17 +47,18 @@ export default class DashboardStatistics extends Component {
           <Legend />
 
           <YAxis yAxisId="資源" orientation="left" stroke="#000" />
-          <Line type="natural" yAxisId="資源" stroke={colors.fuel}    dataKey="fuel" name="燃料" />
-          <Line type="natural" yAxisId="資源" stroke={colors.ammo}    dataKey="ammo" name="弾薬" />
-          <Line type="natural" yAxisId="資源" stroke={colors.steel}   dataKey="steel" name="鋼材"/>
-          <Line type="natural" yAxisId="資源" stroke={colors.bauxite} dataKey="bauxite" name="ボーキサイト" />
+          <Line type="natural" dot={false} yAxisId="資源" stroke={colors.fuel}    dataKey="fuel" name="燃料" />
+          <Line type="natural" dot={false} yAxisId="資源" stroke={colors.ammo}    dataKey="ammo" name="弾薬" />
+          <Line type="natural" dot={false} yAxisId="資源" stroke={colors.steel}   dataKey="steel" name="鋼材"/>
+          <Line type="natural" dot={false} yAxisId="資源" stroke={colors.bauxite} dataKey="bauxite" name="ボーキサイト" />
 
           <YAxis yAxisId="資材" orientation="right" stroke="#000" />
-          <Line type="natural" yAxisId="資材" stroke={green500} dataKey="buckets" name="修復材" />
+          <Line type="natural" dot={false} yAxisId="資材" stroke={colors.buckets} dataKey="buckets"  name="修復材" />
+          <Line type="natural" dot={false} yAxisId="資材" stroke={colors.material} dataKey="material" name="開発材" />
         </LineChart>
-        <div>
-          <FlatButton label="取得" style={{width:"45%"}} onClick={() => this.client.message("/resources/capture").then(() => this.setState({list:Resource.list()}))}/>
-          <FlatButton label="詳細" style={{width:"45%"}} onClick={() => window.open("/dest/html/statistics.html")}/>
+        <div style={{display:"flex", marginRight:"24px"}}>
+          {this.renderActionButton()}
+          <FlatButton label="詳細" style={{flex:1}} onClick={() => window.open("/dest/html/statistics.html")}/>
         </div>
       </div>
     );

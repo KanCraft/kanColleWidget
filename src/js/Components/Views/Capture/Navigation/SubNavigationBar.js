@@ -4,6 +4,7 @@ import Paper       from "material-ui/Paper";
 import TextField   from "material-ui/TextField";
 import SelectField from "material-ui/SelectField";
 import MenuItem    from "material-ui/MenuItem";
+import Checkbox    from "material-ui/Checkbox";
 
 const styles = {
   bar: {
@@ -38,18 +39,27 @@ export default class SubNavigationBar extends Component {
       text: "",
       size: "4.0em",
       font: "Helvetica",
+      fill: true,
     };
   }
   render() {
     return (
       <Paper style={styles.bar}>
         <div style={{display:"flex"}}>
+          {this.renderFillCheckbox()}
           {this.renderColorPicker()}
           {this.renderTextField()}
           {this.renderFontFamilies()}
           {this.renderTextSize()}
         </div>
       </Paper>
+    );
+  }
+  renderFillCheckbox() {
+    return (
+      <Item style={{display:"flex",alignItems:"center",height:"48px"}}>
+        <Checkbox label="fill" checked={this.state.fill} onCheck={(_, fill) => this.setState({fill})} />
+      </Item>
     );
   }
   renderColorPicker() {
@@ -119,6 +129,9 @@ export default class SubNavigationBar extends Component {
   }
   getSize() {
     return this.state.size;
+  }
+  getFill() {
+    return this.state.fill;
   }
   static propTypes = {
     onColorChanged: PropTypes.func.isRequired,

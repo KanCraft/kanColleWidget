@@ -26,6 +26,9 @@ export default class TweetDialog extends Component {
                     tweettext.focus();
                     this.tweettext = tweettext;
                   }}
+                  defaultValue={function(){
+                    return (new URL(location.href)).searchParams.get("text") || "";
+                  }()}
                   multiLine={true}
                   rows={4}
                   fullWidth={true}

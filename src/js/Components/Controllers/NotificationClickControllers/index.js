@@ -13,18 +13,16 @@ const windows = WindowService.getInstance();
 function OnNotificationClicked(id) {
   // まずこの通知は消す
   notifications.clear(id);
-  // すでに存在してる窓を探す
-  windows.find(true).then(tab => {
-    // あればそれをフォーカスするだけにする
-    windows.focus(tab);
-  }).catch(() => {
-    // なければ最後に選択されたFrameをもとに作る
-    // TODO: この`lastSelectedFrame`が`position`みたいなプロパティを持っている必要がある
-    const lastSelectedFrame = History.find("last-selected-frame");
-    const frame = Frame.find(lastSelectedFrame.id);
-    const position = LaunchPosition.find("default");
-    windows.open(frame, position);
-  });
+
+  const lastSelectedFrame = History.find("last-selected-frame");
+  const frame = Frame.find(lastSelectedFrame.id);
+  const position = LaunchPosition.find("default");
+
+  return windows.find(true)
+    .then(tab => windows.focus(tab))
+    // .then(win => windows.resize(win, frame.size, position.architrave))
+    .catch(() => windows.open(frame, position))
+    .then(win => windows.mute(win.tabs[0], History.find("last-muted-status").muted));
 }
 
 export function OnMissionNotificationClicked(id) {
