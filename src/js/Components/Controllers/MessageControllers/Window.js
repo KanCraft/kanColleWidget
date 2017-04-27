@@ -71,7 +71,7 @@ export function ShouldDecorateWindow(/* message */) {
 
 export function CaptureWindow({trim, me}) {
   return Promise.resolve().then(() => {
-    return me ? Promise.resolve(this.sender.tab) : windows.find();
+    return me ? Promise.resolve(this.sender.tab) : windows.find(true);
   }).then(tab => {
     return captures.capture(tab.windowId);
   }).then(uri => {
