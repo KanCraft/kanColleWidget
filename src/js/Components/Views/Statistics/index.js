@@ -113,7 +113,7 @@ export default class StatisticsView extends Component {
           </LineChart>
         </div>
         <div>
-          <Table>
+          <Table fixedHeader={true} height={"600px"}>
             <TableHeader>
               <ControlRow refresh={this.refresh.bind(this)} />
             </TableHeader>
