@@ -8,15 +8,15 @@ import Paper       from "material-ui/Paper";
 import Avatar      from "material-ui/Avatar";
 
 // Icons
-import PictureInPictureAlt from "material-ui/svg-icons/action/picture-in-picture-alt";
-import Gesture             from "material-ui/svg-icons/content/gesture";
-import Crop                from "material-ui/svg-icons/image/crop";
-import TextFields          from "material-ui/svg-icons/editor/text-fields";
-import Divider             from "material-ui/Divider";
-import Download            from "material-ui/svg-icons/file/file-download";
-import Folder              from "material-ui/svg-icons/file/folder";
-import Refresh             from "material-ui/svg-icons/navigation/refresh";
-import Undo                from "material-ui/svg-icons/content/undo";
+import Crop32     from "material-ui/svg-icons/image/crop-3-2";
+import Gesture    from "material-ui/svg-icons/content/gesture";
+import Crop       from "material-ui/svg-icons/image/crop";
+import TextFields from "material-ui/svg-icons/editor/text-fields";
+import Divider    from "material-ui/Divider";
+import Download   from "material-ui/svg-icons/file/file-download";
+import Folder     from "material-ui/svg-icons/file/folder";
+import Refresh    from "material-ui/svg-icons/navigation/refresh";
+import Undo       from "material-ui/svg-icons/content/undo";
 
 // Colors
 import {red500, grey600} from "material-ui/styles/colors";
@@ -31,7 +31,7 @@ const styles = {
     margin: "0 32px 16px 0",
   },
   selected: {
-    boxShadow: `inset -7px 0 9px -7px ${grey600}`
+    boxShadow: `inset -9px 0 0 0 ${grey600}`
   }
 };
 
@@ -68,7 +68,7 @@ export default class NavigationBar extends Component {
     return  (
       <MenuItem value="Rect" primaryText={
         <IconButton tooltip="長方形">
-          <PictureInPictureAlt />
+          <Crop32 />
         </IconButton>
           } onTouchTap={() => this.props.setTool(Rect)}/>
     );
