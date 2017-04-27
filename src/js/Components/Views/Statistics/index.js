@@ -62,6 +62,7 @@ export default class StatisticsView extends Component {
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
+    const data = Resource.round(this.state.resources);
     return (
       <div>
         <FlatButton
@@ -77,23 +78,38 @@ export default class StatisticsView extends Component {
         </h1>
         <div>
           {/* TODO: DRY */}
-          <LineChart width={w*0.9} height={h*0.7} data={this.state.resources}>
+          <LineChart width={w*0.9} height={h*0.7} data={data}>
             <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
 
-            <XAxis dataKey={r => (new Date(r.created)).format("MM/dd HH:mm")} />
+            <XAxis
+              type={"number"}
+              domain={["dataMin", "dataMax"]}
+              dataKey={"created"}
+              ticks={(() => {
+                return data.reduce((self, r, i) => {
+                  const prev = self[i - 1];
+                  if (prev && r.created - prev.created > 24*60*60*1000) {
+                    self.push(Math.floor((r.created + prev.created)/2));
+                  }
+                  self.push(r.created);
+                  return self;
+                }, []);
+              })()}
+              tickFormatter={created => (new Date(created)).format("MM/dd HH:mm")}
+            />
 
-            <Tooltip />
+            <Tooltip labelFormatter={created => (new Date(created)).format("MM/dd HH:mm")}/>
             <Legend />
 
             <YAxis yAxisId="資源" orientation="left" stroke="#000" />
-            <Line type="natural" dot={false} yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
-            <Line type="natural" dot={false} yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
-            <Line type="natural" dot={false} yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
-            <Line type="natural" dot={false} yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.fuel}    dataKey="fuel" name="燃料" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.ammo}    dataKey="ammo" name="弾薬" />
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.steel}   dataKey="steel" name="鋼材"/>
+            <Line type="monotone" dot={false} yAxisId="資源" stroke={c.bauxite} dataKey="bauxite" name="ボーキサイト" />
 
             <YAxis yAxisId="資材" orientation="right" stroke="#000" />
-            <Line type="natural" dot={false} yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
-            <Line type="natural" dot={false} yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
+            <Line type="monotone" dot={false} yAxisId="資材" stroke={c.buckets} dataKey="buckets" name="修復材" />
+            <Line type="monotone" dot={false} yAxisId="資材" stroke={c.material} dataKey="material" name="開発材" />
           </LineChart>
         </div>
         <div>

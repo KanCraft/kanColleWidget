@@ -17,6 +17,18 @@ export default class Resource extends Model {
   static last() {
     return this.list().pop();
   }
+  // FIXME: なんかこれかっこわるいなあ
+  static round(resources) {
+    return resources.reduce((self, r) => {
+      if (self.length == 0) return self.concat([r]);
+      (self[self.length - 1]._date() == r._date()) ? self[self.length - 1] = r : self.push(r);
+      return self;
+    }, []);
+  }
+  _date() {
+    const d = new Date(this.created);
+    return d.getMonth() + "_" + d.getDate();
+  }
   toText() {
     return [
       `燃料: ${this.fuel}`,
