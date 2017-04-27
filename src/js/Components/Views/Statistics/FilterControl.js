@@ -15,7 +15,7 @@ export default class FilterControl extends Component {
         alignItems: "center",
       }
     };
-    const first = new Date(Resource.first().created);
+    const first = new Date((Resource.first() || {}).created || 0);
     return (
       <div style={styles.outline}>
         <div style={styles.col}>

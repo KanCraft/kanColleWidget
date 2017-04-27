@@ -28,7 +28,7 @@ export default class StatisticsView extends Component {
       ts:        Date.now(),
       filter: {
         term: {
-          from: new Date(Resource.first().created),
+          from: new Date((Resource.first() || {}).created || 0),
           to:   new Date(),
         }
       },
