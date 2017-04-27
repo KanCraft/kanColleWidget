@@ -1,3 +1,4 @@
+/* global sleep:false */
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {TableRow, TableHeaderColumn} from "material-ui/Table";
@@ -23,7 +24,7 @@ export default class ControlRow extends Component {
     this.setState({nowloading:true});
     const client = new Client(chrome.runtime);
     client.message("/resources/capture").then(() => {
-      this.setState({nowloading:false}, () => this.props.refresh());
+      this.setState({nowloading:false}, () => sleep(1).then(this.props.refresh));
     }).catch(err => {
       this.setState({nowloading:false});
       window.alert(JSON.stringify(err));
@@ -49,7 +50,7 @@ export default class ControlRow extends Component {
     const props = this.refs.input.values();
     try {
       Resource.create({...props, created:Date.now()});
-      this.setState({inputDialogOpen:false,dialogError:""}, () => this.props.refresh());
+      this.setState({inputDialogOpen:false,dialogError:""}, () => sleep(1).then(this.props.refresh));
     } catch (err) {
       window.alert(err.toString());
     }

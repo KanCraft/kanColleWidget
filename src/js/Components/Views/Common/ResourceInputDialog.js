@@ -16,12 +16,12 @@ class InputColumn extends Component {
     return (
       <div style={{flex: 1, display:"flex", padding:"0 8px"}}>
         <div style={{flex:1}}><span style={{...styles.label, color}}>{label}</span></div>
-        <div style={{flex:1}}><input ref="input" type="number"  style={styles.input}/></div>
+        <div style={{flex:1}}><input ref="input" type="number" min={0} style={styles.input}/></div>
       </div>
     );
   }
   value() {
-    return parseInt(this.refs.input.value) || null;
+    return this.refs.input.value === "" ? null : parseInt(this.refs.input.value);
   }
   static propTypes = {
     label: PropTypes.string.isRequired,

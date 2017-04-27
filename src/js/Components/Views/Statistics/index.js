@@ -1,3 +1,4 @@
+/* global sleep:true */
 import React, {Component} from "react";
 import {Client} from "chomex";
 import Resource from "../../Models/Resource";
@@ -15,6 +16,7 @@ import ResourceRow from "./ResourceRow";
 import InsertDriveFile from "material-ui/svg-icons/editor/insert-drive-file";
 import ControlRow  from "./ControlRow";
 import FilterControl from "./FilterControl";
+import ResourceEditDialog from "../Common/ResourceEditDialog";
 
 import c from "../../../Constants/colors";
 
@@ -29,7 +31,11 @@ export default class StatisticsView extends Component {
           from: new Date(Resource.first().created),
           to:   new Date(),
         }
-      }
+      },
+      openEditDialog: false,
+      editTarget:     null,
+      editPrev:       null,
+      editNext:       null,
     };
   }
   filterer(f) {
@@ -53,6 +59,18 @@ export default class StatisticsView extends Component {
       resources: Resource.filter(this.filterer(filter)),
     });
   }
+  // {{{ Edit
+  openEditDialog(target, prev, next) {
+    this.setState({openEditDialog:true,editTarget:target,editPrev:prev,editNext:next});
+  }
+  closeEditDialog() {
+    this.setState({openEditDialog:false,editTarget:null,editPrev:null,editNext:null});
+  }
+  onEditCommit(target) {
+    target.save();
+    this.setState({openEditDialog:false,editTarget:null,editPrev:null,editNext:null}, () => sleep(1).then(() => this.refresh()));
+  }
+  // }}}
   exportAsCSV() {
     // TODO: これをサービスにしてテスタブルにするのたのしいはずだから誰かやって
     const rows = [["日付","燃料","弾薬","鋼材","ボーキサイト","修復材","開発材"]].concat(Resource.list().map(r => {
@@ -141,10 +159,21 @@ export default class StatisticsView extends Component {
               <ControlRow refresh={this.refresh.bind(this)} />
             </TableHeader>
             <TableBody>
-              {rows.map(r => <ResourceRow resource={r} key={r._id} refresh={this.refresh.bind(this)}/>)}
+              {rows.map((r, i) => <ResourceRow
+                resource={r} key={r._id} refresh={this.refresh.bind(this)}
+                edit={() => this.openEditDialog(r, rows[i-1], rows[i+1])}
+              />)}
             </TableBody>
           </Table>
         </div>
+        <ResourceEditDialog
+          open={this.state.openEditDialog}
+          close={this.closeEditDialog.bind(this)}
+          onEditCommit={this.onEditCommit.bind(this)}
+          target={this.state.editTarget}
+          prev={this.state.editPrev}
+          next={this.state.editNext}
+        />
         <div>
           <p style={{textAlign:"center", padding:"48px", color:"#bdbdbd"}}>
             資源推移表は、以下の条件で右上の資源の表示を画像解析で取得します。
