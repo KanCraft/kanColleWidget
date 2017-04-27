@@ -1,5 +1,6 @@
 import React, {Component,PropTypes} from "react";
 import Resource from "../../../../Models/Resource";
+import Config from "../../../../Models/Config";
 import {
   LineChart,
   Line,
@@ -15,13 +16,23 @@ import FlatButton from "material-ui/FlatButton";
 
 import colors from "../../../../../Constants/colors";
 
+// FIXME: 画面が小さすぎて無理だ...
+// import ResourceInputDialog from "../../../Common/ResourceInputDialog";
+
 export default class DashboardStatistics extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: Resource.list(),
+      // inputDialogOpen: false,
+      // dialogImage: "",
+      // dialogError: "",
     };
     this.client = new Client(chrome.runtime);
+  }
+  renderActionButton() {
+    if (Config.find("resource-statistics").value == "input") return null;
+    return <FlatButton label="取得" style={{flex:1}} onClick={() => this.client.message("/resources/capture").then(() => this.setState({list:Resource.list()}))}/>;
   }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
@@ -45,9 +56,9 @@ export default class DashboardStatistics extends Component {
           <Line type="natural" dot={false} yAxisId="資材" stroke={colors.buckets} dataKey="buckets"  name="修復材" />
           <Line type="natural" dot={false} yAxisId="資材" stroke={colors.material} dataKey="material" name="開発材" />
         </LineChart>
-        <div>
-          <FlatButton label="取得" style={{width:"45%"}} onClick={() => this.client.message("/resources/capture").then(() => this.setState({list:Resource.list()}))}/>
-          <FlatButton label="詳細" style={{width:"45%"}} onClick={() => window.open("/dest/html/statistics.html")}/>
+        <div style={{display:"flex", marginRight:"24px"}}>
+          {this.renderActionButton()}
+          <FlatButton label="詳細" style={{flex:1}} onClick={() => window.open("/dest/html/statistics.html")}/>
         </div>
       </div>
     );

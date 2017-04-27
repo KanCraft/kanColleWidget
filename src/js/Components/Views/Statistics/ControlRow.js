@@ -30,7 +30,6 @@ export default class ControlRow extends Component {
     });
   }
   onClickAttemptInput() {
-    // 1. まずゲーム画面の断片をもらう
     const client = new Client(chrome.runtime);
     client.message("/window/capture").then(res => {
       return Promise.resolve(res);
@@ -39,10 +38,6 @@ export default class ControlRow extends Component {
     }).then(({data, message}) => {
       this.setState({inputDialogOpen:true, dialogImage:data, dialogError:message});
     });
-    // 2. 数値入力用のダイアログを表示する
-    // 3. バリデーションしつつ、保存する
-    // 4. ダイアログを非表示にする
-    // 5. this.props.refresh()
   }
   renderActionButton() {
     if (Config.find("resource-statistics").value == "input") {
