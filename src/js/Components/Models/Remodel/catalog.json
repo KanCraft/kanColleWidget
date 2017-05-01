@@ -28,7 +28,22 @@
         false,
         false
       ],
-      "ship": "夕立改二綾波改二",
+      "ship": "夕立改二",
+      "comment": ""
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲B型改二",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "綾波改二",
       "comment": ""
     },
     {
