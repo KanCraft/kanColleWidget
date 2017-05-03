@@ -36,7 +36,8 @@ var KanColleWidget = KanColleWidget || {};
             return callback(response);
         });
 
-        xhr.send(this.dict2ParamStr(dict));
+        xhr.send(JSON.stringify(dict));
+        // xhr.send(this.dict2ParamStr(dict));
     };
 
     /**
