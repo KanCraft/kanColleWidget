@@ -20,24 +20,32 @@ export default class TweetDialog extends Component {
           <div style={{flex: 2}}><img src={this.props.getImageURI()} style={{width: "90%"}} /></div>
           <div style={{flex: 3, padding: "0 10px"}}>
             <TextField
-                  name="tweettext"
-                  ref={tweettext => {
-                    if (!tweettext) return;
-                    tweettext.focus();
-                    this.tweettext = tweettext;
-                  }}
-                  defaultValue={function(){
-                    return (new URL(location.href)).searchParams.get("text") || "";
-                  }()}
-                  multiLine={true}
-                  rows={4}
-                  fullWidth={true}
-                  onKeyDown={ev => {
-                    if (ev.key == "Enter" && (ev.ctrlKey || ev.metaKey)) {
-                      this.props.onTweetKeyMapEntered();
-                    }
-                  }}
-                  />
+              name="tweettext"
+              ref={tweettext => {
+                if (!tweettext) return;
+                tweettext.focus();
+                this.tweettext = tweettext;
+              }}
+              defaultValue={function(){
+                return (new URL(location.href)).searchParams.get("text") || "";
+              }()}
+              multiLine={true}
+              rows={4}
+              fullWidth={true}
+              onKeyDown={ev => {
+                if (ev.key == "Enter" && (ev.ctrlKey || ev.metaKey)) {
+                  this.props.onTweetKeyMapEntered();
+                }
+              }}
+            />
+            <TextField
+              name="reply"
+              ref="reply"
+              fullWidth={true}
+              underlineShow={false}
+              placeholder={"リプライにしたい対象ツイートのURLをここに貼る"}
+              style={{fontSize:"0.8em"}}
+            />
           </div>
         </div>
       </Dialog>
@@ -59,6 +67,10 @@ export default class TweetDialog extends Component {
   }
   getValue() {
     return this.tweettext.getValue();
+  }
+  getReply() {
+    const id = this.refs.reply.getValue().split("/").pop();
+    return /[0-9]+/.test(id) ? id : null;
   }
   static propTypes = {
     tweet:       PropTypes.any,

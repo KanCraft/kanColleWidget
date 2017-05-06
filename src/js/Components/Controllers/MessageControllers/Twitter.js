@@ -27,6 +27,7 @@ function TwitterPostWithImage(message) {
     image:  message.image,
     status: message.status,
     type:   message.type,
+    reply:  message.reply,
   };
   return new Promise((resolve, reject) => {
     Twitter.sharedInstance().postWithImage(params).then(response => {

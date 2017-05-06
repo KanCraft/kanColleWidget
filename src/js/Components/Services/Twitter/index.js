@@ -84,8 +84,11 @@ class Twitter {
     let formData = new FormData();
     formData.append("media[]", blob);
     const options = {
-      parameters: { status: params.status },
-      body:       formData,
+      parameters: {
+        status: params.status,
+        in_reply_to_status_id: /[0-9]+/.test(String(params.reply)) ? String(params.reply) : null,
+      },
+      body: formData,
     };
     return this.request("POST", url, options);
   }
