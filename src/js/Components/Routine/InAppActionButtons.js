@@ -11,7 +11,7 @@ export default class InAppActionButtons {
     div.style.position = "fixed";
     div.style.top      = 0;
     div.style.right    = 0;
-    div.style.transition = "all 0.1s";
+    // div.style.transition = "all 0.1s"; // ← たぶん #732 の原因
     div.style.opacity  = 0;
     div.addEventListener("mouseover", () => { div.style.opacity = 1; });
     div.addEventListener("mouseleave", () => { div.style.opacity = 0; });
@@ -56,9 +56,11 @@ export default class InAppActionButtons {
     img.addEventListener("click", () => {
       this.container.style.transition = "all 0s";
       this.container.style.opacity = 0;
-      this.client.message("/window/current-action").then(() => {
-        setTimeout(() => this.container.style.transition = "all 0.1s", 600);
-      });
+      Promise.resolve()
+      .then(() => new Promise(resolve => setTimeout(resolve, 50)))
+      .then(() => this.client.message("/window/current-action"))
+      .then(() => new Promise(resolve => setTimeout(resolve, 600)))
+      .then(() => this.container.style.transition = "all 0.1s");
     });
     return this.wrap(img);
   }
