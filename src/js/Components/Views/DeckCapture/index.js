@@ -16,6 +16,7 @@ import {Row, Col} from "../Grid";
 import {ImageCell, EmptyCell, CameraCell} from "./Cells";
 
 import DeckCaptureConfig from "../../Models/DeckCaptureConfig";
+import CaptureWindowURL  from "../../Routine/CaptureWindowURL";
 
 const client = new Client(chrome.runtime);
 
@@ -112,9 +113,12 @@ class DeckCaptureView extends Component {
 
   onDoneButtonClicked() {
     let canvas = document.createElement("canvas");
-    Promise.all(this.state.pictures.map(Image.init)).then(images => {
+    Promise.all(this.state.pictures.map(Image.init))
+    .then(images => {
       canvas.width  = images[0].width * this.state.config.col * (this.state.config.panels || 1);
       canvas.height = images[0].height * this.state.config.row;
+      return Promise.resolve(images);
+    }).then(images => {
       let ctx = canvas.getContext("2d");
       var panel = -1;
       images.map((img, i) => {
@@ -123,7 +127,10 @@ class DeckCaptureView extends Component {
         const r = Math.floor(i / this.state.config.col) % this.state.config.row;
         ctx.drawImage(img, c * img.width, r * img.height, img.width, img.height);
       });
-            // 中央分離線をひく
+      return Promise.resolve(images);
+    }).then(images => {
+      // 中央分離線をひく
+      let ctx = canvas.getContext("2d");
       if (this.state.config.panels > 1) {
         for (let i = 1; i < this.state.config.panels; i++) {
           const x = images[0].width * this.state.config.col * i;
@@ -132,19 +139,15 @@ class DeckCaptureView extends Component {
           ctx.fillRect(x - 4, 0, 8, h);
         }
       }
-      let params = new URLSearchParams();
+    }).then(() => {
       let uri = canvas.toDataURL();
-            // とりあえず
-      if (uri.length > 1 * Math.pow(10, 6)) {
-        const hash = `kcw:tmp:deckimage:${Date.now()}`;
-        chrome.storage.local.set({[hash]:uri}, () => {
-          params.set("datahash", hash);
-          window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
-        });
-      } else {
-        params.set("img", canvas.toDataURL());
-        window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
-      }
+      const cwurl = new CaptureWindowURL(Date.now());
+      return cwurl.params(uri);
+    }).then(params => {
+      if (this.state.config._id == "normal" || this.state.config._id == "combined") params.set("text", "#編成キャプチャ\n");
+      return Promise.resolve(params);
+    }).then(params => {
+      window.open(chrome.extension.getURL("dest/html/capture.html") + "?" + params.toString());
     });
   }
   onGridChanged(ev) {

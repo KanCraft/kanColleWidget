@@ -8,7 +8,6 @@ import QuestStatus from "./QuestStatus";
 
 import Dialog from "material-ui/Dialog";
 import RaisedButton from "material-ui/RaisedButton";
-import Done from "material-ui/svg-icons/action/done";
 
 class QuestClearView extends Component {
   render() {
@@ -40,7 +39,7 @@ class QuestClearView extends Component {
           <b>本日の任務は全て達成されました</b>
         </div>
         <div style={styles.container}>
-          <Done style={styles.done}/>
+          <img src="/dest/img/congrats/0.png" style={{width:"74%",cursor:"pointer"}} onClick={() => window.open("http://roonyan.com")}/>
         </div>
       </div>
     );
