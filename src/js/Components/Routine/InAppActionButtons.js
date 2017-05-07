@@ -56,11 +56,11 @@ export default class InAppActionButtons {
     img.addEventListener("click", () => {
       this.container.style.transition = "all 0s";
       this.container.style.opacity = 0;
-      setTimeout(() => {
-        this.client.message("/window/current-action").then(() => {
-          setTimeout(() => this.container.style.transition = "all 0.1s", 600);
-        });
-      }, 50);
+      Promise.resolve()
+      .then(() => new Promise(resolve => setTimeout(resolve, 50)))
+      .then(() => this.client.message("/window/current-action"))
+      .then(() => new Promise(resolve => setTimeout(resolve, 600)))
+      .then(() => this.container.style.transition = "all 0.1s");
     });
     return this.wrap(img);
   }
