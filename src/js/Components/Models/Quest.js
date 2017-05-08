@@ -103,7 +103,7 @@ Quest.default = {
   // ちょっとアレだけど、タイムスタンプ管理用のやつ
   "lastTouched": {type:"TIMESTAMP", timestamp: 0},
   // 出撃 計8
-  201: {type: DAILY, trigger: SORTIE, title:"敵艦隊を撃破せよ！",             id: 201, required: [],     state: YET, restrict: "_date28"},
+  201: {type: DAILY, trigger: SORTIE, title:"敵艦隊を撃破せよ！",             id: 201, required: [],     state: YET},
   216: {type: DAILY, trigger: SORTIE, title:"敵艦隊主力を撃滅せよ！",         id: 216, required: [201],  state: YET},
   211: {type: DAILY, trigger: SORTIE, title:"敵空母を3隻撃沈せよ",            id: 211, required: [201],  state: YET, restrict: "_date370" },
   212: {type: DAILY, trigger: SORTIE, title:"敵輸送船団を叩け！",             id: 212, required: [201],  state: YET, restrict: "_date28" },
