@@ -57,22 +57,21 @@ export default class Quest extends Model {
     return this.save();
   }
   isAvailable() {
-    if (this.restrict) {
-      // console.log(!this[this.restrict]((new Date()).toJST()));
-      if (!this[this.restrict]((new Date()).toJST())) return false;
-    }
-    // FIXME: これもっとかっちょいい再帰にしたいな
+    if (this.isRestricted()) return false;
     return this.required.map(id => Quest.find(id))
     .filter(quest => quest.state < DONE).length == 0;
   }
 
-  // TODO: これ、たしかにJSTを渡してはいるんだけど、JSTということだけではなく、
-  // TODO: KanColleDateを見なきゃいけないと思うんですよね
+  isRestricted() {
+    if (typeof this[this.restrict] != "function") return false;
+    return !this[this.restrict](new KanColleDate());
+  }
+
   _date28(d) {
-    return d.getDate() == 2 || d.getDate() == 8;
+    return d.getQuestDate() == 2 || d.getQuestDate() == 8;
   }
   _date370(d) {
-    return d.getDate() == 3 || d.getDate() == 7 || d.getDate() == 0;
+    return d.getQuestDate() == 3 || d.getQuestDate() == 7 || d.getQuestDate() == 0;
   }
 
   static alert(quests, plain = false) {

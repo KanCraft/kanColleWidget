@@ -27,6 +27,9 @@ export default class KanColleDate {
   getKcDay() {
     return (this.jst.getDay() + 6) % 7;
   }
+  getQuestDate() {
+    return (new Date(this.jst.getTime() - 5*60*60*1000)).getDate();
+  }
     // この時刻から次回更新までの時間長を文字列で返す
   timeLeftToNextUpdate() {
     if (this.jst.isBefore5AM()) {
