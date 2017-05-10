@@ -57,22 +57,21 @@ export default class Quest extends Model {
     return this.save();
   }
   isAvailable() {
-    if (this.ristrict) {
-      // console.log(!this[this.ristrict]((new Date()).toJST()));
-      if (!this[this.ristrict]((new Date()).toJST())) return false;
-    }
-    // FIXME: これもっとかっちょいい再帰にしたいな
+    if (this.isRestricted()) return false;
     return this.required.map(id => Quest.find(id))
     .filter(quest => quest.state < DONE).length == 0;
   }
 
-  // TODO: これ、たしかにJSTを渡してはいるんだけど、JSTということだけではなく、
-  // TODO: KanColleDateを見なきゃいけないと思うんですよね
+  isRestricted() {
+    if (typeof this[this.restrict] != "function") return false;
+    return !this[this.restrict](new KanColleDate());
+  }
+
   _date28(d) {
-    return d.getDate() == 2 || d.getDate() == 8;
+    return d.getQuestDate() == 2 || d.getQuestDate() == 8;
   }
   _date370(d) {
-    return d.getDate() == 3 || d.getDate() == 7 || d.getDate() == 0;
+    return d.getQuestDate() == 3 || d.getQuestDate() == 7 || d.getQuestDate() == 0;
   }
 
   static alert(quests, plain = false) {
@@ -103,10 +102,10 @@ Quest.default = {
   // ちょっとアレだけど、タイムスタンプ管理用のやつ
   "lastTouched": {type:"TIMESTAMP", timestamp: 0},
   // 出撃 計8
-  201: {type: DAILY, trigger: SORTIE, title:"敵艦隊を撃破せよ！",             id: 201, required: [],     state: YET, restrict: "_date28"},
+  201: {type: DAILY, trigger: SORTIE, title:"敵艦隊を撃破せよ！",             id: 201, required: [],     state: YET},
   216: {type: DAILY, trigger: SORTIE, title:"敵艦隊主力を撃滅せよ！",         id: 216, required: [201],  state: YET},
-  211: {type: DAILY, trigger: SORTIE, title:"敵空母を3隻撃沈せよ",            id: 211, required: [201],  state: YET, ristrict: "_date370" },
-  212: {type: DAILY, trigger: SORTIE, title:"敵輸送船団を叩け！",             id: 212, required: [201],  state: YET, ristrict: "_date28" },
+  211: {type: DAILY, trigger: SORTIE, title:"敵空母を3隻撃沈せよ",            id: 211, required: [201],  state: YET, restrict: "_date370" },
+  212: {type: DAILY, trigger: SORTIE, title:"敵輸送船団を叩け！",             id: 212, required: [201],  state: YET, restrict: "_date28" },
   218: {type: DAILY, trigger: SORTIE, title:"敵補給艦を3隻撃沈せよ！",        id: 218, required: [216],  state: YET},
   210: {type: DAILY, trigger: SORTIE, title:"敵艦隊を10回邀撃せよ！",         id: 210, required: [216],  state: YET},
   226: {type: DAILY, trigger: SORTIE, title:"南西諸島海域の制海権を握れ！",   id: 226, required: [218],  state: YET},

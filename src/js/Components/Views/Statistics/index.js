@@ -102,7 +102,8 @@ export default class StatisticsView extends Component {
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
-    const data = Resource.round(this.state.resources);
+    // const data = Resource.round(this.state.resources);
+    const data = Resource.list();
     return (
       <div>
         <FlatButton

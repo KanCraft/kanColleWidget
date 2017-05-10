@@ -263,6 +263,8 @@ export default class CaptureView extends Component {
       let url = new CaptureWindowURL(Date.now());
       return url.params(uri);
     }).then(params => {
+      let current = new URL(location.href);
+      params.set("text", current.searchParams.get("text"));
       location.href = "?" + params.toString();
     });
   }

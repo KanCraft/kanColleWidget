@@ -5,9 +5,9 @@ import Rectangle      from "../Services/Rectangle";
 import WindowService  from "../Services/WindowService";
 import OCR            from "../Services/API/OCR";
 
-function _isSameDate(x, y) {
-  const a = new Date(x), b = new Date(y);
-  return a.getMonth()*100+a.getDate() == b.getMonth()*100+b.getDate();
+function _shouldSquash(last, now) {
+  // とりあえず1日24レコードあったら十分多いので、1時間でまとめる
+  return now - last < 1*60*60*1000;
 }
 
 export default function record(auto = true) {
@@ -40,8 +40,7 @@ export default function record(auto = true) {
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
-    // これが自動取得でありなおかつ同日中であれば、最後のレコードに上書きする
-    _id: auto && _isSameDate(last.created, Date.now()) ? last._id : undefined
+    _id: auto && _shouldSquash(last.created, Date.now()) ? last._id : undefined
   })))
   .then(resource => resource.save());
 }
