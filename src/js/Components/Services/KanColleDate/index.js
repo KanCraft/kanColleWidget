@@ -27,8 +27,9 @@ export default class KanColleDate {
   getKcDay() {
     return (this.jst.getDay() + 6) % 7;
   }
+  // 艦これ時間における日付下一桁を返す
   getQuestDate() {
-    return (new Date(this.jst.getTime() - 5*60*60*1000)).getDate();
+    return (new Date(this.jst.getTime() - 5*60*60*1000)).getDate() % 10;
   }
     // この時刻から次回更新までの時間長を文字列で返す
   timeLeftToNextUpdate() {
