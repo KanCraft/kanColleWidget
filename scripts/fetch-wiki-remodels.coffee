@@ -26,15 +26,18 @@ class Records
 
   add: (tr) ->
     # f = $(tr).contents().first()
-    switch tr.contents().length
-      when 11
-        row11cols.call @, tr
-      when 10
-        row10cols.call @, tr
-      when 9
-        row9cols.call @, tr
-      when 8
-        row8cols.call @, tr
+    try
+      switch tr.contents().length
+        when 11
+          row11cols.call @, tr
+        when 10
+          row10cols.call @, tr
+        when 9
+          row9cols.call @, tr
+        when 8
+          row8cols.call @, tr
+    catch err
+      throw "#{@equip.name}: #{err.toString()}"
 
   """
   11列ある場合は、これはぜったいにカテゴリ最初のやつなので、全部初期化する
@@ -93,6 +96,8 @@ class Records
     return $col.text()
 
   getAvailability = (days) ->
+    for day in days
+      throw "不明な可否記号です: #{day.children[0].data}" if day.children[0].data.trim() not in ["〇","◯","×"]
     (day.children[0].data == "〇" for day in days)
 
   zip = (avlbl) ->
