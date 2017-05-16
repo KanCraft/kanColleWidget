@@ -53,7 +53,7 @@ class Records
     @comment =
       value: getComment.call(@, $tr.contents().eq(10))
       count: parseInt($tr.contents().eq(10).prop("rowspan"))
-    @records = @records.concat(zip.call(@, getAvailability.call(@, $tr.find("td").slice(2,9))))
+    @records = @records.concat(zip.call(@, getAvailability.call(@, $tr.find("td").slice(1,8))))
 
   """
   10列の場合は、カテゴリは同じだが、装備名が異なる場合で、
