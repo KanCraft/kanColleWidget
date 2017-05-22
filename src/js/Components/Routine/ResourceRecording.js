@@ -7,7 +7,9 @@ import OCR            from "../Services/API/OCR";
 
 function _shouldSquash(last, now) {
   // とりあえず1日24レコードあったら十分多いので、1時間でまとめる
-  return now - last < 1*60*60*1000;
+  now = new Date(now);
+  last = new Date(last);
+  return now.format("MMddHH") == last.format("MMddHH");
 }
 
 export default function record(auto = true) {

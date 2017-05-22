@@ -73,7 +73,7 @@ export default class StatisticsView extends Component {
   // }}}
   exportAsCSV() {
     // TODO: これをサービスにしてテスタブルにするのたのしいはずだから誰かやって
-    const rows = [["日付","燃料","弾薬","鋼材","ボーキサイト","修復材","開発材"]].concat(Resource.list().map(r => {
+    const rows = [["日付","燃料","弾薬","鋼材","ボーキサイト","修復材","開発材"]].concat(this.state.resources.map(r => {
       return [(new Date(r.created).toISOString()), r.fuel, r.ammo, r.steel, r.bauxite, r.buckets, r.material || 0];
     }));
     const str = rows.map(row => row.map(col => col || 0).join(",")).join("\n");
@@ -102,8 +102,7 @@ export default class StatisticsView extends Component {
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
     const rows = [].concat(this.state.resources).reverse();
-    // const data = Resource.round(this.state.resources);
-    const data = Resource.list();
+    const data = this.state.resources;
     return (
       <div>
         <FlatButton
@@ -114,7 +113,7 @@ export default class StatisticsView extends Component {
           onClick={this.exportAsCSV.bind(this)}
           label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
         />
-        <div style={{display:"flex"}}>
+        <div style={{display:"flex", flexWrap:"wrap"}}>
           <div><h1>資源推移記録</h1></div>
           <FilterControl onTermChanged={this.onTermChanged.bind(this)}/>
         </div>
