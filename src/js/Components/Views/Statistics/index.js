@@ -113,7 +113,7 @@ export default class StatisticsView extends Component {
           onClick={this.exportAsCSV.bind(this)}
           label="CSV EXPORT" labelPosition="before" style={{float:"right", color:"#9E9E9E"}} icon={<InsertDriveFile />}
         />
-        <div style={{display:"flex"}}>
+        <div style={{display:"flex", flexWrap:"wrap"}}>
           <div><h1>資源推移記録</h1></div>
           <FilterControl onTermChanged={this.onTermChanged.bind(this)}/>
         </div>
