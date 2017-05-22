@@ -35,15 +35,19 @@ export default class Resource extends Model {
     const d = new Date(this.created);
     return d.getMonth() + "_" + d.getDate();
   }
-  toText() {
+  toText(fmt = false) {
+    const exp = fmt ? {digit:1000,unit:"k"} : null;
     return [
-      `燃料: ${this.fuel}`,
-      `弾薬: ${this.ammo}`,
-      `鋼材: ${this.steel}`,
-      `ボーキサイト: ${this.bauxite}`,
-      `修復材: ${this.buckets}`,
-      `開発材: ${this.material}`,
-      `#資源記録 ${(new Date(this.created)).format("yyyy/MM/dd")}`,
+      `修復材: ${this.buckets} / 開発材: ${this.material}`,
+      `燃料: ${this._k("fuel", exp)} / 鋼材: ${this._k("steel", exp)}`,
+      `弾薬: ${this._k("ammo", exp)} / ボーキサイト: ${this._k("bauxite", exp)}`,
+      "#資源記録\n",
     ].join("\n");
+  }
+  _k(key, expression) {
+    const v = this[key];
+    if (!expression) return v;
+    if (v < expression.digit) return v;
+    return Math.round(v/expression.digit) + expression.unit;
   }
 }
