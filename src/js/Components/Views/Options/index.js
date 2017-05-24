@@ -12,6 +12,7 @@ import SyncSettingsView         from "./Settings/Syncs";
 import TimerSettingsView        from "./Settings/Timer";
 import TwitterSettingsView      from "./Settings/Twitter";
 import InAppSettingsView        from "./Settings/InApp";
+import StatisticsSettingsView   from "./Settings/Statistics";
 import UncategorizedSettings    from "./Settings/Uncategorized";
 import ExternalExtensionView    from "./Settings/External";
 import Announcement   from "./Announcement";
@@ -56,6 +57,7 @@ export default class OptionsView extends Component {
         <SyncSettingsView         styles={styles} />
         <TwitterSettingsView      styles={styles} />
         <InAppSettingsView        styles={styles} />
+        <StatisticsSettingsView   styles={styles} />
         <ExternalExtensionView    styles={styles} />
         <UncategorizedSettings    styles={styles} />
         <WinconfigsView           styles={styles} />
