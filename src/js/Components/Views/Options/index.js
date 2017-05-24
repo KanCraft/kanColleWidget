@@ -26,7 +26,9 @@ import History from "../../Models/History";
 
 const styles = {
   title: {
-    fontSize: "2em"
+    fontSize: "2em",
+    display: "flex",
+    alignItems: "center",
   }
 };
 
