@@ -184,7 +184,7 @@ export default class CaptureView extends Component {
       }).catch(err => {
         this.setState({
           snackbarMessage: err.message,
-          tweetAction: null,
+          ...(err.status == 404 ? {tweetAction:null} : {}),
           nowSending: false,
         });
       });
