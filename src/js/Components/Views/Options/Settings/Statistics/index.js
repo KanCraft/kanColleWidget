@@ -6,6 +6,7 @@ import Timeline from "material-ui/svg-icons/action/timeline";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import Toggle   from "material-ui/Toggle";
 
 import Config from "../../../../Models/Config";
 import Description from "../Description";
@@ -15,11 +16,12 @@ export default class StatisticsSettingsView extends Component {
     super(props);
     this.state = {
       model: Config.find("resource-statistics"),
+      round: Config.find("resource-statistics-round-digit"),
     };
   }
-  onToggle(ev, enabled) {
-    this.state.model.update({enabled});
-    this.setState({model: this.state.model});
+  onRoundToggle(ev, value) {
+    this.state.round.update({value});
+    this.setState({round: this.state.round});
   }
   render() {
     const description = [
@@ -49,6 +51,14 @@ export default class StatisticsSettingsView extends Component {
                   <MenuItem value={"manual"}    primaryText={"手動取得（任意のタイミングで画像解析する）"} />
                   <MenuItem value={"automatic"} primaryText={"自動取得（高解像度ディスプレイ向き）"} />
                 </SelectField>
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>
+                資源記録ツイートの数値を丸める（1000 = 1k）
+              </TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.round.value} onToggle={this.onRoundToggle.bind(this)}/>
               </TableRowColumn>
             </TableRow>
           </TableBody>

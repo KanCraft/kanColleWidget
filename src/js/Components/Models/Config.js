@@ -88,6 +88,9 @@ Config.default = {
   "resource-statistics": {
     enabled: true,
   },
+  "resource-statistics-round-digit": {
+    value: true,
+  },
   "debug": {
     value: false
   }

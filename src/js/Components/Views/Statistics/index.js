@@ -1,6 +1,7 @@
 /* global sleep:true */
 import React, {Component} from "react";
 import {Client} from "chomex";
+import Config from "../../Models/Config";
 import Resource from "../../Models/Resource";
 import {
   LineChart,
@@ -95,7 +96,7 @@ export default class StatisticsView extends Component {
     }).then(res => {
       let p = new URLSearchParams();
       p.set("img", res.data);
-      p.set("text", Resource.last().toText());
+      p.set("text", Resource.last().toText(Config.find("resource-statistics-round-digit").value));
       window.open(`/dest/html/capture.html?${p.toString()}`);
     });
   }
