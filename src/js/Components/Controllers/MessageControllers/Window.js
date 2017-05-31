@@ -75,6 +75,8 @@ export function CaptureWindow({trim, me}) {
   }).then(tab => {
     return captures.capture(tab.windowId);
   }).then(uri => {
+    return Config.find("force-capture-default-size").value ? TrimService.initWithURI(uri).resize() : Promise.resolve(uri);
+  }).then(uri => {
     if (!trim) return Promise.resolve(uri);
     const trims = new TrimService(uri);
     const rect = new Rectangle(trim.left, trim.top, trim.width, trim.height);
@@ -133,6 +135,9 @@ export function CurrentActionForWindow() {
   return windows.find(true)
     .then(windows.focus.bind(windows))
     .then(captures.capture.bind(captures))
+    .then(uri => {
+      return Config.find("force-capture-default-size").value ? TrimService.initWithURI(uri).resize() : Promise.resolve(uri);
+    })
     .then(uri => {
       if (Config.find("directly-download-on-capture").value) return assets.downloadImageURL(uri);
       let url = new CaptureWindowURL(Date.now());
