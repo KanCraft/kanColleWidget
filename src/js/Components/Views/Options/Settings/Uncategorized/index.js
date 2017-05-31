@@ -18,7 +18,6 @@ export default class UncategorizedSettings extends Component {
         <PopupBackgroundImageSetting />
         <StrictMissionRotation />
         <QuestManagerAlert />
-        <ResourceStatistics />
       </div>
     );
   }
@@ -87,59 +86,6 @@ class QuestManagerAlert extends Component {
                   <MenuItem value={"notification"} primaryText={"通知ポップアップを使う"} />
                   <MenuItem value={"alert"}        primaryText={"アラートダイアログを使う"} />
                 </SelectField>
-              </div>
-            </TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
-    );
-  }
-}
-
-class ResourceStatistics extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      model: Config.find("resource-statistics"),
-    };
-  }
-  onToggle(ev, enabled) {
-    this.state.model.update({enabled});
-    this.setState({model: this.state.model});
-  }
-  render() {
-    return (
-      <Table selectable={false}>
-        <TableBody displayRowCheckbox={false}>
-          <TableRow>
-            <TableRowColumn>
-              資源推移表を使う
-              <Detail>
-                この設定を「自動取得」にすると、以下の条件で右上の資源の表示を画像解析で自動に取得します。
-                (1) 編成画面への遷移時で、(2) 画面が中型以上の大きさを持っており、(3) 縦横比が800x480ぴったり、
-                (4) なお取得成功した場合も同日中のレコードは上書きして1つのレコードとして保存されます。
-                <br />
-                この設定を「手動取得」にすると、ダッシュボードおよび資源推移ページの「取得」ボタンが押されたタイミングで取得を試みます。
-                この場合、取得成功したレコードは同日中であっても別レコードとして保存されます。
-                <br />
-                いずれにしても画像解析を使っていますので、画面が大きく画質が良いほうが精度は高いです。
-                <br />
-                画面の解像度などの問題で画像解析での取得がもうまったく動かねえ！っていう場合は「手動入力」にすると、自分で数値を入力する感じでどうにかしてください。
-              </Detail>
-            </TableRowColumn>
-            <TableRowColumn>
-              <div>
-                <SelectField value={this.state.model.value || "disabled"} fullWidth={true} onChange={(ev, i, value) => {
-                  let model = this.state.model; model.update({value}); this.setState({model});
-                }}>
-                  <MenuItem value={"disabled"}  primaryText={"使わない"} />
-                  <MenuItem value={"input"}     primaryText={"手動入力（画像解析を使わない）"} />
-                  <MenuItem value={"manual"}    primaryText={"手動取得"} />
-                  <MenuItem value={"automatic"} primaryText={"自動取得（高解像度ディスプレイ向き）"} />
-                </SelectField>
-              </div>
-              <div>
-                <a href="/dest/html/statistics.html">資源推移表</a>
               </div>
             </TableRowColumn>
           </TableRow>

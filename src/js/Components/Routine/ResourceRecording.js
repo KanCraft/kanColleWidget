@@ -38,7 +38,7 @@ export default function record(auto = true) {
     ]);
   })
   //  .then(urls => urls.map(url => window.open(url)));
-  .then(urls => Promise.all(urls.map(url => ocr.execute(url))))
+  .then(urls => Promise.all(urls.map(url => ocr.execute(url, {whitelist:"0123456789",trim:"\n"}))))
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
