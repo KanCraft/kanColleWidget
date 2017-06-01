@@ -21,6 +21,10 @@ export default class ScreenShotSettingsView extends Component {
             <SettingSwitch
                   title="スクショしたらそのままダウンロードする"
                   model="directly-download-on-capture" />
+            <SettingSwitch
+                  title="スクショしたら必ず中型にリサイズする"
+                  detail="プレー画面がどんなサイズであっても800x480にリサイズします。当然、その過程で画像劣化する可能性があります。"
+                  model="force-capture-default-size" />
             <SettingScreenShotFile />
           </TableBody>
         </Table>

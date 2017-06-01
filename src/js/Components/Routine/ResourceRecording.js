@@ -7,7 +7,9 @@ import OCR            from "../Services/API/OCR";
 
 function _shouldSquash(last, now) {
   // とりあえず1日24レコードあったら十分多いので、1時間でまとめる
-  return now - last < 1*60*60*1000;
+  now = new Date(now);
+  last = new Date(last);
+  return now.format("MMddHH") == last.format("MMddHH");
 }
 
 export default function record(auto = true) {
@@ -36,7 +38,7 @@ export default function record(auto = true) {
     ]);
   })
   //  .then(urls => urls.map(url => window.open(url)));
-  .then(urls => Promise.all(urls.map(url => ocr.execute(url))))
+  .then(urls => Promise.all(urls.map(url => ocr.execute(url, {whitelist:"0123456789",trim:"\n"}))))
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),

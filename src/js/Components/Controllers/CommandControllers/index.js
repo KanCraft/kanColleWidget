@@ -2,6 +2,7 @@ import WindowService from "../../Services/WindowService";
 const windows = WindowService.getInstance();
 import CaptureService from "../../Services/CaptureService";
 const captures = new CaptureService();
+import TrimService from "../../Services/TrimService";
 
 import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
@@ -22,6 +23,8 @@ export function CaptureController() {
   const assets = new Assets(Config);
   windows.find().then(tab => {
     return captures.capture(tab.windowId);
+  }).then(uri => {
+    return Config.find("force-capture-default-size").value ? TrimService.initWithURI(uri).resize() : Promise.resolve(uri);
   }).then(uri => {
     if (Config.find("directly-download-on-capture").value) return assets.downloadImageURL(uri);
     else OpenCaptureWindow(uri);

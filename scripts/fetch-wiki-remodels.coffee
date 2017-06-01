@@ -26,15 +26,18 @@ class Records
 
   add: (tr) ->
     # f = $(tr).contents().first()
-    switch tr.contents().length
-      when 11
-        row11cols.call @, tr
-      when 10
-        row10cols.call @, tr
-      when 9
-        row9cols.call @, tr
-      when 8
-        row8cols.call @, tr
+    try
+      switch tr.contents().length
+        when 11
+          row11cols.call @, tr
+        when 10
+          row10cols.call @, tr
+        when 9
+          row9cols.call @, tr
+        when 8
+          row8cols.call @, tr
+    catch err
+      throw "#{@equip.name}: #{err.toString()}"
 
   """
   11列ある場合は、これはぜったいにカテゴリ最初のやつなので、全部初期化する
@@ -50,7 +53,7 @@ class Records
     @comment =
       value: getComment.call(@, $tr.contents().eq(10))
       count: parseInt($tr.contents().eq(10).prop("rowspan"))
-    @records = @records.concat(zip.call(@, getAvailability.call(@, $tr.find("td").slice(2,9))))
+    @records = @records.concat(zip.call(@, getAvailability.call(@, $tr.find("td").slice(1,8))))
 
   """
   10列の場合は、カテゴリは同じだが、装備名が異なる場合で、
@@ -93,6 +96,8 @@ class Records
     return $col.text()
 
   getAvailability = (days) ->
+    for day in days
+      throw "不明な可否記号です: #{day.children[0].data}" if day.children[0].data.trim() not in ["〇","◯","×"]
     (day.children[0].data == "〇" for day in days)
 
   zip = (avlbl) ->

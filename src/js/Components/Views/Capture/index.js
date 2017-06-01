@@ -184,7 +184,7 @@ export default class CaptureView extends Component {
       }).catch(err => {
         this.setState({
           snackbarMessage: err.message,
-          tweetAction: null,
+          ...(err.status == 404 ? {tweetAction:null} : {}),
           nowSending: false,
         });
       });
@@ -263,8 +263,8 @@ export default class CaptureView extends Component {
       let url = new CaptureWindowURL(Date.now());
       return url.params(uri);
     }).then(params => {
-      let current = new URL(location.href);
-      params.set("text", current.searchParams.get("text"));
+      const text = (new URL(location.href)).searchParams.get("text");
+      if (text) params.set("text", text);
       location.href = "?" + params.toString();
     });
   }

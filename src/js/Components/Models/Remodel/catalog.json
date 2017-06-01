@@ -11,7 +11,7 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "ship": "-",
       "comment": ""
@@ -86,7 +86,7 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "ship": "-",
       "comment": ""
@@ -275,13 +275,13 @@
       "category": "大口径主砲",
       "equipment": "35.6cm連装砲",
       "available": [
+        true,
         false,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "扶桑",
       "comment": ""
@@ -635,11 +635,11 @@
       "category": "副砲",
       "equipment": "90mm単装高角砲",
       "available": [
-        true,
-        true,
-        true,
-        true,
         false,
+        true,
+        true,
+        true,
+        true,
         false,
         false
       ],
@@ -743,10 +743,10 @@
         false,
         false,
         false,
+        false,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "吹雪",
       "comment": ""
@@ -758,10 +758,10 @@
         false,
         false,
         false,
+        false,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "吹雪改",
       "comment": ""
@@ -896,7 +896,7 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "ship": "鳳翔",
       "comment": "消費(初期～)：同装備消費(★6 ～)：7.7mm機銃消費(更新)：同装備"
@@ -1235,13 +1235,13 @@
       "category": "艦上爆撃機",
       "equipment": "零式艦戦62型(爆戦)",
       "available": [
+        true,
         false,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "隼鷹",
       "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：彗星"
@@ -1280,13 +1280,13 @@
       "category": "艦上偵察機",
       "equipment": "試製景雲(艦偵型)",
       "available": [
+        true,
         false,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "翔鶴改二甲",
       "comment": "消費(初期～)：流星消費(★6 ～)：烈風消費(更新)：ネ式エンジン⇒噴式景雲改"
@@ -1314,9 +1314,9 @@
         false,
         false,
         false,
+        false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "千歳甲",
       "comment": "初期の改修から消費装備が必要更新消費:零式艦戦21型"
@@ -1460,13 +1460,13 @@
       "category": "電探",
       "equipment": "13号対空電探",
       "available": [
+        true,
         false,
         false,
         false,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "時雨改二",
       "comment": "更新消費:21号対空電探"
@@ -1775,13 +1775,13 @@
       "category": "ソナー",
       "equipment": "九三式水中聴音機",
       "available": [
+        true,
         false,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "夕張",
       "comment": ""
@@ -1927,9 +1927,9 @@
       "available": [
         false,
         false,
-        true,
-        true,
         false,
+        true,
+        true,
         false,
         false
       ],
@@ -1957,11 +1957,11 @@
       "available": [
         false,
         false,
+        false,
         true,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "比叡",
       "comment": ""
@@ -2018,8 +2018,8 @@
         false,
         false,
         false,
-        true,
         false,
+        true,
         false,
         false
       ],
@@ -2226,12 +2226,12 @@
       "equipment": "91式高射装置",
       "available": [
         true,
+        true,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": "摩耶",
       "comment": "消費装備:12.7cm連装高角砲更新消費:10cm連装高角砲"
@@ -2241,12 +2241,12 @@
       "equipment": "91式高射装置",
       "available": [
         true,
+        true,
         false,
         false,
         false,
         true,
-        true,
-        false
+        true
       ],
       "ship": " 秋月",
       "comment": "消費装備:12.7cm連装高角砲更新消費:10cm連装高角砲"
@@ -2336,7 +2336,7 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "ship": "あきつ丸",
       "comment": "初期の改修から消費装備が必要消費装備(初期～):ドラム缶(輸送用)消費装備(★6～ ):7.7mm機銃更新消費:12.7mm単装機銃"
@@ -2513,10 +2513,10 @@
         false,
         false,
         false,
+        false,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "暁",
       "comment": "更新消費:熟練見張員"
@@ -2603,10 +2603,10 @@
         false,
         false,
         false,
+        false,
         true,
         true,
-        true,
-        false
+        true
       ],
       "ship": "長門",
       "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～)：同装備消費(更新)：同装備"
@@ -2696,7 +2696,7 @@
         true,
         true,
         true,
-        false
+        true
       ],
       "ship": "天津風",
       "comment": "消費(初期～)：改良型艦本式タービン消費(★6～)：[[]]消費(更新)：[[]]"

@@ -13,6 +13,7 @@ Config.default = {
   "download-file-name": {value: "yyyy-MM-dd-HHmmss"},
   "download-file-ext":  {value: "png"},
   "directly-download-on-capture": {value: false},
+  "force-capture-default-size": {value: false},
   "staff-tweet": {value: false},
   "popup-background-image": {url: null},
   "alert-on-before-unload": {value:false},
@@ -87,6 +88,9 @@ Config.default = {
   },
   "resource-statistics": {
     enabled: true,
+  },
+  "resource-statistics-round-digit": {
+    value: true,
   },
   "debug": {
     value: false
