@@ -3,10 +3,6 @@ require "colors"
 Client   = require "cheerio-httpcli"
 _        = require "lodash"
 fs       = require "fs"
-rl = require("readline").createInterface(
-    input: process.stdin
-    output: process.stdout
-)
 
 catalog = "./src/js/Components/Models/Remodel/catalog.json"
 
@@ -120,15 +116,20 @@ main = () ->
     return Promise.resolve({updated:updated, records:records.records})
   .then (entry) =>
     console.log "全#{entry.records.length}件の改修工廠レコードを取得しました".green
+    rl = require("readline").createInterface(
+        input: process.stdin
+        output: process.stdout
+    )
     return new Promise (resolve, reject) =>
       rl.question "#{catalog}を更新しますか？ (y/n) ".yellow, (answer) =>
         rl.close()
         if answer.match(/y/i) then resolve entry else reject "Declined"
   .then (entry) =>
     fs.writeFileSync catalog, JSON.stringify(entry, null, 2)
+    console.log "#{catalog}への書き込みが完了しました".green
     return Promise.resolve()
   .catch (err) =>
     console.log "中断しました".yellow, err
     return Promise.resolve()
 
-if require.main is module then main() else module.exports = main
+module.exports = main
