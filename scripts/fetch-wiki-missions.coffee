@@ -3,10 +3,6 @@ require "colors"
 Client   = require "cheerio-httpcli"
 _        = require "lodash"
 fs       = require "fs"
-rl = require("readline").createInterface(
-    input: process.stdin
-    output: process.stdout
-)
 
 catalog = "./src/js/Components/Models/Queue/missions.json"
 
@@ -19,7 +15,7 @@ fixed_missions = [
     {id: "0",   title: "マニュアル登録されたやつ", time: 0},
 ]
 
-module.exports = () ->
+main = () ->
   Client.fetch("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC")
   .then (res) =>
       $ = res.$;
@@ -41,13 +37,20 @@ module.exports = () ->
   .then (missions) =>
       console.log "以下の遠征をwikiから取得しました".green
       console.log missions, "\n"
+      rl = require("readline").createInterface(
+          input: process.stdin
+          output: process.stdout
+      )
       return new Promise (resolve, reject) =>
           rl.question "#{catalog}を更新しますか？ (y/n) ".yellow, (answer) =>
               rl.close()
               if answer.match(/y/i) then resolve missions else reject "Declined"
   .then (missions) =>
       fs.writeFileSync catalog, JSON.stringify(missions, null, 2)
+      console.log "#{catalog}への書き込みが完了しました".green
       return Promise.resolve()
   .catch (err) =>
       console.log "中断しました".yellow, err
       return Promise.resolve()
+
+module.exports = main

@@ -4,6 +4,7 @@ import {GridList, GridTile} from "material-ui/GridList";
 import IconButton from "material-ui/IconButton";
 import Delete     from "material-ui/svg-icons/action/delete";
 import Clear      from "material-ui/svg-icons/content/clear";
+import FileDownload from "material-ui/svg-icons/file/file-download";
 import TextField  from "material-ui/TextField";
 import Dialog     from "material-ui/Dialog";
 import {grey500}  from "material-ui/styles/colors";
@@ -19,6 +20,13 @@ export default class ArchiveView extends Component {
       query:  "",
       shown: {},
     };
+  }
+  onClickDownload(scrap, ev) {
+    ev.stopPropagation(); ev.preventDefault();
+    let a = document.createElement("a");
+    a.href = scrap.url;
+    a.download = scrap.name;
+    a.click();
   }
   onClickDelete(scrap, ev) {
     ev.stopPropagation(); ev.preventDefault();
@@ -67,6 +75,7 @@ export default class ArchiveView extends Component {
   }
   render() {
     const actions = [
+      <IconButton onClick={ev => this.onClickDownload(this.state.shown, ev)}><FileDownload /></IconButton>,
       <IconButton onClick={ev => this.onClickDelete(this.state.shown, ev)}><Delete /></IconButton>,
       <IconButton onClick={ev => {ev.preventDefault();ev.stopPropagation();this.setState({shown:{}});}}><Clear /></IconButton>,
     ];
