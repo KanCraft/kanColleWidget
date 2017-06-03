@@ -86,6 +86,29 @@ export default class StatisticsView extends Component {
     anchor.click();
     window.URL.revokeObjectURL(url);
   }
+  importCSV() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = "text/csv";
+    new Promise(resolve => input.addEventListener("change", resolve)).then(() => {
+      const f = input.files[0];
+      return f ? Promise.resolve(f) : Promise.reject();
+    }).then(file => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => ev.target.result ? resolve(ev.target.result) : reject();
+        reader.readAsText(file);
+      });
+    }).then(text => {
+      text.split("\n").slice(1).map(this.__saveResourceFromTextRow);
+      return Promise.resolve();
+    }).then(() => this.refresh());
+    input.click();
+  }
+  __saveResourceFromTextRow(text) {
+    const [created, fuel, ammo, steel, bauxite, buckets, material] = text.trim().split(",").map((x,i) => i ? parseInt(x) : (new Date(x)).getTime());
+    return Resource.create({created,fuel,ammo,steel,bauxite,buckets,material});
+  }
   exportToTweet() {
     const client = new Client(chrome.runtime);
     const r = window.devicePixelRatio || 1;
@@ -99,6 +122,10 @@ export default class StatisticsView extends Component {
       p.set("text", Resource.last().toText(Config.find("resource-statistics-round-digit").value));
       window.open(`/dest/html/capture.html?${p.toString()}`);
     });
+  }
+  getTableHeight() {
+    if (!this.state.resources.length) return "";
+    return (window.innerHeight - 120) + "px";
   }
   render() {
     const [w, h] = [window.innerWidth, window.innerHeight];
@@ -155,7 +182,7 @@ export default class StatisticsView extends Component {
           </LineChart>
         </div>
         <div>
-          <Table fixedHeader={true} height={"600px"}>
+          <Table fixedHeader={true} height={this.getTableHeight()}>
             <TableHeader>
               <ControlRow refresh={this.refresh.bind(this)} />
             </TableHeader>
@@ -175,6 +202,14 @@ export default class StatisticsView extends Component {
           prev={this.state.editPrev}
           next={this.state.editNext}
         />
+        <div>
+          <p style={{textAlign:"center", padding:"12px", color:"#bdbdbd"}}>
+            <FlatButton
+              onClick={this.importCSV.bind(this)}
+              label="CSV IMPORT" labelPosition="before" style={{color:"#bdbdbd"}} icon={<InsertDriveFile />}
+            />
+          </p>
+        </div>
         <div>
           <p style={{textAlign:"center", padding:"48px", color:"#bdbdbd"}}>
             資源推移表は、以下の条件で右上の資源の表示を画像解析で取得します。
