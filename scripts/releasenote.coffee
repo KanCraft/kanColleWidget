@@ -13,6 +13,8 @@ class ReleaseNote
       .filter((line) => !!line and line.match(/^FEATURE: /))
       .map((line) => line.replace /^FEATURE: +/, "")
       .reverse()
+  feature_list: () ->
+    return @features().map((f) -> "- #{f}").join("\n")
   comment: () ->
     comments = @out().split("\n")
       .filter((line) => !!line and line.match(/^COMMENT: /))
@@ -33,7 +35,7 @@ class ReleaseNote
     console.log "- #{@version}"
     console.log ""
     console.log "FEATURES:".green
-    console.log @features().map((f) -> "- #{f}").join("\n")
+    console.log @feature_list()
     console.log ""
     console.log "COMMENT:".green
     console.log @comment()

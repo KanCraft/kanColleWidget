@@ -28,7 +28,7 @@ fs.writeFileSync(
 
 ops = """
 git add manifest.json release.json \
-&& git commit -m '[#{manifest.version}] [release-build]' \
+&& git commit -m '#{manifest.version}' -m $'#{newrelease.feature_list()}' -m '#{newrelease.comment()}' \
 && git tag #{manifest.version}
 """
 if (exec(ops).code != 0)
