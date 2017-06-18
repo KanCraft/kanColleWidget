@@ -28,6 +28,9 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
   window.onbeforeunload = () => onBeforeUnloadFuncs.map(f => f()).filter(r => !!r).length ? true : null;
 });
 
+// context:"auto"として、いずれにしてもautoloadを試みる。必要不必要はControllerで判断
+client.message("/sync/load", {context:"auto"});
+
 (new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);
 
 let snapshot = new DamageSnapshotDisplay(client);
