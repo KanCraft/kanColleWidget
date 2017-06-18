@@ -7,7 +7,19 @@ import Assets from "../../Services/Assets";
 export function SyncSave(message) {
   const keys = message.keys || (Config.find("data-sync-autosave").value ? Config.find("data-sync").keys : []);
   const sync = new Sync(chrome.storage.sync);
-  return sync.save(keys, true);
+  const notes = new NotificationService();
+  const assets = new Assets();
+  return sync.save(keys, true).then(items => {
+    notes.create("data-sync-load-done", {
+      type:    "list",
+      iconUrl: assets.getSyncIcon("save"),
+      title: "[艦これウィジェット] SAVE",
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=384025
+      message: "以下の同期データをセーブしました",
+      items: keys.map(key => ({title: "✔", message: key})),
+    });
+    return Promise.resolve(items);
+  });
 }
 
 export function SyncLoad(message = {}) {
