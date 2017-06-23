@@ -47,6 +47,7 @@ router.on(["api_get_member/ndock"],  Controllers.onRecoveryDocksDisplayed);
 router.on(["api_req_sortie/battle"],       Controllers.onBattleStarted);
 router.on(["api_req_sortie/airbattle"],    Controllers.onBattleStarted);
 router.on(["api_req_sortie/ld_airbattle"], Controllers.onBattleStarted);
+router.on(["api_req_battle_midnight/sp_midnight"], Controllers.onBattleStarted);
 // 連合艦隊戦開戦時
 router.on(["api_req_combined_battle/battle"],           Controllers.onCombinedBattleStarted);
 router.on(["api_req_combined_battle/each_battle"],      Controllers.onCombinedBattleStarted);
