@@ -21,12 +21,21 @@ client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) =
     inAppActionButtons.setContext(self);
     document.body.appendChild(inAppActionButtons.html());
   });
-  let onBeforeUnloadFuncs = [() => {client.message("/sync/save");return false;}];
-  client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
-    if (data.value) onBeforeUnloadFuncs.push(() => true);
-  });
-  window.onbeforeunload = () => onBeforeUnloadFuncs.map(f => f()).filter(r => !!r).length ? true : null;
 });
+
+// いずれにしてもautosaveを予約する。必要不必要はControllerのほうで判断する
+const fn = () => {client.message("/sync/save"); return false;};
+let onBeforeUnloadFuncs = [fn];
+client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
+  // 閉じる前アラートが有効の場合はstopperを追加する
+  const stopper = () => true;
+  if (data.value) onBeforeUnloadFuncs.push(stopper);
+});
+// 登録されているonBeforeUnloadFuncsをすべて実行し、trueを返すものがあればアラートが出る
+window.onbeforeunload = () => onBeforeUnloadFuncs.some(f => f()) ? true : null;
+
+// context:"auto"として、いずれにしてもautoloadを試みる。必要不必要はControllerで判断
+client.message("/sync/load", {context:"auto"});
 
 (new LaunchPositionRecorder(client)).mainGameWindow(15 * 1000);
 

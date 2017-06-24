@@ -52,6 +52,11 @@ export default class ReferencesView extends Component {
           </ul>
           <h2 style={styles.h2}>リンク</h2>
           <ul>
+            <li>使い方などについて
+              <ul>
+                <li><a href="https://github.com/otiai10/kanColleWidget/wiki">https://github.com/otiai10/kanColleWidget/wiki</a></li>
+              </ul>
+            </li>
             <li>実装などについての説明
                   <ul>
                     <li><a href="http://www.slideshare.net/otiai10/4-30874816">加賀さんと僕4 〜艦これウィジェットの後悔と教訓〜</a></li>
