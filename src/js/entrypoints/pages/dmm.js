@@ -2,6 +2,7 @@ import {FRAME_SHIFT, EXTRACT} from "../../Components/Constants";
 import ExtractFlash from "../../Components/Routine/ExtractFlash";
 import {DecorateDMMPage} from "../../Components/Routine/DecoratePage";
 import LaunchPositionRecorder from "../../Components/Routine/LaunchPositionRecorder";
+import InAppActionButtons from "../../Components/Routine/InAppActionButtons";
 
 chrome.runtime.connect();
 
@@ -29,6 +30,16 @@ client.message("/window/should-decorate").then((res) => {
     DecorateDMMPage.init(window).decorate(res.tab.frame);
     client.message("/window/zoom:set", {zoom: res.tab.frame.zoom});
     (new LaunchPositionRecorder(client)).mainGameWindow(60 * 1000);
+    // TODO: /config/get で複数の設定値を一気に取れるように。keyじゃなくてkeysにすべき。
+    client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
+      if (!data.value) return; // Do nothing
+      if (window.parent != window) return;
+      let inAppActionButtons = new InAppActionButtons(client);
+      client.message("/window/self", ({self}) => {
+        inAppActionButtons.setContext(self);
+        document.body.appendChild(inAppActionButtons.html());
+      });
+    });
     client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
       if (data.value) onBeforeUnloadFuncs.push(() => true);
     });
