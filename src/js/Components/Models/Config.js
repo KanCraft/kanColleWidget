@@ -22,6 +22,7 @@ Config.default = {
     keys: []
   },
   "data-sync-autosave": {value: false},
+  "data-sync-autoload": {value: false},
   "notification-display": {
     onstart:  true,
     onfinish: true,

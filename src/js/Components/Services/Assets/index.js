@@ -55,6 +55,9 @@ export default class Assets {
     }
     return null;
   }
+  getSyncIcon(ev) {
+    return `/dest/img/icons/cloud-${ev == "save" ? "up" : "down"}.png`;
+  }
   playSoundIfSet(name) {
     let url = this.getNotificationSound(name);
     if (!url) return;

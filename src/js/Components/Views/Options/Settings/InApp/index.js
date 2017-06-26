@@ -53,7 +53,7 @@ export default class InAppSettingsView extends Component {
             <DamageSnapshotSetting />
             <SettingSwitch
                   title="ゲーム画面右上にミュートなどのボタンを表示する"
-                  detail="右上にマウスオーバーで出現するボタンを設置します。現在のところ、APPモードのみで利用可能です。好評ならWHITEにもつけます。"
+                  detail="右上にマウスオーバーで出現するボタンを設置します。好評だったのでWHITEにもつけました。"
                   model="use-inapp-action-buttons" />
             <SettingSwitch
                   title="ゲーム画面を閉じるときアラートを出す"

@@ -32,7 +32,7 @@ export default class InAppActionButtons {
   getBaseImageTemplate() {
     let img = this.context.document.createElement("img");
     img.style.cursor = "pointer";
-    img.style.height = `${(this.context.innerHeight / 10)}px`;
+    img.style.height = `${(this.context.innerHeight / 16)}px`;
     img.style.opacity = 0.92;
     return img;
   }

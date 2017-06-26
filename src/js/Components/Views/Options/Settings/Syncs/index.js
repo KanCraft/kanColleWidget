@@ -18,6 +18,7 @@ export default class SyncSettingsView extends Component {
     this.state = {
       config:   Config.find("data-sync"),
       autosave: Config.find("data-sync-autosave"),
+      autoload: Config.find("data-sync-autoload"),
       output: "",
     };
     this.client = new Client(chrome.runtime);
@@ -91,6 +92,16 @@ export default class SyncSettingsView extends Component {
                   onToggle={(ev, value) => this.onAutoSaveToggle(value)}/>
               </TableRowColumn>
             </TableRow>
+            <TableRow>
+              <TableRowColumn>
+                オートロード
+                <Detail>ゲーム画面をつくるとき（LAUNCH時）にLOADが走ります</Detail>
+              </TableRowColumn>
+              <TableRowColumn>
+                <Toggle toggled={this.state.autoload.value}
+                  onToggle={(ev, value) => this.onAutoLoadToggle(value)}/>
+              </TableRowColumn>
+            </TableRow>
           </TableBody>
         </Table>
       </div>
@@ -116,6 +127,10 @@ export default class SyncSettingsView extends Component {
   onAutoSaveToggle(value) {
     this.state.autosave.update({value});
     this.setState({autosave:this.state.autosave});
+  }
+  onAutoLoadToggle(value) {
+    this.state.autoload.update({value});
+    this.setState({autoload:this.state.autoload});
   }
   static propTypes = {
     styles: PropTypes.object.isRequired
