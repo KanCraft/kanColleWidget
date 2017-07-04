@@ -1,5 +1,16 @@
 [
   {
+    "version": "2.0.62",
+    "features": [
+      "窓設定において設定名が変更できない仕様を変更",
+      "[demado|https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh]でも『艦これウィジェット』のオートロードが走ってた問題の修正",
+      "ゲーム内ミュート/スクショボタンが有効でないと閉じる前アラートが効いてなかった問題を修正",
+      "スクショしたら必ず中型にするオプションがonだと資源推移表のIMAGE EXPORTも小さくなっちゃう問題の修正"
+    ],
+    "date": "2017/07/04",
+    "comment": ""
+  },
+  {
     "version": "2.0.61",
     "features": [
       "LAUNCH時に同期データをautoloadする機能を追加",
