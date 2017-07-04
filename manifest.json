@@ -97,7 +97,6 @@
       "matches": [
         "http://osapi.dmm.com/gadgets/ifr*"
       ],
-      "all_frames": true,
       "js": [
         "dest/js/osapi_dmm.js"
       ]

@@ -6,11 +6,12 @@ import Assets from "../../Services/Assets";
 
 export function SyncSave(message) {
   const keys = message.keys || (Config.find("data-sync-autosave").value ? Config.find("data-sync").keys : []);
+  if (keys.length == 0) return {status:304};
   const sync = new Sync(chrome.storage.sync);
   const notes = new NotificationService();
   const assets = new Assets();
   return sync.save(keys, true).then(items => {
-    notes.create("data-sync-load-done", {
+    notes.create(`data-sync-load-done-${Date.now()}`, {
       type:    "list",
       iconUrl: assets.getSyncIcon("save"),
       title: "[艦これウィジェット] SAVE",
@@ -25,12 +26,12 @@ export function SyncSave(message) {
 export function SyncLoad(message = {}) {
   if (message.context == "auto" && !Config.find("data-sync-autoload").value) return {status:200};
   const keys = message.keys || Config.find("data-sync").keys;
-  if (keys.length == 0) return {status:200};
+  if (keys.length == 0) return {status:304};
   const sync = new Sync(chrome.storage.sync);
   const notes = new NotificationService();
   const assets = new Assets();
   return sync.load(keys, true).then(items => {
-    notes.create("data-sync-load-done", {
+    notes.create(`data-sync-load-done-${Date.now()}`, {
       type:    "list",
       iconUrl: assets.getSyncIcon("load"),
       title: "[艦これウィジェット] LOAD",
