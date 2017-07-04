@@ -36,8 +36,10 @@ export default class WinconfigView extends Component {
           <div>
             <TextField
                       name="alias"
-                      floatingLabelText="name"
-                      value={this.state.frame.alias}/>
+                      floatingLabelText={"name" + (this.state.frame.protected ? "（保護された設定）" : "")}
+                      value={this.state.frame.alias}
+                      disabled={this.state.frame.protected}
+                      onChange={this.onAliasChanged.bind(this)}/>
           </div>
           <div>
             <TextField
@@ -99,6 +101,11 @@ export default class WinconfigView extends Component {
       </div>
     );
   }
+  onAliasChanged(ev) {
+    let frame = this.state.frame;
+    frame.alias = ev.target.value;
+    this.setState({frame});
+  }
   onSizeChanged(ev) {
     let frame = this.state.frame;
     frame.size[ev.target.name] = ev.target.value;
@@ -123,7 +130,8 @@ export default class WinconfigView extends Component {
     client.message("/frame/delete", {_id: this.props.frame._id}).then(() => location.reload());
   }
   updateFrame() {
-        // TODO: バリデーションちゃんとしよう
+    // TODO: バリデーションちゃんとしよう
+    if (this.state.frame.alias.trim() == "") return window.alert("名前は必須です");
     const client = new Client(chrome.runtime);
     client.message("/frame/update", {frame: this.state.frame.regulate()}).then(() => location.reload());
   }

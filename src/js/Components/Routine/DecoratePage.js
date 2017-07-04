@@ -85,19 +85,17 @@ export class DecorateOsapiPage {
 
   effort() {
 
-        // contextがiframe内（parentを持っている）なら、effortはparetがする
-    if (this.context != this.context.parent) return true;
-
     if (this.isMaintenanceMode()) return this.decorateMaintenanceWindow();
 
-    if (this.decorateHTML()
-          && this.decorateEmbed()
-          && this.decorateSpaceTop()
-          && this.decorateSectionWrap()
-          && this.decorateWrap()
-        ) return true;
+    if (
+      this.decorateHTML()
+      && this.decorateEmbed()
+      && this.decorateSpaceTop()
+      && this.decorateSectionWrap()
+      && this.decorateWrap()
+    ) return true;
 
-        // TODO: 回数制限
+    // TODO: 回数制限
     this.count++;
     this.interval += 100;
     setTimeout(() => {

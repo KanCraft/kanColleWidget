@@ -83,7 +83,7 @@ export default class Announcement extends Component {
   }
   getFeatures() {
     return this.props.meta.release().features.map((feature,i) => {
-      return <li key={i} dangerouslySetInnerHTML={{__html:feature}} />;
+      return <li key={i} dangerouslySetInnerHTML={this.html(feature)} />;
     });
   }
   getComment() {

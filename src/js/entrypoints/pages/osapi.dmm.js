@@ -1,36 +1,40 @@
+/**
+ * このスクリプトはすべての `http://osapi.dmm.com/gadgets/ifr*` URLパターンが
+ * parentになっている場合においてのみ == ExtractFlash の結果として来る場合
+ * だけ（と思われる）に有効
+ */
 import {Router} from "chomex";
-import {DecorateOsapiPage} from "../../Components/Routine/DecoratePage";
 import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
 import LaunchPositionRecorder from "../../Components/Routine/LaunchPositionRecorder";
 import InAppActionButtons from "../../Components/Routine/InAppActionButtons";
-
-chrome.runtime.connect();
+import {DecorateOsapiPage} from "../../Components/Routine/DecoratePage";
 
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
+const inAppActionButtons = new InAppActionButtons(client);
 
 DecorateOsapiPage.init(window).effort();
 
-let inAppActionButtons = new InAppActionButtons(client);
-
-// これが必要かどうかは聞く必要がある
+// ゲーム内ボタンを出現させる
+// TODO: /config/get で複数の設定値を一気に取れるように。keyじゃなくてkeysにすべき。
 client.message("/config/get", {key: "use-inapp-action-buttons"}).then(({data}) => {
   if (!data.value) return; // Do nothing
   if (window.parent != window) return;
   client.message("/window/self", ({self}) => {
-    inAppActionButtons.setContext(self);
-    document.body.appendChild(inAppActionButtons.html());
+    const buttons = inAppActionButtons.setContext(self).html();
+    document.body.appendChild(buttons);
   });
 });
 
-// いずれにしてもautosaveを予約する。必要不必要はControllerのほうで判断する
-const fn = () => {client.message("/sync/save"); return false;};
-let onBeforeUnloadFuncs = [fn];
+const saveBeforeUnload = () => { client.message("/sync/save"); return false; };
+let onBeforeUnloadFuncs = [saveBeforeUnload];
+
+// 閉じる前アラートが有効の場合はstopperを追加する
 client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
-  // 閉じる前アラートが有効の場合はstopperを追加する
   const stopper = () => true;
   if (data.value) onBeforeUnloadFuncs.push(stopper);
 });
+
 // 登録されているonBeforeUnloadFuncsをすべて実行し、trueを返すものがあればアラートが出る
 window.onbeforeunload = () => onBeforeUnloadFuncs.some(f => f()) ? true : null;
 

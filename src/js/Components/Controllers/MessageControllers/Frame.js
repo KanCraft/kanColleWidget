@@ -22,6 +22,7 @@ export function SaveNewFrame(message) {
 
 export function UpdateFrame(message) {
   let frame = Frame.find(message.frame._id);
+  frame.alias      = message.frame.alias;
   frame.position   = message.frame.position;
   frame.size       = message.frame.size;
   frame.zoom       = parseFloat(message.frame.zoom);
