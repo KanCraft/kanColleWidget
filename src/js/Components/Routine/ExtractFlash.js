@@ -13,9 +13,9 @@ class ExtractFlash {
     return new Promise(resolve => {
       let iframe = this.context.document.querySelector("iframe#game_frame");
       if (iframe.addEventListener) {
-        iframe.addEventListener("load", () => { resolve(iframe); }, false);
+        iframe.addEventListener("load", () => resolve(iframe), false);
       } else if (iframe.attachEvent) {
-        iframe.attachEvent("onload", () => { resolve(iframe); });
+        iframe.attachEvent("onload", () => resolve(iframe), false);
       }
     });
   }

@@ -23,6 +23,7 @@ export default class InAppActionButtons {
     this.extId = self.id;
     this.tab   = self.tab;
     this.muted = this.tab.mutedInfo.muted;
+    return this;
   }
   wrap(img) {
     let div = this.context.document.createElement("div");
