@@ -75,6 +75,11 @@ export function CaptureWindow({trim, me}) {
   }).then(tab => {
     return captures.capture(tab.windowId);
   }).then(uri => {
+    // {{{ #850
+    // とりあえずtrimが与えられるのがたぶん資源推移表のIMAGE EXPORTだけだと思うので
+    // trimあったらforce-capture-default-sizeしないようにする
+    if (trim) return Promise.resolve(uri);
+    // }}}
     return Config.find("force-capture-default-size").value ? TrimService.initWithURI(uri).resize() : Promise.resolve(uri);
   }).then(uri => {
     if (!trim) return Promise.resolve(uri);
