@@ -56,8 +56,11 @@ export default class WinconfigView extends Component {
           {this.renderPositionFields()}
           {this.getAddressbarCheckbox()}
           <RadioButtonGroup name="decoration" defaultSelected={this.state.frame.decoration}>
-            <RadioButton disabled={this.state.frame.protected} value="FRAME_SHIFT" label="[WHITE] ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
-            <RadioButton disabled={this.state.frame.protected} value="EXTRACT" label="[APP] ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
+            {this.state.frame.decoration == "FRAME_SHIFT" ?
+              <RadioButton disabled={this.state.frame.protected} value="FRAME_SHIFT" label="[WHITE] ゲームコンテンツの左上がウィンドウの左上になるようにずらす"/>
+            :
+              <RadioButton disabled={this.state.frame.protected} value="EXTRACT" label="[APP] ゲームコンテンツを切り出してウィンドウぴったりの大きさにする"/>
+            }
           </RadioButtonGroup>
         </CardText>
         <CardActions expandable={true}>
@@ -80,26 +83,28 @@ export default class WinconfigView extends Component {
   }
   renderPositionFields() {
     if (this.state.frame.decoration == "EXTRACT") return null;
-    return (
-      <div>
+    return [
+      <div key={1}>
         <TextField
-                name="left"
-                floatingLabelText="left"
-                value={this.state.frame.position.left}
-                onChange={this.onPositionChanged.bind(this)}/>
+                  name="left"
+                  floatingLabelText="left"
+                  value={this.state.frame.position.left}
+                  onChange={this.onPositionChanged.bind(this)}/>
         <TextField
-                name="top"
-                floatingLabelText="top"
-                value={this.state.frame.position.top}
-                onChange={this.onPositionChanged.bind(this)}/>
+                  name="top"
+                  floatingLabelText="top"
+                  value={this.state.frame.position.top}
+                  onChange={this.onPositionChanged.bind(this)}/>
+      </div>,
+      <div key={2}>
         <TextField
-                name="zoom"
-                floatingLabelText="zoom"
-                value={this.state.frame.zoom}
-                onChange={this.onZoomChanged.bind(this)}/>
+                  name="zoom"
+                  floatingLabelText="zoom"
+                  value={this.state.frame.zoom}
+                  onChange={this.onZoomChanged.bind(this)}/>
         <span style={styles.warning}>zoomの指定はDMM.comドメイン全体に反映されます</span>
       </div>
-    );
+    ];
   }
   onAliasChanged(ev) {
     let frame = this.state.frame;
