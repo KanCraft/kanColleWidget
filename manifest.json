@@ -1,11 +1,12 @@
 {
   "manifest_version": 2,
   "name": "艦これウィジェット",
-  "version": "2.0.62",
+  "version": "2.0.63",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
     "activeTab",
+    "contextMenus",
     "tabCapture",
     "webRequest",
     "notifications",
@@ -16,6 +17,7 @@
     "<all_urls>"
   ],
   "icons": {
+    "16": "dest/img/icons/chang.16.png",
     "48": "dest/img/icons/chang.48.png"
   },
   "browser_action": {
@@ -99,6 +101,15 @@
       ],
       "js": [
         "dest/js/osapi_dmm.js"
+      ]
+    },
+    {
+      "matches": [
+        "http://osapi.dmm.com/gadgets/ifr*"
+      ],
+      "all_frames": true,
+      "js": [
+        "dest/js/iframe.js"
       ]
     }
   ],

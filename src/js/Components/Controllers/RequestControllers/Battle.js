@@ -27,10 +27,12 @@ function getWindowForDamageSnapshot(detail, uri) {
 }
 
 export function onBattleResulted(detail) {
+  // TODO: この"disabled"っていうのもConstにしたい
+  if (Config.find("damagesnapshot-window").value == "disabled") return;
   sleep(3.1).then(windows.find.bind(windows)).then(tab => {
     return capture.capture(tab.windowId);
   }).then(Image.init).then(img => {
-        // ここの、「全体のURIをもらって、Rectを決めて、URIをconvertする」っていうの、ルーチンなのでどっかにやる
+    // ここの、「全体のURIをもらって、Rectを決めて、URIをconvertする」っていうの、ルーチンなのでどっかにやる
     let rect = (new Rectangle(0, 0, img.width, img.height)).removeBlackspace().shipsStatus();
     let canvas = document.createElement("canvas");
     canvas.width = rect.width; canvas.height = rect.height;
@@ -47,11 +49,11 @@ export function onBattleResulted(detail) {
 }
 
 export function onCombinedBattleResulted(detail) {
-    // TODO: この"disabled"っていうのもConstにしたい
+  // TODO: この"disabled"っていうのもConstにしたい
   if (Config.find("damagesnapshot-window").value == "disabled") return;
   let position = LaunchPosition.find("dsnapshot");
 
-    // とりあえずprepareはする
+  // とりあえずprepareはする
   chrome.tabs.sendMessage(detail.tabId, {action:"/snapshot/prepare"});
 
   switch (Config.find("damagesnapshot-window").value) {
@@ -62,16 +64,16 @@ export function onCombinedBattleResulted(detail) {
 
 export function onCombinedBattleStarted(req) {
   SortieContext.sharedInstance().battle();
-    // 大破進撃防止表示を消す
+  // 大破進撃防止表示を消す
   windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
-    // 大破進撃防止表示を消す
+  // 大破進撃防止表示を消す
   chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }
 
 export function onBattleStarted(req) {
   SortieContext.sharedInstance().battle();
-    // 大破進撃防止表示を消す
+  // 大破進撃防止表示を消す
   windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
-    // 大破進撃防止表示を消す
+  // 大破進撃防止表示を消す
   chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
 }

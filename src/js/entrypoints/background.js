@@ -35,5 +35,12 @@ chrome.commands.onCommand.addListener(CommandRouter);
 import ExternalMessageRouter from "../Components/Routes/ExternalMessageRoutes";
 chrome.runtime.onMessageExternal.addListener(ExternalMessageRouter);
 
+// 右クリックして出て来るContextMenuをクリックしたときのイベントハンドラ
+import ContextMenuClickListener, {createProperties} from "../Components/Routes/ContextMenuClickRoutes";
+chrome.contextMenus.removeAll(() => {
+  chrome.contextMenus.create(createProperties);
+  chrome.contextMenus.onClicked.addListener(ContextMenuClickListener);
+});
+
 import {init} from "./global-pollution";
 init(window);
