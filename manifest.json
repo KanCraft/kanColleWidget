@@ -100,6 +100,15 @@
       "js": [
         "dest/js/osapi_dmm.js"
       ]
+    },
+    {
+      "matches": [
+        "http://osapi.dmm.com/gadgets/ifr*"
+      ],
+      "all_frames": true,
+      "js": [
+        "dest/js/iframe.js"
+      ]
     }
   ],
   "options_page": "dest/html/options.html"

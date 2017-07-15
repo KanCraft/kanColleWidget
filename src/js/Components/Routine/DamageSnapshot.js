@@ -1,6 +1,7 @@
 
 export default class DamageSnapshotDisplay {
   constructor(client, id = "damagesnapshot", context = window) {
+    console.log("DamageSnapshot", "construct");
     this.client = client;
     this.id = id;
     this.context = context;
@@ -20,9 +21,9 @@ export default class DamageSnapshotDisplay {
     if (this.embed()) {
       container.style.left = `${this.embed().offsetLeft}px`;
       container.style.top  = `${this.embed().offsetTop}px`;
-      container.addEventListener("mouseover", () => container.style.opacity = 1);
-      container.addEventListener("mouseleave", () => container.style.opacity = 0);
     }
+    container.addEventListener("mouseover", () => container.style.opacity = 1);
+    container.addEventListener("mouseleave", () => container.style.opacity = 0);
     container.style.transition = "0.2s all";
     container.style.opacity = 1;
     this.context.document.body.appendChild(container);
@@ -70,6 +71,7 @@ export default class DamageSnapshotDisplay {
     console.log("DamageSnapshot", "cleanup");
   }
   remove() {
+    console.log("DamageSnapshot", "remove");
     this.getContainer().remove();
     return true;
   }
