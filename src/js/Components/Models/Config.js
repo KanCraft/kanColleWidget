@@ -79,7 +79,7 @@ Config.default = {
     value: "tab", // scroll
   },
   "damagesnapshot-window": {
-    value: "disabled"
+    value: "disabled", // inwindow, separate
   },
   "use-inapp-action-buttons": {
     value: false,

@@ -1,13 +1,11 @@
 export class DecorateDMMPage {
-  constructor(context) {
+  constructor(context, frame) {
     this.context = context;
+    this.frame   = frame;
   }
 
-  static init(context) {
-    return new this(context);
-  }
-
-  decorate(frame) {
+  decorate() {
+    const frame = this.frame;
     let body = this.context.document.querySelector("body");
     body.style.position = "fixed";
     body.style.top = frame.position.top + "px";
@@ -21,10 +19,6 @@ export class DecorateOsapiPage {
     this.context = context;
     this.interval = 100;
     this.count = 0;
-  }
-
-  static init(context) {
-    return new this(context);
   }
 
   isMaintenanceMode() {
@@ -83,7 +77,7 @@ export class DecorateOsapiPage {
     return true;
   }
 
-  effort() {
+  decorate() {
 
     if (this.isMaintenanceMode()) return this.decorateMaintenanceWindow();
 
@@ -99,7 +93,7 @@ export class DecorateOsapiPage {
     this.count++;
     this.interval += 100;
     setTimeout(() => {
-      this.effort();
+      this.decorate();
     }, this.interval);
   }
 

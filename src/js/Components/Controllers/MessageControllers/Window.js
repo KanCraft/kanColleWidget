@@ -50,15 +50,14 @@ export function OpenWindow(message = {}) {
 
 export function ShouldDecorateWindow(/* message */) {
 
-    // Herokuのインスタンスが寝てたら起こす
-  (new OCR()).status()
-    .then(res => console.log("OK", res))
-    .catch(err => console.log("NG", err));
+  // Herokuのインスタンスが寝てたら起こす
+  (new OCR()).status().then(res => console.log("OK", res)).catch(err => console.log("NG", err));
 
+  // console.log("ShouldDecorateWindow", this.sender, windows.has(this.sender.tab.id));
   const tab = windows.has(this.sender.tab.id);
   if (tab) {
-        // XXX: https://github.com/otiai10/kanColleWidget/issues/726
-        // XXX: エアロ領域計算のためにzoom値が必要なので取得しといてあげる
+    // XXX: https://github.com/otiai10/kanColleWidget/issues/726
+    // XXX: エアロ領域計算のためにzoom値が必要なので取得しといてあげる
     return new Promise(resolve => {
       chrome.tabs.getZoom(this.sender.tab.id, zoom => {
         resolve({status: 200, tab, zoom});
