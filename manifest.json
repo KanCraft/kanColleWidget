@@ -6,6 +6,7 @@
   "permissions": [
     "tabs",
     "activeTab",
+    "contextMenus",
     "tabCapture",
     "webRequest",
     "notifications",
@@ -16,6 +17,7 @@
     "<all_urls>"
   ],
   "icons": {
+    "16": "dest/img/icons/chang.16.png",
     "48": "dest/img/icons/chang.48.png"
   },
   "browser_action": {

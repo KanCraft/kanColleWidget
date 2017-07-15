@@ -57,7 +57,7 @@ export default class VideoComposer extends Component {
                     label="mp4"
                     icon={<FileDownload />}
                     primary={true}
-                    onClick={() => alert("TODO: Herokuにwebm送ってmp4にするやつつくる")}
+                    onClick={() => alert("開発者のTODO: Herokuにwebm送ってmp4にするやつつくる")}
 
                     fullWidth={true}
                     style={{width: "100%"}}
@@ -68,7 +68,7 @@ export default class VideoComposer extends Component {
                     label="gif"
                     icon={<FileDownload />}
                     primary={true}
-                    onClick={() => alert("TODO: GifEncoder叩くけど時間かかるのでそれっぽいUI考える")}
+                    onClick={() => alert("開発者のTODO: GifEncoder叩くけど時間かかるのでそれっぽいUI考える")}
 
                     fullWidth={true}
                     style={{width: "100%"}}
