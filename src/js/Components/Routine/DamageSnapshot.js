@@ -22,8 +22,10 @@ export default class DamageSnapshotDisplay {
       container.style.left = `${this.embed().offsetLeft}px`;
       container.style.top  = `${this.embed().offsetTop}px`;
     }
-    container.addEventListener("mouseover", () => container.style.opacity = 1);
-    container.addEventListener("mouseleave", () => container.style.opacity = 0);
+    if (!this.context.location.protocol.match(/chrome-extension/)) {
+      container.addEventListener("mouseover", () => container.style.opacity = 1);
+      container.addEventListener("mouseleave", () => container.style.opacity = 0);
+    }
     container.style.transition = "0.2s all";
     container.style.opacity = 1;
     this.context.document.body.appendChild(container);
