@@ -1,7 +1,10 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Toggle      from "material-ui/Toggle";
+import TextField   from "material-ui/TextField";
+import Detail      from "../../Detail";
 import Settings    from "material-ui/svg-icons/action/settings";
 import Avatar      from "material-ui/Avatar";
 import Description from "../Description";
@@ -14,15 +17,13 @@ export default class TwitterSettingsView extends Component {
     super(props);
     this.state = {
       profile: null,
-      staff: Config.find("staff-tweet"),
+      staff:   Config.find("staff-tweet"),
+      hashtag: Config.find("tweet-hashtag"),
     };
     this.client = new Client(chrome.runtime);
     this.client.message("/twitter/profile").then(({data}) => {
       this.setState({profile: data});
     });
-        // this.client.message("/twitter/announce").then(res => {
-        //     console.log("ressss", res);
-        // });
   }
   onTwitterAuthToggle(ev, value) {
     if (value) this.client.message("/twitter/auth").then(({data}) => {
@@ -73,6 +74,23 @@ export default class TwitterSettingsView extends Component {
                       onToggle={this.onStaffTwitterToggle.bind(this)}
                       toggled={!!this.state.profile && !!this.state.staff.value}
                       />
+              </TableRowColumn>
+            </TableRow>
+            <TableRow>
+              <TableRowColumn>
+                ツイート時ハッシュタグ
+                <Detail>この入力がそのまま付与されます。# は自分でつけてください</Detail>
+              </TableRowColumn>
+              <TableRowColumn>
+                <TextField
+                  hintText="#艦これ"
+                  fullWidth={true}
+                  onChange={ev => {
+                    this.state.hashtag.update({text: ev.target.value});
+                    this.setState({hashtag: this.state.hashtag});
+                  }}
+                  value={this.state.hashtag.text}
+                />
               </TableRowColumn>
             </TableRow>
           </TableBody>
