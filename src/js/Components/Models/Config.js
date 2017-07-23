@@ -15,6 +15,7 @@ Config.default = {
   "directly-download-on-capture": {value: false},
   "force-capture-default-size": {value: false},
   "staff-tweet": {value: false},
+  "tweet-hashtag": {text: ""},
   "popup-background-image": {url: null},
   "alert-on-before-unload": {value:false},
   "strict-mission-rotation": {value: "disabled"},

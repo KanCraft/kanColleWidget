@@ -4,6 +4,8 @@ import FlatButton from "material-ui/FlatButton";
 import Dialog     from "material-ui/Dialog";
 import TextField  from "material-ui/TextField";
 
+import Config from "../../../Models/Config";
+
 export default class TweetDialog extends Component {
   render() {
     return (
@@ -27,7 +29,12 @@ export default class TweetDialog extends Component {
                 this.tweettext = tweettext;
               }}
               defaultValue={function(){
-                return (new URL(location.href)).searchParams.get("text") || "";
+                let texts = [];
+                const t = (new URL(location.href)).searchParams.get("text");
+                if (t) texts.push(t);
+                const h = Config.find("tweet-hashtag").text;
+                if (h) texts.push(h);
+                return texts.join(" ");
               }()}
               multiLine={true}
               rows={4}
@@ -42,7 +49,6 @@ export default class TweetDialog extends Component {
               name="reply"
               ref="reply"
               fullWidth={true}
-              underlineShow={false}
               placeholder={"リプライにしたい対象ツイートのURLをここに貼る"}
               style={{fontSize:"0.8em"}}
             />
