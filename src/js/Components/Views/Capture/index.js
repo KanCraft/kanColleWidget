@@ -73,6 +73,11 @@ export default class CaptureView extends Component {
         this.onTweetClicked();
       }
     }, false);
+
+    const params = new URLSearchParams(location.search);
+    const hashtag = Config.find("tweet-hashtag").text.replace(/^#/g, "");
+    if (hashtag) params.append("tag", hashtag);
+    history.pushState(null, "", "?" + params.toString());
   }
 
   getImageUriFromCurrentURL() {
@@ -168,6 +173,7 @@ export default class CaptureView extends Component {
       client.message("/twitter/post_with_image", {
         image: this.getImageURI(),
         status: this.refs.tweettext.getValue(),
+        tags: this.refs.tweettext.getTags(),
         reply: this.refs.tweettext.getReply(),
         type: "image/jpeg" // うーん
       }).then(response => {

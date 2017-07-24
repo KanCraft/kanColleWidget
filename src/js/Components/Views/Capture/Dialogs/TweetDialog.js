@@ -1,12 +1,22 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import FlatButton from "material-ui/FlatButton";
 import Dialog     from "material-ui/Dialog";
 import TextField  from "material-ui/TextField";
-
-import Config from "../../../Models/Config";
+import Chip       from "material-ui/Chip";
 
 export default class TweetDialog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: [],
+    };
+    setTimeout(() => {
+      const params = new URLSearchParams(location.search);
+      this.setState({tags: params.getAll("tag") || []});
+    }, 100);
+  }
   render() {
     return (
       <Dialog
@@ -29,12 +39,7 @@ export default class TweetDialog extends Component {
                 this.tweettext = tweettext;
               }}
               defaultValue={function(){
-                let texts = [];
-                const t = (new URL(location.href)).searchParams.get("text");
-                if (t) texts.push(t);
-                const h = Config.find("tweet-hashtag").text;
-                if (h) texts.push(h);
-                return texts.join(" ");
+                return (new URL(location.href)).searchParams.get("text");
               }()}
               multiLine={true}
               rows={4}
@@ -45,6 +50,7 @@ export default class TweetDialog extends Component {
                 }
               }}
             />
+            {this.renderTags()}
             <TextField
               name="reply"
               ref="reply"
@@ -55,6 +61,21 @@ export default class TweetDialog extends Component {
           </div>
         </div>
       </Dialog>
+    );
+  }
+  renderTags() {
+    if (!this.state.tags) return null;
+    return (
+      <div style={{display:"flex", flexWrap:"wrap"}}>
+        {this.state.tags.map((tag, i) => {
+          return <Chip
+            key={i}
+            labelStyle={{fontSize: "0.8em"}}
+            style={{marginRight: 4, marginBottom: 4}}
+            onRequestDelete={() => this.setState({tags: this.state.tags.filter(t => t != tag)})}
+          >#{tag}</Chip>;
+        })}
+      </div>
     );
   }
   renderCancelButton() {
@@ -73,6 +94,9 @@ export default class TweetDialog extends Component {
   }
   getValue() {
     return this.tweettext.getValue();
+  }
+  getTags() {
+    return this.state.tags || [];
   }
   getReply() {
     const id = this.refs.reply.getValue().split("/").pop();
