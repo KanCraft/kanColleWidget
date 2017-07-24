@@ -26,6 +26,7 @@ function TwitterPostWithImage(message) {
   const params = {
     image:  message.image,
     status: message.status,
+    tags:   message.tags,
     type:   message.type,
     reply:  message.reply,
   };

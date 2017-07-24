@@ -83,6 +83,8 @@ class Twitter {
     const blob = this.uri2blob(params.image, params.type);
     let formData = new FormData();
     formData.append("media[]", blob);
+    const tags = params.tags.map(tag => `#${tag.replace(/^#/, "")}`).join(" ");
+    if (tags) params.status += "\n" + tags;
     const options = {
       parameters: {
         status: params.status,

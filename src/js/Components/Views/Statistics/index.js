@@ -120,6 +120,7 @@ export default class StatisticsView extends Component {
       let p = new URLSearchParams();
       p.set("img", res.data);
       p.set("text", Resource.last().toText(Config.find("resource-statistics-round-digit").value));
+      p.append("tag", "資源記録");
       window.open(`/dest/html/capture.html?${p.toString()}`);
     });
   }
