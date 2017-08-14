@@ -8,6 +8,8 @@ import LaunchPosition from "../../Models/LaunchPosition";
 import Config from "../../Models/Config";
 import Assets from "../../Services/Assets";
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
+import NotificationService from "../../Services/NotificationService";
+import {Sync} from "../../Models";
 
 const windows = WindowService.getInstance();
 const captures = new CaptureService();
@@ -157,4 +159,37 @@ export function CurrentActionForWindow() {
 export function OpenDashboard() {
   const position = LaunchPosition.find("dashboard");
   windows.openDashboard(position);
+}
+
+export function OnCloseGameWindow(message) {
+
+  // {{{ TODO:（どこかに切り出す） オートセーブについての処理
+  const keys = message.keys || (Config.find("data-sync-autosave").value ? Config.find("data-sync").keys : []);
+  if (keys.length != 0) {
+    const sync = new Sync(chrome.storage.sync);
+    const notes = new NotificationService();
+    const assets = new Assets();
+    sync.save(keys, true).then(items => {
+      notes.create(`data-sync-load-done-${Date.now()}`, {
+        type:    "list",
+        iconUrl: assets.getSyncIcon("save"),
+        title: "[艦これウィジェット] SAVE",
+        // https://bugs.chromium.org/p/chromium/issues/detail?id=384025
+        message: "以下の同期データをセーブしました",
+        items: keys.map(key => ({title: "✔", message: key})),
+      });
+      return Promise.resolve(items);
+    });
+  }
+  // }}}
+
+  // {{{ message litenerの重複を防ぐために消すべき窓を消す @see #887
+  const target = [
+    (tab) => (new RegExp(chrome.app.getDetails().id + "/dest/html/dsnapshot.html")).test(tab.url),
+  ];
+  windows.find(false, {})
+  .then(tabs => Promise.resolve(tabs.filter(tab => target.some(fn => fn(tab)))))
+  .then(tabs => Promise.all(tabs.map(tab => windows.close(tab.windowId))));
+  // }}}
+
 }

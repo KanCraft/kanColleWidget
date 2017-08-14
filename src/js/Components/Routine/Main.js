@@ -1,5 +1,8 @@
 /**
  * content_scriptのmainの定義
+ * FRAME_SHIFT（dmm.comドメイン）の場合でもEXTRACT（osapi.dmm.comドメイン）の場合でも
+ * 共通の処理を定義する部分。
+ * 共通ではない処理は、entrypoints/dmm.jsあるいはentrypoints/osapi.dmm.jsに定義すべき。
  */
 import LaunchPositionRecorder from "../../Components/Routine/LaunchPositionRecorder";
 import InAppActionButtons from "../../Components/Routine/InAppActionButtons";
@@ -30,12 +33,13 @@ export default class Main {
   }
 
   _setup_OnBeforeUnload() {
-    let funcs = [];
-    const saveBeforeUnload = () => { this.client.message("/sync/save"); return false; };
-    funcs.push(saveBeforeUnload);
+    // onbeforeunloadで必ずbackgroundを叩くが、ダイアログは出さない
+    let funcs = [() => this.client.message("/window/event/onclose") && false];
     this.client.message("/config/get", {key:"alert-on-before-unload"}).then(({data}) => {
+      // ダイアログ出す設定がonなら、出すようにします
       if (data.value) funcs.push(() => true);
     });
+    // ひとつでもtrueを返すものがあればダイアログを出すようにする
     this.context.onbeforeunload = () => funcs.some(f => f()) ? true : null;
     return Promise.resolve();
   }
