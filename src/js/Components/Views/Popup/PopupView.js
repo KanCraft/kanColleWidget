@@ -149,13 +149,11 @@ export default class PopupView extends Component {
     this.setState({staffTweet: <p style={{textAlign:"center", padding:"24px"}}>
       <img src="/dest/img/loader.gif" />
     </p>});
-    setTimeout(() => {
-      client.message("/twitter/announce").then(({data}) => {
-        const tweets = data.map(tweet => <Tweet tweet={tweet} key={tweet.id} />);
-        this.setState({staffTweet: <div>{tweets}</div>});
-        Tweet.activateAllLinks(window.document);
-      });
-    }, 500);
+    client.message("/twitter/announce").then(({data}) => {
+      const tweets = data.map(tweet => <Tweet tweet={tweet} key={tweet.id} />);
+      this.setState({staffTweet: <div>{tweets}</div>});
+      Tweet.activateAllLinks(window.document);
+    });
   }
   renderBackgroundImage() {
     let html = document.querySelector("html");
