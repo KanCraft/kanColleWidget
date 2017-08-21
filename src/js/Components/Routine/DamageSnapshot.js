@@ -28,6 +28,7 @@ export default class DamageSnapshotDisplay {
     }
     container.style.transition = "0.2s all";
     container.style.opacity = 1;
+    container.style.display = "flex";
     this.context.document.body.appendChild(container);
     return container;
   }
