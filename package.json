@@ -12,7 +12,7 @@
     "build": "webpack --progress",
     "releasenote": "./node_modules/.bin/coffee ./scripts/releasenote.coffee --out",
     "release": "./node_modules/.bin/coffee ./scripts/prerelease.coffee && npm run build-release",
-    "build-release": "rm -rf release dest/js && mkdir -p release/kcwidget && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "build-release": "rm -rf release/kcwidget release/kcwidget.zip dest/js && mkdir -p release/kcwidget && NODE_ENV=production webpack && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && cp chrome_ex_oauth.html release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "x": "rm -rf node_modules/chomex && cp -r ~/proj/js/chomex node_modules && npm run build",
     "fetch-wiki": "./node_modules/.bin/coffee ./scripts/fetch-wiki.coffee",
     "start": "webpack --watch --progress"
