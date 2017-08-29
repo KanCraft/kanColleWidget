@@ -92,9 +92,13 @@ class WindowService {
     return new Promise((resolve, reject) => {
       this.module.tabs.query(query, tabs => {
         if (tabs.length == 0 && strict) return reject({status:404, message:"The game window not found"});
-        resolve(tabs[0]);
+        query.url && query.url.length ? resolve(tabs[0]) : resolve(tabs);
       });
     });
+  }
+
+  close(winID) {
+    return new Promise(resolve => this.module.windows.remove(winID, resolve));
   }
 
   focus(tab) {

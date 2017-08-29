@@ -40,7 +40,7 @@ class Schedule extends Component {
     const schedule = new Date(this.props.queue.scheduled);
     const name = `第${this.props.queue.deck || this.props.queue.dock}${this.props.unit}`;
     const time = this.props.queue.scheduled ? schedule.toClockString(this.rest) : "--:--";
-    const tooltip = [<div key={0}>{this.props.queue.title}</div>,<div key={1}>{this.rest ? "時刻" : "のこり" + " " + schedule.toClockString(!this.rest)}</div>];
+    const tooltip = [<div key={0}>{this.props.queue.title}</div>,<div key={1}>{(this.rest ? "時刻" : "のこり") + " " + schedule.toClockString(!this.rest)}</div>];
     return (
       <div
             style={styles.row}
