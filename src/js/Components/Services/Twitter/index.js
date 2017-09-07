@@ -56,9 +56,10 @@ class Twitter {
   auth(refresh = false) {
     if (refresh) this.clearTokens();
     return new Promise((resolve /*, reject */) => {
-            // ChromeExOAuth.authorizeは、プロジェクトルートのchrome_ex_oauth.htmlを開きます
-            // TODO: chrome_ex_oauth.htmlをdest/oauth以下に移動できないだろうか
+      // ChromeExOAuth.authorizeは、oauth.callback_pageで指定されたpathを開く
       this.oauth.authorize((/* token, secret */) => {
+        // callback funcにはtokenとsecretが渡されるが、oauthが保存しているので、
+        // ここでは扱う必要はないです
         resolve(/* {token, secret} */);
       });
     });
