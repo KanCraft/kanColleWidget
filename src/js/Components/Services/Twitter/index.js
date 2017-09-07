@@ -44,6 +44,7 @@ class Twitter {
   }
   static init(config = twitter) {
     var oauth = ChromeExOAuth.initBackgroundPage(config);
+    oauth.callback_page = "dest/oauth/chrome_ex_oauth.html";
     return new this(oauth);
   }
 
