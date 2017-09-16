@@ -15,7 +15,7 @@ const windows = WindowService.getInstance();
 const captures = new CaptureService();
 // const client = new Client(chrome.tabs);
 
-import OCR from "../../Services/API/OCR";
+import KCWidgetAPI from "../../Services/API/KCW";
 
 import TrimService from "../../Services/TrimService";
 import Rectangle   from "../../Services/Rectangle";
@@ -53,7 +53,8 @@ export function OpenWindow(message = {}) {
 export function ShouldDecorateWindow(/* message */) {
 
   // Herokuのインスタンスが寝てたら起こす
-  (new OCR()).status().then(res => console.log("OK", res)).catch(err => console.log("NG", err));
+  const api = new KCWidgetAPI(Config.find("api-server-url").value);
+  api.status().then(res => console.log("OK", res)).catch(err => console.log("NG", err));
 
   // console.log("ShouldDecorateWindow", this.sender, windows.has(this.sender.tab.id));
   const tab = windows.has(this.sender.tab.id);
