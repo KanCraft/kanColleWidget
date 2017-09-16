@@ -94,6 +94,9 @@ Config.default = {
   "resource-statistics-round-digit": {
     value: true,
   },
+  "api-server-url": {
+    value: "https://api-kcwidget.herokuapp.com"
+  },
   "debug": {
     value: false
   }
