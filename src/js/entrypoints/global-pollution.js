@@ -50,4 +50,9 @@ export function init(context) {
       }, seconds * 1000);
     });
   };
+
+  context.Promise.prototype.progress = function(onprogress) {
+    this.onprogress = onprogress;
+    return this;
+  };
 }
