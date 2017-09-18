@@ -10,8 +10,8 @@ export default class MissionsWikiView extends Component {
       loader: <CircularProgress style={{width:"100%", textAlign:"center", marginTop:"20%"}}/>,
     };
     this.http = new HTTPClient();
-    this.http.html("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC").then(res => {
-      var tmp = document.implementation.createHTMLDocument(); tmp.body.innerHTML = res.response;
+    this.http.html("http://wikiwiki.jp/kancolle/?%B1%F3%C0%AC").then(htmlText => {
+      var tmp = document.implementation.createHTMLDocument(); tmp.body.innerHTML = htmlText;
       return Promise.resolve(tmp);
     }).then(document => {
       let table = document.querySelector("h2#h2_content_1_4").nextElementSibling.nextElementSibling.querySelector("table");
