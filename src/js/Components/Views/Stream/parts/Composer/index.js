@@ -12,6 +12,10 @@ export default class VideoComposer extends Component {
     super(props);
     this.state = {
       revokeURLs: [this.props.src],
+      mp4: {
+        blob:    null,
+        loading: false,
+      },
     };
     // FIXME: うーん、ここでwindow.onbeforeunload使っちゃうと、他のコンポーネントで使えなくなるよなあ
     window.onbeforeunload = () => {
@@ -27,7 +31,8 @@ export default class VideoComposer extends Component {
     a.click();
     // window.URL.revokeObjectURL(this.props.src);
   }
-  onClickSaveMP4() {
+  onClickConvertToMP4() {
+    this.setState({mp4:{blob:null,loading:true}});
     const api = new KCWidgetAPI(Config.find("api-server-url").value);
     fetch(this.props.src).then(res => res.blob()).then(blob => {
       let body = new FormData();
@@ -37,16 +42,10 @@ export default class VideoComposer extends Component {
         console.log("PROGRESS", ev);
       });
     }).then(blob => {
-      // {{{ TODO: とりあえずいまだけ。直接ツイートするUIがほしい。
-      const downloadURL = window.URL.createObjectURL(blob);
-      this.setState({revokeURLs: [].concat(this.state.revokeURLs, downloadURL)});
-      let a = document.createElement("a");
-      a.href = downloadURL;
-      a.download = `video_${Date.now()}`;
-      a.click();
-      // }}}
+      this.setState({mp4:{blob, loading:false}});
     }).catch(err => {
       // TODO: ログにアウトプットする
+      this.setState({mp4:{loading:false}});
       console.log("ERROR", err);
     });
   }
@@ -77,42 +76,74 @@ export default class VideoComposer extends Component {
         <div>
           <h1>TODO: ここで長さ編集したりする</h1>
         </div>
-        <div>
-          <div style={{display:"flex", width: "100%"}}>
-            <div style={{flex: 1}}>
-              <FlatButton
-                    label="webm"
-                    icon={<FileDownload />}
-                    onClick={this.onClickSaveWebm.bind(this)}
-                    primary={true}
-
-                    fullWidth={true}
-                    style={{width: "100%"}}
-                    />
-            </div>
-            <div style={{flex: 1}}>
-              <FlatButton
-                    label="mp4"
-                    icon={<Forward />}
-                    primary={true}
-                    onClick={this.onClickSaveMP4.bind(this)}
-                    fullWidth={true}
-                    style={{width: "100%"}}
-                    />
-            </div>
-            <div style={{flex: 1}}>
-              <FlatButton
-                    label="gif"
-                    icon={<Forward />}
-                    primary={true}
-                    onClick={() => alert("開発者のTODO: GifEncoder叩くけど時間かかるのでそれっぽいUI考える")}
-
-                    fullWidth={true}
-                    style={{width: "100%"}}
-                    />
-            </div>
+        <div style={{display:"flex", width: "100%", pisition:"absolute", bottom:0}}>
+          <div style={{flex: 1}}>
+            <FlatButton
+              label="webm"
+              icon={<FileDownload />}
+              onClick={this.onClickSaveWebm.bind(this)}
+              primary={true}
+              fullWidth={true}
+              style={{width: "100%"}}
+            />
+          </div>
+          {this.renderMP4Buttons()}
+          <div style={{flex: 1}}>
+            <FlatButton
+              label="gif"
+              icon={<Forward />}
+              primary={true}
+              onClick={() => alert("開発者のTODO: GifEncoder叩くけど時間かかるのでそれっぽいUI考える")}
+              fullWidth={true}
+              style={{width: "100%"}}
+            />
           </div>
         </div>
+      </div>
+    );
+  }
+  onClickSaveMP4() {
+    let url = window.URL.createObjectURL(this.state.mp4.blob);
+    this.setState({revokeURLs:[].concat(this.state.revokeURLs, url)});
+    let a = document.createElement("a");
+    a.download = `video_${Date.now()}`;
+    a.href = url;
+    a.click();
+  }
+  renderMP4Buttons() {
+    if (this.state.mp4.blob == null) {
+      return (
+        <div style={{flex: 1}}>
+          <FlatButton
+          label="mp4"
+          icon={<Forward />}
+          primary={true}
+          onClick={this.onClickConvertToMP4.bind(this)}
+          fullWidth={true}
+          style={{width: "100%"}}
+          disabled={this.state.mp4.loading}
+        />
+        </div>
+      );
+    }
+    return (
+      <div style={{flex: 1}}>
+        <FlatButton
+          label="mp4"
+          icon={<FileDownload />}
+          primary={true}
+          onClick={this.onClickSaveMP4.bind(this)}
+          fullWidth={true}
+          style={{width: "100%"}}
+        />
+        <FlatButton
+          label="mp4"
+          icon={<img src="/dest/img/icons/twitter-primary.svg" style={{height:"18px"}} />}
+          primary={true}
+          onClick={() => alert("TODO: 連携でツイートするやつ")}
+          fullWidth={true}
+          style={{width: "100%"}}
+        />
       </div>
     );
   }
