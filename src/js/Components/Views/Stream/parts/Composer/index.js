@@ -24,6 +24,11 @@ export default class VideoComposer extends Component {
       return;
     };
   }
+  componentWillReceiveProps(next) {
+    if (this.props.src != next.src) {
+      this.setState({mp4:{blob:null,loading:false},output:""});
+    }
+  }
   onClickSaveWebm() {
     const ext = "webm";
     let a = document.createElement("a");
