@@ -16,6 +16,7 @@ export default class VideoComposer extends Component {
         blob:    null,
         loading: false,
       },
+      output: "",
     };
     // FIXME: うーん、ここでwindow.onbeforeunload使っちゃうと、他のコンポーネントで使えなくなるよなあ
     window.onbeforeunload = () => {
@@ -38,15 +39,15 @@ export default class VideoComposer extends Component {
       let body = new FormData();
       body.append("file", blob);
       return api.convertWEBM({body}).progress(ev => {
-        // TODO: なんかする
-        console.log("PROGRESS", ev);
+        if (ev.target.status) this.setState({output: `Downloading... ${Math.floor(ev.loaded*1000/(ev.total || 1))/10}%`});
+        else if (ev.loaded/ev.total == 1) this.setState({output: "Processing...."});
+        else this.setState({output: `Uploading... ${Math.floor(ev.loaded*1000/(ev.total || 1))/10}%`});
       });
     }).then(blob => {
-      this.setState({mp4:{blob, loading:false}});
+      this.setState({mp4:{blob, loading:false},output:""});
     }).catch(err => {
-      // TODO: ログにアウトプットする
-      this.setState({mp4:{loading:false}});
       console.log("ERROR", err);
+      this.setState({mp4:{loading:false},output:err});
     });
   }
   render() {
@@ -99,6 +100,9 @@ export default class VideoComposer extends Component {
             />
           </div>
         </div>
+        <pre>
+          <span style={{color:"#b0baca"}}>{this.state.output}</span>
+        </pre>
       </div>
     );
   }

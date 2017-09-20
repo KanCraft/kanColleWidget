@@ -27,6 +27,9 @@ export default class HTTPClient {
         }
       };
     });
+    xhr.onprogress = function(ev) {
+      if (typeof p.onprogress == "function") p.onprogress(ev);
+    };
     xhr.upload.onprogress = function(ev) {
       if (typeof p.onprogress == "function") p.onprogress(ev);
     };
