@@ -9,7 +9,7 @@ export default class KCWidgetAPI {
     return this.http.get(this.endpoint("/status"));
   }
   ocr(base64, params = {whitelist: "0123456789:", trim: "\n"}) {
-    return this.http.post(this.endpoint("/base64"), {base64, ...params});
+    return this.http.post(this.endpoint("/ocr/base64"), {base64, ...params});
   }
   convertWEBM(params = {}) {
     return this.http.post(this.endpoint("/video/convert"), {

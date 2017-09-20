@@ -57,10 +57,15 @@ export default class ServerSettingView extends Component {
                 <RaisedButton label="TEST" style={{marginRight: "12px"}} onClick={() => {
                   const url = this.state.url.value.replace(/\/+$/,"") + "/status";
                   this.setState({output: "Loading..."});
-                  fetch(url).then(res => res.json()).then(res => {
-                    this.setState({output: ["GET",url,"OK","-------", JSON.stringify(res, null, "    ")].join("\n")});
+                  fetch(url).then(res => {
+                    if (res.status != 200) throw res;
+                    res.json().then(json => {
+                      this.setState({output: ["GET",url,"-------", `${res.statusText} ${res.status}`, JSON.stringify(json, null, "    ")].join("\n")});
+                    });
                   }).catch(err => {
-                    this.setState({output: ["GET",url,"NG","-------",err].join("\n")});
+                    const status = err.status ? err.status : 5001;
+                    const msg    = err.statusText ? err.statusText : err;
+                    this.setState({output: ["GET",url,"-------",`${status} ${msg}`].join("\n")});
                   });
                 }}/>
               </TableRowColumn>
