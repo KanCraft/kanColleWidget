@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 
-import RaisedButton      from "material-ui/RaisedButton";
+import RaisedButton from "material-ui/RaisedButton";
 
 export default class VideoControlPanel extends Component {
   constructor(props) {
@@ -55,14 +55,18 @@ export default class VideoControlPanel extends Component {
   render() {
     return (
       <div>
+        <div style={{marginBottom: "24px"}}>
+          <video style={{width: "100%"}} src={this.props.source} autoPlay="true" />
+        </div>
         <div style={{marginBottom:"12px"}}>{this.getButton()}</div>
         <div style={{marginBottom:"12px"}}>{this.getInfo()}</div>
       </div>
     );
   }
   static propTypes = {
-    client: PropTypes.object.isRequired,
+    client:         PropTypes.object.isRequired,
     startRecording: PropTypes.func.isRequired,
     stopRecording:  PropTypes.func.isRequired,
+    source:         PropTypes.string.isRequired,
   }
 }

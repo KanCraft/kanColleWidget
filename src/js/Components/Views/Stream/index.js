@@ -3,8 +3,7 @@ import React, {Component} from "react";
 import muiThemeable from "material-ui/styles/muiThemeable";
 import Drawer       from "material-ui/Drawer";
 
-import VideoPlayer       from "./parts/Player";
-import VideoControlPanel from "./parts/ControlPanel";
+import VideoRecorder     from "./parts/Recorder";
 import VideoComposer     from "./parts/Composer";
 
 import {Client} from "chomex";
@@ -46,14 +45,12 @@ export default class StreamView extends Component {
       <Drawer open={true} width={this.drawerWidth} containerStyle={{backgroundColor:"#2b2c34"}}>
         <div style={{padding:"24px"}}>
           <div style={{marginBottom: "24px"}}>
-            <VideoPlayer src={url.searchParams.get("src")} />
-          </div>
-          <div style={{marginBottom: "24px"}}>
-            <VideoControlPanel
-                  client={this.client}
-                  startRecording={this.startRecording.bind(this)}
-                  stopRecording={this.stopRecording.bind(this)}
-                  />
+            <VideoRecorder
+              source={url.searchParams.get("src")}
+              client={this.client}
+              startRecording={this.startRecording.bind(this)}
+              stopRecording={this.stopRecording.bind(this)}
+            />
           </div>
         </div>
       </Drawer>
