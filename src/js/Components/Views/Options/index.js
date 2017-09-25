@@ -13,6 +13,7 @@ import TimerSettingsView        from "./Settings/Timer";
 import TwitterSettingsView      from "./Settings/Twitter";
 import InAppSettingsView        from "./Settings/InApp";
 import StatisticsSettingsView   from "./Settings/Statistics";
+import ServerSettingView        from "./Settings/Server";
 import UncategorizedSettings    from "./Settings/Uncategorized";
 import ExternalExtensionView    from "./Settings/External";
 import Announcement   from "./Announcement";
@@ -61,6 +62,7 @@ export default class OptionsView extends Component {
         <InAppSettingsView        styles={styles} />
         <StatisticsSettingsView   styles={styles} />
         <ExternalExtensionView    styles={styles} />
+        <ServerSettingView        styles={styles} />
         <UncategorizedSettings    styles={styles} />
         <WinconfigsView           styles={styles} />
         <ReferencesView           styles={styles} />

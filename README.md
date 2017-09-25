@@ -9,21 +9,20 @@
 
 # 開発
 
-- nodejs: 7.5.0
-- ~~npm: 4.1.2~~
-- yarn: 0.19.1
+- nodejs: 7.8.0
+- npm: 5.3.0
 
 ```sh
 git clone git@github.com:otiai10/kanColleWidget.git
 cd kanColleWidget
-yarn install && yarn start
+npm install && npm start
 ```
 
-- `yarn run build` きれいなjsをビルドするやつ
-- `yarn start` 編集差分を見てビルドするやつ
+- `npm run build` きれいなjsをビルドするやつ
+- `npm start` 編集差分を見てビルドするやつ
 
 # テスト
 
 ```sh
-yarn test
+npm test
 ```

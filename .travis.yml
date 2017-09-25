@@ -1,7 +1,7 @@
 language: node_js
 addons:
-  firefox: "46.0"
+  chrome: stable
 node_js:
-  - "7.5"
+  - 7.8.0
 script:
-  - yarn test
+  - npm test

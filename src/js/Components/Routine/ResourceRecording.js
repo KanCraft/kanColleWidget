@@ -1,9 +1,10 @@
 import Resource       from "../Models/Resource";
+import Config         from "../Models/Config";
 import CaptureService from "../Services/CaptureService";
 import TrimService    from "../Services/TrimService";
 import Rectangle      from "../Services/Rectangle";
 import WindowService  from "../Services/WindowService";
-import OCR            from "../Services/API/OCR";
+import KCWidgetAPI    from "../Services/API/KCW";
 
 function _shouldSquash(last, now) {
   // とりあえず1日24レコードあったら十分多いので、1時間でまとめる
@@ -13,7 +14,7 @@ function _shouldSquash(last, now) {
 }
 
 export default function record(auto = true) {
-  const ocr = new OCR();
+  const api = new KCWidgetAPI(Config.find("api-server-url").value);
   const captures = new CaptureService();
   const last = Resource.last() || {};
   const _10min = 10*60*1000;
@@ -38,7 +39,7 @@ export default function record(auto = true) {
     ]);
   })
   //  .then(urls => urls.map(url => window.open(url)));
-  .then(urls => Promise.all(urls.map(url => ocr.execute(url, {whitelist:"0123456789",trim:"\n"}))))
+  .then(urls => Promise.all(urls.map(url => api.ocr(url, {whitelist:"0123456789",trim:"\n"}))))
   .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),

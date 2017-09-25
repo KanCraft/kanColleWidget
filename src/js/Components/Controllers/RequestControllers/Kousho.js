@@ -6,7 +6,7 @@ import WindowService       from "../../Services/WindowService";
 import CaptureService      from "../../Services/CaptureService";
 import TrimService         from "../../Services/TrimService";
 import Rectangle           from "../../Services/Rectangle";
-import OCR                 from "../../Services/API/OCR";
+import KCWidgetAPI         from "../../Services/API/KCW";
 import NotificationService from "../../Services/NotificationService";
 import Publisher           from "../../Services/Publisher";
 import Subscriber          from "../../Models/Subscriber";
@@ -39,7 +39,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
 
   const windows = WindowService.getInstance();
   const captures = new CaptureService();
-  const ocr = new OCR();
+  const api = new KCWidgetAPI(Config.find("api-server-url").value);
   const notifications = new NotificationService();
   return sleep(0.85)
     .then(() => windows.find(true))
@@ -47,7 +47,7 @@ export function onCreateShipCompleted(detail, dock = __dock_id) {
     .then(uri => Image.init(uri))
     .then(img => TrimService.init(img).trim(Rectangle.init(img).ofCreateShip(dock)))
     .then(uri => Promise.resolve(uri.replace(/data:image\/[png|jpeg|gif];base64,/, "")))
-    .then(uri => ocr.execute(uri))
+    .then(uri => api.ocr(uri))
     .then(({result}) => Promise.resolve(result.split(":").map(n => parseInt(n))))
     .then(([h, m, s]) => Promise.resolve({h, m, s}))
     .then(time => {
