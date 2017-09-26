@@ -3,7 +3,7 @@
  * embedタグのonclickをとらなきゃいけないので、all_frames:trueでosapi.dmm.comで有効
  */
 import {Router, Client} from "chomex";
-import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
+import DamageSnapshotDisplay from "../../Application/Routine/DamageSnapshot";
 
 const _setupDamageSnapshot = (client) => {
   const snapshot = new DamageSnapshotDisplay(client);

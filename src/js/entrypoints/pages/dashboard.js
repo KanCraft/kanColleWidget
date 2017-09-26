@@ -1,8 +1,8 @@
-import React from "react";
-import { render } from "react-dom";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import React    from "react";
+import {render} from "react-dom";
 
+import MuiThemeProvider    from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme          from "material-ui/styles/getMuiTheme";
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
@@ -11,7 +11,7 @@ init(window);
 
 import {Client} from "chomex";
 
-import DashboardView from "../../Components/Views/Dashboard";
+import DashboardView from "../../Application/Views/Dashboard";
 
 const client = new Client(chrome.runtime);
 setInterval(() => {

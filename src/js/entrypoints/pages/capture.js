@@ -1,11 +1,12 @@
-import React from "react";
-import { render } from "react-dom";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import React    from "react";
+import {render} from "react-dom";
+
+import MuiThemeProvider     from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme          from "material-ui/styles/getMuiTheme";
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
-import CaptureView from "../../Components/Views/Capture";
+import CaptureView from "../../Application/Views/Capture";
 
 import { init } from "../global-pollution";
 init(window);
