@@ -39,7 +39,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "base64-image-loader": "^1.0.0",
-    "cheerio-httpcli": "^0.6.9",
+    "cheerio-httpcli": "^0.6.11",
     "chomex": "^1.0.9",
     "coffee-script": "^1.12.7",
     "colors": "^1.1.2",
