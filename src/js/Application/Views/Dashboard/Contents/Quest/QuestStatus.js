@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import {grey300, grey400, orange500, orangeA700, cyan500, cyan800} from "material-ui/styles/colors";
 

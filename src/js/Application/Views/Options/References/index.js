@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import PropTypes          from "prop-types";
+import PropTypes from "prop-types";
 
 import InfoOutline from "material-ui/svg-icons/action/info-outline";
 import Description from "../Settings/Description";

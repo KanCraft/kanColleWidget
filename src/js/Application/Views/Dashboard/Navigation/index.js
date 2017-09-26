@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import Schedule         from "material-ui/svg-icons/action/schedule";
 import PlaylistAddCheck from "material-ui/svg-icons/av/playlist-add-check";

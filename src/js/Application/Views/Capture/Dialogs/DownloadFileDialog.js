@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import FlatButton from "material-ui/FlatButton";
 import Dialog     from "material-ui/Dialog";
@@ -13,7 +14,7 @@ export default class DownloadFileDialog extends Component {
     let path = Config.find("download-folder").value;
     this.folder = path ? path + "/" : "";
     this.assets = new Assets(Config);
-        // なんかいろんなところでassets持つのだるいんでここでどうにかしちゃいますね
+    // なんかいろんなところでassets持つのだるいんでここでどうにかしちゃいますね
     document.querySelector("title").innerHTML = this.assets.getDefaultDownloadFileName();
   }
   render() {

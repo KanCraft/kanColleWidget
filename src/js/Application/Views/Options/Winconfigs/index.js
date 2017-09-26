@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import Settings from "material-ui/svg-icons/action/settings";
 import Add      from "material-ui/svg-icons/content/add";

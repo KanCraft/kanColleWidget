@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import Paper       from "material-ui/Paper";
 import TextField   from "material-ui/TextField";

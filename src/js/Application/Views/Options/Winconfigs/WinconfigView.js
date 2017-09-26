@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import {Card, CardHeader, CardText,CardActions} from "material-ui/Card";
 import {RadioButton, RadioButtonGroup}          from "material-ui/RadioButton";

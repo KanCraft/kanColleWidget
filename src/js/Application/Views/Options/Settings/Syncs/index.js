@@ -1,4 +1,5 @@
-import React, {Component,PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Client} from "chomex";
 
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";

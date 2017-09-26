@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {grey400} from "material-ui/styles/colors";
 // TODO: このコンポーネント、他の設定項目にも使えるしもうちょっとパブリックにしようや
 export default class Description extends Component {

@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Card, CardText, CardActions} from "material-ui/Card";
 import TextField from "material-ui/TextField";
 import Checkbox  from "material-ui/Checkbox";

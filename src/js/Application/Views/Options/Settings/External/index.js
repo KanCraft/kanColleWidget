@@ -1,4 +1,5 @@
-import React, {Component,PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import Settings from "material-ui/svg-icons/action/settings";
 import RaisedButton from "material-ui/RaisedButton";

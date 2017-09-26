@@ -1,5 +1,7 @@
-import React, {Component,PropTypes} from "react";
-import {Client}          from "chomex";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+
+import {Client} from "chomex";
 
 import {ScheduledQueues} from "../../../../Models/Queue/Queue";
 import ManualTimerDialog from "../Dialogs/ManualTimerDialog";

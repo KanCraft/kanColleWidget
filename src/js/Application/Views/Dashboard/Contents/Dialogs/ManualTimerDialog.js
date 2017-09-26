@@ -1,4 +1,5 @@
-import React, {Component,PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import Dialog from "material-ui/Dialog";
 import {grey600} from "material-ui/styles/colors";

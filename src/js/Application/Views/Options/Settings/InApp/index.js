@@ -1,4 +1,5 @@
-import React, {Component,PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import SelectField from "material-ui/SelectField";

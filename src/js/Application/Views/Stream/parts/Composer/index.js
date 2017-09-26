@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import FlatButton   from "material-ui/FlatButton";
 import FileDownload from "material-ui/svg-icons/file/file-download";
