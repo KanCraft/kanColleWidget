@@ -1,12 +1,12 @@
 /* global describe it expect jest */
 jest.unmock("chomex");
-jest.unmock("../../../src/js/Components/Models/Queue/Queue");
-import {Mission} from "../../../src/js/Components/Models/Queue/Queue";
+jest.unmock("../../src/js/Application/Models/Queue/Queue");
+import {Mission} from "../../src/js/Application/Models/Queue/Queue";
 
 // Dependencies
-jest.unmock("../../../src/js/Components/Services/Assets");
-jest.unmock("../../../src/js/Components/Models/Config");
-import Config from "../../../src/js/Components/Models/Config";
+jest.unmock("../../src/js/Services/Assets");
+jest.unmock("../../src/js/Application/Models/Config");
+import Config from "../../src/js/Application/Models/Config";
 
 describe("Mission Model", () => {
   describe("toNotificationID", () => {

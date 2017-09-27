@@ -1,5 +1,5 @@
-jest.unmock("../../../src/js/Components/Routine/CaptureWindowURL");
-import CaptureWindowURL from "../../../src/js/Components/Routine/CaptureWindowURL";
+jest.unmock("../../src/js/Application/Routine/CaptureWindowURL");
+import CaptureWindowURL from "../../src/js/Application/Routine/CaptureWindowURL";
 
 describe("CaptureWindowURL", () => {
   describe("params", () => {

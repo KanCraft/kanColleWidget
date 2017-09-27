@@ -1,6 +1,6 @@
 // jest.unmock('chomex');
-jest.unmock("../../../src/js/Components/Models/History");
-import History from "../../../src/js/Components/Models/History";
+jest.unmock("../../src/js/Application/Models/History");
+import History from "../../src/js/Application/Models/History";
 
 describe("model History", () => {
   describe("class", () => {

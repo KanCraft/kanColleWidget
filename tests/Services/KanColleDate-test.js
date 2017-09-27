@@ -1,8 +1,8 @@
-jest.unmock("../../../src/js/entrypoints/global-pollution.js");
-import {init} from "../../../src/js/entrypoints/global-pollution.js";
+jest.unmock("../../src/js/entrypoints/global-pollution.js");
+import {init} from "../../src/js/entrypoints/global-pollution.js";
 init(window);
-jest.unmock("../../../src/js/Components/Services/KanColleDate");
-import KanColleDate from "../../../src/js/Components/Services/KanColleDate";
+jest.unmock("../../src/js/Services/KanColleDate");
+import KanColleDate from "../../src/js/Services/KanColleDate";
 
 // TODO: テストもうちょいちゃんとする
 describe("KanColleDate", () => {
