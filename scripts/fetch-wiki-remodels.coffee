@@ -109,9 +109,10 @@ main = () ->
   Client.fetch("http://wikiwiki.jp/kancolle/?%B2%FE%BD%A4%B9%A9%BE%B3")
   .then (res) =>
     $ = res.$
-    updated = (new Date($("td#rgn_content5").children("p").html().match(/([0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2})/).pop())).getTime()
+    $root = $('h3#h3_content_1_18').next('table')
+    updated = (new Date($root.find('td').eq(2).text().match(/([0-9]{4}\/[0-9]{1,2}\/[0-9]{1,2})/).pop())).getTime()
     records = new Records((selector) -> $(selector))
-    $("td#rgn_content5").children("div").children("table").children("tbody").children("tr").map (i, r) =>
+    $root.find("tbody").children("tr").map (i, r) =>
       records.add($(r))
     return Promise.resolve({updated:updated, records:records.records})
   .then (entry) =>
