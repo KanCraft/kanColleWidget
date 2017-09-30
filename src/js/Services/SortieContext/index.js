@@ -1,11 +1,13 @@
 // 出撃状態のコンテキストをオンメモリに保存するクラス
 export default class SortieContext {
+
   constructor(module = chrome) {
     this.module = module;
     this.area = null; // 南西とか
     this.info = null; // オリョールとか
     this.battles = 0; // 第何戦目か
   }
+
   static _instance = null;
   static sharedInstance() {
     if (this._instance == null) {
@@ -13,32 +15,38 @@ export default class SortieContext {
     }
     return this._instance;
   }
-    // 出撃作戦の開始時
+
+  // 出撃作戦の開始時
   start(area, info) {
     this.area = area;
     this.info = info;
     this.battles = 0;
   }
-    // 敵との戦闘開始時
+
+  // 敵との戦闘開始時
   battle(sweep = true) {
     this.battles += 1;
     if (sweep) this.sweepsnapshot();
   }
-    // 出撃作戦のなんらかの終了時ないし終了相当のタイミング
+
+  // 出撃作戦のなんらかの終了時ないし終了相当のタイミング
   clear() {
     this.constructor._instance = null;
   }
-    // ノーティフィケーションつくる
+
+  // ノーティフィケーションつくる
   damagesnapshot(uri) {
     this.module.notifications.create(
-          this.toNotificationID(),
-          this.toNotificationParams(uri)
-        );
+      this.toNotificationID(),
+      this.toNotificationParams(uri)
+    );
   }
-    // ノーティフィケーションを削除する
+
+  // ノーティフィケーションを削除する
   sweepsnapshot() {
     this.module.notifications.clear(this.toNotificationID());
   }
+
   getNotificationMessage() {
     const area = SortieContext.catalog.areas[this.area] || {};
     let text = [area.title || "特別海域"];
@@ -46,9 +54,11 @@ export default class SortieContext {
     text.push(`第${this.battles}回戦闘終了時`);
     return text.join("、");
   }
+
   toNotificationID() {
     return "damagesnapshot";
   }
+
   toNotificationParams(uri) {
     return {
       type: "image",
@@ -59,6 +69,7 @@ export default class SortieContext {
       requireInteraction: true,
     };
   }
+
 }
 SortieContext.catalog = require("./catalog.json");
 console.log("test", SortieContext.catalog);
