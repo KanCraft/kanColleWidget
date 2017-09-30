@@ -12,18 +12,18 @@ class MapInfo
 
   constructor: (title, table) ->
     @title = title
-    @areas = @get_areas(table)
+    @info  = @get_info(table)
 
-  get_areas: ($table) ->
+  get_info: ($table) ->
     $rows = $table.find('tr')
-    areas = {}
+    info  = {}
     id    = 1
     for _, i in $rows
       $row = $rows.eq(i)
       continue unless $row.find('td').length is 6
-      areas[id] = new Area($row)
+      info[id] = new Area($row)
       id++
-    return areas
+    return info
 
 class Area
   constructor: ($row) ->
@@ -42,15 +42,15 @@ main = () ->
     updated = (new Date($("div#lastmodified").text().replace("Last-modified:", "").trim())).getTime()
     titles = $("h2")
     tables = $("table.style_table")
-    dict   = {}
+    areas  = {}
     id = 1
     titles.map (i, title) ->
       info = MapInfo.make($(title).text().trim(), tables.eq(i))
-      dict[id] = info unless info is null
+      areas[id] = info unless info is null
       id++
-    return Promise.resolve({updated:updated, dict:dict})
+    return Promise.resolve({updated:updated, areas:areas})
   .then (entry) ->
-    console.log "全#{Object.keys(entry.dict).length}件の海域情報を取得しました".green
+    console.log "全#{Object.keys(entry.areas).length}件の海域情報を取得しました".green
     rl = require("readline").createInterface(
         input:  process.stdin
         output: process.stdout
@@ -59,7 +59,7 @@ main = () ->
       rl.question "#{catalog}を更新しますか？ (y/n) ".yellow, (answer) =>
         rl.close()
         if answer.match(/y/i) then resolve entry else reject "Declined"
-    console.log JSON.stringify(entry.dict, null, 2)
+    # console.log JSON.stringify(entry.areas, null, 2)
   .then (entry) ->
     fs.writeFileSync catalog, JSON.stringify(entry, null, 2)
     console.log "#{catalog}への書き込みが完了しました".green
