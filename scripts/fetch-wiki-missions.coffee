@@ -35,8 +35,7 @@ main = () ->
       ).value()
       return Promise.resolve(dict)
   .then (missions) =>
-      console.log "以下の遠征をwikiから取得しました".green
-      console.log missions, "\n"
+      console.log "全#{Object.keys(missions).length}件の遠征をwikiから取得しました".green
       rl = require("readline").createInterface(
           input: process.stdin
           output: process.stdout
