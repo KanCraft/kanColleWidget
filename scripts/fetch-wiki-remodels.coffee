@@ -4,7 +4,7 @@ Client   = require "cheerio-httpcli"
 _        = require "lodash"
 fs       = require "fs"
 
-catalog = "./src/js/Components/Models/Remodel/catalog.json"
+catalog = "./src/js/Application/Models/Remodel/catalog.json"
 
 class Records
   constructor: () ->
