@@ -4,7 +4,7 @@ Client   = require "cheerio-httpcli"
 _        = require "lodash"
 fs       = require "fs"
 
-catalog = "./src/js/Components/Models/MapInfo/catalog.json"
+catalog = "./src/js/Services/SortieContext/catalog.json"
 
 class MapInfo
   @make: (title, table) ->

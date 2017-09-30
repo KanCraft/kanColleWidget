@@ -40,9 +40,8 @@ export default class SortieContext {
     this.module.notifications.clear(this.toNotificationID());
   }
   getNotificationMessage() {
-    let text = [];
-    const area = SortieContext.catalog[this.area] || SortieContext.catalog[0];
-    text.push(area.name);
+    const area = SortieContext.catalog.areas[this.area] || {};
+    let text = [area.title || "特別海域"];
     if (area.info[this.info]) text.push(area.info[this.info]);
     text.push(`第${this.battles}回戦闘終了時`);
     return text.join("、");
@@ -61,43 +60,5 @@ export default class SortieContext {
     };
   }
 }
-SortieContext.catalog = {
-  1: {
-    name: "鎮守府海域",
-    info: {
-      1: "鎮守府正面海域"
-    },
-  },
-  2: {
-    name: "南西諸島海域",
-    info: {
-      2: "バシー島沖",
-      3: "東部オリョール海"
-    }
-  },
-  3: {
-    name: "北方海域",
-    info: {
-    },
-  },
-  4: {
-    name: "西方海域",
-    info: {
-    },
-  },
-  5: {
-    name: "南方海域",
-    info: {
-    },
-  },
-  6: {
-    name: "中部海域",
-    info: {
-    },
-  },
-  0: {
-    name: "特別海域",
-    info: {
-    }
-  },
-};
+SortieContext.catalog = require("./catalog.json");
+console.log("test", SortieContext.catalog);
