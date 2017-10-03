@@ -1,4 +1,5 @@
 /* global sleep:false */
+import {Client} from "chomex";
 
 import WindowService  from "../../../Services/WindowService";
 import CaptureService from "../../../Services/CaptureService";
@@ -9,6 +10,15 @@ const capture = new CaptureService();
 
 import Config         from "../../Models/Config";
 import LaunchPosition from "../../Models/LaunchPosition";
+
+function notifySortieContextTitle() {
+  WindowService.getInstance().find(true).then(tab => {
+    Client.for(chrome.tabs, tab.id).message("/area/update", {
+      context: SortieContext.sharedInstance(),
+      title: SortieContext.sharedInstance().toContextTitle(),
+    });
+  });
+}
 
 function getWindowForDamageSnapshot(detail, uri) {
   let position = LaunchPosition.find("dsnapshot");
@@ -68,6 +78,8 @@ export function onCombinedBattleStarted(req) {
   windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
   // 大破進撃防止表示を消す
   chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
+  // 必要があれば出撃海域表示
+  if (Config.find("display-map-info").value) notifySortieContextTitle();
 }
 
 export function onBattleStarted(req) {
@@ -76,4 +88,7 @@ export function onBattleStarted(req) {
   windows.getDamageSnapshot().then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, {action:"/snapshot/hide"})));
   // 大破進撃防止表示を消す
   chrome.tabs.sendMessage(req.tabId, {action:"/snapshot/hide"});
+  // 必要があれば出撃海域表示
+  console.log("onBattleStarted", Config.find("display-map-info"));
+  if (Config.find("display-map-info").value) notifySortieContextTitle();
 }

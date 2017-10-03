@@ -97,6 +97,10 @@ Config.default = {
   "api-server-url": {
     value: "https://api-kcwidget.herokuapp.com"
   },
+  // 出撃中海域情報表示
+  "display-map-info": {
+    value: true,
+  },
   "debug": {
     value: false
   }
