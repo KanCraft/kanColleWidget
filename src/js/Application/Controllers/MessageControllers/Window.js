@@ -8,7 +8,6 @@ import {Sync}         from "../../Models";
 import CaptureWindowURL from "../../Routine/CaptureWindowURL";
 
 import Assets              from "../../../Services/Assets";
-import KCWidgetAPI         from "../../../Services/API/KCW";
 import TrimService         from "../../../Services/TrimService";
 import Rectangle           from "../../../Services/Rectangle";
 import NotificationService from "../../../Services/NotificationService";
@@ -48,10 +47,6 @@ export function OpenWindow(message = {}) {
 }
 
 export function ShouldDecorateWindow(/* message */) {
-
-  // Herokuのインスタンスが寝てたら起こす
-  const api = new KCWidgetAPI(Config.find("api-server-url").value);
-  api.status().then(res => console.log("OK", res)).catch(err => console.log("NG", err));
 
   // console.log("ShouldDecorateWindow", this.sender, windows.has(this.sender.tab.id));
   const tab = windows.has(this.sender.tab.id);
