@@ -22,7 +22,7 @@
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/otiai10/kanColleWidget/issues"
   },
