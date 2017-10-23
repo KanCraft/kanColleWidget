@@ -4,7 +4,7 @@ Client   = require "cheerio-httpcli"
 _        = require "lodash"
 fs       = require "fs"
 
-catalog = "./src/js/Components/Models/Queue/missions.json"
+catalog = "./src/js/Application/Models/Queue/missions.json"
 
 fixed_missions = [
     {id: "33",  title: "前衛支援任務(南方)",     time: 900000},
@@ -35,8 +35,7 @@ main = () ->
       ).value()
       return Promise.resolve(dict)
   .then (missions) =>
-      console.log "以下の遠征をwikiから取得しました".green
-      console.log missions, "\n"
+      console.log "全#{Object.keys(missions).length}件の遠征をwikiから取得しました".green
       rl = require("readline").createInterface(
           input: process.stdin
           output: process.stdout

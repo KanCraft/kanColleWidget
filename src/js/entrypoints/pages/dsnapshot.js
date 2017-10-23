@@ -1,5 +1,5 @@
 import {Client, Router} from "chomex";
-import DamageSnapshotDisplay from "../../Components/Routine/DamageSnapshot";
+import DamageSnapshotDisplay from "../../Application/Routine/DamageSnapshot";
 
 chrome.runtime.connect();
 

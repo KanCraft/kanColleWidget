@@ -1,13 +1,13 @@
-import React from "react";
-import { render } from "react-dom";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import React    from "react";
+import {render} from "react-dom";
+import MuiThemeProvider     from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme          from "material-ui/styles/getMuiTheme";
 import injectTapEventPlugin from "react-tap-event-plugin";
 injectTapEventPlugin();
 
-import StatisticsView from "../../Components/Views/Statistics";
+import StatisticsView from "../../Application/Views/Statistics";
 
-import { init } from "../global-pollution";
+import {init} from "../global-pollution";
 init(window);
 
 render(

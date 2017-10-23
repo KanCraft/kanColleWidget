@@ -3,10 +3,10 @@
  * "EXTRACT"の場合は、すぐに死ぬ
  */
 
-import {FRAME_SHIFT, EXTRACT} from "../../Components/Constants";
-import ExtractFlash from "../../Components/Routine/ExtractFlash";
-import {DecorateDMMPage} from "../../Components/Routine/DecoratePage";
-import Main from "../../Components/Routine/Main";
+import {FRAME_SHIFT, EXTRACT} from "../../Constants";
+import ExtractFlash      from "../../Application/Routine/ExtractFlash";
+import {DecorateDMMPage} from "../../Application/Routine/DecoratePage";
+import Main              from "../../Application/Routine/Main";
 
 import {Client} from "chomex";
 const client = new Client(chrome.runtime);
