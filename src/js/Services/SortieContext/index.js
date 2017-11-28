@@ -82,7 +82,7 @@ export default class SortieContext {
     const area = SortieContext.catalog.areas[this.area] || {info:{}};
     return [
       area.title || "E",
-      area.info[this.info].operation || this.info,
+      (area.info[this.info] || {}).operation || this.info,
       (this.battles) ? `${this.battles}戦目` : "出撃開始"
     ].join("/");
   }
