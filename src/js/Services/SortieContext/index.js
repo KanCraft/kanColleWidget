@@ -5,6 +5,7 @@ export default class SortieContext {
     this.module = module;
     this.area = null; // 南西とか
     this.info = null; // オリョールとか
+    this.deck = null; // 艦隊ID [1,2,3,4]
     this.battles = 0; // 第何戦目か
   }
 
@@ -16,10 +17,17 @@ export default class SortieContext {
     return this._instance;
   }
 
+  // 出撃艦数を返す
+  getDeckSize() {
+    if (this.area == 40 && this.deck == 3) return 7;
+    return 6;
+  }
+
   // 出撃作戦の開始時
-  start(area, info) {
+  start(area, info, deck) {
     this.area = area;
     this.info = info;
+    this.deck = deck;
     this.battles = 0;
   }
 
