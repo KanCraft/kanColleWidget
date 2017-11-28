@@ -187,12 +187,13 @@ class Rectangle {
   /**
    * 大破進撃防止のあれ
    */
-  shipsStatus() {
+  shipsStatus(sortiecontext) {
+    const offset = this.height * 0.09 * (sortiecontext.getDeckSize() - 6);
     return new Rectangle(
       this.x + (this.width/3.561),
-      this.y + (this.height/2.7),
+      this.y + (this.height/2.7) - offset,
       this.width / 4.5,
-      this.height / 1.68
+      this.height / 1.68 + offset,
     );
   }
     /**
