@@ -9,12 +9,11 @@ export function onSortieStart(detail) {
 
   Achievement.increment(SORTIE);
 
-  const {requestBody:{formData:{api_maparea_id:[area],api_mapinfo_no:[info]}}} = detail;
-  SortieContext.sharedInstance().start(area, info);
+  const {requestBody:{formData:{api_maparea_id:[area],api_mapinfo_no:[info],api_deck_id:[deck]}}} = detail;
+  SortieContext.sharedInstance().start(area, info, deck);
 
   if (!Config.isNotificationEnabled("tiredness")) return;
 
-  const {requestBody:{formData:{api_deck_id:[deck]}}} = detail;
   const time = Date.now() + Config.find("notification-for-tiredness").time * (1000 * 60);
   const unit = Config.find("tiredness-unit").value == "deck" ? parseInt(deck) : Date.now();
   const tiredness = new Tiredness(time, unit);
