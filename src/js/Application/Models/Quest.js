@@ -119,13 +119,15 @@ Quest.default = {
   // 補給・入渠 計2
   503: {type: DAILY, trigger: RECOVERY, title:"艦隊大整備！",                   id: 503, required: [],     state: YET},
   504: {type: DAILY, trigger: SUPPLY, title:"艦隊酒保祭り！",                 id: 504, required: [503],  state: YET},
-  // 工廠 計6
+  // 工廠 計8
   605: {type: DAILY, trigger: CREATEITEM, title:"新装備「開発」指令",             id: 605, required: [],     state: YET},
   606: {type: DAILY, trigger: CREATESHIP, title:"新造艦「建造」指令",             id: 606, required: [605],  state: YET},
   607: {type: DAILY, trigger: CREATEITEM, title:"装備「開発」集中強化！",         id: 607, required: [606],  state: YET},
   608: {type: DAILY, trigger: CREATESHIP, title:"艦娘「建造」艦隊強化！",         id: 608, required: [607],  state: YET},
   609: {type: DAILY, trigger: DESTROYSHIP, title:"軍縮条約対応！",                 id: 609, required: [608],  state: YET},
   619: {type: DAILY, trigger: REMODEL, title:"装備の改修強化",                 id: 619, required: [608],  state: YET},
+  673: {type: DAILY, trigger: CREATEITEM, title:"装備開発力の整備", id:673, required:[607], state:YET},
+  674: {type: DAILY, trigger: CREATEITEM, title:"工廠環境の整備", id:674, required:[673], state:YET},
   // 改修 計1
   702: {type: DAILY, trigger: CUSTOMIZE, title:"艦の「近代化改修」を実施せよ！", id : 702, required : [],   state : YET}
 };
