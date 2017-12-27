@@ -11,10 +11,13 @@ import SelectField from "material-ui/SelectField";
 import MenuItem    from "material-ui/MenuItem";
 import Description from "../Description";
 import Detail      from "../../Detail";
+import {
+  MastodonConfig, MastodonConfigInput
+} from "./Mastodon";
 
-import Config from "../../../../Models/Config";
+import Config   from "../../../../Models/Config";
+import Mastodon from "../../../../Models/Mastodon";
 
-// 各項目はなるべく分離可能なように、ちゃんとクラスにする
 export default class UncategorizedSettings extends Component {
   render() {
     return (
@@ -25,11 +28,47 @@ export default class UncategorizedSettings extends Component {
         <PopupBackgroundImageSetting />
         <StrictMissionRotation />
         <QuestManagerAlert />
+        <MastodonInstanceSetting />
       </div>
     );
   }
   static propTypes = {
     styles: PropTypes.object.isRequired,
+  }
+}
+
+class MastodonInstanceSetting extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      instances: Mastodon.list(),
+    };
+  }
+  render() {
+    return (
+      <Table selectable={false}>
+        <TableBody displayRowCheckbox={false}>
+          <TableRow>
+            <TableRowColumn>
+              Mastodon連携
+              <Detail>画像投稿先にマストドンインスタンスを選択できるようになります。各インスタンスを追加時じ、認証プロセスが起動します。</Detail>
+            </TableRowColumn>
+            <TableRowColumn>
+              {this.state.instances.map(m => <MastodonConfig key={m.domain} {...m} del={m.delete.bind(m)} refresh={this.refresh.bind(this)} />)}
+              <MastodonConfigInput refresh={this.refresh.bind(this)}/>
+            </TableRowColumn>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+  }
+  onClickRegisterButton() {
+    const domain = "mstdn.jp";
+    Mastodon.create({domain:domain,_id:domain});
+    this.setState({instances:Mastodon.list()});
+  }
+  refresh() {
+    this.setState({instances: Mastodon.list()});
   }
 }
 
