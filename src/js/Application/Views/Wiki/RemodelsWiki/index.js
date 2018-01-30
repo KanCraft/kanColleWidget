@@ -18,7 +18,7 @@ const widths = {
   cat: "70px",
   equip: "172px",
   days: "160px",
-  ship: "68px",
+  ship: "92px",
 };
 
 export default class RemodelsWikiView extends Component {
