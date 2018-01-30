@@ -1,5 +1,5 @@
 {
-  "updated": 1505833200000,
+  "updated": 1514991600000,
   "records": [
     {
       "category": "小口径主砲",
@@ -29,7 +29,7 @@
         false
       ],
       "ship": "夕立改二",
-      "comment": ""
+      "comment": "消費(★6～):同装備消費(更新):12.7cm連装砲⇒12.7cm連装砲C型改二"
     },
     {
       "category": "小口径主砲",
@@ -44,7 +44,82 @@
         false
       ],
       "ship": "綾波改二",
-      "comment": ""
+      "comment": "消費(★6～):同装備消費(更新):12.7cm連装砲⇒12.7cm連装砲C型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲B型改二",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "江風改二",
+      "comment": "消費(★6～):同装備消費(更新):12.7cm連装砲⇒12.7cm連装砲C型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲C型改二",
+      "available": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "満潮改二",
+      "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲C型改二",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "荒潮改二",
+      "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲C型改二",
+      "available": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "ship": "雪風改",
+      "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲D型改二",
+      "available": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "長波改二",
+      "comment": "消費(初期～):10cm連装高角砲消費(★6～):12.7cm連装砲C型改二"
     },
     {
       "category": "小口径主砲",
@@ -254,7 +329,7 @@
         true
       ],
       "ship": "青葉",
-      "comment": ""
+      "comment": "消費(★6～＆更新):同装備⇒20.3cm(2号)連装砲"
     },
     {
       "category": "中口径主砲",
@@ -269,7 +344,7 @@
         true
       ],
       "ship": "衣笠",
-      "comment": ""
+      "comment": "消費(★6～＆更新):同装備⇒20.3cm(2号)連装砲"
     },
     {
       "category": "中口径主砲",
@@ -284,7 +359,7 @@
         false
       ],
       "ship": "妙高",
-      "comment": ""
+      "comment": "消費(★6～＆更新):同装備⇒20.3cm(3号)連装砲"
     },
     {
       "category": "中口径主砲",
@@ -299,7 +374,7 @@
         false
       ],
       "ship": "三隈",
-      "comment": ""
+      "comment": "消費(★6～ ):同装備"
     },
     {
       "category": "中口径主砲",
@@ -1918,7 +1993,7 @@
         true,
         false
       ],
-      "ship": "Zara改*21",
+      "ship": "Zara改*24",
       "comment": "消費(初期～):零式水上偵察機消費(★6～ ):瑞雲消費(更新):零式水上偵察機⇒Ro.44水上戦闘機"
     },
     {
@@ -1993,7 +2068,7 @@
         false,
         false
       ],
-      "ship": "鈴谷改二*22",
+      "ship": "鈴谷改二*25",
       "comment": "消費(初期～)：紫電改二"
     },
     {
@@ -2612,6 +2687,66 @@
       "comment": ""
     },
     {
+      "category": "爆雷",
+      "equipment": "九五式爆雷",
+      "available": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "那珂改二",
+      "comment": "消費(★6～ ＆更新):同装備⇒二式爆雷"
+    },
+    {
+      "category": "爆雷",
+      "equipment": "九五式爆雷",
+      "available": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "ship": "神風",
+      "comment": "消費(★6～ ＆更新):同装備⇒二式爆雷"
+    },
+    {
+      "category": "爆雷",
+      "equipment": "九五式爆雷",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "占守",
+      "comment": "消費(★6～ ＆更新):同装備⇒二式爆雷"
+    },
+    {
+      "category": "爆雷",
+      "equipment": "九五式爆雷",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "択捉",
+      "comment": "消費(★6～ ＆更新):同装備⇒二式爆雷"
+    },
+    {
       "category": "対艦強化弾",
       "equipment": "九一式徹甲弾",
       "available": [
@@ -2654,7 +2789,7 @@
         true
       ],
       "ship": "金剛",
-      "comment": "初期の改修から消費装備が必要消費(初期～):九一式徹甲弾消費(★6 ～):一式徹甲弾"
+      "comment": "消費(初期～):九一式徹甲弾消費(★6 ～):同装備"
     },
     {
       "category": "対艦強化弾",
@@ -2669,7 +2804,7 @@
         false
       ],
       "ship": "榛名",
-      "comment": "初期の改修から消費装備が必要消費(初期～):九一式徹甲弾消費(★6 ～):一式徹甲弾"
+      "comment": "消費(初期～):九一式徹甲弾消費(★6 ～):同装備"
     },
     {
       "category": "対空機銃",
@@ -2788,7 +2923,7 @@
         false,
         false
       ],
-      "ship": "摩耶*23",
+      "ship": "摩耶*26",
       "comment": "消費(★6～＆更新)：同装備⇒25mm三連装機銃 集中配備摩耶/摩耶改は更新不可"
     },
     {
@@ -2894,7 +3029,7 @@
         true
       ],
       "ship": "摩耶",
-      "comment": "消費:12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
+      "comment": "消費(★6～):12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
     },
     {
       "category": "高射装置",
@@ -2909,7 +3044,7 @@
         true
       ],
       "ship": " 秋月",
-      "comment": "消費:12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
+      "comment": "消費(★6～):12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
     },
     {
       "category": "高射装置",
@@ -2924,7 +3059,7 @@
         true
       ],
       "ship": "照月",
-      "comment": "消費:12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
+      "comment": "消費(★6～):12.7cm連装高角砲消費(更新):10cm連装高角砲⇒94式高射装置"
     },
     {
       "category": "高射装置",
@@ -2939,7 +3074,7 @@
         true
       ],
       "ship": "秋月",
-      "comment": "消費:10cm連装高角砲消費(更新):10cm連装高角砲⇒10cm高角砲＋高射装置"
+      "comment": "消費(★6～＆更新):10cm連装高角砲二番艦で更新先が分岐⇒10cm高角砲＋高射装置"
     },
     {
       "category": "高射装置",
@@ -2954,7 +3089,7 @@
         true
       ],
       "ship": " 照月",
-      "comment": "消費:10cm連装高角砲消費(更新):10cm連装高角砲⇒10cm高角砲＋高射装置"
+      "comment": "消費(★6～＆更新):10cm連装高角砲二番艦で更新先が分岐⇒10cm高角砲＋高射装置"
     },
     {
       "category": "高射装置",
@@ -2969,7 +3104,7 @@
         true
       ],
       "ship": "吹雪改二",
-      "comment": "消費:10cm連装高角砲消費(更新):10cm連装高角砲⇒10cm高角砲＋高射装置"
+      "comment": "消費(★6～＆更新):10cm連装高角砲二番艦で更新先が分岐⇒10cm高角砲＋高射装置"
     },
     {
       "category": "高射装置",
@@ -2984,15 +3119,15 @@
         true
       ],
       "ship": "摩耶改二",
-      "comment": "消費:12.7cm連装高角砲消費(更新):12.7cm連装高角砲⇒12.7cm高角砲＋高射装置"
+      "comment": "消費(★6～＆更新):12.7cm連装高角砲二番艦で更新先が分岐⇒12.7cm高角砲＋高射装置"
     },
     {
       "category": "上陸用舟艇",
       "equipment": "大発動艇",
       "available": [
         true,
-        true,
-        true,
+        false,
+        false,
         true,
         true,
         true,
@@ -3269,7 +3404,7 @@
         false
       ],
       "ship": "Zara due",
-      "comment": "消費：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
+      "comment": "消費(初期～＆更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
     },
     {
       "category": "バルジ",
@@ -3284,7 +3419,7 @@
         false
       ],
       "ship": "酒匂",
-      "comment": "消費：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
+      "comment": "消費(初期～＆更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
     },
     {
       "category": "バルジ",
@@ -3299,7 +3434,7 @@
         false
       ],
       "ship": "Верный",
-      "comment": "消費：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
+      "comment": "消費(初期～＆更新)：同装備⇒艦本新設計 増設バルジ(中型艦)"
     },
     {
       "category": "バルジ",
@@ -3314,7 +3449,7 @@
         false
       ],
       "ship": "Zara due",
-      "comment": "消費：増設バルジ(中型艦)"
+      "comment": "消費(初期～)：増設バルジ(中型艦)"
     },
     {
       "category": "バルジ",
@@ -3329,7 +3464,7 @@
         true
       ],
       "ship": "長門",
-      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～)：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～ ＆更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
     },
     {
       "category": "バルジ",
@@ -3344,7 +3479,7 @@
         false
       ],
       "ship": "陸奥",
-      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～)：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～ ＆更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
     },
     {
       "category": "バルジ",
@@ -3359,7 +3494,7 @@
         false
       ],
       "ship": "大和",
-      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～)：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～ ＆更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
     },
     {
       "category": "バルジ",
@@ -3374,7 +3509,7 @@
         true
       ],
       "ship": "武蔵",
-      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～)：同装備消費(更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(中型艦)消費(★6～ ＆更新)：同装備⇒艦本新設計 増設バルジ(大型艦)"
     },
     {
       "category": "バルジ",
@@ -3389,7 +3524,7 @@
         true
       ],
       "ship": "大和",
-      "comment": "消費：増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(大型艦)"
     },
     {
       "category": "バルジ",
@@ -3404,7 +3539,7 @@
         false
       ],
       "ship": "武蔵",
-      "comment": "消費：増設バルジ(大型艦)"
+      "comment": "消費(初期～)：増設バルジ(大型艦)"
     },
     {
       "category": "機関部強化",
@@ -3419,7 +3554,7 @@
         true
       ],
       "ship": "天津風",
-      "comment": "消費(初期～)：改良型艦本式タービン消費(★6～＆更新)：同装備"
+      "comment": "消費(初期～)：改良型艦本式タービン消費(★6～＆更新)：同装備⇒新型高温高圧缶"
     },
     {
       "category": "機関部強化",
@@ -3434,7 +3569,7 @@
         false
       ],
       "ship": "島風改",
-      "comment": "消費(初期～)：改良型艦本式タービン消費(★6～＆更新)：同装備"
+      "comment": "消費(初期～)：改良型艦本式タービン消費(★6～＆更新)：同装備⇒新型高温高圧缶"
     },
     {
       "category": "機関部強化",
@@ -3510,6 +3645,126 @@
       ],
       "ship": "長波",
       "comment": "消費(初期～)：同装備消費(★6～)：なし消費(更新)：同装備⇒戦闘糧食(特別なおにぎり)"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼II型",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "春日丸",
+      "comment": "消費(初期～)：九六式艦戦消費(★6 ～)：零式艦戦21型消費(更新)：12.7mm単装機銃、新型航空兵装資材x1⇒一式戦 隼III型甲"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼II型",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "あきつ丸",
+      "comment": "消費(初期～)：九六式艦戦消費(★6 ～)：零式艦戦21型消費(更新)：12.7mm単装機銃、新型航空兵装資材x1⇒一式戦 隼III型甲"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼II型",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "ship": "神威",
+      "comment": "消費(初期～)：九六式艦戦消費(★6 ～)：零式艦戦21型消費(更新)：12.7mm単装機銃、新型航空兵装資材x1⇒一式戦 隼III型甲"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼III型甲",
+      "available": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "ship": "あきつ丸",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：烈風"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼III型甲",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "春日丸",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：烈風"
+    },
+    {
+      "category": "陸軍戦闘機",
+      "equipment": "一式戦 隼III型甲",
+      "available": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "ship": "神威",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：烈風"
+    },
+    {
+      "category": "局地戦闘機",
+      "equipment": "紫電一一型",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "赤城",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：瑞雲消費(更新)：紫電改二⇒紫電二一型 紫電改"
+    },
+    {
+      "category": "局地戦闘機",
+      "equipment": "紫電一一型",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "加賀",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：瑞雲消費(更新)：紫電改二⇒紫電二一型 紫電改"
     }
   ]
 }
