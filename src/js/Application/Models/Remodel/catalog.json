@@ -1,5 +1,5 @@
 {
-  "updated": 1514991600000,
+  "updated": 1517497200000,
   "records": [
     {
       "category": "小口径主砲",
@@ -74,6 +74,21 @@
         true
       ],
       "ship": "満潮改二",
+      "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲C型改二",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "村雨改二",
       "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
     },
     {
@@ -1170,6 +1185,36 @@
       ],
       "ship": " 酒匂",
       "comment": "消費(初期～)：10cm連装高角砲消費(★6 ～)：25mm単装機銃"
+    },
+    {
+      "category": "魚雷",
+      "equipment": "53cm連装魚雷",
+      "available": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "神風改",
+      "comment": "消費(初期)～：61cm三連装魚雷消費(★6～)：61cm四連装(酸素)魚雷"
+    },
+    {
+      "category": "魚雷",
+      "equipment": "53cm連装魚雷",
+      "available": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "龍田改二",
+      "comment": "消費(初期)～：61cm三連装魚雷消費(★6～)：61cm四連装(酸素)魚雷"
     },
     {
       "category": "魚雷",
@@ -2988,6 +3033,21 @@
     },
     {
       "category": "対空機銃",
+      "equipment": "25mm三連装機銃",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "村雨改二",
+      "comment": "消費(★6～＆更新)：同装備⇒25mm三連装機銃 集中配備摩耶/摩耶改は更新不可"
+    },
+    {
+      "category": "対空機銃",
       "equipment": "25mm三連装機銃 集中配備",
       "available": [
         false,
@@ -3179,6 +3239,21 @@
         true
       ],
       "ship": "鬼怒改二",
+      "comment": "消費(初期～)：ドラム缶(輸送用)消費(★6～)：7.7mm機銃消費(更新)：同装備二番艦で更新先が分岐⇒特大発動艇"
+    },
+    {
+      "category": "上陸用舟艇",
+      "equipment": "大発動艇",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "龍田改二",
       "comment": "消費(初期～)：ドラム缶(輸送用)消費(★6～)：7.7mm機銃消費(更新)：同装備二番艦で更新先が分岐⇒特大発動艇"
     },
     {
@@ -3750,7 +3825,7 @@
       ],
       "ship": "赤城",
       "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：瑞雲消費(更新)：紫電改二⇒紫電二一型 紫電改"
-    },
+    }
     {
       "category": "局地戦闘機",
       "equipment": "紫電一一型",
