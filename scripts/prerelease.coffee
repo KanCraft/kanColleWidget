@@ -39,6 +39,8 @@ if (exec(ops).code != 0)
     JSON.stringify(manifest, null, 2)
   )
 
+exec("mkdir -p release/kcwidget && touch release/kcwidget/manifest.json")
+
 # リリース用のmanifestに反映
 fs.writeFile(
   path.join(path.dirname(__dirname), "release", "kcwidget", "manifest.json"),

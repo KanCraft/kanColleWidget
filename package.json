@@ -12,7 +12,7 @@
     "build": "webpack --progress",
     "build-release": "NODE_ENV=production webpack --progress",
     "releasenote": "./node_modules/.bin/coffee ./scripts/releasenote.coffee --out",
-    "release": "./node_modules/.bin/coffee ./scripts/prerelease.coffee && npm run build-release && npm run pack",
+    "release": "./node_modules/.bin/coffee ./scripts/prerelease.coffee && npm run build-release && mkdir -p release/kcwidget && npm run pack",
     "pack": "rm -rf release/kcwidget release/kcwidget.zip && mkdir -p release/kcwidget && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
     "crx": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --pack-extension=${PWD}/release/kcwidget --pack-extension-key=${PWD}/release/kcwidget.pem",
     "firefox-dev": "npm run build && npm run pack && npm run crx",
