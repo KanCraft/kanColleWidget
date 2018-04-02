@@ -18,7 +18,7 @@ router.on("aprilfools", id => {
   // めんどいのでwindowを参照します
   window.open("https://otiai10.github.io/kanColleWidget/gh-pages/aprilfools/");
 // TODO: どっかやる。chrome直接参照すんな。
-  chrome.notifications.clear(id)
+  chrome.notifications.clear(id);
 });
 
 const NotificationClickListener = router.listener();
