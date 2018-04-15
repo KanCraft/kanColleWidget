@@ -42,6 +42,7 @@
   },
   "web_accessible_resources": [
     "dest/oauth/chrome_ex_oauth.html*",
+    "dest/html/options.html",
     "dest/img/icons/*"
   ],
   "commands": {
