@@ -12,16 +12,44 @@ export default class Mastodon extends Model {
   //   client_secret: Model.Types.string.isRequired,
   // }
 
+  /**
+   * mammut.Clientから、KanColleWidget的なModelに変換するやつ
+   * @param {mammut.Client} client
+   */
+  static fromMammutClient(client) /* this */ {
+    const url = new URL(client.rawurl);
+    return new this({
+      ...client,
+    }, url.host);
+  }
+
+  /**
+   * KanColleWidget的なModelから、mammut.Clientに変換するやつ
+   */
   toMammutClient() /* mammut.Client */ {
-    // console.log("これを", this);
-    // console.log("mammut.Clientにしていく");
-    return new mammut.Client({
+    const config = {
       id: this.idStr,
       client_id: this.id,
       client_secret: this.secret,
       name: this.name,
-      redirect_uri: this.redirect_uri,
+      redirect_uri: this.redirectURI,
       rawurl: this.rawurl,
-    });
+    }
+    if (this.hasAccessToken()) {
+      config.accessToken = {
+        access_token: this.accessToken.token,
+        token_type: this.accessToken.type,
+        scope: this.accessToken.scope,
+        created_at: this.accessToken.created,
+      };
+    }
+    return new mammut.Client(config);
+  }
+
+  hasAccessToken() /* bool */ {
+    if (typeof this.accessToken === "undefined") {
+      return false;
+    }
+    return !!this.accessToken.token;
   }
 }

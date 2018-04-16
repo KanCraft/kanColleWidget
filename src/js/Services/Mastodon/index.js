@@ -33,7 +33,7 @@ export default class MastodonService {
   _createClient(url) {
     const instance = new mammut.Instance(url.href);
     return instance.client({
-      name: "otiai10_test_02",
+      name: CLIENT_NAME,
       redirect: chrome.runtime.getURL("dest/html/options.html"),
       scopes: ["read", "write"],
     }).then(client => {
@@ -42,8 +42,6 @@ export default class MastodonService {
         ...client,
       });
       return Promise.resolve(client);
-    }).catch(err => {
-      console.log("えｒ？", err);
     });
   }
 }
