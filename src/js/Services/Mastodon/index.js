@@ -33,13 +33,14 @@ export default class MastodonService {
   _createClient(url) {
     const instance = new mammut.Instance(url.href);
     return instance.client({
-      name: CLIENT_NAME,
+      name: MastodonService.CLIENT_NAME,
       redirect: chrome.runtime.getURL("dest/html/options.html"),
       scopes: ["read", "write"],
     }).then(client => {
       this.accessor.create({
         _id: url.host,
         ...client,
+        rawurl: url.href,
       });
       return Promise.resolve(client);
     });

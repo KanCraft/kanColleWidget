@@ -3,14 +3,26 @@ import PropTypes from "prop-types";
 
 import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import RaisedButton from "material-ui/RaisedButton";
-import Description from "../Description";
+import FlatButton from "material-ui/FlatButton";
 import Settings from "material-ui/svg-icons/action/settings";
+import Dialog from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
+
+import InstanceView from "./Instance";
+import Description from "../Description";
 
 import Mastodon from "../../../../Models/Mastodon";
 import MastodonService from "../../../../../Services/Mastodon";
-import { encode } from "punycode";
 
 export default class MastodonSettingView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showInputModal: false,
+      instances: Mastodon.list(),
+      input: '',
+    };
+  }
   render() {
     return (
       <div>
@@ -20,10 +32,12 @@ export default class MastodonSettingView extends Component {
           <TableBody displayRowCheckbox={false}>
             <TableRow>
               <TableRowColumn>
-                  インスタンス登録の認証
+                  インスタンス登録
+                  {this.renderInstanceDialog()}
               </TableRowColumn>
               <TableRowColumn>
-                <RaisedButton onClick={this.addInstance.bind(this)} label={"インスタンスの追加"} />
+                {this.state.instances.map((instance, i) => <InstanceView key={i} {...instance} />)}
+                  <RaisedButton onClick={() => this.setState({showInputModal: true})} label={"インスタンスの追加"} />
               </TableRowColumn>
             </TableRow>
           </TableBody>
@@ -31,32 +45,55 @@ export default class MastodonSettingView extends Component {
       </div>
     );
   }
+  renderInstanceDialog() {
+    const actions = [
+      <FlatButton
+        label="やっぱやめる"
+        onClick={() => this.setState({showInputModal: false})}
+      />,
+      <FlatButton
+        label="認証ページへ移動"
+        primary={true}
+        disabled={!URL.validate(this.state.input)}
+        onClick={() => this.addInstance()}
+      />,
+    ];
+    return (
+      <Dialog
+        title="インスタンスのURLを入力"
+        modal={true}
+        actions={actions}
+        open={this.state.showInputModal}
+      >
+        <TextField
+          id="mastodon"
+          fullWidth={true}
+          type="url"
+          placeholder="例: https://mstdn.jp"
+          value={this.state.input}
+          onChange={ev => this.setState({input: ev.target.value})}
+        />
+      </Dialog>
+    );
+  }
   addInstance() {
+    const url = new URL(this.state.input);
+    const m = Mastodon.find(url.host);
 
-    // {{{ TODO: Modalを出してhost（ないしcomplete URL）を入力させ、それを取得する
-    const host = "mstdn.jp";
-    // }}}
-
-    const m = Mastodon.find(host);
-
+    console.log(url.host, m);
     if (m && m.hasAccessToken()) {
-      // {{{ デバッグ用ブロック
-      // const client = m.toMammutClient();
-      // client.toot("クローム拡張のJSから投稿テスト").then(res => {
-      //   console.log("OK!", res);
-      // }).catch(err => {
-      //   console.log("NG?", err);
-      // });
-      // }}}
-      window.alert(`インスタンス ${host} はすでに登録されています。`);
+      m.toMammutClient().myself().then(myself => m.update({myself}));
+      window.alert(`インスタンス ${url.host} はすでに登録されています。`);
+      this.setState({input: '', showInputModal: false});
       return;
     }
 
     const s = new MastodonService(Mastodon);
-    s.client(host).then(client => {
+    s.client(url.host).then(client => {
+      Mastodon.fromMammutClient(client).save();
       const authURL = client.authURL({
         scopes: ["read", "write"],
-        state: btoa(host),
+        state: btoa(url.host),
       });
       // マストドンのページ行って『艦これウィジェット』を認証して
       // Authorization Codeを付与して帰ってきてもらう。
@@ -76,12 +113,21 @@ export default class MastodonSettingView extends Component {
 
     // 帰ってきたっぽいので、得られたAuthorization Codeを使って、
     // ユーザのAccessTokenを取得する
-    const client = Mastodon.find(host).toMammutClient();
+
+    let m = Mastodon.find(host);
+    const client = m.toMammutClient();
     client.token(code).then(client => {
       // AccessTokenを持っているので、ここでsaveする。
-      Mastodon.fromMammutClient(client).save();
-      // TODO: ここでReact.Componentのstateを更新し、一覧に表示する
-      // TODO: ここで、window.alertでいいので、成功のフィードバックをする
+      console.log("AccessTokenないの？", client);
+      m = Mastodon.fromMammutClient(client);
+      m.save();
+      return client.myself();
+    }).then(myself => {
+      m.update({myself});
+      console.log(m);
+      window.alert(`マストドンインスタンス ${m._id} との連携に成功しました。`)
+      // Authentication Codeの廃棄
+      window.location.replace("/dest/html/options.html");
     });
   }
 

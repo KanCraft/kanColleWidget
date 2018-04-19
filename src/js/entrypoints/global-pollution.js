@@ -55,4 +55,13 @@ export function init(context) {
     this.onprogress = onprogress;
     return this;
   };
+
+  context.URL.validate = (raw) => {
+    try {
+      new URL(raw);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  };
 }
