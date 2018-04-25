@@ -7,6 +7,7 @@ import FlatButton from "material-ui/FlatButton";
 import Settings from "material-ui/svg-icons/action/settings";
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import InstanceView from "./Instance";
 import Description from "../Description";
@@ -19,6 +20,9 @@ export default class MastodonSettingView extends Component {
     super(props);
     this.state = {
       showInputModal: false,
+      showCallbackModal: false, // AuthのRedirectで戻ってきたとき出すモーダルです
+      requesting: false,
+      connected: null, // 今まさに登録されたインスタンスのオブジェクト
       instances: Mastodon.list(),
       input: '',
     };
@@ -34,6 +38,7 @@ export default class MastodonSettingView extends Component {
               <TableRowColumn>
                   インスタンス登録
                   {this.renderInstanceDialog()}
+                  {this.renderCallbackDialog()}
               </TableRowColumn>
               <TableRowColumn>
                 {this.state.instances.map((instance, i) => <InstanceView key={i} {...instance} />)}
@@ -43,6 +48,33 @@ export default class MastodonSettingView extends Component {
           </TableBody>
         </Table>
       </div>
+    );
+  }
+  renderCallbackDialog() {
+    const actions = [
+      <FlatButton
+        primary={true}
+        disabled={this.state.requesting}
+        label="やりました"
+        onClick={() => window.location.replace("/dest/html/options.html")}
+      />,
+    ];
+    const connected = this.state.connected;
+    return (
+      <Dialog
+        title="マストドンインスタンス認証確認"
+        modal={true}
+        actions={actions}
+        open={this.state.showCallbackModal}
+      >
+        {this.state.requesting ? <CircularProgress /> : null}
+        {connected ? (
+          <div>
+            マストドンインスタンスとの連携に成功しました
+            <InstanceView {...connected} />
+          </div>
+         ) : null}
+      </Dialog>
     );
   }
   renderInstanceDialog() {
@@ -80,7 +112,6 @@ export default class MastodonSettingView extends Component {
     const url = new URL(this.state.input);
     const m = Mastodon.find(url.host);
 
-    console.log(url.host, m);
     if (m && m.hasAccessToken()) {
       m.toMammutClient().myself().then(myself => m.update({myself}));
       window.alert(`インスタンス ${url.host} はすでに登録されています。`);
@@ -113,22 +144,34 @@ export default class MastodonSettingView extends Component {
 
     // 帰ってきたっぽいので、得られたAuthorization Codeを使って、
     // ユーザのAccessTokenを取得する
+    this.setState({showCallbackModal: true, requesting: true});
 
     let m = Mastodon.find(host);
+    if (!m) {
+      return this.setState({
+        errormsg: `${host}に対応するアプリケーション登録がありません`,
+        requesting: false,
+      });
+    }
     const client = m.toMammutClient();
     client.token(code).then(client => {
       // AccessTokenを持っているので、ここでsaveする。
-      console.log("AccessTokenないの？", client);
       m = Mastodon.fromMammutClient(client);
       m.save();
       return client.myself();
     }).then(myself => {
-      m.update({myself});
-      console.log(m);
-      window.alert(`マストドンインスタンス ${m._id} との連携に成功しました。`)
-      // Authentication Codeの廃棄
-      window.location.replace("/dest/html/options.html");
-    });
+      setTimeout(() => {
+        m.update({ myself });
+        this.setState({ connected: m, requesting: false });
+        // フィードバックは "CallbackModal" に任せる
+      }, 2000);
+    }).catch(err => {
+      console.log("TODO:", err);
+      return this.setState({
+        errormsg: `${host}に対応するアプリケーション登録がありません`,
+        requesting: false,
+      });
+    })
   }
 
   static propTypes = {
