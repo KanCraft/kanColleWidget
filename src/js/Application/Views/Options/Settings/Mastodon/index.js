@@ -5,9 +5,9 @@ import {Table, TableBody, TableRow, TableRowColumn} from "material-ui/Table";
 import RaisedButton from "material-ui/RaisedButton";
 import FlatButton from "material-ui/FlatButton";
 import Settings from "material-ui/svg-icons/action/settings";
-import Dialog from 'material-ui/Dialog';
-import TextField from 'material-ui/TextField';
-import CircularProgress from 'material-ui/CircularProgress';
+import Dialog from "material-ui/Dialog";
+import TextField from "material-ui/TextField";
+import CircularProgress from "material-ui/CircularProgress";
 
 import InstanceView from "./Instance";
 import Description from "../Description";
@@ -24,7 +24,7 @@ export default class MastodonSettingView extends Component {
       requesting: false,
       connected: null, // 今まさに登録されたインスタンスのオブジェクト
       instances: Mastodon.list(),
-      input: '',
+      input: "",
     };
   }
   render() {
@@ -36,13 +36,13 @@ export default class MastodonSettingView extends Component {
           <TableBody displayRowCheckbox={false}>
             <TableRow>
               <TableRowColumn>
-                  インスタンス登録
-                  {this.renderInstanceDialog()}
-                  {this.renderCallbackDialog()}
+                インスタンス登録
+                {this.renderInstanceDialog()}
+                {this.renderCallbackDialog()}
               </TableRowColumn>
               <TableRowColumn>
                 {this.state.instances.map((instance, i) => <InstanceView key={i} {...instance} />)}
-                  <RaisedButton onClick={() => this.setState({showInputModal: true})} label={"インスタンスの追加"} />
+                <RaisedButton onClick={() => this.setState({showInputModal: true})} label={"インスタンスの追加"} />
               </TableRowColumn>
             </TableRow>
           </TableBody>
@@ -115,7 +115,7 @@ export default class MastodonSettingView extends Component {
     if (m && m.hasAccessToken()) {
       m.toMammutClient().myself().then(myself => m.update({myself}));
       window.alert(`インスタンス ${url.host} はすでに登録されています。`);
-      this.setState({input: '', showInputModal: false});
+      this.setState({input: "", showInputModal: false});
       return;
     }
 
@@ -171,7 +171,7 @@ export default class MastodonSettingView extends Component {
         errormsg: `${host}に対応するアプリケーション登録がありません`,
         requesting: false,
       });
-    })
+    });
   }
 
   static propTypes = {

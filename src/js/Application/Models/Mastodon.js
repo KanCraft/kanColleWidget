@@ -34,7 +34,7 @@ export default class Mastodon extends Model {
       name: this.name,
       redirect_uri: this.redirectURI,
       rawurl: this.rawurl,
-    }
+    };
     if (this.hasAccessToken()) {
       config.accessToken = {
         access_token: this.accessToken.token,
