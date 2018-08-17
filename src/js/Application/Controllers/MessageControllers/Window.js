@@ -102,8 +102,8 @@ export function MuteWindow(message) {
 export function ZoomWindow(message) {
     // あるべき「タブサイズ」
   const base = {
-    width: 800 * parseFloat(message.zoom),
-    height: 480 * parseFloat(message.zoom)
+    width: 1200 * parseFloat(message.zoom),
+    height: 720 * parseFloat(message.zoom)
   };
     // 現在の「タブサイズ」
   const tab  = {

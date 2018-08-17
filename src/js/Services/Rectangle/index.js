@@ -3,7 +3,7 @@
  */
 class Rectangle {
 
-  static aspect = { defaultWidth: 800, defaultHeight: 480, ratio: 480/800 };
+  static aspect = { defaultWidth: 1200, defaultHeight: 720, ratio: 1200/720 };
 
   constructor(x, y, width, height) {
     this.x = x || 0;
