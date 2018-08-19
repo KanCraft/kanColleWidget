@@ -8,7 +8,7 @@ const _init = (data) => {
   self.encoder = new GIFEncoder();
   self.encoder.setRepeat(0);
     // {{{ TODO: 変更可能にする
-  self.encoder.setSize(800, 480);
+  self.encoder.setSize(1200, 720);
   self.encoder.setDelay(25);
     // }}}
   self.encoder.start();

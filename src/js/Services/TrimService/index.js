@@ -34,7 +34,7 @@ export default class TrimService {
    * 画像をそのままリサイズする
    * 引数が無い場合は、デフォルトの中型サイズにする
    */
-  resize(params = {width:800,height:480,rate:null}) {
+  resize(params = {width:1200,height:720,rate:null}) {
     let dest = document.createElement("canvas");
     return Image.init(this.url).then(img => {
       // 最終的に流し込むキャンバスの大きさを決める

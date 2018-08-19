@@ -6,7 +6,7 @@ export default class Streaming {
     videoConstraints: {
       mandatory: {
         chromeMediaSource: "tab",
-        maxWidth: 800, maxHeight: 480
+        maxWidth: 1200, maxHeight: 720
       }
     }
   }
