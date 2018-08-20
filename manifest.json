@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "艦これウィジェット",
+  "version": "3.0.0.0",
+  "version_name": "3.0.0-alpha.0",
+  "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
+  "permissions": [],
+  "icons": {
+    "16": "dest/img/icons/app.16.png",
+    "48": "dest/img/icons/app.48.png"
+  },
+  "background": {
+    "scripts": [
+      "dest/js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
+      ],
+      "js": [
+        "dest/js/dmm.js"
+      ]
+    }
+  ]
+}
