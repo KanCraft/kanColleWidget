@@ -3,3 +3,8 @@ node_js:
     - 9.11
 script:
     - npm run ci
+deploy:
+    - provider: script
+      script: npm run zip && npm run stage
+      on:
+        condition: $TRAVIS_BRANCH =~ staging
