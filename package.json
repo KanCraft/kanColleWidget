@@ -10,7 +10,7 @@
     "start": "NODE_ENV=development webpack -p --watch",
     "build": "NODE_ENV=production webpack",
     "zip":   "rm -rf release/kcwidget release/kcwidget.zip && mkdir -p release/kcwidget && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
-    "stage": "node ./scripts/publish.js ./release/kcwidget.zip",
+    "deploy":"node ./scripts/publish.js ./release/kcwidget.zip",
     "lint":  "tslint ./src/**/*.ts",
     "test":  "jest --coverage",
     "ci":    "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
