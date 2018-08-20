@@ -1,5 +1,5 @@
 {
-  "updated": 1514991600000,
+  "updated": 1519138800000,
   "records": [
     {
       "category": "小口径主砲",
@@ -88,6 +88,21 @@
         true,
         true
       ],
+      "ship": "村雨改二",
+      "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲C型改二",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
       "ship": "荒潮改二",
       "comment": "消費(初期～):12.7cm連装砲消費(★6～):12.7cm連装砲B型改二消費(更新):22号対水上電探、新型砲熕兵装資材×1、戦闘詳報×1⇒12.7cm連装砲D型改二"
     },
@@ -119,6 +134,21 @@
         true
       ],
       "ship": "長波改二",
+      "comment": "消費(初期～):10cm連装高角砲消費(★6～):12.7cm連装砲C型改二"
+    },
+    {
+      "category": "小口径主砲",
+      "equipment": "12.7cm連装砲D型改二",
+      "available": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "夕雲改",
       "comment": "消費(初期～):10cm連装高角砲消費(★6～):12.7cm連装砲C型改二"
     },
     {
@@ -755,6 +785,21 @@
       "category": "大口径主砲",
       "equipment": "46cm三連装砲",
       "available": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "大和改",
+      "comment": "消費(初期～)：同装備"
+    },
+    {
+      "category": "大口径主砲",
+      "equipment": "46cm三連装砲",
+      "available": [
         true,
         true,
         false,
@@ -765,6 +810,51 @@
       ],
       "ship": "武蔵",
       "comment": "消費(初期～)：同装備"
+    },
+    {
+      "category": "大口径主砲",
+      "equipment": "46cm三連装砲",
+      "available": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "ship": "武蔵改",
+      "comment": "消費(初期～)：同装備"
+    },
+    {
+      "category": "大口径主砲",
+      "equipment": "46cm三連装砲改",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "大和改",
+      "comment": "消費：46cm三連装砲"
+    },
+    {
+      "category": "大口径主砲",
+      "equipment": "46cm三連装砲改",
+      "available": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "ship": "武蔵改",
+      "comment": "消費：46cm三連装砲"
     },
     {
       "category": "大口径主砲",
@@ -1070,6 +1160,21 @@
       "category": "副砲",
       "equipment": "8cm高角砲",
       "available": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "熊野改二",
+      "comment": "消費(初期～)：10cm連装高角砲消費(更新)：25mm単装機銃⇒8cm高角砲改＋増設機銃矢矧/鈴谷改二のみ更新可能"
+    },
+    {
+      "category": "副砲",
+      "equipment": "8cm高角砲",
+      "available": [
         true,
         false,
         false,
@@ -1146,6 +1251,21 @@
       "equipment": "8cm高角砲改＋増設機銃",
       "available": [
         false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "ship": "熊野改二",
+      "comment": "消費(初期～)：10cm連装高角砲消費(★6 ～)：25mm単装機銃"
+    },
+    {
+      "category": "副砲",
+      "equipment": "8cm高角砲改＋増設機銃",
+      "available": [
+        false,
         false,
         true,
         true,
@@ -1170,6 +1290,36 @@
       ],
       "ship": " 酒匂",
       "comment": "消費(初期～)：10cm連装高角砲消費(★6 ～)：25mm単装機銃"
+    },
+    {
+      "category": "魚雷",
+      "equipment": "53cm連装魚雷",
+      "available": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "神風改",
+      "comment": "消費(初期)～：61cm三連装魚雷消費(★6～)：61cm四連装(酸素)魚雷"
+    },
+    {
+      "category": "魚雷",
+      "equipment": "53cm連装魚雷",
+      "available": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "龍田改二",
+      "comment": "消費(初期)～：61cm三連装魚雷消費(★6～)：61cm四連装(酸素)魚雷"
     },
     {
       "category": "魚雷",
@@ -1802,6 +1952,21 @@
       "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：烈風"
     },
     {
+      "category": "艦上爆撃機",
+      "equipment": "零式艦戦63型(爆戦)",
+      "available": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "ship": "熊野航改二",
+      "comment": "消費(初期～)：零式艦戦52型消費(★6 ～)：烈風"
+    },
+    {
       "category": "艦上偵察機",
       "equipment": "試製景雲(艦偵型)",
       "available": [
@@ -1919,6 +2084,21 @@
         true
       ],
       "ship": "武蔵",
+      "comment": "消費(初期～):瑞雲消費(★6～ ):零式水上観測機"
+    },
+    {
+      "category": "水上偵察機",
+      "equipment": "零式水上観測機",
+      "available": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "ship": "武蔵改",
       "comment": "消費(初期～):瑞雲消費(★6～ ):零式水上観測機"
     },
     {
@@ -2279,6 +2459,21 @@
         true
       ],
       "ship": "日向",
+      "comment": "消費(初期～＆更新):同装備⇒22号対水上電探改四"
+    },
+    {
+      "category": "電探",
+      "equipment": "22号対水上電探",
+      "available": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "ship": "日向改",
       "comment": "消費(初期～＆更新):同装備⇒22号対水上電探改四"
     },
     {
@@ -2988,6 +3183,21 @@
     },
     {
       "category": "対空機銃",
+      "equipment": "25mm三連装機銃",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "ship": "村雨改二",
+      "comment": "消費(★6～＆更新)：同装備⇒25mm三連装機銃 集中配備摩耶/摩耶改は更新不可"
+    },
+    {
+      "category": "対空機銃",
       "equipment": "25mm三連装機銃 集中配備",
       "available": [
         false,
@@ -3015,6 +3225,66 @@
       ],
       "ship": "鬼怒改二",
       "comment": "消費(初期～)：25mm三連装機銃"
+    },
+    {
+      "category": "対空機銃",
+      "equipment": "12cm30連装噴進砲",
+      "available": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "ship": "伊勢改",
+      "comment": "消費(初期～)：同装備消費：(更新)：25mm三連装機銃、戦闘詳報x1⇒12cm30連装噴進砲改二"
+    },
+    {
+      "category": "対空機銃",
+      "equipment": "12cm30連装噴進砲",
+      "available": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "ship": "日向改",
+      "comment": "消費(初期～)：同装備消費：(更新)：25mm三連装機銃、戦闘詳報x1⇒12cm30連装噴進砲改二"
+    },
+    {
+      "category": "対空機銃",
+      "equipment": "12cm30連装噴進砲改二",
+      "available": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "ship": "伊勢改",
+      "comment": "消費(初期～)：25mm三連装機銃消費：(★6 ～)：12cm30連装噴進砲"
+    },
+    {
+      "category": "対空機銃",
+      "equipment": "12cm30連装噴進砲改二",
+      "available": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "日向改",
+      "comment": "消費(初期～)：25mm三連装機銃消費：(★6 ～)：12cm30連装噴進砲"
     },
     {
       "category": "高射装置",
@@ -3089,6 +3359,21 @@
         true
       ],
       "ship": " 照月",
+      "comment": "消費(★6～＆更新):10cm連装高角砲二番艦で更新先が分岐⇒10cm高角砲＋高射装置"
+    },
+    {
+      "category": "高射装置",
+      "equipment": "94式高射装置",
+      "available": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "ship": "初月",
       "comment": "消費(★6～＆更新):10cm連装高角砲二番艦で更新先が分岐⇒10cm高角砲＋高射装置"
     },
     {
@@ -3179,6 +3464,21 @@
         true
       ],
       "ship": "鬼怒改二",
+      "comment": "消費(初期～)：ドラム缶(輸送用)消費(★6～)：7.7mm機銃消費(更新)：同装備二番艦で更新先が分岐⇒特大発動艇"
+    },
+    {
+      "category": "上陸用舟艇",
+      "equipment": "大発動艇",
+      "available": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "ship": "龍田改二",
       "comment": "消費(初期～)：ドラム缶(輸送用)消費(★6～)：7.7mm機銃消費(更新)：同装備二番艦で更新先が分岐⇒特大発動艇"
     },
     {

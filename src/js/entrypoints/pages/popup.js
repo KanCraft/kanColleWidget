@@ -10,6 +10,9 @@ import PopupView from "../../Application/Views/Popup/PopupView";
 import { init } from "../global-pollution";
 init(window);
 
+// TODO: ここでchromeを参照するのはやめましょう
+chrome.runtime.sendMessage(null, {action:"/events/trigger"});
+
 render(
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <PopupView context={window} />

@@ -40,5 +40,8 @@ router.on("/launchposition/:update",          Controllers.UpdateLaunchPosition);
 router.on("/launchposition/dashboard/update", Controllers.UpdateDashboardLaunchPosition);
 router.on("/launchposition/dsnapshot/update", Controllers.UpdateDamageSnapshotLaunchPosition);
 
+// なんか雑なの
+router.on("/events/trigger", Controllers.TriggerEvent);
+
 const MessageListener = router.listener();
 export default MessageListener;
