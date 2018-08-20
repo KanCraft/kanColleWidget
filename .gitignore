@@ -42,3 +42,4 @@ jspm_packages
 dest/js
 release
 app-config.json
+v2_backup

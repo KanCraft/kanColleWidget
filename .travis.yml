@@ -1,7 +1,0 @@
-language: node_js
-addons:
-  chrome: stable
-node_js:
-  - 7.8.0
-script:
-  - npm test
