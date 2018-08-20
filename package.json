@@ -7,13 +7,13 @@
     "npm": "6.4.0"
   },
   "scripts": {
-    "start": "NODE_ENV=development webpack -p --watch",
-    "build": "NODE_ENV=production webpack",
-    "zip":   "rm -rf release/kcwidget release/kcwidget.zip && mkdir -p release/kcwidget && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
-    "deploy":"node ./scripts/publish.js ./release/kcwidget.zip",
-    "lint":  "tslint ./src/**/*.ts",
-    "test":  "jest --coverage",
-    "ci":    "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "start":  "NODE_ENV=development webpack -p --watch",
+    "build":  "NODE_ENV=production webpack",
+    "zip":    "rm -rf release/kcwidget release/kcwidget.zip && mkdir -p release/kcwidget && cp -r dest release/kcwidget && cp manifest.json release/kcwidget && zip -r release/kcwidget.zip release/kcwidget/*",
+    "deploy": "node ./scripts/publish.js ./release/kcwidget.zip",
+    "lint":   "tslint ./src/**/*.ts",
+    "test":   "jest --coverage",
+    "ci":     "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
