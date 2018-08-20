@@ -1,8 +1,11 @@
 var path = require("path");
-var webpack = require("webpack");
+// var webpack = require("webpack");
 
 module.exports = [
     {
+        optimization: {
+            minimize: process.env.NODE_ENV == "production",
+        },
         entry: {
             background: "./src/js/entrypoints/background.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",

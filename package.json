@@ -7,10 +7,10 @@
     "npm": "6.4.0"
   },
   "scripts": {
-    "build": "webpack -p",
-    "start": "webpack -p --watch",
+    "start":   "NODE_ENV=development webpack -p --watch",
+    "release": "NODE_ENV=production webpack -p",
     "lint": "tslint ./src/**/*.ts",
-    "test": "jest --watch --coverage",
+    "test": "jest --coverage",
     "ci": "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
