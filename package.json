@@ -51,5 +51,8 @@
       "/node_modules/",
       "/v2_backup/"
     ]
+  },
+  "dependencies": {
+    "spectre.css": "^0.5.3"
   }
 }
