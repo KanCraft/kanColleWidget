@@ -7,3 +7,11 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/rating-count/iachoklpnnjfgmldgelflgifhdaebnol.svg)](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol?hl=ja)
 
 # v3.0、始動
+
+開発
+
+```
+npm install
+npm start
+npm test
+```

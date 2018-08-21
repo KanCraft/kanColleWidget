@@ -1,5 +1,6 @@
 var path = require("path");
 // var webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = [
     {
@@ -27,25 +28,39 @@ module.exports = [
             extensions: [".ts", ".tsx", ".js", ".jsx"]
         }
     },
-    // TODO: これはいずれ消す
     {
-        mode: process.env.NODE_ENV || "development",
-        entry: "./src/js/hello-world.ts",
+        entry: {
+            index: "./src/css/entrypoints/index.scss",
+        },
         output: {
-            path: path.resolve(__dirname, "./dest/js"),
-            filename: "hello-world.js"
+            path: path.resolve(__dirname, "dest/css"),
         },
         module: {
             rules: [
                 {
-                    test: /\.ts$/,
-                    loader: "ts-loader",
-                }
+                    test: /\.s?css$/,
+                    use: [
+                        {loader: MiniCssExtractPlugin.loader},
+                        // {loader: "style-loader"},
+                        {loader: "css-loader"},
+                        {loader: "sass-loader"},
+                    ],
+                },
+                // {
+                //     test: /\.(eot|woff|woff2|ttf|svg)$/,
+                //     loaders: ['url-loader']
+                // },
             ]
         },
         resolve: {
-            extensions: [".ts"]
+            extensions: [".scss", ".css"]
         },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "[name].css",
+                path: path.resolve(__dirname, "dest/css"),
+            }),
+        ],
     }
 ];
 
