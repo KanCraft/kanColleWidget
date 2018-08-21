@@ -107,6 +107,8 @@ const controllers = {
     "onBattleStarted",
     "onCombinedBattleResulted",
     "onCombinedBattleStarted",
+    "onCreateShipStart",
+    "onCreateShipCompleted",
     "onDeck",
   ],
   "message": [

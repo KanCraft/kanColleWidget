@@ -35,7 +35,9 @@ export function onCreateShipStart(detail) {
  */
 export function onCreateShipCompleted(detail, dock = __dock_id) {
 
-  if (__dock_id == null) return;
+  if (detail.debug_dock_id) dock = detail.debug_dock_id;
+
+  if (dock == null) return;
   if (!Config.isNotificationEnabled(CREATESHIP)) return;
 
   const windows = WindowService.getInstance();

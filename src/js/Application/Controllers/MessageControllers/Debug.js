@@ -69,6 +69,7 @@ if (process.env.NODE_ENV != "production") {
     },
     "request": {
       ...require("../RequestControllers/Port"),
+      ...require("../RequestControllers/Kousho"),
       ...require("../RequestControllers/Deck"),
     }
   };
