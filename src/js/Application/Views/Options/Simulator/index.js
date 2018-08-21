@@ -114,5 +114,6 @@ const controllers = {
   "message": [
     "GetConfig",
     "SetConfig",
+    "ResourceCapture",
   ]
 };
