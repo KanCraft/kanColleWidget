@@ -5,7 +5,7 @@ script:
     - npm run ci
 deploy:
     - provider: script
-      script: npm run zip && npm run deploy
+      script: npm run build && npm run zip && npm run deploy
       on:
         all_branches: true
         condition: $TRAVIS_BRANCH =~ staging
