@@ -76,7 +76,7 @@ function publishUploadedPackageFile(access_token, app_id) {
       "Authorization":      `Bearer ${access_token}`,
       "x-goog-api-version": "2",
       "Content-Length":     "0",
-      // "publishTarget":      "trustedTesters", // TODO: いずれちゃんと渡せるようにする
+      "publishTarget":      "trustedTesters", // TODO: いずれちゃんと渡せるようにする
     }
   });
 }
