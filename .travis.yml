@@ -3,9 +3,13 @@ node_js:
     - 9.11
 script:
     - npm run ci
-deploy:
-    - provider: script
-      script: npm run build && npm run zip && npm run deploy
-      on:
-        all_branches: true
-        condition: $TRAVIS_BRANCH =~ staging
+after_success:
+    - ./scripts/deploy.sh
+# deploy:
+#     - provider: script
+#       script: npm run build && npm run zip && npm run deploy
+#       on:
+#         all_branches: true
+#         condition: $TRAVIS_BRANCH =~ staging
+# # あほくさ
+# # https://github.com/travis-ci/travis-ci/issues/8637
