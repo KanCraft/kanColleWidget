@@ -3,6 +3,7 @@ var path = require("path");
 
 module.exports = [
     {
+        mode: process.env.NODE_ENV || "development",
         optimization: {
             minimize: process.env.NODE_ENV == "production",
         },
@@ -28,6 +29,7 @@ module.exports = [
     },
     // TODO: これはいずれ消す
     {
+        mode: process.env.NODE_ENV || "development",
         entry: "./src/js/hello-world.ts",
         output: {
             path: path.resolve(__dirname, "./dest/js"),
