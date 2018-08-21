@@ -1,1 +1,0 @@
-npm run zip && npm run deploy
