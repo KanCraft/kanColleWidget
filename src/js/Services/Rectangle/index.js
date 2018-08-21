@@ -112,7 +112,7 @@ class Rectangle {
   ofResourceBuckets() {
     const start = {
       x: this.x + (this.width/1.16),
-      y: this.y + (this.height/42),
+      y: this.y + (this.height/48),
     };
     const size = {
       width:  this.width/19,
@@ -129,7 +129,7 @@ class Rectangle {
   ofResourceMaterial() {
     const start = {
       x: this.x + (this.width/1.06),
-      y: this.y + (this.height/42),
+      y: this.y + (this.height/48),
     };
     const size = {
       width:  this.width/19,
