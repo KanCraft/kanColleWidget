@@ -107,7 +107,7 @@ const controllers = {
     "onBattleStarted",
     "onCombinedBattleResulted",
     "onCombinedBattleStarted",
-    "onCreateShipStart",
+    "onRecoveryStartCompleted",
     "onCreateShipCompleted",
     "onDeck",
   ],
