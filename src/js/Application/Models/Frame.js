@@ -36,9 +36,9 @@ export default class Frame extends Model {
       id: "",
       alias: "",
       url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
-      size: {width: 800, height: 480},
+      size: {width: 1200, height: 720},
       zoom: 1.0,
-      position: {top: -77, left: -124},
+      position: {top: -77, left: 0},
       decoration: "FRAME_SHIFT",
       protected: false
     });
@@ -50,9 +50,9 @@ Frame.default = {
     id: "__white",
     alias: "DEFAULT WHITE",
     url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
-    size: {width: 800, height: 480},
+    size: {width: 1200, height: 720},
     zoom: 1.0,
-    position: {top: -77, left: -124},
+    position: {top: -77, left: 0},
     decoration: "FRAME_SHIFT",
     protected: true,
     addressbar: false,

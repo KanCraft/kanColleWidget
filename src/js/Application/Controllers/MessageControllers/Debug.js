@@ -62,13 +62,15 @@ export function NotificationDebug(params) {
 }
 
 if (process.env.NODE_ENV != "production") {
-  var ConfigControllers = require("./Config");
   var registry = {
     "message": {
-      ...ConfigControllers,
+      ...require("./Config"),
+      ...require("./Resource"),
     },
     "request": {
       ...require("../RequestControllers/Port"),
+      ...require("../RequestControllers/Recovery"),
+      ...require("../RequestControllers/Kousho"),
       ...require("../RequestControllers/Deck"),
     }
   };

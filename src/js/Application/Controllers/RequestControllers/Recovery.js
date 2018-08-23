@@ -39,7 +39,9 @@ export function onRecoveryStart(detail) {
  */
 export function onRecoveryStartCompleted(detail, dock = __dock_id) {
 
-  if (__dock_id == null) return;
+  if (detail.debug_dock_id) dock = detail.debug_dock_id;
+
+  if (dock == null) return;
   if (!Config.isNotificationEnabled(RECOVERY)) return;
 
   const windows = WindowService.getInstance();

@@ -5,8 +5,8 @@ export default class GifRecorder {
     this.stream   = stream;
     this.mimeType = "image/gif";
 
-    this.width  = option.width  || 800;
-    this.height = option.height || 480;
+    this.width  = option.width  || 1200;
+    this.height = option.height || 720;
 
     this.video          = document.createElement("video");
     this.video.src      = URL.createObjectURL(stream);

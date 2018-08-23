@@ -218,6 +218,16 @@ export default class StatisticsView extends Component {
             (4) なお取得成功した場合も同日中のレコードは上書きして1つのレコードとして保存されます。
           </p>
         </div>
+        <div>
+          <p style={{textAlign:"center", padding:"48px"}}>
+            <button onClick={() => {
+              if (window.confirm("取得済みデータを全件削除します。よろしいですか？")) {
+                Resource.drop();
+                window.location.reload();
+              }
+            }}>データ全件削除</button>
+          </p>
+        </div>
       </div>
     );
   }

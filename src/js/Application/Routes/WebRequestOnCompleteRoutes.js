@@ -22,7 +22,7 @@ onCompletedRouter.on([
 ], Controllers.onRecoveryStartCompleted);
 
 onCompletedRouter.on([
-  true, true, // その後2回なんらかのリクエストがある
+  true, // その後1回なんらかのリクエストがある
   "api_req_kousyou/createship" // まずcreateshipのリクエストがあって、
 ], Controllers.onCreateShipCompleted);
 

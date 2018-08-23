@@ -103,5 +103,9 @@ Config.default = {
   },
   "debug": {
     value: false
+  },
+  // 雑なやつ
+  "aprilfools": {
+    year: 0,
   }
 };

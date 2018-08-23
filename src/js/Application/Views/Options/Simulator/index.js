@@ -107,10 +107,13 @@ const controllers = {
     "onBattleStarted",
     "onCombinedBattleResulted",
     "onCombinedBattleStarted",
+    "onRecoveryStartCompleted",
+    "onCreateShipCompleted",
     "onDeck",
   ],
   "message": [
     "GetConfig",
     "SetConfig",
+    "ResourceCapture",
   ]
 };
