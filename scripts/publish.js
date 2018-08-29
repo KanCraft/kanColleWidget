@@ -69,15 +69,16 @@ function uploadPackageFile(access_token, zip_file_path, app_id) {
  * @param {string} access_token 
  * @param {string} app_id 
  */
-function publishUploadedPackageFile(access_token, app_id) {
-  return request.post(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish`, {
-    method: "POST",
-    headers: {
+function publishUploadedPackageFile(access_token, app_id, trustedTesters) {
+  const headers = {
       "Authorization":      `Bearer ${access_token}`,
       "x-goog-api-version": "2",
       "Content-Length":     "0",
-      "publishTarget":      "trustedTesters", // TODO: いずれちゃんと渡せるようにする
-    }
+  };
+  if (trustedTesters) headers["publishTarget"] = "trustedTesters";
+  return request.post(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish`, {
+    method:  "POST",
+    headers: headers,
   });
 }
 
@@ -96,8 +97,7 @@ function main(zip_file_path, client_id, client_secret, refresh_token, app_id) {
   }).then(access_token => {
     return uploadPackageFile(access_token, zip_file_path, app_id);
   }).then(res => {
-    console.log(res);
-    // return publishUploadedPackageFile(access_token, app_id);
+    return publishUploadedPackageFile(access_token, app_id, true);
   });
 }
 
