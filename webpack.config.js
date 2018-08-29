@@ -29,6 +29,7 @@ module.exports = [
         }
     },
     {
+        mode: process.env.NODE_ENV || "development",
         entry: {
             index: "./src/css/entrypoints/index.scss",
         },
