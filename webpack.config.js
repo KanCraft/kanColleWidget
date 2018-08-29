@@ -1,6 +1,7 @@
 var path = require("path");
 // var webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = [
     {
@@ -10,6 +11,7 @@ module.exports = [
         },
         entry: {
             background: "./src/js/entrypoints/background.ts",
+            popup:      "./src/js/entrypoints/popup.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
         },
         output: {
@@ -19,14 +21,27 @@ module.exports = [
         module: {
             rules: [
                 {
-                    test: /\.tsx?$/,
-                    loader: "ts-loader",
+                    test: /\.ts$/,
+                    use: [
+                        {loader: "ts-loader"},
+                    ],
+                }
+            ],
+            rules: [
+                {
+                    test: /\.vue$/,
+                    use: [
+                        {loader: "vue-loader"},
+                    ]
                 }
             ]
         },
         resolve: {
-            extensions: [".ts", ".tsx", ".js", ".jsx"]
-        }
+            extensions: [".ts", ".js", ".vue"]
+        },
+        plugins: [
+            new VueLoaderPlugin(),
+        ]
     },
     {
         mode: process.env.NODE_ENV || "development",
