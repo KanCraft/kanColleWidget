@@ -7,7 +7,7 @@
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 // FIXME: Unexpected character '@'
-// @Component
+@Component
 export default class Popup extends Vue {
   foobar() {
     alert("hogeeeee");
