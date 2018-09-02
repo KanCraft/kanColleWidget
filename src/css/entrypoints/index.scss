@@ -1,2 +1,40 @@
-@import "spectre.css/src/spectre.scss";
+// spectre.css の colors を overwrite します
+$primary-color: rgba(60, 200, 200, 1);
 
+@import "spectre.css/src/spectre.scss";
+@import "spectre.css/src/spectre-icons.scss";
+
+// Global
+* {
+  // transition: 0.1s;
+}
+.clickable {
+  cursor: pointer;
+  &:hover {
+    svg {
+      fill: #006df0;
+    }
+  }
+}
+
+svg {
+  &.fill-primary {
+    fill: $primary-color;
+  }
+}
+
+// Popup画面。どっか持ってく
+.container.popup {
+  .icon-justify {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    .popup-icon {
+      width:  24px;
+      height: 24px;
+      // color: $primary-color;
+      fill: $primary-color;
+    }
+  }
+}
