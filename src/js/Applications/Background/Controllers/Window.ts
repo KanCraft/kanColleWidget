@@ -16,7 +16,6 @@ import WindowService from "../../../Services/Window";
 export async function WindowOpen() {
   const wins = WindowService.getInstance();
   const tab = await wins.find();
-
   if (!!tab) {
     // TODO: リサイズ
     return {status: 202, data: tab};
@@ -29,6 +28,7 @@ export async function WindowOpen() {
  * WindowDecoration
  */
 export async function WindowDecoration(message: any) {
+  /* tslint:disable no-console */
   console.log(this.sender.tab.id);
   return true;
 }

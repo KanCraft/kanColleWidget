@@ -5,7 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
-        "arrow-parens": false,
+        "arrow-parens": false
     },
     "rulesDirectory": []
 }

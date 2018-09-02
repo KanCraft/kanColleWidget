@@ -13,7 +13,7 @@
     "version": "node ./scripts/version.js",
     "deploy": "node ./scripts/publish.js ./release/kcwidget.zip",
     "lint": "tslint ./src/**/*.ts",
-    "test": "jest --coverage",
+    "test": "npm run lint && jest --coverage",
     "ci": "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",

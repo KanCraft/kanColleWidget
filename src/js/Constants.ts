@@ -3,4 +3,4 @@ const KanColleURL: string = "http://www.dmm.com/netgame/social/-/gadgets/=/app_i
 
 export default {
   KanColleURL,
-}
+};
