@@ -7,6 +7,7 @@
  */
 
 import WindowService from "../../../Services/Window";
+import Frame from "../Models/Frame";
 
 /**
  * WindowOpen
@@ -15,20 +16,26 @@ import WindowService from "../../../Services/Window";
  */
 export async function WindowOpen() {
   const wins = WindowService.getInstance();
-  const tab = await wins.find();
+  let tab = await wins.find();
   if (!!tab) {
     // TODO: リサイズ
-    return {status: 202, data: tab};
+    return await wins.update(tab, {focused: true});
   }
-
-  return true;
+  const frame = Frame.find<Frame>("small");
+  tab = await wins.create(frame);
+  return tab;
 }
 
 /**
  * WindowDecoration
  */
 export async function WindowDecoration(message: any) {
-  /* tslint:disable no-console */
-  console.log(this.sender.tab.id);
-  return true;
+  const wins = WindowService.getInstance();
+  const launched = wins.knows(this.sender.tab.id);
+  if (!launched) {
+    return launched;
+  }
+  // クライアント側で resizeBy をする前に zoom を変えておいてあげる必要がある
+  await wins.zoom(launched.tab, launched.frame.zoom);
+  return launched;
 }
