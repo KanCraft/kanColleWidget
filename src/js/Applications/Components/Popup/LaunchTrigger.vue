@@ -20,11 +20,11 @@
 </template>
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
-import Compass from "../Icons/compass.vue";
+import Icons from "../Icons";
 
 @Component({
   components: {
-    compass: Compass,
+    compass: Icons.compass,
   }
 })
 export default class LaunchTrigger extends Vue {
