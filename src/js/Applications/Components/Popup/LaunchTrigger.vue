@@ -2,25 +2,25 @@
   <div class="columns">
     <div class="column col-10">
       <div class="form-group">
-        <select class="form-select" style="-webkit-appearance: none;">
-          <option>大型</option>
-          <option>中型</option>
-          <option>小型</option>
+        <select @change="onselect" class="form-select" style="-webkit-appearance: none;">
+          <option value="s">小型</option>
+          <option value="m">中型</option>
+          <option value="l">大型</option>
         </select>
       </div>
     </div>
     <div class="column col-2">
-      <div class="icon-justify clickable">
-        <!-- <img class="popup-icon" src="/dest/img/icons/compass.svg" /> -->
+      <div @click="launch" class="icon-justify clickable">
         <compass class="fill-primary" width="28px" />
       </div>
-      <!-- <button class="btn btn-action"><i class="icon icon-arrow-right"></i></button> -->
     </div>
   </div>
 </template>
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
 import Icons from "../Icons";
+
+import * as chomex from "chomex";
 
 @Component({
   components: {
@@ -29,5 +29,17 @@ import Icons from "../Icons";
 })
 export default class LaunchTrigger extends Vue {
 
+  private client;
+
+  constructor() {
+    super();
+    this.client = new chomex.Client(chrome.runtime);
+  }
+  onselect(ev: {target: HTMLInputElement}) {
+    this.client.message("/window/open");
+  }
+  launch() {
+    this.client.message("/window/open");
+  }
 }
 </script>

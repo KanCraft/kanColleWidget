@@ -1,2 +1,4 @@
-/* tslint:disable no-console */
-console.log("This is background script of KanColleWidget");
+/// <reference types="chrome" />
+
+import MessageListener from "../Applications/Background/Routers/Message";
+chrome.runtime.onMessage.addListener(MessageListener);

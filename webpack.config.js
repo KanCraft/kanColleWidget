@@ -36,7 +36,10 @@ module.exports = [
         },
         plugins: [
             new VueLoaderPlugin(),
-        ]
+        ],
+        performance: {
+            hints: false,
+        },
     },
     {
         mode: process.env.NODE_ENV || "development",

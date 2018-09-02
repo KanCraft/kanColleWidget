@@ -4,7 +4,9 @@
   "version": "3.0.0.1",
   "version_name": "3.0.0-alpha.1",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
-  "permissions": [],
+  "permissions": [
+    "tabs"
+  ],
   "icons": {
     "16": "dest/img/icons/app.16.png",
     "48": "dest/img/icons/app.48.png"
