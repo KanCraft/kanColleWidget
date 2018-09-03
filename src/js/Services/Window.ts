@@ -76,6 +76,21 @@ class WindowService {
   }
 
   /**
+   * 与えられたFrame情報で今開いているタブを更新する
+   */
+  public async reconfigure(tab: chrome.tabs.Tab, frame: Frame): Promise<chrome.tabs.Tab> {
+    const data: chrome.windows.CreateData = frame.createData();
+    const info: chrome.windows.UpdateInfo = {
+      focused: true,
+      height: data.height,
+      width: data.width,
+    };
+    tab = await this.update(tab, info);
+    tab = await this.zoom(tab, frame.zoom);
+    return tab;
+  }
+
+  /**
    * 窓のズーム値を変える
    */
   public zoom(tab: chrome.tabs.Tab, zoom: number): Promise<chrome.tabs.Tab> {

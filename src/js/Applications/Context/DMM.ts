@@ -1,4 +1,4 @@
-import {Client} from "chomex";
+import {Client, Router} from "chomex";
 import Const from "../../Constants";
 import Frame from "../Background/Models/Frame";
 
@@ -36,7 +36,25 @@ export default class DMM {
   }
 
   /**
+   * chrome.tabs.onMessage のリスナー
+   */
+  public listener(): (message: any) => any {
+    const router = new Router();
+    router.on("/reconfigured", (message) => this.reconfigure(message));
+    return router.listener();
+  }
+
+  /**
+   * このタブがまだ生きてる状態で、新しいFrameが指定された場合
+   */
+  private reconfigure(message: {frame: Frame}) {
+    this.frame = message.frame;
+    this.resizeToAdjustAero();
+  }
+
+  /**
    * エアロ領域の計算と微調整
+   * zoom値が必要になるので、this.frameが正しい値になっていることを確認のこと
    */
   private resizeToAdjustAero() {
     this.scope.resizeBy(

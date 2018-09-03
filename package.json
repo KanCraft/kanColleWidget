@@ -63,7 +63,7 @@
     ]
   },
   "dependencies": {
-    "chomex": "^1.0.17",
+    "chomex": "^1.0.18",
     "spectre.css": "^0.5.3",
     "vue": "^2.5.17"
   }

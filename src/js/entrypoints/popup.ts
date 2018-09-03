@@ -1,12 +1,8 @@
 import Vue from "vue";
-import Popup from "../Applications/Components/Popup";
+import Popup from "../Applications/Components/Popup.vue";
 
-/* tslint:disable no-unused-expression */
 new Vue({
   render: (h) => {
     return h(Popup);
   },
 }).$mount("main#app");
-
-/* tslint:disable no-console */
-// console.log(app);

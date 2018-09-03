@@ -6,6 +6,7 @@
  * backgroundからの窓の操作などを担います。
  */
 
+import {Client} from "chomex";
 import WindowService from "../../../Services/Window";
 import Frame from "../Models/Frame";
 
@@ -14,14 +15,16 @@ import Frame from "../Models/Frame";
  * すでにあれば、指定されたフレーム情報にリサイズする.
  * なければ、指定されたフレームか、最後に指定されたフレームにリサイズする.
  */
-export async function WindowOpen() {
+export async function WindowOpen(message: any) {
   const wins = WindowService.getInstance();
+  const id = message.id;
+  const frame = Frame.find<Frame>(id) || Frame.latest();
   let tab = await wins.find();
   if (!!tab) {
-    // TODO: リサイズ
-    return await wins.update(tab, {focused: true});
+    tab = await wins.reconfigure(tab, frame);
+    return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
   }
-  const frame = Frame.find<Frame>("small");
+  frame.update({selectedAt: Date.now()});
   tab = await wins.create(frame);
   return tab;
 }
