@@ -32,6 +32,17 @@ class WindowService {
   }
 
   /**
+   * 窓そのものを取得
+   */
+  public get(winId: number): Promise<chrome.windows.Window> {
+    return new Promise(resolve => {
+      this.windows.get(winId, (win) => {
+        resolve(win);
+      });
+    });
+  }
+
+  /**
    * すでに艦これのゲーム窓が開いていればそれを取得する
    * @param strict ゲーム窓が無い場合、Promiseをrejectする
    * @param query デフォルトでは艦これのゲーム窓を探すqueryになっている

@@ -8,18 +8,19 @@ import Frame from "../Background/Models/Frame";
  */
 export default class DMM {
 
+  private client;
   private tab: chrome.tabs.Tab;
   private frame: Frame;
 
   constructor(private scope: Window) {
+    this.client = new Client(chrome.runtime, false);
   }
 
   /**
    * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
    */
   public async init() {
-    const client = new Client(chrome.runtime, false);
-    const {status, data} = await client.message("/window/decoration");
+    const {status, data} = await this.client.message("/window/decoration");
     if (status < 200 && 300 <= status) {
       return;
     }
@@ -42,6 +43,15 @@ export default class DMM {
     const router = new Router();
     router.on("/reconfigured", (message) => this.reconfigure(message));
     return router.listener();
+  }
+
+  /**
+   * 定期的になんかやるやつ
+   */
+  public interval(): () => any {
+    return () => {
+      this.client.message("/window/record", {frame: this.frame});
+    };
   }
 
   /**

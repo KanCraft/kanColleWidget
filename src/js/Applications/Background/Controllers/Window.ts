@@ -42,3 +42,10 @@ export async function WindowDecoration(message: any) {
   await wins.zoom(launched.tab, launched.frame.zoom);
   return launched;
 }
+
+export async function WindowRecord(message: any) {
+  const frame = Frame.find(message.frame.id);
+  const wins = WindowService.getInstance();
+  const win = await wins.get(this.sender.tab.windowId);
+  return frame.update({position: {left: win.left, top: win.top}});
+}
