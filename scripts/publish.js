@@ -90,8 +90,9 @@ function main(zip_file_path, client_id, client_secret, refresh_token, app_id) {
   client_secret = client_secret || process.env.GOOGLEAPI_CLIENT_SECRET;
   refresh_token = refresh_token || process.env.GOOGLEAPI_REFRESH_TOKEN;
   app_id        = app_id        || process.env.CHROMEWEBSTORE_APP_ID;
+  let access_token;
   return refreshAccessToken(client_id, client_secret, refresh_token).then(res => {
-    const access_token = JSON.parse(res).access_token;
+    access_token = JSON.parse(res).access_token;
     if (!access_token) throw new Error("couldn't retrieve access_token from this refresh_token");
     return Promise.resolve(access_token);
   }).then(access_token => {
@@ -117,5 +118,8 @@ if (require.main == module) {
     console.error(`zip file is not found on path ${zip_file_path}`);
     process.exit(1);
   }
-  main(zip_file_path);
+  main(zip_file_path).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
