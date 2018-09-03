@@ -9,6 +9,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const shell = require("child_process");
 
 const project = path.dirname(__dirname);
 
@@ -71,6 +72,7 @@ function main(new_version_name) {
   mnf.version_name = version_name;
   writePackagejson(pkg);
   writeManifestjson(mnf);
+  shell.execSync("npm install");
 }
 
 if (require.main == module) {
