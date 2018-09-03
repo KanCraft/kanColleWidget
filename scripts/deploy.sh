@@ -13,7 +13,7 @@ if [[ ${TRAVIS_PULL_REQUEST} == "false" ]]; then
   exit 0
 fi
 
-if [[ ! ${TRAVIS_BRANCH} =~ "stating" ]]; then
+if [[ ! ${TRAVIS_BRANCH} =~ "staging" ]]; then
   echo "SKIP: TRAVIS_BRANCH = ${TRAVIS_BRANCH}"
   exit 0
 fi
