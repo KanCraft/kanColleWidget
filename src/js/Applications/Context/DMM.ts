@@ -8,6 +8,8 @@ import Frame from "../Background/Models/Frame";
  */
 export default class DMM {
 
+  private static scrollstyle: string = "kcwidget-scrollability";
+
   private client;
   private tab: chrome.tabs.Tab;
   private frame: Frame;
@@ -34,6 +36,7 @@ export default class DMM {
 
     this.resizeToAdjustAero();
     this.shiftFrame();
+    this.injectStyles();
   }
 
   /**
@@ -84,4 +87,34 @@ export default class DMM {
     iframe.style.top = `-${rect.y + Const.TopSpacing}px`;
   }
 
+  private injectStyles() {
+    this.scope.document.head.appendChild(this.createPersistenStyle());
+    this.scope.document.head.appendChild(this.createScrollStyle(false));
+  }
+
+  private createPersistenStyle(): HTMLStyleElement {
+    const style = this.scope.document.createElement("style");
+    style.type = "text/css";
+    style.id = "kcwidget-persistent";
+    style.innerHTML = `/* This CSS is injected by KanColleWidget */
+    html {
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    `;
+    return style;
+  }
+
+  private createScrollStyle(scrollable: boolean = false): HTMLStyleElement {
+    const style = this.scope.document.createElement("style");
+    style.type = "text/css";
+    style.id = DMM.scrollstyle;
+    style.innerHTML = `/* This CSS is injected by KanColleWidget */
+    html {
+      overflow-y: ${scrollable ? "scroll" : "hidden"};
+    }`;
+    return style;
+  }
 }
