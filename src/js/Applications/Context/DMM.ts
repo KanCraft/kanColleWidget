@@ -71,20 +71,27 @@ export default class DMM {
    */
   private resizeToAdjustAero() {
     this.scope.resizeBy(
-      this.scope.outerWidth - Math.floor(this.scope.innerWidth * this.frame.zoom),
-      this.scope.outerHeight - Math.floor(this.scope.innerHeight * this.frame.zoom),
+      this.scope.outerWidth - this.scope.innerWidth,
+      this.scope.outerHeight - this.scope.innerHeight,
     );
   }
 
   /**
    * ゲーム表示領域を画面ぴったりに移動する
    */
-  private shiftFrame() {
+  private async shiftFrame() {
+
+    const sleep = (sec: number) => new Promise(resolve => setTimeout(() => resolve(), sec * 1000));
+    await sleep(4); // FIXME: なんだこれ
+
     const iframe = this.scope.document.querySelector(Const.GameIFrame) as HTMLIFrameElement;
-    const rect = iframe.getBoundingClientRect() as DOMRect;
-    iframe.style.position = "relative";
-    iframe.style.left = "0";
-    iframe.style.top = `-${rect.y + Const.TopSpacing}px`;
+    iframe.style.position = "absolute";
+    iframe.style.zIndex = "2";
+
+    const zoom = this.frame.zoom;
+    iframe.style.transform = `scale(${zoom})`;
+    iframe.style.left = `${600 * (zoom - 1)}px`;
+    iframe.style.top  = `${Math.round(414 * (zoom - 1) - 77)}px`;
   }
 
   private injectStyles() {

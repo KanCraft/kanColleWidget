@@ -38,8 +38,6 @@ export async function WindowDecoration(message: any) {
   if (!launched) {
     return launched;
   }
-  // クライアント側で resizeBy をする前に zoom を変えておいてあげる必要がある
-  await wins.zoom(launched.tab, launched.frame.zoom);
   return launched;
 }
 
