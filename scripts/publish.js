@@ -1,6 +1,7 @@
 /** publish.js
  * Chrome拡張をChromeウェブストアに公開するスクリプト
  * @see https://developer.chrome.com/webstore/using_webstore_api
+ * @see https://developer.chrome.com/webstore/webstore_api/items/publish
  *
  * @param {string} client_id
  * @param {string} client_secret
@@ -9,8 +10,9 @@
  * @param {string} zip_file_path
  */
 
-var request = require("request-promise");
-var fs      = require('fs');
+const request     = require("request-promise");
+const fs          = require('fs');
+const querystring = require('querystring');
 
 /** refreshAccessToken
  * デフォルトでは、得られた access_token は40分でExpireするため、
@@ -75,8 +77,8 @@ function publishUploadedPackageFile(access_token, app_id, trustedTesters) {
       "x-goog-api-version": "2",
       "Content-Length":     "0",
   };
-  if (trustedTesters) headers["publishTarget"] = "trustedTesters";
-  return request.post(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish`, {
+  const query = querystring.stringify({publishTarget: trustedTesters ? "trustedTesters" : "default"});
+  return request.post(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish?${query}`, {
     method:  "POST",
     headers: headers,
   });
