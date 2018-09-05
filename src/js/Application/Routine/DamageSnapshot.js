@@ -10,7 +10,7 @@ export default class DamageSnapshotDisplay {
     this.appendImage = this.appendImage.bind(this);
   }
   embed() {
-    return this.context.document.querySelector("embed");
+    return this.context.document.querySelector("div#flashWrap");
   }
   getContainer() {
     let container = this.context.document.querySelector(`div#${this.id}`);
@@ -60,14 +60,14 @@ export default class DamageSnapshotDisplay {
   }
   prepare() {
     console.log("DamageSnapshot", "prepare");
-    let embed = this.context.document.querySelector("embed");
+    let embed = this.embed();
     embed.setAttribute("wmode", "transparent");
     if (typeof embed.onmousedown == "function") return true;
     embed.addEventListener("mousedown", this.onmousedown);
     return true;
   }
   cleanup() {
-    let embed = this.context.document.querySelector("embed");
+    let embed = this.embed();
     embed.removeAttribute("wmode");
     embed.removeEventListener("mousedown", this.onmousedown, false);
     this.count = 0;

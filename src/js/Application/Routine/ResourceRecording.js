@@ -40,7 +40,7 @@ export default function record(auto = true) {
   })
   //  .then(urls => urls.map(url => window.open(url)));
   .then(urls => Promise.all(urls.map(url => api.ocr(url, {whitelist:"0123456789",trim:"\n"}))))
-  .then(res =>  Promise.resolve(res.map(r => parseInt(r.result))))
+  .then(res =>  Promise.resolve(res.map(r => parseInt(r.result.replace(" ", "")))))
   .then(([fuel, ammo, steel, bauxite, buckets, material]) => Promise.resolve(Resource.new({
     fuel, ammo, steel, bauxite, buckets, material, created: Date.now(),
     _id: auto && _shouldSquash(last.created, Date.now()) ? last._id : undefined

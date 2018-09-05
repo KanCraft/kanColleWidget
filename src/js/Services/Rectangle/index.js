@@ -3,7 +3,7 @@
  */
 class Rectangle {
 
-  static aspect = { defaultWidth: 1200, defaultHeight: 720, ratio: 1200/720 };
+  static aspect = { defaultWidth: 1200, defaultHeight: 720, ratio: 720/1200 };
 
   constructor(x, y, width, height) {
     this.x = x || 0;
@@ -112,7 +112,7 @@ class Rectangle {
   ofResourceBuckets() {
     const start = {
       x: this.x + (this.width/1.16),
-      y: this.y + (this.height/42),
+      y: this.y + (this.height/48),
     };
     const size = {
       width:  this.width/19,
@@ -129,7 +129,7 @@ class Rectangle {
   ofResourceMaterial() {
     const start = {
       x: this.x + (this.width/1.06),
-      y: this.y + (this.height/42),
+      y: this.y + (this.height/48),
     };
     const size = {
       width:  this.width/19,
@@ -162,20 +162,20 @@ class Rectangle {
             size.height
         );
   }
-    /**
-     * 建造時の、ひとつのドック全体を切り出す座標.
-     * おもに、GosseractAPIで用いられる.
-     */
+  /**
+   * 建造時の、ひとつのドック全体を切り出す座標.
+   * おもに、GosseractAPIで用いられる.
+   */
   ofCreateShip(dock) {
     const start = {
-      x: this.x + (this.width/2.00),
-      y: this.y + (this.height/2.6)
+      x: this.x + (this.width/2.02),
+      y: this.y + (this.height/2.68),
     };
     const size = {
-      width: this.width/9,
-      height: this.height/26
+      width: this.width/8.28,
+      height: this.height/22.8,
     };
-    const dockHeight = size.height * 4.236;
+    const dockHeight = size.height * 3.72;
     return new Rectangle(
             start.x,
             start.y + ((dock - 1) * dockHeight),
