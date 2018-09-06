@@ -15,7 +15,7 @@ export default class DMM {
   private tab: chrome.tabs.Tab;
   private frame: Frame;
   private initialized: boolean = false;
-  private lastResized: number = Date.now();
+  private resizeTimerId: number;
 
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime, false);
@@ -49,27 +49,20 @@ export default class DMM {
    * onresizeイベントはすごい勢いでたくさん発火するので、
    * ある程度debounceしている。
    */
-  public async onresize() {
+  public onresize() {
 
     if (!this.initialized) {
       return false;
     }
 
     const debounce = 1000;
-    this.lastResized = Date.now();
-    await ((msec) => new Promise(resolve => setTimeout(() => resolve(), msec)))(debounce + 500);
-
-    // 1秒待ってる間に別のreisizeが発火しているので、なんもしない
-    if (Date.now() < this.lastResized + debounce) {
-      return false;
+    if (this.resizeTimerId > 0) {
+      clearTimeout(this.resizeTimerId);
     }
-
-    this.lastResized = Date.now();
-
-    const zoom = Rectangle.calcZoom(this.scope, {width: Const.GameWidth, height: Const.GameHeight});
-    this.shiftFrame(zoom);
-    /* tslint:disable no-console */
-    console.log(zoom);
+    this.resizeTimerId = setTimeout(() => {
+      const zoom = Rectangle.calcZoom(this.scope, {width: Const.GameWidth, height: Const.GameHeight});
+      this.shiftFrame(zoom).then();
+    }, debounce);
   }
 
   /**
