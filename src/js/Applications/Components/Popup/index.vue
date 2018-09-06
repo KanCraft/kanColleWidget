@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import LaunchTrigger from "./Popup/LaunchTrigger.vue";
+import LaunchTrigger from "./LaunchTrigger.vue";
 
 @Component({
   components: {

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Popup from "../Applications/Components/Popup.vue";
+import Popup from "../Applications/Components/Popup/index.vue";
 
 new Vue({
   render: (h) => {
