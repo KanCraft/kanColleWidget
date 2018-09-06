@@ -40,6 +40,7 @@ export default class DMM {
     this.resizeToAdjustAero();
     this.shiftFrame(this.frame.zoom);
     this.injectStyles();
+    this.hideNavigations(Const.HiddenElements);
 
     setTimeout(() => this.initialized = true, 200);
   }
@@ -89,6 +90,19 @@ export default class DMM {
   private reconfigure(message: {frame: Frame}) {
     this.frame = message.frame;
     this.resizeToAdjustAero();
+  }
+
+  /**
+   * 設定しだいでは、DMMの要素を消す
+   * TODO: 設定できるようにする
+   */
+  private hideNavigations(targets: string[] = []) {
+    targets.map(selector => {
+      const e = document.querySelector(selector) as HTMLElement;
+      if (e && e.style) {
+        e.style.visibility = "hidden";
+      }
+    });
   }
 
   /**
