@@ -1,6 +1,5 @@
 import {Client, Router} from "chomex";
 import Const from "../../Constants";
-import Rectangle from "../../Services/Rectangle";
 import Frame from "../Background/Models/Frame";
 
 /**
@@ -60,8 +59,12 @@ export default class DMM {
     if (this.resizeTimerId > 0) {
       clearTimeout(this.resizeTimerId);
     }
+
     this.resizeTimerId = setTimeout(() => {
-      const zoom = Rectangle.calcZoom(this.scope, {width: Const.GameWidth, height: Const.GameHeight});
+      // 現在のウィンドウの形が、オリジナルより横にながければ負の値、縦にながければ正の値を取る。
+      const a = (this.scope.innerHeight / this.scope.innerWidth) - (Const.GameHeight / Const.GameWidth);
+      // 短辺を基準にズーム値を決定する
+      const zoom = a < 0 ? this.scope.innerHeight / Const.GameHeight : this.scope.innerWidth / Const.GameWidth;
       this.shiftFrame(zoom).then();
     }, debounce);
   }
@@ -128,10 +131,21 @@ export default class DMM {
     const iframe = this.scope.document.querySelector(Const.GameIFrame) as HTMLIFrameElement;
     iframe.style.position = "absolute";
     iframe.style.zIndex = "2";
-
     iframe.style.transform = `scale(${zoom})`;
-    iframe.style.left = `${600 * (zoom - 1)}px`;
-    iframe.style.top  = `${Math.round(414 * (zoom - 1) - 77)}px`;
+
+    // コンテンツを中央に寄せる
+    const wrapper = this.scope.document.querySelector(Const.GameWrapper) as HTMLDivElement;
+    wrapper.style.position = "fixed";
+    wrapper.style.width = "100vw";
+    wrapper.style.height = "100vh";
+    wrapper.style.top = "0";
+    wrapper.style.left = "0";
+    wrapper.style.display = "flex";
+    wrapper.style.alignItems = "center";
+    wrapper.style.justifyContent = "center";
+    wrapper.style.zIndex = "1";
+    // 動的なものはこれだけなので、これ以外はinjectに持っていってもいいかもしれない
+    wrapper.style.paddingTop = `${54 * zoom}px`;
   }
 
   private injectStyles() {

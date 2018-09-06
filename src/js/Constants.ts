@@ -1,6 +1,7 @@
 
 const KanColleURL: string = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 
+const GameWrapper: string = "div#area-game";
 const GameIFrame: string = "iframe#game_frame";
 const GameWidth: number = 1200;
 const GameHeight: number = 720;
@@ -21,6 +22,7 @@ const TopSpacing: number = 16;
 export default {
   KanColleURL,
 
+  GameWrapper,
   GameIFrame,
   GameWidth,
   GameHeight,
