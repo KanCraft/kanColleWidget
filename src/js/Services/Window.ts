@@ -96,9 +96,7 @@ class WindowService {
       height: data.height,
       width: data.width,
     };
-    tab = await this.update(tab, info);
-    tab = await this.zoom(tab, frame.zoom);
-    return tab;
+    return await this.update(tab, info);
   }
 
   /**
