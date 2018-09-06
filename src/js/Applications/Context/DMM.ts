@@ -1,5 +1,6 @@
 import {Client, Router} from "chomex";
 import Const from "../../Constants";
+import Rectangle from "../../Services/Rectangle";
 import Frame from "../Background/Models/Frame";
 
 /**
@@ -13,6 +14,8 @@ export default class DMM {
   private client;
   private tab: chrome.tabs.Tab;
   private frame: Frame;
+  private initialized: boolean = false;
+  private lastResized: number = Date.now();
 
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime, false);
@@ -35,8 +38,38 @@ export default class DMM {
     this.frame = frame;
 
     this.resizeToAdjustAero();
-    this.shiftFrame();
+    this.shiftFrame(this.frame.zoom);
     this.injectStyles();
+
+    setTimeout(() => this.initialized = true, 200);
+  }
+
+  /**
+   * 画面がリサイズしたときのルーチン
+   * onresizeイベントはすごい勢いでたくさん発火するので、
+   * ある程度debounceしている。
+   */
+  public async onresize() {
+
+    if (!this.initialized) {
+      return false;
+    }
+
+    const debounce = 1000;
+    this.lastResized = Date.now();
+    await ((msec) => new Promise(resolve => setTimeout(() => resolve(), msec)))(debounce + 500);
+
+    // 1秒待ってる間に別のreisizeが発火しているので、なんもしない
+    if (Date.now() < this.lastResized + debounce) {
+      return false;
+    }
+
+    this.lastResized = Date.now();
+
+    const zoom = Rectangle.calcZoom(this.scope, {width: Const.GameWidth, height: Const.GameHeight});
+    this.shiftFrame(zoom);
+    /* tslint:disable no-console */
+    console.log(zoom);
   }
 
   /**
@@ -79,7 +112,7 @@ export default class DMM {
   /**
    * ゲーム表示領域を画面ぴったりに移動する
    */
-  private async shiftFrame() {
+  private async shiftFrame(zoom: number) {
 
     // FIXME: iframe内のロードが終わる前に動かすと真っ白になる？
     // const sleep = (sec: number) => new Promise(resolve => setTimeout(() => resolve(), sec * 1000));
@@ -89,7 +122,6 @@ export default class DMM {
     iframe.style.position = "absolute";
     iframe.style.zIndex = "2";
 
-    const zoom = this.frame.zoom;
     iframe.style.transform = `scale(${zoom})`;
     iframe.style.left = `${600 * (zoom - 1)}px`;
     iframe.style.top  = `${Math.round(414 * (zoom - 1) - 77)}px`;
