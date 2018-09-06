@@ -36,7 +36,7 @@ export async function WindowDecoration(message: any) {
   const wins = WindowService.getInstance();
   const launched = wins.knows(this.sender.tab.id);
   if (!launched) {
-    return launched;
+    return Promise.reject({status: 404});
   }
   return launched;
 }

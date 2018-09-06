@@ -117,7 +117,7 @@ class WindowService {
    * @param tabId
    */
   public knows(tabId: number): Launched {
-    return this.launched.tab.id === tabId ? this.launched : null;
+    return this.launched && this.launched.tab.id === tabId ? this.launched : null;
   }
 
 }
