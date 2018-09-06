@@ -1,5 +1,5 @@
 var path = require("path");
-// var webpack = require("webpack");
+var webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -12,6 +12,7 @@ module.exports = [
         entry: {
             background: "./src/js/entrypoints/background.ts",
             popup:      "./src/js/entrypoints/popup.ts",
+            options:    "./src/js/entrypoints/options.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
         },
         output: {
@@ -36,6 +37,7 @@ module.exports = [
         },
         plugins: [
             new VueLoaderPlugin(),
+            new webpack.DefinePlugin({'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
         ],
         performance: {
             hints: false,
