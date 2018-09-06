@@ -1,0 +1,16 @@
+// 右上ポップアップのCSS
+
+@import "../variables.scss";
+
+.icon-justify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  .popup-icon {
+    width:  24px;
+    height: 24px;
+    // color: $primary-color;
+    fill: $primary-color;
+  }
+}
