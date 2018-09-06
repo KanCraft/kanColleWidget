@@ -81,8 +81,9 @@ export default class DMM {
    */
   private async shiftFrame() {
 
-    const sleep = (sec: number) => new Promise(resolve => setTimeout(() => resolve(), sec * 1000));
-    await sleep(4); // FIXME: なんだこれ
+    // FIXME: iframe内のロードが終わる前に動かすと真っ白になる？
+    // const sleep = (sec: number) => new Promise(resolve => setTimeout(() => resolve(), sec * 1000));
+    // await sleep(4);
 
     const iframe = this.scope.document.querySelector(Const.GameIFrame) as HTMLIFrameElement;
     iframe.style.position = "absolute";
