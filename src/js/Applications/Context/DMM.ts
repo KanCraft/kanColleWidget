@@ -41,6 +41,9 @@ export default class DMM {
     this.injectStyles();
     this.hideNavigations(Const.HiddenElements);
 
+    // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
+    this.showInGameButtons({});
+
     setTimeout(() => this.initialized = true, 200);
   }
 
@@ -93,6 +96,44 @@ export default class DMM {
   private reconfigure(message: {frame: Frame}) {
     this.frame = message.frame;
     this.resizeToAdjustAero();
+  }
+
+  /**
+   * アプリ内ボタンの表示
+   */
+  private showInGameButtons(message: any) {
+    const containerID = "kcw-ingame-buttons";
+    const existing = this.scope.document.querySelector(`div#${containerID}`);
+    if (existing) {
+      return;
+    }
+    const container = this.scope.document.createElement("div");
+    container.id = containerID;
+    container.style.cssText = `
+      position: fixed; right: 0; top: 0; z-index: 3;
+      background-color: rgba(0, 0, 0, 0.6); padding: 16px;
+      /* height: 400px; */ /* opacity: 0; */
+    `;
+    container.appendChild(this.createMuteButton());
+
+    this.scope.document.body.appendChild(container);
+  }
+  /**
+   * ミュートボタンつくるやつ
+   */
+  private createMuteButton(): HTMLButtonElement {
+    const button = this.scope.document.createElement("button") as HTMLButtonElement;
+    button.innerText = "mute!!";
+    button.addEventListener("click", () => this.toggleMute());
+    return button;
+  }
+
+  /**
+   * ミュート状態をトグルするリクエストをつくるやつ
+   */
+  private async toggleMute() {
+    const res = await this.client.message("/window/toggle-mute");
+    // TODO: 返ってきた「現在のミュート状態」に応じて、ミュートボタンの形状を変える
   }
 
   /**
