@@ -1,6 +1,6 @@
 import {Client, Router} from "chomex";
 import Const from "../../Constants";
-import Frame from "../Background/Models/Frame";
+import Frame from "../Models/Frame";
 
 /**
  * http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/

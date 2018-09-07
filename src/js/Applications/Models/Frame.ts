@@ -1,5 +1,5 @@
 import {Model} from "chomex";
-import Const from "../../../Constants";
+import Const from "../../Constants";
 
 export default class Frame extends Model {
 

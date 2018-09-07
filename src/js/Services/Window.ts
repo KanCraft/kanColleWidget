@@ -1,4 +1,4 @@
-import Frame from "../Applications/Background/Models/Frame";
+import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
 
 export interface Launched {

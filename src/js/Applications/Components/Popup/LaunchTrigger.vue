@@ -24,7 +24,7 @@
 import {Vue, Component} from "vue-property-decorator";
 import * as chomex from "chomex";
 import Icons from "../Icons";
-import Frame from "../../Background/Models/Frame";
+import Frame from "../../Models/Frame";
 
 @Component({
   components: {
