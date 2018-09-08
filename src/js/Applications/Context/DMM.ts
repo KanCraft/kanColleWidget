@@ -42,7 +42,7 @@ export default class DMM {
     this.hideNavigations(Const.HiddenElements);
 
     // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
-    this.showInGameButtons({});
+    this.showInAppButtons({});
 
     setTimeout(() => this.initialized = true, 200);
   }
@@ -101,8 +101,8 @@ export default class DMM {
   /**
    * アプリ内ボタンの表示
    */
-  private showInGameButtons(message: any) {
-    const containerID = "kcw-ingame-buttons";
+  private showInAppButtons(message: any) {
+    const containerID = "kcw-inapp-buttons";
     const existing = this.scope.document.querySelector(`div#${containerID}`);
     if (existing) {
       return;
