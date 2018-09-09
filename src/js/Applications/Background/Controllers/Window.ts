@@ -8,6 +8,7 @@
 
 import {Client} from "chomex";
 import WindowService from "../../../Services/Window";
+import Config from "../../Models/Config";
 import Frame from "../../Models/Frame";
 
 /**
@@ -30,7 +31,8 @@ export async function WindowOpen(message: any) {
 }
 
 /**
- * WindowDecoration
+ * このリクエストをした窓が『艦これウィジェット』経由で開かれたものなのかを確認。
+ * 必要な設定などをまとめて返す。
  */
 export async function WindowDecoration(message: any) {
   const wins = WindowService.getInstance();
@@ -38,7 +40,11 @@ export async function WindowDecoration(message: any) {
   if (!launched) {
     return Promise.reject({status: 404});
   }
-  return launched;
+  // 必要な設定があればそれを返す
+  const configs = Config.select([
+    "inapp-mute-button",
+  ]);
+  return {...launched, configs};
 }
 
 export async function WindowRecord(message: any) {

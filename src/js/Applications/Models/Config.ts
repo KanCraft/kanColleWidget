@@ -41,6 +41,13 @@ export default class Config<T> extends Model {
     },
   };
 
+  public static select(keys: string[]): {[name: string]: Config<any>} {
+    const all = this.all();
+    const res = {};
+    keys.map(key => res[key] = all[key]);
+    return res;
+  }
+
   public category: Category;
   public description: string;
   public options?: Array<{name: string, value: string}>;
