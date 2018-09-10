@@ -14,28 +14,30 @@
       </div>
     </div>
     <div class="column col-2">
-      <div @click="launch" class="icon-justify clickable">
-        <compass class="fill-primary" width="28px" />
-      </div>
+      <div
+        @click="launch"
+        class="icon-justify clickable"
+        v-html="icons.browser.toSVG()"
+        />
     </div>
   </div>
 </template>
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
 import * as chomex from "chomex";
-import Icons from "../Icons";
 import Frame from "../../Models/Frame";
 
-@Component({
-  components: {
-    compass: Icons.compass,
-  }
-})
+import {browser} from "octicons";
+
+@Component
 export default class LaunchTrigger extends Vue {
 
   private client;
   private frames: Frame[];
   private selected: Frame;
+  private icons = {
+    browser: browser,
+  };
 
   constructor() {
     super();

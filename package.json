@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "chomex": "^1.0.19",
+    "octicons": "^8.1.0",
     "spectre.css": "^0.5.3",
     "vue": "^2.5.17"
   }
