@@ -1,4 +1,5 @@
 import {Client} from "chomex";
+import octicons from "octicons";
 
 export default class InAppButtons {
 
@@ -34,8 +35,9 @@ export default class InAppButtons {
     const container = this.document.createElement("div");
     container.id = InAppButtons.containerID;
     container.style.cssText = `
+      transition: all 0.1s;
       position: fixed; right: 0; top: 0; z-index: 3;
-      background-color: rgba(0, 0, 0, 0.6); padding: 16px;
+      background-color: rgba(0, 0, 0, 0.6); padding: 4px 2px;
       cursor: pointer; opacity: 0;
     `;
     container.addEventListener("mouseenter", () => {
@@ -48,9 +50,17 @@ export default class InAppButtons {
   }
 
   private createMuteButton(): HTMLButtonElement {
-    const button = this.document.createElement("button") as HTMLButtonElement;
-    button.innerText = "mute!!";
+    const button = this.buttonElementForInApp();
+    button.innerHTML = octicons.unmute.toSVG({fill: "white"});
     button.addEventListener("click", () => this.toggleMute());
+    return button;
+  }
+  private buttonElementForInApp(): HTMLButtonElement {
+    const button = this.document.createElement("button") as HTMLButtonElement;
+    button.style.background = "transparent";
+    button.style.outline = "none";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
     return button;
   }
 
