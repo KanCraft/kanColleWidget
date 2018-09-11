@@ -66,7 +66,8 @@ export default class Simulator extends Vue {
 
   private controllers = {
     message: [
-      "WindowOpen"
+      "WindowOpen",
+      "Screenshot",
     ],
     request: [
     ],

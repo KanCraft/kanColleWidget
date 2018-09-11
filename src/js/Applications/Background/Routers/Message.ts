@@ -5,9 +5,11 @@
 import {Router} from "chomex";
 
 import {
+  Screenshot,
+} from "../Controllers/Capture";
+import {
   DebugController,
 } from "../Controllers/Debug";
-
 import {
   WindowDecoration,
   WindowOpen,
@@ -20,6 +22,9 @@ router.on("/window/open",              WindowOpen);
 router.on("/window/decoration",  WindowDecoration);
 router.on("/window/record",          WindowRecord);
 router.on("/window/toggle-mute", WindowToggleMute);
+
+// スクショとか
+router.on("/capture/screenshot", Screenshot);
 
 // デバッグ用コントローラ。おもに設定画面の「Dev Debugger」から呼ばれる。
 router.on("/debug/controller", DebugController);

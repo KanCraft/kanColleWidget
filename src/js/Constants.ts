@@ -5,6 +5,7 @@ const GameWrapper: string = "div#area-game";
 const GameIFrame: string = "iframe#game_frame";
 const GameWidth: number = 1200;
 const GameHeight: number = 720;
+const GameAspectRatio: number = GameHeight / GameWidth;
 const HiddenElements: string[] = [
   "div.dmm-ntgnavi", // うえのナビゲーション
   "div.twitter>iframe", // 「ツイートする」ボタン
@@ -26,6 +27,7 @@ export default {
   GameIFrame,
   GameWidth,
   GameHeight,
+  GameAspectRatio,
   HiddenElements,
 
   TopSpacing,

@@ -5,7 +5,8 @@
   "version_name": "3.0.0-alpha.11",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
-    "tabs"
+    "tabs",
+    "<all_urls>"
   ],
   "icons": {
     "16": "dest/img/icons/app.16.png",
