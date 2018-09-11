@@ -1,0 +1,17 @@
+import CaptureService from "../../../../Services/Capture";
+import Rectangle from "../../../../Services/Rectangle";
+import TrimService from "../../../../Services/Trim";
+import WindowService from "../../../../Services/Window";
+import { sleep } from "../../../../utils";
+
+export async function DamageSnapshotCapture() {
+  const ws = WindowService.getInstance();
+  const tab = await ws.find();
+  await sleep(800);
+  const cs = new CaptureService();
+  const original = await cs.base64(tab.windowId, {});
+  const ts = await TrimService.init(original);
+  const rect = Rectangle.new(ts.img.width, ts.img.height);
+  const trimmed = ts.trim(rect.damagesnapshot());
+  return {uri: trimmed};
+}

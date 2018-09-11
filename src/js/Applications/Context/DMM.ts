@@ -1,7 +1,7 @@
 import {Client, Router} from "chomex";
 import Const from "../../Constants";
 import Frame from "../Models/Frame";
-import InAppButtons from "./Views/InAppButtons";
+import InAppButtons from "./Features/InAppButtons";
 
 /**
  * http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/

@@ -8,6 +8,9 @@ import {
   Screenshot,
 } from "../Controllers/Message/Capture";
 import {
+  DamageSnapshotCapture,
+} from "../Controllers/Message/DamageSnapshot";
+import {
   DebugController,
 } from "../Controllers/Message/Debug";
 import {
@@ -25,6 +28,9 @@ router.on("/window/toggle-mute", WindowToggleMute);
 
 // スクショとか
 router.on("/capture/screenshot", Screenshot);
+
+// 大破進撃防止窓
+router.on("/snapshot/capture", DamageSnapshotCapture);
 
 // デバッグ用コントローラ。おもに設定画面の「Dev Debugger」から呼ばれる。
 router.on("/debug/controller", DebugController);

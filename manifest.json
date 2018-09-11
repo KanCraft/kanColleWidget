@@ -29,6 +29,15 @@
       "js": [
         "dest/js/dmm.js"
       ]
+    },
+    {
+      "matches": [
+        "http://*/kcs2/index.php?*"
+      ],
+      "all_frames": true,
+      "js": [
+        "dest/js/kcs2.js"
+      ]
     }
   ],
   "options_page": "/dest/html/options.html"

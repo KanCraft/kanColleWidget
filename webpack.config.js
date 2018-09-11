@@ -14,6 +14,7 @@ module.exports = [
             popup:      "./src/js/entrypoints/popup.ts",
             options:    "./src/js/entrypoints/options.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
+            kcs2:       "./src/js/entrypoints/kcs2.ts",
         },
         output: {
             path: path.resolve(__dirname, "./dest/js"),

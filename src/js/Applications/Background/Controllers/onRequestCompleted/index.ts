@@ -1,5 +1,10 @@
+import {Client} from "chomex";
 
-export async function onBattleResulted(req: chrome.webRequest.WebRequestBody) {
-  /* tslint:disable no-console */
-  console.log("Battel Resulted", req);
+/**
+ * 通常海域において、
+ * 戦闘が終了したときに呼ばれるコントローラ
+ */
+export async function onBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
+  // 画面のクリックイベントに備えてもらう
+  Client.for(chrome.tabs, req.tabId).message("/snapshot/prepare");
 }
