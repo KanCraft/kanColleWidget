@@ -47,10 +47,16 @@ export default class LaunchTrigger extends Vue {
   }
 
   onselect(ev: {target: HTMLInputElement}) {
-    this.client.message("/window/open", {id: ev.target.value});
+    this.client.message("/window/open", {id: ev.target.value}).then(() => {
+      // FIXME: ここでWindowを参照したくなかった
+      window.close();
+    });
   }
   launch() {
-    this.client.message("/window/open", {id: this.selected._id});
+    this.client.message("/window/open", {id: this.selected._id}).then(() => {
+      // FIXME: ここでWindowを参照したくなかった
+      window.close();
+    });
   }
 
 }
