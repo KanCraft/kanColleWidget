@@ -5,6 +5,10 @@
 import {Router} from "chomex";
 
 import {
+  DebugController,
+} from "../Controllers/Debug";
+
+import {
   WindowDecoration,
   WindowOpen,
   WindowRecord,
@@ -16,5 +20,8 @@ router.on("/window/open",              WindowOpen);
 router.on("/window/decoration",  WindowDecoration);
 router.on("/window/record",          WindowRecord);
 router.on("/window/toggle-mute", WindowToggleMute);
+
+// デバッグ用コントローラ。おもに設定画面の「Dev Debugger」から呼ばれる。
+router.on("/debug/controller", DebugController);
 
 export default router.listener();

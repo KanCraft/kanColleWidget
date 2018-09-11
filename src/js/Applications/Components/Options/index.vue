@@ -8,7 +8,7 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import InApp from "./InApp.vue";
-import Debugger from "./Debugger.vue";
+import Debugger from "./Debugger/index.vue";
 
 // webpack.config.jsの、DefinePluginを参照
 declare var NODE_ENV;
