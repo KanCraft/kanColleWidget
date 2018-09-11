@@ -1,10 +1,10 @@
 /**
  * スクショとかそういうの
  */
-import CaptureService from "../../../Services/Capture";
-import Rectangle from "../../../Services/Rectangle";
-import TrimService from "../../../Services/Trim";
-import WindowService from "../../../Services/Window";
+import CaptureService from "../../../../Services/Capture";
+import Rectangle from "../../../../Services/Rectangle";
+import TrimService from "../../../../Services/Trim";
+import WindowService from "../../../../Services/Window";
 
 export async function Screenshot() {
   const ws = WindowService.getInstance();

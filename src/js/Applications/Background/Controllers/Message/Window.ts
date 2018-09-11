@@ -7,9 +7,9 @@
  */
 
 import {Client} from "chomex";
-import WindowService from "../../../Services/Window";
-import Config from "../../Models/Config";
-import Frame from "../../Models/Frame";
+import WindowService from "../../../../Services/Window";
+import Config from "../../../Models/Config";
+import Frame from "../../../Models/Frame";
 
 /**
  * WindowOpen

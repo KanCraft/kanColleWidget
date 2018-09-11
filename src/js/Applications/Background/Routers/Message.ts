@@ -6,16 +6,16 @@ import {Router} from "chomex";
 
 import {
   Screenshot,
-} from "../Controllers/Capture";
+} from "../Controllers/Message/Capture";
 import {
   DebugController,
-} from "../Controllers/Debug";
+} from "../Controllers/Message/Debug";
 import {
   WindowDecoration,
   WindowOpen,
   WindowRecord,
   WindowToggleMute,
-} from "../Controllers/Window";
+} from "../Controllers/Message/Window";
 
 const router = new Router();
 router.on("/window/open",              WindowOpen);
