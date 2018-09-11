@@ -111,6 +111,15 @@ class WindowService {
   }
 
   /**
+   * 窓のミュートをする
+   */
+  public mute(tab: chrome.tabs.Tab, mute: boolean = true): Promise<chrome.tabs.Tab> {
+    return new Promise((resolve) => {
+      this.tabs.update(tab.id, {muted: mute}, (t) => resolve(t));
+    });
+  }
+
+  /**
    * このサービス経由でLaunchされたタブかどうか返す
    * @param tabId
    */

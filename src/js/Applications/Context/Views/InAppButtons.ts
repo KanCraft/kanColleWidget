@@ -53,7 +53,12 @@ export default class InAppButtons {
     const button = this.buttonElementForInApp();
     button.innerHTML = octicons.unmute.toSVG({fill: "white"});
     button.addEventListener("click", () => this.toggleMute());
+    button.id = "kcw-mute-button";
     return button;
+  }
+  private updateMuteStatus(muted: boolean) {
+    const icon = muted ? octicons.mute : octicons.unmute;
+    this.container.querySelector("#kcw-mute-button").innerHTML = icon.toSVG({fill: "white"});
   }
   private buttonElementForInApp(): HTMLButtonElement {
     const button = this.document.createElement("button") as HTMLButtonElement;
@@ -66,8 +71,8 @@ export default class InAppButtons {
 
   private async toggleMute() {
     const res = await this.client.message("/window/toggle-mute");
-    /* tslint:disable no-console */
-    console.log(res);
+    const tab = res.data as chrome.tabs.Tab;
+    this.updateMuteStatus(tab.mutedInfo.muted);
   }
 
 }
