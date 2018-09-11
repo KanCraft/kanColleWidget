@@ -27,7 +27,7 @@ export async function WindowOpen(message: any) {
   }
   frame.update({selectedAt: Date.now()});
   tab = await ws.create(frame);
-  tab = await ws.zoom(tab, 1.0);
+  // tab = await ws.zoom(tab, 1.0);
   return tab;
 }
 
