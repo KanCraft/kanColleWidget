@@ -52,7 +52,6 @@ export default class DamageSnapshot {
 
   private createContainer(): HTMLDivElement {
     const div = this.scope.document.createElement("div");
-    div.style.width = "200px";
     div.style.height = "200px";
     div.style.backgroundColor = "green";
     div.style.position = "fixed";
@@ -64,6 +63,7 @@ export default class DamageSnapshot {
   private createImage(uri: string): HTMLImageElement {
     const img = this.scope.document.createElement("img");
     img.src = uri;
+    img.style.height = "100%";
     return img;
   }
 

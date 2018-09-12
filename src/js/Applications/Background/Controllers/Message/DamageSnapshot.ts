@@ -8,7 +8,7 @@ import { sleep } from "../../../../utils";
 export async function DamageSnapshotCapture() {
   const ws = WindowService.getInstance();
   const tab = await ws.find();
-  await sleep(800);
+  await sleep(1000); // 艦隊の描画が止まるのを待つ
   const cs = new CaptureService();
   const original = await cs.base64(tab.windowId, {});
   const ts = await TrimService.init(original);
