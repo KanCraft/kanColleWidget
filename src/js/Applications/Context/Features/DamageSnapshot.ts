@@ -39,6 +39,7 @@ export default class DamageSnapshot {
   public remove() {
     if (this.container && typeof this.container.remove === "function") {
       this.container.remove();
+      this.container = null;
     }
   }
 
