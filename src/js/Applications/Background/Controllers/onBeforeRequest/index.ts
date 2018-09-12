@@ -6,5 +6,5 @@ export async function OnPort(req: chrome.webRequest.WebRequestBodyDetails) {
 }
 
 export async function OnBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
-  Client.for(chrome.tabs, req.tabId).message("/snapshot/remove");
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
 }

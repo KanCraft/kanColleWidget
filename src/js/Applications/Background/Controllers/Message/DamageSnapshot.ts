@@ -14,6 +14,6 @@ export async function DamageSnapshotCapture() {
   const ts = await TrimService.init(original);
   const rect = Rectangle.new(ts.img.width, ts.img.height);
   const trimmed = ts.trim(rect.damagesnapshot());
-  Client.for(chrome.tabs, tab.id).message("/snapshot/show", {uri: trimmed});
+  Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", {uri: trimmed});
   return {status: 202, tabId: tab.id};
 }
