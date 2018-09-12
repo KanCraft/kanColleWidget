@@ -68,13 +68,15 @@ export default class Simulator extends Vue {
     message: [
       "WindowOpen",
       "Screenshot",
+      "DamageSnapshotCapture",
     ],
     request: [
+      "OnBattleStarted",
     ],
   };
 
   private activeTab: string = "message";
-  private activeController: string = "WindowOpen";
+  private activeController: string = this.controllers[this.activeTab][0];
 
   private body: any = {__this: {sender: {}}};
   private error?: string = null;
@@ -82,6 +84,7 @@ export default class Simulator extends Vue {
 
   private clickTab(tab: string) {
     this.activeTab = tab;
+    this.activeController = this.controllers[this.activeTab][0];
   }
   private changeController(ev: {target: HTMLSelectElement}) {
     this.activeController = ev.target.value;

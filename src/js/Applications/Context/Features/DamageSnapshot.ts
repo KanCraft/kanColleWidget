@@ -4,6 +4,7 @@ export default class DamageSnapshot {
 
   private client: Client;
   private canvas: HTMLCanvasElement;
+  private container: HTMLDivElement = null;
   private listener: () => any;
 
   constructor(private scope: Window) {
@@ -24,20 +25,45 @@ export default class DamageSnapshot {
    * Image URI を受け取るので、どっかにこれを表示する
    */
   public show(uri: string) {
-    // なんかやる
+    if (this.container === null) {
+      this.container = this.createContainer();
+      this.scope.document.body.appendChild(this.container);
+    }
+    const img = this.createImage(uri);
+    this.container.appendChild(img);
   }
 
+  /**
+   * もう表示しなくていいので消す
+   */
   public remove() {
-    // なんかやる
+    if (this.container && typeof this.container.remove === "function") {
+      this.container.remove();
+    }
   }
 
   private onClickNext() {
-    this.client.message("/snapshot/capture").then(res => {
-      // TODO: clientのresでは受けないで、showで受けたい
-      /* tslint:disable no-console */
-      console.log(res);
-    });
+    this.client.message("/snapshot/capture");
+    // TODO: 連合艦隊対応
+    // 1回だけ発動すればいいので、mousedownイベントは掃除する
     this.canvas.removeEventListener("mousedown", this.listener);
+  }
+
+  private createContainer(): HTMLDivElement {
+    const div = this.scope.document.createElement("div");
+    div.style.width = "200px";
+    div.style.height = "200px";
+    div.style.backgroundColor = "green";
+    div.style.position = "fixed";
+    div.style.top = "0";
+    div.style.left = "0";
+    return div;
+  }
+
+  private createImage(uri: string): HTMLImageElement {
+    const img = this.scope.document.createElement("img");
+    img.src = uri;
+    return img;
   }
 
 }
