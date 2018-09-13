@@ -8,3 +8,6 @@ chrome.webRequest.onBeforeRequest.addListener(WebRequestListener, { urls: ["*://
 
 import WebRequestOnCompleteListener from "../Applications/Background/Routers/WebRequestOnComplete";
 chrome.webRequest.onCompleted.addListener(WebRequestOnCompleteListener, { urls: ["*://*/kcsapi/*"] });
+
+import AlarmsListener from "../Applications/Background/Routers/Alarms";
+chrome.alarms.onAlarm.addListener(AlarmsListener);

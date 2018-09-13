@@ -1,6 +1,4 @@
-import {Client} from "chomex";
 import octicons from "octicons";
-import { sleep } from "../../../utils";
 
 export default class InAppButtons {
 
@@ -9,7 +7,7 @@ export default class InAppButtons {
   public enabled: boolean = false;
   public container: HTMLDivElement = null;
 
-  constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any /* Client */) {
+  constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
     if (
       !this.configs["inapp-mute-button"].value
     ) {

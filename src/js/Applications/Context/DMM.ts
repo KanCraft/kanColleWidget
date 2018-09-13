@@ -112,14 +112,6 @@ export default class DMM {
   }
 
   /**
-   * ミュート状態をトグルするリクエストをつくるやつ
-   */
-  private async toggleMute() {
-    const res = await this.client.message("/window/toggle-mute");
-    // TODO: 返ってきた「現在のミュート状態」に応じて、ミュートボタンの形状を変える
-  }
-
-  /**
    * 設定しだいでは、DMMの要素を消す
    * TODO: 設定できるようにする
    */
