@@ -1,5 +1,6 @@
 import {Client} from "chomex";
 import octicons from "octicons";
+import { sleep } from "../../../utils";
 
 export default class InAppButtons {
 
@@ -20,6 +21,9 @@ export default class InAppButtons {
 
     if (configs["inapp-mute-button"].value) {
       this.container.appendChild(this.createMuteButton());
+    }
+    if (configs["inapp-screenshot-button"].value) {
+      this.container.appendChild(this.createScreenshotButton());
     }
   }
 
@@ -56,23 +60,43 @@ export default class InAppButtons {
     button.id = "kcw-mute-button";
     return button;
   }
+
   private updateMuteStatus(muted: boolean) {
     const icon = muted ? octicons.mute : octicons.unmute;
     this.container.querySelector("#kcw-mute-button").innerHTML = icon.toSVG({fill: "white"});
   }
+
+  private createScreenshotButton(): HTMLButtonElement {
+    const button = this.buttonElementForInApp();
+    button.innerHTML = octicons["device-camera"].toSVG({fill: "white"});
+    button.addEventListener("click", () => this.takeScreenshot());
+    return button;
+  }
+
   private buttonElementForInApp(): HTMLButtonElement {
     const button = this.document.createElement("button") as HTMLButtonElement;
     button.style.background = "transparent";
     button.style.outline = "none";
     button.style.border = "none";
     button.style.cursor = "pointer";
+    button.style.display = "block";
     return button;
   }
 
   private async toggleMute() {
     const res = await this.client.message("/window/toggle-mute");
     const tab = res.data as chrome.tabs.Tab;
+    // FIXME: connection closed で tab が返ってこないことがある
+    //        capture.html とのコミュニケーションをsendMessageにしたからな気がする
     this.updateMuteStatus(tab.mutedInfo.muted);
+  }
+
+  private async takeScreenshot() {
+    this.container.style.transition = "unset";
+    this.container.style.visibility = "hidden";
+    await this.client.message("/capture/screenshot");
+    this.container.style.transition = "all 0.1s";
+    this.container.style.visibility = "visible";
   }
 
 }

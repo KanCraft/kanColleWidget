@@ -1,10 +1,12 @@
 /**
  * スクショとかそういうの
  */
+import { Client } from "chomex/lib/Client";
 import CaptureService from "../../../../Services/Capture";
 import Rectangle from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
+import { sleep } from "../../../../utils";
 
 export async function Screenshot() {
   const ws = WindowService.getInstance();
@@ -17,6 +19,9 @@ export async function Screenshot() {
   const ts = await TrimService.init(original);
   const rect = Rectangle.new(ts.img.width, ts.img.height);
   const trimmed = ts.trim(rect.game());
-  // これ返してあげる必要は無いんだけども
-  return {url: trimmed};
+  const page = await ws.capturePage();
+  setTimeout(() => {
+    Client.for(chrome.tabs, page.id, false).message("/capture/show", {uri: trimmed});
+  }, 100);
+  return {status: 202};
 }

@@ -44,6 +44,7 @@ export async function WindowDecoration(message: any) {
   // 必要な設定があればそれを返す
   const configs = Config.select([
     "inapp-mute-button",
+    "inapp-screenshot-button",
   ]);
   return {...launched, configs};
 }

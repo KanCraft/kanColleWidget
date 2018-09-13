@@ -22,6 +22,7 @@ class WindowService {
 
   private tabs: typeof chrome.tabs;
   private windows: typeof chrome.windows;
+  private extension: typeof chrome.extension;
 
   // すでに作成されているタブ
   private launched: Launched;
@@ -29,6 +30,7 @@ class WindowService {
   constructor(mod = chrome) {
     this.tabs = mod.tabs;
     this.windows = mod.windows;
+    this.extension = mod.extension;
   }
 
   /**
@@ -125,6 +127,20 @@ class WindowService {
    */
   public knows(tabId: number): Launched {
     return this.launched && this.launched.tab.id === tabId ? this.launched : null;
+  }
+
+  public capturePage(): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/capture.html");
+    return new Promise(resolve => {
+      this.tabs.query({ url }, (tabs) => {
+        if (tabs.length !== 0) {
+          return resolve(tabs[0]);
+        }
+        this.tabs.create({ url }, (tab) => {
+          resolve(tab);
+        });
+      });
+    });
   }
 
 }
