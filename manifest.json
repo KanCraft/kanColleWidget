@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "test-艦これウィジェット",
-  "version": "3.0.0.13",
-  "version_name": "3.0.0-alpha.13",
+  "version": "3.0.0.14",
+  "version_name": "3.0.0-alpha.14",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
