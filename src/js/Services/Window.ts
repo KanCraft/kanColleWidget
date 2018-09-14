@@ -129,16 +129,12 @@ class WindowService {
     return this.launched && this.launched.tab.id === tabId ? this.launched : null;
   }
 
-  public capturePage(): Promise<chrome.tabs.Tab> {
+  public openCapturePage(params: {key: any}): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/capture.html");
+    const search = new URLSearchParams(params);
     return new Promise(resolve => {
-      this.tabs.query({ url }, (tabs) => {
-        if (tabs.length !== 0) {
-          return resolve(tabs[0]);
-        }
-        this.tabs.create({ url }, (tab) => {
-          resolve(tab);
-        });
+      this.tabs.create({ url: url + "?" + search.toString() }, (tab) => {
+        resolve(tab);
       });
     });
   }

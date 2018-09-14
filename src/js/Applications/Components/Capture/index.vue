@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <h1>スクショ</h1>
     <div class="columns">
-      <div v-for="(uri, i) in uris" v-bind:key="i" class="column col-4 col-sm-6">
+      <div class="column col-4 col-sm-6">
         <img v-bind:src="uri" style="width: 100%;" />
       </div>
     </div>
@@ -12,22 +11,32 @@
 import {Vue, Component} from "vue-property-decorator";
 import { Router } from "chomex";
 
+import TempStorage from "../../../Services/TempStorage";
+
 @Component
 export default class Capture extends Vue {
 
-  private uris: string[] = [];
+  private uri: string;
 
   constructor() {
     super();
-    const router = new Router(); 
-    router.on("/capture/show", (message) => this.showImage(message.uri));
-    // FIXME: ここでchromeを参照したくないんだよなあ
-    chrome.runtime.onMessage.addListener(router.listener());
+    /**
+     * 当初は、capture.htmlで chrome.runtime.onMessage を listen しようとしたが、
+     * Chrome拡張ドメイン（chrome-extension://{ext_id}）において複数 runtime.onMessage
+     * を listen すると、あとから addListener された リスナーが有効になるため、
+     * content_script からの sendMessage が not found になるケースが増える。
+     * したがって、capture.html において image uri を取得するのは、runtime.onMessage以外の
+     * 方法であるべきである。
+     */
+    // const router = new Router();
+    // router.on("/capture/show", (message) => this.showImage(message.uri));
+    // chrome.runtime.onMessage.addListener(router.listener());
+
+    const key = (new URLSearchParams(location.search)).get("key");
+    const temp = new TempStorage();
+    this.uri = temp.draw(key);
   }
 
-  private showImage(uri: string) {
-    this.uris.push(uri);
-  }
 }
 
 </script>
