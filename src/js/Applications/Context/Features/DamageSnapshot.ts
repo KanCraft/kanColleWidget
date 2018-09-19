@@ -7,6 +7,9 @@ export default class DamageSnapshot {
   private container: HTMLDivElement = null;
   private listener: () => any;
 
+  private count: number = 1;
+  private clicked: number = 0;
+
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime);
   }
@@ -14,7 +17,8 @@ export default class DamageSnapshot {
   /**
    * 「次」ボタンが押されるイベントを貼る
    */
-  public prepare() {
+  public prepare(count: number = 1) {
+    this.count = count;
     const canvas = this.scope.document.querySelector("canvas");
     this.canvas = canvas;
     this.listener = () => this.onClickNext();
@@ -44,10 +48,16 @@ export default class DamageSnapshot {
   }
 
   private onClickNext() {
-    this.client.message("/snapshot/capture");
-    // TODO: 連合艦隊対応
-    // 1回だけ発動すればいいので、mousedownイベントは掃除する
-    this.canvas.removeEventListener("mousedown", this.listener);
+    this.client.message("/snapshot/capture", {after: 1000 + (200 * this.clicked)});
+    this.clicked += 1;
+    if (this.count <= this.clicked) {
+      this.reset();
+    }
+  }
+
+  private reset() {
+      this.clicked = 0;
+      this.canvas.removeEventListener("mousedown", this.listener);
   }
 
   private createContainer(): HTMLDivElement {

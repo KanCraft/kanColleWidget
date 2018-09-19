@@ -6,5 +6,10 @@ import {Client} from "chomex";
  */
 export async function onBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
   // 画面のクリックイベントに備えてもらう
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare");
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1});
+}
+
+export async function OnCombinedBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
+  // 画面のクリックイベントに備えてもらう
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 2});
 }

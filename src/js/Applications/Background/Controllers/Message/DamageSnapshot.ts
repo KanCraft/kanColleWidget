@@ -5,10 +5,10 @@ import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 
-export async function DamageSnapshotCapture() {
+export async function DamageSnapshotCapture(message: {after: number}) {
   const ws = WindowService.getInstance();
   const tab = await ws.find();
-  await sleep(1000); // 艦隊の描画が止まるのを待つ
+  await sleep(message.after || 1000); // 艦隊の描画が止まるのを待つ
   const cs = new CaptureService();
   const original = await cs.base64(tab.windowId, {});
   const ts = await TrimService.init(original);
