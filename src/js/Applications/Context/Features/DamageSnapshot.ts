@@ -57,6 +57,10 @@ export default class DamageSnapshot {
     div.style.position = "fixed";
     div.style.top = "0";
     div.style.left = "0";
+    div.style.transition = "all 0.1s";
+    div.addEventListener("mouseover", () => div.style.opacity = "1");
+    div.addEventListener("mouseout", () => div.style.opacity = "0");
+    div.id = "kcw-damagesnapshot";
     return div;
   }
 
