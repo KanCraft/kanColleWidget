@@ -48,7 +48,7 @@ export default class DamageSnapshot {
   }
 
   private onClickNext() {
-    this.client.message("/snapshot/capture", {after: 1000 + (200 * this.clicked)});
+    this.client.message("/snapshot/capture", {after: 1000 + (800 * this.clicked)});
     this.clicked += 1;
     if (this.count <= this.clicked) {
       this.reset();
