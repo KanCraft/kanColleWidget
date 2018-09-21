@@ -14,3 +14,14 @@
     fill: $primary-color;
   }
 }
+
+// SVGは直接cursor:pointerが効かないので
+svg.clickable {
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}

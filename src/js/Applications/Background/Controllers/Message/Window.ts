@@ -62,3 +62,8 @@ export async function WindowToggleMute(message: any) {
   const res = await ws.mute(tab, !tab.mutedInfo.muted);
   return res;
 }
+
+export async function OpenOptionsPage(message: any) {
+  const ws = WindowService.getInstance();
+  return await ws.openOptionsPage();
+}
