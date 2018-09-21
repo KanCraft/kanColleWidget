@@ -16,9 +16,9 @@
     <div class="column col-2">
       <div
         @click="launch"
-        class="icon-justify clickable"
-        v-html="icons.browser.toSVG()"
-        />
+        class="icon-justify clickable">
+        <img src="/dest/img/icons/anchor.svg" width="30px" alt="抜錨！" title="抜錨！" />
+      </div>
     </div>
   </div>
 </template>
@@ -35,9 +35,6 @@ export default class LaunchTrigger extends Vue {
   private client;
   private frames: Frame[];
   private selected: Frame;
-  private icons = {
-    browser: browser,
-  };
 
   constructor() {
     super();
