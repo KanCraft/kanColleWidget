@@ -1,5 +1,11 @@
 [
   {
+    "version": "2.1.9",
+    "features": [],
+    "date": "2018/09/21",
+    "comment": ""
+  },
+  {
     "version": "2.1.8",
     "features": [
       "[xia] 第2期のHTMLで大破進撃防止窓の窓内表示が可能となるよう修正"
