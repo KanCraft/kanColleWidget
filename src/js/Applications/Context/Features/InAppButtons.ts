@@ -9,7 +9,7 @@ export default class InAppButtons {
 
   constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
     if (
-      !this.configs["inapp-mute-button"].value
+      !this.configs["inapp-mute-button"].value && !this.configs["inapp-screenshot-button"].value
     ) {
       return;
     }
