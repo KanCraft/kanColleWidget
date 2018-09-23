@@ -105,7 +105,7 @@ export default class DMM {
   private showInAppButtons(configs: {[key: string]: any}) {
 
     const buttons = new InAppButtons(this.scope.document, configs, this.client);
-    if (!buttons.enabled) {
+    if (!buttons.enabled()) {
       return;
     }
     this.scope.document.body.appendChild(buttons.element());

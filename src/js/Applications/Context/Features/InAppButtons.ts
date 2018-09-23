@@ -4,16 +4,13 @@ export default class InAppButtons {
 
   private static containerID = "kcw-inapp-buttons";
 
-  public enabled: boolean = false;
   public container: HTMLDivElement = null;
 
   constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
-    if (
-      !this.configs["inapp-mute-button"].value && !this.configs["inapp-screenshot-button"].value
-    ) {
+
+    if (!this.enabled()) {
       return;
     }
-    this.enabled = true;
 
     this.container = this.createContainer();
 
@@ -27,6 +24,19 @@ export default class InAppButtons {
 
   public element(): HTMLDivElement {
     return this.container;
+  }
+
+  /**
+   * そもそも表示するかしないか決める
+   */
+  public enabled(): boolean {
+    if (this.configs["inapp-mute-button"].value) {
+      return true;
+    }
+    if (this.configs["inapp-screenshot-button"].value) {
+      return true;
+    }
+    return false;
   }
 
   private createContainer(): HTMLDivElement {
