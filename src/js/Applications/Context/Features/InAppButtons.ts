@@ -1,4 +1,5 @@
 import octicons from "octicons";
+import { sleep } from "../../../utils";
 
 export default class InAppButtons {
 
@@ -103,6 +104,7 @@ export default class InAppButtons {
     this.container.style.transition = "unset";
     this.container.style.visibility = "hidden";
     await this.client.message("/capture/screenshot");
+    await sleep(500); // FIXME: 雑に0.5秒待つ
     this.container.style.transition = "all 0.1s";
     this.container.style.visibility = "visible";
   }
