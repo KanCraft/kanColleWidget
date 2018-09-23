@@ -139,6 +139,19 @@ class WindowService {
     });
   }
 
+  public openOptionsPage(): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/options.html");
+    return new Promise(resolve => {
+      this.tabs.query({url}, (tabs) => {
+        if (tabs.length === 0 ) {
+          this.tabs.create({url}, (tab) => resolve(tab));
+        } else {
+          this.tabs.update(tabs[0].id, {active: true}, (tab) => resolve(tab));
+        }
+      });
+    });
+  }
+
 }
 
 export default WindowService;

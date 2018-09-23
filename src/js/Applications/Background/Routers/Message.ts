@@ -14,6 +14,7 @@ import {
   DebugController,
 } from "../Controllers/Message/Debug";
 import {
+  OpenOptionsPage,
   WindowDecoration,
   WindowOpen,
   WindowRecord,
@@ -25,6 +26,9 @@ router.on("/window/open",              WindowOpen);
 router.on("/window/decoration",  WindowDecoration);
 router.on("/window/record",          WindowRecord);
 router.on("/window/toggle-mute", WindowToggleMute);
+
+// 設定画面
+router.on("/options/open", OpenOptionsPage);
 
 // スクショとか
 router.on("/capture/screenshot", Screenshot);
