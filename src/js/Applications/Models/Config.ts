@@ -9,30 +9,12 @@ export enum Category {
   InApp = "inapp",
 }
 
-export enum DamageSnapshot {
-  Disabled = "disabled",
-  InApp = "inapp",
-  Separate = "separate",
-}
-
 /**
  * どういうvalueを取るかを generics T で指定
  */
 export default class Config<T> extends Model {
 
   public static default = {
-    "damagesnapshot": {
-      category: Category.InApp,
-      description: "戦闘終了時の艦隊状況を撮影し、次の戦闘開始時まで表示し続けます。窓内表示を選択した場合、表示された艦隊状況はマウスオーバーで非表示にできます",
-      options: [
-        {name: "使わない", value: DamageSnapshot.Disabled},
-        {name: "窓内表示", value: DamageSnapshot.InApp},
-        {name: "別窓表示", value: DamageSnapshot.Separate},
-      ],
-      title: "大破進撃防止窓",
-      type: Type.Select,
-      value: "disabled",
-    },
     "inapp-buttons-position": {
       category: Category.InApp,
       description: "ゲーム画面に以下の便利ボタンを表示する場合の位置を選べます（今は右上しかないけど、今後要望があれば）",

@@ -1,5 +1,6 @@
 import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
+import DamageSnapshotFrame from "../Applications/Models/DamageSnapshotFrame";
 
 export interface Launched {
   tab: chrome.tabs.Tab;
@@ -152,12 +153,13 @@ class WindowService {
     });
   }
 
-  public openDamageSnapshot(params: {count: number}): Promise<chrome.tabs.Tab> {
+  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number = 1): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
     return new Promise(resolve => {
       this.windows.create({
         type: "popup",
-        url: url + "?" + `count=${params.count}`,
+        url: url + "?" + `count=${count}`,
+        ...frame.createData(),
       }, win => {
         resolve(win.tabs[0]);
       });
