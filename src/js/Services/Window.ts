@@ -152,6 +152,29 @@ class WindowService {
     });
   }
 
+  public openDamageSnapshot(params: {count: number}): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/dsnapshot.html");
+    return new Promise(resolve => {
+      this.windows.create({
+        type: "popup",
+        url: url + "?" + `count=${params.count}`,
+      }, win => {
+        resolve(win.tabs[0]);
+      });
+    });
+  }
+  public cleanDamageSnapshot(): Promise<chrome.tabs.Tab[]> {
+    const url = this.extension.getURL("/dest/html/dsnapshot.html");
+    return new Promise(resolve => {
+      this.tabs.query({ url }, (tabs) => {
+        resolve(tabs.map(tab => {
+          this.tabs.remove(tab.id);
+          return tab;
+        }));
+      });
+    });
+  }
+
 }
 
 export default WindowService;

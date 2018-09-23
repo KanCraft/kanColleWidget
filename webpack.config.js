@@ -16,6 +16,7 @@ module.exports = [
             capture:    "./src/js/entrypoints/capture.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
             kcs2:       "./src/js/entrypoints/kcs2.ts",
+            dsnapshot:  "./src/js/entrypoints/dsnapshot.ts",
         },
         output: {
             path: path.resolve(__dirname, "./dest/js"),
