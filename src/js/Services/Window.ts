@@ -1,3 +1,4 @@
+import DamageSnapshotFrame from "../Applications/Models/DamageSnapshotFrame";
 import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
 
@@ -148,6 +149,32 @@ class WindowService {
         } else {
           this.tabs.update(tabs[0].id, {active: true}, (tab) => resolve(tab));
         }
+      });
+    });
+  }
+
+  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number = 1): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/dsnapshot.html");
+    const createData = frame.createData();
+    return new Promise(resolve => {
+      this.windows.create({
+        type: "popup",
+        url: url + "?" + `count=${count}`,
+        ...createData,
+        width: createData.height * (5 / 8) * count, // 高さに依存して決まります
+      }, win => {
+        resolve(win.tabs[0]);
+      });
+    });
+  }
+  public cleanDamageSnapshot(): Promise<chrome.tabs.Tab[]> {
+    const url = this.extension.getURL("/dest/html/dsnapshot.html");
+    return new Promise(resolve => {
+      this.tabs.query({ url: url + "?count=*" }, (tabs) => {
+        resolve(tabs.map(tab => {
+          this.tabs.remove(tab.id);
+          return tab;
+        }));
       });
     });
   }

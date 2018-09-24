@@ -7,8 +7,13 @@
       </div>
       <div class="tile-action">
         <div class="form-group">
-          <select class="form-select">
-            <option v-for="opt in config.options" v-bind:key="opt.value">{{opt.name}}</option>
+          <select class="form-select" @change="onchange">
+            <option
+              v-for="opt in config.options"
+              :value="opt.value"
+              :key="opt.value"
+              :selected="opt.value == config.value"
+            >{{opt.name}}</option>
           </select>
         </div>
       </div>
@@ -26,7 +31,7 @@ export default class SelectConfig extends Vue {
   private config: Config<string>;
 
   onchange(ev: {target: HTMLInputElement}) {
-    this.config.update({value: ev.target.checked});
+    this.config.update({value: ev.target.value});
   }
 
 }

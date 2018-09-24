@@ -16,6 +16,7 @@ module.exports = [
             capture:    "./src/js/entrypoints/capture.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
             kcs2:       "./src/js/entrypoints/kcs2.ts",
+            dsnapshot:  "./src/js/entrypoints/dsnapshot.ts",
         },
         output: {
             path: path.resolve(__dirname, "./dest/js"),
@@ -48,9 +49,10 @@ module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
         entry: {
-            common:  "./src/css/entrypoints/common.scss",
-            options: "./src/css/entrypoints/options.scss",
-            popup:   "./src/css/entrypoints/popup.scss",
+            common:    "./src/css/entrypoints/common.scss",
+            options:   "./src/css/entrypoints/options.scss",
+            popup:     "./src/css/entrypoints/popup.scss",
+            dsnapshot: "./src/css/entrypoints/dsnapshot.scss",
         },
         output: {
             path: path.resolve(__dirname, "dest/css"),
