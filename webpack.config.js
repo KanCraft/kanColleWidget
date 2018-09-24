@@ -49,9 +49,10 @@ module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
         entry: {
-            common:  "./src/css/entrypoints/common.scss",
-            options: "./src/css/entrypoints/options.scss",
-            popup:   "./src/css/entrypoints/popup.scss",
+            common:    "./src/css/entrypoints/common.scss",
+            options:   "./src/css/entrypoints/options.scss",
+            popup:     "./src/css/entrypoints/popup.scss",
+            dsnapshot: "./src/css/entrypoints/dsnapshot.scss",
         },
         output: {
             path: path.resolve(__dirname, "dest/css"),

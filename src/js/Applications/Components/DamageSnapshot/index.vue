@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <div class="columns">
-      <div class="column col-4 col-sm-6">
-        <img v-for="(uri, i) in uris" :key="i" :src="uri" style="width: 20%;" />
-      </div>
+    <div
+      v-for="(uri, i) in uris"
+      :key="i"
+      class="cell"
+    >
+      <img :src="uri" />
     </div>
   </div>
 </template>
