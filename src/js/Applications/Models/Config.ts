@@ -3,6 +3,7 @@ import {Model} from "chomex";
 export enum Type {
   Select = "select",
   Switch = "switch",
+  Number = "number",
 }
 
 export enum Category {
@@ -24,6 +25,15 @@ export default class Config<T> extends Model {
       title: "ゲーム画面ボタンのポジション",
       type: Type.Select,
       value: "right-top",
+    },
+    "inapp-dsnapshot-size": {
+      category: Category.InApp,
+      description: "大破進撃防止表示を「窓内表示」にした場合、表示の大きさを、ゲーム領域の高さに対する%で指定できます" ,
+      range: [10, 50],
+      step: 1,
+      title: "窓内大破進撃防止表示のサイズ",
+      type: Type.Number,
+      value: 25,
     },
     "inapp-mute-button": {
       category: Category.InApp,

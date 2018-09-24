@@ -28,12 +28,12 @@ export default class DamageSnapshot {
   /**
    * Image URI を受け取るので、どっかにこれを表示する
    */
-  public show(uri: string) {
+  public show(message: {uri: string, height: number}) {
     if (this.container === null) {
-      this.container = this.createContainer();
+      this.container = this.createContainer(message.height);
       this.scope.document.body.appendChild(this.container);
     }
-    const img = this.createImage(uri);
+    const img = this.createImage(message.uri);
     this.container.appendChild(img);
   }
 
@@ -60,9 +60,9 @@ export default class DamageSnapshot {
       this.canvas.removeEventListener("mousedown", this.listener);
   }
 
-  private createContainer(): HTMLDivElement {
+  private createContainer(height: number): HTMLDivElement {
     const div = this.scope.document.createElement("div");
-    div.style.height = "200px";
+    div.style.height = `${height}%`;
     div.style.backgroundColor = "green";
     div.style.position = "fixed";
     div.style.top = "0";

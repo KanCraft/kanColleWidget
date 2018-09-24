@@ -20,7 +20,8 @@ export async function DamageSnapshotCapture(message: {after: number}) {
 
   switch (DamageSnapshotFrame.get().value) {
   case DamageSnapshotType.InApp:
-    Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", {uri: trimmed});
+    const height = Config.find<Config<number>>("inapp-dsnapshot-size").value;
+    Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", {uri: trimmed, height});
   case DamageSnapshotType.Separate:
     (new TempStorage()).store("damagesnapshot", trimmed);
   }
