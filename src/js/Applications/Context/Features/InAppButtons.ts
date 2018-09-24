@@ -13,7 +13,7 @@ export default class InAppButtons {
       return;
     }
 
-    this.container = this.createContainer();
+    this.createContainer();
 
     if (configs["inapp-mute-button"].value) {
       this.container.appendChild(this.createMuteButton());
@@ -48,17 +48,13 @@ export default class InAppButtons {
     const container = this.document.createElement("div");
     container.id = InAppButtons.containerID;
     container.style.cssText = `
-      transition: all 0.1s;
       position: fixed; right: 0; top: 0; z-index: 3;
       background-color: rgba(0, 0, 0, 0.6); padding: 4px 2px;
       cursor: pointer; opacity: 0;
     `;
-    container.addEventListener("mouseenter", () => {
-      container.style.opacity = "0.8";
-    });
-    container.addEventListener("mouseleave", () => {
-      container.style.opacity = "0";
-    });
+    this.container = container;
+    container.addEventListener("mouseover", this.onMouseOver);
+    container.addEventListener("mouseout", this.onMouseOut);
     return container;
   }
 
@@ -101,12 +97,19 @@ export default class InAppButtons {
   }
 
   private async takeScreenshot() {
-    this.container.style.transition = "unset";
-    this.container.style.visibility = "hidden";
+    this.container.removeEventListener("mouseover", this.onMouseOver);
+    this.container.style.opacity = "0";
     await this.client.message("/capture/screenshot");
-    await sleep(500); // FIXME: 雑に0.5秒待つ
-    this.container.style.transition = "all 0.1s";
-    this.container.style.visibility = "visible";
+    await sleep(1000); // FIXME: 雑に1秒待つ
+    this.container.addEventListener("mouseover", this.onMouseOver);
+  }
+
+  private onMouseOver = () => {
+    this.container.style.opacity = "0.8";
+  }
+
+  private onMouseOut = () => {
+    this.container.style.opacity = "0";
   }
 
 }
