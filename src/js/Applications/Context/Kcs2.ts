@@ -16,7 +16,7 @@ export default class Kcs2 {
   public listener(): (message: any) => any {
     const router = new Router();
     router.on("/snapshot/prepare", (m) => this.snapshot.prepare(m.count));
-    router.on("/snapshot/show", (m) => this.snapshot.show(m.uri));
+    router.on("/snapshot/show", (m) => this.snapshot.show(m));
     router.on("/snapshot/remove", () => this.snapshot.remove());
     return router.listener();
   }

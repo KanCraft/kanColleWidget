@@ -2,6 +2,7 @@
   <section class="category">
     <h1>ゲーム画面の設定</h1>
     <config v-bind:config="damagesnapshot" />
+    <config v-if="damagesnapshot.value == 'inapp'" :config="inappdsnapshotsize" />
     <config v-bind:config="muteButton" />
     <config v-bind:config="screenshotButton" />
     <config v-bind:config="buttonsPosition" />
@@ -26,6 +27,7 @@ export default class InApp extends Vue {
   //       みたいな感じでもっとちゃんとする
   //       https://github.com/otiai10/chomex/issues/39
   private damagesnapshot: DamageSnapshotFrame;
+  private inappdsnapshotsize: Config<number>;
   private buttonsPosition: Config<string>;
   private muteButton: Config<boolean>;
   private screenshotButton: Config<boolean>;
@@ -33,6 +35,7 @@ export default class InApp extends Vue {
   constructor() {
     super();
     this.damagesnapshot = DamageSnapshotFrame.get();
+    this.inappdsnapshotsize = Config.find("inapp-dsnapshot-size");
     this.buttonsPosition = Config.find("inapp-buttons-position");
     this.muteButton = Config.find("inapp-mute-button");
     this.screenshotButton = Config.find("inapp-screenshot-button");
