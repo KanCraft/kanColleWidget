@@ -11,3 +11,6 @@ chrome.webRequest.onCompleted.addListener(WebRequestOnCompleteListener, { urls: 
 
 import AlarmsListener from "../Applications/Background/Routers/Alarms";
 chrome.alarms.onAlarm.addListener(AlarmsListener);
+
+import {UpdateQueues} from "../Applications/Background/Cron";
+setInterval(UpdateQueues, 5 * 1000);
