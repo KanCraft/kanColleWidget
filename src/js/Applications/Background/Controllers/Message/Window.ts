@@ -27,7 +27,6 @@ export async function WindowOpen(message: any) {
   }
   frame.update({selectedAt: Date.now()});
   tab = await ws.create(frame);
-  // tab = await ws.zoom(tab, 1.0);
   return tab;
 }
 
@@ -46,6 +45,7 @@ export async function WindowDecoration(message: any) {
     "inapp-mute-button",
     "inapp-screenshot-button",
   ]);
+  await ws.zoom(launched.tab, 1);
   return {...launched, configs};
 }
 
