@@ -20,6 +20,7 @@ describe("Window Controller", () => {
 
   describe("WindowDecoration", () => {
     it("TODO: なんかアサーションする", async (ok) => {
+      when(chrome.tabs.setZoom).callbacks({});
       const context = { sender: { tab: {} } };
       await WindowDecoration.bind(context)({});
       ok();
