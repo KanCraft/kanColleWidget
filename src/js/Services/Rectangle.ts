@@ -52,6 +52,17 @@ export default class Rectangle {
     );
   }
 
+  public recovery(dock: number): Rectangle {
+    const game = this.game();
+    const dockHeight = game.size.h * (44 / 260);
+    return new Rectangle(
+      game.size.w * (10 / 94),
+      game.size.h * (1 / 26),
+      game.start.x + (game.size.w * (129 / 100)),
+      game.start.y + (game.size.h * (1 / 3)) + ((dock - 1) * dockHeight),
+    );
+  }
+
   public aspect(r = (this.size.h / this.size.w)): Aspect {
     const a = r - Const.GameAspectRatio;
     if (a < 0) {

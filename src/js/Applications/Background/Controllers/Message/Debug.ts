@@ -1,21 +1,24 @@
 /**
  * 設定画面の「Dev Debugger」で呼ばれるやつ
  */
-
-import * as CaptureController from "./Capture";
-import * as DSnapshotController from "./DamageSnapshot";
-import * as WindowController from "./Window";
-
-import * as OnBeforeRequest from "../onBeforeRequest";
+import Message from "../Message";
+import Request from "../Request";
 
 export async function DebugController(message: any) {
   const dictionary = {
-    ...WindowController,
-    ...CaptureController,
-    ...DSnapshotController,
-    ...OnBeforeRequest,
+    ...Message,
+    ...Request,
   };
-  const controller = message.__controller;
+  const controller = dictionary[message.__controller];
   const scope = message.__this;
-  return dictionary[controller].bind(scope)(message);
+  return controller.bind(scope)(message);
+}
+
+export function DebugAvailables() {
+  return {
+    controllers: {
+      message: [...Object.keys(Message)],
+      request: [...Object.keys(Request)],
+    },
+  };
 }

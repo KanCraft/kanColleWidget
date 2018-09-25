@@ -5,13 +5,13 @@
       <div class="column col-12">
         <ul class="tab">
           <li class="tab-item">
-            <a href="#"
+            <a
               v-bind:class="{active: activeTab == 'message'}"
               @click="() => clickTab('message')"
             >Message Controllers</a>
           </li>
           <li class="tab-item">
-            <a href="#"
+            <a
               v-bind:class="{active: activeTab == 'request'}"
               @click="() => clickTab('request')"
             >Request Controllers</a>
@@ -64,23 +64,24 @@ import {Client} from "chomex";
 @Component
 export default class Simulator extends Vue {
 
-  private controllers = {
-    message: [
-      "WindowOpen",
-      "Screenshot",
-      "DamageSnapshotCapture",
-    ],
-    request: [
-      "OnBattleStarted",
-    ],
-  };
-
+  private client: any;
+  private controllers = {message: [], request: []};
   private activeTab: string = "message";
   private activeController: string = this.controllers[this.activeTab][0];
 
   private body: any = {__this: {sender: {}}};
   private error?: string = null;
   private response: string;
+
+  constructor() {
+    super();
+    this.client = new Client(chrome.runtime, false);
+    this.client.message("/debug/availables", (res) => {
+      this.controllers.message = res.data.controllers.message;
+      this.controllers.request = res.data.controllers.request;
+      this.$forceUpdate(); // FIXME:
+    });
+  }
 
   private clickTab(tab: string) {
     this.activeTab = tab;

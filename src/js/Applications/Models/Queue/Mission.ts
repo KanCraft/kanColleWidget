@@ -11,9 +11,9 @@ export default class Mission extends Queue {
    * 遠征IDからMissionモデルを作成する
    * @param id 遠征ID
    */
-  public static for(id: number | string): Mission {
+  public static for(id: number | string, deck: number | string): Mission {
     const definition = catalog[id];
-    return Mission.new({...definition, id});
+    return Mission.new({...definition, id, deck});
   }
 
   public static scan(): Scanned<Mission> {

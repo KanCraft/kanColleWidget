@@ -11,6 +11,7 @@ import {
   DamageSnapshotCapture,
 } from "../Controllers/Message/DamageSnapshot";
 import {
+  DebugAvailables,
   DebugController,
 } from "../Controllers/Message/Debug";
 import {
@@ -38,5 +39,6 @@ router.on("/snapshot/capture", DamageSnapshotCapture);
 
 // デバッグ用コントローラ。おもに設定画面の「Dev Debugger」から呼ばれる。
 router.on("/debug/controller", DebugController);
+router.on("/debug/availables", DebugAvailables);
 
 export default router.listener();
