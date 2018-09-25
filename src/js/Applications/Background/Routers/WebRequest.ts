@@ -4,11 +4,11 @@
  * requestBodyが必要なリクエストフックはここに定義。
  */
 import {SerialRouter} from "chomex";
-import {
-  OnAirBattleStarted,
-  OnBattleStarted,
-  OnPort,
-} from "../Controllers/onBeforeRequest";
+
+import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Battle";
+import { OnMissionStart } from "../Controllers/Request/Mission";
+import { OnPort } from "../Controllers/Request/Port";
+import { OnRecoveryStart } from "../Controllers/Request/Recovery";
 
 const resolver = (detail) => {
   // host部分を削除したものをrouting nameとして使う
@@ -19,6 +19,13 @@ const router = new SerialRouter(2, resolver);
 
 // 母港寄港
 router.on(["api_port/port"], OnPort);
+
+// 修復関係
+router.on(["api_req_nyukyo/start"], OnRecoveryStart);
+
+// 遠征関係
+router.on(["api_req_mission/start"],  OnMissionStart);
+
 // 戦闘開始時
 router.on(["api_req_sortie/battle"],                OnBattleStarted);
 router.on(["api_req_combined_battle/battle"],       OnBattleStarted); // イベント中の連合艦隊

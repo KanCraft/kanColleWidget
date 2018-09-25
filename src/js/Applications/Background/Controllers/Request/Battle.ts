@@ -3,11 +3,13 @@ import WindowService from "../../../../Services/Window";
 import Config from "../../../Models/Config";
 import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
 
+import Recovery from "../../../Models/Queue/Recovery";
+
 /**
  * 通常海域において、
  * 戦闘が終了したときに呼ばれるコントローラ
  */
-export async function onBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
+export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
   // 画面のクリックイベントに備えてもらう
   Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1});
 
@@ -29,4 +31,14 @@ export async function OnCombinedBattleResulted(req: chrome.webRequest.WebRespons
     WindowService.getInstance().openDamageSnapshot(d, 2);
   }
   // }}}
+}
+
+export async function OnBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
+  WindowService.getInstance().cleanDamageSnapshot();
+}
+
+export async function OnAirBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
+  WindowService.getInstance().cleanDamageSnapshot();
 }
