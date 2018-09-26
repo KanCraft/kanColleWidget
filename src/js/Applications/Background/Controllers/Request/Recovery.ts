@@ -25,7 +25,7 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
     tmp.dock = req.debug.dock;
   }
 
-  const recovery = Recovery.for(tmp.dock);
+  const dock = tmp.dock;
   tmp.dock = null;
 
   const ws = WindowService.getInstance();
@@ -33,10 +33,20 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   await sleep(850);
   const tab = await ws.find(true);
   const uri = await cs.base64(tab.windowId, {});
-  // console.log(uri);
   const ts = await TrimService.init(uri);
-  const rect = Rectangle.new(ts.img.width, ts.img.height).recovery(recovery.dock as number);
-  const img = ts.trim(rect);
-  // console.log(img);
-  // console.log(recovery);
+  const rect = Rectangle.new(ts.img.width, ts.img.height).recovery(dock);
+  const base64 = ts.trim(rect);
+
+  // {{{ TODO: こういうのここに置いといちゃだめでしょ
+  const res = await fetch("https://api-kcwidget.herokuapp.com/ocr/base64", {
+    body: JSON.stringify({ base64, whitelist: "0123456789:" }),
+    method: "POST",
+  });
+  const {result: text} = await res.json();
+  const [h, m, s] = text.trim().split(":").map(p => parseInt(p, 10));
+  const time = (h * (60 * 60) + m * (60) + s) * 1000;
+  // }}}
+
+  const recovery = Recovery.new<Recovery>({dock, time, text});
+  recovery.register(Date.now() + time);
 }

@@ -54,12 +54,12 @@ export default class Rectangle {
 
   public recovery(dock: number): Rectangle {
     const game = this.game();
-    const dockHeight = game.size.h * (44 / 260);
+    const dockHeight = game.size.h * (122 / 720);
     return new Rectangle(
-      game.size.w * (10 / 94),
-      game.size.h * (1 / 26),
-      game.start.x + (game.size.w * (129 / 100)),
-      game.start.y + (game.size.h * (1 / 3)) + ((dock - 1) * dockHeight),
+      game.size.w * (132 / 1200),
+      game.size.h * (36 / 720),
+      game.start.x + (game.size.w * (927 / 1200)),
+      game.start.y + (game.size.h * (235 / 720)) + ((dock - 1) * dockHeight),
     );
   }
 
