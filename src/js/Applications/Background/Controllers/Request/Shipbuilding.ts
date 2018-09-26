@@ -3,18 +3,18 @@ import Rectangle from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
-import Recovery from "../../../Models/Queue/Recovery";
+import Shipbuilding from "../../../Models/Queue/Shipbuilding";
 
 const tmp = {
   dock: null,
 };
 
-export async function OnRecoveryStart(req: DebuggableRequest) {
-  const { formData: { api_ndock_id: [dock], api_highspeed: [highspeed] } } = req.requestBody;
+export async function OnShipbuildingStart(req: DebuggableRequest) {
+  const { formData: { api_kdock_id: [dock], api_highspeed: [highspeed] } } = req.requestBody;
   tmp.dock = highspeed === "1" ? null : parseInt(dock, 10);
 }
 
-export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
+export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   if (req.debug) {
     tmp.dock = req.debug.dock;
@@ -23,13 +23,13 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   const dock = tmp.dock;
   tmp.dock = null;
 
+  await sleep(50);
   const ws = WindowService.getInstance();
   const cs = new CaptureService();
-  await sleep(850);
   const tab = await ws.find(true);
   const uri = await cs.base64(tab.windowId, {});
   const ts = await TrimService.init(uri);
-  const rect = Rectangle.new(ts.img.width, ts.img.height).recovery(dock);
+  const rect = Rectangle.new(ts.img.width, ts.img.height).shipbuilding(dock);
   const base64 = ts.trim(rect);
 
   // {{{ TODO: こういうのここに置いといちゃだめでしょ
@@ -42,6 +42,6 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   const time = (h * (60 * 60) + m * (60) + s) * 1000;
   // }}}
 
-  const recovery = Recovery.new<Recovery>({dock, time, text});
-  recovery.register(Date.now() + time);
+  const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
+  shipbuilding.register(Date.now() + time);
 }

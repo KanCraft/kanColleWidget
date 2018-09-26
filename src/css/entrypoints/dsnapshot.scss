@@ -14,6 +14,7 @@ body {
 
 div.container {
   height:  100%;
+  display: flex;
   div.cell {
     height: 100%;
     display: inline-block;

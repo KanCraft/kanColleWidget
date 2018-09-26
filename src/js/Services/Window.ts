@@ -162,7 +162,7 @@ class WindowService {
         type: "popup",
         url: url + "?" + search.toString(),
         ...createData,
-        width: createData.height * (5 / 8) * count, // 高さに依存して決まります
+        width: createData.height * (5 / 8) * count, // 高さにだけ依存して決まります
       }, win => {
         resolve(win.tabs[0]);
       });

@@ -11,7 +11,7 @@ export async function DebugController(message: any) {
   };
   const controller = dictionary[message.__controller];
   const scope = message.__this;
-  return controller.bind(scope)(message);
+  return controller.call(scope, message);
 }
 
 export function DebugAvailables() {
