@@ -8,6 +8,7 @@ export default class DamageSnapshot {
   private listener: () => any;
 
   private count: number = 1;
+  private key: string; // drawする画像を間違えないようにするkey
   private clicked: number = 0;
 
   constructor(private scope: Window) {
@@ -17,8 +18,9 @@ export default class DamageSnapshot {
   /**
    * 「次」ボタンが押されるイベントを貼る
    */
-  public prepare(count: number = 1) {
-    this.count = count;
+  public prepare(m: {count: number, key: number}) {
+    this.count = m.count;
+    this.key = String(m.key);
     const canvas = this.scope.document.querySelector("canvas");
     this.canvas = canvas;
     this.listener = () => this.onClickNext();
@@ -48,7 +50,7 @@ export default class DamageSnapshot {
   }
 
   private onClickNext() {
-    this.client.message("/snapshot/capture", {after: 1000 + (800 * this.clicked)});
+    this.client.message("/snapshot/capture", {after: 1000 + (800 * this.clicked), key: this.key});
     this.clicked += 1;
     if (this.count <= this.clicked) {
       this.reset();

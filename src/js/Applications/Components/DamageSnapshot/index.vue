@@ -20,6 +20,7 @@ export default class Capture extends Vue {
 
   private search: URLSearchParams;
   private count: number;
+  private key: string; // drawする画像を間違えないようにするためのkey
   private uris: string[] = [];
   private interval: number;
 
@@ -27,12 +28,13 @@ export default class Capture extends Vue {
     super();
     this.search = new URLSearchParams(location.search);
     this.count = parseInt(this.search.get("count") || "1");
+    this.key = this.search.get("key");
     this.interval = setInterval(() => this.renderImage(), 100);
   }
 
   private renderImage() {
     const temp = new TempStorage();
-    const uri = temp.draw("damagesnapshot");
+    const uri = temp.draw(`damagesnapshot_${this.key}`);
     if (!uri) {
       return;
     }

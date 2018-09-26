@@ -8,7 +8,7 @@ import { sleep } from "../../../../utils";
 import Config from "../../../Models/Config";
 import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
 
-export async function DamageSnapshotCapture(message: {after: number}) {
+export async function DamageSnapshotCapture(message: {after: number, key: string}) {
   const ws = WindowService.getInstance();
   const tab = await ws.find();
   await sleep(message.after || 1000); // 艦隊の描画が止まるのを待つ
@@ -18,12 +18,13 @@ export async function DamageSnapshotCapture(message: {after: number}) {
   const rect = Rectangle.new(ts.img.width, ts.img.height);
   const trimmed = ts.trim(rect.damagesnapshot());
 
+  const key = message.key; // drawする画像を間違えないようにするためのkey
   switch (DamageSnapshotFrame.get().value) {
   case DamageSnapshotType.InApp:
     const height = Config.find<Config<number>>("inapp-dsnapshot-size").value;
     Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", {uri: trimmed, height});
   case DamageSnapshotType.Separate:
-    (new TempStorage()).store("damagesnapshot", trimmed);
+    (new TempStorage()).store(`damagesnapshot_${key}`, trimmed);
   }
   return {status: 202, tabId: tab.id};
 }

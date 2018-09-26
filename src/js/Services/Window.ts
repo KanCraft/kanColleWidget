@@ -153,13 +153,14 @@ class WindowService {
     });
   }
 
-  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number = 1): Promise<chrome.tabs.Tab> {
+  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
     const createData = frame.createData();
+    const search = new URLSearchParams({ count: String(count), key: String(key) });
     return new Promise(resolve => {
       this.windows.create({
         type: "popup",
-        url: url + "?" + `count=${count}`,
+        url: url + "?" + search.toString(),
         ...createData,
         width: createData.height * (5 / 8) * count, // 高さに依存して決まります
       }, win => {
