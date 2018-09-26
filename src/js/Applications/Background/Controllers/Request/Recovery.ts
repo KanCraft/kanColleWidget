@@ -9,12 +9,7 @@ const tmp = {
   dock: null,
 };
 
-// TODO: 必要があればd.tsにしてdefinitionsに持っていく
-declare interface DebuggableResponse extends chrome.webRequest.WebResponseCacheDetails {
-  debug?: any;
-}
-
-export async function OnRecoveryStart(req: chrome.webRequest.WebRequestBodyDetails) {
+export async function OnRecoveryStart(req: DebuggableRequest) {
   const { formData: { api_ndock_id: [dock], api_highspeed: [highspeed] } } = req.requestBody;
   tmp.dock = highspeed === "1" ? null : parseInt(dock, 10);
 }
