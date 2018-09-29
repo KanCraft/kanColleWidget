@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
-import { Router } from "chomex";
+import { Client } from "chomex";
 
 import TempStorage from "../../../Services/TempStorage";
 
@@ -23,6 +23,8 @@ export default class Capture extends Vue {
   private key: string; // drawする画像を間違えないようにするためのkey
   private uris: string[] = [];
   private observe: number;
+  private record: number;
+  private client: any;
 
   constructor() {
     super();
@@ -30,6 +32,8 @@ export default class Capture extends Vue {
     this.count = parseInt(this.search.get("count") || "1");
     this.key = this.search.get("key");
     this.observe = setInterval(() => this.renderImage(), 100);
+    this.record = setInterval(() => this.recordFrame(),  2000);
+    this.client = new Client(chrome.runtime);
   }
 
   /**
@@ -47,6 +51,13 @@ export default class Capture extends Vue {
     if (this.uris.length >= this.count) {
       clearInterval(this.observe);
     }
+  }
+
+  private recordFrame() {
+    this.client.message("/snapshot/record", {
+      position: { left: window.screenLeft, top: window.screenTop },
+      size: { height: window.innerHeight },
+    });
   }
 
 }
