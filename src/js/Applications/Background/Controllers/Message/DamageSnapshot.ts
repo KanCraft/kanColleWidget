@@ -28,3 +28,10 @@ export async function DamageSnapshotCapture(message: {after: number, key: string
   }
   return {status: 202, tabId: tab.id};
 }
+
+export async function DamageSnapshotRecord(message: any) {
+  const {position, size} = message;
+  const frame = DamageSnapshotFrame.get();
+  frame.update({position, size});
+  return { status: 200, frame };
+}
