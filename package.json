@@ -13,7 +13,7 @@
     "version": "node ./scripts/version.js",
     "deploy": "node ./scripts/publish.js ./release/kcwidget.zip",
     "lint": "tslint ./src/**/*.ts",
-    "test": "npm run lint && jest --coverage",
+    "test": "npm run lint && jest",
     "ci": "tslint ./src/**/*.ts && jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
@@ -29,6 +29,7 @@
     "coveralls": "^3.0.2",
     "css-loader": "^1.0.0",
     "jest": "^23.5.0",
+    "jest-canvas-mock": "^1.1.0",
     "jest-cli": "^23.5.0",
     "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.9.3",
@@ -47,7 +48,7 @@
     "webpack-cli": "^3.1.0"
   },
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "src/js/*.ts",
       "src/js/Applications/**/*.ts",
@@ -64,7 +65,9 @@
       "jsx"
     ],
     "setupFiles": [
-      "<rootDir>/tests/setup/chrome.ts"
+      "<rootDir>/tests/setup/chrome.ts",
+      "<rootDir>/tests/setup/image-onload.ts",
+      "jest-canvas-mock"
     ],
     "testRegex": "tests/.*-test\\.ts$",
     "testPathIgnorePatterns": [

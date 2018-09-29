@@ -9,4 +9,5 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     return;
   }
   mission.register();
+  return { status: 202, mission };
 }
