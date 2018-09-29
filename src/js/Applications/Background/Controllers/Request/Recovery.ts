@@ -12,6 +12,7 @@ const tmp = {
 export async function OnRecoveryStart(req: DebuggableRequest) {
   const { formData: { api_ndock_id: [dock], api_highspeed: [highspeed] } } = req.requestBody;
   tmp.dock = highspeed === "1" ? null : parseInt(dock, 10);
+  return {status: 200};
 }
 
 export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
@@ -44,4 +45,6 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
 
   const recovery = Recovery.new<Recovery>({dock, time, text});
   recovery.register(Date.now() + time);
+
+  return { status: 202, recovery };
 }

@@ -1,4 +1,4 @@
-/* tslint:disable no-console */
+/* tslint:disable no-console max-classes-per-file */
 import * as chrome from "sinon-chrome";
 
 declare var global: any;
@@ -26,4 +26,31 @@ export class Stub {
 
 export function when(target: any): Stub {
   return new Stub(target);
+}
+
+export function dummyrequest(extend: {} = {}): chrome.webRequest.WebRequestBodyDetails {
+  return {
+    frameId: 12,
+    method: "POST",
+    parentFrameId: 12334,
+    requestBody: {},
+    requestId: "12345",
+    tabId: 123,
+    timeStamp: 123456789,
+    type: "main_frame",
+    url: "https://hoge.fuga.com",
+    ...extend,
+  };
+}
+
+export class Fetch {
+  public static replies(data: any) {
+    global.fetch = (url, option) => {
+      return new this(data);
+    };
+  }
+  constructor(private data: any) {}
+  public json(): Promise<any> {
+    return Promise.resolve(this.data);
+  }
 }

@@ -12,6 +12,7 @@ const tmp = {
 export async function OnShipbuildingStart(req: DebuggableRequest) {
   const { formData: { api_kdock_id: [dock], api_highspeed: [highspeed] } } = req.requestBody;
   tmp.dock = highspeed === "1" ? null : parseInt(dock, 10);
+  return { status: 200 };
 }
 
 export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
@@ -44,4 +45,6 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
   shipbuilding.register(Date.now() + time);
+
+  return { status: 202, shipbuilding };
 }

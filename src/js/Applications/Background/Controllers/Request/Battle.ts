@@ -1,9 +1,6 @@
 import {Client} from "chomex";
 import WindowService from "../../../../Services/Window";
-import Config from "../../../Models/Config";
 import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
-
-import Recovery from "../../../Models/Queue/Recovery";
 
 /**
  * 通常海域において、
@@ -23,6 +20,8 @@ export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDe
     WindowService.getInstance().openDamageSnapshot(d, 1, key);
   }
   // }}}
+
+  return {status: 200};
 }
 
 export async function OnCombinedBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
@@ -39,14 +38,18 @@ export async function OnCombinedBattleResulted(req: chrome.webRequest.WebRespons
     WindowService.getInstance().openDamageSnapshot(d, 2, key);
   }
   // }}}
+
+  return {status: 200};
 }
 
 export async function OnBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
   Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
   WindowService.getInstance().cleanDamageSnapshot();
+  return {status: 200};
 }
 
 export async function OnAirBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
   Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
   WindowService.getInstance().cleanDamageSnapshot();
+  return {status: 200};
 }
