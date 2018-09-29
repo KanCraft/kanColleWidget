@@ -1,4 +1,4 @@
-import octicons from "octicons";
+import * as octicons from "octicons";
 import { sleep } from "../../../utils";
 
 export default class InAppButtons {

@@ -66,6 +66,7 @@
     ],
     "setupFiles": [
       "<rootDir>/tests/setup/chrome.ts",
+      "<rootDir>/tests/setup/image-onload.ts",
       "jest-canvas-mock"
     ],
     "testRegex": "tests/.*-test\\.ts$",
