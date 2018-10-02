@@ -20,6 +20,9 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   if (req.debug) {
     tmp.dock = req.debug.dock;
   }
+  if (tmp.dock === null) {
+    return { status: 200 };
+  }
 
   const dock = tmp.dock;
   tmp.dock = null;
