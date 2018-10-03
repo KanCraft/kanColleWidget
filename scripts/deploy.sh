@@ -32,8 +32,10 @@ fi
 ####
 
 BACKUP=master
+NODE_ENV=production
 if [[ ${TRAVIS_BRANCH} == "v3/develop" ]]; then
   BACKUP=v3/staging
+  NODE_ENV=staging
 fi
 
 git fetch --prune -v origin
@@ -42,7 +44,7 @@ git merge ${TRAVIS_BRANCH}
 
 npm run version -- --commit --tag
 npm run build
-npm run zip
+npm run pack
 npm run deploy
 
 git push origin ${BACKUP}

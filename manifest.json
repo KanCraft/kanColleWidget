@@ -12,8 +12,9 @@
     "<all_urls>"
   ],
   "icons": {
-    "16": "dest/img/app/icon.dev.16.png",
-    "48": "dest/img/app/icon.dev.48.png"
+    "16": "dest/img/app/icon.16.png",
+    "48": "dest/img/app/icon.48.png",
+    "128": "dest/img/app/icon.128.png"
   },
   "background": {
     "scripts": [
