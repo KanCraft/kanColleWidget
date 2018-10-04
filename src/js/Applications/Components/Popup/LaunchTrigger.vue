@@ -17,7 +17,7 @@
       <div
         @click="launch"
         class="icon-justify clickable">
-        <img src="/dest/img/icons/anchor.svg" width="30px" alt="抜錨！" title="抜錨！" />
+        <img src="/dest/img/anchor.svg" width="30px" alt="抜錨！" title="抜錨！" />
       </div>
     </div>
   </div>

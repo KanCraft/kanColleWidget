@@ -4,12 +4,4 @@ node_js:
 script:
     - npm run ci
 after_success:
-    - ./scripts/deploy.sh
-# deploy:
-#     - provider: script
-#       script: npm run build && npm run zip && npm run deploy
-#       on:
-#         all_branches: true
-#         condition: $TRAVIS_BRANCH =~ staging
-# # あほくさ
-# # https://github.com/travis-ci/travis-ci/issues/8637
+    - ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish
