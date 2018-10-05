@@ -5,13 +5,8 @@ script:
   - npm run ci
 after_success:
   # {{{ SSH Key の復帰
-  - openssl aes-256-cbc -k "$DEPLOY_KEY" -in .travis/deploy_key.encrypted -d -a -out deploy_key
-  - cp deploy_key ~/.ssh/
-  - chmod 600 ~/.ssh/deploy_key
-  - echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/deploy_key\n" >> ~/.ssh/config
+  - openssl aes-256-cbc -K $encrypted_e6cfc0b0977e_key -iv $encrypted_e6cfc0b0977e_iv -in .\/.travis\/id_rsa.enc -out ~\/.ssh/kcwidget/id_rsa -d
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/kcwidget/id_rsa\n" >> ~/.ssh/config
   # }}}
   - git remote set-url origin git@github.com:otiai10/kanColleWidget.git
   - ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish
-env:
-  global:
-    secure: cjYPvZN9uTMomWBqCPo+nC+RAVa36PUkxrCintQ019ZqWuGAQj+/iiV/1DAbHZyLYlgEPxf0bSu1jB09QotMqCQA91mIjN2BVTq+yZ1ZjbGKtEMrVNIN+MMnEbMqvbU6Eq6ppQ15a+lx9zWfUW7PyDhaWjW3PsOfDiqVRZh6G7Q=
