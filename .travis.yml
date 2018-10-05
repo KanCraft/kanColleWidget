@@ -5,8 +5,13 @@ script:
   - npm run ci
 after_success:
   # {{{ SSH Key の復帰
-  - openssl aes-256-cbc -K $encrypted_e6cfc0b0977e_key -iv $encrypted_e6cfc0b0977e_iv -in .\/.travis\/id_rsa.enc -out ~\/.ssh/kcwidget/id_rsa -d
-  - echo -e "Host github.com\n\tStrictHostKeyChecking no\nIdentityFile ~/.ssh/kcwidget/id_rsa\n" >> ~/.ssh/config
+  - openssl aes-256-cbc -K $encrypted_e6cfc0b0977e_key -iv $encrypted_e6cfc0b0977e_iv -in .\/.travis\/id_rsa.enc -out ~\/.ssh/kcwidget_rsa -d
+  - chmod 600 ~/.ssh/kcwidget_rsa
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/kcwidget_rsa\n" >> ~/.ssh/config
   # }}}
+  # {{{ Git user の設定
+  - git config --global user.email otiai10+ayanel-ci@gmail.com
+  - git config --global user.name "Ayanel CI"
   - git remote set-url origin git@github.com:otiai10/kanColleWidget.git
+  # }}}
   - ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish
