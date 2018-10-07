@@ -2,12 +2,17 @@ var path = require("path");
 var webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
         optimization: {
-            minimize: process.env.NODE_ENV == "production",
+            minimizer: [new UglifyJsPlugin({
+                uglifyOptions: {
+                    mangle: false,
+                },
+            })],
         },
         entry: {
             background: "./src/js/entrypoints/background.ts",
