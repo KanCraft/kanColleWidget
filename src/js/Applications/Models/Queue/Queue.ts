@@ -7,7 +7,7 @@ export interface Scanned<T> {
 
 export default class Queue extends Model {
 
-  protected static _scan<T extends Queue>(constructor: any, now: number, clean: boolean = true): Scanned<T> {
+  protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean: boolean = true): Scanned<T> {
     const s = { finished: [], upcomming: [] };
     constructor.list().map((q: Queue) => {
       if (q.scheduled < now) {
