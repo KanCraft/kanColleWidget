@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -o errexit
-set -o verbose
+# set -o verbose
 
 ####
 # deploy.sh
@@ -24,8 +24,9 @@ cron)
   fi
 
   # タグをつけて push back します
-  npm run version -- --commit --tag
-  git push origin --verbose --tags ${TRAVIS_BRANCH}
+  TAG=`npm run version -- --commit --tag`
+  git push --verbose --tags origin ${TRAVIS_BRANCH}
+  echo "TAG PUSHED: ${TAG} to ${TRAVIS_BRANCH}"
   exit 0
 
   ;;
