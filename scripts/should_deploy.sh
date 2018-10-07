@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -o errexit
+set -o verbose
 
 ####
 # deploy.sh
@@ -24,7 +25,7 @@ cron)
 
   # タグをつけて push back します
   npm run version -- --commit --tag
-  git push origin ${TRAVIS_BRANCH}
+  git push origin --verbose --tags ${TRAVIS_BRANCH}
   exit 0
 
   ;;
