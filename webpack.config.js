@@ -8,11 +8,8 @@ module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
         optimization: {
-            minimizer: [new UglifyJsPlugin({
-                uglifyOptions: {
-                    mangle: false,
-                },
-            })],
+            minimize: process.env.NODE_ENV == "production",
+            minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
         },
         entry: {
             background: "./src/js/entrypoints/background.ts",
