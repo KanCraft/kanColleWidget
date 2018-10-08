@@ -24,4 +24,14 @@ export default class Recovery extends Queue {
     };
   }
 
+  public notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
+    return {
+      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      message: `第${this.dock}ドックに艦娘が入渠します。修復予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
+      requireInteraction: false,
+      title: "修復開始",
+      type: "basic",
+    };
+  }
+
 }

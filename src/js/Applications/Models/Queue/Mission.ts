@@ -13,6 +13,9 @@ export default class Mission extends Queue {
    */
   public static for(id: number | string, deck: number | string): Mission {
     const definition = catalog[id];
+    if (! definition) {
+      return null;
+    }
     return Mission.new({...definition, id, deck});
   }
 
@@ -36,11 +39,20 @@ export default class Mission extends Queue {
 
   public notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      // contextMessage: "ハローハロー",
       iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
       message: `間もなく、第${this.deck}艦隊が${this.title}より帰投します`,
       requireInteraction: true,
       title: "遠征帰投",
+      type: "basic",
+    };
+  }
+
+  public notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
+    return {
+      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      message: `第${this.deck}艦隊が、${this.title}に向けて出港しました。帰投予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
+      requireInteraction: false,
+      title: "遠征出港",
       type: "basic",
     };
   }

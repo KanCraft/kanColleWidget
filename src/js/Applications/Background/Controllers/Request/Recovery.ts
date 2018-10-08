@@ -1,4 +1,5 @@
 import CaptureService from "../../../../Services/Capture";
+import NotificationService from "../../../../Services/Notification";
 import Rectangle from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
@@ -48,6 +49,9 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
 
   const recovery = Recovery.new<Recovery>({dock, time, text});
   recovery.register(Date.now() + time);
+
+  const ns = new NotificationService();
+  ns.create(recovery._ns, recovery.notificationOptionOnRegister());
 
   return { status: 202, recovery };
 }
