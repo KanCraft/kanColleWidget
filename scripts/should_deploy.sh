@@ -16,17 +16,27 @@ cron)
     echo "SKIP DEPLOY: ブランチ名にdevelopを含まないのでデプロイしない"
     exit 1
   fi
-  latest_tag=`git describe --tags --abbrev=0`
-  commit_cnt=`git rev-list --count --no-merges ${latest_tag}..HEAD`
-  if [[ ${commit_cnt} -eq 0 ]]; then
+  LATEST_TAG=`git describe --tags --abbrev=0`
+  COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
+  if [[ ${COMMIT_CNT} -eq 0 ]]; then
     echo "SKIP DEPLOY: 直近のタグからコミットが無いのでデプロイしない"
     exit 1
   fi
 
   # タグをつけて push back します
-  TAG=`npm run version -- --commit --tag`
-  git push --verbose --tags origin ${TRAVIS_BRANCH}
-  echo "TAG PUSHED: ${TAG} to ${TRAVIS_BRANCH}"
+  npm run version -- --commit --tag
+  echo "[INFO] 直近タグからのコミットリスト"
+  git log --pretty="%s" ${LATEST_TAG}..HEAD
+  echo "[INFO] Remote Repository URL のリスト"
+  git remote --verbose
+  echo "[EXEC] tag付けコミットとtagそのものをpush"
+  git push origin ${TRAVIS_BRANCH}
+  git push origin ${TRAVIS_BRANCH} --tags
+  echo "[REPORT]"
+  echo "  LATEST_TAG: ${LATEST_TAG}"
+  echo "  COMMIT_CNT: ${COMMIT_CNT}"
+  echo "  TRAVIS_BRANCH: ${TRAVIS_BRANCH}"
+
   exit 0
 
   ;;
