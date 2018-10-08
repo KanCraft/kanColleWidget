@@ -12,10 +12,15 @@ set -o errexit
 
 case ${TRAVIS_EVENT_TYPE} in
 cron)
+
   if [[ ! ${TRAVIS_BRANCH} =~ "develop" ]]; then
     echo "SKIP DEPLOY: ブランチ名にdevelopを含まないのでデプロイしない"
     exit 1
   fi
+
+  git checkout ${TRAVIS_BRANCH}
+  git pull origin ${TRAVIS_BRANCH} --tags
+
   LATEST_TAG=`git describe --tags --abbrev=0`
   COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
@@ -26,13 +31,10 @@ cron)
   # タグをつけて push back します
   npm run version -- --commit --tag
   echo "[INFO] 直近タグからのコミットリスト"
-  git log --pretty="%s" ${LATEST_TAG}..HEAD
-  echo "[INFO] Remote Repository URL のリスト"
-  git remote --verbose
+  git log --pretty="  %H %s" ${LATEST_TAG}..HEAD
   echo "[EXEC] tag付けコミットとtagそのものをpush"
-  git push origin ${TRAVIS_BRANCH}
   git push origin ${TRAVIS_BRANCH} --tags
-  echo "[REPORT]"
+  echo "[DONE]"
   echo "  LATEST_TAG: ${LATEST_TAG}"
   echo "  COMMIT_CNT: ${COMMIT_CNT}"
   echo "  TRAVIS_BRANCH: ${TRAVIS_BRANCH}"
