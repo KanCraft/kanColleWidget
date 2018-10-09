@@ -16,6 +16,7 @@ import {
   DebugController,
 } from "../Controllers/Message/Debug";
 import {
+  OpenDeckCapturePage,
   OpenOptionsPage,
   WindowDecoration,
   WindowOpen,
@@ -31,6 +32,9 @@ router.on("/window/toggle-mute", WindowToggleMute);
 
 // 設定画面
 router.on("/options/open", OpenOptionsPage);
+
+// 編成キャプチャ
+router.on("/deckcapture/open", OpenDeckCapturePage);
 
 // スクショとか
 router.on("/capture/screenshot", Screenshot);

@@ -67,3 +67,8 @@ export async function OpenOptionsPage(message: any) {
   const ws = WindowService.getInstance();
   return await ws.openOptionsPage();
 }
+
+export async function OpenDeckCapturePage(message: any) {
+  const ws = WindowService.getInstance();
+  return await ws.openDeckCapturePage();
+}

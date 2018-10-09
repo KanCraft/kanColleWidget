@@ -181,6 +181,12 @@ class WindowService {
     });
   }
 
+  public openDeckCapturePage(): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/deckcapture.html");
+    return new Promise(resolve => {
+      this.tabs.create({url}, tab => resolve(tab));
+    });
+  }
 }
 
 export default WindowService;
