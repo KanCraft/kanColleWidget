@@ -28,9 +28,9 @@ function tweet(tag, commits) {
 
 function main(params) {
   const current_tag = shell.execSync("git describe --abbrev=0 --tags").toString().trim();
-  const last_commit = shell.execSync("git rev-list --tags --skip=1 --max-count=1").toString().trim();
+  const last_commit = shell.execSync("git rev-list --tags --skip=1 --max-count=1 --no-merges").toString().trim();
   const previous_tag = shell.execSync(`git describe --abbrev=0 --tags ${last_commit}`).toString().trim();
-  const commits = shell.execSync(`git log --pretty="%s" ${previous_tag}..HEAD`).toString().trim().split("\n");
+  const commits = shell.execSync(`git log --pretty="%s" --no-merges ${previous_tag}..${last_commit}`).toString().trim().split("\n");
   return Promise.all([
     tweet(current_tag, commits),
   ]);
