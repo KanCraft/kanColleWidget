@@ -2,7 +2,7 @@ const Twitter = require("twitter");
 const shell   = require("child_process");
 
 function packageEnv() {
-  return /develop/.test(process.env.TRAVIS_BRANCH) ? "[test] " : "";
+  return "【リリース情報】" + /develop/.test(process.env.TRAVIS_BRANCH) ? "[v3テスト版] " : " ";
 }
 
 function constructTweetText(head, commits, omitted) {
