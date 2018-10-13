@@ -9,19 +9,18 @@ import Sortie from "../../../Models/Sortie";
  */
 export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
-  /* tslint:disable no-console */
-  console.log("デバッグ", Sortie.context().toText());
+  const text = Sortie.context().toText();
 
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
 
   // 画面のクリックイベントに備えてもらう
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1, key});
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1, key, text});
 
   // {{{ TODO: このへんのルーチンどうにかすべきかな
   const d = DamageSnapshotFrame.get();
   if (d.value === DamageSnapshotType.Separate) {
-    WindowService.getInstance().openDamageSnapshot(d, 1, key);
+    WindowService.getInstance().openDamageSnapshot(d, 1, key, text);
   }
   // }}}
 
@@ -30,19 +29,18 @@ export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDe
 
 export async function OnCombinedBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
-  /* tslint:disable no-console */
-  console.log("デバッグ", Sortie.context().toText());
+  const text = Sortie.context().toText();
 
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
 
   // 画面のクリックイベントに備えてもらう
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 2, key});
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 2, key, text});
 
   // {{{ TODO: このへんのルーチンどうにかすべきかな
   const d = DamageSnapshotFrame.get();
   if (d.value === DamageSnapshotType.Separate) {
-    WindowService.getInstance().openDamageSnapshot(d, 2, key);
+    WindowService.getInstance().openDamageSnapshot(d, 2, key, text);
   }
   // }}}
 

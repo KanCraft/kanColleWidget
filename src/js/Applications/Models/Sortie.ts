@@ -60,11 +60,11 @@ export default class Sortie extends Model {
     if (!area) {
       return fallback;
     }
-    const map = area[this.map];
+    const map = area.maps[this.map];
     if (!map) {
       return fallback;
     }
-    return `${area.title} / ${map.title} / ${this.depth}戦目`;
+    return `${this.depth}戦目/${map.title}/${area.title}`;
   }
 
 }
