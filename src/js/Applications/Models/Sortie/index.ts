@@ -1,4 +1,5 @@
 import {Model} from "chomex";
+import catalog from "./catalog";
 
 /**
  * 出撃における、今が何戦目なのかを記録するモデル
@@ -68,39 +69,3 @@ export default class Sortie extends Model {
   }
 
 }
-
-interface MapCatalog {
-  [id: number]: {
-    title: string;
-    maps: {
-      [no: number]: {
-        title: string;
-        extra?: boolean;
-      };
-    };
-  };
-}
-
-const catalog: MapCatalog = {
-  1: {
-    title: "鎮守府海域",
-    maps: {
-      1: {
-        title: "鎮守府正面海域",
-      },
-      2: {
-        title: "南西諸島沖",
-      },
-      3: {
-        title: "製油所地帯沿岸",
-      },
-      4: {
-        title: "南西諸島防衛戦",
-      },
-      5: {
-        title: "鎮守府近海",
-        extra: true,
-      },
-    },
-  },
-};
