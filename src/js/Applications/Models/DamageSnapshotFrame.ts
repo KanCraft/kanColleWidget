@@ -10,6 +10,9 @@ export enum DamageSnapshotType {
 const dskey = "last";
 /**
  * 大破進撃防止窓の設定を貯めるところ
+ * 大破進撃防止窓は、毎戦闘後に現れて、ウィンドウの場所・サイズの変更を記録するため
+ * localStorageへのアクセスが多く、別モデルとして定義してます。
+ * まぁ、chomex.ModelはべつにACIDを保証しないので、これやる意味がどんくらいあるかわからんけど。
  */
 export default class DamageSnapshotFrame extends Model {
 

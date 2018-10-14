@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div v-if="text" class="additional-information">{{text}}</div>
     <div
       v-for="(uri, i) in uris"
       :key="i"
@@ -21,6 +22,7 @@ export default class Capture extends Vue {
   private search: URLSearchParams;
   private count: number;
   private key: string; // drawする画像を間違えないようにするためのkey
+  private text: string; // なんか付随して表示する情報。おもにSortie.context()
   private uris: string[] = [];
   private observe: number;
   private record: number;
@@ -31,6 +33,7 @@ export default class Capture extends Vue {
     this.search = new URLSearchParams(location.search);
     this.count = parseInt(this.search.get("count") || "1");
     this.key = this.search.get("key");
+    this.text = this.search.get("text");
     this.observe = setInterval(() => this.renderImage(), 100);
     this.record = setInterval(() => this.recordFrame(),  2000);
     this.client = new Client(chrome.runtime);

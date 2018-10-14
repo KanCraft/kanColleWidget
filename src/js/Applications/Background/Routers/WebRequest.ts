@@ -6,6 +6,7 @@
 import {SerialRouter} from "chomex";
 
 import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Battle";
+import { OnMapStart } from "../Controllers/Request/Map";
 import { OnMissionStart } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
 import { OnRecoveryStart } from "../Controllers/Request/Recovery";
@@ -29,6 +30,9 @@ router.on(["api_req_kousyou/createship"], OnShipbuildingStart);
 
 // 遠征関係
 router.on(["api_req_mission/start"],  OnMissionStart);
+
+// 出撃
+router.on(["api_req_map/start"], OnMapStart); // 出撃開始
 
 // 戦闘開始時
 router.on(["api_req_sortie/battle"],                      OnBattleStarted); // 通常艦隊

@@ -2,7 +2,7 @@
   <div class="column col-10">
     <div class="tile">
       <div class="tile-content">
-        <p class="tile-title">{{config.title}}</p>
+        <h5 class="tile-title">{{config.title}}</h5>
         <p class="tile-subtitle text-gray">{{config.description}}</p>
       </div>
       <div class="tile-action">
@@ -27,14 +27,10 @@ import Config from "../../../Models/Config";
 
 @Component
 export default class NumberConfig extends Vue {
-
-  @Prop({type: Config})
-  private config: Config<number>;
-
+  @Prop({type: Config}) private config: Config<number>;
   onchange(ev: {target: HTMLInputElement}) {
     this.config.update({value: parseInt(ev.target.value)});
   }
-
 }
 </script>
 

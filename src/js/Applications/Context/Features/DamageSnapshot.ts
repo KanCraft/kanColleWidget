@@ -9,6 +9,7 @@ export default class DamageSnapshot {
 
   private count: number = 1;
   private key: string; // drawする画像を間違えないようにするkey
+  private text: string; // なんか付随して表示する情報。おもにSortie.context()
   private clicked: number = 0;
 
   constructor(private scope: Window) {
@@ -18,9 +19,10 @@ export default class DamageSnapshot {
   /**
    * 「次」ボタンが押されるイベントを貼る
    */
-  public prepare(m: {count: number, key: number}) {
+  public prepare(m: {count: number, key: number, text: string}) {
     this.count = m.count;
     this.key = String(m.key);
+    this.text = m.text;
     const canvas = this.scope.document.querySelector("canvas");
     this.canvas = canvas;
     this.listener = () => this.onClickNext();
@@ -73,6 +75,25 @@ export default class DamageSnapshot {
     div.addEventListener("mouseover", () => div.style.opacity = "1");
     div.addEventListener("mouseout", () => div.style.opacity = "0");
     div.id = "kcw-damagesnapshot";
+    if (this.text) {
+      div.appendChild(this.additionalText());
+    }
+    return div;
+  }
+
+  private additionalText(): HTMLDivElement {
+    const div = this.scope.document.createElement("div");
+    div.style.position = "absolute";
+    div.style.top = "0";
+    div.style.left = "0";
+    div.style.right = "0";
+    div.style.fontSize = "2vh";
+    div.style.color = "white";
+    div.style.padding = "0 4px";
+    div.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+    div.style.whiteSpace = "nowrap";
+    div.id = "kcw-damagesnapshot-additional-information";
+    div.innerText = this.text;
     return div;
   }
 

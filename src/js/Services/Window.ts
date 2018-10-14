@@ -153,10 +153,11 @@ class WindowService {
     });
   }
 
-  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number): Promise<chrome.tabs.Tab> {
+  /* tslint:disable max-line-length */
+  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
     const createData = frame.createData();
-    const search = new URLSearchParams({ count: String(count), key: String(key) });
+    const search = new URLSearchParams({ count: String(count), key: String(key), text });
     return new Promise(resolve => {
       this.windows.create({
         type: "popup",

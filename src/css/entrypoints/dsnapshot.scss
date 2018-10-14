@@ -22,4 +22,16 @@ div.container {
       height: 100%;
     }
   }
+
+  div.additional-information {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 4vh;
+    overflow-y: scroll;
+    color: white;
+    padding: 0 4px;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 }

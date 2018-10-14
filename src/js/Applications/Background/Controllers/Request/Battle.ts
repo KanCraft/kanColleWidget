@@ -1,6 +1,8 @@
 import {Client} from "chomex";
 import WindowService from "../../../../Services/Window";
+import Config from "../../../Models/Config";
 import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
+import Sortie from "../../../Models/Sortie";
 
 /**
  * 通常海域において、
@@ -8,16 +10,18 @@ import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageS
  */
 export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
+  const text = Config.find<Config<boolean>>("inapp-dsnapshot-context").value ? Sortie.context().toText() : "";
+
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
 
   // 画面のクリックイベントに備えてもらう
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1, key});
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 1, key, text});
 
   // {{{ TODO: このへんのルーチンどうにかすべきかな
   const d = DamageSnapshotFrame.get();
   if (d.value === DamageSnapshotType.Separate) {
-    WindowService.getInstance().openDamageSnapshot(d, 1, key);
+    WindowService.getInstance().openDamageSnapshot(d, 1, key, text);
   }
   // }}}
 
@@ -26,16 +30,18 @@ export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDe
 
 export async function OnCombinedBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
+  const text = Config.find<Config<boolean>>("inapp-dsnapshot-context").value ? Sortie.context().toText() : "";
+
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
 
   // 画面のクリックイベントに備えてもらう
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 2, key});
+  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/prepare", {count: 2, key, text});
 
   // {{{ TODO: このへんのルーチンどうにかすべきかな
   const d = DamageSnapshotFrame.get();
   if (d.value === DamageSnapshotType.Separate) {
-    WindowService.getInstance().openDamageSnapshot(d, 2, key);
+    WindowService.getInstance().openDamageSnapshot(d, 2, key, text);
   }
   // }}}
 
@@ -43,12 +49,18 @@ export async function OnCombinedBattleResulted(req: chrome.webRequest.WebRespons
 }
 
 export async function OnBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
+
+  Sortie.context().battle();
+
   Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
   WindowService.getInstance().cleanDamageSnapshot();
   return {status: 200};
 }
 
 export async function OnAirBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
+
+  Sortie.context().battle();
+
   Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
   WindowService.getInstance().cleanDamageSnapshot();
   return {status: 200};
