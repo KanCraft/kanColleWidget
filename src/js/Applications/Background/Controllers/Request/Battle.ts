@@ -1,5 +1,6 @@
 import {Client} from "chomex";
 import WindowService from "../../../../Services/Window";
+import Config from "../../../Models/Config";
 import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
 import Sortie from "../../../Models/Sortie";
 
@@ -9,7 +10,7 @@ import Sortie from "../../../Models/Sortie";
  */
 export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
-  const text = Sortie.context().toText();
+  const text = Config.find<Config<boolean>>("inapp-dsnapshot-context").value ? Sortie.context().toText() : "";
 
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
@@ -29,7 +30,7 @@ export async function OnBattleResulted(req: chrome.webRequest.WebResponseCacheDe
 
 export async function OnCombinedBattleResulted(req: chrome.webRequest.WebResponseCacheDetails) {
 
-  const text = Sortie.context().toText();
+  const text = Config.find<Config<boolean>>("inapp-dsnapshot-context").value ? Sortie.context().toText() : "";
 
   // 別の画像をdrawしないように、ユニークっぽいkeyを生成しておく
   const key = Date.now();
