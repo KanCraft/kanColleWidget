@@ -22,10 +22,7 @@ import Config from "../../../Models/Config";
   }
 })
 export default class ConfigView extends Vue {
-
-  @Prop({type: Config})
-  private config: Config<any>;
-
+  @Prop({type: Config}) private config: Config<any>;
 }
 </script>
 
