@@ -108,7 +108,7 @@ export default class InAppButtons {
   private async takeScreenshot() {
     this.container.removeEventListener("mouseover", this.onMouseOver);
     this.container.style.opacity = "0";
-    await this.client.message("/capture/screenshot");
+    await this.client.message("/capture/screenshot", {open: true});
     await sleep(1000); // FIXME: 雑に1秒待つ
     this.container.addEventListener("mouseover", this.onMouseOver);
   }
