@@ -16,6 +16,7 @@ module.exports = [
             popup:      "./src/js/entrypoints/popup.ts",
             options:    "./src/js/entrypoints/options.ts",
             capture:    "./src/js/entrypoints/capture.ts",
+            deckcapture:"./src/js/entrypoints/deckcapture.ts",
             dmm:        "./src/js/entrypoints/dmm.ts",
             kcs2:       "./src/js/entrypoints/kcs2.ts",
             dsnapshot:  "./src/js/entrypoints/dsnapshot.ts",
@@ -51,10 +52,11 @@ module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
         entry: {
-            common:    "./src/css/entrypoints/common.scss",
-            options:   "./src/css/entrypoints/options.scss",
-            popup:     "./src/css/entrypoints/popup.scss",
-            dsnapshot: "./src/css/entrypoints/dsnapshot.scss",
+            common:      "./src/css/entrypoints/common.scss",
+            options:     "./src/css/entrypoints/options.scss",
+            popup:       "./src/css/entrypoints/popup.scss",
+            dsnapshot:   "./src/css/entrypoints/dsnapshot.scss",
+            deckcapture: "./src/css/entrypoints/deckcapture.scss",
         },
         output: {
             path: path.resolve(__dirname, "dest/css"),

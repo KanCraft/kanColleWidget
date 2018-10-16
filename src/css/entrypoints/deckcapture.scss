@@ -1,0 +1,33 @@
+html, body {
+  height: 100%;
+}
+
+.container.root, .columns.root {
+  height: 100%;
+}
+
+select.form-select {
+  -webkit-appearance: none;
+}
+
+.sidebar {
+  height: 100%;
+  background-color: #f8f9fa;
+  padding-top: 12px;
+
+  .input-group {
+    margin-bottom: 4px;
+  }
+
+  .preview-container {
+    margin-bottom: 8px;
+  }
+}
+
+.composer {
+  padding-top: 12px;
+
+  blockquote {
+    margin: 0;
+  }
+}
