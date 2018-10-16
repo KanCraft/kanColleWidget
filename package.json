@@ -26,6 +26,9 @@
   },
   "homepage": "https://github.com/otiai10/kanColleWidget#readme",
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.6",
+    "@fortawesome/free-solid-svg-icons": "^5.4.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "@types/chrome": "0.0.72",
     "@types/jest": "^23.3.1",
     "coveralls": "^3.0.2",
@@ -81,7 +84,6 @@
   },
   "dependencies": {
     "chomex": "^1.0.21",
-    "octicons": "^8.1.0",
     "spectre.css": "^0.5.3",
     "vue": "^2.5.17"
   }

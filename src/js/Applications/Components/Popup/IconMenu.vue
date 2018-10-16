@@ -2,20 +2,18 @@
   <div class="columns" style="margin-top: 18px;">
     <template v-for="(m, i) in menu">
       <div
-        class="column col-2"
+        class="column col-1"
         style="display: flex; align-items: center; justify-content: center; margin-bottom: 4px;"
         v-bind:data-tooltip="m.title"
         v-bind:title="m.title"
-        v-html="m.icon.toSVG({width: '22px', class: 'clickable'})"
         v-bind:key="i"
         @click="m.onClick()"
-      />
+      ><font-awesome-icon :icon="m.icon" class="clickable" /></div>
     </template>
   </div>
 </template>
 <script lang="ts">
 import {Vue, Component} from "vue-property-decorator";
-import octicons from "octicons";
 import {Client} from "chomex";
 
 @Component
@@ -26,7 +24,7 @@ export default class IconMenu extends Vue {
   private menu = [
     {
       title: "設定",
-      icon: octicons["gear"],
+      icon: "cog",
       onClick: async () => {
         const res = await this.client.message("/options/open");
         console.log(res);
@@ -34,7 +32,7 @@ export default class IconMenu extends Vue {
     },
     {
       title: "編成キャプチャ",
-      icon: octicons["list-ordered"],
+      icon: "grip-vertical",
       onClick: async () => {
         const res = await this.client.message("/deckcapture/open");
         console.log(res);

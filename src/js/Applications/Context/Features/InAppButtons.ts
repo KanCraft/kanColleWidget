@@ -1,5 +1,10 @@
-import * as octicons from "octicons";
 import { sleep } from "../../../utils";
+
+const iconURLs = {
+  mute: chrome.extension.getURL("/dest/img/mute.svg"),
+  unmute: chrome.extension.getURL("/dest/img/unmute.svg"),
+  camera: chrome.extension.getURL("/dest/img/camera.svg"),
+};
 
 export default class InAppButtons {
 
@@ -60,20 +65,24 @@ export default class InAppButtons {
 
   private createMuteButton(): HTMLButtonElement {
     const button = this.buttonElementForInApp();
-    button.innerHTML = octicons.unmute.toSVG({fill: "white"});
+    const img = this.document.createElement("img") as HTMLImageElement;
+    img.src = iconURLs.unmute;
+    button.appendChild(img);
     button.addEventListener("click", () => this.toggleMute());
     button.id = "kcw-mute-button";
     return button;
   }
 
   private updateMuteStatus(muted: boolean) {
-    const icon = muted ? octicons.mute : octicons.unmute;
-    this.container.querySelector("#kcw-mute-button").innerHTML = icon.toSVG({fill: "white"});
+    const src = muted ? iconURLs.mute : iconURLs.unmute;
+    this.container.querySelector("#kcw-mute-button").querySelector("img").src = src;
   }
 
   private createScreenshotButton(): HTMLButtonElement {
     const button = this.buttonElementForInApp();
-    button.innerHTML = octicons["device-camera"].toSVG({fill: "white"});
+    const img = this.document.createElement("img") as HTMLImageElement;
+    img.src = iconURLs.camera;
+    button.appendChild(img);
     button.addEventListener("click", () => this.takeScreenshot());
     return button;
   }
