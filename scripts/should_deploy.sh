@@ -24,7 +24,7 @@ cron)
   LATEST_TAG=`git describe --tags --abbrev=0`
   COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
-    echo "SKIP DEPLOY: 直近のタグからコミットが無いのでデプロイしない"
+    npm run tweet "${TRAVIS_BRANCH}ブランチに、${LATEST_TAG}タグからの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
     exit 1
   fi
 
