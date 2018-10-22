@@ -1,4 +1,3 @@
-const Twitter = require("twitter");
 const shell   = require("child_process");
 
 function packageEnv() {
@@ -15,33 +14,22 @@ function constructTweetText(head, commits, omitted) {
   return status;
 }
 
-function tweet(tag, commits) {
-  const client = new Twitter({
-    consumer_key: process.env.TWITTER_CONSUMER_KEY,
-    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-  });
-  const status = constructTweetText(tag, commits, false);
-  return client.post("statuses/update", {status});
-}
-
-function main(params) {
+function main(cb) {
   const current_tag = shell.execSync("git describe --abbrev=0 --tags").toString().trim();
   const last_commit = shell.execSync("git rev-list --tags --skip=1 --max-count=1 --no-merges").toString().trim();
   const previous_tag = shell.execSync(`git describe --abbrev=0 --tags ${last_commit}`).toString().trim();
   const commits = shell.execSync(`git log --pretty="%s" --no-merges ${previous_tag}..${last_commit}`).toString().trim().split("\n").reverse();
-  return Promise.all([
-    tweet(current_tag, commits),
-  ]);
+  const status = constructTweetText(current_tag, commits);
+  return shell.exec(`npm run tweet "${status}"`, cb);
 };
 
 // 直接呼ばれたときにやるやつ
 if (require.main == module) {
-  main().then(res => {
-    console.log(res);
-  }).catch(err => {
-    console.log(err);
-    throw err;
-  });
+  main((err, stdout, stderr) => {
+    if (err) {
+      console.error(err, stderr);
+      process.exit(1);
+    }
+    console.log("OK", stdout);
+  })
 }

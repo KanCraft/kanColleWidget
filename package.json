@@ -12,6 +12,7 @@
     "build": "NODE_ENV=production webpack && rm dest/css/*.js",
     "publish": "node ./scripts/publish.js ./release/kcwidget.zip",
     "announce": "node ./scripts/announce.js",
+    "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
     "lint": "tslint ./src/**/*.ts",
     "test": "npm run lint && jest",
