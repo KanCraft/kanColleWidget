@@ -1,4 +1,5 @@
 import NotificationService from "../../../Services/Notification";
+import Config from "../../Models/Config";
 import Mission from "../../Models/Queue/Mission";
 import Queue from "../../Models/Queue/Queue";
 import Recovery from "../../Models/Queue/Recovery";
@@ -17,7 +18,11 @@ export function UpdateQueues() {
 
   finished.map(q => {
     const p = new URLSearchParams({id: q._id});
-    ns.create(q._ns + "?" + p.toString(), q.notificationOption());
+    // TODO: q._ns を小文字にしたやつをキーにConfigを漁ってるけどこれはあんまりなのでやっぱ遠征種別とか必要
+    const notify = Config.find<Config<boolean>>(`notification-${q._ns.toLowerCase()}`).value;
+    if (notify) {
+      ns.create(q._ns + "?" + p.toString(), q.notificationOption());
+    }
   });
 
   const nearest = upcoming.sort((p, n) => p.scheduled < n.scheduled ? -1 : 1)[0];

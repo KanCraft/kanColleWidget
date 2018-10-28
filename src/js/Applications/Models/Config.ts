@@ -10,6 +10,7 @@ export enum Type {
 export enum Category {
   DamageSnapshot = "damagesnapshot",
   InApp = "inapp",
+  Notification = "notification",
 }
 
 /**
@@ -61,6 +62,29 @@ export default class Config<T> extends Model {
       title: "ゲーム画面スクショボタンを表示する",
       type: Type.Switch,
       value: false,
+    },
+
+    // 通知設定 (Category = Notification)
+    "notification-mission": {
+      category: Category.Notification,
+      description: "遠征の出撃と帰還時に通知を表示します",
+      title: "遠征タイマーを通知する",
+      type: Type.Switch,
+      value: true,
+    },
+    "notification-recovery": {
+      category: Category.Notification,
+      description: "入渠の開始と終了時に通知を表示します",
+      title: "入渠タイマーを通知する",
+      type: Type.Switch,
+      value: true,
+    },
+    "notification-shipbuilding": {
+      category: Category.Notification,
+      description: "建造完了時に通知を表示します",
+      title: "建造タイマーを通知する",
+      type: Type.Switch,
+      value: true,
     },
   };
 

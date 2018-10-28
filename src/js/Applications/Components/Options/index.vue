@@ -2,6 +2,7 @@
   <div class="container options">
     <damagesnapshot />
     <category-section title="ゲーム内の便利ボタン" :configs="dictionary['inapp']" />
+    <category-section title="通知設定" :configs="dictionary['notification']" />
     <debugger v-if="isDev()" />
   </div>
 </template>
@@ -21,6 +22,7 @@ declare var NODE_ENV;
   components: {
     "category-section": CategorySection,
     "damagesnapshot": DamageSnapshot,
+    "notification": CategorySection,
     "debugger": Debugger,
   }
 })

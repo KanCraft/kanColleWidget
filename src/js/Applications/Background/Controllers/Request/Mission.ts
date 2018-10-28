@@ -1,4 +1,5 @@
 import NotificationService from "../../../../Services/Notification";
+import Config from "../../../Models/Config";
 import Mission from "../../../Models/Queue/Mission";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
@@ -8,7 +9,10 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     return {status: 404};
   }
   mission.register();
-  const ns = new NotificationService();
-  ns.create(mission._ns, mission.notificationOptionOnRegister());
+  const notify = Config.find<Config<boolean>>("notification-mission").value;
+  if (notify) {
+    const ns = new NotificationService();
+    ns.create(mission._ns, mission.notificationOptionOnRegister());
+  }
   return { status: 202, mission };
 }
