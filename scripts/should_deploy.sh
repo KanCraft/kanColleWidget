@@ -12,19 +12,21 @@ set -o errexit
 
 case ${TRAVIS_EVENT_TYPE} in
 cron)
+  CRON_DEPLOY_TARGET_BRANCH=develop
 
-  if [[ ! ${TRAVIS_BRANCH} =~ "develop" ]]; then
-    echo "SKIP DEPLOY: ブランチ名にdevelopを含まないのでデプロイしない"
+  if [[ ! ${TRAVIS_BRANCH} == ${CRON_DEPLOY_TARGET_BRANCH} ]]; then
+    echo "SKIP DEPLOY (${TRAVIS_BRANCH}): ${CRON_DEPLOY_TARGET_BRANCH}ブランチではないのでデプロイしない"
     exit 1
   fi
+  echo "[INFO] このビルドは${CRON_DEPLOY_TARGET_BRANCH}のCRONタイプのビルドです"
 
-  git checkout ${TRAVIS_BRANCH}
-  git pull origin ${TRAVIS_BRANCH} --tags
+  git checkout ${CRON_DEPLOY_TARGET_BRANCH}
+  git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
 
   LATEST_TAG=`git describe --tags --abbrev=0`
-  COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
+  COMMIT_CNT=`git rev-list --count --no-merges ${CRON_DEPLOY_TARGET_BRANCH}..HEAD`
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
-    npm run tweet "${TRAVIS_BRANCH}ブランチに、${LATEST_TAG}タグからの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+    npm run tweet "${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}タグからの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
     exit 1
   fi
 
@@ -33,7 +35,7 @@ cron)
   echo "[INFO] 直近タグからのコミットリスト"
   git log --pretty="  %H %s" ${LATEST_TAG}..HEAD
   echo "[EXEC] tag付けコミットとtagそのものをpush"
-  git push origin ${TRAVIS_BRANCH} --tags
+  git push origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
   echo "[DONE]"
   echo "  LATEST_TAG: ${LATEST_TAG}"
   echo "  COMMIT_CNT: ${COMMIT_CNT}"
@@ -47,7 +49,11 @@ push)
     echo "SKIP DEPLOY: masterへのpushではないのでデプロイしない"
     exit 1
   fi
-  exit 0
+
+  echo "// TODO: 現在のところ、masterブランチのプロダクションへのデプロイは実装していないです"
+  echo '// TODO: npm run version -- --commit --tag での、test- などのプレフィックスの出し分け'
+  echo '// TODO: exit 0'
+  exit 1
   ;;
 *)
   echo "SKIP DEPLOY: cronでもpushでもないイベントなのでデプロイしない"
