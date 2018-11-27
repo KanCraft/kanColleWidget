@@ -1,7 +1,17 @@
 language: node_js
-addons:
-  chrome: stable
 node_js:
-  - 7.8.0
+  - 9.11
 script:
-  - npm test
+  - npm run ci
+after_success:
+  # {{{ SSH Key の復帰
+  - openssl aes-256-cbc -K $encrypted_e6cfc0b0977e_key -iv $encrypted_e6cfc0b0977e_iv -in ./.travis/deploy_key.enc -out ~/.ssh/deploy_rsa -d
+  - chmod 600 ~/.ssh/deploy_rsa
+  - echo -e "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/deploy_rsa\n" >> ~/.ssh/config
+  # }}}
+  # {{{ Git user の設定
+  - git config --global user.email otiai10+ayanel-ci@gmail.com
+  - git config --global user.name "Ayanel CI"
+  - git remote set-url origin git@github.com:otiai10/kanColleWidget.git
+  # }}}
+  - ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish && npm run announce

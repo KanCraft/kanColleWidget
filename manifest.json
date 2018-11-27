@@ -1,90 +1,28 @@
 {
   "manifest_version": 2,
   "name": "艦これウィジェット",
-  "version": "2.1.9",
+  "version": "3.0.0.35",
+  "version_name": "3.0.0-alpha.35",
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
-    "activeTab",
-    "contextMenus",
-    "tabCapture",
     "webRequest",
+    "alarms",
     "notifications",
-    "downloads",
-    "downloads.shelf",
-    "storage",
-    "unlimitedStorage",
     "<all_urls>"
   ],
   "icons": {
-    "16": "dest/img/icons/chang.16.png",
-    "48": "dest/img/icons/chang.48.png"
-  },
-  "browser_action": {
-    "default_icon": {
-      "38": "dest/img/icons/chang.38.png"
-    },
-    "default_title": "艦これウィジェット",
-    "default_popup": "dest/html/popup.html"
-  },
-  "applications": {
-    "gecko": {
-      "id": "otiai10@gmail.com",
-      "strict_min_version": "45.0"
-    }
+    "16": "dest/img/app/icon.16.png",
+    "48": "dest/img/app/icon.48.png",
+    "128": "dest/img/app/icon.128.png"
   },
   "background": {
     "scripts": [
-      "dest/oauth/chrome_ex_oauthsimple.js",
-      "dest/oauth/chrome_ex_oauth.js",
       "dest/js/background.js"
     ]
   },
-  "web_accessible_resources": [
-    "dest/oauth/chrome_ex_oauth.html*",
-    "dest/img/icons/*"
-  ],
-  "commands": {
-    "capture": {
-      "description": "プレイ画面のスクショを撮ります",
-      "suggested_key": {
-        "windows": "Ctrl+Shift+0",
-        "mac": "Command+Shift+0",
-        "chromeos": "Ctrl+Shift+0",
-        "linux": "Ctrl+Shift+0"
-      },
-      "global": true
-    },
-    "mute": {
-      "description": "艦これ画面だけミュートします",
-      "suggested_key": {
-        "windows": "Ctrl+Shift+9",
-        "mac": "Command+Shift+9",
-        "chromeos": "Ctrl+Shift+9",
-        "linux": "Ctrl+Shift+9"
-      },
-      "global": true
-    },
-    "stream": {
-      "description": "動画キャプチャを開始します",
-      "suggested_key": {
-        "windows": "Ctrl+Shift+8",
-        "mac": "Command+Shift+8",
-        "chromeos": "Ctrl+Shift+8",
-        "linux": "Ctrl+Shift+8"
-      },
-      "global": false
-    },
-    "dashboard": {
-      "description": "ダッシュボードを開きます",
-      "suggested_key": {
-        "windows": "Ctrl+Shift+2",
-        "mac": "Command+Shift+2",
-        "chromeos": "Ctrl+Shift+2",
-        "linux": "Ctrl+Shift+2"
-      },
-      "global": true
-    }
+  "browser_action": {
+    "default_popup": "dest/html/popup.html"
   },
   "content_scripts": [
     {
@@ -97,21 +35,13 @@
     },
     {
       "matches": [
-        "http://osapi.dmm.com/gadgets/ifr*"
-      ],
-      "js": [
-        "dest/js/osapi_dmm.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://osapi.dmm.com/gadgets/ifr*"
+        "http://*/kcs2/index.php?*"
       ],
       "all_frames": true,
       "js": [
-        "dest/js/iframe.js"
+        "dest/js/kcs2.js"
       ]
     }
   ],
-  "options_page": "dest/html/options.html"
+  "options_page": "/dest/html/options.html"
 }

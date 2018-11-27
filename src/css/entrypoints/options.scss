@@ -1,0 +1,17 @@
+@import "../variables.scss";
+
+.container.options {
+  padding: 20px 40px;
+}
+
+select.form-select {
+  -webkit-appearance: none;
+}
+
+.code code {
+  min-height: 120px;
+}
+
+h1 {
+  border-bottom: dotted thin #bfbfbf;
+}

@@ -1,0 +1,22 @@
+@import "../variables.scss";
+@import "spectre.css/src/spectre.scss";
+
+// Global
+.clickable {
+  cursor: pointer;
+  &:hover {
+    svg {
+      fill: #006df0;
+    }
+  }
+}
+
+svg {
+  &.fill-primary {
+    fill: $primary-color;
+  }
+}
+
+span.error {
+  color: $error-color;
+}
