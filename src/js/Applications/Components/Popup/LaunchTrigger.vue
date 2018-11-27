@@ -27,8 +27,6 @@ import {Vue, Component} from "vue-property-decorator";
 import * as chomex from "chomex";
 import Frame from "../../Models/Frame";
 
-import {browser} from "octicons";
-
 @Component
 export default class LaunchTrigger extends Vue {
 

@@ -43,5 +43,10 @@
       ]
     }
   ],
-  "options_page": "/dest/html/options.html"
+  "options_page": "/dest/html/options.html",
+  "web_accessible_resources": [
+    "/dest/img/mute.svg",
+    "/dest/img/unmute.svg",
+    "/dest/img/camera.svg"
+  ]
 }
