@@ -1,57 +1,90 @@
-/* global process:false */
+var path = require("path");
 var webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-var plugins = [
-  new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development")
-  }),
-  new webpack.LoaderOptionsPlugin({
-    options: {
-      worker: {
+module.exports = [
+    {
+        mode: process.env.NODE_ENV || "development",
+        optimization: {
+            minimize: process.env.NODE_ENV == "production",
+            minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
+        },
+        entry: {
+            background: "./src/js/entrypoints/background.ts",
+            popup:      "./src/js/entrypoints/popup.ts",
+            options:    "./src/js/entrypoints/options.ts",
+            capture:    "./src/js/entrypoints/capture.ts",
+            dmm:        "./src/js/entrypoints/dmm.ts",
+            kcs2:       "./src/js/entrypoints/kcs2.ts",
+            dsnapshot:  "./src/js/entrypoints/dsnapshot.ts",
+        },
         output: {
-          filename: "dest/js/worker.[id].js",
-        }
-      }
+            path: path.resolve(__dirname, "./dest/js"),
+            filename: "[name].js"
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.ts$/,
+                    loader: "ts-loader",
+                    options: { appendTsSuffixTo: [/\.vue$/] }
+                },
+                {
+                    test: /\.vue$/,
+                    loader: "vue-loader",
+                }
+            ]
+        },
+        resolve: {
+            extensions: [".ts", ".js", ".vue"]
+        },
+        plugins: [
+            new VueLoaderPlugin(),
+            new webpack.DefinePlugin({'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
+        ],
+        performance: {
+            hints: false,
+        },
+    },
+    {
+        mode: process.env.NODE_ENV || "development",
+        entry: {
+            common:    "./src/css/entrypoints/common.scss",
+            options:   "./src/css/entrypoints/options.scss",
+            popup:     "./src/css/entrypoints/popup.scss",
+            dsnapshot: "./src/css/entrypoints/dsnapshot.scss",
+        },
+        output: {
+            path: path.resolve(__dirname, "dest/css"),
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.s?css$/,
+                    use: [
+                        {loader: MiniCssExtractPlugin.loader},
+                        // {loader: "style-loader"},
+                        {loader: "css-loader"},
+                        {loader: "sass-loader"},
+                    ],
+                },
+                // {
+                //     test: /\.(eot|woff|woff2|ttf|svg)$/,
+                //     loaders: ['url-loader']
+                // },
+            ]
+        },
+        resolve: {
+            extensions: [".scss", ".css"]
+        },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "[name].css",
+                path: path.resolve(__dirname, "dest/css"),
+            }),
+        ],
     }
-  })
 ];
-if (process.env.NODE_ENV == "production") {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false },
-    mangle: false
-  }));
-}
 
-module.exports = {
-  entry: {
-    options:    "./src/js/entrypoints/pages/options.js",
-    popup:      "./src/js/entrypoints/pages/popup.js",
-    dmm:        "./src/js/entrypoints/pages/dmm.js",
-    osapi_dmm : "./src/js/entrypoints/pages/osapi.dmm.js",
-    iframe:     "./src/js/entrypoints/pages/iframe.js",
-    capture:    "./src/js/entrypoints/pages/capture.js",
-    stream:     "./src/js/entrypoints/pages/stream.js",
-    deckcapture:"./src/js/entrypoints/pages/deckcapture.js",
-    dashboard:  "./src/js/entrypoints/pages/dashboard.js",
-    dsnapshot:  "./src/js/entrypoints/pages/dsnapshot.js",
-    archive:    "./src/js/entrypoints/pages/archive.js",
-    wiki:       "./src/js/entrypoints/pages/wiki.js",
-    feedback:   "./src/js/entrypoints/pages/feedback.js",
-    statistics: "./src/js/entrypoints/pages/statistics.js",
-    manual:     "./src/js/entrypoints/pages/manual.js",
-    background: "./src/js/entrypoints/background.js",
-  },
-  output: {filename:"./dest/js/[name].js"},
-  module: {
-    loaders: [
-            {test: /.jsx?$/, loader: "babel-loader"},
-            {test: /\.(otf|eot|svg|ttf|woff|woff2)(\?.+)?$/,loader: "url"},
-            {test: /\.css$/, loader: "style-loader!css-loader"},
-            {test: /.json$/, loader: "json-loader"}
-    ]
-  },
-  resolve: {
-    extensions: [".js", ".jsx"]
-  },
-  plugins: plugins
-};
