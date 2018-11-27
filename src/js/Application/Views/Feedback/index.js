@@ -33,7 +33,7 @@ export default class FeedbackView extends Component {
   }
   onCommit() {
     let errors = this.refs.contents.validate();
-    if (Object.keys(errors).length != 0) return alert(errors.map(err => err.description).join("\n"));
+    if (Object.keys(errors).length != 0) return alert(Object.keys(errors).map(key => errors[key]).join("\n"));
     let params = this.refs.contents.getSearchParams();
     params.append("labels[]", "2.0");// TODO: ラベルの作り方が悪かったけど、動的にしたい
     params.append("labels[]", this.state.hash.replace("#",""));
