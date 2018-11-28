@@ -1,15 +1,14 @@
 {
     "compilerOptions": {
-        "lib": ["es6", "es2015", "dom"],
         "outDir": "./dest/js",
-        "target": "es5",
         "sourceMap": false,
+        "noImplicitAny": true,
         "module": "es2015",
+        "target": "es5",
+        "jsx": "react",
+        "lib": ["es6", "es2015", "dom"],
         "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "types": [
-            "vue-typescript-import-dts"
-        ],
+        "experimentalDecorators": true
     },
     "include": [
         "./src/js/**/*"
