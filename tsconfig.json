@@ -2,12 +2,12 @@
     "compilerOptions": {
         "outDir": "./dest/js",
         "sourceMap": false,
-        "noImplicitAny": true,
         "module": "es2015",
         "target": "es5",
         "jsx": "react",
         "lib": ["es6", "es2015", "dom"],
         "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
         "experimentalDecorators": true
     },
     "include": [

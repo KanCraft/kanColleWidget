@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = [
@@ -13,13 +12,13 @@ module.exports = [
         },
         entry: {
             background: "./src/js/entrypoints/background.ts",
-            popup:      "./src/js/entrypoints/popup.ts",
-            options:    "./src/js/entrypoints/options.ts",
-            capture:    "./src/js/entrypoints/capture.ts",
-            deckcapture:"./src/js/entrypoints/deckcapture.ts",
+            popup:      "./src/js/entrypoints/popup.tsx",
+            options:    "./src/js/entrypoints/options.tsx",
+            capture:    "./src/js/entrypoints/capture.tsx",
+            deckcapture:"./src/js/entrypoints/deckcapture.tsx",
             dmm:        "./src/js/entrypoints/dmm.ts",
             kcs2:       "./src/js/entrypoints/kcs2.ts",
-            dsnapshot:  "./src/js/entrypoints/dsnapshot.ts",
+            dsnapshot:  "./src/js/entrypoints/dsnapshot.tsx",
         },
         output: {
             path: path.resolve(__dirname, "./dest/js"),
@@ -28,21 +27,15 @@ module.exports = [
         module: {
             rules: [
                 {
-                    test: /\.ts$/,
-                    loader: "ts-loader",
-                    options: { appendTsSuffixTo: [/\.vue$/] }
+                    test: /\.tsx?$/,
+                    loader: "awesome-typescript-loader",
                 },
-                {
-                    test: /\.vue$/,
-                    loader: "vue-loader",
-                }
             ]
         },
         resolve: {
-            extensions: [".ts", ".js", ".vue"]
+            extensions: [".ts", ".js", ".tsx"]
         },
         plugins: [
-            new VueLoaderPlugin(),
             new webpack.DefinePlugin({'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
         ],
         performance: {
