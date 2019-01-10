@@ -26,7 +26,7 @@ cron)
   LATEST_TAG=`git describe --tags --abbrev=0`
   COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
-    npm run tweet "${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}タグからの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+    npm run tweet "${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
     exit 1
   fi
 
