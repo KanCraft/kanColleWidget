@@ -21,7 +21,7 @@ cron)
   echo "[INFO] このビルドは${CRON_DEPLOY_TARGET_BRANCH}のCRONタイプのビルドです"
 
   git checkout ${CRON_DEPLOY_TARGET_BRANCH}
-  git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
+  git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags > /dev/null
 
   LATEST_TAG=`git describe --tags --abbrev=0`
   COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
