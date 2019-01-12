@@ -87,10 +87,11 @@ function main(flags) {
   }
 
   if (flags.get("tag")) {
-    const release = getReleaseInfo();
-    const commits = "\nCommits\n" + release.commits.map(c => "- " + c).join("\n");
-    const authors = "\nAuthors\n" + release.authors.map(a => "- " + a).join("\n");
-    shell.execSync(`git tag ${version_name} -m '${commits}' -m '${authors}'`);
+    // const release = getReleaseInfo();
+    // const commits = "\nCommits\n" + release.commits.map(c => "- " + c).join("\n");
+    // const authors = "\nAuthors\n" + release.authors.map(a => "- " + a).join("\n");
+    // shell.execSync(`git tag ${version_name} -m '${commits}' -m '${authors}'`);
+    shell.execSync(`git tag ${version_name}`);
   }
 
   console.log("VERSION:", version_name);
