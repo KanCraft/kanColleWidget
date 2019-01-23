@@ -5,6 +5,7 @@ import SideBar from "./SideBar";
 import SettingModal from "./SettingModal";
 import Composer from "./Composer";
 
+// FIXME: このstateの構造、汚すぎでは？
 export default class DeckCaptureView extends Component<{}, {
   selected: string;        // 今どのせっていが選択されているか
   setting:  DeckCapture;   // 選択されている設定 FIXME: 冗長では？
@@ -13,6 +14,21 @@ export default class DeckCaptureView extends Component<{}, {
   preview: string;
   open: boolean;
 }> {
+  constructor(props) {
+    super(props);
+    const initial = "normal";
+    const setting: DeckCapture = DeckCapture.find(initial);
+    this.state = {
+      selected: initial,
+      setting,
+      settings: DeckCapture.list(),
+      row: setting.row,
+      col: setting.col,
+      page: setting.page,
+      preview: null,
+      open: false,
+    }
+  }
   render() {
     const {
       setting,
@@ -57,38 +73,6 @@ export default class DeckCaptureView extends Component<{}, {
   }
 }
 
-// </template>
-// <script lang="ts">
-// import {Vue, Component} from "vue-property-decorator";
-// import DeckCapture from "../../Models/DeckCapture";
-// import SideBar from "./SideBar.vue";
-// import SettingModal from "./SettingModal.vue";
-// import Composer from "./Composer.vue";
-
-// import {Client} from "chomex";
-
-// @Component({
-//   components: {
-//     "side-bar": SideBar,
-//     "setting-modal": SettingModal,
-//     "composer": Composer,
-//   }
-// })
-// export default class DeckCaptureView extends Vue {
-
-//   private client = new Client(chrome.runtime);
-
-//   private settings: DeckCapture[] = DeckCapture.list<DeckCapture>();
-//   private selected: string = "normal";
-//   private setting: DeckCapture = DeckCapture.find(this.selected);
-//   private open: boolean = false;
-
-//   private row: number = this.setting.row;
-//   private col: number = this.setting.col;
-//   private page: number = this.setting.page;
-
-//   private preview: string = null;
-
 //   public created() {
 //     this.client.message("/capture/screenshot", {open: false}).then(res => {
 //       this.preview = res.uri;
@@ -101,15 +85,3 @@ export default class DeckCaptureView extends Component<{}, {
 //       }
 //     });
 //   }
-
-//   private onSettingChange(ev: {target: HTMLSelectElement}) {
-//     this.selected = ev.target.value;
-//     this.setting = DeckCapture.find(this.selected);
-//     this.row = this.setting.row;
-//     this.col = this.setting.col;
-//     this.page = this.setting.page;
-//   }
-// }
-
-// </script>
-

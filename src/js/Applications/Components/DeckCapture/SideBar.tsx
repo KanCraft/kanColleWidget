@@ -14,8 +14,12 @@ export default class SideBar extends Component<{
     return (
       <div className="container sidebar">
         <div className="form-group">
-          <select className="form-select" onChange={this.props.onSelect}>
-            {settings.map(s => <option value={s._id} selected={selected == s._id}>{s.title}</option>)}
+          <select
+            className="form-select"
+            onChange={this.props.onSelect}
+            value={selected}
+          >
+            {settings.map(s => <option key={s._id} value={s._id} >{s.title}</option>)}
           </select>
         </div>
 
@@ -26,17 +30,17 @@ export default class SideBar extends Component<{
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={row} />
+          <input type="number" className="form-input" value={row} onChange={() => console.log("TODO: 親に伝える")} />
           <span className="input-group-addon">行</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={col} />
+          <input type="number" className="form-input" value={col} onChange={() => console.log("TODO: 親に伝える")} />
           <span className="input-group-addon">列</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={page} />
+          <input type="number" className="form-input" value={page} onChange={() => console.log("TODO: 親に伝える")} />
           <span className="input-group-addon">ページ</span>
         </div>
 
