@@ -10,6 +10,38 @@ set -o errexit
 # https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 ####
 
+# 将来的には「艦これウィジェット」のtips的なのを垂れ流してもらう
+function GET_SKIP_MESSAGE() {
+  MESSAGES=(
+    "${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+    "こっち見んな！この糞提督！"
+    "何？何か用？"
+    "あー忙しい忙しい！ 潮、そっち大丈夫！？"
+    "あ、提督。何そのTシャツ……く、クソ提督、脱げーっ！"
+    "あ～～っもうクソ提督！寒いからって部屋のなかでゴロゴロすんなっ！シャキっと働けよっ！！マジで！"
+    "あーもう忙しいっ！...あっ、クソ提督そこどいて！掃除の邪魔、邪ー魔っ！"
+    "あたしをこんな所に呼び出すなんて、ずいぶんと偉くなったものねクソ提督…っていうか、どうして告白してるの！？ドMなの！？"
+    "どんだけ…言えばわかるの！私はクソ提督のことが大っ嫌いなの！なんで信じないの？"
+    "どんだけ…言えばわかるの！私はクソ提督のことが大っ嫌いなの！なんで信じないの？"
+    "どんだけ…言えばわかるの！私はクソ提督のことが大っ嫌いなの！なんで信じないの？"
+    "どんだけ…言えばわかるの！私はクソ提督のことが大っ嫌いなの！なんで信じないの？"
+    "どんだけ…言えばわかるの！私はクソ提督のことが大っ嫌いなの！なんで信じないの？"
+    "曙、出撃します！"
+    "出撃よ。蹴散らしてやるわ！"
+    "ホント、冗談じゃないわ。"
+    "敵？ふふん、そう来なくっちゃね！"
+    "次から次へと... うっざいわね！"
+    "いっけぇー！"
+    "ぅあっ！"
+    "た、たかが主砲と魚雷管と機関部がやられただけなんだから…って、え、えぇー！？"
+    "大勝利よ！私に十分感謝しなさい、このクソ提督！"
+    "こんだけ？たいしたこと無いわね。"
+    "ほんと一人だと清々するわ。私は一人の方が好きなんだから…うん。"
+  )
+  index=$[$RANDOM % ${#MESSAGES[@]}]
+  echo "${MESSAGES[$index]}"
+}
+
 case ${TRAVIS_EVENT_TYPE} in
 cron)
   CRON_DEPLOY_TARGET_BRANCH=develop
@@ -26,7 +58,8 @@ cron)
   LATEST_TAG=`git describe --tags --abbrev=0`
   COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
-    npm run tweet "${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+    message=`GET_SKIP_MESSAGE`
+    npm run tweet "${message}"
     exit 1
   fi
 
