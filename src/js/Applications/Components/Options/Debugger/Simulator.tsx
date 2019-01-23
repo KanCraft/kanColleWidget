@@ -69,7 +69,7 @@ export default class SimulatorView extends Component<{}, {
             <div className="form-group">
               <select className="form-select" onChange={ev => this.onController(ev.target.value)}>
                 {controllers[active.tab].map(c => {
-                  return <option selected={c.name == active.controller.name}>{{ name }}</option>;
+                  return <option selected={c.name == active.controller.name}>{ name }</option>;
                 })}
               </select>
             </div>
