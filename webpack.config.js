@@ -6,6 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 module.exports = [
     {
         mode: process.env.NODE_ENV || "development",
+        devtool: 'source-map',
         optimization: {
             minimize: process.env.NODE_ENV == "production",
             minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
