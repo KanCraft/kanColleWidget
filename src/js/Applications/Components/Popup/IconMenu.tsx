@@ -22,6 +22,7 @@ export default class IconMenu extends Component {
     return this.menu.map((m, i) => {
       return (
         <div
+          key={i}
           className="column col-1"
           style={style}
           data-tooltip={m.title}

@@ -16,8 +16,15 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[], selec
       <div className="columns">
         <div className="column col-10">
           <div className="form-group">
-            <select onSelect={ev => this.onSelect(ev)} className="form-select" style={{appearance: "none"}}>
-              {this.state.frames.map(f => <option key={f.id} value={f.id} selected={f.id == this.state.selected.id}>{f.alias}</option>)}
+            <select
+              onChange={ev => this.onSelect(ev)}
+              className="form-select"
+              style={{appearance: "none"}}
+              defaultValue={this.state.selected.id}
+            >
+              {this.state.frames.map(f => {
+                return <option key={f.id} value={f.id}>{f.alias}</option>;
+              })}
             </select>
           </div>
         </div>
