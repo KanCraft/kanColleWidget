@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {Client} from "chomex";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { IconName } from "@fortawesome/fontawesome-svg-core";
 
 export default class IconMenu extends Component {
 
@@ -26,8 +28,7 @@ export default class IconMenu extends Component {
           title={m.title}
           onClick={() => m.onClick()}
         >
-          <span>{m.title}</span>
-          {/* <font-awesome-icon :icon="m.icon" class="clickable" /> */}
+          <FontAwesomeIcon icon={m.icon} className="clickable" />
         </div>
       );
     });
@@ -35,7 +36,7 @@ export default class IconMenu extends Component {
   private menu = [
     {
       title: "設定",
-      icon: "cog",
+      icon: "cog" as IconName,
       onClick: async () => {
         const res = await this.client.message("/options/open");
         console.log(res);
@@ -43,7 +44,7 @@ export default class IconMenu extends Component {
     },
     {
       title: "編成キャプチャ",
-      icon: "grip-vertical",
+      icon: "grip-vertical" as IconName,
       onClick: async () => {
         const res = await this.client.message("/deckcapture/open");
         console.log(res);

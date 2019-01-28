@@ -40,13 +40,3 @@ export default class ComposerView extends Component<{
     return cols;
   }
 }
-{/* <script lang="ts">
-import {Vue, Component, Prop} from "vue-property-decorator";
-import DeckCapture from "../../Models/DeckCapture";
-
-@Component
-export default class ComposerView extends Vue {
-  @Prop() private setting: DeckCapture;
-}
-</script>
- */}
