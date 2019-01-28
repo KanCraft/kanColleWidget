@@ -47,6 +47,9 @@ export default class Frame extends Model {
     return super.list<Frame>().sort((prev, next) => prev.selectedAt < next.selectedAt ? -1 : 1).pop();
   }
 
+  public id: string;
+  public alias: string;
+
   public zoom: number;
   public selectedAt: number; // 最後にこの窓が選択されたタイムスタンプ
   private addressbar: boolean;
