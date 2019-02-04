@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
-import * as chomex from "chomex";
+import {Client} from "chomex";
 import Frame from "../../Models/Frame";
 
 export default class LaunchTrigger extends Component<{}, {frames: Frame[], selected: Frame}> {
-  private client = new chomex.Client(chrome.runtime);
+  private client: Client = new Client(chrome.runtime);
   constructor(props) {
     super(props);
     this.state = {
       frames: Frame.list<Frame>(),
       selected: Frame.latest(),
-    }
+    };
   }
   render() {
     return (
@@ -30,7 +30,7 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[], selec
         </div>
         <div className="column col-2">
           <div
-              // @click="launch"
+              onClick={() => this.launch()}
               className="icon-justify clickable">
               <img src="/dest/img/anchor.svg" width="30px" alt="抜錨！" title="抜錨！" />
           </div>
