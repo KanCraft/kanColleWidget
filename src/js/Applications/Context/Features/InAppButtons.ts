@@ -28,23 +28,6 @@ export default class InAppButtons {
     }
   }
 
-  public element(): HTMLDivElement {
-    return this.container;
-  }
-
-  /**
-   * そもそも表示するかしないか決める
-   */
-  public enabled(): boolean {
-    if (this.configs["inapp-mute-button"].value) {
-      return true;
-    }
-    if (this.configs["inapp-screenshot-button"].value) {
-      return true;
-    }
-    return false;
-  }
-
   private createContainer(): HTMLDivElement {
     const existing = this.document.querySelector(`div#${InAppButtons.containerID}`);
     if (existing) {
@@ -119,6 +102,23 @@ export default class InAppButtons {
 
   private onMouseOut = () => {
     this.container.style.opacity = "0";
+  }
+
+  public element(): HTMLDivElement {
+    return this.container;
+  }
+
+  /**
+   * そもそも表示するかしないか決める
+   */
+  public enabled(): boolean {
+    if (this.configs["inapp-mute-button"].value) {
+      return true;
+    }
+    if (this.configs["inapp-screenshot-button"].value) {
+      return true;
+    }
+    return false;
   }
 
 }

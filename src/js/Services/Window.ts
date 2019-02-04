@@ -99,7 +99,7 @@ class WindowService {
       height: data.height,
       width: data.width,
     };
-    return await this.update(tab, info);
+    return this.update(tab, info);
   }
 
   /**
@@ -134,7 +134,7 @@ class WindowService {
     const url = this.extension.getURL("/dest/html/capture.html");
     const search = new URLSearchParams(params);
     return new Promise(resolve => {
-      this.tabs.create({ url: url + "?" + search.toString() }, (tab) => {
+      this.tabs.create({ url: `${url}?${search.toString()}` }, (tab) => {
         resolve(tab);
       });
     });
@@ -144,7 +144,7 @@ class WindowService {
     const url = this.extension.getURL("/dest/html/options.html");
     return new Promise(resolve => {
       this.tabs.query({url}, (tabs) => {
-        if (tabs.length === 0 ) {
+        if (tabs.length === 0) {
           this.tabs.create({url}, (tab) => resolve(tab));
         } else {
           this.tabs.update(tabs[0].id, {active: true}, (tab) => resolve(tab));
@@ -161,7 +161,7 @@ class WindowService {
     return new Promise(resolve => {
       this.windows.create({
         type: "popup",
-        url: url + "?" + search.toString(),
+        url: `${url}?${search.toString()}`,
         ...createData,
         width: Math.floor(createData.height * (5 / 8) * count), // 高さにだけ依存して決まります
       }, win => {

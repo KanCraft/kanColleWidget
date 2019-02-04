@@ -21,7 +21,7 @@ export async function WindowOpen(message: any) {
   const id = message.id;
   const frame = Frame.find<Frame>(id) || Frame.latest();
   let tab = await ws.find();
-  if (!!tab) {
+  if (tab) {
     tab = await ws.reconfigure(tab, frame);
     return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
   }
@@ -65,10 +65,10 @@ export async function WindowToggleMute(message: any) {
 
 export async function OpenOptionsPage(message: any) {
   const ws = WindowService.getInstance();
-  return await ws.openOptionsPage();
+  return ws.openOptionsPage();
 }
 
 export async function OpenDeckCapturePage(message: any) {
   const ws = WindowService.getInstance();
-  return await ws.openDeckCapturePage();
+  return ws.openDeckCapturePage();
 }

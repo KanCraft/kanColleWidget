@@ -12,7 +12,7 @@ interface MapCatalog {
   };
 }
 
-export default {
+const catalog: MapCatalog = {
   1: {
     title: "鎮守府海域",
     maps: {
@@ -146,4 +146,6 @@ export default {
       },
     },
   },
-} as MapCatalog;
+};
+
+export default catalog;
