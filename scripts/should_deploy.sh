@@ -34,7 +34,7 @@ function GET_SKIP_MESSAGE() {
     "こんだけ？たいしたこと無いわね。"
     "ほんと一人だと清々するわ。私は一人の方が好きなんだから…うん。"
   )
-  if [ `expr $(date +%d) / 2` -eq 0 ]; then
+  if [ `expr $(date +%d) % 2` -eq 0 ]; then
     echo ${DEFAULT_MESSAGE}
   else
     index=$[$RANDOM % ${#MESSAGES[@]}]
