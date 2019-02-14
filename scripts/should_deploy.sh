@@ -64,6 +64,9 @@ cron)
     return 1
   fi
 
+  # Staging用アプリのビルド環境を設定
+  export NODE_ENV=staging
+
   # タグをつけて push back します
   npm run version -- --commit --tag
   echo "[INFO] 直近タグからのコミットリスト"
@@ -83,6 +86,9 @@ push)
     echo "SKIP DEPLOY: masterへのpushではないのでデプロイしない"
     return 1
   fi
+
+  # Production用アプリのビルド環境を設定
+  export NODE_ENV=production
 
   echo "// TODO: 現在のところ、masterブランチのプロダクションへのデプロイは実装していないです"
   echo '// TODO: npm run version -- --commit --tag での、test- などのプレフィックスの出し分け'

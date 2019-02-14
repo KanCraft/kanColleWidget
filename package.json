@@ -9,7 +9,7 @@
   "scripts": {
     "start": "NODE_ENV=development webpack --progress --watch",
     "version": "node ./scripts/version.js",
-    "build": "NODE_ENV=production webpack && rm dest/css/*.js",
+    "build": "webpack && rm dest/css/*.js",
     "publish": "node ./scripts/publish.js ./release/kcwidget.zip",
     "announce": "node ./scripts/announce.js",
     "tweet": "node ./scripts/tweet.js",
