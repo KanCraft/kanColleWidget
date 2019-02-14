@@ -14,4 +14,4 @@ after_success:
   - git config --global user.name "Ayanel CI"
   - git remote set-url origin git@github.com:otiai10/kanColleWidget.git
   # }}}
-  - ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish && npm run announce
+  - source ./scripts/should_deploy.sh && npm run build && npm run pack && npm run publish && npm run announce

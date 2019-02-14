@@ -1,11 +1,12 @@
 #!/bin/bash
 
-set -o errexit
+set -o errreturn
 # set -o verbose
 
 ####
 # deploy.sh
 # このスクリプトは、Travis-CIのビルドが、deploy必要かどうか条件分岐するだけのスクリプトです。
+# 環境変数（主にNODE_ENV）を動的に設定するため、実行ファイルではなく、sourceファイルです。
 # 参考
 # https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 ####
@@ -48,7 +49,7 @@ cron)
 
   if [[ ! ${TRAVIS_BRANCH} == ${CRON_DEPLOY_TARGET_BRANCH} ]]; then
     echo "SKIP DEPLOY (${TRAVIS_BRANCH}): ${CRON_DEPLOY_TARGET_BRANCH}ブランチではないのでデプロイしない"
-    exit 1
+    return 1
   fi
   echo "[INFO] このビルドは${CRON_DEPLOY_TARGET_BRANCH}のCRONタイプのビルドです"
 
@@ -60,7 +61,7 @@ cron)
   if [[ ${COMMIT_CNT} -eq 0 ]]; then
     message=`GET_SKIP_MESSAGE`
     npm run tweet "${message}"
-    exit 1
+    return 1
   fi
 
   # タグをつけて push back します
@@ -74,22 +75,22 @@ cron)
   echo "  COMMIT_CNT: ${COMMIT_CNT}"
   echo "  TRAVIS_BRANCH: ${TRAVIS_BRANCH}"
 
-  exit 0
+  return 0
 
   ;;
 push)
   if [[ ! ${TRAVIS_BRANCH} == "master" ]]; then
     echo "SKIP DEPLOY: masterへのpushではないのでデプロイしない"
-    exit 1
+    return 1
   fi
 
   echo "// TODO: 現在のところ、masterブランチのプロダクションへのデプロイは実装していないです"
   echo '// TODO: npm run version -- --commit --tag での、test- などのプレフィックスの出し分け'
-  echo '// TODO: exit 0'
-  exit 1
+  echo '// TODO: return 0'
+  return 1
   ;;
 *)
   echo "SKIP DEPLOY: cronでもpushでもないイベントなのでデプロイしない"
-  exit 1
+  return 1
   ;;
 esac
