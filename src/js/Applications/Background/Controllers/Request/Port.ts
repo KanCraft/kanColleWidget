@@ -1,4 +1,4 @@
-import { Client } from "chomex/lib/Client";
+import { Client } from "chomex";
 import WindowService from "../../../../Services/Window";
 import Sortie from "../../../Models/Sortie";
 

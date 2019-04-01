@@ -18,7 +18,7 @@ export enum Category {
  */
 export default class Config<T> extends Model {
 
-  public static default = {
+  public static default: any = {
 
     // 大破進撃防止機能関係 (Category = DamageSnapshot)
     "inapp-dsnapshot-size": {
@@ -101,4 +101,9 @@ export default class Config<T> extends Model {
   public title: string;
   public type: Type;
   public value: T;
+
+  // Numberのとき
+  // TODO: ジェネリクスによって持ってるメンバの定義を変えれる？
+  public step?: number;
+  public range?: number[];
 }

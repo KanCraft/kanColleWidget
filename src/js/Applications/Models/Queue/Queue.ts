@@ -25,12 +25,12 @@ export default class Queue extends Model {
   // 終了予定時刻タイムスタンプ（ミリ秒）
   public scheduled: number;
 
-  public notificationOption(): chrome.notifications.NotificationOptions {
-    throw new Error("overrideして使ってくれ");
-  }
-
   protected _register<T extends Queue>(scheduled: number): T {
     this.scheduled = scheduled;
     return this.save();
+  }
+
+  public notificationOption(): chrome.notifications.NotificationOptions {
+    throw new Error("overrideして使ってくれ");
   }
 }

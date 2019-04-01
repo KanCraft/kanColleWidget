@@ -1,5 +1,5 @@
 import { Model } from "chomex";
-import {Category, Type} from "./Config";
+import Config, {Category, Type} from "./Config";
 
 export enum DamageSnapshotType {
   Disabled = "disabled",
@@ -14,7 +14,8 @@ const dskey = "last";
  * localStorageへのアクセスが多く、別モデルとして定義してます。
  * まぁ、chomex.ModelはべつにACIDを保証しないので、これやる意味がどんくらいあるかわからんけど。
  */
-export default class DamageSnapshotFrame extends Model {
+// FIXME: これ問題ありそうだが
+export default class DamageSnapshotFrame extends Config<any> {
 
   public static default = {
     [dskey]: {

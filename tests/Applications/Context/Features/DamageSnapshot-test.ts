@@ -5,7 +5,7 @@ describe("大破進撃防止窓のためのコンテキスト実装", () => {
     it("TODO: なんかアサーションする", async () => {
       Object.defineProperty(window.document, "querySelector", { value: () => window.document.createElement("canvas") });
       const ds = new DamageSnapshot(window);
-      ds.prepare({ count: 1, key: 12345 });
+      ds.prepare({ count: 1, key: 12345, text: "foobar" });
       ds.show({ uri: "data:image/png;base64,xxxx", height: 140 });
       ds.remove();
     });

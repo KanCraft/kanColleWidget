@@ -1,4 +1,4 @@
-import { Router } from "chomex/lib/Router";
+import { Router } from "chomex";
 import DamageSnapshot from "./Features/DamageSnapshot";
 
 export default class Kcs2 {

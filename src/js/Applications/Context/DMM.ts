@@ -22,76 +22,6 @@ export default class DMM {
   }
 
   /**
-   * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
-   */
-  public async init() {
-    const {status, data} = await this.client.message("/window/decoration");
-    if (status < 200 && 300 <= status) {
-      return;
-    }
-    if (!data) {
-      return;
-    }
-
-    const {tab, frame, configs} = data;
-    this.tab = tab;
-    this.frame = frame;
-
-    this.resizeToAdjustAero();
-    this.shiftFrame(this.frame.zoom);
-    this.injectStyles();
-    this.hideNavigations(Const.HiddenElements);
-
-    // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
-    this.showInAppButtons(configs);
-
-    setTimeout(() => this.initialized = true, 200);
-  }
-
-  /**
-   * 画面がリサイズしたときのルーチン
-   * onresizeイベントはすごい勢いでたくさん発火するので、
-   * ある程度debounceしている。
-   */
-  public onresize() {
-
-    if (!this.initialized) {
-      return false;
-    }
-
-    const debounce = 1000;
-    if (this.resizeTimerId > 0) {
-      clearTimeout(this.resizeTimerId);
-    }
-
-    this.resizeTimerId = setTimeout(() => {
-      // 現在のウィンドウの形が、オリジナルより横にながければ負の値、縦にながければ正の値を取る。
-      const a = (this.scope.innerHeight / this.scope.innerWidth) - (Const.GameHeight / Const.GameWidth);
-      // 短辺を基準にズーム値を決定する
-      const zoom = a < 0 ? this.scope.innerHeight / Const.GameHeight : this.scope.innerWidth / Const.GameWidth;
-      this.shiftFrame(zoom).then();
-    }, debounce);
-  }
-
-  /**
-   * chrome.tabs.onMessage のリスナー
-   */
-  public listener(): (message: any) => any {
-    const router = new Router();
-    router.on("/reconfigured", (message) => this.reconfigure(message));
-    return router.listener();
-  }
-
-  /**
-   * 定期的になんかやるやつ
-   */
-  public interval(): () => any {
-    return () => {
-      this.client.message("/window/record", {frame: this.frame});
-    };
-  }
-
-  /**
    * このタブがまだ生きてる状態で、新しいFrameが指定された場合
    */
   private reconfigure(message: {frame: Frame}) {
@@ -193,5 +123,75 @@ export default class DMM {
       overflow-y: ${scrollable ? "scroll" : "hidden"};
     }`;
     return style;
+  }
+
+  /**
+   * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
+   */
+  public async init() {
+    const {status, data} = await this.client.message("/window/decoration");
+    if (status < 200 && 300 <= status) {
+      return;
+    }
+    if (!data) {
+      return;
+    }
+
+    const {tab, frame, configs} = data;
+    this.tab = tab;
+    this.frame = frame;
+
+    this.resizeToAdjustAero();
+    this.shiftFrame(this.frame.zoom);
+    this.injectStyles();
+    this.hideNavigations(Const.HiddenElements);
+
+    // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
+    this.showInAppButtons(configs);
+
+    setTimeout(() => this.initialized = true, 200);
+  }
+
+  /**
+   * 画面がリサイズしたときのルーチン
+   * onresizeイベントはすごい勢いでたくさん発火するので、
+   * ある程度debounceしている。
+   */
+  public onresize() {
+
+    if (!this.initialized) {
+      return false;
+    }
+
+    const debounce = 1000;
+    if (this.resizeTimerId > 0) {
+      clearTimeout(this.resizeTimerId);
+    }
+
+    this.resizeTimerId = setTimeout(() => {
+      // 現在のウィンドウの形が、オリジナルより横にながければ負の値、縦にながければ正の値を取る。
+      const a = (this.scope.innerHeight / this.scope.innerWidth) - (Const.GameHeight / Const.GameWidth);
+      // 短辺を基準にズーム値を決定する
+      const zoom = a < 0 ? this.scope.innerHeight / Const.GameHeight : this.scope.innerWidth / Const.GameWidth;
+      this.shiftFrame(zoom).then();
+    }, debounce);
+  }
+
+  /**
+   * chrome.tabs.onMessage のリスナー
+   */
+  public listener(): (message: any) => any {
+    const router = new Router();
+    router.on("/reconfigured", (message) => this.reconfigure(message));
+    return router.listener();
+  }
+
+  /**
+   * 定期的になんかやるやつ
+   */
+  public interval(): () => any {
+    return () => {
+      this.client.message("/window/record", {frame: this.frame});
+    };
   }
 }

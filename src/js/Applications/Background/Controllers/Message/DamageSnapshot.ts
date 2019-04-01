@@ -1,4 +1,4 @@
-import { Client } from "chomex/lib/Client";
+import {Client} from "chomex";
 import CaptureService from "../../../../Services/Capture";
 import Rectangle from "../../../../Services/Rectangle";
 import TempStorage from "../../../../Services/TempStorage";
