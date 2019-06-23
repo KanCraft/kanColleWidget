@@ -19,7 +19,7 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[], selec
             <select
               onChange={ev => this.onSelect(ev)}
               className="form-select"
-              style={{appearance: "none"}}
+              style={{WebkitAppearance: "none" }}
               defaultValue={this.state.selected.id}
             >
               {this.state.frames.map(f => {

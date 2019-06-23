@@ -2,26 +2,29 @@
 
 @import "../variables.scss";
 
-.icon-justify {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  .popup-icon {
-    width:  24px;
-    height: 24px;
-    // color: $primary-color;
-    fill: $primary-color;
+#app {
+  padding: 8px;
+  .icon-justify {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    .popup-icon {
+      width:  24px;
+      height: 24px;
+      // color: $primary-color;
+      fill: $primary-color;
+    }
   }
-}
 
-// SVGは直接cursor:pointerが効かないので
-svg.clickable {
-  &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    background-color: transparent;
-    cursor: pointer;
+  // SVGは直接cursor:pointerが効かないので
+  svg.clickable {
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      background-color: transparent;
+      cursor: pointer;
+    }
   }
 }
