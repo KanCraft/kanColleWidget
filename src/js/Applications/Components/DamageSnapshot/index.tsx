@@ -18,21 +18,12 @@ export default class DamageSnapshot extends Component<{}, {
   constructor(props) {
     super(props);
     const search = new URLSearchParams(location.search);
-    const count = parseInt(search.get("count") || "1");
+    const count = parseInt(search.get("count") || "1", 10);
     const text = search.get("text");
     this.key = search.get("key");
     this.observe = setInterval(() => this.renderImage(), 100);
-    this.record  = setInterval(() => this.recordFrame(),  2000);
+    this.record = setInterval(() => this.recordFrame(), 2000);
     this.state = {count, text, uris: []};
-  }
-  render() {
-    const {text, uris} = this.state;
-    return (
-      <div className="container">
-        {text ? <div className="additional-information">{text}</div> : null}
-        {uris.map((uri, i) => <div className="cell" key={i}><img src={uri} /></div>)}
-      </div>
-    );
   }
   /**
    * ローカルストレージを監視し、自分のkeyでuriが保存されたら、
@@ -45,16 +36,24 @@ export default class DamageSnapshot extends Component<{}, {
     if (!uri) {
       return;
     }
-    this.state.uris.push(uri);
+    this.setState({ uris: this.state.uris.concat([uri]) });
     if (this.state.uris.length >= this.state.count) {
       clearInterval(this.observe);
     }
   }
-
   private recordFrame() {
     this.client.message("/snapshot/record", {
       position: { left: window.screenLeft, top: window.screenTop },
       size: { height: window.innerHeight },
     });
+  }
+  render() {
+    const {text, uris} = this.state;
+    return (
+      <div className="container">
+        {text ? <div className="additional-information">{text}</div> : null}
+        {uris.map((uri, i) => <div className="cell" key={i}><img src={uri} /></div>)}
+      </div>
+    );
   }
 }

@@ -7,6 +7,8 @@ export default class CapturePage extends Component<{}, {uri: string}> {
     this.state = {
       uri: null,
     };
+  }
+  componentDidMount() {
     /**
      * 当初は、capture.htmlで chrome.runtime.onMessage を listen しようとしたが、
      * Chrome拡張ドメイン（chrome-extension://{ext_id}）において複数 runtime.onMessage

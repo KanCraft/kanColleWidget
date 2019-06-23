@@ -5,7 +5,7 @@ import cn from "classnames";
 
 export default class SimulatorView extends Component<{}, {
   active: {
-    tab:        string;
+    tab: string;
     controller: {
       name: string;
     };
@@ -14,9 +14,9 @@ export default class SimulatorView extends Component<{}, {
     message: any[];
     request: any[];
   },
-  body:      any;
+  body: any;
   response?: any;
-  error?:    any;
+  error?: any;
 }> {
   constructor(props) {
     super(props);
@@ -44,32 +44,36 @@ export default class SimulatorView extends Component<{}, {
     return (
       <section>
         <h2>Controller Simulator</h2>
-  
         <div className="columns">
           <div className="column col-12">
             <ul className="tab">
               <li className="tab-item">
                 <a
-                  className={active.tab == "message" ? "active" : null}
+                  className={active.tab === "message" ? "active" : null}
                   onClick={() => this.onTab("message")}
                 >Message Controllers</a>
               </li>
               <li className="tab-item">
                 <a
-                  className={active.tab == "request" ? "active" : null}
+                  className={active.tab === "request" ? "active" : null}
                   onClick={() => this.onTab("request")}
                 >Request Controllers</a>
               </li>
             </ul>
           </div>
         </div>
-  
         <div className="columns">
           <div className="column col-12">
             <div className="form-group">
-              <select className="form-select" onChange={ev => this.onController(ev.target.value)}>
-                {controllers[active.tab].map(c => {
-                  return <option selected={c.name == active.controller.name}>{ name }</option>;
+              <select
+                className="form-select"
+                onChange={ev => this.onController(ev.target.value)}
+                value={active.controller.name}
+              >
+                {controllers[active.tab].map((c, i) => {
+                  return <option
+                    key={i}
+                    value={c.name}>{name}</option>;
                 })}
               </select>
             </div>
@@ -78,7 +82,14 @@ export default class SimulatorView extends Component<{}, {
         <div className="columns">
           <div className="column col-6 col-sm-12">
             <h3>{active.tab} body</h3>
-            <pre className="code" data-lang="JSON"><code contentEditable={true} onInput={ev => this.onBodyChange(ev)}>{JSON.stringify(body, null, 2)}</code></pre>
+            <pre className="code" data-lang="JSON">
+              <code
+                contentEditable={true}
+                suppressContentEditableWarning={true}
+                onInput={ev => this.onBodyChange(ev)}>
+                {JSON.stringify(body, null, 2)}
+              </code>
+            </pre>
           </div>
           <div className="column col-6 col-sm-12">
             <h3>response</h3>
@@ -88,7 +99,7 @@ export default class SimulatorView extends Component<{}, {
         <div className="columns">
           <div className="column col-12">
             <button
-              className={cn("btn", "btn-primary", "btn-block", { "disabled": !!this.state.error })}
+              className={cn("btn", "btn-primary", "btn-block", { disabled: !!this.state.error })}
               onClick={() => this.execute()}
             >Execute</button>
             <span className="error">{this.state.error}</span>
@@ -113,7 +124,7 @@ export default class SimulatorView extends Component<{}, {
     this.setState({
       active: {
         tab: this.state.active.tab,
-        controller: this.state.controllers[this.state.active.tab].filter(c => c.name == name)[0],
+        controller: this.state.controllers[this.state.active.tab].filter(c => c.name === name)[0],
       },
     });
   }
@@ -125,6 +136,6 @@ export default class SimulatorView extends Component<{}, {
 
   // 選択されているControllerを実行する
   execute() {
-
+    // TODO:なんかやる
   }
 }

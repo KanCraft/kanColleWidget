@@ -10,7 +10,7 @@
 # 開発
 
 ```
-npm install
+npm ci
 npm start
 npm test
 ```

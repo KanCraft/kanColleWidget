@@ -9,8 +9,8 @@ export default class CategorySection extends Component<{title:string, configs:Co
     return (
       <section className="category">
         <h1>{title}</h1>
-        {configs.map(config => <ConfigView config={config} />)}
-      </section>  
+        {configs.map(config => <ConfigView key={config._id} config={config} />)}
+      </section>
     );
   }
 }

@@ -20,15 +20,15 @@ export default class DamageSnapshotOptions extends Component<{}, State> {
       damagesnapshot: DamageSnapshotFrame.get(),
       inappdsnapshotsize: Config.find("inapp-dsnapshot-size"),
       inappdsnapshotctx: Config.find("inapp-dsnapshot-context"),
-    }
+    };
   }
   render() {
     return (
       <section className="category">
         <h1>大破進撃防止機能</h1>
         <ConfigView config={this.state.damagesnapshot as Config<any>} />
-        {this.state.damagesnapshot.value == DamageSnapshotType.InApp ? <ConfigView config={this.state.inappdsnapshotsize} /> : null}
-        {this.state.damagesnapshot.value != DamageSnapshotType.Disabled ? <ConfigView config={this.state.inappdsnapshotctx} /> : null}
+        {this.state.damagesnapshot.value === DamageSnapshotType.InApp ? <ConfigView config={this.state.inappdsnapshotsize} /> : null}
+        {this.state.damagesnapshot.value !== DamageSnapshotType.Disabled ? <ConfigView config={this.state.inappdsnapshotctx} /> : null}
       </section>
     );
   }
