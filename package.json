@@ -3,8 +3,8 @@
   "version": "3.0.0-alpha.41",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
-    "node": "9.11",
-    "npm": "6.4.0"
+    "node": "10.16.0",
+    "npm": "6.9.0"
   },
   "scripts": {
     "start": "NODE_ENV=development webpack --progress --watch",
