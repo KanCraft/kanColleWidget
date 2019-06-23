@@ -52,7 +52,13 @@ export default class DamageSnapshot extends Component<{}, {
     return (
       <div className="container">
         {text ? <div className="additional-information">{text}</div> : null}
-        {uris.map((uri, i) => <div className="cell" key={i}><img src={uri} /></div>)}
+        <div className="row">
+          {uris.map((uri, i) => <div
+            className="cell"
+            key={i}
+            style={{backgroundImage: `url(${uri})`}}
+            ></div>)}
+        </div>
       </div>
     );
   }
