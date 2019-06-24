@@ -16,7 +16,7 @@ export default class Shipbuilding extends Queue {
 
   public notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      iconUrl: this.defaultIconURL,
       message: `間もなく、第${this.dock}ドックの建造が完了します`,
       requireInteraction: true,
       title: "建造完了",

@@ -39,7 +39,7 @@ export default class Mission extends Queue {
 
   public notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      iconUrl: this.defaultIconURL,
       message: `間もなく、第${this.deck}艦隊が${this.title}より帰投します`,
       requireInteraction: true,
       title: "遠征帰投",
@@ -49,7 +49,7 @@ export default class Mission extends Queue {
 
   public notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      iconUrl: this.defaultIconURL,
       message: `第${this.deck}艦隊が、${this.title}に向けて出港しました。帰投予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
       requireInteraction: false,
       title: "遠征出港",

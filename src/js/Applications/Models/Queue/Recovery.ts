@@ -16,7 +16,7 @@ export default class Recovery extends Queue {
 
   public notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      iconUrl: this.defaultIconURL,
       message: `間もなく、第${this.dock}ドックの修復が完了します`,
       requireInteraction: true,
       title: "修復完了",
@@ -26,7 +26,7 @@ export default class Recovery extends Queue {
 
   public notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: "https://github.com/otiai10/kanColleWidget/blob/develop/dest/img/icons/chang.128.png?raw=true",
+      iconUrl: this.defaultIconURL,
       message: `第${this.dock}ドックに艦娘が入渠します。修復予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
       requireInteraction: false,
       title: "修復開始",
