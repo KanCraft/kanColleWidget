@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Client } from "chomex";
 import TempStorage from "../../../Services/TempStorage";
 
-
 export default class DamageSnapshot extends Component<{}, {
   count: number;
   text?: string;
