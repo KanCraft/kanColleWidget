@@ -3,9 +3,11 @@ var webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const mode = process.env.NODE_ENV == "staging" ? "production" : (process.env.NODE_ENV || "development");
+
 module.exports = [
     {
-        mode: process.env.NODE_ENV || "development",
+        mode,
         devtool: 'source-map',
         optimization: {
             minimize: process.env.NODE_ENV == "production",
@@ -44,7 +46,7 @@ module.exports = [
         },
     },
     {
-        mode: process.env.NODE_ENV || "development",
+        mode,
         entry: {
             common:      "./src/css/entrypoints/common.scss",
             options:     "./src/css/entrypoints/options.scss",

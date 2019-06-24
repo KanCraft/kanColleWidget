@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 9.11
+  - 10.16
 script:
   - npm run test-ci
 after_success:
