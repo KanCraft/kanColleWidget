@@ -12,7 +12,7 @@ describe("", () => {
       expect(res.status).toBe(200);
     });
   });
-  describe("OnShipbuildingStartCompleted", async () => {
+  describe("OnShipbuildingStartCompleted", () => {
     when(chrome.tabs.query).callbacks([{}]);
     when(chrome.tabs.captureVisibleTab).callbacks("data:image/png;base64,xxxx");
     Fetch.replies({ result: "12:34:56" });
