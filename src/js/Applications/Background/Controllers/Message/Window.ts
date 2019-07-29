@@ -72,3 +72,8 @@ export async function OpenDeckCapturePage(/* message: any */) {
     const ws = WindowService.getInstance();
     return ws.openDeckCapturePage();
 }
+
+export async function OpenDashboardPage() {
+    const ws = WindowService.getInstance();
+    return ws.openDashboardPage();
+}

@@ -41,7 +41,7 @@
     "jest-canvas-mock": "^1.1.0",
     "jest-cli": "^24.8.0",
     "mini-css-extract-plugin": "^0.4.2",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.12.0",
     "request-promise": "^4.2.2",
     "sass-loader": "^7.1.0",
     "sinon-chrome": "^2.3.2",

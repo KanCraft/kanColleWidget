@@ -50,6 +50,14 @@ export default class IconMenu extends Component {
                 const res = await this.client.message("/deckcapture/open");
                 console.log(res);
             },
+        },
+        {
+            title: "ダッシュボード",
+            icon: "clock" as IconName,
+            onClick: async () => {
+                const res = await this.client.message("/dashboard/open");
+                console.log(res);
+            },
         }
     ];
 

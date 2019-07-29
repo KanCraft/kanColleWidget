@@ -153,6 +153,19 @@ class WindowService {
         });
     }
 
+    openDashboardPage(): Promise<chrome.tabs.Tab> {
+        const url = this.extension.getURL("/dest/html/dashboard.html");
+        return new Promise(resolve => {
+            this.tabs.query({url}, (tabs) => {
+                if (tabs.length === 0) {
+                    this.windows.create({ url, type: 'popup' }, (win) => resolve(win.tabs[0]));
+                } else {
+                    this.windows.update(tabs[0].windowId, { focused: true }, () => resolve(tabs[0]));
+                }
+            });
+        })
+    }
+
     /* tslint:disable max-line-length */
     openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
         const url = this.extension.getURL("/dest/html/dsnapshot.html");

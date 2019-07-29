@@ -16,6 +16,7 @@ import {
     DebugController,
 } from "../Controllers/Message/Debug";
 import {
+    OpenDashboardPage,
     OpenDeckCapturePage,
     OpenOptionsPage,
     WindowDecoration,
@@ -35,6 +36,9 @@ router.on("/options/open", OpenOptionsPage);
 
 // 編成キャプチャ
 router.on("/deckcapture/open", OpenDeckCapturePage);
+
+// ダッシュボード
+router.on("/dashboard/open", OpenDashboardPage);
 
 // スクショとか
 router.on("/capture/screenshot", Screenshot);
