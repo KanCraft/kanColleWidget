@@ -10,9 +10,9 @@ import * as Recovery from "./Recovery";
 import * as Shipbuilding from "./Shipbuilding";
 
 export default {
-  ...Battle,
-  ...Mission,
-  ...Port,
-  ...Recovery,
-  ...Shipbuilding,
+    ...Battle,
+    ...Mission,
+    ...Port,
+    ...Recovery,
+    ...Shipbuilding,
 };

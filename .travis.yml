@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - 10.16
 script:
+  - npm run lint
   - npm run test-ci
 after_success:
   # {{{ SSH Key の復帰

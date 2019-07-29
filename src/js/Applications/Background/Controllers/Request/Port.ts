@@ -4,9 +4,9 @@ import Sortie from "../../../Models/Sortie";
 
 export async function OnPort(req: chrome.webRequest.WebRequestBodyDetails) {
 
-  Sortie.context().refresh();
+    Sortie.context().refresh();
 
-  Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
-  WindowService.getInstance().cleanDamageSnapshot();
-  return {status: 200};
+    Client.for(chrome.tabs, req.tabId, false).message("/snapshot/remove");
+    WindowService.getInstance().cleanDamageSnapshot();
+    return {status: 200};
 }

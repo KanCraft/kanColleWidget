@@ -1,6 +1,8 @@
 {
   "editor.tabSize": 2,
-  "tslint.autoFixOnSave": true,
+  "eslint.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.autoFixOnSave": true,
   "jest.enableInlineErrorMessages": true,
   "jest.showCoverageOnLoad": true
 }
