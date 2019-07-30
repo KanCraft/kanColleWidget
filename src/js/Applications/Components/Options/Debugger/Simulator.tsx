@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import {Client} from "chomex";
 
 import cn from "classnames";
+import { throwStatement } from "@babel/types";
 
 export default class SimulatorView extends Component<{}, {
     active: {
         tab: string;
-        controller: {
-            name: string;
-        };
+        controller: string;
     };
     controllers: {
         message: any[];
@@ -18,12 +17,14 @@ export default class SimulatorView extends Component<{}, {
     response?: any;
     error?: any;
 }> {
+
+    private client = new Client(chrome.runtime, false);
     constructor(props) {
         super(props);
         this.state = {
             active: {
                 tab: "message",
-                controller: {name: "hello"},
+                controller: "ScreenShot",
             },
             controllers: {
                 message: [],
@@ -35,9 +36,8 @@ export default class SimulatorView extends Component<{}, {
         };
     }
     async componentDidMount() {
-        const client = new Client(chrome.runtime, false);
-        const res = await client.message("/debug/availables");
-        this.setState({controllers: res.data.controllers});
+        const res = await this.client.message("/debug/availables");
+        this.setState({ controllers: res.data.controllers });
     }
     render() {
         const {active, controllers, body} = this.state;
@@ -68,12 +68,12 @@ export default class SimulatorView extends Component<{}, {
                             <select
                                 className="form-select"
                                 onChange={ev => this.onController(ev.target.value)}
-                                value={active.controller.name}
+                                value={active.controller}
                             >
                                 {controllers[active.tab].map((c, i) => {
                                     return <option
                                         key={i}
-                                        value={c.name}>{name}</option>;
+                                        value={c}>{c}</option>;
                                 })}
                             </select>
                         </div>
@@ -124,18 +124,28 @@ export default class SimulatorView extends Component<{}, {
         this.setState({
             active: {
                 tab: this.state.active.tab,
-                controller: this.state.controllers[this.state.active.tab].filter(c => c.name === name)[0],
+                controller: this.state.controllers[this.state.active.tab].filter(c => c === name)[0],
             },
         });
     }
 
     // パラメータボディが変わるとき
     onBodyChange(ev) {
-        console.log(ev);
+        try {
+            const body = JSON.parse(ev.target.innerText);
+            this.setState({ body });
+        } catch (err) {
+            // console.log(err);
+        }
     }
 
     // 選択されているControllerを実行する
-    execute() {
-    // TODO:なんかやる
+    async execute() {
+        try {
+            const res = await this.client.message('/debug/controller', { ...this.state.body, __controller: this.state.active.controller })
+            console.log(res);
+        } catch (err) {
+            console.error(err);
+        }
     }
 }

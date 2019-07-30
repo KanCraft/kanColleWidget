@@ -1,6 +1,6 @@
 import Queue, { Scanned } from "./Queue";
 
-import * as catalog from "./missions.json";
+import catalog from "./missions";
 
 /**
  * 遠征のモデル

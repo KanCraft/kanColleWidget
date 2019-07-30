@@ -158,12 +158,12 @@ class WindowService {
         return new Promise(resolve => {
             this.tabs.query({url}, (tabs) => {
                 if (tabs.length === 0) {
-                    this.windows.create({ url, type: 'popup' }, (win) => resolve(win.tabs[0]));
+                    this.windows.create({ url, type: "popup" }, (win) => resolve(win.tabs[0]));
                 } else {
                     this.windows.update(tabs[0].windowId, { focused: true }, () => resolve(tabs[0]));
                 }
             });
-        })
+        });
     }
 
     /* tslint:disable max-line-length */

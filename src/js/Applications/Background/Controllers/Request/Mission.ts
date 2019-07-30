@@ -6,7 +6,7 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     const { formData: { api_mission_id: [mid], api_deck_id: [did] } } = req.requestBody;
     const mission = Mission.for(mid, did);
     if (!mission) {
-        return {status: 404};
+        return { status: 404 };
     }
     mission.register();
     const notify = Config.find<Config<boolean>>("notification-mission").value;
