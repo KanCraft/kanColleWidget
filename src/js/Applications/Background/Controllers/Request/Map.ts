@@ -5,7 +5,8 @@ import Sortie from "../../../Models/Sortie";
  */
 
 export function OnMapStart(req: DebuggableRequest) {
-  const context = Sortie.context();
-  const { api_deck_id: [deck], api_maparea_id: [area], api_mapinfo_no: [info] } = req.requestBody.formData;
-  context.start(parseInt(area, 10), parseInt(info, 10));
+    const context = Sortie.context();
+    const { api_deck_id: [deck], api_maparea_id: [area], api_mapinfo_no: [info] } = req.requestBody.formData;
+    context.start(parseInt(area, 10), parseInt(info, 10));
+    console.log(deck);
 }

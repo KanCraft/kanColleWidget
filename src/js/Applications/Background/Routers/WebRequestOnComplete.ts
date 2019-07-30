@@ -5,8 +5,8 @@ import { OnRecoveryStartCompleted } from "../Controllers/Request/Recovery";
 import { OnShipbuildingStartCompleted } from "../Controllers/Request/Shipbuilding";
 
 const resolver = (detail) => {
-  // host部分を削除したものをrouting nameとして使う
-  return (detail.url || "").replace(/^https?:\/\/.+\/kcsapi\//, "");
+    // host部分を削除したものをrouting nameとして使う
+    return (detail.url || "").replace(/^https?:\/\/.+\/kcsapi\//, "");
 };
 
 const router = new SerialRouter(2, resolver);

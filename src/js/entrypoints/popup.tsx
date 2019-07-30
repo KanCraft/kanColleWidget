@@ -6,12 +6,14 @@ import App from "../Applications/Components/Popup";
 // 使用するすべてのアイコンをここでlibraryに登録する必要がある
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faCog,
-  faGripVertical,
+    faCog,
+    faClock,
+    faGripVertical,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
-  faCog,
-  faGripVertical,
+    faCog,
+    faClock,
+    faGripVertical,
 );
 
 render(<App />, document.querySelector("main#app"));

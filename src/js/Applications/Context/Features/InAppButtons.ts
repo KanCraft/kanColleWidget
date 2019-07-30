@@ -1,124 +1,124 @@
 import { sleep } from "../../../utils";
 
 const iconURLs = {
-  mute: chrome.extension.getURL("/dest/img/mute.svg"),
-  unmute: chrome.extension.getURL("/dest/img/unmute.svg"),
-  camera: chrome.extension.getURL("/dest/img/camera.svg"),
+    mute: chrome.extension.getURL("/dest/img/mute.svg"),
+    unmute: chrome.extension.getURL("/dest/img/unmute.svg"),
+    camera: chrome.extension.getURL("/dest/img/camera.svg"),
 };
 
 export default class InAppButtons {
 
-  private static containerID = "kcw-inapp-buttons";
+    private static containerID = "kcw-inapp-buttons";
 
-  public container: HTMLDivElement = null;
+    container: HTMLDivElement = null;
 
-  constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
+    constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
 
-    if (!this.enabled()) {
-      return;
+        if (!this.enabled()) {
+            return;
+        }
+
+        this.createContainer();
+
+        if (configs["inapp-mute-button"].value) {
+            this.container.appendChild(this.createMuteButton());
+        }
+        if (configs["inapp-screenshot-button"].value) {
+            this.container.appendChild(this.createScreenshotButton());
+        }
     }
 
-    this.createContainer();
-
-    if (configs["inapp-mute-button"].value) {
-      this.container.appendChild(this.createMuteButton());
-    }
-    if (configs["inapp-screenshot-button"].value) {
-      this.container.appendChild(this.createScreenshotButton());
-    }
-  }
-
-  private createContainer(): HTMLDivElement {
-    const existing = this.document.querySelector(`div#${InAppButtons.containerID}`);
-    if (existing) {
-      existing.remove();
-    }
-    const container = this.document.createElement("div");
-    container.id = InAppButtons.containerID;
-    container.style.cssText = `
+    private createContainer(): HTMLDivElement {
+        const existing = this.document.querySelector(`div#${InAppButtons.containerID}`);
+        if (existing) {
+            existing.remove();
+        }
+        const container = this.document.createElement("div");
+        container.id = InAppButtons.containerID;
+        container.style.cssText = `
       position: fixed; right: 0; top: 0; z-index: 3;
       background-color: rgba(0, 0, 0, 0.6); padding: 4px 2px;
       cursor: pointer; opacity: 0;
     `;
-    this.container = container;
-    container.addEventListener("mouseover", this.onMouseOver);
-    container.addEventListener("mouseout", this.onMouseOut);
-    return container;
-  }
+        this.container = container;
+        container.addEventListener("mouseover", this.onMouseOver);
+        container.addEventListener("mouseout", this.onMouseOut);
+        return container;
+    }
 
-  private createMuteButton(): HTMLButtonElement {
-    const button = this.buttonElementForInApp();
-    const img = this.document.createElement("img") as HTMLImageElement;
-    img.src = iconURLs.unmute;
-    button.appendChild(img);
-    button.addEventListener("click", () => this.toggleMute());
-    button.id = "kcw-mute-button";
-    return button;
-  }
+    private createMuteButton(): HTMLButtonElement {
+        const button = this.buttonElementForInApp();
+        const img = this.document.createElement("img") as HTMLImageElement;
+        img.src = iconURLs.unmute;
+        button.appendChild(img);
+        button.addEventListener("click", () => this.toggleMute());
+        button.id = "kcw-mute-button";
+        return button;
+    }
 
-  private updateMuteStatus(muted: boolean) {
-    const src = muted ? iconURLs.mute : iconURLs.unmute;
-    this.container.querySelector("#kcw-mute-button").querySelector("img").src = src;
-  }
+    private updateMuteStatus(muted: boolean) {
+        const src = muted ? iconURLs.mute : iconURLs.unmute;
+        this.container.querySelector("#kcw-mute-button").querySelector("img").src = src;
+    }
 
-  private createScreenshotButton(): HTMLButtonElement {
-    const button = this.buttonElementForInApp();
-    const img = this.document.createElement("img") as HTMLImageElement;
-    img.src = iconURLs.camera;
-    button.appendChild(img);
-    button.addEventListener("click", () => this.takeScreenshot());
-    return button;
-  }
+    private createScreenshotButton(): HTMLButtonElement {
+        const button = this.buttonElementForInApp();
+        const img = this.document.createElement("img") as HTMLImageElement;
+        img.src = iconURLs.camera;
+        button.appendChild(img);
+        button.addEventListener("click", () => this.takeScreenshot());
+        return button;
+    }
 
-  private buttonElementForInApp(): HTMLButtonElement {
-    const button = this.document.createElement("button") as HTMLButtonElement;
-    button.style.background = "transparent";
-    button.style.outline = "none";
-    button.style.border = "none";
-    button.style.cursor = "pointer";
-    button.style.display = "block";
-    return button;
-  }
+    private buttonElementForInApp(): HTMLButtonElement {
+        const button = this.document.createElement("button") as HTMLButtonElement;
+        button.style.background = "transparent";
+        button.style.outline = "none";
+        button.style.border = "none";
+        button.style.cursor = "pointer";
+        button.style.display = "block";
+        return button;
+    }
 
-  private async toggleMute() {
-    const res = await this.client.message("/window/toggle-mute");
-    const tab = res.data as chrome.tabs.Tab;
-    // FIXME: connection closed で tab が返ってこないことがある
-    //        capture.html とのコミュニケーションをsendMessageにしたからな気がする
-    this.updateMuteStatus(tab.mutedInfo.muted);
-  }
+    private async toggleMute() {
+        const res = await this.client.message("/window/toggle-mute");
+        const tab = res.data as chrome.tabs.Tab;
+        // FIXME: connection closed で tab が返ってこないことがある
+        //        capture.html とのコミュニケーションをsendMessageにしたからな気がする
+        this.updateMuteStatus(tab.mutedInfo.muted);
+    }
 
-  private async takeScreenshot() {
-    this.container.removeEventListener("mouseover", this.onMouseOver);
-    this.container.style.opacity = "0";
-    await this.client.message("/capture/screenshot", {open: true});
-    await sleep(1000); // FIXME: 雑に1秒待つ
-    this.container.addEventListener("mouseover", this.onMouseOver);
-  }
+    private async takeScreenshot() {
+        this.container.removeEventListener("mouseover", this.onMouseOver);
+        this.container.style.opacity = "0";
+        await this.client.message("/capture/screenshot", {open: true});
+        await sleep(1000); // FIXME: 雑に1秒待つ
+        this.container.addEventListener("mouseover", this.onMouseOver);
+    }
 
-  private onMouseOver = () => {
-    this.container.style.opacity = "0.8";
-  }
+    private onMouseOver = () => {
+        this.container.style.opacity = "0.8";
+    }
 
-  private onMouseOut = () => {
-    this.container.style.opacity = "0";
-  }
+    private onMouseOut = () => {
+        this.container.style.opacity = "0";
+    }
 
-  public element(): HTMLDivElement {
-    return this.container;
-  }
+    element(): HTMLDivElement {
+        return this.container;
+    }
 
-  /**
+    /**
    * そもそも表示するかしないか決める
    */
-  public enabled(): boolean {
-    if (this.configs["inapp-mute-button"].value) {
-      return true;
+    enabled(): boolean {
+        if (this.configs["inapp-mute-button"].value) {
+            return true;
+        }
+        if (this.configs["inapp-screenshot-button"].value) {
+            return true;
+        }
+        return false;
     }
-    if (this.configs["inapp-screenshot-button"].value) {
-      return true;
-    }
-    return false;
-  }
 
 }

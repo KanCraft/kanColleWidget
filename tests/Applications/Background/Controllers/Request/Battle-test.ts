@@ -23,7 +23,7 @@ describe("Battle Controllers", () => {
     });
   });
 
-  describe("OnBattleStarted", async () => {
+  describe("OnBattleStarted", () => {
     it("TODO: なんかアサーションする", async () => {
       const req = dummyrequest();
       const res = await OnBattleStarted(req);
