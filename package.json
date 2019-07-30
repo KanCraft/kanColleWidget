@@ -16,7 +16,7 @@
     "pack": "./scripts/pack.sh",
     "lint": "eslint ./src/js/**/*.tsx ./src/js/**/*.ts",
     "test": "npm run lint && jest",
-    "test-ci": "tslint ./src/**/*.ts && jest --coverage --coverageReporters=text-lcov | coveralls"
+    "test-ci": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
