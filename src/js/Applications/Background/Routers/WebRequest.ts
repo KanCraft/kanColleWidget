@@ -41,6 +41,7 @@ router.on(["api_req_combined_battle/battle_water"], OnBattleStarted); // 水上�
 router.on(["api_req_combined_battle/each_battle"], OnBattleStarted); // 機動部隊+友軍
 router.on(["api_req_combined_battle/each_battle_water"], OnBattleStarted); // 水上部隊+友軍
 router.on(["api_req_combined_battle/ec_battle"], OnBattleStarted); // 通常vs連合+友軍
+router.on(["api_req_combined_battle/sp_midnight"], OnBattleStarted); // 連合艦隊 夜戦マス
 router.on(["api_req_battle_midnight/sp_midnight"], OnBattleStarted); // 通常艦隊 夜戦マス
 router.on(["api_req_sortie/airbattle"], OnAirBattleStarted);
 router.on(["api_req_sortie/ld_airbattle"], OnAirBattleStarted); // 通常編成 空襲戦
