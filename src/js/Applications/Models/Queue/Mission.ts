@@ -7,10 +7,12 @@ import catalog from "./missions";
  */
 export default class Mission extends Queue {
 
+    static __ns = "Mission"
+
     /**
-   * 遠征IDからMissionモデルを作成する
-   * @param id 遠征ID
-   */
+     * 遠征IDからMissionモデルを作成する
+     * @param id 遠征ID
+     */
     static for(id: number | string, deck: number | string): Mission {
         const definition = catalog[id];
         if (! definition) {

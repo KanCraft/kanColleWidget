@@ -12,7 +12,7 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     const notify = Config.find<Config<boolean>>("notification-mission").value;
     if (notify) {
         const ns = new NotificationService();
-        ns.create(mission._ns, mission.notificationOptionOnRegister());
+        ns.create(Mission.__ns, mission.notificationOptionOnRegister());
     }
     return { status: 202, mission };
 }

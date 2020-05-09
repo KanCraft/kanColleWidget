@@ -4,6 +4,10 @@ import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 import Shipbuilding from "../../../Models/Queue/Shipbuilding";
+import {
+    DebuggableRequest,
+    DebuggableResponse,
+} from "../../../../definitions/debuggable";
 
 const tmp = {
     dock: null,

@@ -1,4 +1,7 @@
 import Sortie from "../../../Models/Sortie";
+import {
+    DebuggableRequest,
+} from "../../../../definitions/debuggable";
 
 /**
  * 出撃関係

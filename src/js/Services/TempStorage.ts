@@ -11,7 +11,7 @@ export default class TempStorage {
         return this.storage.removeItem(key);
     }
 
-    store(prefix: string, value: string, expires: number = 40000): string {
+    store(prefix: string, value: string, expires = 40000): string {
         const key = prefix;
         // const key = prefix + Date.now();
         this.storage.setItem(key, value);

@@ -15,7 +15,7 @@ export default class Rectangle {
     start: {x: number; y: number} = {x: 0, y: 0};
     size: {w: number; h: number} = {w: Const.GameWidth, h: Const.GameHeight};
 
-    constructor(w: number, h: number, x: number = 0, y: number = 0) {
+    constructor(w: number, h: number, x = 0, y = 0) {
         this.size = {w, h};
         this.start = {x, y};
     }

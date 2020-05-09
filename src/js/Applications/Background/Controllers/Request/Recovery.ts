@@ -6,6 +6,10 @@ import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 import Config from "../../../Models/Config";
 import Recovery from "../../../Models/Queue/Recovery";
+import {
+    DebuggableRequest,
+    DebuggableResponse,
+} from "../../../../definitions/debuggable";
 
 const tmp = {
     dock: null,
@@ -54,7 +58,7 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
     const notify = Config.find<Config<boolean>>("notification-recovery").value;
     if (notify) {
         const ns = new NotificationService();
-        ns.create(recovery._ns, recovery.notificationOptionOnRegister());
+        ns.create(Recovery.__ns, recovery.notificationOptionOnRegister());
     }
 
     return { status: 202, recovery };

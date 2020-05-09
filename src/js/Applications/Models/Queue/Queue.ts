@@ -9,7 +9,11 @@ export default class Queue extends Model {
 
     protected defaultIconURL = chrome.extension.getURL("/dest/img/app/icon.128.png");
 
-    protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean: boolean = true): Scanned<T> {
+    _ns(): string {
+        return Model._ns();
+    }
+
+    protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean = true): Scanned<T> {
         const s = { finished: [], upcomming: [] };
         constructor.list().map((q: Queue) => {
             if (q.scheduled < now) {

@@ -18,10 +18,9 @@ export function UpdateQueues() {
 
     finished.map(q => {
         const p = new URLSearchParams({id: q._id});
-        // TODO: q._ns を小文字にしたやつをキーにConfigを漁ってるけどこれはあんまりなのでやっぱ遠征種別とか必要
-        const notify = Config.find<Config<boolean>>(`notification-${q._ns.toLowerCase()}`).value;
+        const notify = Config.find<Config<boolean>>(`notification-${q._ns().toLowerCase()}`).value;
         if (notify) {
-            ns.create(`${q._ns}?${p.toString()}`, q.notificationOption());
+            ns.create(`${q._ns()}?${p.toString()}`, q.notificationOption());
         }
     });
 

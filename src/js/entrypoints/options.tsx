@@ -2,7 +2,7 @@ import React from "react";
 import {render} from "react-dom";
 
 // webpack.config.jsの、DefinePluginを参照
-declare var NODE_ENV;
+declare let NODE_ENV;
 (() => {
     const toggler: HTMLButtonElement = document.querySelector("#btn-localstorage-inspector");
     if (NODE_ENV == "production") {
@@ -15,7 +15,7 @@ declare var NODE_ENV;
     const show = () => {
         container.style.display = "block";
         const dictionary: { [key: string]: any } = {};
-        for (let key in window.localStorage) {
+        for (const key in window.localStorage) {
             if (!Object.prototype.hasOwnProperty.call(window.localStorage, key)) continue;
             const raw = window.localStorage.getItem(key);
             try {

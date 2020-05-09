@@ -50,7 +50,7 @@ class WindowService {
    * @param strict ゲーム窓が無い場合、Promiseをrejectする
    * @param query デフォルトでは艦これのゲーム窓を探すqueryになっている
    */
-    find(strict: boolean = false, query: chrome.tabs.QueryInfo = {
+    find(strict = false, query: chrome.tabs.QueryInfo = {
         url: Const.KanColleURL,
     }): Promise<chrome.tabs.Tab> {
         return new Promise((resolve, reject) => {
@@ -116,7 +116,7 @@ class WindowService {
     /**
    * 窓のミュートをする
    */
-    mute(tab: chrome.tabs.Tab, mute: boolean = true): Promise<chrome.tabs.Tab> {
+    mute(tab: chrome.tabs.Tab, mute = true): Promise<chrome.tabs.Tab> {
         return new Promise((resolve) => {
             this.tabs.update(tab.id, {muted: mute}, (t) => resolve(t));
         });

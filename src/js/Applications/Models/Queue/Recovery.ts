@@ -2,6 +2,8 @@ import Queue, { Scanned } from "./Queue";
 
 export default class Recovery extends Queue {
 
+    static __ns = "Recovery";
+
     static scan(): Scanned<Recovery> {
         return super._scan<Recovery>(Recovery, Date.now());
     }
