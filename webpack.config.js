@@ -1,14 +1,14 @@
-var path = require("path");
-var webpack = require("webpack");
+const path = require("path");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const mode = process.env.NODE_ENV == "staging" ? "production" : (process.env.NODE_ENV || "development");
 
 module.exports = [
     {
         mode,
-        devtool: 'source-map',
+        devtool: "source-map",
         optimization: {
             minimize: process.env.NODE_ENV == "production",
             minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
@@ -18,6 +18,7 @@ module.exports = [
             popup:      "./src/js/entrypoints/popup.tsx",
             options:    "./src/js/entrypoints/options.tsx",
             capture:    "./src/js/entrypoints/capture.tsx",
+            dashboard:  "./src/js/entrypoints/dashboard.tsx",
             deckcapture:"./src/js/entrypoints/deckcapture.tsx",
             dmm:        "./src/js/entrypoints/dmm.ts",
             kcs2:       "./src/js/entrypoints/kcs2.ts",
@@ -39,7 +40,7 @@ module.exports = [
             extensions: [".ts", ".js", ".tsx"]
         },
         plugins: [
-            new webpack.DefinePlugin({'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}),
+            new webpack.DefinePlugin({"NODE_ENV": JSON.stringify(process.env.NODE_ENV)}),
         ],
         performance: {
             hints: false,
@@ -51,6 +52,7 @@ module.exports = [
             common:      "./src/css/entrypoints/common.scss",
             options:     "./src/css/entrypoints/options.scss",
             popup:       "./src/css/entrypoints/popup.scss",
+            dashboard:   "./src/css/entrypoints/dashboard.scss",
             dsnapshot:   "./src/css/entrypoints/dsnapshot.scss",
             deckcapture: "./src/css/entrypoints/deckcapture.scss",
         },

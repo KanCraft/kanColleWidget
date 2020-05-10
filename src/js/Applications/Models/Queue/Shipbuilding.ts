@@ -24,4 +24,11 @@ export default class Shipbuilding extends Queue {
         };
     }
 
+    getQueueTypeLabel() {
+        return "建造";
+    }
+
+    getTimerLabel() {
+        return `第${this.dock}ドック 建造`;
+    }
 }

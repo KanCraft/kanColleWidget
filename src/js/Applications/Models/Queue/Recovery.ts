@@ -36,4 +36,12 @@ export default class Recovery extends Queue {
         };
     }
 
+    // TODO: これはViewに持ってったほうがいいだろ〜
+    getQueueTypeLabel() {
+        return "修復";
+    }
+
+    getTimerLabel() {
+        return `第${this.dock}ドック 修復`;
+    }
 }

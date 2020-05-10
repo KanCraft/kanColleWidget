@@ -18,6 +18,7 @@ export function UpdateQueues() {
 
     finished.map(q => {
         const p = new URLSearchParams({id: q._id});
+        console.log("NS?", q._ns());
         const notify = Config.find<Config<boolean>>(`notification-${q._ns().toLowerCase()}`).value;
         if (notify) {
             ns.create(`${q._ns()}?${p.toString()}`, q.notificationOption());

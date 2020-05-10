@@ -58,4 +58,12 @@ export default class Mission extends Queue {
             type: "basic",
         };
     }
+
+    getQueueTypeLabel() {
+        return "遠征";
+    }
+
+    getTimerLabel() {
+        return `第${this.deck}艦隊 ${this.title}`;
+    }
 }
