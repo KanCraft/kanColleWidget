@@ -1,6 +1,6 @@
 import React from "react";
 
-import Queue, {Scanned} from "../../Models/Queue/Queue";
+import {Scanned} from "../../Models/Queue/Queue";
 import Mission from "../../Models/Queue/Mission";
 import Recovery from "../../Models/Queue/Recovery";
 import Shipbuilding from "../../Models/Queue/Shipbuilding";

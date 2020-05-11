@@ -8,6 +8,8 @@ import {
     DebuggableRequest,
     DebuggableResponse,
 } from "../../../../definitions/debuggable";
+import Config from "../../../Models/Config";
+import NotificationService from "../../../../Services/Notification";
 
 const tmp = {
     dock: null,
@@ -52,6 +54,12 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
     const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
     shipbuilding.register(Date.now() + time);
+
+    const notify = Config.find<Config<boolean>>("notification-shipbuilding").value;
+    if (notify) {
+        const ns = new NotificationService();
+        ns.create(Shipbuilding.__ns, shipbuilding.notificationOptionOnRegister());
+    }
 
     return { status: 202, shipbuilding };
 }
