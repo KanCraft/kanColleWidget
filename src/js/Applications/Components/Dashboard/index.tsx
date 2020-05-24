@@ -13,7 +13,7 @@ export default class DashboardView extends React.Component<{}, {
   now: Date;
 }> {
 
-  private timerId: NodeJS.Timeout;
+  private timerId: number;
 
   constructor(props) {
     super(props);
