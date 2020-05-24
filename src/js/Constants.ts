@@ -7,11 +7,11 @@ const GameWidth = 1200;
 const GameHeight = 720;
 const GameAspectRatio: number = GameHeight / GameWidth;
 const HiddenElements: string[] = [
-    "div.dmm-ntgnavi", // うえのナビゲーション
-    "div.twitter>iframe", // 「ツイートする」ボタン
-    "div.area-naviapp.mg-t20", // お問い合わせへのリンクなど
-    "div#foot", // 利用規約とか
-    "div#ntg-recommend", // 右側の「おすすめゲーム」とかいうの
+  "div.dmm-ntgnavi", // うえのナビゲーション
+  "div.twitter>iframe", // 「ツイートする」ボタン
+  "div.area-naviapp.mg-t20", // お問い合わせへのリンクなど
+  "div#foot", // 利用規約とか
+  "div#ntg-recommend", // 右側の「おすすめゲーム」とかいうの
 ];
 
 // なんかiframeのなかに
@@ -21,14 +21,14 @@ const TopSpacing = 16;
 
 /* tslint:disable object-literal-sort-keys */
 export default {
-    KanColleURL,
+  KanColleURL,
 
-    GameWrapper,
-    GameIFrame,
-    GameWidth,
-    GameHeight,
-    GameAspectRatio,
-    HiddenElements,
+  GameWrapper,
+  GameIFrame,
+  GameWidth,
+  GameHeight,
+  GameAspectRatio,
+  HiddenElements,
 
-    TopSpacing
+  TopSpacing
 };

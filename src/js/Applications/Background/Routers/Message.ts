@@ -5,24 +5,24 @@
 import {Router} from "chomex";
 
 import {
-    Screenshot,
+  Screenshot,
 } from "../Controllers/Message/Capture";
 import {
-    DamageSnapshotCapture,
-    DamageSnapshotRecord,
+  DamageSnapshotCapture,
+  DamageSnapshotRecord,
 } from "../Controllers/Message/DamageSnapshot";
 import {
-    DebugAvailables,
-    DebugController,
+  DebugAvailables,
+  DebugController,
 } from "../Controllers/Message/Debug";
 import {
-    OpenDashboardPage,
-    OpenDeckCapturePage,
-    OpenOptionsPage,
-    WindowDecoration,
-    WindowOpen,
-    WindowRecord,
-    WindowToggleMute,
+  OpenDashboardPage,
+  OpenDeckCapturePage,
+  OpenOptionsPage,
+  WindowDecoration,
+  WindowOpen,
+  WindowRecord,
+  WindowToggleMute,
 } from "../Controllers/Message/Window";
 
 const router = new Router();

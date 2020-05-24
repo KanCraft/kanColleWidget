@@ -1,7 +1,6 @@
-declare interface DebuggableResponse extends chrome.webRequest.WebResponseCacheDetails {
-    debug?: any;
+export interface DebuggableResponse extends chrome.webRequest.WebResponseCacheDetails {
+  debug?: any;
 }
-
-declare interface DebuggableRequest extends chrome.webRequest.WebRequestBodyDetails {
-    debug?: any;
+export interface DebuggableRequest extends chrome.webRequest.WebRequestBodyDetails {
+  debug?: any;
 }

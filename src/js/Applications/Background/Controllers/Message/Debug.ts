@@ -5,20 +5,20 @@ import Message from "../Message";
 import Request from "../Request";
 
 export async function DebugController(message: any) {
-    const dictionary = {
-        ...Message,
-        ...Request,
-    };
-    const controller = dictionary[message.__controller];
-    const scope = message.__this;
-    return await controller.call(scope, message);
+  const dictionary = {
+    ...Message,
+    ...Request,
+  };
+  const controller = dictionary[message.__controller];
+  const scope = message.__this;
+  return await controller.call(scope, message);
 }
 
 export function DebugAvailables() {
-    return {
-        controllers: {
-            message: [...Object.keys(Message)],
-            request: [...Object.keys(Request)],
-        },
-    };
+  return {
+    controllers: {
+      message: [...Object.keys(Message)],
+      request: [...Object.keys(Request)],
+    },
+  };
 }
