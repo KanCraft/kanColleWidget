@@ -1,1 +1,24 @@
 @import "../variables.scss";
+
+.icon-clock-container {
+  display: flex;
+  .icon-wrapper {
+    width: 120px;
+    height: 120px;
+    >img {
+      height: 100%;
+    }
+  }
+  .clock-wrapper {
+    flex: 1;
+    .date-wrapper {
+      display: flex;
+    }
+    .time-wrapper {
+      display: flex;
+      span {
+        font-size: 4em;
+      }
+    }
+  }
+}
