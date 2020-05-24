@@ -9,7 +9,7 @@ import * as DamageSnapshot from "./DamageSnapshot";
 import * as Window from "./Window";
 
 export default {
-    ...Capture,
-    ...DamageSnapshot,
-    ...Window,
+  ...Capture,
+  ...DamageSnapshot,
+  ...Window,
 };

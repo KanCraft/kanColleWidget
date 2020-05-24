@@ -7,65 +7,65 @@ import catalog from "./catalog";
 /* tslint:disable object-literal-sort-keys */
 export default class Sortie extends Model {
 
-    static default = {
-        context: {
-            area: null,  // 海域
-            map: null,  // マップ
-            depth: null, // 何戦目
-        },
-    };
+  static default = {
+    context: {
+      area: null,  // 海域
+      map: null,  // マップ
+      depth: null, // 何戦目
+    },
+  };
 
-    static context(): Sortie {
-        return this.find("context");
-    }
+  static context(): Sortie {
+    return this.find("context");
+  }
 
-    // これがここにあるのが正しいのかよくわからない
-    private static officialTitle: string = "艦隊これくしょん -艦これ- - オンラインゲーム - DMM GAMES";
+  // これがここにあるのが正しいのかよくわからない
+  private static officialTitle = "艦隊これくしょん -艦これ- - オンラインゲーム - DMM GAMES";
 
-    area: number; // 海域 e.g. 「南西諸島海域」（２）
-    map: number; // マップ e.g. 「東部オリョール海」（３）
-    depth: number; // 何戦目か
+  area: number; // 海域 e.g. 「南西諸島海域」（２）
+  map: number; // マップ e.g. 「東部オリョール海」（３）
+  depth: number; // 何戦目か
 
-    /**
+  /**
    * 出撃の開始
    */
-    start(area: number, map: number): Sortie {
-        return this.update({area, map, depth: 0});
-    }
+  start(area: number, map: number): Sortie {
+    return this.update({area, map, depth: 0});
+  }
 
-    /**
+  /**
    * 戦闘の開始
    */
-    battle(): Sortie {
-        return this.update({depth: this.depth + 1});
-    }
+  battle(): Sortie {
+    return this.update({depth: this.depth + 1});
+  }
 
-    /**
+  /**
    * 戦闘の終了
    */
-    result(): Sortie {
+  result(): Sortie {
     // 今んとこ何もしない
-        return this;
-    }
+    return this;
+  }
 
-    /**
+  /**
    * 出撃の終了（帰還）
    */
-    refresh(): Sortie {
-        return this.update({area: null, map: null, depth: null});
-    }
+  refresh(): Sortie {
+    return this.update({area: null, map: null, depth: null});
+  }
 
-    toText(): string {
-        const fallback = `A: ${this.area}, I ${this.map}, D: ${this.depth}`;
-        const area = catalog[this.area];
-        if (!area) {
-            return fallback;
-        }
-        const map = area.maps[this.map];
-        if (!map) {
-            return fallback;
-        }
-        return `${this.depth}戦目/${map.title}/${area.title}`;
+  toText(): string {
+    const fallback = `A: ${this.area}, I ${this.map}, D: ${this.depth}`;
+    const area = catalog[this.area];
+    if (!area) {
+      return fallback;
     }
+    const map = area.maps[this.map];
+    if (!map) {
+      return fallback;
+    }
+    return `${this.depth}戦目/${map.title}/${area.title}`;
+  }
 
 }

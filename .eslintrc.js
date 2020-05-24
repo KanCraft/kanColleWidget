@@ -48,8 +48,11 @@ module.exports = {
     "indent": [
       "error",
       2,
+      {"SwitchCase": 0}
     ],
-    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/indent": [
+      "error", 2, { "SwitchCase": 0 }
+    ],
     "@typescript-eslint/explicit-function-return-type": ["off"],
     "@typescript-eslint/no-explicit-any": ["off"],
     "@typescript-eslint/no-parameter-properties": ["error", { allows: ["private", "public"] }],
