@@ -17,13 +17,8 @@ export default class DashboardView extends React.Component<{}, {
 
   constructor(props) {
     super(props);
-    const missions = Mission.scan();
-    const recoveries = Recovery.scan();
-    const shipbuildings = Shipbuilding.scan();
     this.state = {
-      missions,
-      recoveries,
-      shipbuildings,
+      ...this.getQueues(),
       now: new Date(),
     };
   }
@@ -36,8 +31,16 @@ export default class DashboardView extends React.Component<{}, {
     clearTimeout(this.timerId);
   }
 
+  private getQueues() {
+    return {
+      missions: Mission.scan(),
+      recoveries: Recovery.scan(),
+      shipbuildings: Shipbuilding.scan(),
+    };
+  }
   private tick() {
     this.setState({
+      ...this.getQueues(),
       now: new Date(),
     });
   }
