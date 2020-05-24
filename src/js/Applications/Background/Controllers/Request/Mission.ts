@@ -9,10 +9,12 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     return { status: 404 };
   }
   mission.register();
+
   const notify = Config.find<Config<boolean>>("notification-mission").value;
   if (notify) {
-    const ns = new NotificationService();
-    ns.create(Mission.__ns, mission.notificationOptionOnRegister());
+    const nid = Mission.__ns + `?id=${mission._id}`;
+    const notifications = new NotificationService();
+    notifications.create(nid, mission.notificationOptionOnRegister());
   }
   return { status: 202, mission };
 }

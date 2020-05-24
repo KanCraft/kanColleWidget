@@ -57,8 +57,9 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   const notify = Config.find<Config<boolean>>("notification-shipbuilding").value;
   if (notify) {
-    const ns = new NotificationService();
-    ns.create(Shipbuilding.__ns, shipbuilding.notificationOptionOnRegister());
+    const nid = Shipbuilding.__ns + `?id=${shipbuilding._id}`;
+    const notifications = new NotificationService();
+    notifications.create(nid, shipbuilding.notificationOptionOnRegister());
   }
 
   return { status: 202, shipbuilding };
