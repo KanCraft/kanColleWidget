@@ -161,8 +161,8 @@ class WindowService {
           this.windows.create({
             url,
             type: "popup",
-            height: 360, // TODO: よくわからんけどlocalStorageからもってくる
-            width: 540
+            height: 460, // TODO: よくわからんけどlocalStorageからもってくる
+            width: 340
           }, (win) => resolve(win.tabs[0]));
         } else {
           this.windows.update(tabs[0].windowId, { focused: true }, () => resolve(tabs[0]));

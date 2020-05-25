@@ -9,23 +9,27 @@ export default class Queue extends Model {
 
   protected defaultIconURL = chrome.extension.getURL("/dest/img/app/icon.128.png");
 
-  _ns(): string {
-    return Model._ns();
+  protected static _scan<T extends Queue>(constructor: typeof Queue, now: number): Scanned<T> {
+    return constructor.list<T>().reduce((scanned, it) => {
+      if (it.scheduled < now) {
+        scanned.finished.push(it);
+        it.delete();
+      } else {
+        scanned.upcomming.push(it);
+      }
+      return scanned;
+    }, { upcomming: [], finished: [] } as Scanned<T>);
   }
 
-  protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean = true): Scanned<T> {
-    const s = { finished: [], upcomming: [] };
-    constructor.list().map((q: Queue) => {
-      if (q.scheduled < now) {
-        s.finished.push(q);
-        if (clean) {
-          q.delete();
-        }
-      } else {
-        s.upcomming.push(q);
-      }
-    });
-    return s;
+  // インスタンスからの__nsのアクセスはこれを使う
+  kind(): string {
+    return (this.constructor as any).__ns;
+  }
+
+  toNotificationID(params: Record<string, any> = {}): string {
+    const search = new URLSearchParams(params);
+    search.set("id", this._id);
+    return `${this.kind()}?${search.toString()}`;
   }
 
   // 終了予定時刻タイムスタンプ（ミリ秒）

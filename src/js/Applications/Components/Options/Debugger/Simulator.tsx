@@ -30,7 +30,21 @@ export default class SimulatorView extends Component<{}, {
         message: [],
         request: [],
       },
-      body: {__this: {sender: {}}},
+      body: {
+        "__this": {
+          "sender": {}
+        },
+        "requestBody": {
+          "formData": {
+            "api_mission_id": [
+              0
+            ],
+            "api_deck_id": [
+              2
+            ]
+          }
+        }
+      },
       response: null,
       error:    null,
     };
