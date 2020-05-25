@@ -9,11 +9,11 @@ export default class Queue extends Model {
 
   protected defaultIconURL = chrome.extension.getURL("/dest/img/app/icon.128.png");
 
-  protected static _scan<T extends Queue>(constructor: typeof Queue, now: number): Scanned<T> {
+  protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean = true): Scanned<T> {
     return constructor.list<T>().reduce((scanned, it) => {
       if (it.scheduled < now) {
         scanned.finished.push(it);
-        it.delete();
+        if (clean) it.delete();
       } else {
         scanned.upcomming.push(it);
       }

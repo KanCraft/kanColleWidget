@@ -33,9 +33,9 @@ export default class DashboardView extends React.Component<{}, {
 
   private getQueues() {
     return {
-      missions: Mission.scan(),
-      recoveries: Recovery.scan(),
-      shipbuildings: Shipbuilding.scan(),
+      missions: Mission.scan(false),
+      recoveries: Recovery.scan(false),
+      shipbuildings: Shipbuilding.scan(false),
     };
   }
   private tick() {

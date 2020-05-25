@@ -4,8 +4,8 @@ export default class Recovery extends Queue {
 
   static __ns = "Recovery";
 
-  static scan(): Scanned<Recovery> {
-    return super._scan<Recovery>(Recovery, Date.now());
+  static scan(clean = true): Scanned<Recovery> {
+    return super._scan<Recovery>(Recovery, Date.now(), clean);
   }
 
   dock: number | string;
