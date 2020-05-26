@@ -21,8 +21,8 @@ export default class Mission extends Queue {
     return Mission.new({...definition, id, deck});
   }
 
-  static scan(): Scanned<Mission> {
-    return super._scan<Mission>(Mission, Date.now());
+  static scan(clean = true): Scanned<Mission> {
+    return super._scan<Mission>(Mission, Date.now(), clean);
   }
 
   id: number | string; // 遠征ID

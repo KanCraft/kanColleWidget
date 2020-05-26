@@ -12,8 +12,8 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
 
   const notify = Config.find<Config<boolean>>("notification-mission").value;
   if (notify) {
-    const nid = Mission.__ns + `?id=${mission._id}`;
     const notifications = new NotificationService();
+    const nid = mission.toNotificationID({start: true});
     notifications.create(nid, mission.notificationOptionOnRegister());
   }
   return { status: 202, mission };

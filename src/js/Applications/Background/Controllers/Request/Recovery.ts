@@ -57,8 +57,8 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
 
   const notify = Config.find<Config<boolean>>("notification-recovery").value;
   if (notify) {
-    const nid = Recovery.__ns + `?id=${recovery._id}`;
     const notifications = new NotificationService();
+    const nid = recovery.toNotificationID();
     await notifications.create(nid, recovery.notificationOptionOnRegister());
   }
 

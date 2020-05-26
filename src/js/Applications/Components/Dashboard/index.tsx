@@ -33,9 +33,9 @@ export default class DashboardView extends React.Component<{}, {
 
   private getQueues() {
     return {
-      missions: Mission.scan(),
-      recoveries: Recovery.scan(),
-      shipbuildings: Shipbuilding.scan(),
+      missions: Mission.scan(false),
+      recoveries: Recovery.scan(false),
+      shipbuildings: Shipbuilding.scan(false),
     };
   }
   private tick() {
@@ -143,7 +143,6 @@ export default class DashboardView extends React.Component<{}, {
 
   private getListViewForQueues() {
     const { finished, upcoming } = this.getMergedList();
-    console.log(upcoming);
     return (
       <div>
         {finished.map(q => this.getListItem(q))}

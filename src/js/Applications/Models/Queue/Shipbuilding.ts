@@ -4,8 +4,8 @@ export default class Shipbuilding extends Queue {
 
   static __ns = "Shipbuilding";
 
-  static scan(): Scanned<Shipbuilding> {
-    return super._scan<Shipbuilding>(Shipbuilding, Date.now());
+  static scan(clean = true): Scanned<Shipbuilding> {
+    return super._scan<Shipbuilding>(Shipbuilding, Date.now(), clean);
   }
 
   dock: number | string;
