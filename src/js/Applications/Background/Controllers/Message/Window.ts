@@ -6,7 +6,6 @@
  * backgroundからの窓の操作などを担います。
  */
 
-import {Client} from "chomex";
 import WindowService from "../../../../Services/Window";
 import Config from "../../../Models/Config";
 import Frame from "../../../Models/Frame";
@@ -18,16 +17,7 @@ import Frame from "../../../Models/Frame";
  */
 export async function WindowOpen(message: any) {
   const ws = WindowService.getInstance();
-  const id = message.id;
-  const frame = Frame.find<Frame>(id) || Frame.latest();
-  let tab = await ws.find();
-  if (tab) {
-    tab = await ws.reconfigure(tab, frame);
-    return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
-  }
-  frame.update({selectedAt: Date.now()});
-  tab = await ws.create(frame);
-  return tab;
+  return await ws.backToGame(message);
 }
 
 /**

@@ -1,6 +1,7 @@
 import DamageSnapshotFrame from "../Applications/Models/DamageSnapshotFrame";
 import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
+import { Client } from "chomex";
 
 export interface Launched {
   tab: chrome.tabs.Tab;
@@ -204,6 +205,25 @@ class WindowService {
     return new Promise(resolve => {
       this.tabs.create({url}, tab => resolve(tab));
     });
+  }
+
+  /**
+   * WindowServiceにあるべきなのかはわからないけれど、とりあえずここにおいておく
+   *   1. すでにゲーム窓がある場合はreconfigureする
+   *   2. 無ければゲーム窓を開く
+   * @param message
+   */
+  async backToGame(message: { id?: number } = {}): Promise<chrome.tabs.Tab> {
+    const id = message.id;
+    const frame = Frame.find<Frame>(id) || Frame.latest();
+    let tab = await this.find();
+    if (tab) {
+      tab = await this.reconfigure(tab, frame);
+      return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
+    }
+    frame.update({selectedAt: Date.now()});
+    tab = await this.create(frame);
+    return tab;
   }
 }
 
