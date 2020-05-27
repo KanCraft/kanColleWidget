@@ -1,4 +1,4 @@
-import { Router, Client } from "chomex";
+import { Router } from "chomex";
 import NotificationService from "../../../Services/Notification";
 import WindowService from "../../../Services/Window";
 
