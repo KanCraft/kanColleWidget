@@ -5,5 +5,5 @@
 import * as chrome from "sinon-chrome";
 // chrome.tabs.query.yields([]);
 // chrome.windows.create.yields({ tabs: [{}] });
-declare var global: any;
+declare let global: any;
 global.chrome = chrome;

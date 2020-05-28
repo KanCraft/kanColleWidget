@@ -1,16 +1,19 @@
 /* tslint:disable no-console max-classes-per-file */
 import * as chrome from "sinon-chrome";
 
-declare var global: any;
+declare let global: any;
 
+/**
+ * 直接使わない。fakeを経由してください。
+ * fakeの使い方は下記参照。
+ */
 export class Stub {
   constructor(private target: any) {
     if (typeof target.yields !== "function") {
       throw new Error("This target doesn't have `yields` method, expected to be `sinon-chrome`.");
     }
   }
-
-  public callbacks(value: any) {
+  callbacks(value: any) {
     if (typeof value === "function") {
       this.target.yields = value;
     } else {
@@ -18,16 +21,22 @@ export class Stub {
     }
     global.chrome = chrome;
   }
-
-  public cb(value: any) {
-    return this.callbacks(value);
-  }
 }
 
-export function when(target: any): Stub {
+/**
+ * chromeモジュール由来のメソッドをfakeします。
+ * 使い方の例:
+ *   fake(chrome.notifications.create).callbacks("some-notification-id");
+ * とすると、chrome.notifications.createはcallbackで"some-notification-id"を返すようになります。
+ * @param target chrome.{module}.{method}
+ */
+export function fake(target: any): Stub {
   return new Stub(target);
 }
 
+/**
+ * @param extend chrome.webRequest.WebRequestBodyDetailsを上書きないし拡張したいときに使う
+ */
 export function dummyrequest(extend: {} = {}): chrome.webRequest.WebRequestBodyDetails {
   return {
     frameId: 12,
@@ -43,14 +52,27 @@ export function dummyrequest(extend: {} = {}): chrome.webRequest.WebRequestBodyD
   };
 }
 
-export class Fetch {
-  public static replies(data: any) {
-    global.fetch = (url, option) => {
-      return new this(data);
+/**
+ * fetchをスタブする便利クラス。
+ * 使い方の例:
+ *    Fetch.replies({message: "Hello"});
+ * とすると、global.fetchは一度だけres.json()で{message: "Hello"}を返すようになります。
+ */
+export class Fetch<T> {
+  static replies<T>(data: T) {
+    const original = global.fetch;
+    global.fetch = (_info: RequestInfo, _init?: RequestInit): Fetch<T> => {
+      return new this<T>(data, original);
     };
   }
-  constructor(private data: any) {}
-  public json(): Promise<any> {
-    return Promise.resolve(this.data);
+  constructor(
+    private data: T,
+    private original: (info: RequestInfo, init?: RequestInit) => Promise<Response>
+  ) {}
+  json(): Promise<T> {
+    return new Promise(resolve => {
+      global.fetch = this.original;
+      resolve(this.data);
+    });
   }
 }

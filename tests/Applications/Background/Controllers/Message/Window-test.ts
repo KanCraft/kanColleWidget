@@ -1,5 +1,5 @@
 // import * as chrome from "sinon-chrome";
-import {when} from "../../../../tools";
+import { fake } from "../../../../tools";
 
 import {
   WindowDecoration,
@@ -10,8 +10,8 @@ import {
 
 describe("Window Controller", () => {
   describe("WindowOpen", () => {
-    when(chrome.tabs.query).callbacks([]);
-    when(chrome.windows.create).callbacks({tabs: [ {} ] });
+    fake(chrome.tabs.query).callbacks([]);
+    fake(chrome.windows.create).callbacks({tabs: [ {} ] });
     it("TODO: なんかアサーションする", async (ok) => {
       await WindowOpen({});
       ok();
@@ -20,7 +20,7 @@ describe("Window Controller", () => {
 
   describe("WindowDecoration", () => {
     it("TODO: なんかアサーションする", async (ok) => {
-      when(chrome.tabs.setZoom).callbacks({});
+      fake(chrome.tabs.setZoom).callbacks({});
       const context = { sender: { tab: {} } };
       await WindowDecoration.bind(context)({});
       ok();
@@ -29,7 +29,7 @@ describe("Window Controller", () => {
 
   describe("WindowRecord", () => {
     it("TODO: なんかアサーションする", async (ok) => {
-      when(chrome.windows.get).callbacks({});
+      fake(chrome.windows.get).callbacks({});
       const context = { sender: { tab: {} } };
       await WindowRecord.bind(context)({frame: {id: "small"}});
       ok();
@@ -38,7 +38,7 @@ describe("Window Controller", () => {
 
   describe("WindowToggleMute", () => {
     it("TODO: なんかアサーションする", async (ok) => {
-      when(chrome.tabs.update).callbacks({});
+      fake(chrome.tabs.update).callbacks({});
       const context = { sender: { tab: { mutedInfo: { muted: false } } } };
       await WindowToggleMute.bind(context)({});
       ok();

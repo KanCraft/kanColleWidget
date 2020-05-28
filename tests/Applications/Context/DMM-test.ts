@@ -1,9 +1,9 @@
 import DMM from "../../../src/js/Applications/Context/DMM";
-import {when} from "../../tools";
+import { fake } from "../../tools";
 
 describe("DMM context", () => {
   describe("DMM: dmm.com の context", () => {
-    when(chrome.runtime.sendMessage).callbacks({});
+    fake(chrome.runtime.sendMessage).callbacks({});
     it("TODO: なんかアサーションする", async () => {
       const dmm = new DMM(window);
       await dmm.init();
