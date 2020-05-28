@@ -15,8 +15,7 @@
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
     "lint": "eslint ./src/js/**/*.tsx ./src/js/**/*.ts",
-    "test": "npm run lint && jest",
-    "test-ci": "jest --coverage --coverageReporters=text-lcov | coveralls"
+    "test": "jest --coverage"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
@@ -33,7 +32,6 @@
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "awesome-typescript-loader": "^5.2.1",
-    "coveralls": "^3.0.2",
     "css-loader": "^3.5.3",
     "eslint": "^7.0.0",
     "eslint-plugin-jest": "^23.13.1",
