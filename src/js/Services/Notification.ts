@@ -7,7 +7,7 @@ export default class NotificationService {
     this.n = mod.notifications;
   }
 
-  create(id: string, opt: chrome.notifications.NotificationOptions) {
+  create(id: string, opt: chrome.notifications.NotificationOptions): Promise<string> {
     return new Promise(resolve => {
       this.n.create(id, opt, (created) => resolve(created));
     });

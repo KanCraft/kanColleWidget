@@ -5,7 +5,7 @@ import Rectangle from "./Rectangle";
 
 export default class TrimService {
 
-  static init(imgURL): Promise<TrimService> {
+  static init(imgURL: string): Promise<TrimService> {
     const s: TrimService = new TrimService();
     s.img = s.scope.createElement("img");
     setTimeout(() => s.img.src = imgURL);
