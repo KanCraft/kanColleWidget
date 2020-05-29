@@ -14,7 +14,7 @@
     "announce": "node ./scripts/announce.js",
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
-    "lint": "eslint ./src/js/**/*.tsx ./src/js/**/*.ts",
+    "lint": "eslint ./src/js/**/*.tsx ./src/js/**/*.ts ./tests/**/*.ts",
     "test": "jest --coverage"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
@@ -75,7 +75,7 @@
       "<rootDir>/tests/setup/image-onload.ts",
       "jest-canvas-mock"
     ],
-    "testRegex": "tests/.*-test\\.ts$",
+    "testRegex": "tests/.*\\.spec\\.ts$",
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/v2_backup/"
