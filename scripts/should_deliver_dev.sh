@@ -39,7 +39,6 @@ set -v
 git branch
 git status
 git describe --tags
-set +v
 # }}}
 # 直近のtagから差分が無ければリリースしない
 LATEST_TAG=`git describe --tags --abbrev=0`
@@ -65,5 +64,9 @@ git push origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
 echo "[DONE]"
 echo "  LATEST_TAG: ${LATEST_TAG}"
 echo "  COMMIT_CNT: ${COMMIT_CNT}"
+
+# {{{ DEBUG
+set +v
+# }}}
 
 exit 0
