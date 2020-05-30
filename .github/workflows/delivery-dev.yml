@@ -1,0 +1,38 @@
+name: DEV
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    env:
+      # v3開発版のAPP_ID
+      CHROMEWEBSTORE_APP_ID: egkgleinehaapbpijnlpbllfeejjpceb
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: develop
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Should Deploy?
+      run: source ./scripts/should_deliver_dev.sh
+
+    - name: Build
+      run: npm run build
+
+    - name: Pack ZIP
+      run: npm run pack
+
+    - name: Publish to Chrome Web Store
+      run: npm run publish
+
+    - name: Announce
+      run: npm run announce
+
