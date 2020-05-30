@@ -2,8 +2,6 @@ name: DEV-Delivery
 on:
   schedule:
     - cron: '0 6 * * *'
-  branches:
-    - develop
 
 jobs:
   delivery:
@@ -13,6 +11,8 @@ jobs:
       CHROMEWEBSTORE_APP_ID: egkgleinehaapbpijnlpbllfeejjpceb
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: develop
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
