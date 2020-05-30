@@ -31,13 +31,15 @@ function GET_SKIP_MESSAGE() {
 
 CRON_DEPLOY_TARGET_BRANCH=develop
 
-git checkout ${CRON_DEPLOY_TARGET_BRANCH}
-git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
+# 要らない？
+# git checkout ${CRON_DEPLOY_TARGET_BRANCH}
+# git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
 
 # {{{ DEBUG
 set -v
 git branch
 git status
+git tag
 git describe --tags
 # }}}
 # 直近のtagから差分が無ければリリースしない
@@ -55,6 +57,11 @@ fi
 # Staging用アプリのビルド環境を設定
 export NODE_ENV=staging
 
+# {{{ DEBUG
+exit 1
+set +v
+# }}}
+
 # タグをつけて push back します
 npm run version -- --commit --tag
 echo "[INFO] 直近タグからのコミットリスト"
@@ -64,9 +71,5 @@ git push origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
 echo "[DONE]"
 echo "  LATEST_TAG: ${LATEST_TAG}"
 echo "  COMMIT_CNT: ${COMMIT_CNT}"
-
-# {{{ DEBUG
-set +v
-# }}}
 
 exit 0
