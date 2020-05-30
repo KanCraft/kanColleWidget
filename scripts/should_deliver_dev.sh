@@ -34,6 +34,13 @@ CRON_DEPLOY_TARGET_BRANCH=develop
 git checkout ${CRON_DEPLOY_TARGET_BRANCH}
 git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
 
+# {{{ DEBUG
+set -v
+git branch
+git status
+git describe --tags
+set +v
+# }}}
 # 直近のtagから差分が無ければリリースしない
 LATEST_TAG=`git describe --tags --abbrev=0`
 COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
