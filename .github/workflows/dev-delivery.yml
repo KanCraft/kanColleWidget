@@ -1,7 +1,7 @@
 name: DEV-Delivery
 on:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '30 9 * * *'
 
 jobs:
   delivery:
