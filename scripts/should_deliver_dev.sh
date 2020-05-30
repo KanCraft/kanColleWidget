@@ -57,17 +57,17 @@ fi
 # Staging用アプリのビルド環境を設定
 export NODE_ENV=staging
 
-# {{{ DEBUG
-exit 1
-set +v
-# }}}
-
 # タグをつけて push back します
 npm run version -- --commit --tag
 echo "[INFO] 直近タグからのコミットリスト"
 git log --pretty="  %H %s" ${LATEST_TAG}..HEAD
 echo "[EXEC] tag付けコミットとtagそのものをpush"
+
+exit 1
 git push origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
+
+set +v
+
 echo "[DONE]"
 echo "  LATEST_TAG: ${LATEST_TAG}"
 echo "  COMMIT_CNT: ${COMMIT_CNT}"
