@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -o errreturn
+set -e
 # set -o verbose
 
 ####
