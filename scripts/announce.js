@@ -21,7 +21,7 @@ function main(cb) {
   const commits = shell.execSync(`git log --pretty="%s" --no-merges ${previous_tag}..${last_commit}`).toString().trim().split("\n").reverse();
   const status = constructTweetText(current_tag, commits);
   return shell.exec(`npm run tweet "${status}"`, cb);
-};
+}
 
 // 直接呼ばれたときにやるやつ
 if (require.main == module) {
@@ -31,5 +31,5 @@ if (require.main == module) {
       process.exit(1);
     }
     console.log("OK", stdout);
-  })
+  });
 }
