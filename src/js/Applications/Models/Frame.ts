@@ -38,6 +38,18 @@ export default class Frame extends Model {
       url: Const.KanColleURL,
       zoom: 1 / 2,
     },
+    mini: {
+      addressbar: false,
+      alias: "MINI",
+      description: "公式の1/4",
+      id: "mini",
+      position: { left: 40, top: 40 },
+      protected: true,
+      selectedAt: 1,
+      size: { width: Const.GameWidth * (1 / 4), height: Const.GameHeight * (1 / 4) },
+      url: Const.KanColleURL,
+      zoom: 1 / 4,
+    }
   };
 
   /**
