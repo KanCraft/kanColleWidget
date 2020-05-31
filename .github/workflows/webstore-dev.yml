@@ -9,6 +9,7 @@ jobs:
     env:
       # v3開発版のAPP_ID
       CHROMEWEBSTORE_APP_ID: egkgleinehaapbpijnlpbllfeejjpceb
+      NODE_ENV: staging
     steps:
     - uses: actions/checkout@v2
       with:
@@ -29,6 +30,8 @@ jobs:
 
     - name: Should Deploy?
       run: source ./scripts/should_deliver_dev.sh
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: npm run build
@@ -41,4 +44,3 @@ jobs:
 
     - name: Announce
       run: npm run announce
-

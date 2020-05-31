@@ -11,9 +11,11 @@ set -e
 # 環境変数（主にNODE_ENV）を動的に設定するため、実行ファイルではなく、sourceファイルです。
 ####
 
+BRANCH=develop
+
 # 将来的には「艦これウィジェット」のtips的なのを垂れ流してもらう
 function GET_SKIP_MESSAGE() {
-  DEFAULT_MESSAGE="${CRON_DEPLOY_TARGET_BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+  DEFAULT_MESSAGE="${BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
   MESSAGES=(
     "v3の開発をがんばっているみたい..."
     "iPhone/iPad向けの #i168 というアプリも開発中みたい..."
@@ -29,20 +31,7 @@ function GET_SKIP_MESSAGE() {
   fi
 }
 
-CRON_DEPLOY_TARGET_BRANCH=develop
-
-# 要らない？
-# git checkout ${CRON_DEPLOY_TARGET_BRANCH}
-# git pull origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
-
-# {{{ DEBUG
-set -v
-git branch
-git status
-git tag
-git describe --tags
-# }}}
-# 直近のtagから差分が無ければリリースしない
+echo "[INFO] 直近のtagから差分が無ければリリースしない"
 LATEST_TAG=`git describe --tags --abbrev=0`
 COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
 if [[ ${COMMIT_CNT} -eq 0 ]]; then
@@ -53,23 +42,22 @@ if [[ ${COMMIT_CNT} -eq 0 ]]; then
   #       参考: https://github.community/t/support-global-environment-variables/16146/5
   exit 1
 fi
+sleep 1s
 
-# Staging用アプリのビルド環境を設定
-export NODE_ENV=staging
-
-# タグをつけて push back します
+echo "[INFO] タグをつけて commit します"
 npm run version -- --commit --tag
+sleep 1s
+
 echo "[INFO] 直近タグからのコミットリスト"
 git log --pretty="  %H %s" ${LATEST_TAG}..HEAD
+sleep 1s
+
 echo "[EXEC] tag付けコミットとtagそのものをpush"
-
-exit 1
-git push origin ${CRON_DEPLOY_TARGET_BRANCH} --tags
-
-set +v
+REPO="https://${GITHUB_ACTOR}:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+git push "${REPO}" HEAD:${BRANCH} --tags --follow-tags
+sleep 5s
 
 echo "[DONE]"
 echo "  LATEST_TAG: ${LATEST_TAG}"
 echo "  COMMIT_CNT: ${COMMIT_CNT}"
-
 exit 0
