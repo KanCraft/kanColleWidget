@@ -35,12 +35,16 @@ jobs:
 
     - name: Build
       run: npm run build
+      if: ${{ env.SHOULD_DELIVER_DEV }}
 
     - name: Pack ZIP
       run: npm run pack
+      if: ${{ env.SHOULD_DELIVER_DEV }}
 
     - name: Publish to Chrome Web Store
       run: npm run publish
+      if: ${{ env.SHOULD_DELIVER_DEV }}
 
     - name: Announce
       run: npm run announce
+      if: ${{ env.SHOULD_DELIVER_DEV }}

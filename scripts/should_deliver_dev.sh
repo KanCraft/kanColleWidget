@@ -37,10 +37,10 @@ COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
 if [[ ${COMMIT_CNT} -eq 0 ]]; then
   message=`GET_SKIP_MESSAGE`
   npm run tweet "${message}"
-  # TODO: exit 1 だと GitHub Actions上での表示がかっこわるいので、
-  #       続くstepsが参照できるなんらかの方法でここでの判断を引き継げるようにしたい。
-  #       参考: https://github.community/t/support-global-environment-variables/16146/5
-  exit 1
+  sleep 1s
+  exit 0
+else
+  echo '::set-env name=SHOULD_DELIVER_DEV::yes'
 fi
 sleep 1s
 
