@@ -33,6 +33,9 @@ module.exports = {
   plugins: [
     "react"
   ],
+  ignorePatterns: [
+    "scripts/*"
+  ],
   rules: {
     "linebreak-style": [
       "error",
