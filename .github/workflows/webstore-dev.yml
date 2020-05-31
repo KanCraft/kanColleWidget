@@ -44,6 +44,10 @@ jobs:
     - name: Publish to Chrome Web Store
       run: npm run publish
       if: ${{ env.SHOULD_DELIVER_DEV }}
+      env:
+        GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+        GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+        GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
 
     - name: Announce
       run: npm run announce
