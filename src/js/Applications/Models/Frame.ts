@@ -9,6 +9,7 @@ export default class Frame extends Model {
       alias: "CLASSIC",
       description: "1期の大きさ",
       id: "classic",
+      muted: false,
       position: {left: 40, top: 40},
       selectedAt: 3,
       size: { width: Const.GameWidth * (2 / 3), height: Const.GameHeight * (2 / 3) },
@@ -20,6 +21,7 @@ export default class Frame extends Model {
       alias: "ORIGINAL",
       description: "公式の大きさ",
       id: "original",
+      muted: false,
       position: {left: 40, top: 40},
       selectedAt: 2,
       size: {width: Const.GameWidth, height: Const.GameHeight},
@@ -31,6 +33,7 @@ export default class Frame extends Model {
       alias: "SMALL",
       description: "公式の半分",
       id: "small",
+      muted: false,
       position: { left: 40, top: 40 },
       protected: true,
       selectedAt: 1,
@@ -43,6 +46,7 @@ export default class Frame extends Model {
       alias: "MINI",
       description: "公式の1/4",
       id: "mini",
+      muted: false,
       position: { left: 40, top: 40 },
       protected: true,
       selectedAt: 1,
@@ -64,6 +68,8 @@ export default class Frame extends Model {
 
   zoom: number;
   selectedAt: number; // 最後にこの窓が選択されたタイムスタンプ
+  muted: boolean;
+
   private addressbar: boolean;
   private url: string;
   private position: {
