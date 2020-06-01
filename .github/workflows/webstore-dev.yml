@@ -1,7 +1,7 @@
 name: Web Store DEV
 on:
   schedule:
-    - cron: '30 5 * * *'
+    - cron: '0 4 * * *'
 
 jobs:
   delivery:
