@@ -223,6 +223,7 @@ class WindowService {
     }
     frame.update({selectedAt: Date.now()});
     tab = await this.create(frame);
+    await this.mute(tab, frame.muted);
     return tab;
   }
 }

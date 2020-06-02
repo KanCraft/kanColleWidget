@@ -48,8 +48,10 @@ export async function WindowRecord(message: any) {
 
 export async function WindowToggleMute(/* message: any */) {
   const tab: chrome.tabs.Tab = this.sender.tab;
+  const muted = !tab.mutedInfo.muted;
   const ws = WindowService.getInstance();
-  const res = await ws.mute(tab, !tab.mutedInfo.muted);
+  const res = await ws.mute(tab, muted);
+  Frame.latest().update({ muted });
   return res;
 }
 

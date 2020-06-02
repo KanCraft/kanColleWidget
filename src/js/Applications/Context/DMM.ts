@@ -32,9 +32,9 @@ export default class DMM {
   /**
    * アプリ内ボタンの表示
    */
-  private showInAppButtons(configs: {[key: string]: any}) {
+  private showInAppButtons(configs: {[key: string]: any}, frame: Frame) {
 
-    const buttons = new InAppButtons(this.scope.document, configs, this.client);
+    const buttons = new InAppButtons(this.scope.document, configs, frame, this.client);
     if (!buttons.enabled()) {
       return;
     }
@@ -147,7 +147,7 @@ export default class DMM {
     this.hideNavigations(Const.HiddenElements);
 
     // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
-    this.showInAppButtons(configs);
+    this.showInAppButtons(configs, frame);
 
     setTimeout(() => this.initialized = true, 200);
   }
