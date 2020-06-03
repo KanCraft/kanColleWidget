@@ -32,10 +32,6 @@ jobs:
       run: source ./scripts/should_deliver_dev.sh
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
-        TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
-        TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
-        TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
 
     - name: Build
       run: npm run build
@@ -53,9 +49,15 @@ jobs:
         GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
         GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
 
-    - name: Announce
+    - name: Create release announcement
       run: npm run announce
       if: ${{ env.SHOULD_DELIVER_DEV }}
+
+    # SHOULD_DELIVER_DEV に関わらず、announcement.txtの内容をツイートする
+    - name: Tweet announcement
+      run: |
+        announcement=`cat announcement.txt`
+        npm run tweet "${announcement}"
       env:
         TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
         TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}

@@ -36,8 +36,7 @@ LATEST_TAG=`git describe --tags --abbrev=0`
 COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
 if [[ ${COMMIT_CNT} -eq 0 ]]; then
   message=`GET_SKIP_MESSAGE`
-  npm run tweet "${message}"
-  sleep 1s
+  cat "${message}" > announcement.txt
   exit 0
 else
   echo '::set-env name=SHOULD_DELIVER_DEV::yes'

@@ -1,4 +1,5 @@
-const shell   = require("child_process");
+const shell = require("child_process");
+const fs = require("fs");
 
 function packageEnv() {
   return "【リリース情報】" + /develop/.test(process.env.TRAVIS_BRANCH) ? "[v3テスト版] " : " ";
@@ -20,7 +21,7 @@ function main(cb) {
   const previous_tag = shell.execSync(`git describe --abbrev=0 --tags ${last_commit}`).toString().trim();
   const commits = shell.execSync(`git log --pretty="%s" --no-merges ${previous_tag}..${last_commit}`).toString().trim().split("\n").reverse();
   const status = constructTweetText(current_tag, commits);
-  return shell.exec(`npm run tweet "${status}"`, cb);
+  fs.writeFile("announcement.txt", status, cb);
 }
 
 // 直接呼ばれたときにやるやつ
