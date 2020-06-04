@@ -31,16 +31,30 @@ function GET_SKIP_MESSAGE() {
   fi
 }
 
-echo "[INFO] 直近のtagから差分が無ければリリースしない"
 LATEST_TAG=`git describe --tags --abbrev=0`
+echo "[INFO] 直近のタグ: ${LATEST_TAG}"
+
+# (1) コミットが無い場合
 COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
 if [[ ${COMMIT_CNT} -eq 0 ]]; then
+  echo "[INFO] 直近のtagからコミットが無いのでリリースしない"
   message=`GET_SKIP_MESSAGE`
   cat "${message}" > announcement.txt
   exit 0
-else
-  echo '::set-env name=SHOULD_DELIVER_DEV::yes'
 fi
+
+# (2) アプリケーションに変更が無い場合
+FILES_CNT=`git diff --name-only ${LATEST_TAG}..HEAD | grep "^src/\|^dest\|^manifest.json" | wc -l`
+if [[ ${FILES_CNT} -gt 0 ]]; then
+  echo "[INFO] 直近のtagからアプリのソースコードに変更が無いのでリリースしない"
+  message=`GET_SKIP_MESSAGE`
+  cat "${message}" > announcement.txt
+  exit 0
+fi
+
+# 他のstepも参照できるように ::set-env コマンドを使う
+# https://help.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
+echo '::set-env name=SHOULD_DELIVER_DEV::yes'
 sleep 1s
 
 echo "[INFO] タグをつけて commit します"
@@ -59,4 +73,5 @@ sleep 5s
 echo "[DONE]"
 echo "  LATEST_TAG: ${LATEST_TAG}"
 echo "  COMMIT_CNT: ${COMMIT_CNT}"
+echo "  FILES_CNT:  ${FILES_CNT}"
 exit 0
