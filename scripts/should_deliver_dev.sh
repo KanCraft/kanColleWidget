@@ -45,7 +45,7 @@ fi
 
 # (2) アプリケーションに変更が無い場合
 FILES_CNT=`git diff --name-only ${LATEST_TAG}..HEAD | grep "^src/\|^dest\|^manifest.json" | wc -l`
-if [[ ${FILES_CNT} -gt 0 ]]; then
+if [[ ${FILES_CNT} -eq 0 ]]; then
   echo "[INFO] 直近のtagからアプリのソースコードに変更が無いのでリリースしない"
   message=`GET_SKIP_MESSAGE`
   cat "${message}" > announcement.txt
