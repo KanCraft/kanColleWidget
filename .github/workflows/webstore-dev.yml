@@ -1,7 +1,9 @@
 name: Web Store TEST
 on:
   schedule:
-    - cron: '0 4 * * *'
+    # - cron: '0 4 * * *'
+    # DEBUG
+    - cron: '*/10 * * * *'
 
 jobs:
   delivery:
