@@ -1,10 +1,10 @@
+import { Model } from "chomex";
+import catalog from "./catalog";
+
 /**
  * 編成キャプチャの設定を保存する用のモデル。
  * ふつうの1艦隊編成もあれば、連合艦隊、航空基地編成などもある。
  */
-import { Model } from "chomex";
-import catalog from "./catalog";
-
 export default class DeckCapture extends Model {
 
   static default = {

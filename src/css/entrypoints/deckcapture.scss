@@ -21,6 +21,14 @@ select.form-select {
 
   .preview-container {
     margin-bottom: 8px;
+    #preview {
+      position: relative;
+      #preview-mesh {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.4);
+        border: thin dashed yellow;
+      }
+    }
   }
 }
 

@@ -6,6 +6,13 @@ export enum Aspect {
   Landscape, // オリジナルより横に長い
 }
 
+export interface RectParam {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+}
+
 export default class Rectangle {
 
   static new(width: number, height: number): Rectangle {
@@ -83,5 +90,20 @@ export default class Rectangle {
       return Aspect.Portrait;
     }
     return Aspect.Exact;
+  }
+
+  /**
+   * 任意のReacParamを受けてあたらしくゲーム領域の特定のエリアのRectangleを返す。
+   * DeckCapture関係でよくつかうかも.
+   * @param {RectParam} params
+   */
+  reframe(params: RectParam): Rectangle {
+    const game = this.game();
+    return new Rectangle(
+      game.size.w * params.w,
+      game.size.h * params.h,
+      game.start.x * params.x,
+      game.start.y * params.y,
+    );
   }
 }

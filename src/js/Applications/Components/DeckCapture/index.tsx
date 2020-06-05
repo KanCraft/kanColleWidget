@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import chomex, { Client } from "chomex";
 
 import DeckCapture from "../../Models/DeckCapture";
 import SideBar from "./SideBar";
@@ -6,21 +7,23 @@ import SettingModal from "./SettingModal";
 import Composer from "./Composer";
 
 // FIXME: このstateの構造、汚すぎでは？
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default class DeckCaptureView extends Component<{}, {
-  selected: string;        // 今どのせっていが選択されているか
-  setting:  DeckCapture;   // 選択されている設定 FIXME: 冗長では？
+  selected:  DeckCapture;  // 現在選択されている設定
   settings: DeckCapture[]; // 選択可能なせってい一覧
   row; col; page: number;
   preview: string;
   open: boolean;
 }> {
-  constructor(props) {
+
+  private client: chomex.Client = new Client(chrome.runtime);
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: Readonly<{}>) {
     super(props);
-    const initial = "normal";
-    const setting: DeckCapture = DeckCapture.find(initial);
+    const setting: DeckCapture = DeckCapture.find("normal");
     this.state = {
-      selected: initial,
-      setting,
+      selected: setting,
       settings: DeckCapture.list(),
       row: setting.row,
       col: setting.col,
@@ -29,9 +32,15 @@ export default class DeckCaptureView extends Component<{}, {
       open: false,
     };
   }
-  render() {
+
+  async componentDidMount(): Promise<void> {
+    // サイドバーにpreviewを表示したい
+    const { uri } = await this.client.message("/capture/screenshot", { open: false });
+    this.setState({ preview: uri });
+  }
+
+  render(): JSX.Element {
     const {
-      setting,
       settings,
       selected,
       preview,
@@ -44,8 +53,8 @@ export default class DeckCaptureView extends Component<{}, {
           <div className="column col-3">
             <SideBar
               settings={settings}
-              onSelect={ev => this.onSettingChange(ev)}
               selected={selected}
+              onSelect={ev => this.onSettingChange(ev)}
               preview={preview}
               row={row}
               col={col}
@@ -54,34 +63,19 @@ export default class DeckCaptureView extends Component<{}, {
             <SettingModal active={open} />
           </div>
           <div className="column col-9">
-            <Composer setting={setting} />
+            <Composer setting={selected} />
           </div>
         </div>
       </div>
     );
   }
   private onSettingChange(ev) {
-    const selected = ev.target.value;
-    const setting = DeckCapture.find<DeckCapture>(selected);
+    const selected = DeckCapture.find<DeckCapture>(ev.target.value);
     this.setState({
       selected,
-      setting,
-      row:  setting.row,
-      col:  setting.col,
-      page: setting.page,
+      row:  selected.row,
+      col:  selected.col,
+      page: selected.page,
     });
   }
 }
-
-//   public created() {
-//     this.client.message("/capture/screenshot", {open: false}).then(res => {
-//       this.preview = res.uri;
-//       this.$forceUpdate();
-//     }).catch(err => {
-//       if (err.status == 404) {
-//         alert("ゲーム画面を開いてからリロードしてください");
-//       } else {
-//         alert(err.status);
-//       }
-//     });
-//   }

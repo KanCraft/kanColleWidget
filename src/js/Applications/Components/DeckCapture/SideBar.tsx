@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import DeckCapture from "../../Models/DeckCapture";
 
-
+/**
+ * 編成キャプチャの設定などを操作する左のやつ
+ */
 export default class SideBar extends Component<{
   onSelect: (DeckCapture) => any;
   settings: DeckCapture[];
-  selected: string;
+  selected: DeckCapture;
   preview: string;
   row; col; page: number;
 }> {
-  render() {
-    const {settings, selected, preview, row, col, page} = this.props;
+  render(): JSX.Element {
+    const { settings, selected, preview, row, col, page } = this.props;
     return (
       <div className="container sidebar">
         <div className="form-group">
           <select
             className="form-select"
             onChange={this.props.onSelect}
-            value={selected}
+            value={selected._id}
           >
             {settings.map(s => <option key={s._id} value={s._id} >{s.title}</option>)}
           </select>
@@ -26,6 +28,7 @@ export default class SideBar extends Component<{
         <div className="preview-container">
           <div id="preview">
             <img src={preview} style={{width: "100%", display: "block"}} />
+            {(preview && selected) ? <div id="preview-mesh" style={this.getMeshStyle(selected)}></div> : null}
           </div>
         </div>
 
@@ -46,5 +49,15 @@ export default class SideBar extends Component<{
 
       </div>
     );
+  }
+
+  private getMeshStyle(setting: DeckCapture): { [key: string]: string } {
+    const { cell: { x, y, w, h } } = setting;
+    return {
+      left: `${Math.floor(x * 100)}%`,
+      top: `${Math.floor(y * 100)}%`,
+      width: `${Math.floor(w * 100)}%`,
+      height: `${Math.floor(h * 100)}%`,
+    };
   }
 }
