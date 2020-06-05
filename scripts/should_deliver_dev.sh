@@ -13,24 +13,6 @@ set -e
 
 BRANCH=develop
 
-# 将来的には「艦これウィジェット」のtips的なのを垂れ流してもらう
-function GET_SKIP_MESSAGE() {
-  DEFAULT_MESSAGE="${BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
-  MESSAGES=(
-    "v3の開発をがんばっているみたい..."
-    "iPhone/iPad向けの #i168 というアプリも開発中みたい..."
-    "こっち見んな！この糞提督！"
-    "ホント、冗談じゃないわ。"
-    "こんだけ？たいしたこと無いわね。"
-  )
-  if [ `expr $(date +%d) % 4` -eq 0 ]; then
-    index=$[$RANDOM % ${#MESSAGES[@]}]
-    echo "${MESSAGES[$index]}"
-  else
-    echo ${DEFAULT_MESSAGE}
-  fi
-}
-
 LATEST_TAG=`git describe --tags --abbrev=0`
 echo "[INFO] 直近のタグ: ${LATEST_TAG}"
 
@@ -38,8 +20,8 @@ echo "[INFO] 直近のタグ: ${LATEST_TAG}"
 COMMIT_CNT=`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`
 if [[ ${COMMIT_CNT} -eq 0 ]]; then
   echo "[INFO] 直近のtagからコミットが無いのでリリースしない"
-  message=`GET_SKIP_MESSAGE`
-  cat "${message}" > announcement.txt
+  message="[v3テスト版] ${BRANCH}ブランチに、${LATEST_TAG}からの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+  echo "${message}" > announcement.txt
   exit 0
 fi
 
@@ -47,8 +29,8 @@ fi
 FILES_CNT=`git diff --name-only ${LATEST_TAG}..HEAD | grep "^src/\|^dest\|^manifest.json" | wc -l`
 if [[ ${FILES_CNT} -eq 0 ]]; then
   echo "[INFO] 直近のtagからアプリのソースコードに変更が無いのでリリースしない"
-  message=`GET_SKIP_MESSAGE`
-  cat "${message}" > announcement.txt
+  message="[v3テスト版] ${LATEST_TAG}からアプリケーションの差分が無いため、今日の抜錨はありません！ #艦これウィジェット"
+  echo "${message}" > announcement.txt
   exit 0
 fi
 
