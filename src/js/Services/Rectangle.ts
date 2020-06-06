@@ -102,8 +102,8 @@ export default class Rectangle {
     return new Rectangle(
       game.size.w * params.w,
       game.size.h * params.h,
-      game.start.x * params.x,
-      game.start.y * params.y,
+      game.start.x + (game.size.w * params.x),
+      game.start.y + (game.size.h * params.y),
     );
   }
 }

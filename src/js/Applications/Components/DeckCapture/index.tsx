@@ -5,6 +5,7 @@ import DeckCapture from "../../Models/DeckCapture";
 import SideBar from "./SideBar";
 import SettingModal from "./SettingModal";
 import Composer from "./Composer";
+import { RectParam } from "../../../Services/Rectangle";
 
 // FIXME: このstateの構造、汚すぎでは？
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -14,6 +15,7 @@ export default class DeckCaptureView extends Component<{}, {
   row; col; page: number;
   preview: string;
   open: boolean;
+  stack: string[]; // すでに撮影された画像断片
 }> {
 
   private client: chomex.Client = new Client(chrome.runtime);
@@ -30,6 +32,7 @@ export default class DeckCaptureView extends Component<{}, {
       page: setting.page,
       preview: null,
       open: false,
+      stack: [],
     };
   }
 
@@ -46,6 +49,7 @@ export default class DeckCaptureView extends Component<{}, {
       preview,
       row, col, page,
       open,
+      stack,
     } = this.state;
     return (
       <div className="container root">
@@ -63,7 +67,11 @@ export default class DeckCaptureView extends Component<{}, {
             <SettingModal active={open} />
           </div>
           <div className="column col-9">
-            <Composer setting={selected} />
+            <Composer
+              setting={selected}
+              stack={stack}
+              push={() => this.pushCapture()}
+            />
           </div>
         </div>
       </div>
@@ -76,6 +84,13 @@ export default class DeckCaptureView extends Component<{}, {
       row:  selected.row,
       col:  selected.col,
       page: selected.page,
+    });
+  }
+  private async pushCapture() {
+    const rect: RectParam = this.state.selected.cell;
+    const { uri } = await this.client.message("/capture/screenshot", { open: false, rect });
+    this.setState({
+      stack: this.state.stack.concat(uri),
     });
   }
 }
