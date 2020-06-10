@@ -5,6 +5,7 @@ export default class ComposerView extends Component<{
   setting: DeckCapture;
   stack: string[];
   push: () => void;
+  pop: () => void;
   compose: () => Promise<void>;
 }> {
   render(): JSX.Element {
@@ -71,10 +72,13 @@ export default class ComposerView extends Component<{
 
   private getCapturedContent(serial: number): JSX.Element {
     const { stack } = this.props;
-    return <div
-      key={serial} className="cell-content captured"
-      style={{ backgroundImage: `url("${stack[serial]}")` }}
-    />;
+    const button = (serial == stack.length - 1) ? <i className="icon icon-cross" onClick={this.props.pop} /> : null;
+    return (
+      <div
+        key={serial} className="cell-content captured"
+        style={{ backgroundImage: `url("${stack[serial]}")` }}
+      >{button}</div>
+    );
   }
 
   private getCompleteButton(): JSX.Element {

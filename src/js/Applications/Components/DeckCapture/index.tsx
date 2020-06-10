@@ -75,6 +75,7 @@ export default class DeckCaptureView extends Component<{}, {
               setting={selected}
               stack={stack}
               push={() => this.pushCapture()}
+              pop={() => this.popCapture()}
               compose={() => this.composeDeckCapture()}
             />
           </div>
@@ -96,12 +97,19 @@ export default class DeckCaptureView extends Component<{}, {
       page: selected.page,
     });
   }
+
   private async pushCapture() {
     const rect: RectParam = this.state.selected.cell;
     const { uri } = await this.client.message("/capture/screenshot", { open: false, rect });
     this.setState({
       stack: this.state.stack.concat(uri),
     });
+  }
+
+  private popCapture() {
+    const stack = this.state.stack.concat();
+    stack.pop();
+    this.setState({ stack });
   }
 
   private async composeDeckCapture() {

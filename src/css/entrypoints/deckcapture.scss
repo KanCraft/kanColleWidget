@@ -64,6 +64,13 @@ select.form-select {
       &.captured {
         background-size: contain;
         background-repeat: no-repeat;
+        i {
+          cursor: pointer;
+          opacity: 0;
+          &:hover {
+            opacity: 1;
+          }
+        }
       }
     }
   }
