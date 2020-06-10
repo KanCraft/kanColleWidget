@@ -25,7 +25,6 @@ export async function Screenshot(
   const ts = await TrimService.init(original);
   const rect = Rectangle.new(ts.img.width, ts.img.height);
   const area = message.rect ? rect.reframe(message.rect) : rect.game();
-  console.log(area);
   const trimmed = ts.trim(area);
   if (message.open) {
     chrome.alarms.create(`/screenshot?uri=${encodeURIComponent(trimmed)}`, {when: Date.now() + 100});

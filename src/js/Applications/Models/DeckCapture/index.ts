@@ -39,8 +39,8 @@ export default class DeckCapture extends Model {
   cell: { // 1セルの定義
     x: number; // スタート座標X （ゲーム幅を1に対して）
     y: number; // スタート座標Y （ゲーム高を1に対して）
-    w: number; // セル幅
-    h: number; // セル高
+    w: number; // セル幅 （ゲーム幅を1に対して）
+    h: number; // セル高 （ゲーム高を1に対して）
   };
   protected = false; // 削除禁止
   page = 1; // 繰り返しページ数

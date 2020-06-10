@@ -5,6 +5,7 @@ export default class ComposerView extends Component<{
   setting: DeckCapture;
   stack: string[];
   push: () => void;
+  compose: () => Promise<void>;
 }> {
   render(): JSX.Element {
     // const {setting} = this.props;
@@ -81,6 +82,6 @@ export default class ComposerView extends Component<{
     if (stack.length == 0) {
       return <button className="btn column" disabled>編集ボタンを押して画像を追加してください</button>;
     }
-    return <button className="btn btn-primary column">{stack.length}枚の画像をまとめて編成キャプチャをつくる</button>;
+    return <button className="btn btn-primary column" onClick={this.props.compose}>{stack.length}枚の画像をまとめて編成キャプチャをつくる</button>;
   }
 }

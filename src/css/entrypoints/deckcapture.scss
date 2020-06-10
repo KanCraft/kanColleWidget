@@ -68,3 +68,15 @@ select.form-select {
     }
   }
 }
+
+.modal {
+  .content {
+    text-align: center;
+    .composed-img {
+      width: 66%;
+    }
+  }
+  button.btn {
+    margin-left: 4px;
+  }
+}
