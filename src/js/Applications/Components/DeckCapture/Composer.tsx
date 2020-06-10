@@ -3,13 +3,20 @@ import DeckCapture from "../../Models/DeckCapture";
 
 export default class ComposerView extends Component<{
   setting: DeckCapture;
+  stack: string[];
+  push: () => void;
+  pop: () => void;
+  compose: () => Promise<void>;
 }> {
-  render() {
+  render(): JSX.Element {
     // const {setting} = this.props;
     return (
       <div className="container composer">
         <div className="columns">
           {this.pages()}
+        </div>
+        <div className="columns">
+          {this.getCompleteButton()}
         </div>
       </div>
     );
@@ -32,11 +39,53 @@ export default class ComposerView extends Component<{
   }
   private cols(page: number, row: number): JSX.Element[] {
     const cols: JSX.Element[] = [];
-    const style = {height: "200px", backgroundColor: "#bfbfdf", marginRight: "8px"};
+    const style = {height: "200px", marginRight: "8px"};
     for (let c = 0; c < this.props.setting.col; c++) {
-      const index: number = this.props.setting.col * row + c + 1;
-      cols.push(<div className="column" key={index} style={style}>{index}</div>);
+      const [serial, content] = this.getContentAt(page, row, c);
+      cols.push(<div className="column cell" key={serial} style={style}>{content}</div>);
     }
     return cols;
+  }
+
+  private getContentAt(page: number, row: number, col: number): [number, JSX.Element] {
+    const { setting, stack } = this.props;
+    const cellsPerPage = (setting.row * setting.col);
+    const serial = (page * cellsPerPage) + (row * setting.col) + col;
+    if (serial < stack.length) {
+      return [serial, this.getCapturedContent(serial)];
+    }
+    return [serial, this.getEmptyContent(serial)];
+  }
+
+  private getEmptyContent(serial: number): JSX.Element {
+    const { stack } = this.props;
+    if (stack.length == serial) {
+      return (
+        <div
+          className="cell-content bg-gray focused"
+          onClick={() => this.props.push()}
+        ><i key={serial} className="icon icon-edit text-primary"></i></div>
+      );
+    }
+    return <div className="cell-content bg-gray"><span className="text-secondary">{serial + 1}</span></div>;
+  }
+
+  private getCapturedContent(serial: number): JSX.Element {
+    const { stack } = this.props;
+    const button = (serial == stack.length - 1) ? <i className="icon icon-cross" onClick={this.props.pop} /> : null;
+    return (
+      <div
+        key={serial} className="cell-content captured"
+        style={{ backgroundImage: `url("${stack[serial]}")` }}
+      >{button}</div>
+    );
+  }
+
+  private getCompleteButton(): JSX.Element {
+    const { stack } = this.props;
+    if (stack.length == 0) {
+      return <button className="btn column" disabled>編集ボタンを押して画像を追加してください</button>;
+    }
+    return <button className="btn btn-primary column" onClick={this.props.compose}>{stack.length}枚の画像をまとめて編成キャプチャをつくる</button>;
   }
 }

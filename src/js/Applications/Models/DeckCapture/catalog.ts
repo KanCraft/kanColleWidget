@@ -1,5 +1,6 @@
+import { RectParam } from "../../../Services/Rectangle";
 
-export default {
+const catalog: { [name: string]: RectParam } = {
   // 艦隊の座標
   fleet: {
     x: 39 / 100,
@@ -15,3 +16,4 @@ export default {
     h: 73 / 100,
   },
 };
+export default catalog;
