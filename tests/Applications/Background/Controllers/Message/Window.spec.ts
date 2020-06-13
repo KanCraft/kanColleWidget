@@ -14,7 +14,7 @@ describe("Window Controller", () => {
     fake(chrome.windows.create).callbacks({tabs: [ {} ] });
     fake(chrome.tabs.update).callbacks({});
     it("TODO: なんかアサーションする", async (ok) => {
-      await WindowOpen({});
+      await WindowOpen({ id: "mini" });
       ok();
     });
   });
