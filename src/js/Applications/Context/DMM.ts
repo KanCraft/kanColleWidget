@@ -153,6 +153,13 @@ export default class DMM {
   }
 
   /**
+   * 画面を閉じる前に呼ばれる
+   */
+  onbeforeunload(ev: Event) {
+    return ev.returnValue;
+  }
+
+  /**
    * 画面がリサイズしたときのルーチン
    * onresizeイベントはすごい勢いでたくさん発火するので、
    * ある程度debounceしている。
