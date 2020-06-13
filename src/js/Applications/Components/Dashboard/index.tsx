@@ -6,7 +6,7 @@ import Recovery from "../../Models/Queue/Recovery";
 import Shipbuilding from "../../Models/Queue/Shipbuilding";
 import ClockView from "./ClockView";
 
-export default class DashboardView extends React.Component<{}, {
+export default class DashboardView extends React.Component<Record<string, any>, {
   missions: Scanned<Mission>;
   recoveries: Scanned<Recovery>;
   shipbuildings: Scanned<Shipbuilding>;

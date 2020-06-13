@@ -4,9 +4,6 @@ import React from "react";
 export default class ClockView extends React.Component<{
   now: Date;
 }> {
-  constructor(props) {
-    super(props);
-  }
 
   private getDayOfWeek(): string {
     const dict = {
@@ -21,7 +18,7 @@ export default class ClockView extends React.Component<{
     return dict[this.props.now.getDay()];
   }
 
-  render() {
+  render(): JSX.Element {
     const { now } = this.props;
     return (
       <div className="icon-clock-container row">
