@@ -39,15 +39,13 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[]; selec
     );
   }
   onSelect(ev) {
-    this.client.message("/window/open", {id: ev.target.value}).then(() => {
-      // FIXME: ここでWindowを参照したくなかった
-      window.close();
-    });
+    this.client.message("/window/open", {id: ev.target.value});
+    // FIXME: ここでWindowを参照したくなかった
+    window.close();
   }
   launch() {
-    this.client.message("/window/open", {id: this.state.selected._id}).then(() => {
-      // FIXME: ここでWindowを参照したくなかった
-      window.close();
-    });
+    this.client.message("/window/open", {id: this.state.selected._id});
+    // FIXME: ここでWindowを参照したくなかった
+    window.close();
   }
 }
