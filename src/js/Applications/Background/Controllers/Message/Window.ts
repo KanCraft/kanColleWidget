@@ -12,10 +12,12 @@ import Frame from "../../../Models/Frame";
 
 /**
  * WindowOpen
+ * @MESSAGE /window/open
  * すでにあれば、指定されたフレーム情報にリサイズする.
  * なければ、指定されたフレームか、最後に指定されたフレームにリサイズする.
+ * @param {string} message.id FrameモデルのID
  */
-export async function WindowOpen(message: any) {
+export async function WindowOpen(message: { id: string }): Promise<chrome.tabs.Tab> {
   const ws = WindowService.getInstance();
   return await ws.backToGame(message);
 }

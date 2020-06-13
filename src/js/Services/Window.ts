@@ -104,6 +104,15 @@ class WindowService {
   }
 
   /**
+   * 窓をフォーカスする
+   * @param {chrome.tabs.Tab} tab
+   * @param {boolean} focused=true
+   */
+  async focus(tab: chrome.tabs.Tab, focused = true): Promise<chrome.tabs.Tab> {
+    return this.update(tab, { focused });
+  }
+
+  /**
    * 窓のズーム値を変える
    */
   zoom(tab: chrome.tabs.Tab, zoom: number): Promise<chrome.tabs.Tab> {
@@ -209,22 +218,26 @@ class WindowService {
 
   /**
    * WindowServiceにあるべきなのかはわからないけれど、とりあえずここにおいておく
-   *   1. すでにゲーム窓がある場合はreconfigureする
-   *   2. 無ければゲーム窓を開く
-   * @param message
+   *   1. 開いているゲーム画面が無い場合、つくる
+   *   2. ゲーム画面があり、Frameの指定が無い場合はfocusするだけ
+   *   3. ゲーム画面があり、Frameの指定がある場合はreconfigureする
+   * @param {string} message.id Frameのid（miniとかそういうの)
    */
-  async backToGame(message: { id?: number } = {}): Promise<chrome.tabs.Tab> {
-    const id = message.id;
-    const frame = Frame.find<Frame>(id) || Frame.latest();
+  async backToGame(message: { id?: string } = {}): Promise<chrome.tabs.Tab> {
     let tab = await this.find();
-    if (tab) {
-      tab = await this.reconfigure(tab, frame);
-      return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
+    if (!tab) {
+      const frame = Frame.find<Frame>(message.id) || Frame.latest();
+      frame.update({selectedAt: Date.now()});
+      tab = await this.create(frame);
+      await this.mute(tab, frame.muted);
+      return tab;
     }
-    frame.update({selectedAt: Date.now()});
-    tab = await this.create(frame);
-    await this.mute(tab, frame.muted);
-    return tab;
+    const frame = Frame.find<Frame>(message.id);
+    if (!frame) {
+      return await this.focus(tab);
+    }
+    tab = await this.reconfigure(tab, frame);
+    return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
   }
 }
 

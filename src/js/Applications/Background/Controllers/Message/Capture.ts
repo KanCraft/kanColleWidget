@@ -7,8 +7,7 @@ import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 
 /**
- * MESSAGE /capture/screenshot
- * に対するコントローラ
+ * @MESSAGE /capture/screenshot
  * @param {boolean} message.open 撮った画像をそのままどっかのウィンドウで開くかどうかっていう
  * @param {RectParam?} message.rect
  */
