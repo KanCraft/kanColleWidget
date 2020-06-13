@@ -44,9 +44,9 @@ export default class ClockView extends React.Component<{
             </div>
           </div>
           <div className="time-wrapper">
-            <div className="hours"><span>{now.getHours()}</span></div>
+            <div className="hours"><span>{now.getHours().pad(2)}</span></div>
             <div className="colon"><span>:</span></div>
-            <div className="minute"><span>{now.getMinutes()}</span></div>
+            <div className="minute"><span>{now.getMinutes().pad(2)}</span></div>
           </div>
         </div>
       </div>
