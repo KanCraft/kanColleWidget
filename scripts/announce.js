@@ -2,7 +2,14 @@ const shell = require("child_process");
 const fs = require("fs");
 
 function packageEnv() {
-  return "【リリース情報】" + /develop/.test(process.env.TRAVIS_BRANCH) ? "[v3テスト版] " : " ";
+  switch (process.env.NODE_ENV) {
+  case "staging":
+    return "[v3テスト版] "
+  case "production":
+    return "【リリース情報】"
+  default:
+    return "[DEBUG] "
+  }
 }
 
 function constructTweetText(head, commits, omitted) {
