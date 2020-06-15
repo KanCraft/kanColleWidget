@@ -36,8 +36,10 @@ jobs:
 
     - name: Tweet
       run: |
-        announcement=`cat announcement.txt`
-        npm run tweet "${announcement}"
+        if [ -f announcement.txt ]; then
+          announcement=`cat announcement.txt`
+          npm run tweet "${announcement}"
+        fi
       env:
         TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
         TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
