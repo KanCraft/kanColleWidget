@@ -86,7 +86,6 @@ function publishUploadedPackageFile(access_token, app_id, trustedTesters) {
 
 /** このスクリプトのデフォルトエクスポート
  * __main__的なもの
- * TODO: CHROMEWEBSTORE_APP_ID を、TRAVIS_EVENT_TYPE を見て差し替える
  */
 function main(zip_file_path, client_id, client_secret, refresh_token, app_id) {
   client_id     = client_id     || process.env.GOOGLEAPI_CLIENT_ID;
