@@ -17,7 +17,7 @@ jobs:
     - run: npm install
 
     - name: Issue用ツイート内容の生成
-      if: github.event_name == 'issues'
+      if: github.event_name == 'issues' && github.event.action == 'opened'
       env:
         SENDER: ${{ github.event.sender.login}}
         TITLE: ${{ github.event.issue.title}}
@@ -26,7 +26,7 @@ jobs:
         echo -ne "ご意見が届きました！\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     - name: PR用ツイート内容の生成
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request' && github.event.action == 'opened'
       env:
         SENDER: ${{ github.event.sender.login}}
         TITLE: ${{ github.event.pull_request.title}}
