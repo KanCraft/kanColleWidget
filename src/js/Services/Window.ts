@@ -57,7 +57,7 @@ class WindowService {
     return new Promise((resolve, reject) => {
       this.tabs.query(query, (tabs: chrome.tabs.Tab[]) => {
         if (strict && tabs.length === 0) {
-          return reject();
+          return reject("not found");
         }
         return resolve(tabs[0]);
       });
