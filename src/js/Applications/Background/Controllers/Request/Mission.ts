@@ -13,8 +13,16 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
   const notify = Config.find<Config<boolean>>("notification-mission").value;
   if (notify) {
     const notifications = new NotificationService();
-    const nid = mission.toNotificationID({start: true});
+    const nid = mission.toNotificationID({ start: Date.now() });
     notifications.create(nid, mission.notificationOptionOnRegister());
   }
   return { status: 202, mission };
+}
+
+export async function OnMissionResult(req: chrome.webRequest.WebRequestBodyDetails) {
+  const service = new NotificationService();
+  const notes = await service.getAll();
+  Object.entries(notes).map(async ([nid]) => {
+    if (nid.startsWith(Mission.__ns)) await service.clear(nid);
+  });
 }
