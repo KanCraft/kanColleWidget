@@ -41,6 +41,10 @@ export default class Mission extends Queue {
     return super._register(scheduled);
   }
 
+  registeredOn(deck: number | string) {
+    return this.deck == deck;
+  }
+
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
       iconUrl: this.defaultIconURL,

@@ -16,6 +16,10 @@ export default class Shipbuilding extends Queue {
     return super._register<Shipbuilding>(scheduled);
   }
 
+  registeredOn(dock: number | string) {
+    return this.dock == dock;
+  }
+
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
       iconUrl: this.defaultIconURL,

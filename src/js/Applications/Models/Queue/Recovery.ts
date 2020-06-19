@@ -18,6 +18,10 @@ export default class Recovery extends Queue {
     return super._register<Recovery>(scheduled - Recovery.offset);
   }
 
+  registeredOn(dock: number | string) {
+    return this.dock == dock;
+  }
+
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
       iconUrl: this.defaultIconURL,
