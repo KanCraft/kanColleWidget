@@ -1,7 +1,7 @@
 const catalog: {
   [id: number]: {
     title: string;
-    time: number;
+    time: number; // ミリ秒
   };
 } = {
   "0": {

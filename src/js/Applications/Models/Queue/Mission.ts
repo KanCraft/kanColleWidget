@@ -9,6 +9,8 @@ export default class Mission extends Queue {
 
   static __ns = "Mission"
 
+  static offset = 1000 * 60; // 1分前通知とかいうやつ
+
   /**
      * 遠征IDからMissionモデルを作成する
      * @param id 遠征ID
@@ -35,7 +37,7 @@ export default class Mission extends Queue {
    * ストレージに登録する
    */
   register(): Mission {
-    const scheduled = Date.now() + this.time;
+    const scheduled = Date.now() + this.time - Mission.offset;
     return super._register(scheduled);
   }
 
