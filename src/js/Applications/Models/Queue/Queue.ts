@@ -25,6 +25,10 @@ export default class Queue extends Model {
   kind(): string {
     return (this.constructor as any).__ns;
   }
+  // registeredOn
+  registeredOn(i: number | string): boolean {
+    throw new Error("overrideして使ってください");
+  }
 
   toNotificationID(params: Record<string, any> = {}): string {
     const search = new URLSearchParams(params);
@@ -41,6 +45,10 @@ export default class Queue extends Model {
   }
 
   notificationOption(): chrome.notifications.NotificationOptions {
+    throw new Error("overrideして使ってくれ");
+  }
+
+  getTimerLabel(): string {
     throw new Error("overrideして使ってくれ");
   }
 }

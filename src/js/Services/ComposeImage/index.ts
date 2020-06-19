@@ -16,10 +16,7 @@ export class DeckCaptureStrategy implements ComposeStrategy {
   // scaleを加味したcanvas上のcellの大きさ
   private cell: {w: number, h: number};
 
-  constructor(
-    public setting: DeckCapture,
-    private scope: Document = document
-  ) {}
+  constructor(public setting: DeckCapture, private scope: Document = document) {}
 
   begin(): void {
     this.canvas = this.scope.createElement("canvas");

@@ -22,3 +22,26 @@
     }
   }
 }
+
+.queue-matrix {
+  .container {
+    &.遠征 {
+      .columns:first-child>:nth-child(2) {
+        background-color: $mission-color;
+        color: white;
+      }
+    }
+    &.修復 {
+      .columns:first-child>:nth-child(2) {
+        background-color: $recovery-color;
+        color: white;
+      }
+    }
+    &.建造 {
+      .columns:first-child>:nth-child(2) {
+        background-color: $shipbuilding-color;
+        color: white;
+      }
+    }
+  }
+}

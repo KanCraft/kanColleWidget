@@ -21,6 +21,14 @@ export async function OnShipbuildingStart(req: DebuggableRequest) {
   return { status: 200 };
 }
 
+export async function OnShipbuildingGetShip(req: DebuggableRequest) {
+  const service = new NotificationService();
+  const notes = await service.getAll();
+  Object.entries(notes).map(async ([nid]) => {
+    if (nid.startsWith(Shipbuilding.__ns)) await service.clear(nid);
+  });
+}
+
 export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   if (req.debug) {

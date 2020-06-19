@@ -21,4 +21,9 @@ export default class NotificationService {
     });
   }
 
+  getAll(): Promise<Record<string, any>> {
+    return new Promise(resolve => {
+      this.n.getAll(notifications => resolve(notifications));
+    });
+  }
 }

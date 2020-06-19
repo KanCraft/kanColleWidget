@@ -4,6 +4,8 @@ export default class Recovery extends Queue {
 
   static __ns = "Recovery";
 
+  static offset = 1000 * 60; // 1分前通知とかいうやつ
+
   static scan(clean = true): Scanned<Recovery> {
     return super._scan<Recovery>(Recovery, Date.now(), clean);
   }
@@ -13,7 +15,11 @@ export default class Recovery extends Queue {
   text: string;
 
   register(scheduled: number): Recovery {
-    return super._register<Recovery>(scheduled);
+    return super._register<Recovery>(scheduled - Recovery.offset);
+  }
+
+  registeredOn(dock: number | string) {
+    return this.dock == dock;
   }
 
   notificationOption(): chrome.notifications.NotificationOptions {
