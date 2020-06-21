@@ -10,6 +10,7 @@ import {
 } from "../../../../definitions/debuggable";
 import Config from "../../../Models/Config";
 import NotificationService from "../../../../Services/Notification";
+import OCRService from "../../../../Services/OCR";
 
 const tmp = {
   dock: null,
@@ -50,15 +51,8 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
   const rect = Rectangle.new(ts.img.width, ts.img.height).shipbuilding(dock);
   const base64 = ts.trim(rect);
 
-  // {{{ TODO: こういうのここに置いといちゃだめでしょ
-  const res = await fetch("https://api-kcwidget.herokuapp.com/ocr/base64", {
-    body: JSON.stringify({ base64, whitelist: "0123456789:" }),
-    method: "POST",
-  });
-  const {result: text} = await res.json();
-  const [h, m, s] = text.trim().split(":").map(p => parseInt(p, 10));
-  const time = (h * (60 * 60) + m * (60) + s) * 1000;
-  // }}}
+  const ocr = new OCRService();
+  const { text, time } = await ocr.fromBase64(base64);
 
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
   shipbuilding.register(Date.now() + time);

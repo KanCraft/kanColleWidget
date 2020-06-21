@@ -4,6 +4,12 @@ export default class OCRService {
     private url: string = "https://api-kcwidget.herokuapp.com/ocr/base64"
   ) {}
 
+  /**
+   * Base64形式のimageを受けて、OCRのうえ、ミリ秒に変換して返す
+   * @param {string} base64 Base64形式の画像データ（data:image/jpeg;base64,xxxxx....)
+   * @returns {string} text OCR結果
+   * @returns {number} time ミリ秒
+   */
   async fromBase64(base64: string): Promise<{ text: string; time: number }> {
     const text = await this.base64toText(base64);
     return { text, time: this.textToMillisecond(text) };
