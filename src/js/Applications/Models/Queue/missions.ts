@@ -1,7 +1,12 @@
-{
+const catalog: {
+  [id: number]: {
+    title: string;
+    time: number; // ミリ秒
+  };
+} = {
   "0": {
     "title": "マニュアル登録されたやつ",
-    "time": 0
+    "time": 1000 * 2
   },
   "1": {
     "title": "練習航海",
@@ -191,4 +196,6 @@
     "title": "DEBUG: 今すぐのやつ",
     "time": 0
   }
-}
+};
+
+export default catalog;

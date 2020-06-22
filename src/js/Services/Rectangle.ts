@@ -6,21 +6,28 @@ export enum Aspect {
   Landscape, // オリジナルより横に長い
 }
 
+export interface RectParam {
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+}
+
 export default class Rectangle {
 
-  public static new(width: number, height: number): Rectangle {
+  static new(width: number, height: number): Rectangle {
     return new this(width, height);
   }
 
-  public start: {x: number, y: number} = {x: 0, y: 0};
-  public size: {w: number, h: number} = {w: Const.GameWidth, h: Const.GameHeight};
+  start: {x: number; y: number} = {x: 0, y: 0};
+  size: {w: number; h: number} = {w: Const.GameWidth, h: Const.GameHeight};
 
-  constructor(w: number, h: number, x: number = 0, y: number = 0) {
+  constructor(w: number, h: number, x = 0, y = 0) {
     this.size = {w, h};
     this.start = {x, y};
   }
 
-  public game(): Rectangle {
+  game(): Rectangle {
     const r = (this.size.h / this.size.w);
     switch (this.aspect(r)) {
     case Aspect.Landscape:
@@ -42,7 +49,7 @@ export default class Rectangle {
     }
   }
 
-  public damagesnapshot(): Rectangle {
+  damagesnapshot(): Rectangle {
     const game = this.game();
     return new Rectangle(
       game.size.w * (5 / 24),
@@ -52,7 +59,7 @@ export default class Rectangle {
     );
   }
 
-  public recovery(dock: number): Rectangle {
+  recovery(dock: number): Rectangle {
     const game = this.game();
     const dockHeight = game.size.h * (122 / 720);
     return new Rectangle(
@@ -63,7 +70,7 @@ export default class Rectangle {
     );
   }
 
-  public shipbuilding(dock: number): Rectangle {
+  shipbuilding(dock: number): Rectangle {
     const game = this.game();
     const dockHeight = game.size.h * (117 / 720);
     return new Rectangle(
@@ -74,7 +81,7 @@ export default class Rectangle {
     );
   }
 
-  public aspect(r = (this.size.h / this.size.w)): Aspect {
+  aspect(r = (this.size.h / this.size.w)): Aspect {
     const a = r - Const.GameAspectRatio;
     if (a < 0) {
       return Aspect.Landscape;
@@ -83,5 +90,20 @@ export default class Rectangle {
       return Aspect.Portrait;
     }
     return Aspect.Exact;
+  }
+
+  /**
+   * 任意のReacParamを受けてあたらしくゲーム領域の特定のエリアのRectangleを返す。
+   * DeckCapture関係でよくつかうかも.
+   * @param {RectParam} params
+   */
+  reframe(params: RectParam): Rectangle {
+    const game = this.game();
+    return new Rectangle(
+      game.size.w * params.w,
+      game.size.h * params.h,
+      game.start.x + (game.size.w * params.x),
+      game.start.y + (game.size.h * params.y),
+    );
   }
 }

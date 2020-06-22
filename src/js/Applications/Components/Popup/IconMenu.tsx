@@ -12,7 +12,7 @@ export default class IconMenu extends Component {
       </div>
     );
   }
-  private viewForMenu() {
+  private viewForMenu(): JSX.Element[] {
     const style = {
       display: "flex",
       alignItems: "center",
@@ -38,18 +38,17 @@ export default class IconMenu extends Component {
     {
       title: "設定",
       icon: "cog" as IconName,
-      onClick: async () => {
-        const res = await this.client.message("/options/open");
-        console.log(res);
-      },
+      onClick: () => this.client.message("/options/open"),
     },
     {
       title: "編成キャプチャ",
       icon: "grip-vertical" as IconName,
-      onClick: async () => {
-        const res = await this.client.message("/deckcapture/open");
-        console.log(res);
-      },
+      onClick: () => this.client.message("/deckcapture/open"),
+    },
+    {
+      title: "ダッシュボード",
+      icon: "clock" as IconName,
+      onClick: () => this.client.message("/dashboard/open"),
     }
   ];
 

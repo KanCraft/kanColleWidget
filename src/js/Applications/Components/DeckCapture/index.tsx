@@ -1,42 +1,59 @@
 import React, { Component } from "react";
+import chomex, { Client } from "chomex";
+import cn from "classnames";
 
 import DeckCapture from "../../Models/DeckCapture";
 import SideBar from "./SideBar";
 import SettingModal from "./SettingModal";
 import Composer from "./Composer";
+import { RectParam } from "../../../Services/Rectangle";
+import ComposeImageService from "../../../Services/ComposeImage";
 
 // FIXME: このstateの構造、汚すぎでは？
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default class DeckCaptureView extends Component<{}, {
-  selected: string;        // 今どのせっていが選択されているか
-  setting:  DeckCapture;   // 選択されている設定 FIXME: 冗長では？
+  selected:  DeckCapture;  // 現在選択されている設定
   settings: DeckCapture[]; // 選択可能なせってい一覧
-  row, col, page: number;
+  row; col; page: number;
   preview: string;
   open: boolean;
+  stack: string[]; // すでに撮影された画像断片
+  composed?: string; // 生成された編成キャプチャ
 }> {
-  constructor(props) {
+
+  private client: chomex.Client = new Client(chrome.runtime);
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: Readonly<{}>) {
     super(props);
-    const initial = "normal";
-    const setting: DeckCapture = DeckCapture.find(initial);
+    const setting: DeckCapture = DeckCapture.find("normal");
     this.state = {
-      selected: initial,
-      setting,
+      selected: setting,
       settings: DeckCapture.list(),
       row: setting.row,
       col: setting.col,
       page: setting.page,
       preview: null,
       open: false,
-    }
+      stack: [],
+      composed: null,
+    };
   }
-  render() {
+
+  async componentDidMount(): Promise<void> {
+    // サイドバーにpreviewを表示したい
+    const { uri } = await this.client.message("/capture/screenshot", { open: false });
+    this.setState({ preview: uri });
+  }
+
+  render(): JSX.Element {
     const {
-      setting,
       settings,
       selected,
       preview,
       row, col, page,
       open,
+      stack,
     } = this.state;
     return (
       <div className="container root">
@@ -44,8 +61,8 @@ export default class DeckCaptureView extends Component<{}, {
           <div className="column col-3">
             <SideBar
               settings={settings}
-              onSelect={ev => this.onSettingChange(ev)}
               selected={selected}
+              onSelect={ev => this.onSettingChange(ev)}
               preview={preview}
               row={row}
               col={col}
@@ -54,34 +71,79 @@ export default class DeckCaptureView extends Component<{}, {
             <SettingModal active={open} />
           </div>
           <div className="column col-9">
-            <Composer setting={setting} />
+            <Composer
+              setting={selected}
+              stack={stack}
+              push={() => this.pushCapture()}
+              pop={() => this.popCapture()}
+              compose={() => this.composeDeckCapture()}
+            />
+          </div>
+
+          {this.getModal()}
+
+        </div>
+
+
+      </div>
+    );
+  }
+  private onSettingChange(ev) {
+    const selected = DeckCapture.find<DeckCapture>(ev.target.value);
+    this.setState({
+      selected,
+      row:  selected.row,
+      col:  selected.col,
+      page: selected.page,
+    });
+  }
+
+  private async pushCapture() {
+    const rect: RectParam = this.state.selected.cell;
+    const { uri } = await this.client.message("/capture/screenshot", { open: false, rect });
+    this.setState({
+      stack: this.state.stack.concat(uri),
+    });
+  }
+
+  private popCapture() {
+    const stack = this.state.stack.concat();
+    stack.pop();
+    this.setState({ stack });
+  }
+
+  private async composeDeckCapture() {
+    const { stack, selected: deckcapture } = this.state;
+    const service = ComposeImageService.withStrategyFor(deckcapture);
+    const composed = await service.compose(stack);
+    this.setState({ composed });
+  }
+
+  private discardComposed() {
+    this.setState({ composed: null });
+  }
+
+  private getModal() {
+    const { composed, selected } = this.state;
+    return (
+      <div className={cn("modal", composed ? "active" : "")} id="modal-id">
+        <a href="#close" className="modal-overlay" aria-label="Close" onClick={() => this.discardComposed()}></a>
+        <div className="modal-container">
+          <div className="modal-header">
+            <div className="modal-title h5">{selected.title}</div>
+          </div>
+          <div className="modal-body">
+            <div className="content">
+              <img className="composed-img" src={composed} />
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-primary" disabled>保存（未実装）</button>
+            <button className="btn btn-primary" disabled>ツイート（未実装）</button>
+            <button className="btn btn-link" onClick={() => this.discardComposed()}>破棄</button>
           </div>
         </div>
       </div>
     );
   }
-  private onSettingChange(ev) {
-    const selected = ev.target.value;
-    const setting = DeckCapture.find<DeckCapture>(selected);
-    this.setState({
-      selected,
-      setting,
-      row:  setting.row,
-      col:  setting.col,
-      page: setting.page,
-    });
-  }
 }
-
-//   public created() {
-//     this.client.message("/capture/screenshot", {open: false}).then(res => {
-//       this.preview = res.uri;
-//       this.$forceUpdate();
-//     }).catch(err => {
-//       if (err.status == 404) {
-//         alert("ゲーム画面を開いてからリロードしてください");
-//       } else {
-//         alert(err.status);
-//       }
-//     });
-//   }

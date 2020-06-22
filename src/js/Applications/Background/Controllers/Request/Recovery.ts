@@ -6,6 +6,11 @@ import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 import Config from "../../../Models/Config";
 import Recovery from "../../../Models/Queue/Recovery";
+import {
+  DebuggableRequest,
+  DebuggableResponse,
+} from "../../../../definitions/debuggable";
+import OCRService from "../../../../Services/OCR";
 
 const tmp = {
   dock: null,
@@ -38,23 +43,17 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   const rect = Rectangle.new(ts.img.width, ts.img.height).recovery(dock);
   const base64 = ts.trim(rect);
 
-  // {{{ TODO: こういうのここに置いといちゃだめでしょ
-  const res = await fetch("https://api-kcwidget.herokuapp.com/ocr/base64", {
-    body: JSON.stringify({ base64, whitelist: "0123456789:" }),
-    method: "POST",
-  });
-  const {result: text} = await res.json();
-  const [h, m, s] = text.trim().split(":").map(p => parseInt(p, 10));
-  const time = (h * (60 * 60) + m * (60) + s) * 1000;
-  // }}}
+  const ocr = new OCRService();
+  const {text, time} = await ocr.fromBase64(base64);
 
   const recovery = Recovery.new<Recovery>({dock, time, text});
   recovery.register(Date.now() + time);
 
   const notify = Config.find<Config<boolean>>("notification-recovery").value;
   if (notify) {
-    const ns = new NotificationService();
-    ns.create(recovery._ns, recovery.notificationOptionOnRegister());
+    const notifications = new NotificationService();
+    const nid = recovery.toNotificationID({ start: Date.now() });
+    await notifications.create(nid, recovery.notificationOptionOnRegister());
   }
 
   return { status: 202, recovery };

@@ -1,10 +1,10 @@
 
-const KanColleURL: string = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
+const KanColleURL = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
 
-const GameWrapper: string = "div#area-game";
-const GameIFrame: string = "iframe#game_frame";
-const GameWidth: number = 1200;
-const GameHeight: number = 720;
+const GameWrapper = "div#area-game";
+const GameIFrame = "iframe#game_frame";
+const GameWidth = 1200;
+const GameHeight = 720;
 const GameAspectRatio: number = GameHeight / GameWidth;
 const HiddenElements: string[] = [
   "div.dmm-ntgnavi", // うえのナビゲーション
@@ -17,7 +17,7 @@ const HiddenElements: string[] = [
 // なんかiframeのなかに
 // <div id="spacing_top" style="height:16px;"></div>
 // とかいうのがあるんだけど、いまどきこんなんやる？？？
-const TopSpacing: number = 16;
+const TopSpacing = 16;
 
 /* tslint:disable object-literal-sort-keys */
 export default {

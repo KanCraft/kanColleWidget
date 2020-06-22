@@ -1,4 +1,4 @@
-import { Model } from "chomex";
+// import { Model } from "chomex";
 import Config, {Category, Type} from "./Config";
 
 export enum DamageSnapshotType {
@@ -17,7 +17,7 @@ const dskey = "last";
 // FIXME: これ問題ありそうだが
 export default class DamageSnapshotFrame extends Config<any> {
 
-  public static default = {
+  static default = {
     [dskey]: {
       category: Category.InApp,
       description: "戦闘終了時の艦隊状況を撮影し、次の戦闘開始時まで表示し続けます。窓内表示を選択した場合、表示された艦隊状況はマウスオーバーで非表示にできます",
@@ -39,18 +39,18 @@ export default class DamageSnapshotFrame extends Config<any> {
     },
   };
 
-  public static get(): DamageSnapshotFrame {
+  static get(): DamageSnapshotFrame {
     return this.find<DamageSnapshotFrame>(dskey);
   }
 
-  public value: string;
+  value: string;
   private size: {height: number};
   private position: {
     left: number;
     top: number;
   };
 
-  public createData(): chrome.windows.CreateData {
+  createData(): chrome.windows.CreateData {
     return {
       height: this.size ? this.size.height : 200,
       left: this.position ? this.position.left : 10,

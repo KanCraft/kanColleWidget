@@ -1,0 +1,47 @@
+name: Contribution Notice
+
+on:
+  issues:
+    type: [opened, reopened]
+  pull_request:
+    type: [opened]
+
+jobs:
+  notification:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm install
+
+    - name: Issue用ツイート内容の生成
+      if: github.event_name == 'issues' && github.event.action == 'opened'
+      env:
+        SENDER: ${{ github.event.sender.login}}
+        TITLE: ${{ github.event.issue.title}}
+        URL: ${{ github.event.issue.html_url }}
+      run: |
+        echo -ne "ご意見が届きました！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
+
+    - name: PR用ツイート内容の生成
+      if: github.event_name == 'pull_request' && github.event.action == 'opened'
+      env:
+        SENDER: ${{ github.event.sender.login}}
+        TITLE: ${{ github.event.pull_request.title}}
+        URL: ${{ github.event.pull_request.html_url }}
+      run: |
+        echo -ne "開発ありがとう！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
+
+    - name: Tweet
+      run: |
+        if [ -f announcement.txt ]; then
+          announcement=`cat announcement.txt`
+          npm run tweet "${announcement}"
+        fi
+      env:
+        TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+        TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+        TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+        TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}

@@ -9,12 +9,12 @@ import InAppButtons from "./Features/InAppButtons";
  */
 export default class DMM {
 
-  private static scrollstyle: string = "kcwidget-scrollability";
+  private static scrollstyle = "kcwidget-scrollability";
 
   private client;
   private tab: chrome.tabs.Tab;
   private frame: Frame;
-  private initialized: boolean = false;
+  private initialized = false;
   private resizeTimerId: number;
 
   constructor(private scope: Window) {
@@ -32,9 +32,9 @@ export default class DMM {
   /**
    * アプリ内ボタンの表示
    */
-  private showInAppButtons(configs: {[key: string]: any}) {
+  private showInAppButtons(configs: {[key: string]: any}, frame: Frame) {
 
-    const buttons = new InAppButtons(this.scope.document, configs, this.client);
+    const buttons = new InAppButtons(this.scope.document, configs, frame, this.client);
     if (!buttons.enabled()) {
       return;
     }
@@ -114,7 +114,7 @@ export default class DMM {
     return style;
   }
 
-  private createScrollStyle(scrollable: boolean = false): HTMLStyleElement {
+  private createScrollStyle(scrollable = false): HTMLStyleElement {
     const style = this.scope.document.createElement("style");
     style.type = "text/css";
     style.id = DMM.scrollstyle;
@@ -128,7 +128,7 @@ export default class DMM {
   /**
    * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
    */
-  public async init() {
+  async init() {
     const {status, data} = await this.client.message("/window/decoration");
     if (status < 200 && 300 <= status) {
       return;
@@ -147,9 +147,16 @@ export default class DMM {
     this.hideNavigations(Const.HiddenElements);
 
     // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
-    this.showInAppButtons(configs);
+    this.showInAppButtons(configs, frame);
 
     setTimeout(() => this.initialized = true, 200);
+  }
+
+  /**
+   * 画面を閉じる前に呼ばれる
+   */
+  onbeforeunload(ev: Event) {
+    return ev.returnValue;
   }
 
   /**
@@ -157,7 +164,7 @@ export default class DMM {
    * onresizeイベントはすごい勢いでたくさん発火するので、
    * ある程度debounceしている。
    */
-  public onresize() {
+  onresize() {
 
     if (!this.initialized) {
       return false;
@@ -180,7 +187,7 @@ export default class DMM {
   /**
    * chrome.tabs.onMessage のリスナー
    */
-  public listener(): (message: any) => any {
+  listener(): (message: any) => any {
     const router = new Router();
     router.on("/reconfigured", (message) => this.reconfigure(message));
     return router.listener();
@@ -189,7 +196,7 @@ export default class DMM {
   /**
    * 定期的になんかやるやつ
    */
-  public interval(): () => any {
+  interval(): () => any {
     return () => {
       this.client.message("/window/record", {frame: this.frame});
     };

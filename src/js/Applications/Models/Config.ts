@@ -18,7 +18,7 @@ export enum Category {
  */
 export default class Config<T> extends Model {
 
-  public static default: any = {
+  static default: any = {
 
     // 大破進撃防止機能関係 (Category = DamageSnapshot)
     "inapp-dsnapshot-size": {
@@ -88,22 +88,22 @@ export default class Config<T> extends Model {
     },
   };
 
-  public static select(keys: string[]): {[name: string]: Config<any>} {
+  static select(keys: string[]): {[name: string]: Config<any>} {
     const all = this.all();
     const res = {};
     keys.map(key => res[key] = all[key]);
     return res;
   }
 
-  public category: Category;
-  public description: string;
-  public options?: Array<{name: string, value: string}>;
-  public title: string;
-  public type: Type;
-  public value: T;
+  category: Category;
+  description: string;
+  options?: {name: string; value: string}[];
+  title: string;
+  type: Type;
+  value: T;
 
   // Numberのとき
   // TODO: ジェネリクスによって持ってるメンバの定義を変えれる？
-  public step?: number;
-  public range?: number[];
+  step?: number;
+  range?: number[];
 }

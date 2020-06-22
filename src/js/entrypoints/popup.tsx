@@ -7,10 +7,12 @@ import App from "../Applications/Components/Popup";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCog,
+  faClock,
   faGripVertical,
 } from "@fortawesome/free-solid-svg-icons";
 library.add(
   faCog,
+  faClock,
   faGripVertical,
 );
 

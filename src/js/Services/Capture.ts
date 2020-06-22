@@ -9,7 +9,7 @@ export default class CaptureService {
     this.tabs = mod.tabs;
   }
 
-  public base64(winID: number, option: chrome.tabs.CaptureVisibleTabOptions): Promise<string> {
+  base64(winID: number, option: chrome.tabs.CaptureVisibleTabOptions): Promise<string> {
     return new Promise(resolve => {
       this.tabs.captureVisibleTab(winID, option, (dataUrl: string) => {
         resolve(dataUrl);

@@ -2,6 +2,10 @@ html, body {
   height: 100%;
 }
 
+#app {
+  height: 100vh;
+}
+
 .container.root, .columns.root {
   height: 100%;
 }
@@ -21,6 +25,15 @@ select.form-select {
 
   .preview-container {
     margin-bottom: 8px;
+    #preview {
+      position: relative;
+      overflow: hidden;
+      #preview-mesh {
+        position: absolute;
+        box-shadow: 0 0 0 100vmax rgba(0, 0, 20, 0.6);
+        border: thin dashed yellow;
+      }
+    }
   }
 }
 
@@ -29,5 +42,48 @@ select.form-select {
 
   blockquote {
     margin: 0;
+  }
+
+  .cell {
+    display: flex;
+    .cell-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &.focused {
+        cursor: pointer;
+      }
+      i {
+        font-size: xx-large;
+      }
+      span {
+        font-size: x-large;
+        cursor: not-allowed;
+      }
+      &.captured {
+        background-size: contain;
+        background-repeat: no-repeat;
+        i {
+          cursor: pointer;
+          opacity: 0;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal {
+  .content {
+    text-align: center;
+    .composed-img {
+      width: 66%;
+    }
+  }
+  button.btn {
+    margin-left: 4px;
   }
 }

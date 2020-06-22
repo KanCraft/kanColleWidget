@@ -1,4 +1,5 @@
 import { sleep } from "../../../utils";
+import Frame from "../../Models/Frame";
 
 const iconURLs = {
   mute: chrome.extension.getURL("/dest/img/mute.svg"),
@@ -10,9 +11,14 @@ export default class InAppButtons {
 
   private static containerID = "kcw-inapp-buttons";
 
-  public container: HTMLDivElement = null;
+  container: HTMLDivElement = null;
 
-  constructor(private document: HTMLDocument, private configs: {[key: string]: any}, private client: any) {
+  constructor(
+    private document: HTMLDocument,
+    private configs: {[key: string]: any},
+    private frame: Frame,
+    private client: any
+  ) {
 
     if (!this.enabled()) {
       return;
@@ -26,6 +32,9 @@ export default class InAppButtons {
     if (configs["inapp-screenshot-button"].value) {
       this.container.appendChild(this.createScreenshotButton());
     }
+
+    // 最後のmute状態を反映させる
+    this.updateMuteStatus(frame.muted);
   }
 
   private createContainer(): HTMLDivElement {
@@ -104,14 +113,14 @@ export default class InAppButtons {
     this.container.style.opacity = "0";
   }
 
-  public element(): HTMLDivElement {
+  element(): HTMLDivElement {
     return this.container;
   }
 
   /**
    * そもそも表示するかしないか決める
    */
-  public enabled(): boolean {
+  enabled(): boolean {
     if (this.configs["inapp-mute-button"].value) {
       return true;
     }

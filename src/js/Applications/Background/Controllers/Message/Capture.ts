@@ -2,11 +2,18 @@
  * スクショとかそういうの
  */
 import CaptureService from "../../../../Services/Capture";
-import Rectangle from "../../../../Services/Rectangle";
+import Rectangle, { RectParam } from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 
-export async function Screenshot(m: { open: boolean } = { open: true }) {
+/**
+ * @MESSAGE /capture/screenshot
+ * @param {boolean} message.open 撮った画像をそのままどっかのウィンドウで開くかどうかっていう
+ * @param {RectParam?} message.rect
+ */
+export async function Screenshot(
+  message: { open: boolean, rect?: RectParam } = { open: true }
+): Promise<{ status: number, uri?: string }> {
   const ws = WindowService.getInstance();
   const tab = await ws.find();
   if (!tab /* || !ws.knows(tab.id) */) {
@@ -16,8 +23,9 @@ export async function Screenshot(m: { open: boolean } = { open: true }) {
   const original = await cs.base64(tab.windowId, {});
   const ts = await TrimService.init(original);
   const rect = Rectangle.new(ts.img.width, ts.img.height);
-  const trimmed = ts.trim(rect.game());
-  if (m.open) {
+  const area = message.rect ? rect.reframe(message.rect) : rect.game();
+  const trimmed = ts.trim(area);
+  if (message.open) {
     chrome.alarms.create(`/screenshot?uri=${encodeURIComponent(trimmed)}`, {when: Date.now() + 100});
   }
   return {status: 202, uri: trimmed};

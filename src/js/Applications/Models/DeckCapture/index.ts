@@ -1,13 +1,13 @@
+import { Model } from "chomex";
+import catalog from "./catalog";
+
 /**
  * 編成キャプチャの設定を保存する用のモデル。
  * ふつうの1艦隊編成もあれば、連合艦隊、航空基地編成などもある。
  */
-import { Model } from "chomex";
-import catalog from "./catalog";
-
 export default class DeckCapture extends Model {
 
-  public static default = {
+  static default = {
     normal: {
       title: "編成キャプチャ",
       row: 3,
@@ -33,17 +33,17 @@ export default class DeckCapture extends Model {
     },
   };
 
-  public title: string; // この編成キャプチャ設定の名前
-  public row: number; // 列数
-  public col: number; // 行数
-  public cell: { // 1セルの定義
+  title: string; // この編成キャプチャ設定の名前
+  row: number; // 列数
+  col: number; // 行数
+  cell: { // 1セルの定義
     x: number; // スタート座標X （ゲーム幅を1に対して）
     y: number; // スタート座標Y （ゲーム高を1に対して）
-    w: number; // セル幅
-    h: number; // セル高
+    w: number; // セル幅 （ゲーム幅を1に対して）
+    h: number; // セル高 （ゲーム高を1に対して）
   };
-  public protected: boolean = false; // 削除禁止
-  public page: number = 1; // 繰り返しページ数
-  public pagelabel: string[] = []; // ページごとのラベル
+  protected = false; // 削除禁止
+  page = 1; // 繰り返しページ数
+  pagelabel: string[] = []; // ページごとのラベル
 
 }

@@ -11,7 +11,7 @@ export default class TempStorage {
     return this.storage.removeItem(key);
   }
 
-  public store(prefix: string, value: string, expires: number = 40000): string {
+  store(prefix: string, value: string, expires = 40000): string {
     const key = prefix;
     // const key = prefix + Date.now();
     this.storage.setItem(key, value);
@@ -22,7 +22,7 @@ export default class TempStorage {
   /**
    * 取得し、消す。
    */
-  public draw(key: string): string {
+  draw(key: string): string {
     const value: string = this.get(key);
     if (value) {
       this.delete(key);

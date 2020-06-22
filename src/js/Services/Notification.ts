@@ -7,13 +7,13 @@ export default class NotificationService {
     this.n = mod.notifications;
   }
 
-  public create(id: string, opt: chrome.notifications.NotificationOptions) {
+  create(id: string, opt: chrome.notifications.NotificationOptions): Promise<string> {
     return new Promise(resolve => {
       this.n.create(id, opt, (created) => resolve(created));
     });
   }
 
-  public clear(id: string): Promise<boolean> {
+  clear(id: string): Promise<boolean> {
     return new Promise(resolve => {
       this.n.clear(id, (cleared) => {
         resolve(cleared);
@@ -21,4 +21,9 @@ export default class NotificationService {
     });
   }
 
+  getAll(): Promise<Record<string, any>> {
+    return new Promise(resolve => {
+      this.n.getAll(notifications => resolve(notifications));
+    });
+  }
 }

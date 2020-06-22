@@ -1,6 +1,7 @@
 import DamageSnapshotFrame from "../Applications/Models/DamageSnapshotFrame";
 import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
+import { Client } from "chomex";
 
 export interface Launched {
   tab: chrome.tabs.Tab;
@@ -12,9 +13,9 @@ export interface Launched {
  */
 class WindowService {
 
-  public static instance = null;
+  static instance = null;
 
-  public static getInstance(): WindowService {
+  static getInstance(): WindowService {
     if (!WindowService.instance) {
       WindowService.instance = new this();
     }
@@ -37,7 +38,7 @@ class WindowService {
   /**
    * 窓そのものを取得
    */
-  public get(winId: number): Promise<chrome.windows.Window> {
+  get(winId: number): Promise<chrome.windows.Window> {
     return new Promise(resolve => {
       this.windows.get(winId, (win) => {
         resolve(win);
@@ -50,13 +51,13 @@ class WindowService {
    * @param strict ゲーム窓が無い場合、Promiseをrejectする
    * @param query デフォルトでは艦これのゲーム窓を探すqueryになっている
    */
-  public find(strict: boolean = false, query: chrome.tabs.QueryInfo = {
+  find(strict = false, query: chrome.tabs.QueryInfo = {
     url: Const.KanColleURL,
   }): Promise<chrome.tabs.Tab> {
     return new Promise((resolve, reject) => {
       this.tabs.query(query, (tabs: chrome.tabs.Tab[]) => {
         if (strict && tabs.length === 0) {
-          return reject();
+          return reject("not found");
         }
         return resolve(tabs[0]);
       });
@@ -66,8 +67,8 @@ class WindowService {
   /**
    * 窓の設定を受け取り、新しく窓をつくる
    */
-  public create(frame: Frame): Promise<chrome.tabs.Tab> {
-    return new Promise((resolve, reject) => {
+  create(frame: Frame): Promise<chrome.tabs.Tab> {
+    return new Promise((resolve /* , reject */) => {
       this.windows.create(frame.createData(), (win) => {
         this.launched = {
           frame,
@@ -81,9 +82,9 @@ class WindowService {
   /**
    * 窓の設定を変える
    */
-  public update(tab: chrome.tabs.Tab, info: chrome.windows.UpdateInfo): Promise<chrome.tabs.Tab> {
+  update(tab: chrome.tabs.Tab, info: chrome.windows.UpdateInfo): Promise<chrome.tabs.Tab> {
     return new Promise((resolve) => {
-      this.windows.update(tab.windowId, info, (win) => {
+      this.windows.update(tab.windowId, info, (/* win */) => {
         resolve(tab);
       });
     });
@@ -92,7 +93,7 @@ class WindowService {
   /**
    * 与えられたFrame情報で今開いているタブを更新する
    */
-  public async reconfigure(tab: chrome.tabs.Tab, frame: Frame): Promise<chrome.tabs.Tab> {
+  async reconfigure(tab: chrome.tabs.Tab, frame: Frame): Promise<chrome.tabs.Tab> {
     const data: chrome.windows.CreateData = frame.createData();
     const info: chrome.windows.UpdateInfo = {
       focused: true,
@@ -103,9 +104,18 @@ class WindowService {
   }
 
   /**
+   * 窓をフォーカスする
+   * @param {chrome.tabs.Tab} tab
+   * @param {boolean} focused=true
+   */
+  async focus(tab: chrome.tabs.Tab, focused = true): Promise<chrome.tabs.Tab> {
+    return this.update(tab, { focused });
+  }
+
+  /**
    * 窓のズーム値を変える
    */
-  public zoom(tab: chrome.tabs.Tab, zoom: number): Promise<chrome.tabs.Tab> {
+  zoom(tab: chrome.tabs.Tab, zoom: number): Promise<chrome.tabs.Tab> {
     return new Promise((resolve) => {
       this.tabs.setZoom(tab.id, zoom, () => {
         resolve(tab);
@@ -116,7 +126,7 @@ class WindowService {
   /**
    * 窓のミュートをする
    */
-  public mute(tab: chrome.tabs.Tab, mute: boolean = true): Promise<chrome.tabs.Tab> {
+  mute(tab: chrome.tabs.Tab, mute = true): Promise<chrome.tabs.Tab> {
     return new Promise((resolve) => {
       this.tabs.update(tab.id, {muted: mute}, (t) => resolve(t));
     });
@@ -126,11 +136,11 @@ class WindowService {
    * このサービス経由でLaunchされたタブかどうか返す
    * @param tabId
    */
-  public knows(tabId: number): Launched {
+  knows(tabId: number): Launched {
     return this.launched && this.launched.tab.id === tabId ? this.launched : null;
   }
 
-  public openCapturePage(params: {key: any}): Promise<chrome.tabs.Tab> {
+  openCapturePage(params: {key: any}): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/capture.html");
     const search = new URLSearchParams(params);
     return new Promise(resolve => {
@@ -140,7 +150,7 @@ class WindowService {
     });
   }
 
-  public openOptionsPage(): Promise<chrome.tabs.Tab> {
+  openOptionsPage(): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/options.html");
     return new Promise(resolve => {
       this.tabs.query({url}, (tabs) => {
@@ -153,8 +163,26 @@ class WindowService {
     });
   }
 
+  openDashboardPage(): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/dashboard.html");
+    return new Promise(resolve => {
+      this.tabs.query({url}, (tabs) => {
+        if (tabs.length === 0) {
+          this.windows.create({
+            url,
+            type: "popup",
+            height: 460, // TODO: よくわからんけどlocalStorageからもってくる
+            width: 340
+          }, (win) => resolve(win.tabs[0]));
+        } else {
+          this.windows.update(tabs[0].windowId, { focused: true }, () => resolve(tabs[0]));
+        }
+      });
+    });
+  }
+
   /* tslint:disable max-line-length */
-  public openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
+  openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
     const createData = frame.createData();
     const search = new URLSearchParams({ count: String(count), key: String(key), text });
@@ -169,7 +197,7 @@ class WindowService {
       });
     });
   }
-  public cleanDamageSnapshot(): Promise<chrome.tabs.Tab[]> {
+  cleanDamageSnapshot(): Promise<chrome.tabs.Tab[]> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
     return new Promise(resolve => {
       this.tabs.query({ url: url + "?count=*" }, (tabs) => {
@@ -181,11 +209,35 @@ class WindowService {
     });
   }
 
-  public openDeckCapturePage(): Promise<chrome.tabs.Tab> {
+  openDeckCapturePage(): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/deckcapture.html");
     return new Promise(resolve => {
       this.tabs.create({url}, tab => resolve(tab));
     });
+  }
+
+  /**
+   * WindowServiceにあるべきなのかはわからないけれど、とりあえずここにおいておく
+   *   1. 開いているゲーム画面が無い場合、つくる
+   *   2. ゲーム画面があり、Frameの指定が無い場合はfocusするだけ
+   *   3. ゲーム画面があり、Frameの指定がある場合はreconfigureする
+   * @param {string} message.id Frameのid（miniとかそういうの)
+   */
+  async backToGame(message: { id?: string } = {}): Promise<chrome.tabs.Tab> {
+    let tab = await this.find();
+    if (!tab) {
+      const frame = Frame.find<Frame>(message.id) || Frame.latest();
+      frame.update({selectedAt: Date.now()});
+      tab = await this.create(frame);
+      await this.mute(tab, frame.muted);
+      return tab;
+    }
+    const frame = Frame.find<Frame>(message.id);
+    if (!frame) {
+      return await this.focus(tab);
+    }
+    tab = await this.reconfigure(tab, frame);
+    return Client.for(chrome.tabs, tab.id).message("/reconfigured", {frame});
   }
 }
 

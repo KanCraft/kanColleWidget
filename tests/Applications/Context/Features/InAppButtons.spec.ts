@@ -1,5 +1,6 @@
 import { Client } from "chomex";
 import InAppButtons from "../../../../src/js/Applications/Context/Features/InAppButtons";
+import Frame from "../../../../src/js/Applications/Models/Frame";
 
 describe("アプリ内ボタン", () => {
   describe("InAppButtons", () => {
@@ -8,7 +9,8 @@ describe("アプリ内ボタン", () => {
         "inapp-mute-button": {value: true},
         "inapp-screenshot-button": {value: true},
       };
-      const b = new InAppButtons(window.document, configs, new Client(chrome.runtime));
+      const frame = new Frame({muted: false});
+      const b = new InAppButtons(window.document, configs, frame , new Client(chrome.runtime));
     });
   });
 });

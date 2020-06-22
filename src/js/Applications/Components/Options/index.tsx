@@ -7,9 +7,9 @@ import Debugger from "./Debugger";
 import Config from "../../Models/Config";
 
 // webpack.config.jsの、DefinePluginを参照
-declare var NODE_ENV;
+declare let NODE_ENV;
 
-export default class OptionsPage extends Component<{}, {dictionary:any}> {
+export default class OptionsPage extends Component<{}, {dictionary: any}> {
   constructor(props) {
     super(props);
     const dictionary = {};
@@ -26,8 +26,8 @@ export default class OptionsPage extends Component<{}, {dictionary:any}> {
     return (
       <div className="container options">
         <DamageSnapshot />
-        <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary['inapp']} />
-        <CategorySection title="通知設定"           configs={this.state.dictionary['notification']} />
+        <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary["inapp"]} />
+        <CategorySection title="通知設定"           configs={this.state.dictionary["notification"]} />
         {this.isDev() ? <Debugger /> : null}
       </div>
     );

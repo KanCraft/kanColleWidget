@@ -5,7 +5,7 @@ import SwitchConfig from "./switch-config";
 import SelectConfig from "./select-config";
 import NumberConfig from "./number-config";
 
-export default class ConfigView extends Component<{config: Config<any>}, {}> {
+export default class ConfigView extends Component<{ config: Config<any> }, {}> {
   render() {
     return (
       <div className="columns">

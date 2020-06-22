@@ -7,10 +7,10 @@ export default class DamageSnapshot {
   private container: HTMLDivElement = null;
   private listener: () => any;
 
-  private count: number = 1;
+  private count = 1;
   private key: string; // drawする画像を間違えないようにするkey
   private text: string; // なんか付随して表示する情報。おもにSortie.context()
-  private clicked: number = 0;
+  private clicked = 0;
 
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime);
@@ -72,7 +72,7 @@ export default class DamageSnapshot {
   /**
    * 「次」ボタンが押されるイベントを貼る
    */
-  public prepare(m: {count: number, key: number, text: string}) {
+  prepare(m: {count: number; key: number; text: string}) {
     this.count = m.count;
     this.key = String(m.key);
     this.text = m.text;
@@ -85,7 +85,7 @@ export default class DamageSnapshot {
   /**
    * Image URI を受け取るので、どっかにこれを表示する
    */
-  public show(message: {uri: string, height: number}) {
+  show(message: {uri: string; height: number}) {
     if (this.container === null) {
       this.container = this.createContainer(message.height);
       this.scope.document.body.appendChild(this.container);
@@ -97,7 +97,7 @@ export default class DamageSnapshot {
   /**
    * もう表示しなくていいので消す
    */
-  public remove() {
+  remove() {
     if (this.container && typeof this.container.remove === "function") {
       this.container.remove();
       this.container = null;

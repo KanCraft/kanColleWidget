@@ -7,7 +7,7 @@ import catalog from "./catalog";
 /* tslint:disable object-literal-sort-keys */
 export default class Sortie extends Model {
 
-  public static default = {
+  static default = {
     context: {
       area: null,  // 海域
       map: null,  // マップ
@@ -15,35 +15,35 @@ export default class Sortie extends Model {
     },
   };
 
-  public static context(): Sortie {
+  static context(): Sortie {
     return this.find("context");
   }
 
   // これがここにあるのが正しいのかよくわからない
-  private static officialTitle: string = "艦隊これくしょん -艦これ- - オンラインゲーム - DMM GAMES";
+  private static officialTitle = "艦隊これくしょん -艦これ- - オンラインゲーム - DMM GAMES";
 
-  public area: number; // 海域 e.g. 「南西諸島海域」（２）
-  public map: number; // マップ e.g. 「東部オリョール海」（３）
-  public depth: number; // 何戦目か
+  area: number; // 海域 e.g. 「南西諸島海域」（２）
+  map: number; // マップ e.g. 「東部オリョール海」（３）
+  depth: number; // 何戦目か
 
   /**
    * 出撃の開始
    */
-  public start(area: number, map: number): Sortie {
+  start(area: number, map: number): Sortie {
     return this.update({area, map, depth: 0});
   }
 
   /**
    * 戦闘の開始
    */
-  public battle(): Sortie {
+  battle(): Sortie {
     return this.update({depth: this.depth + 1});
   }
 
   /**
    * 戦闘の終了
    */
-  public result(): Sortie {
+  result(): Sortie {
     // 今んとこ何もしない
     return this;
   }
@@ -51,11 +51,11 @@ export default class Sortie extends Model {
   /**
    * 出撃の終了（帰還）
    */
-  public refresh(): Sortie {
+  refresh(): Sortie {
     return this.update({area: null, map: null, depth: null});
   }
 
-  public toText(): string {
+  toText(): string {
     const fallback = `A: ${this.area}, I ${this.map}, D: ${this.depth}`;
     const area = catalog[this.area];
     if (!area) {

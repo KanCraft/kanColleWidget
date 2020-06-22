@@ -3,12 +3,13 @@ import Const from "../../Constants";
 
 export default class Frame extends Model {
 
-  public static default = {
+  static default = {
     classic: {
       addressbar: false,
       alias: "CLASSIC",
       description: "1期の大きさ",
       id: "classic",
+      muted: false,
       position: {left: 40, top: 40},
       selectedAt: 3,
       size: { width: Const.GameWidth * (2 / 3), height: Const.GameHeight * (2 / 3) },
@@ -20,6 +21,7 @@ export default class Frame extends Model {
       alias: "ORIGINAL",
       description: "公式の大きさ",
       id: "original",
+      muted: false,
       position: {left: 40, top: 40},
       selectedAt: 2,
       size: {width: Const.GameWidth, height: Const.GameHeight},
@@ -31,6 +33,7 @@ export default class Frame extends Model {
       alias: "SMALL",
       description: "公式の半分",
       id: "small",
+      muted: false,
       position: { left: 40, top: 40 },
       protected: true,
       selectedAt: 1,
@@ -38,20 +41,35 @@ export default class Frame extends Model {
       url: Const.KanColleURL,
       zoom: 1 / 2,
     },
+    mini: {
+      addressbar: false,
+      alias: "MINI",
+      description: "公式の1/4",
+      id: "mini",
+      muted: false,
+      position: { left: 40, top: 40 },
+      protected: true,
+      selectedAt: 1,
+      size: { width: Const.GameWidth * (1 / 4), height: Const.GameHeight * (1 / 4) },
+      url: Const.KanColleURL,
+      zoom: 1 / 4,
+    }
   };
 
   /**
    * 直近、選択された窓を返す
    */
-  public static latest(): Frame {
+  static latest(): Frame {
     return super.list<Frame>().sort((prev, next) => prev.selectedAt < next.selectedAt ? -1 : 1).pop();
   }
 
-  public id: string;
-  public alias: string;
+  id: string;
+  alias: string;
 
-  public zoom: number;
-  public selectedAt: number; // 最後にこの窓が選択されたタイムスタンプ
+  zoom: number;
+  selectedAt: number; // 最後にこの窓が選択されたタイムスタンプ
+  muted: boolean;
+
   private addressbar: boolean;
   private url: string;
   private position: {
@@ -59,11 +77,11 @@ export default class Frame extends Model {
     top: number;
   };
   private size: {
-    width: number,
-    height: number,
+    width: number;
+    height: number;
   };
 
-  public createData(): chrome.windows.CreateData {
+  createData(): chrome.windows.CreateData {
     return {
       type: this.addressbar ? "normal" : "popup",
       url: this.url,

@@ -9,11 +9,11 @@ export default class Kcs2 {
     this.snapshot = new DamageSnapshot(scope);
   }
 
-  public async init() {
+  async init() {
     // do nothing so far
   }
 
-  public listener(): (message: any) => any {
+  listener(): (message: any) => any {
     const router = new Router();
     router.on("/snapshot/prepare", (m) => this.snapshot.prepare(m));
     router.on("/snapshot/show", (m) => this.snapshot.show(m));
