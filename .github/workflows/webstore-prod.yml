@@ -1,0 +1,56 @@
+name: Web Store PRODUCTION
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    env:
+      # 本番用のAPP_ID
+      CHROMEWEBSTORE_APP_ID: iachoklpnnjfgmldgelflgifhdaebnol
+      NODE_ENV: production
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: master
+        fetch-depth: 0
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Pack ZIP
+      run: npm run pack
+
+    # - name: Publish to Chrome Web Store
+    #   run: npm run publish
+    #   env:
+    #     GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+    #     GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+    #     GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+
+    - name: Create release announcement
+      run: npm run announce
+      if: ${{ env.SHOULD_DELIVER_DEV }}
+
+    - name: DEBUG ツイート内容を確認
+      run: |
+        echo "[DEBUG]"
+        cat announcement.txt
+    # - name: Tweet announcement
+    #   run: |
+    #     announcement=`cat announcement.txt`
+    #     npm run tweet "${announcement}"
+    #   env:
+    #     TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+    #     TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+    #     TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+    #     TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
