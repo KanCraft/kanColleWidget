@@ -15,3 +15,38 @@ select.form-select {
 h1 {
   border-bottom: dotted thin #bfbfbf;
 }
+
+section {
+  margin-bottom: 24px;
+}
+
+section.notification-setting {
+  .notification-kind-setting {
+    margin-bottom: 8px;
+    .kind-label {
+      display: flex;
+      align-items: center;
+    }
+    .icon-preview {
+      background-repeat: no-repeat;
+      background-size: contain;
+      height: 100%;
+      cursor: pointer;
+    }
+    .sound-preview {
+      height: 100%;
+      display: flex;
+      align-items: center;;
+      audio {
+        height: 100%;
+        &:focus {
+          outline: none;
+        }
+      }
+      i.icon {
+        cursor: pointer;
+        margin-left: 8px;
+      }
+    }
+  }
+}

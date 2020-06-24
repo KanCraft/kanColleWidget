@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/chrome": "0.0.114",
     "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.13",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/eslint-plugin": "^3.3.0",
@@ -72,6 +73,7 @@
     ],
     "setupFiles": [
       "<rootDir>/tests/setup/chrome.ts",
+      "<rootDir>/tests/setup/filesystem.ts",
       "<rootDir>/tests/setup/image-onload.ts",
       "jest-canvas-mock"
     ],
