@@ -21,6 +21,6 @@ npm test
 # リリースフローについて
 
 - `develop`: [test-艦これウィジェット](https://chrome.google.com/webstore/detail/test-%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/egkgleinehaapbpijnlpbllfeejjpceb)に自動でリリースされる
-- `master`: 公開版の[艦これウィジェット](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol)に自動でリリースされる
+- `release`: 公開版の[艦これウィジェット](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol)に自動でリリースされる
 
 くわしくは[このへん](https://github.com/otiai10/kanColleWidget/blob/develop/scripts/should_deliver_dev.sh)を参照。

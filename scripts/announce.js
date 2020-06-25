@@ -24,10 +24,16 @@ function constructTweetText(head, commits, omitted) {
 
 function main(cb) {
   const current_tag = shell.execSync("git describe --abbrev=0 --tags").toString().trim();
+  console.log("CURRENT TAG:", current_tag);
   const last_commit = shell.execSync("git rev-list --tags --skip=1 --max-count=1 --no-merges").toString().trim();
+  console.log("LAST COMMIT:", last_commit);
   const previous_tag = shell.execSync(`git describe --abbrev=0 --tags ${last_commit}`).toString().trim();
+  console.log("PREVIOUS TAG:", previous_tag);
   const commits = shell.execSync(`git log --pretty="%s" --no-merges ${previous_tag}..${last_commit}`).toString().trim().split("\n").reverse();
+  console.log("COMMITS:");
+  console.log(commits);
   const status = constructTweetText(current_tag, commits);
+  console.log("STATUS:", status);
   fs.writeFile("announcement.txt", status, cb);
 }
 

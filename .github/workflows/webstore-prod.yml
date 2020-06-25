@@ -2,7 +2,7 @@ name: Web Store PRODUCTION
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
   delivery:
@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: master
+        ref: release
         fetch-depth: 0
     - name: Set up Node.js
       uses: actions/setup-node@v1
@@ -44,7 +44,7 @@ jobs:
     - name: DEBUG ツイート内容を確認
       run: |
         echo "[DEBUG]"
-        cat announcement.txt
+        if [ -f "announcement.txt" ]; then cat announcement.txt; fi
     # - name: Tweet announcement
     #   run: |
     #     announcement=`cat announcement.txt`
