@@ -39,7 +39,6 @@ jobs:
 
     - name: Create release announcement
       run: npm run announce
-      if: ${{ env.SHOULD_DELIVER_DEV }}
 
     - name: DEBUG ツイート内容を確認
       run: |
