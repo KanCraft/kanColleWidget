@@ -7,6 +7,8 @@ import catalog from "./catalog";
 /* tslint:disable object-literal-sort-keys */
 export default class Sortie extends Model {
 
+  static __ns = "Sortie";
+
   static default = {
     context: {
       area: null,  // 海域
