@@ -3,6 +3,9 @@
 import MessageListener from "../Applications/Background/Routers/Message";
 chrome.runtime.onMessage.addListener(MessageListener);
 
+import { RuntimeOnInstalledListener } from "../Applications/Background/Routers/Runtime";
+chrome.runtime.onInstalled.addListener(RuntimeOnInstalledListener);
+
 import WebRequestListener from "../Applications/Background/Routers/WebRequest";
 chrome.webRequest.onBeforeRequest.addListener(WebRequestListener, { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);
 
