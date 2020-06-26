@@ -2,6 +2,8 @@ import { Model, Types } from "chomex";
 
 export default class NotificationSetting extends Model {
 
+  static __ns = "NotificationSetting";
+
   static defaultIcon = chrome.extension.getURL("dest/img/app/icon.128.png");
 
   enabled: boolean; // そもそも通知を出すかどうか

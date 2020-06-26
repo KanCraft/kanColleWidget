@@ -17,6 +17,8 @@ const dskey = "last";
 // FIXME: これ問題ありそうだが
 export default class DamageSnapshotFrame extends Config<any> {
 
+  static __ns = "DamageSnapshotFrame";
+
   static default = {
     [dskey]: {
       category: Category.InApp,

@@ -18,6 +18,8 @@ export enum Category {
  */
 export default class Config<T> extends Model {
 
+  static __ns = "Config";
+
   static default: any = {
 
     // 大破進撃防止機能関係 (Category = DamageSnapshot)

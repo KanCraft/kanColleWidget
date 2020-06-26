@@ -7,6 +7,8 @@ import catalog from "./catalog";
  */
 export default class DeckCapture extends Model {
 
+  static __ns = "DeckCapture";
+
   static default = {
     normal: {
       title: "編成キャプチャ",

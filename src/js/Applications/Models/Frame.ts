@@ -3,6 +3,8 @@ import Const from "../../Constants";
 
 export default class Frame extends Model {
 
+  static __ns = "Frame";
+
   static default = {
     classic: {
       addressbar: false,
