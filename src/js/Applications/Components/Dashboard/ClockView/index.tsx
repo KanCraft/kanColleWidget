@@ -28,7 +28,7 @@ export default class ClockView extends React.Component<{
         <div className="clock-wrapper cell">
           <div className="date-wrapper">
             <div className="month">
-              <span>{now.getMonth()}</span>
+              <span>{now.getMonth() + 1}</span>
               <span>月</span>
             </div>
             <div className="date">
