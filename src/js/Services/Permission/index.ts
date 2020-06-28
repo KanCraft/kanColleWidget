@@ -7,4 +7,7 @@ export default class PermissionService {
   contains(perms: chrome.permissions.Permissions): Promise<boolean> {
     return new Promise(resolve => this.mod.contains(perms, resolve));
   }
+  remove(perms: chrome.permissions.Permissions): Promise<boolean> {
+    return new Promise(resolve => this.mod.remove(perms, resolve));
+  }
 }

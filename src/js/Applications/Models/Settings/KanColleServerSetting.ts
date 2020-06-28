@@ -5,6 +5,7 @@ export interface KanColleServer {
   name: string;
   address: string;
   protocol?: string;
+  granted?: boolean;
 }
 
 /**
@@ -69,14 +70,21 @@ export default class KanColleServerSetting extends Model {
     return await this.request();
   }
 
+  async remove(target: KanColleServer): Promise<KanColleServerSetting> {
+    const ps = new PermissionService();
+    const removed = await ps.remove(this.toChromePermissions(target));
+    const servers = removed ? this.servers.filter(s => s.address != target.address) : this.servers.concat();
+    return this.update<KanColleServerSetting>({ servers });
+  }
+
   async request() {
     const ps = new PermissionService();
     const granted = await ps.request(this.toChromePermissions());
-    return granted && this.update({ servers: this.servers });
+    return granted && this.update<KanColleServerSetting>({ servers: this.servers });
   }
 
-  toChromePermissions(): chrome.permissions.Permissions {
-    const origins: string[] = this.servers.map(s => {
+  toChromePermissions(server?: KanColleServer): chrome.permissions.Permissions {
+    const origins: string[] = (server ? [server] : this.servers).map(s => {
       return `${s.protocol ? s.protocol : "http:"}//${s.address}/*`;
     });
     return { origins };

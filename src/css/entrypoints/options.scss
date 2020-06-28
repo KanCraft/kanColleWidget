@@ -18,6 +18,10 @@ h1 {
 
 section {
   margin-bottom: 24px;
+  blockquote.description {
+    margin: 0;
+    font-size: 0.7rem;
+  }
 }
 
 section.notification-setting {

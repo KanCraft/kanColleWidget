@@ -6,6 +6,7 @@ import Debugger from "./Debugger";
 
 import Config from "../../Models/Config";
 import NotificationSettings from "./Notifications";
+import KanColleServerSettingView from "./KanColleServer";
 
 // webpack.config.jsの、DefinePluginを参照
 declare let NODE_ENV;
@@ -26,6 +27,7 @@ export default class OptionsPage extends Component<{}, {dictionary: any}> {
   render() {
     return (
       <div className="container options">
+        <KanColleServerSettingView />
         <NotificationSettings />
         <DamageSnapshot />
         <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary["inapp"]} />
