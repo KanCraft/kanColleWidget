@@ -25,6 +25,7 @@ class WindowService {
   private tabs: typeof chrome.tabs;
   private windows: typeof chrome.windows;
   private extension: typeof chrome.extension;
+  private navigation: typeof chrome.webNavigation;
 
   // すでに作成されているタブ
   private launched: Launched;
@@ -33,6 +34,7 @@ class WindowService {
     this.tabs = mod.tabs;
     this.windows = mod.windows;
     this.extension = mod.extension;
+    this.navigation = mod.webNavigation;
   }
 
   /**
@@ -62,6 +64,14 @@ class WindowService {
         return resolve(tabs[0]);
       });
     });
+  }
+
+  getAllFrames(tabId: number): Promise<chrome.webNavigation.GetAllFrameResultDetails[]> {
+    return new Promise(resolve => this.navigation.getAllFrames({ tabId }, resolve));
+  }
+
+  executeScript(tabId: number, details: chrome.tabs.InjectDetails): Promise<any[]> {
+    return new Promise(resolve => this.tabs.executeScript(tabId, details, resolve));
   }
 
   /**
@@ -150,8 +160,9 @@ class WindowService {
     });
   }
 
-  openOptionsPage(): Promise<chrome.tabs.Tab> {
-    const url = this.extension.getURL("/dest/html/options.html");
+  openOptionsPage(params: Record<string, string> = {}): Promise<chrome.tabs.Tab> {
+    const search = Object.keys(params) ? new URLSearchParams(params) : null;
+    const url = this.extension.getURL("/dest/html/options.html") + (search ? `?${search.toString()}` : "");
     return new Promise(resolve => {
       this.tabs.query({url}, (tabs) => {
         if (tabs.length === 0) {

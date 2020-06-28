@@ -6,10 +6,13 @@
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
-    "webRequest",
     "alarms",
+    "activeTab",
+    "webRequest",
+    "webNavigation",
     "notifications",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
   ],
   "optional_permissions": [
     "http://203.104.209.71/*",
@@ -51,17 +54,9 @@
       "matches": [
         "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/"
       ],
-      "js": [
-        "dest/js/dmm.js"
-      ]
-    },
-    {
-      "matches": [
-        "http://*/kcs2/index.php?*"
-      ],
       "all_frames": true,
       "js": [
-        "dest/js/kcs2.js"
+        "dest/js/dmm.js"
       ]
     }
   ],

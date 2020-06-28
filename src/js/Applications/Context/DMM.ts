@@ -2,6 +2,7 @@ import {Client, Router} from "chomex";
 import Const from "../../Constants";
 import Frame from "../Models/Frame";
 import InAppButtons from "./Features/InAppButtons";
+import { sleep } from "../../utils";
 
 /**
  * http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/
@@ -19,6 +20,37 @@ export default class DMM {
 
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime, false);
+  }
+
+  /**
+   * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
+   */
+  async init() {
+    const { status, data } = await this.client.message("/window/decoration");
+    if (status < 200 && 300 <= status) {
+      return;
+    }
+    if (!data) {
+      return;
+    }
+
+    const { tab, frame, configs } = data;
+    this.tab = tab;
+    this.frame = frame;
+
+    this.resizeToAdjustAero();
+    this.shiftFrame(this.frame.zoom);
+    this.injectStyles();
+    this.hideNavigations(Const.HiddenElements);
+
+    // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
+    this.showInAppButtons(configs, frame);
+
+    setTimeout(() => this.initialized = true, 200);
+
+    // Kcs2のコンテキストcontent_scriptをbackgroundからexecuteしてもらう
+    await sleep(5 * 1000); // iframeのさらに下のiframeのonloadを待つ必要がある...
+    this.client.message("/window/request-content-script");
   }
 
   /**
@@ -123,33 +155,6 @@ export default class DMM {
       overflow-y: ${scrollable ? "scroll" : "hidden"};
     }`;
     return style;
-  }
-
-  /**
-   * 画面のロード時に1度だけ呼ばれることを想定された初期化ルーチン。
-   */
-  async init() {
-    const {status, data} = await this.client.message("/window/decoration");
-    if (status < 200 && 300 <= status) {
-      return;
-    }
-    if (!data) {
-      return;
-    }
-
-    const {tab, frame, configs} = data;
-    this.tab = tab;
-    this.frame = frame;
-
-    this.resizeToAdjustAero();
-    this.shiftFrame(this.frame.zoom);
-    this.injectStyles();
-    this.hideNavigations(Const.HiddenElements);
-
-    // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
-    this.showInAppButtons(configs, frame);
-
-    setTimeout(() => this.initialized = true, 200);
   }
 
   /**

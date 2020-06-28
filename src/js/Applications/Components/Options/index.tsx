@@ -25,9 +25,10 @@ export default class OptionsPage extends Component<{}, {dictionary: any}> {
   }
 
   render() {
+    const hl = (new URL(window.location.href)).searchParams.getAll("highlight");
     return (
       <div className="container options">
-        <KanColleServerSettingView />
+        <KanColleServerSettingView highlight={hl.includes("kancolle-server-setting")} />
         <NotificationSettings />
         <DamageSnapshot />
         <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary["inapp"]} />

@@ -1,3 +1,5 @@
+// XXX: _ファイルを直importって行儀悪い気がするけれど
+@import "spectre.css/src/_variables.scss";
 @import "../variables.scss";
 
 .container.options {
@@ -21,6 +23,23 @@ section {
   blockquote.description {
     margin: 0;
     font-size: 0.7rem;
+  }
+  h1 {
+    position: relative;
+  }
+  &.highlight {
+    >blockquote {
+      color: $warning-color;
+      border-color: $warning-color;
+      border-width: 4px;
+      box-shadow: 0 0 10px $warning-color;
+    }
+    >h1::before {
+      content: "*";
+      position: absolute;
+      left: -20px;
+      color: $warning-color;
+    }
   }
 }
 

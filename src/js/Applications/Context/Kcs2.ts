@@ -1,6 +1,10 @@
 import { Router } from "chomex";
 import DamageSnapshot from "./Features/DamageSnapshot";
 
+/**
+ * iframe内のclickイベントを拾いたいので、
+ * DMMではなく、iframe内部のkcsなページのイベントハンドラを登録するContextです。
+ */
 export default class Kcs2 {
 
   private snapshot: DamageSnapshot;
@@ -10,7 +14,7 @@ export default class Kcs2 {
   }
 
   async init() {
-    // do nothing so far
+    console.log("[Kcs2.init]", this.scope.location.hostname);
   }
 
   listener(): (message: any) => any {

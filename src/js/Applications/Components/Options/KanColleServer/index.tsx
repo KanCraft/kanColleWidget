@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import KanColleServerSetting, { KanColleServers, KanColleServer } from "../../../Models/Settings/KanColleServerSetting";
 
-export default class KanColleServerSettingView extends React.Component<{}, {
+export default class KanColleServerSettingView extends React.Component<{ highlight: boolean }, {
   setting: KanColleServerSetting,
 }> {
   constructor(props) {
@@ -12,10 +12,11 @@ export default class KanColleServerSettingView extends React.Component<{}, {
     };
   }
   render() {
+    const { highlight } = this.props;
     const { setting } = this.state;
     const servers = KanColleServers.map(s => ({ ...s, granted: setting.servers.some(g => g.address == s.address) }));
     return (
-      <section className="category kancolle-server-setting">
+      <section className={cn("category", "kancolle-server-setting", { highlight })}>
         <h1>鎮守府設定</h1>
         <blockquote className="description">所属の鎮守府サーバを選択してください</blockquote>
         <div className="container">

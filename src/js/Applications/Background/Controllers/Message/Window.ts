@@ -71,3 +71,12 @@ export async function OpenDashboardPage() {
   const ws = WindowService.getInstance();
   return ws.openDashboardPage();
 }
+
+export async function RequestContentScript() {
+  const tab = this.sender.tab;
+  const file = "dest/js/kcs2.js"; // = chrome.extension.getURL("dest/js/kcs2.js");
+  const ws = WindowService.getInstance();
+  const frames = await ws.getAllFrames(tab.id);
+  const frame = frames.find(f => f.url.includes("/kcs2/index.php"));
+  await ws.executeScript(tab.id, { file, frameId: frame.frameId });
+}
