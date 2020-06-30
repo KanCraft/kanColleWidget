@@ -15,12 +15,4 @@ export default class Tiredness extends Queue {
     return super._register<Tiredness>(scheduled);
   }
 
-  notificationOption(): chrome.notifications.NotificationOptions {
-    return {
-      title: "疲労回復",
-      message: `間もなく、第${this.deck}艦隊の疲労が回復する見込みです`,
-      requireInteraction: true,
-    };
-  }
-
 }

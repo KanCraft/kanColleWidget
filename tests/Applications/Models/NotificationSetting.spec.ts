@@ -7,7 +7,7 @@ describe("NotificationSetting", () => {
       const setting = NotificationSetting.find<NotificationSetting>(Kind.Mission);
       expect(setting.enabled).toBe(true);
       expect(setting.getSound()).toBeUndefined();
-      expect(setting.toChromeOptions().iconUrl).toBe(NotificationSetting.defaultIcon);
+      expect(setting.getIcon()).toBe(NotificationSetting.defaultIcon);
     });
   });
 });

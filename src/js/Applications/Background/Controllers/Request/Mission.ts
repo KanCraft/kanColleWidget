@@ -1,6 +1,6 @@
 import NotificationService from "../../../../Services/Notification";
-import Config from "../../../Models/Config";
 import Mission from "../../../Models/Queue/Mission";
+import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
   const { formData: { api_mission_id: [mid], api_deck_id: [did] } } = req.requestBody;
@@ -10,12 +10,13 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
   }
   mission.register();
 
-  const notify = Config.find<Config<boolean>>("notification-mission").value;
-  if (notify) {
-    const notifications = new NotificationService();
-    const nid = mission.toNotificationID({ start: Date.now() });
-    notifications.create(nid, mission.notificationOptionOnRegister());
-  }
+  const setting = NotificationSetting.find<NotificationSetting>(mission.kind());
+  if (!setting.enabled) return { status: 202, mission };
+
+  const notifications = new NotificationService();
+  const nid = mission.toNotificationID({ start: Date.now() });
+  await notifications.create(nid, setting.getChromeOptions(mission, false));
+
   return { status: 202, mission };
 }
 

@@ -1,9 +1,11 @@
 import {
   DebugController, DebugAvailables
 } from "../../../../../src/js/Applications/Background/Controllers/Message/Debug";
+import {fake} from "../../../../tools";
 
 describe("DebugController", () => {
   it("なんかする", async () => {
+    fake(chrome.notifications.create).callbacks({});
     const message = {
       __controller: "OnMissionStart",
       __this: {},

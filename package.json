@@ -72,6 +72,7 @@
       "jsx"
     ],
     "setupFiles": [
+      "<rootDir>/src/js/entrypoints/global-pollution.ts",
       "<rootDir>/tests/setup/chrome.ts",
       "<rootDir>/tests/setup/filesystem.ts",
       "<rootDir>/tests/setup/image-onload.ts",

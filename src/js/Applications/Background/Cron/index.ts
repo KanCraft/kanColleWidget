@@ -17,7 +17,7 @@ function showNotifications(finished: (Mission | Recovery | Shipbuilding | Tiredn
   finished.map(q => {
     const s = settings[q.kind()];
     if (!s.enabled) return;
-    service.create(q.toNotificationID(), s.toChromeOptions(q.notificationOption()), s.sound);
+    service.create(q.toNotificationID(), s.getChromeOptions(q), s.sound);
   });
 }
 

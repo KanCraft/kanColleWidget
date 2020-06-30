@@ -1,12 +1,12 @@
 import React from "react";
 import cn from "classnames";
-import Queue, { Scanned } from "../../../Models/Queue/Queue";
+import { Scanned } from "../../../Models/Queue/Queue";
 import Mission from "../../../Models/Queue/Mission";
 import Recovery from "../../../Models/Queue/Recovery";
 import Shipbuilding from "../../../Models/Queue/Shipbuilding";
 
-class CellModel<T extends Queue = Mission | Recovery | Shipbuilding> {
-  constructor(public index: number, public queue: T) {
+class CellModel {
+  constructor(public index: number, public queue: Mission | Recovery | Shipbuilding) {
   }
   getScheduledTime(): string {
     if (!this.queue) return "--:--";
@@ -47,13 +47,13 @@ export default class MatrixView extends React.Component<{
     );
   }
 
-  populateCells<T extends Queue = Mission | Recovery | Shipbuilding>(scanned: Scanned<T>): CellModel<T>[] {
-    const cells: CellModel<T>[] = [];
+  populateCells(scanned: Scanned<Mission | Recovery | Shipbuilding>): CellModel[] {
+    const cells: CellModel[] = [];
     const queues = scanned.upcomming;
     const maxlen = 4; // FIXME: 今後これ変わらんかね？
     for (let i = 1; i <= maxlen; i++) {
       const queue = queues.find(q => q.registeredOn(i));
-      cells.push(new CellModel<T>(i, queue));
+      cells.push(new CellModel(i, queue));
     }
     return cells;
   }

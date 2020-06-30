@@ -14,8 +14,6 @@ export enum Kind {
 
 export default class Queue extends Model {
 
-  protected defaultIconURL = chrome.extension.getURL("/dest/img/app/icon.128.png");
-
   protected static _scan<T extends Queue>(constructor: typeof Queue, now: number, clean = true): Scanned<T> {
     return constructor.list<T>().reduce((scanned, it) => {
       if (it.scheduled < now) {
@@ -32,10 +30,6 @@ export default class Queue extends Model {
   kind(): Kind {
     return (this.constructor as any).__ns as Kind;
   }
-  // registeredOn
-  registeredOn(i: number | string): boolean {
-    throw new Error("overrideして使ってください");
-  }
 
   toNotificationID(params: Record<string, any> = {}): string {
     const search = new URLSearchParams(params);
@@ -51,11 +45,4 @@ export default class Queue extends Model {
     return this.save();
   }
 
-  notificationOption(): chrome.notifications.NotificationOptions {
-    throw new Error("overrideして使ってくれ");
-  }
-
-  getTimerLabel(): string {
-    throw new Error("overrideして使ってくれ");
-  }
 }

@@ -20,28 +20,6 @@ export default class Shipbuilding extends Queue {
     return this.dock == dock;
   }
 
-  notificationOption(): chrome.notifications.NotificationOptions {
-    return {
-      title: "建造完了",
-      message: `間もなく、第${this.dock}ドックの建造が完了します`,
-      requireInteraction: true,
-    };
-  }
-
-  notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
-    return {
-      iconUrl: this.defaultIconURL,
-      message: `第${this.dock}ドックでの建造を開始します。建造予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
-      requireInteraction: false,
-      title: "建造開始",
-      type: "basic",
-    };
-  }
-
-  getQueueTypeLabel() {
-    return "建造";
-  }
-
   getTimerLabel() {
     return `第${this.dock}ドック 建造`;
   }

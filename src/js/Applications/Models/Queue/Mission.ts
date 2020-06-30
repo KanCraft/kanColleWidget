@@ -45,28 +45,6 @@ export default class Mission extends Queue {
     return this.deck == deck;
   }
 
-  notificationOption(): chrome.notifications.NotificationOptions {
-    return {
-      title: "遠征帰投",
-      message: `間もなく、第${this.deck}艦隊が${this.title}より帰投します`,
-      requireInteraction: true,
-    };
-  }
-
-  notificationOptionOnRegister(): chrome.notifications.NotificationOptions {
-    return {
-      iconUrl: this.defaultIconURL,
-      message: `第${this.deck}艦隊が、${this.title}に向けて出港しました。帰投予定時刻は${(new Date(this.scheduled)).toLocaleTimeString()}です。`,
-      requireInteraction: false,
-      title: "遠征出港",
-      type: "basic",
-    };
-  }
-
-  getQueueTypeLabel() {
-    return "遠征";
-  }
-
   getTimerLabel() {
     return `第${this.deck}艦隊 ${this.title}`;
   }

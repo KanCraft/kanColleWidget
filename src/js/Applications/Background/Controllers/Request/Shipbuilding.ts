@@ -4,13 +4,10 @@ import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 import Shipbuilding from "../../../Models/Queue/Shipbuilding";
-import {
-  DebuggableRequest,
-  DebuggableResponse,
-} from "../../../../definitions/debuggable";
-import Config from "../../../Models/Config";
+import { DebuggableRequest, DebuggableResponse } from "../../../../definitions/debuggable";
 import NotificationService from "../../../../Services/Notification";
 import OCRService from "../../../../Services/OCR";
+import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 
 const tmp = {
   dock: null,
@@ -57,12 +54,12 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
   shipbuilding.register(Date.now() + time);
 
-  const notify = Config.find<Config<boolean>>("notification-shipbuilding").value;
-  if (notify) {
-    const notifications = new NotificationService();
-    const nid = shipbuilding.toNotificationID({start: true});
-    notifications.create(nid, shipbuilding.notificationOptionOnRegister());
-  }
+  const setting = NotificationSetting.find<NotificationSetting>(shipbuilding.kind());
+  if (!setting.enabled) return { status: 202, shipbuilding };
+
+  const notifications = new NotificationService();
+  const nid = shipbuilding.toNotificationID({start: true});
+  notifications.create(nid, setting.getChromeOptions(shipbuilding, false));
 
   return { status: 202, shipbuilding };
 }

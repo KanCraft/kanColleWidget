@@ -35,3 +35,17 @@ Date.prototype.upto = function(target: number | Date): string {
   const minute = Math.floor(milisecDiff / (1000 * 60));
   return `${minute}分`;
 };
+
+/**
+ * String型の拡張は以下に定義する
+ */
+interface String {
+  format(...args): string;
+}
+
+// https://www.it-swarm.dev/ja/javascript/printfstringformat%E3%81%A8%E5%90%8C%E7%AD%89%E3%81%AEjavascript/957771974/
+String.prototype.format = function(...args) {
+  return this.replace(/{(\d+)}/g, function(match, number) {
+    return typeof args[number] != "undefined" ? args[number] : match;
+  });
+};

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default class ClockView extends React.Component<{
   now: Date;
 }> {

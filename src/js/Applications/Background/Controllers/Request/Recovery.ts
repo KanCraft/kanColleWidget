@@ -4,13 +4,10 @@ import Rectangle from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
-import Config from "../../../Models/Config";
 import Recovery from "../../../Models/Queue/Recovery";
-import {
-  DebuggableRequest,
-  DebuggableResponse,
-} from "../../../../definitions/debuggable";
+import { DebuggableRequest, DebuggableResponse } from "../../../../definitions/debuggable";
 import OCRService from "../../../../Services/OCR";
+import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 
 const tmp = {
   dock: null,
@@ -58,12 +55,12 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   const recovery = Recovery.new<Recovery>({dock, time, text});
   recovery.register(Date.now() + time);
 
-  const notify = Config.find<Config<boolean>>("notification-recovery").value;
-  if (notify) {
-    const notifications = new NotificationService();
-    const nid = recovery.toNotificationID({ start: Date.now() });
-    await notifications.create(nid, recovery.notificationOptionOnRegister());
-  }
+  const setting = NotificationSetting.find<NotificationSetting>(recovery.kind());
+  if (!setting.enabled) return { status: 202, recovery };
+
+  const notifications = new NotificationService();
+  const nid = recovery.toNotificationID({ start: Date.now() });
+  await notifications.create(nid, setting.getChromeOptions(recovery, false));
 
   return { status: 202, recovery };
 }
