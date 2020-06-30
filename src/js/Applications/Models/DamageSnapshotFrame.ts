@@ -37,7 +37,7 @@ export default class DamageSnapshotFrame extends Config<any> {
       },
       title: "大破進撃防止窓",
       type: Type.Select,
-      value: "disabled",
+      value: DamageSnapshotType.Disabled,
     },
   };
 
