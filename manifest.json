@@ -6,8 +6,9 @@
   "description": "「艦これ」をほどよく快適にたのしく遊べるようにするやつです",
   "permissions": [
     "tabs",
-    "webRequest",
     "alarms",
+    "<all_urls>",
+    "webRequest",
     "notifications",
     "unlimitedStorage"
   ],
