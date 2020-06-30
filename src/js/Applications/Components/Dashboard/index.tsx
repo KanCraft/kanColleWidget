@@ -6,11 +6,14 @@ import Recovery from "../../Models/Queue/Recovery";
 import Shipbuilding from "../../Models/Queue/Shipbuilding";
 import ClockView from "./ClockView";
 import MatrixView from "./QueuesView/MatrixView";
+import Tiredness from "../../Models/Queue/Tiredness";
+import TirednessView from "./QueuesView/TirednessView";
 
 export default class DashboardView extends React.Component<Record<string, any>, {
   missions: Scanned<Mission>;
   recoveries: Scanned<Recovery>;
   shipbuildings: Scanned<Shipbuilding>;
+  tiredness: Scanned<Tiredness>;
   now: Date;
 }> {
 
@@ -37,6 +40,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
       missions: Mission.scan(false),
       recoveries: Recovery.scan(false),
       shipbuildings: Shipbuilding.scan(false),
+      tiredness: Tiredness.scan(false),
     };
   }
   private tick() {
@@ -51,6 +55,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
       <div className="container">
         <ClockView now={this.state.now} />
         <MatrixView {...this.state} />
+        <TirednessView {...this.state.tiredness} now={this.state.now} />
       </div>
     );
   }

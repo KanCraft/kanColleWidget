@@ -14,7 +14,6 @@ class CellModel<T extends Queue = Mission | Recovery | Shipbuilding> {
   }
   getTooltipAttributes(): { className?: string, data?: string } {
     if (!this.queue) return {};
-    console.log(this.queue.getTimerLabel());
     return {className: "tooltip", data: this.queue.getTimerLabel()};
   }
 }

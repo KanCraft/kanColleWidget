@@ -17,9 +17,21 @@ Number.prototype.pad = function(max: number, fill = "0"): string {
  */
 interface Date {
   toKCWTimeString(withSec?: boolean): string;
+  upto(target: number | Date): string;
 }
 
 Date.prototype.toKCWTimeString = function(withSec = false): string {
   const res = `${this.getHours().pad(2)}:${this.getMinutes().pad(2)}`;
   return withSec ? res + `:${this.getSeconds().pad(2)}` : res;
+};
+
+/**
+ * まであと何分的なやつ
+ */
+Date.prototype.upto = function(target: number | Date): string {
+  const targetTimestamp = (target instanceof Date) ? target.getTime() : target;
+  const milisecDiff = targetTimestamp - this.getTime();
+  // TODO: あとでなおす
+  const minute = Math.floor(milisecDiff / (1000 * 60));
+  return `${minute}分`;
 };
