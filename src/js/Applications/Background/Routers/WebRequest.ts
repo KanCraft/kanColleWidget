@@ -9,7 +9,7 @@ import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Batt
 import { OnMapStart } from "../Controllers/Request/Map";
 import { OnMissionStart, OnMissionResult } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
-import { OnRecoveryStart } from "../Controllers/Request/Recovery";
+import { OnRecoveryStart, OnRecoveryHighspeed } from "../Controllers/Request/Recovery";
 import { OnShipbuildingStart, OnShipbuildingGetShip } from "../Controllers/Request/Shipbuilding";
 
 const resolver = (detail) => {
@@ -24,6 +24,7 @@ router.on(["api_port/port"], OnPort);
 
 // 修復関係
 router.on(["api_req_nyukyo/start"], OnRecoveryStart);
+router.on(["api_req_nyukyo/speedchange"], OnRecoveryHighspeed);
 
 // 工廠関係
 router.on(["api_req_kousyou/createship"], OnShipbuildingStart);

@@ -22,6 +22,15 @@ export async function OnRecoveryStart(req: DebuggableRequest) {
   return {status: 200};
 }
 
+/**
+ * @MESSAGE /api_req_nyukyo/speedchange
+ * 修復途中で高速剤使ったときの処理
+ */
+export async function OnRecoveryHighspeed(req: DebuggableRequest) {
+  const { formData: { api_ndock_id: [dock] } } = req.requestBody;
+  return Recovery.filter<Recovery>(r => r.dock == dock).map(r => r.delete());
+}
+
 export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
 
   if (req.debug) {
