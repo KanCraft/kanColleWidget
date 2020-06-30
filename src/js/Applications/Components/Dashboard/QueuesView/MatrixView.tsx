@@ -29,7 +29,7 @@ export default class MatrixView extends React.Component<{
       <div className={cn("container", "column", label)}>
         <div className="columns">
           <div className="column col-3"></div>
-          <div className="column col-9">{label}</div>
+          <div className="column col-9">{/* label */}</div>
         </div>
         {cells.map(cell => {
           const tooltip = cell.getTooltipAttributes();

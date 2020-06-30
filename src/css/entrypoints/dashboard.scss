@@ -25,21 +25,24 @@
 
 .queue-matrix {
   .container {
+    .columns:first-child>:nth-child(2) {
+      border-bottom: thin solid;
+    }
     &.遠征 {
       .columns:first-child>:nth-child(2) {
-        background-color: $mission-color;
+        border-color: $mission-color;
         color: white;
       }
     }
     &.修復 {
       .columns:first-child>:nth-child(2) {
-        background-color: $recovery-color;
+        border-color: $recovery-color;
         color: white;
       }
     }
     &.建造 {
       .columns:first-child>:nth-child(2) {
-        background-color: $shipbuilding-color;
+        border-color: $shipbuilding-color;
         color: white;
       }
     }
