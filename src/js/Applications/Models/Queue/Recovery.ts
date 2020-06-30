@@ -1,8 +1,8 @@
-import Queue, { Scanned } from "./Queue";
+import Queue, { Scanned, Kind } from "./Queue";
 
 export default class Recovery extends Queue {
 
-  static __ns = "Recovery";
+  static __ns = Kind.Recovery;
 
   static offset = 1000 * 60; // 1分前通知とかいうやつ
 
@@ -24,11 +24,9 @@ export default class Recovery extends Queue {
 
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: this.defaultIconURL,
+      title: "修復完了",
       message: `間もなく、第${this.dock}ドックの修復が完了します`,
       requireInteraction: true,
-      title: "修復完了",
-      type: "basic",
     };
   }
 

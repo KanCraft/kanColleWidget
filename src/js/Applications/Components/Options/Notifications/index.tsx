@@ -3,6 +3,7 @@ import cn from "classnames";
 import Setting from "../../../Models/Settings/NotificationSetting";
 import FileService from "../../../../Services/Files";
 import NotificationService from "../../../../Services/Notification";
+import { Kind } from "../../../Models/Queue/Queue";
 
 class NotificationSettingView extends React.Component<{
   label: string,
@@ -135,9 +136,9 @@ export default class NotificationSettings extends React.Component {
       <section className="category notification-setting">
         <h1>通知設定</h1>
         <NotificationSettingView label="デフォルト" kind="default" />
-        <NotificationSettingView label="遠征" kind="mission" />
-        <NotificationSettingView label="修復" kind="recovery" />
-        <NotificationSettingView label="建造" kind="shipbuilding" />
+        <NotificationSettingView label="遠征" kind={Kind.Mission} />
+        <NotificationSettingView label="修復" kind={Kind.Recovery} />
+        <NotificationSettingView label="建造" kind={Kind.Shipbuilding} />
       </section>
     );
   }

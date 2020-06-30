@@ -5,6 +5,13 @@ export interface Scanned<T> {
   finished: T[];
 }
 
+export enum Kind {
+  Mission = "Mission",
+  Recovery = "Recovery",
+  Shipbuilding = "Shipbuilding",
+  Tiredness = "Tiredness",
+}
+
 export default class Queue extends Model {
 
   protected defaultIconURL = chrome.extension.getURL("/dest/img/app/icon.128.png");
@@ -22,8 +29,8 @@ export default class Queue extends Model {
   }
 
   // インスタンスからの__nsのアクセスはこれを使う
-  kind(): string {
-    return (this.constructor as any).__ns;
+  kind(): Kind {
+    return (this.constructor as any).__ns as Kind;
   }
   // registeredOn
   registeredOn(i: number | string): boolean {

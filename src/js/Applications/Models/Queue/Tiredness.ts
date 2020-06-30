@@ -1,8 +1,8 @@
-import Queue, { Scanned } from "./Queue";
+import Queue, { Scanned, Kind } from "./Queue";
 
 export default class Tiredness extends Queue {
 
-  static __ns = "Tiredness";
+  static __ns = Kind.Tiredness;
 
   static scan(clean = true): Scanned<Tiredness> {
     return super._scan<Tiredness>(Tiredness, Date.now(), clean);
@@ -17,11 +17,9 @@ export default class Tiredness extends Queue {
 
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: this.defaultIconURL,
+      title: "疲労回復",
       message: `間もなく、第${this.deck}艦隊の疲労が回復する見込みです`,
       requireInteraction: true,
-      title: "疲労回復",
-      type: "basic",
     };
   }
 

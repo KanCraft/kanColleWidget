@@ -1,4 +1,5 @@
 import { Model, Types } from "chomex";
+import { Kind } from "../Queue/Queue";
 
 export default class NotificationSetting extends Model {
 
@@ -24,19 +25,19 @@ export default class NotificationSetting extends Model {
       sound: "",
     },
     // 遠征の通知設定
-    "mission": {
+    [Kind.Mission]: {
       enabled: true,
     },
     // 修復の通知設定
-    "recovery": {
+    [Kind.Recovery]: {
       enabled: true,
     },
     // 建造の通知設定
-    "shipbuilding": {
+    [Kind.Shipbuilding]: {
       enabled: true,
     },
     // 疲労の通知設定
-    "tiredness": {
+    [Kind.Tiredness]: {
       enabled: true,
     },
   }

@@ -1,4 +1,4 @@
-import Queue, { Scanned } from "./Queue";
+import Queue, { Scanned, Kind } from "./Queue";
 
 import catalog from "./missions";
 
@@ -7,7 +7,7 @@ import catalog from "./missions";
  */
 export default class Mission extends Queue {
 
-  static __ns = "Mission"
+  static __ns = Kind.Mission;
 
   static offset = 1000 * 60; // 1分前通知とかいうやつ
 
@@ -47,11 +47,9 @@ export default class Mission extends Queue {
 
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: this.defaultIconURL,
+      title: "遠征帰投",
       message: `間もなく、第${this.deck}艦隊が${this.title}より帰投します`,
       requireInteraction: true,
-      title: "遠征帰投",
-      type: "basic",
     };
   }
 

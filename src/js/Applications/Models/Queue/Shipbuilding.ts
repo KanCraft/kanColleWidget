@@ -1,8 +1,8 @@
-import Queue, { Scanned } from "./Queue";
+import Queue, { Scanned, Kind } from "./Queue";
 
 export default class Shipbuilding extends Queue {
 
-  static __ns = "Shipbuilding";
+  static __ns = Kind.Shipbuilding;
 
   static scan(clean = true): Scanned<Shipbuilding> {
     return super._scan<Shipbuilding>(Shipbuilding, Date.now(), clean);
@@ -22,11 +22,9 @@ export default class Shipbuilding extends Queue {
 
   notificationOption(): chrome.notifications.NotificationOptions {
     return {
-      iconUrl: this.defaultIconURL,
+      title: "建造完了",
       message: `間もなく、第${this.dock}ドックの建造が完了します`,
       requireInteraction: true,
-      title: "建造完了",
-      type: "basic",
     };
   }
 
