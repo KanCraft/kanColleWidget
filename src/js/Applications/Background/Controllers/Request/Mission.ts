@@ -1,6 +1,8 @@
 import NotificationService from "../../../../Services/Notification";
 import Mission from "../../../Models/Queue/Mission";
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
+import { DebuggableRequest } from "../../../../definitions/debuggable";
+import Recovery from "../../../Models/Queue/Recovery";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
   const { formData: { api_mission_id: [mid], api_deck_id: [did] } } = req.requestBody;
@@ -18,6 +20,15 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
   await notifications.create(nid, setting.getChromeOptions(mission, false));
 
   return { status: 202, mission };
+}
+
+/**
+ * @MESSAGE /api_req_mission/return_instruction
+ * 遠征途中で中断帰投させたときの処理
+ */
+export async function OnMissionInterruption(req: DebuggableRequest) {
+  const { formData: { api_deck_id: [did]} } = req.requestBody;
+  return Mission.filter<Mission>(r => r.deck == did).map(r => r.delete());
 }
 
 export async function OnMissionResult(req: chrome.webRequest.WebRequestBodyDetails) {
