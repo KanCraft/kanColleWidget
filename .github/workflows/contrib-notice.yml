@@ -2,11 +2,11 @@ name: Contribution Notice
 
 on:
   issues:
-    type: [opened, reopened]
+    types: [opened, reopened]
   pull_request:
     # ほんとはopenedでアナウンスしたいんだけど、secretsの問題で、closedにしてみる
     # https://github.community/t/cant-push-to-forked-repository-on-the-original-repositorys-pull-request-with-github-token/16287/2#M2372
-    type: [closed]
+    types: [closed]
 
 jobs:
   notification:
