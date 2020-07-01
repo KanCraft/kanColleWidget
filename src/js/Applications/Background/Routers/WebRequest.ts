@@ -10,7 +10,7 @@ import { OnMapStart } from "../Controllers/Request/Map";
 import { OnMissionStart, OnMissionResult } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
 import { OnRecoveryStart, OnRecoveryHighspeed } from "../Controllers/Request/Recovery";
-import { OnShipbuildingStart, OnShipbuildingGetShip } from "../Controllers/Request/Shipbuilding";
+import { OnShipbuildingStart, OnShipbuildingGetShip, OnShipbuildingHighspeed } from "../Controllers/Request/Shipbuilding";
 
 const resolver = (detail) => {
   // host部分を削除したものをrouting nameとして使う
@@ -29,6 +29,7 @@ router.on(["api_req_nyukyo/speedchange"], OnRecoveryHighspeed);
 // 工廠関係
 router.on(["api_req_kousyou/createship"], OnShipbuildingStart);
 router.on(["api_req_kousyou/getship"], OnShipbuildingGetShip);
+router.on(["api_req_kousyou/createship_speedchange"], OnShipbuildingHighspeed);
 
 // 遠征関係
 router.on(["api_req_mission/start"], OnMissionStart);

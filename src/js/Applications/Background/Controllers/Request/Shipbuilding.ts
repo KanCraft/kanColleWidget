@@ -27,6 +27,15 @@ export async function OnShipbuildingGetShip(req: DebuggableRequest) {
   });
 }
 
+/**
+ * @MESSAGE /api_req_kousyou/createship_speedchange
+ * 建造途中で高速剤使ったときの処理
+ */
+export async function OnShipbuildingHighspeed(req: DebuggableRequest) {
+  const { formData: { api_kdock_id: [dock] } } = req.requestBody;
+  return Shipbuilding.filter<Shipbuilding>(r => r.dock == dock).map(r => r.delete());
+}
+
 export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   if (req.debug) {
