@@ -88,7 +88,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.6",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "chomex": "^2.0.2",
+    "chomex": "^2.1.0",
     "classnames": "^2.2.6",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
