@@ -4,7 +4,9 @@ on:
   issues:
     type: [opened, reopened]
   pull_request:
-    type: [opened]
+    # ほんとはopenedでアナウンスしたいんだけど、secretsの問題で、closedにしてみる
+    # https://github.community/t/cant-push-to-forked-repository-on-the-original-repositorys-pull-request-with-github-token/16287/2#M2372
+    type: [closed]
 
 jobs:
   notification:
@@ -26,7 +28,7 @@ jobs:
         echo -ne "ご意見が届きました！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     - name: PR用ツイート内容の生成
-      if: github.event_name == 'pull_request' && github.event.action == 'opened'
+      if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
       env:
         SENDER: ${{ github.event.sender.login}}
         TITLE: ${{ github.event.pull_request.title}}
