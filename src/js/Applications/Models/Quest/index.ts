@@ -36,10 +36,10 @@ export class QuestProgress extends Model {
 
   static schema = {
     quests: Types.dictOf(Types.reference(Quest)),
-    lastUpdated: Types.date,
+    lastRefreshed: Types.date,
   }
   quests: { [id: number]: Quest };
-  lastUpdated: Date;
+  lastRefreshed: Date;
 
   /**
    * カタログからQuestのdictを生成して返す.
@@ -60,7 +60,7 @@ export class QuestProgress extends Model {
    * 唯一Storageにストアされてるものを返す.
    */
   static user(): QuestProgress {
-    return this.find(this.ukey) || this.new({ _id: this.ukey, quests: this.construct(), lastUpdated: new Date() });
+    return this.find(this.ukey) || this.new({ _id: this.ukey, quests: this.construct(), lastRefreshed: new Date() });
   }
 
   start(id: number): QuestProgress {
@@ -73,14 +73,29 @@ export class QuestProgress extends Model {
   }
   complete(id: number): QuestProgress {
     this.quests[id].status = Status.Completed;
-    const quests = Object.values(this.quests).map(q => {
-      if (q.id == id) return q;
-      if (!q.requires || q.requires.length == 0) return q;
-      if (!q.requires.includes(id as number)) return q;
+    const quests = Object.values(this.quests).reduce((ctx, q) => {
+      if (q.id == id) { ctx[q.id] = q; return ctx; }
+      if (!q.requires || q.requires.length == 0) { ctx[q.id] = q; return ctx; }
+      if (!q.requires.includes(id)) { ctx[q.id] = q; return ctx; }
       if (q.requires.every(x => this.quests[x].completed)) q.status = Status.Open;
-      return q;
-    });
-    return this.update({ quests: { ...quests } });
+      ctx[q.id] = q;
+      return ctx;
+    }, {});
+    return this.update({ quests });
+  }
+
+  /**
+   * TODO: これをいつどういうタイミングで呼ぶべきか
+   * user() でやるべきかもなあ
+   */
+  shouldRefresh(now: Date = new Date()): Group[] {
+    const groups = [];
+    if (this.lastRefreshed.getKCDate() != now.getKCDate()) groups.push(Group.Daily);
+    return groups;
+  }
+  refresh(groups: Group[] = [Group.Daily]): QuestProgress {
+    const quests = QuestProgress.construct(groups);
+    return this.update({ quests: { ...this.quests, ...quests }, lastRefreshed: new Date() });
   }
 
   /**
