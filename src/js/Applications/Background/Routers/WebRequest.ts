@@ -11,6 +11,7 @@ import { OnMissionStart, OnMissionInterruption, OnMissionResult } from "../Contr
 import { OnPort } from "../Controllers/Request/Port";
 import { OnRecoveryStart, OnRecoveryHighspeed } from "../Controllers/Request/Recovery";
 import { OnShipbuildingStart, OnShipbuildingGetShip, OnShipbuildingHighspeed } from "../Controllers/Request/Shipbuilding";
+import { OnQuestStart, OnQuestStop, OnQuestComplete } from "../Controllers/Request/Quest";
 
 const resolver = (detail) => {
   // host部分を削除したものをrouting nameとして使う
@@ -35,6 +36,11 @@ router.on(["api_req_kousyou/createship_speedchange"], OnShipbuildingHighspeed);
 router.on(["api_req_mission/start"], OnMissionStart);
 router.on(["api_req_mission/result"], OnMissionResult);
 router.on(["api_req_mission/return_instruction"], OnMissionInterruption);
+
+// 任務
+router.on(["api_req_quest/start"], OnQuestStart);
+router.on(["api_req_quest/stop"], OnQuestStop);
+router.on(["api_req_quest/clearitemget"], OnQuestComplete);
 
 // 出撃
 router.on(["api_req_map/start"], OnMapStart); // 出撃開始

@@ -44,7 +44,7 @@ export class QuestProgress extends Model {
   /**
    * カタログからQuestのdictを生成して返す.
    * デフォルトではすべてのGroupのエントリを返す.
-   * @param {Group[]} groups 
+   * @param {Group[]} groups
    * @returns {[id:number]: Quest}
    */
   private static construct(
@@ -76,7 +76,7 @@ export class QuestProgress extends Model {
     const quests = Object.values(this.quests).map(q => {
       if (q.id == id) return q;
       if (!q.requires || q.requires.length == 0) return q;
-      if (!q.requires.includes(id)) return q;
+      if (!q.requires.includes(id as number)) return q;
       if (q.requires.every(x => this.quests[x].completed)) q.status = Status.Open;
       return q;
     });
@@ -85,7 +85,7 @@ export class QuestProgress extends Model {
 
   /**
    * 指定されたカテゴリにおいて着手可能未着手のQuestリストを返す.
-   * @param {Category} category 
+   * @param {Category} category
    */
   availables(category: Category): Quest[] {
     return Object.values(this.quests).filter(q => q.category == category && q.status == Status.Open);
