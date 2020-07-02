@@ -3,10 +3,28 @@ import {
   DebuggableRequest,
 } from "../../../../definitions/debuggable";
 import Tiredness from "../../../Models/Queue/Tiredness";
+import { QuestProgress } from "../../../Models/Quest";
+import { Category } from "../../../Models/Quest/consts";
+import NotificationService from "../../../../Services/Notification";
 
 /**
- * 出撃関係
+ * @MESSAGE /api_get_member/mapinfo
+ * @param req
  */
+export async function OnMapPrepare(/* req: DebuggableRequest */) {
+  const qp = QuestProgress.user();
+  const quests = qp.availables(Category.Sortie);
+  if (quests.length != 0) {
+    // {{{ TODO: なにかしらSettingのモデルを使う
+    const iconUrl = chrome.extension.getURL("dest/img/app/icon.128.png");
+    const title = "未着手任務があります";
+    const message = `${quests.map(q => `・${q.title} [${q.id}]\n`)}`;
+    const id = `QuestAlert?ts=${Date.now()}`;
+    // }}}
+    const ns = new NotificationService();
+    await ns.create(id, { iconUrl, title, message, type: "basic" });
+  }
+}
 
 export function OnMapStart(req: DebuggableRequest) {
   const context = Sortie.context();
