@@ -60,7 +60,18 @@ export class QuestProgress extends Model {
    * 唯一Storageにストアされてるものを返す.
    */
   static user(): QuestProgress {
-    return this.find(this.ukey) || this.new({ _id: this.ukey, quests: this.construct(), lastRefreshed: new Date() });
+    const qp: QuestProgress = this.find(this.ukey) || this.new({ _id: this.ukey, quests: this.construct(), lastRefreshed: new Date() });
+    const groups = qp.shouldRefresh(new Date());
+    return qp.refresh(groups);
+  }
+  shouldRefresh(now: Date = new Date()): Group[] {
+    const groups = [];
+    if (this.lastRefreshed.getKCDate() != now.getKCDate()) groups.push(Group.Daily);
+    return groups;
+  }
+  refresh(groups: Group[] = [Group.Daily]): QuestProgress {
+    const quests = QuestProgress.construct(groups);
+    return this.update({ quests: { ...this.quests, ...quests }, lastRefreshed: new Date() });
   }
 
   start(id: number): QuestProgress {
@@ -82,20 +93,6 @@ export class QuestProgress extends Model {
       return ctx;
     }, {});
     return this.update({ quests });
-  }
-
-  /**
-   * TODO: これをいつどういうタイミングで呼ぶべきか
-   * user() でやるべきかもなあ
-   */
-  shouldRefresh(now: Date = new Date()): Group[] {
-    const groups = [];
-    if (this.lastRefreshed.getKCDate() != now.getKCDate()) groups.push(Group.Daily);
-    return groups;
-  }
-  refresh(groups: Group[] = [Group.Daily]): QuestProgress {
-    const quests = QuestProgress.construct(groups);
-    return this.update({ quests: { ...this.quests, ...quests }, lastRefreshed: new Date() });
   }
 
   /**
