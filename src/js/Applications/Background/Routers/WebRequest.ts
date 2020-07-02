@@ -6,7 +6,7 @@
 import {SerialRouter} from "chomex";
 
 import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Battle";
-import { OnMapStart } from "../Controllers/Request/Map";
+import { OnMapStart, OnMapPrepare } from "../Controllers/Request/Map";
 import { OnMissionStart, OnMissionInterruption, OnMissionResult } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
 import { OnRecoveryStart, OnRecoveryHighspeed } from "../Controllers/Request/Recovery";
@@ -43,6 +43,7 @@ router.on(["api_req_quest/stop"], OnQuestStop);
 router.on(["api_req_quest/clearitemget"], OnQuestComplete);
 
 // 出撃
+router.on(["api_get_member/mapinfo"], OnMapPrepare);
 router.on(["api_req_map/start"], OnMapStart); // 出撃開始
 
 // 戦闘開始時
