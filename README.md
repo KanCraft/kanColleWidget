@@ -12,10 +12,30 @@
 
 # 開発
 
-```
+環境
+
+- Node.js: v12.14 (ぐらい)
+- npm: 6.13.14 (ぐらい)
+
+```bash
+git clone git@github.com:otiai10/kanColleWidget.git
+cd kanColleWidget
 npm ci
-npm start
 npm test
+npm run build
+# destディレクトリが生成される.
+# 次にChromeブラウザで chrome://extensions ページへ行き
+# 開発者モードを有効にし、パッケージを読み込みから、
+# このkanColleWidgetディレクトリを読み込む.
+
+# 競合のため、公開版・テスト版を削除しておいたほうがいいです.
+```
+
+開発上べんりなコマンド
+
+```bash
+npm start
+# ファイル差分を見てbuildを自動で作り直します
 ```
 
 # リリースフローについて
