@@ -76,6 +76,7 @@ export default class DMM {
 
     const iframe = this.scope.document.querySelector(Const.GameIFrame) as HTMLIFrameElement;
     iframe.style.position = "absolute";
+    iframe.style.transition = "transform 0.2s";
     iframe.style.zIndex = "2";
     iframe.style.transform = `scale(${zoom})`;
 
@@ -170,7 +171,7 @@ export default class DMM {
       return false;
     }
 
-    const debounce = 1000;
+    const debounce = 200;
     if (this.resizeTimerId > 0) {
       clearTimeout(this.resizeTimerId);
     }
