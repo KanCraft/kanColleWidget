@@ -48,3 +48,14 @@
     }
   }
 }
+.tiredness-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  .tiredness-bar {
+    position: absolute;
+    z-index: -1;
+    height: 6px;
+  }
+}
+

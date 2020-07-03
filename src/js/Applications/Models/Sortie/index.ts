@@ -57,8 +57,8 @@ export default class Sortie extends Model {
     return this.update({area: null, map: null, depth: null});
   }
 
-  toText(): string {
-    const fallback = `A: ${this.area}, I ${this.map}, D: ${this.depth}`;
+  toText(withDepth = true): string {
+    const fallback = `海域:${this.area}/航路:${this.map}` + (withDepth ? `/戦闘:${this.depth}` : "");
     const area = catalog[this.area];
     if (!area) {
       return fallback;
@@ -67,7 +67,7 @@ export default class Sortie extends Model {
     if (!map) {
       return fallback;
     }
-    return `${this.depth}戦目/${map.title}/${area.title}`;
+    return (withDepth ? `${this.depth}戦目/` : "") + `${map.title}/${area.title}`;
   }
 
 }

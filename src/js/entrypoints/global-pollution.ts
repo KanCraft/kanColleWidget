@@ -17,7 +17,7 @@ Number.prototype.pad = function(max: number, fill = "0"): string {
  */
 interface Date {
   toKCWTimeString(withSec?: boolean): string;
-  upto(target: number | Date): string;
+  upto(target: number | Date): number;
   getKCDate(): number;
 }
 
@@ -29,12 +29,12 @@ Date.prototype.toKCWTimeString = function(withSec = false): string {
 /**
  * まであと何分的なやつ
  */
-Date.prototype.upto = function(target: number | Date): string {
+Date.prototype.upto = function(target: number | Date): number {
   const targetTimestamp = (target instanceof Date) ? target.getTime() : target;
   const milisecDiff = targetTimestamp - this.getTime();
   // TODO: あとでなおす
   const minute = Math.floor(milisecDiff / (1000 * 60));
-  return `${minute}分`;
+  return minute;
 };
 
 /**

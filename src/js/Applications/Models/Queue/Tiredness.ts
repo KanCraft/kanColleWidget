@@ -10,6 +10,7 @@ export default class Tiredness extends Queue {
 
   deck: number | string;
   interval: number; // 回復に要する時間（ミリ秒）
+  label: string;
 
   register(scheduled: number): Tiredness {
     return super._register<Tiredness>(scheduled);

@@ -33,6 +33,6 @@ export function OnMapStart(req: DebuggableRequest) {
 
   // 疲労タイマーの登録
   const interval = 15 * 60 * 1000;
-  const tiredness = new Tiredness({ deck, interval });
+  const tiredness = new Tiredness({ deck, interval, label: context.toText(false) });
   tiredness.register(Date.now() + interval);
 }

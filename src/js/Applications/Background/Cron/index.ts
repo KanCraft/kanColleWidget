@@ -26,8 +26,14 @@ export function UpdateQueues() {
   const missions = Mission.scan();
   const recoveries = Recovery.scan();
   const shipbuildings = Shipbuilding.scan();
+  const tiredness = Tiredness.scan();
 
-  const finished = [...missions.finished, ...recoveries.finished, ...shipbuildings.finished];
+  const finished = [
+    ...missions.finished,
+    ...recoveries.finished,
+    ...shipbuildings.finished,
+    ...tiredness.finished,
+  ];
   showNotifications(finished);
 
   // const nearest = upcoming.sort((p, n) => p.scheduled < n.scheduled ? -1 : 1)[0];
