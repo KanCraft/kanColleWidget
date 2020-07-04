@@ -10,4 +10,5 @@ const router = new Router(resolver);
 router.on("Mission", OnNotificationClick);
 router.on("Recovery", OnNotificationClick);
 router.on("Shipbuilding", OnNotificationClick);
+router.on("Tiredness", OnNotificationClick);
 export default router.listener();
