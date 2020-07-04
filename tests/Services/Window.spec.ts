@@ -1,6 +1,7 @@
 import WindowService from "../../src/js/Services/Window";
 import { fake } from "../tools";
 import DamageSnapshotFrame from "../../src/js/Applications/Models/DamageSnapshotFrame";
+import DashboardFrame from "../../src/js/Applications/Models/DashboardFrame";
 
 describe("WindowService", () => {
   describe("find", () => {
@@ -33,14 +34,16 @@ describe("WindowService", () => {
       fake(chrome.tabs.query).callbacks([]);
       fake(chrome.windows.create).callbacks({ tabs: [{ id: 123 }] });
       const ws = new WindowService();
-      const tab = await ws.openDashboardPage();
+      const frame = DashboardFrame.user();
+      const tab = await ws.openDashboardPage(frame);
       expect(tab.id).toBe(123);
     });
     it("あったときはfocus", async () => {
       fake(chrome.tabs.query).callbacks([{ id: 234 }]);
       fake(chrome.windows.update).callbacks({ tabs: [{ id: 234 }] });
       const ws = new WindowService();
-      const tab = await ws.openDashboardPage();
+      const frame = DashboardFrame.user();
+      const tab = await ws.openDashboardPage(frame);
       expect(tab.id).toBe(234);
     });
   });

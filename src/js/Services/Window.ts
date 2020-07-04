@@ -163,7 +163,7 @@ class WindowService {
     });
   }
 
-  openDashboardPage(): Promise<chrome.tabs.Tab> {
+  openDashboardPage(frame: { position: { top: number, left: number }, size: { width: number, height: number } }): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dashboard.html");
     return new Promise(resolve => {
       this.tabs.query({url}, (tabs) => {
@@ -171,8 +171,8 @@ class WindowService {
           this.windows.create({
             url,
             type: "popup",
-            height: 460, // TODO: よくわからんけどlocalStorageからもってくる
-            width: 340
+            ...frame.position,
+            ...frame.size,
           }, (win) => resolve(win.tabs[0]));
         } else {
           this.windows.update(tabs[0].windowId, { focused: true }, () => resolve(tabs[0]));

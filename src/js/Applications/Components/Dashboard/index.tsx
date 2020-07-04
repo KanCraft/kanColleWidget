@@ -8,6 +8,7 @@ import ClockView from "./ClockView";
 import MatrixView from "./QueuesView/MatrixView";
 import Tiredness from "../../Models/Queue/Tiredness";
 import TirednessView from "./QueuesView/TirednessView";
+import DashboardFrame from "../../Models/DashboardFrame";
 
 export default class DashboardView extends React.Component<Record<string, any>, {
   missions: Scanned<Mission>;
@@ -44,10 +45,19 @@ export default class DashboardView extends React.Component<Record<string, any>, 
     };
   }
   private tick() {
+    const now = new Date();
     this.setState({
       ...this.getQueues(),
-      now: new Date(),
+      now,
     });
+    if (now.getSeconds() % 10 == 0) {
+      // FIXME: ほんとはmessage使うべきだけどめんどくさいので直でmodelいじる
+      DashboardFrame.user().update({
+        position: { top: window.screenY, left: window.screenX },
+        // FIXME: なんかchrome.windows.createと不整合があるかもしらんので、ちょいちょい調整する
+        size: { width: window.outerWidth, height: window.outerHeight },
+      });
+    }
   }
 
   render() {

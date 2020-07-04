@@ -9,6 +9,7 @@
 import WindowService from "../../../../Services/Window";
 import Config from "../../../Models/Config";
 import Frame from "../../../Models/Frame";
+import DashboardFrame from "../../../Models/DashboardFrame";
 
 /**
  * WindowOpen
@@ -69,5 +70,6 @@ export async function OpenDeckCapturePage(/* message: any */) {
 
 export async function OpenDashboardPage() {
   const ws = WindowService.getInstance();
-  return ws.openDashboardPage();
+  const frame = DashboardFrame.user();
+  return ws.openDashboardPage(frame);
 }
