@@ -9,7 +9,7 @@ import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Batt
 import { OnMapStart, OnMapPrepare } from "../Controllers/Request/Map";
 import { OnMissionStart, OnMissionInterruption, OnMissionResult } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
-import { OnRecoveryStart, OnRecoveryHighspeed } from "../Controllers/Request/Recovery";
+import { OnRecoveryStart, OnRecoveryHighspeed, OnRecoveryPrepare } from "../Controllers/Request/Recovery";
 import { OnShipbuildingStart, OnShipbuildingGetShip, OnShipbuildingHighspeed } from "../Controllers/Request/Shipbuilding";
 import { OnQuestStart, OnQuestStop, OnQuestComplete } from "../Controllers/Request/Quest";
 
@@ -26,6 +26,7 @@ router.on(["api_port/port"], OnPort);
 // 修復関係
 router.on(["api_req_nyukyo/start"], OnRecoveryStart);
 router.on(["api_req_nyukyo/speedchange"], OnRecoveryHighspeed);
+router.on(["api_get_member/ndock"], OnRecoveryPrepare);
 
 // 工廠関係
 router.on(["api_req_kousyou/createship"], OnShipbuildingStart);

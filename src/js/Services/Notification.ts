@@ -22,6 +22,13 @@ export default class NotificationService {
     });
   }
 
+  async clearAll(exp: RegExp): Promise<unknown> {
+    const ids = Object.keys(await this.getAll());
+    return ids.map(id => {
+      return exp.test(id) ? this.clear(id) : Promise.resolve(null);
+    });
+  }
+
   getAll(): Promise<Record<string, any>> {
     return new Promise(resolve => {
       this.n.getAll(notifications => resolve(notifications));

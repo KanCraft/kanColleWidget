@@ -28,6 +28,15 @@ export async function OnRecoveryHighspeed(req: DebuggableRequest) {
   return Recovery.filter<Recovery>(r => r.dock == dock).map(r => r.delete());
 }
 
+/**
+ * @MESSAGE /api_get_member/ndock
+ * 入渠の画面に遷移したとき
+ */
+export async function OnRecoveryPrepare(req: DebuggableRequest) {
+  const ns = new NotificationService();
+  await ns.clearAll(/^Recovery/);
+}
+
 export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
 
   if (req.debug) {
