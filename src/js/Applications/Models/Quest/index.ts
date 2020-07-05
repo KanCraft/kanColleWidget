@@ -51,7 +51,7 @@ export class QuestProgress extends Model {
     groups: Group[] = [Group.Daily, Group.Weekly, Group.Monthly, Group.Quarterly, Group.Yearly]
   ): { [id: number]: Quest } {
     return Object.entries(catalog).reduce((ctx, [id, entry]) => {
-      if (groups.includes(entry.group)) ctx[id] = Quest.new(entry);
+      if (groups.includes(entry.group)) ctx[id] = Quest.new({ id, ...entry });
       return ctx;
     }, {});
   }
@@ -75,14 +75,17 @@ export class QuestProgress extends Model {
   }
 
   start(id: number): QuestProgress {
+    if (!this.quests[id]) return this; // TODO: なんかする
     this.quests[id].status = Status.Ongoing;
     return this.update({ quests: { ...this.quests } });
   }
   stop(id: number): QuestProgress {
+    if (!this.quests[id]) return this; // TODO: なんかする
     this.quests[id].status = Status.Open;
     return this.update({ quests: { ...this.quests } });
   }
   complete(id: number): QuestProgress {
+    if (!this.quests[id]) return this; // TODO: なんかする
     this.quests[id].status = Status.Completed;
     const quests = Object.values(this.quests).reduce((ctx, q) => {
       if (q.id == id) { ctx[q.id] = q; return ctx; }
