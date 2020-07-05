@@ -12,7 +12,7 @@ export default class Recovery extends Queue {
 
   dock: number | string;
   time: number;
-  text: string;
+  text: string; // FIXME: これ使ってなくね？ 使ってるとしたら用途を明記すべき
 
   register(scheduled: number): Recovery {
     return super._register<Recovery>(scheduled - Recovery.offset);

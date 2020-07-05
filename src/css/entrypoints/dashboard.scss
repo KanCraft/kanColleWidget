@@ -16,6 +16,7 @@
     }
     .time-wrapper {
       display: flex;
+      justify-content: center;
       span {
         font-size: 4em;
       }
@@ -24,7 +25,57 @@
 }
 
 .queue-matrix {
+  .modal {
+    .modal-body {
+      .content {
+        text-align: center;
+        input[type=time] {
+          font-size: 2.8rem;
+          border: none;
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+    .modal-footer {
+      .btn {
+        &.btn-primary {
+          margin-right: 8px;
+          &.遠征 {
+            background-color: $mission-color;
+            border-color: $mission-color;
+          }
+          &.修復 {
+            background-color: $recovery-color;
+            border-color: $recovery-color;
+          }
+          &.建造 {
+            background-color: $shipbuilding-color;
+            border-color: $shipbuilding-color;
+          }
+        }
+        &:not(.btn-primary) {
+          &.遠征 {
+            border-color: $mission-color;
+            color: $mission-color;
+          }
+          &.修復 {
+            border-color: $recovery-color;
+            color: $recovery-color;
+          }
+          &.建造 {
+            border-color: $shipbuilding-color;
+            color: $shipbuilding-color;
+          }
+        }
+      }
+    }
+  }
   .container {
+    .queue-time {
+      cursor: pointer;
+    }
     .columns:first-child>:nth-child(2) {
       border-bottom: thin solid;
     }

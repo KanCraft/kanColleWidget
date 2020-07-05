@@ -10,7 +10,7 @@ export default class Shipbuilding extends Queue {
 
   dock: number | string;
   time: number;
-  text: string;
+  text: string; // FIXME: これなに
 
   register(scheduled: number): Shipbuilding {
     return super._register<Shipbuilding>(scheduled);
