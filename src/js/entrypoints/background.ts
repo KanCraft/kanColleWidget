@@ -16,10 +16,6 @@ chrome.webRequest.onCompleted.addListener(WebRequestOnCompleteListener, { urls: 
 import {OnUpdateAvailable} from "../Applications/Background/Controllers/Meta";
 chrome.runtime.onUpdateAvailable.addListener(OnUpdateAvailable);
 
-chrome.alarms.clearAll();
-import AlarmsListener from "../Applications/Background/Routers/Alarms";
-chrome.alarms.onAlarm.addListener(AlarmsListener);
-
 import NotificationClickListener from "../Applications/Background/Routers/NotificationClick";
 chrome.notifications.onClicked.addListener(NotificationClickListener);
 
