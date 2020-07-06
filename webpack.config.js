@@ -50,6 +50,7 @@ module.exports = [
   {
     mode,
     entry: {
+      capture:     "./src/css/entrypoints/capture.scss",
       common:      "./src/css/entrypoints/common.scss",
       options:     "./src/css/entrypoints/options.scss",
       popup:       "./src/css/entrypoints/popup.scss",

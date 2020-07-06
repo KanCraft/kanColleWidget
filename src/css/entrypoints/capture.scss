@@ -1,0 +1,34 @@
+$spacing-base: 18px;
+
+html, body, main#app {
+  height: 100vh;
+  width: 100vw;
+}
+
+.card {
+  box-shadow: 0 0.25rem 1rem rgba(48,55,66,.15);
+}
+
+.tools-pane {
+  padding-top: $spacing-base * 2;
+  padding-left: $spacing-base * 2;
+  padding-right: $spacing-base;
+  .card {
+    .card-body {
+      div:not(.divider) {
+        text-align: center;
+        padding: $spacing-base / 3;
+      }
+    }
+  }
+}
+.canvas-pane {
+  padding-top: $spacing-base * 2;
+  padding-left: $spacing-base;
+  padding-right: $spacing-base * 2;
+
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

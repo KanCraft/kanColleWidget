@@ -1,12 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, createRef, RefObject } from "react";
 import TempStorage from "../../../Services/TempStorage";
 
-export default class CapturePage extends Component<{}, {uri: string}> {
+export default class CapturePage extends Component<{}, {
+  uri: string,
+}> {
+  private canvas: RefObject<HTMLCanvasElement>;
   constructor(props) {
     super(props);
     this.state = {
       uri: null,
     };
+    this.canvas = createRef<HTMLCanvasElement>();
   }
   componentDidMount() {
     /**
@@ -20,17 +24,44 @@ export default class CapturePage extends Component<{}, {uri: string}> {
     // const router = new Router();
     // router.on("/capture/show", (message) => this.showImage(message.uri));
     // chrome.runtime.onMessage.addListener(router.listener());
-    const key = (new URLSearchParams(location.search)).get("key");
+    const search = new URLSearchParams(location.search);
+    const key = search.get("key");
     const temp = new TempStorage();
-    this.setState({uri: temp.draw(key)});
+    const uri = temp.draw(key);
+    // this.setState({ uri });
+    this.drawImageURI(uri);
+  }
+  async drawImageURI(uri: string) {
+    const img = new Image();
+    await img.load(uri);
+    this.canvas.current.width = img.width;
+    this.canvas.current.height = img.height;
+    this.canvas.current.getContext("2d").drawImage(img, 0, 0);
   }
   render() {
     return (
-      <div className="container">
-        <div className="columns">
-          <div className="column col-4 col-sm-6">
-            <img src={this.state.uri} style={{width: "100%"}} />
+      <div className="pane-container">
+        <div className="container main-pane">
+          <div className="columns">
+            <div className="column col-auto tools-pane">
+              <div className="card">
+                <div className="card-body">
+                  <div>A</div>
+                  <div className="divider"></div>
+                  <div>B</div>
+                  <div>CDE</div>
+                  <div>F</div>
+                  <div>G</div>
+                </div>
+              </div>
+            </div>
+            <div className="column canvas-pane">
+              <canvas ref={this.canvas} />
+            </div>
           </div>
+        </div>
+        <div className="bottom-pane">
+
         </div>
       </div>
     );

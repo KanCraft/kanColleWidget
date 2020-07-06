@@ -60,3 +60,16 @@ String.prototype.format = function(...args) {
     return typeof args[number] != "undefined" ? args[number] : match;
   });
 };
+
+/**
+ * Image型の拡張
+ */
+interface HTMLImageElement {
+  load(uri: string): Promise<HTMLImageElement>;
+}
+HTMLImageElement.prototype.load = function(uri: string): Promise<HTMLImageElement> {
+  return new Promise(resolve => {
+    this.onload = () => resolve(this);
+    this.src = uri;
+  });
+};
