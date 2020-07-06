@@ -55,8 +55,7 @@ export default class DMM {
   }
 
   /**
-   * エアロ領域の計算と微調整
-   * zoom値が必要になるので、this.frameが正しい値になっていることを確認のこと
+   * エアロ領域への対応
    */
   private resizeToAdjustAero() {
     this.scope.resizeBy(

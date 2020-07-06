@@ -30,10 +30,24 @@ export default class DashboardView extends React.Component<Record<string, any>, 
 
   componentDidMount() {
     this.timerId = setInterval(() => this.tick(), 1000);
+    this.resizeToAdjustAero();
   }
 
   componentWillUnmount() {
     clearTimeout(this.timerId);
+  }
+
+  /**
+   * エアロ領域への対応
+   * エアロとかタイトルバーとか呼ばれる領域と、
+   * chrome.windows.createの差分を吸収する.
+   * FIXME: Windowsでもちゃんと動いてくれるといいな.
+   */
+  private resizeToAdjustAero() {
+    window.resizeBy(
+      window.outerWidth - window.innerWidth,
+      window.outerHeight - window.innerHeight,
+    );
   }
 
   private getQueues() {
@@ -54,8 +68,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
       // FIXME: ほんとはmessage使うべきだけどめんどくさいので直でmodelいじる
       DashboardFrame.user().update({
         position: { top: window.screenY, left: window.screenX },
-        // FIXME: なんかchrome.windows.createと不整合があるかもしらんので、ちょいちょい調整する
-        size: { width: window.outerWidth, height: window.outerHeight },
+        size: { width: window.innerWidth, height: window.innerHeight },
       });
     }
   }
