@@ -51,7 +51,7 @@ export class QuestProgress extends Model {
     groups: Group[] = [Group.Daily, Group.Weekly, Group.Monthly, Group.Quarterly, Group.Yearly]
   ): { [id: number]: Quest } {
     return Object.entries(catalog).reduce((ctx, [id, entry]) => {
-      if (groups.includes(entry.group)) ctx[id] = Quest.new({ id, ...entry });
+      if (groups.includes(entry.group)) ctx[id] = Quest.new({ id: parseInt(id, 10), ...entry });
       return ctx;
     }, {});
   }
