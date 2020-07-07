@@ -13,7 +13,7 @@ function packageEnv() {
 }
 
 function constructTweetText(head, commits, omitted) {
-  const MAX_TWEET_LENGTH = 160;
+  const MAX_TWEET_LENGTH = 140;
   const TAG = "#艦これウィジェット";
   const status = packageEnv() + head + "\n\n" + commits.join("\n") + (omitted ? "\nなど" : "") + "\n\n" + TAG;
   if (status.length > MAX_TWEET_LENGTH) {

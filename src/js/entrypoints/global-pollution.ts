@@ -19,6 +19,7 @@ interface Date {
   toKCWTimeString(withSec?: boolean): string;
   upto(target: number | Date): number;
   getKCDate(): number;
+  format(fmt: string): string;
 }
 
 Date.prototype.toKCWTimeString = function(withSec = false): string {
@@ -48,6 +49,26 @@ Date.prototype.getKCDate = function(): number {
 };
 
 /**
+ * フォーマットするやつ
+ * FIXME: replaceがgじゃないが
+ */
+Date.prototype.format = function(fmt: string): string {
+  return fmt.replace(
+    "yyyy", this.getFullYear().toString()
+  ).replace(
+    "MM", (this.getMonth() + 1).pad(2)
+  ).replace(
+    "dd", this.getDate().pad(2)
+  ).replace(
+    "HH", this.getHours().pad(2)
+  ).replace(
+    "mm", this.getMinutes().pad(2)
+  ).replace(
+    "ss", this.getSeconds().pad(2)
+  );
+};
+
+/**
  * String型の拡張は以下に定義する
  */
 interface String {
@@ -58,5 +79,18 @@ interface String {
 String.prototype.format = function(...args) {
   return this.replace(/{(\d+)}/g, function(match, number) {
     return typeof args[number] != "undefined" ? args[number] : match;
+  });
+};
+
+/**
+ * Image型の拡張
+ */
+interface HTMLImageElement {
+  load(uri: string): Promise<HTMLImageElement>;
+}
+HTMLImageElement.prototype.load = function(uri: string): Promise<HTMLImageElement> {
+  return new Promise(resolve => {
+    this.onload = () => resolve(this);
+    this.src = uri;
   });
 };

@@ -6,6 +6,7 @@ import Debugger from "./Debugger";
 
 import Config from "../../Models/Config";
 import NotificationSettings from "./Notifications";
+import ScreenshotSettingView from "./Screenshot";
 
 // webpack.config.jsの、DefinePluginを参照
 declare let NODE_ENV;
@@ -28,6 +29,7 @@ export default class OptionsPage extends Component<{}, {dictionary: any}> {
       <div className="container options">
         <NotificationSettings />
         <DamageSnapshot />
+        <ScreenshotSettingView />
         <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary["inapp"]} />
         {this.isDev() ? <Debugger /> : null}
       </div>

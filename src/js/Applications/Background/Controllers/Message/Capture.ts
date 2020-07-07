@@ -5,6 +5,7 @@ import CaptureService from "../../../../Services/Capture";
 import Rectangle, { RectParam } from "../../../../Services/Rectangle";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
+import TempStorage from "../../../../Services/TempStorage";
 
 /**
  * @MESSAGE /capture/screenshot
@@ -26,7 +27,8 @@ export async function Screenshot(
   const area = message.rect ? rect.reframe(message.rect) : rect.game();
   const trimmed = ts.trim(area);
   if (message.open) {
-    chrome.alarms.create(`/screenshot?uri=${encodeURIComponent(trimmed)}`, {when: Date.now() + 100});
+    const storage = new TempStorage();
+    WindowService.getInstance().openCapturePage({ key: storage.store("capture", trimmed) });
   }
   return {status: 202, uri: trimmed};
 }
