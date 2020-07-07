@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import ScreenshotSetting from "../../Models/Settings/ScreenshotSetting";
 
 export default class CapturePage extends Component<{}, {
   uri: string,
@@ -47,9 +48,10 @@ export default class CapturePage extends Component<{}, {
     this.canvas.current.getContext("2d").drawImage(img, 0, 0);
   }
   async onClickDownloadButton() {
+    const setting = ScreenshotSetting.user();
     chrome.downloads.download({
-      url: this.canvas.current.toDataURL(),
-      filename: "艦これウィジェット/hogera.png",
+      url: this.canvas.current.toDataURL(`image/${setting.format}`),
+      filename: setting.getFullDownloadPath(),
     });
   }
   render() {
