@@ -17,11 +17,25 @@ html, body, main#app {
     .card-body {
       div:not(.divider) {
         text-align: center;
-        padding: $spacing-base / 3;
+        padding: $spacing-base/3 0;
+      }
+      input[type=color] {
+        -webkit-appearance: none;
+        border: none;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        &::-webkit-color-swatch-wrapper {
+          padding: 0;
+        }
+        &::-webkit-color-swatch {
+          border: none;
+        }
       }
     }
   }
 }
+
 .canvas-pane {
   padding-top: $spacing-base * 2;
   padding-left: $spacing-base;

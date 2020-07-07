@@ -1,6 +1,14 @@
 import React, { Component, createRef, RefObject } from "react";
 import TempStorage from "../../../Services/TempStorage";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDownload,
+  faPen, faEraser,
+} from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+
 export default class CapturePage extends Component<{}, {
   uri: string,
 }> {
@@ -38,6 +46,12 @@ export default class CapturePage extends Component<{}, {
     this.canvas.current.height = img.height;
     this.canvas.current.getContext("2d").drawImage(img, 0, 0);
   }
+  async onClickDownloadButton() {
+    chrome.downloads.download({
+      url: this.canvas.current.toDataURL(),
+      filename: "艦これウィジェット/hogera.png",
+    });
+  }
   render() {
     return (
       <div className="pane-container">
@@ -46,12 +60,37 @@ export default class CapturePage extends Component<{}, {
             <div className="column col-auto tools-pane">
               <div className="card">
                 <div className="card-body">
-                  <div>A</div>
+                  <div>
+                    <input
+                      type="color"
+                      defaultValue="#01d0d0"
+                    />
+                  </div>
                   <div className="divider"></div>
-                  <div>B</div>
-                  <div>CDE</div>
-                  <div>F</div>
-                  <div>G</div>
+                  <div>
+                    <FontAwesomeIcon className="c-hand" icon={faPen}
+                      onClick={() => alert("未実装です")}
+                    />
+                  </div>
+                  <div>
+                    <FontAwesomeIcon className="c-hand" icon={faEraser}
+                      onClick={() => alert("未実装です")}
+                    />
+                  </div>
+                  <div className="divider"></div>
+                  <div>
+                    <FontAwesomeIcon
+                      className="c-hand" icon={faTwitter as IconProp}
+                      onClick={() => alert("未実装です")}
+                    />
+                  </div>
+                  <div className="divider"></div>
+                  <div>
+                    <FontAwesomeIcon
+                      className="c-hand" icon={faDownload}
+                      onClick={() => this.onClickDownloadButton()}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -60,9 +99,7 @@ export default class CapturePage extends Component<{}, {
             </div>
           </div>
         </div>
-        <div className="bottom-pane">
-
-        </div>
+        <div className="container bottom-pane"></div>
       </div>
     );
   }
