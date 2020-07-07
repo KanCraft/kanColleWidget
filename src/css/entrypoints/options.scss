@@ -17,7 +17,21 @@ h1 {
 }
 
 section {
+  h5 {
+    margin-bottom: 4px;
+  }
+  blockquote.description {
+    margin: 0 0 8px 8px;
+    font-size: 0.6rem;
+    padding-left: 8px;
+  }
   margin-bottom: 24px;
+}
+
+section.screenshot-setting {
+  select {
+    max-width: 20%;
+  }
 }
 
 section.notification-setting {

@@ -19,6 +19,7 @@ interface Date {
   toKCWTimeString(withSec?: boolean): string;
   upto(target: number | Date): number;
   getKCDate(): number;
+  format(fmt: string): string;
 }
 
 Date.prototype.toKCWTimeString = function(withSec = false): string {
@@ -45,6 +46,26 @@ Date.prototype.getKCDate = function(): number {
   // 朝5時よりも前は、まだ昨日なので
   return (new Date(this.getTime() - (24 * 60 * 60 * 1000))).getDate();
 
+};
+
+/**
+ * フォーマットするやつ
+ * FIXME: replaceがgじゃないが
+ */
+Date.prototype.format = function(fmt: string): string {
+  return fmt.replace(
+    "yyyy", this.getFullYear().toString()
+  ).replace(
+    "MM", (this.getMonth() + 1).pad(2)
+  ).replace(
+    "dd", this.getDate().pad(2)
+  ).replace(
+    "HH", this.getHours().pad(2)
+  ).replace(
+    "mm", this.getMinutes().pad(2)
+  ).replace(
+    "ss", this.getSeconds().pad(2)
+  );
 };
 
 /**
