@@ -18,6 +18,7 @@ Number.prototype.pad = function(max: number, fill = "0"): string {
 interface Date {
   toKCWTimeString(withSec?: boolean): string;
   upto(target: number | Date): number;
+  toKCDate(): Date;
   getKCDate(): number;
   format(fmt: string): string;
 }
@@ -39,13 +40,19 @@ Date.prototype.upto = function(target: number | Date): number {
 };
 
 /**
+ * 艦これ的なDateを返すやつ
+ */
+Date.prototype.toKCDate = function(): Date {
+  if (this.getHours() >= 5) return this;
+  // 朝5時よりも前は、まだ昨日なので
+  return (new Date(this.getTime() - (24 * 60 * 60 * 1000)));
+};
+
+/**
  * 艦これ的な日付を返すやつ
  */
 Date.prototype.getKCDate = function(): number {
-  if (this.getHours() >= 5) return this.getDate();
-  // 朝5時よりも前は、まだ昨日なので
-  return (new Date(this.getTime() - (24 * 60 * 60 * 1000))).getDate();
-
+  return this.toKCDate().getDate();
 };
 
 /**
