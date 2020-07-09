@@ -1,5 +1,6 @@
 import { QuestProgress } from "../../../src/js/Applications/Models/Quest";
 import { Category, Status, Group } from "../../../src/js/Applications/Models/Quest/consts";
+import { Clock } from "../../tools";
 
 describe("QuestProgress", () => {
   describe("availables", () => {
@@ -7,6 +8,7 @@ describe("QuestProgress", () => {
       QuestProgress.drop();
     });
     it("未着手任務のリストを返す", () => {
+      const clock = Clock.freeze("2020-07-07 22:00:00");
       let avs = QuestProgress.user().availables(Category.Sortie);
       expect(avs.length).toBe(1);
       expect(avs[0].id).toBe(201);
@@ -17,10 +19,10 @@ describe("QuestProgress", () => {
 
       QuestProgress.user().complete(201);
       avs = QuestProgress.user().availables(Category.Sortie);
-      expect(avs.length).toBe(3);
+      expect(avs.length).toBe(2);
       expect(avs[0].id).toBe(211);
-      expect(avs[1].id).toBe(212);
-      expect(avs[2].id).toBe(216);
+      expect(avs[1].id).toBe(216);
+      clock.release();
     });
   });
 
