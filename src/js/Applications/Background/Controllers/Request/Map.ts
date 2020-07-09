@@ -18,7 +18,7 @@ export async function OnMapPrepare(/* req: DebuggableRequest */) {
     // {{{ TODO: なにかしらSettingのモデルを使う
     const iconUrl = chrome.extension.getURL("dest/img/app/icon.128.png");
     const title = "未着手任務があります";
-    const message = `${quests.map(q => `・${q.title} [${q.id}]\n`)}`;
+    const message = `${quests.map(q => `・${q.title} [${q.id}]`).join("\n")}`;
     const id = `QuestAlert?ts=${Date.now()}`;
     // }}}
     const ns = new NotificationService();
