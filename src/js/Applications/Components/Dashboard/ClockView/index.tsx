@@ -22,7 +22,9 @@ export default class ClockView extends React.Component<{
     return (
       <div className="icon-clock-container row">
         <div className="icon-wrapper">
-          <img src="https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png" />
+          <figure className="avatar avatar-xl">
+            <img src="https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png" />
+          </figure>
         </div>
         <div className="clock-wrapper cell">
           <div className="date-wrapper">

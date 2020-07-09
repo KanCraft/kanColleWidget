@@ -9,6 +9,8 @@ import MatrixView from "./QueuesView/MatrixView";
 import Tiredness from "../../Models/Queue/Tiredness";
 import TirednessView from "./QueuesView/TirednessView";
 import DashboardFrame from "../../Models/DashboardFrame";
+import QuestProgressView from "./QuestProgressView";
+import { QuestProgress } from "../../Models/Quest";
 
 export default class DashboardView extends React.Component<Record<string, any>, {
   missions: Scanned<Mission>;
@@ -79,6 +81,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
         <ClockView now={this.state.now} />
         <MatrixView {...this.state} />
         <TirednessView {...this.state.tiredness} now={this.state.now} />
+        <QuestProgressView progress={QuestProgress.user()} />
       </div>
     );
   }
