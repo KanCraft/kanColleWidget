@@ -5,7 +5,7 @@ import {
 } from "../../../../../src/js/Applications/Background/Controllers/Request/Quest";
 import { QuestProgress } from "../../../../../src/js/Applications/Models/Quest";
 import { Category } from "../../../../../src/js/Applications/Models/Quest/consts";
-import { dummyrequest } from "../../../../tools";
+import { dummyrequest, Clock } from "../../../../tools";
 
 describe("QuestControllers", () => {
   describe("基本的なストーリー", () => {
@@ -13,6 +13,7 @@ describe("QuestControllers", () => {
       QuestProgress.drop();
     });
     it("スタートしてストップしてスタートしてコンプリートするやつ", async () => {
+      const clock = Clock.freeze("2020-07-02 22:00:00");
 
       let avs = QuestProgress.user().availables(Category.Sortie);
       expect(avs.length).toBe(1);
@@ -33,10 +34,11 @@ describe("QuestControllers", () => {
       await OnQuestComplete(dummyrequest({ requestBody: { formData: { api_quest_id: ["201"] } } }));
 
       avs = QuestProgress.user().availables(Category.Sortie);
-      expect(avs.length).toBe(3);
-      expect(avs[0].id).toBe(211);
-      expect(avs[1].id).toBe(212);
-      expect(avs[2].id).toBe(216);
+      expect(avs.length).toBe(2);
+      expect(avs[0].id).toBe(212);
+      expect(avs[1].id).toBe(216);
+
+      clock.release();
     });
   });
 });

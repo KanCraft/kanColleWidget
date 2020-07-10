@@ -24,6 +24,19 @@ export class Quest extends Model {
   requires: number[];
   condition?: Condition;
 
+  get available(): boolean {
+    if (this.status != Status.Open) return false;
+    const date = (new Date()).getKCDate().toString();
+    switch (this.condition) {
+    case Condition.Date037:
+      return /[037]$/.test(date);
+    case Condition.Date28:
+      return /[28]$/.test(date);
+    default:
+      return true;
+    }
+  }
+
   get completed(): boolean {
     return this.status == Status.Completed;
   }
@@ -103,7 +116,7 @@ export class QuestProgress extends Model {
    * @param {Category} category
    */
   availables(category: Category): Quest[] {
-    return Object.values(this.quests).filter(q => q.category == category && q.status == Status.Open);
+    return Object.values(this.quests).filter(q => q.category == category && q.available);
   }
 
 }

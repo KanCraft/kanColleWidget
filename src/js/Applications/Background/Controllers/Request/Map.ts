@@ -6,6 +6,7 @@ import Tiredness from "../../../Models/Queue/Tiredness";
 import { QuestProgress } from "../../../Models/Quest";
 import { Category } from "../../../Models/Quest/consts";
 import NotificationService from "../../../../Services/Notification";
+import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
 
 /**
  * @MESSAGE /api_get_member/mapinfo
@@ -14,16 +15,12 @@ import NotificationService from "../../../../Services/Notification";
 export async function OnMapPrepare(/* req: DebuggableRequest */) {
   const qp = QuestProgress.user();
   const quests = qp.availables(Category.Sortie);
-  if (quests.length != 0) {
-    // {{{ TODO: なにかしらSettingのモデルを使う
-    const iconUrl = chrome.extension.getURL("dest/img/app/icon.128.png");
-    const title = "未着手任務があります";
-    const message = `${quests.map(q => `・${q.title} [${q.id}]\n`)}`;
-    const id = `QuestAlert?ts=${Date.now()}`;
-    // }}}
-    const ns = new NotificationService();
-    await ns.create(id, { iconUrl, title, message, type: "basic" });
-  }
+  const setting = QuestAlertSetting.user();
+  if (quests.length == 0 || !setting.enabled) return;
+  const opt = setting.getChromeOptions(quests);
+  const nid = setting.toNotificationID();
+  const ns = new NotificationService();
+  await ns.create(nid, opt);
 }
 
 export function OnMapStart(req: DebuggableRequest) {
