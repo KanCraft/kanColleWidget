@@ -25,11 +25,12 @@ export default class TirednessView extends React.Component<{
     const percentage = Math.floor(upto * 60 * 1000 * 100 / q.interval);
     return (
       <div className="column tiredness-bar-container">
-        <div className="bar bar-sm">
+        <div className="bar">
           <div
             className={cn("bar-item", "tooltip", this.getColorClass(percentage))}
             data-tooltip={`疲労回復まであと${upto}分`}
-            style={{ width: `${percentage}%` }} />
+            style={{ width: `${percentage}%` }}
+          >{upto}</div>
         </div>
       </div>
     );
