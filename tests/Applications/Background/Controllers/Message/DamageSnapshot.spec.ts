@@ -4,17 +4,17 @@ import {
   DamageSnapshotRecord,
 } from "../../../../../src/js/Applications/Background/Controllers/Message/DamageSnapshot";
 import { fake } from "../../../../tools";
-import DamageSnapshotFrame, { DamageSnapshotType } from "../../../../../src/js/Applications/Models/DamageSnapshotFrame";
+import DamageSnapshotSetting, { DamageSnapshotType } from "../../../../../src/js/Applications/Models/Settings/DamageSnapshotSetting";
 
 describe("DamageSnapshotControllers", () => {
   describe("DamageSnapshotCapture", () => {
     fake(chrome.tabs.query).callbacks([{}]);
     fake(chrome.tabs.captureVisibleTab).callbacks("data:image/png;base64,xxxxxx");
     it("TODO: なんかアサーションする", async () => {
-      DamageSnapshotFrame.get().update({ value: DamageSnapshotType.InApp });
+      DamageSnapshotSetting.user().update({ type: DamageSnapshotType.InApp });
       let res = await DamageSnapshotCapture({after: 0, key: "test"});
       expect(res.status).toBe(202);
-      DamageSnapshotFrame.get().update({ value: DamageSnapshotType.Separate });
+      DamageSnapshotSetting.user().update({ type: DamageSnapshotType.Separate });
       res = await DamageSnapshotCapture({after: 0, key: "test"});
       expect(res.status).toBe(202);
     });

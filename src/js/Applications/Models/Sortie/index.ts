@@ -1,5 +1,6 @@
 import {Model} from "chomex";
 import catalog from "./catalog";
+import { SortieContextType } from "../Settings/SortieContextSetting";
 
 /**
  * 出撃における、今が何戦目なのかを記録するモデル
@@ -57,17 +58,17 @@ export default class Sortie extends Model {
     return this.update({area: null, map: null, depth: null});
   }
 
-  toText(withDepth = true): string {
-    const fallback = `海域:${this.area}/航路:${this.map}` + (withDepth ? `/戦闘:${this.depth}` : "");
-    const area = catalog[this.area];
-    if (!area) {
-      return fallback;
+  toText(type: SortieContextType, withDepth = true): string {
+    if (type == SortieContextType.Disabled) return "";
+    const shorttext = `${this.area}-${this.map}` + (withDepth ? ` (${this.depth})` : "");
+    if (type == SortieContextType.Short) return shorttext;
+    try {
+      const area = catalog[this.area];
+      const map = area.maps[this.map];
+      return (withDepth ? `${this.depth}戦目/` : "") + `${map.title}/${area.title}`;
+    } catch (err) {
+      console.log(err);
+      return shorttext;
     }
-    const map = area.maps[this.map];
-    if (!map) {
-      return fallback;
-    }
-    return (withDepth ? `${this.depth}戦目/` : "") + `${map.title}/${area.title}`;
   }
-
 }

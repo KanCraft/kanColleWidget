@@ -7,6 +7,7 @@ import { QuestProgress } from "../../../Models/Quest";
 import { Category } from "../../../Models/Quest/consts";
 import NotificationService from "../../../../Services/Notification";
 import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
+import SortieContextSetting from "../../../Models/Settings/SortieContextSetting";
 
 /**
  * @MESSAGE /api_get_member/mapinfo
@@ -30,7 +31,8 @@ export async function OnMapStart(req: DebuggableRequest) {
 
   // 疲労タイマーの登録
   const interval = 15 * 60 * 1000;
-  const tiredness = new Tiredness({ deck, interval, label: context.toText(false) });
+  const setting = SortieContextSetting.user();
+  const tiredness = new Tiredness({ deck, interval, label: context.toText(setting.type, false) });
   tiredness.register(Date.now() + interval);
 
   await (new NotificationService).clearAll(/^Tiredness/);

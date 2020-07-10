@@ -1,6 +1,5 @@
 import WindowService from "../../src/js/Services/Window";
 import { fake } from "../tools";
-import DamageSnapshotFrame from "../../src/js/Applications/Models/DamageSnapshotFrame";
 import DashboardFrame from "../../src/js/Applications/Models/DashboardFrame";
 
 describe("WindowService", () => {
@@ -61,8 +60,7 @@ describe("WindowService", () => {
     it("なんかする", async () => {
       fake(chrome.windows.create).callbacks({ tabs: [{ id: 1234 }] });
       const ws = new WindowService();
-      const frame = new DamageSnapshotFrame();
-      const tab = await ws.openDamageSnapshot(frame, 1, 1, "foobaa");
+      const tab = await ws.openDamageSnapshot({ height: 100, left: 20, top: 20 }, 1, 1, "foobaa");
       expect(tab.id).toBe(1234);
     });
   });
