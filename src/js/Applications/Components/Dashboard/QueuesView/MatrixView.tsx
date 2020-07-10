@@ -40,6 +40,9 @@ class CellModel {
     default: return;
     }
   }
+  delete() {
+    if (this.queue) return this.queue.delete();
+  }
   private getDiffTimeFromInput(): number {
     const [hours, minutes] = this.draft.split(":").map(s => parseInt(s, 10));
     return (((hours * 60) + minutes) * 60 * 1000);
@@ -87,11 +90,14 @@ export default class MatrixView extends React.Component<{
     );
   }
 
+  /**
+   * マニュアル登録のモーダルダイアログ
+   */
   renderModal() {
     const { label, cell } = this.state.manual;
     return (
       <div className="modal modal-sm active" id="modal-id">
-        <a className="modal-overlay" />
+        <a className="modal-overlay" onClick={this.closeManualModal.bind(this)} />
         <div className="modal-container">
           <div className="modal-header">
             {/* <a href="#close" className="btn btn-clear float-right" aria-label="Close"
@@ -108,16 +114,22 @@ export default class MatrixView extends React.Component<{
             </div>
           </div>
           <div className="modal-footer">
+            <button className={cn("btn", "btn-error", label)} onClick={() => this.onManualTimerDelete(cell)}>削除</button>
             <button className={cn("btn", "btn-primary", label)} onClick={() => this.onManualTimerCommit(cell)}>登録</button>
-            <button className={cn("btn", label)} onClick={() => this.closeManualModal()}>キャンセル</button>
+            <button className={cn("btn", "btn-cancel", label)} onClick={() => this.closeManualModal()}>キャンセル</button>
           </div>
         </div>
       </div>
     );
   }
+
+  onManualTimerDelete(cell: CellModel) {
+    cell.delete();
+    this.closeManualModal();
+  }
   onManualTimerCommit(cell: CellModel) {
     cell.commit();
-    this.setState({ manual: null });
+    this.closeManualModal();
   }
   openManualTimerDialog(label: string, cell: CellModel) {
     this.setState({ manual: { label, cell } });
