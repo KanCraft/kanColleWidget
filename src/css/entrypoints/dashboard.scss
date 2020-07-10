@@ -47,8 +47,8 @@
     }
     .modal-footer {
       .btn {
+        margin-left: 6px;
         &.btn-primary {
-          margin-right: 8px;
           &.遠征 {
             background-color: $mission-color;
             border-color: $mission-color;
@@ -62,7 +62,7 @@
             border-color: $shipbuilding-color;
           }
         }
-        &:not(.btn-primary) {
+        &.btn-cancel {
           &.遠征 {
             border-color: $mission-color;
             color: $mission-color;
@@ -110,10 +110,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  .tiredness-bar {
-    position: absolute;
-    z-index: -1;
-    height: 6px;
+  .bar-item {
+    font-size: xx-small;
   }
 }
 

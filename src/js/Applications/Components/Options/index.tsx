@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
-import DamageSnapshot from "./DamageSnapshot";
 import CategorySection from "./Config/CategorySection";
 import Debugger from "./Debugger";
 
 import Config from "../../Models/Config";
 import NotificationSettings from "./Notifications";
 import ScreenshotSettingView from "./Screenshot";
+import DamageSnapshotSettingView from "./DamageSnapshot";
 
 // webpack.config.jsの、DefinePluginを参照
 declare let NODE_ENV;
@@ -28,7 +28,7 @@ export default class OptionsPage extends Component<{}, {dictionary: any}> {
     return (
       <div className="container options">
         <NotificationSettings />
-        <DamageSnapshot />
+        <DamageSnapshotSettingView />
         <ScreenshotSettingView />
         <CategorySection title="ゲーム内の便利ボタン" configs={this.state.dictionary["inapp"]} />
         {this.isDev() ? <Debugger /> : null}

@@ -6,7 +6,7 @@ import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
 import Config from "../../../Models/Config";
-import DamageSnapshotFrame, { DamageSnapshotType } from "../../../Models/DamageSnapshotFrame";
+import DamageSnapshotSetting, { DamageSnapshotType } from "../../../Models/Settings/DamageSnapshotSetting";
 
 export async function DamageSnapshotCapture(message: {after: number; key: string}) {
   const ws = WindowService.getInstance();
@@ -19,7 +19,8 @@ export async function DamageSnapshotCapture(message: {after: number; key: string
   const trimmed = ts.trim(rect.damagesnapshot());
 
   const key = message.key; // drawする画像を間違えないようにするためのkey
-  switch (DamageSnapshotFrame.get().value) {
+  const setting = DamageSnapshotSetting.user();
+  switch (setting.type) {
   case DamageSnapshotType.InApp:
     Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", { uri: trimmed, height: Config.find<Config<number>>("inapp-dsnapshot-size").value });
     break;
@@ -31,8 +32,8 @@ export async function DamageSnapshotCapture(message: {after: number; key: string
 }
 
 export async function DamageSnapshotRecord(message: any) {
-  const {position, size} = message;
-  const frame = DamageSnapshotFrame.get();
-  frame.update({position, size});
-  return { status: 200, frame };
+  const { position, size } = message;
+  const setting = DamageSnapshotSetting.user();
+  setting.update({ frame: { position, size } });
+  return { status: 200, frame: setting.frame };
 }

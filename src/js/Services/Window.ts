@@ -1,4 +1,3 @@
-import DamageSnapshotFrame from "../Applications/Models/DamageSnapshotFrame";
 import Frame from "../Applications/Models/Frame";
 import Const from "../Constants";
 import { Client } from "chomex";
@@ -182,16 +181,15 @@ class WindowService {
   }
 
   /* tslint:disable max-line-length */
-  openDamageSnapshot(frame: DamageSnapshotFrame, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
+  openDamageSnapshot(data: chrome.windows.CreateData, count: number, key: number, text: string): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/dsnapshot.html");
-    const createData = frame.createData();
     const search = new URLSearchParams({ count: String(count), key: String(key), text });
     return new Promise(resolve => {
       this.windows.create({
         type: "popup",
         url: `${url}?${search.toString()}`,
-        ...createData,
-        width: Math.floor(createData.height * (5 / 8) * count), // 高さにだけ依存して決まります
+        ...data,
+        width: Math.floor(data.height * (5 / 8) * count), // 高さにだけ依存して決まります
       }, win => {
         resolve(win.tabs[0]);
       });
