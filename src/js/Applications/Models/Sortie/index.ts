@@ -67,7 +67,7 @@ export default class Sortie extends Model {
       const map = area.maps[this.map];
       return (withDepth ? `${this.depth}戦目/` : "") + `${map.title}/${area.title}`;
     } catch (err) {
-      console.log(err);
+      console.log("[DEBUG]", `海域情報がありません: 海域ID ${this.area}-${this.map}`);
       return shorttext;
     }
   }

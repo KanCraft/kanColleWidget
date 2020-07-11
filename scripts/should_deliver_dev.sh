@@ -44,16 +44,18 @@ npm run version -- --commit --tag
 sleep 1s
 
 echo "[INFO] 直近タグからのコミットリスト"
-git log --pretty="  %H %s" ${LATEST_TAG}..HEAD
+git log --pretty="%h %s" --no-merges ${LATEST_TAG}..HEAD
 sleep 1s
 
-echo "[EXEC] tag付けコミットとtagそのものをpush"
+echo "[INFO] tag付けコミットとtagそのものをpush"
 REPO="https://${GITHUB_ACTOR}:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 git push "${REPO}" HEAD:${BRANCH} --tags --follow-tags
 sleep 5s
 
-echo "[DONE]"
-echo "  LATEST_TAG: ${LATEST_TAG}"
-echo "  COMMIT_CNT: ${COMMIT_CNT}"
-echo "  FILES_CNT:  ${FILES_CNT}"
+echo '[INFO] /**'
+echo "[INFO]  * LATEST_TAG: ${LATEST_TAG}"
+echo "[INFO]  * COMMIT_CNT: ${COMMIT_CNT}"
+echo "[INFO]  * FILES_CNT:  ${FILES_CNT}"
+echo '[INFO] **/'
+
 exit 0
