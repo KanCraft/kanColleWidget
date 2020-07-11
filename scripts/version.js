@@ -1,10 +1,9 @@
 /**
- * このスクリプトは、package.jsonと、manifest.jsonのバージョンを
- * デフォルトではマイナーバージョンを1上げるだけのスクリプトです.
- * gitのコミットなどはしないので、diffができたらあとはマニュアルでやる.
- * TODO: 今後考える
- * 
- * @param {string} [version]
+ * このスクリプトは、 `package.json` と `manifest.json` の
+ * マイナーバージョンを1上げるだけのスクリプトです.
+ * -commit が与えられたらコミットまでします.
+ * -tag    が与えられたらtag付けまでします.
+ * ここではpushはしません. ローカルの作業のみです.
  */
 
 const fs = require("fs");
@@ -15,15 +14,17 @@ const project = path.dirname(__dirname);
 
 /**
  * getPackagejson
- * 
+ * package.jsonを読んでJSONオブジェクトにして返すよ.
  * @return {object} packagejson
  */
 function getPackagejson() {
   const buf = fs.readFileSync(path.join(project, "package.json"), "utf8");
-  return JSON.parse(buf); 
+  return JSON.parse(buf);
 }
 /**
  * writePackagejson
+ * package.json相当のJSONオブジェクトを与えられたら
+ * package.jsonに書き出すよ.
  */
 function writePackagejson(pkg) {
   return fs.writeFileSync(path.join(project, "package.json"), JSON.stringify(pkg, null, 2) + "\n", "utf8");
@@ -31,7 +32,7 @@ function writePackagejson(pkg) {
 
 /**
  * getManifestjson
- * 
+ * manifest.jsonを読んでJSONオブジェクトにして返すよ
  * @return {object} manifestjson
  */
 function getManifestjson() {
@@ -40,6 +41,8 @@ function getManifestjson() {
 }
 /**
  * writeManifestjson
+ * manifest.json相当のJSONオブジェクトを与えられたら
+ * manifest.jsonに書き出すよ.
  */
 function writeManifestjson(mnf) {
   return fs.writeFileSync(path.join(project, "manifest.json"), JSON.stringify(mnf, null, 2) + "\n", "utf8");
@@ -47,10 +50,10 @@ function writeManifestjson(mnf) {
 
 /**
  * defineNextVersion
- * 
+ * 次のバージョンを決定して返すよ.
  * @param {object} [pkg]
  * @param {object} [mnf]
- * @return {{version, version_name}} versions
+ * @return {[version, version_name]}
  */
 function defineNextVersion(pkg, mnf, new_version_name) {
   if (new_version_name) {
@@ -60,11 +63,13 @@ function defineNextVersion(pkg, mnf, new_version_name) {
   return [mnf.version.replace(/\.[^.]+$/, `.${minor}`), mnf.version_name.replace(/\.[^.]+$/, `.${minor}`)];
 }
 
+/**
+ * {コミットハッシュ} ({コミッター名}) {コミットタイトル}
+ * を1行とする複数行のStringを返す.
+ */
 function getReleaseInfo() {
   const latest = shell.execSync("git describe --tags --abbrev=0").toString().trim();
-  const commits = shell.execSync(`git log --pretty='%H %s' ${latest}..HEAD`).toString().trim().split("\n").slice(1);
-  const authors = shell.execSync(`git log --pretty=%an ${latest}..HEAD`).toString().trim().split("\n").filter((v, i, a) => a.indexOf(v) == i);
-  return {commits, authors};
+  return shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${latest}..HEAD`).toString().trim()/* .split("\n").join("\n") */;
 }
 
 /**
@@ -81,9 +86,11 @@ function main(flags) {
   writeManifestjson(mnf);
   shell.execSync("npm install");
 
+  const body = getReleaseInfo();
+  console.log("[INFO] -- リリースtag用のコミットリスト --\n", body);
   if (flags.get("commit")) {
     const files = ["package.json", "package-lock.json", "manifest.json"];
-    shell.execSync(`git add ${files.join(" ")} && git commit -m '${version_name}'`);
+    shell.execSync(`git add ${files.join(" ")} && git commit -m '${version_name}' -m '${body}'`);
   }
 
   if (flags.get("tag")) {
@@ -94,7 +101,7 @@ function main(flags) {
     shell.execSync(`git tag ${version_name}`);
   }
 
-  console.log("VERSION:", version_name);
+  console.log("[INFO]", "VERSION:", version_name);
 }
 
 class Flags {
