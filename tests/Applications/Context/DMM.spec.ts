@@ -7,6 +7,7 @@ describe("DMM context", () => {
     it("TODO: なんかアサーションする", async () => {
       const dmm = new DMM({...window, resizeBy: () => {/* */} } as any);
       fake(chrome.runtime.sendMessage).callbacks({ status: 405 });
+      Object.defineProperty(window.document, "querySelector", { value: () => window.document.createElement("iframe") });
       await dmm.init();
       fake(chrome.runtime.sendMessage).callbacks({
         status: 200,

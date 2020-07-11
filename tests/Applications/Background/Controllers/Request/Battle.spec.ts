@@ -5,6 +5,7 @@ import {
   OnCombinedBattleResulted,
 } from "../../../../../src/js/Applications/Background/Controllers/Request/Battle";
 import { dummyrequest } from "../../../../tools";
+import Sortie from "../../../../../src/js/Applications/Models/Sortie";
 
 describe("Battle Controllers", () => {
   describe("OnAirBattleStarted", () => {
@@ -18,6 +19,7 @@ describe("Battle Controllers", () => {
   describe("OnBattleResulsted", () => {
     it("TODO: なんかアサーションする", async () => {
       const req = dummyrequest();
+      Sortie.context().start(2, 5);
       const res = await OnBattleResulted(req);
       expect(res.status).toBe(200);
     });
@@ -34,6 +36,7 @@ describe("Battle Controllers", () => {
   describe("OnCombinedBattleResulted", () => {
     it("TODO: なんかアサーションする", async () => {
       const req = dummyrequest();
+      Sortie.context().start(2, 5);
       const res = await OnCombinedBattleResulted(req);
       expect(res.status).toBe(200);
     });
