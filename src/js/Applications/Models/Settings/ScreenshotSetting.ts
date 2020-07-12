@@ -39,11 +39,11 @@ export default class ScreenshotSetting extends Model {
     return this.find("user");
   }
 
-  getFullDownloadPath(): string {
-    return [this.folder, this.getFullFileName()].join("/");
+  getFullDownloadPath(filename?: string): string {
+    return [this.folder, this.getFullFileName(filename)].join("/");
   }
-  private getFullFileName(): string {
+  private getFullFileName(filename?: string): string {
     const now = new Date();
-    return now.format(this.filename) + "." + this.format;
+    return now.format(filename || this.filename) + "." + this.format;
   }
 }

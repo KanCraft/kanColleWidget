@@ -139,7 +139,7 @@ class WindowService {
     return this.launched && this.launched.tab.id === tabId ? this.launched : null;
   }
 
-  openCapturePage(params: {key: any}): Promise<chrome.tabs.Tab> {
+  openCapturePage(params: { key: any, filename?: any }): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/capture.html");
     const search = new URLSearchParams(params);
     return new Promise(resolve => {

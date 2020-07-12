@@ -48,10 +48,12 @@ export default class CapturePage extends Component<{}, {
     this.canvas.current.getContext("2d").drawImage(img, 0, 0);
   }
   async onClickDownloadButton() {
+    const search = new URLSearchParams(location.search);
+    const filename = search.get("filename");
     const setting = ScreenshotSetting.user();
     chrome.downloads.download({
       url: this.canvas.current.toDataURL(`image/${setting.format}`),
-      filename: setting.getFullDownloadPath(),
+      filename: setting.getFullDownloadPath(filename),
     });
   }
   render() {
