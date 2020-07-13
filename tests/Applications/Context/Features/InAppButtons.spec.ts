@@ -10,7 +10,7 @@ describe("アプリ内ボタン", () => {
         "inapp-screenshot-button": {value: true},
       };
       const frame = new Frame({muted: false});
-      const b = new InAppButtons(window.document, configs, frame , new Client(chrome.runtime));
+      new InAppButtons(window.document, configs, frame , new Client(chrome.runtime));
     });
   });
 });

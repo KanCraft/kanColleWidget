@@ -14,7 +14,7 @@
     "announce": "node ./scripts/announce.js",
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
-    "lint": "eslint ./src/js/**/*.tsx ./src/js/**/*.ts ./tests/**/*.ts",
+    "lint": "eslint src && eslint tests",
     "test": "jest --coverage"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
