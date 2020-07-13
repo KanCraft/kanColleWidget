@@ -16,7 +16,7 @@ export default class QuestProgressView extends React.Component<{
     const { progress } = this.props;
     return (
       <div className="container quest-progress">
-        {Object.values(progress.quests).filter(q => q.status != Status.Unavailable).sort(this.questSortFunc).map(quest => {
+        {Object.values(progress.quests).filter(q => q.visible).sort(this.questSortFunc).map(quest => {
           return (
             <div className="columns" key={quest.id}>
               <div className="column col-auto">
@@ -32,7 +32,7 @@ export default class QuestProgressView extends React.Component<{
       </div>
     );
   }
-  questSortFunc(prev: Quest, next: Quest) {
+  questSortFunc(prev: Quest, next: Quest): number {
     return sortmap[prev.status] < sortmap[next.status] ? -1 : 1;
   }
   getStatusText(quest: Quest): string {
