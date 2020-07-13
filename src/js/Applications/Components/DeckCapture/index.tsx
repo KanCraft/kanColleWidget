@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import chomex, { Client } from "chomex";
-import cn from "classnames";
 
 import DeckCapture from "../../Models/DeckCapture";
 import SideBar from "./SideBar";
@@ -8,6 +7,8 @@ import SettingModal from "./SettingModal";
 import Composer from "./Composer";
 import { RectParam } from "../../../Services/Rectangle";
 import ComposeImageService from "../../../Services/ComposeImage";
+import TempStorage from "../../../Services/TempStorage";
+import WindowService from "../../../Services/Window";
 
 // FIXME: このstateの構造、汚すぎでは？
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -18,7 +19,6 @@ export default class DeckCaptureView extends Component<{}, {
   preview: string;
   open: boolean;
   stack: string[]; // すでに撮影された画像断片
-  composed?: string; // 生成された編成キャプチャ
 }> {
 
   private client: chomex.Client = new Client(chrome.runtime);
@@ -36,7 +36,6 @@ export default class DeckCaptureView extends Component<{}, {
       preview: null,
       open: false,
       stack: [],
-      composed: null,
     };
   }
 
@@ -80,8 +79,6 @@ export default class DeckCaptureView extends Component<{}, {
             />
           </div>
 
-          {this.getModal()}
-
         </div>
 
 
@@ -116,34 +113,10 @@ export default class DeckCaptureView extends Component<{}, {
     const { stack, selected: deckcapture } = this.state;
     const service = ComposeImageService.withStrategyFor(deckcapture);
     const composed = await service.compose(stack);
-    this.setState({ composed });
-  }
-
-  private discardComposed() {
-    this.setState({ composed: null });
-  }
-
-  private getModal() {
-    const { composed, selected } = this.state;
-    return (
-      <div className={cn("modal", composed ? "active" : "")} id="modal-id">
-        <a href="#close" className="modal-overlay" aria-label="Close" onClick={() => this.discardComposed()}></a>
-        <div className="modal-container">
-          <div className="modal-header">
-            <div className="modal-title h5">{selected.title}</div>
-          </div>
-          <div className="modal-body">
-            <div className="content">
-              <img className="composed-img" src={composed} />
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button className="btn btn-primary" disabled>保存（未実装）</button>
-            <button className="btn btn-primary" disabled>ツイート（未実装）</button>
-            <button className="btn btn-link" onClick={() => this.discardComposed()}>破棄</button>
-          </div>
-        </div>
-      </div>
-    );
+    const storage = new TempStorage();
+    WindowService.getInstance().openCapturePage({
+      key: storage.store("capture", composed),
+      filename: "編成キャプチャ_yyyyMMdd_HHmm",
+    });
   }
 }
