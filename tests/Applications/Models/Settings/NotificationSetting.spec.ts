@@ -1,5 +1,5 @@
-import NotificationSetting from "../../../src/js/Applications/Models/Settings/NotificationSetting";
-import { Kind } from "../../../src/js/Applications/Models/Queue/Queue";
+import NotificationSetting from "../../../../src/js/Applications/Models/Settings/NotificationSetting";
+import { Kind } from "../../../../src/js/Applications/Models/Queue/Queue";
 
 describe("NotificationSetting", () => {
   describe("hoge", () => {
