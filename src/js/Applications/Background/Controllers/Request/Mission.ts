@@ -2,7 +2,6 @@ import NotificationService from "../../../../Services/Notification";
 import Mission from "../../../Models/Queue/Mission";
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 import { DebuggableRequest } from "../../../../definitions/debuggable";
-import Recovery from "../../../Models/Queue/Recovery";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
   const { formData: { api_mission_id: [mid], api_deck_id: [did] } } = req.requestBody;
@@ -31,7 +30,7 @@ export async function OnMissionInterruption(req: DebuggableRequest) {
   return Mission.filter<Mission>(r => r.deck == did).map(r => r.delete());
 }
 
-export async function OnMissionResult(req: chrome.webRequest.WebRequestBodyDetails) {
+export async function OnMissionResult() {
   const service = new NotificationService();
   const notes = await service.getAll();
   Object.entries(notes).map(async ([nid]) => {

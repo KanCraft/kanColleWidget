@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {Client} from "chomex";
 
 import cn from "classnames";
-import { throwStatement } from "@babel/types";
 
 export default class SimulatorView extends Component<{}, {
   active: {

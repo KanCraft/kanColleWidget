@@ -32,7 +32,7 @@ export async function OnRecoveryHighspeed(req: DebuggableRequest) {
  * @MESSAGE /api_get_member/ndock
  * 入渠の画面に遷移したとき
  */
-export async function OnRecoveryPrepare(req: DebuggableRequest) {
+export async function OnRecoveryPrepare(/* req: DebuggableRequest */) {
   const ns = new NotificationService();
   await ns.clearAll(/^Recovery/);
 }

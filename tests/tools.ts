@@ -80,7 +80,7 @@ export function dummyrequest(extend: {} = {}): chrome.webRequest.WebRequestBodyD
 export class Fetch<T> {
   static replies<T>(data: T) {
     const original = global.fetch;
-    global.fetch = (_info: RequestInfo, _init?: RequestInit): Fetch<T> => {
+    global.fetch = (/* _info: RequestInfo, _init?: RequestInit */): Fetch<T> => {
       return new this<T>(data, original);
     };
   }

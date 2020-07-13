@@ -19,7 +19,10 @@ export async function OnShipbuildingStart(req: DebuggableRequest) {
   return { status: 200 };
 }
 
-export async function OnShipbuildingGetShip(req: DebuggableRequest) {
+/**
+ * 建造済みを回収
+ */
+export async function OnShipbuildingGetShip() {
   const service = new NotificationService();
   const notes = await service.getAll();
   Object.entries(notes).map(async ([nid]) => {
