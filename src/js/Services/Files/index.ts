@@ -31,7 +31,7 @@ export default class FileService {
   /**
    * upsertします
    * @param {string} filepath Prefixを知らないファイルパス
-   * @param {File} file 
+   * @param {File} file
    * @returns {string} ファイルURL
    */
   async save(filepath: string, file: File): Promise<string> {

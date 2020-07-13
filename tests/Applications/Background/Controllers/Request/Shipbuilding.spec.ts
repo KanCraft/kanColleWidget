@@ -1,6 +1,7 @@
 import {
   OnShipbuildingStart,
   OnShipbuildingStartCompleted,
+  OnShipbuildingGetShip,
 } from "../../../../../src/js/Applications/Background/Controllers/Request/Shipbuilding";
 import { dummyrequest, Fetch, fake } from "../../../../tools";
 
@@ -20,6 +21,13 @@ describe("", () => {
       const req = dummyrequest();
       const res = await OnShipbuildingStartCompleted(req);
       expect(res.status).toBe(202);
+    });
+  });
+  describe("OnShipbuildingGetShip", () => {
+    it("なんかする", async () => {
+      fake(chrome.notifications.getAll).callbacks({"Foo": true});
+      fake(chrome.notifications.clear).callbacks({});
+      await OnShipbuildingGetShip();
     });
   });
 });
