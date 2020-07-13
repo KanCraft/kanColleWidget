@@ -24,9 +24,29 @@ export class Quest extends Model {
   requires: number[];
   condition?: Condition;
 
+  /**
+   * 今現在任務として見えるかどうかを返す
+   */
+  get visible(): boolean {
+    if (this.status == Status.Unavailable) return false;
+    return this.availableToday(new Date());
+  }
+
+  /**
+   * 着手可能かどうかを返す
+   */
   get available(): boolean {
     if (this.status != Status.Open) return false;
-    const date = (new Date()).getKCDate().toString();
+    return this.availableToday(new Date());
+  }
+
+  get completed(): boolean {
+    return this.status == Status.Completed;
+  }
+
+  // TODO: 命名が悪い
+  private availableToday(now: Date): boolean {
+    const date = now.getDate().toString();
     switch (this.condition) {
     case Condition.Date037:
       return /[037]$/.test(date);
@@ -35,10 +55,6 @@ export class Quest extends Model {
     default:
       return true;
     }
-  }
-
-  get completed(): boolean {
-    return this.status == Status.Completed;
   }
 }
 
