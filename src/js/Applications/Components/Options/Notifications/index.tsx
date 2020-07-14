@@ -26,7 +26,7 @@ class NotificationSettingView extends React.Component<{
             <div>{this.props.label}</div>
           </div>
           <div className="column col-1">{this.renderEnabledSwitchView(setting)}</div>
-          <div className="column col-2">{this.renderIconChangerView(setting)}</div> 
+          <div className="column col-2">{this.renderIconChangerView(setting)}</div>
           <div className="column">{this.renderSoundChangerView(setting)}</div>
           <div className="column col-1">{this.renderTesterView(setting)}</div>
         </div>
