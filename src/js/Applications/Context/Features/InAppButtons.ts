@@ -76,6 +76,7 @@ export default class InAppButtons {
     img.src = iconURLs.camera;
     button.appendChild(img);
     button.addEventListener("click", () => this.takeScreenshot());
+    button.id = "kcw-screenshot-button";
     return button;
   }
 
@@ -121,13 +122,7 @@ export default class InAppButtons {
    * そもそも表示するかしないか決める
    */
   enabled(): boolean {
-    if (this.configs["inapp-mute-button"].value) {
-      return true;
-    }
-    if (this.configs["inapp-screenshot-button"].value) {
-      return true;
-    }
-    return false;
+    return this.configs["inapp-mute-button"].value || this.configs["inapp-screenshot-button"].value;
   }
 
 }

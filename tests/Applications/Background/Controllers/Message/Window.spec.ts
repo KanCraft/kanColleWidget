@@ -6,6 +6,9 @@ import {
   WindowOpen,
   WindowRecord,
   WindowToggleMute,
+  OpenOptionsPage,
+  OpenDeckCapturePage,
+  OpenDashboardPage,
 } from "../../../../../src/js/Applications/Background/Controllers/Message/Window";
 
 describe("Window Controller", () => {
@@ -20,11 +23,10 @@ describe("Window Controller", () => {
   });
 
   describe("WindowDecoration", () => {
-    it("TODO: なんかアサーションする", async (ok) => {
+    it("TODO: なんかアサーションする", async () => {
       fake(chrome.tabs.setZoom).callbacks({});
       const context = { sender: { tab: {} } };
       await WindowDecoration.bind(context)({});
-      ok();
     });
   });
 
@@ -46,4 +48,25 @@ describe("Window Controller", () => {
     });
   });
 
+  describe("OpenOptionsPage", () => {
+    it("なんかする", async () => {
+      fake(chrome.tabs.query).callbacks([]);
+      fake(chrome.tabs.create).callbacks({});
+      fake(chrome.tabs.update).callbacks({});
+      await OpenOptionsPage();
+    });
+  });
+  describe("OpenDeckCapturePage", () => {
+    it("なんかする", async () => {
+      fake(chrome.windows.create).callbacks({});
+      await OpenDeckCapturePage();
+    });
+  });
+  describe("OpenDashboardPage", () => {
+    it("なんかする", async () => {
+      fake(chrome.tabs.query).callbacks([]);
+      fake(chrome.windows.create).callbacks({tabs: [{}]});
+      await OpenDashboardPage();
+    });
+  });
 });
