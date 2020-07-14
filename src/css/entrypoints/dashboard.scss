@@ -9,10 +9,16 @@
     justify-content: center;
     align-items: center;
     figure {
+      cursor: pointer;
       height: 4.2rem;
       width: 4.2rem;
       >img {
         height: 100%;
+      }
+      &.bg-secondary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }

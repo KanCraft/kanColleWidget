@@ -1,8 +1,15 @@
 import React from "react";
+import { Client } from "chomex";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnchor } from "@fortawesome/free-solid-svg-icons";
+
+import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 
 export default class ClockView extends React.Component<{
   now: Date;
 }> {
+
+  private client: Client = new Client(chrome.runtime, false);
 
   private getDayOfWeek(): string {
     const dict = {
@@ -21,11 +28,7 @@ export default class ClockView extends React.Component<{
     const { now } = this.props;
     return (
       <div className="icon-clock-container row">
-        <div className="icon-wrapper">
-          <figure className="avatar avatar-xl">
-            <img src="https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png" />
-          </figure>
-        </div>
+        <div className="icon-wrapper">{this.renderIcon()}</div>
         <div className="clock-wrapper cell">
           <div className="date-wrapper">
             <div className="month">
@@ -49,5 +52,19 @@ export default class ClockView extends React.Component<{
         </div>
       </div>
     );
+  }
+
+  renderIcon() {
+    const setting: NotificationSetting = NotificationSetting.find("default");
+    if (setting.icon) return <figure className="avatar avatar-xl" onClick={this.onClickIcon.bind(this)}><img src={setting.icon} /></figure>;
+    return (
+      <figure className="avatar avatar-xl bg-secondary" onClick={this.onClickIcon.bind(this)}>
+        <FontAwesomeIcon icon={faAnchor} />
+      </figure>
+    );
+  }
+
+  onClickIcon() {
+    this.client.message("/window/action");
   }
 }

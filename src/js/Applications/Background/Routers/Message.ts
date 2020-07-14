@@ -23,6 +23,8 @@ import {
   WindowOpen,
   WindowRecord,
   WindowToggleMute,
+  GetCurrentGameTab,
+  CurrentAction,
 } from "../Controllers/Message/Window";
 
 const router = new Router();
@@ -30,6 +32,8 @@ router.on("/window/open", WindowOpen);
 router.on("/window/decoration", WindowDecoration);
 router.on("/window/record", WindowRecord);
 router.on("/window/toggle-mute", WindowToggleMute);
+router.on("/window/current-tab", GetCurrentGameTab);
+router.on("/window/action", CurrentAction);
 
 // 設定画面
 router.on("/options/open", OpenOptionsPage);

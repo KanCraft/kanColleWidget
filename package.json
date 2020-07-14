@@ -7,6 +7,7 @@
     "npm": "6.13.4"
   },
   "scripts": {
+    "postinstall": "rm node_modules/public-encrypt/test/*.pem",
     "start": "NODE_ENV=development webpack --progress --watch",
     "version": "node ./scripts/version.js",
     "build": "webpack && rm dest/css/*.js",
@@ -89,7 +90,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "chomex": "^2.1.3",
+    "chomex": "^2.1.4",
     "classnames": "^2.2.6",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
