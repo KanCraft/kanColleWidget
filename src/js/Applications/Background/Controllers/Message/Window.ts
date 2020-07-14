@@ -10,6 +10,7 @@ import WindowService from "../../../../Services/Window";
 import Config from "../../../Models/Config";
 import Frame from "../../../Models/Frame";
 import DashboardFrame from "../../../Models/DashboardFrame";
+import { Screenshot } from "./Capture"; // XXX: コントローラからコントローラ呼ぶのってアリかなあ...
 
 /**
  * WindowOpen
@@ -18,7 +19,7 @@ import DashboardFrame from "../../../Models/DashboardFrame";
  * なければ、指定されたフレームか、最後に指定されたフレームにリサイズする.
  * @param {string} message.id FrameモデルのID
  */
-export async function WindowOpen(message: { id: string }): Promise<chrome.tabs.Tab> {
+export async function WindowOpen(message: { id?: string } = {}): Promise<chrome.tabs.Tab> {
   const ws = WindowService.getInstance();
   return await ws.backToGame(message);
 }
@@ -72,4 +73,20 @@ export async function OpenDashboardPage() {
   const ws = WindowService.getInstance();
   const frame = DashboardFrame.user();
   return ws.openDashboardPage(frame);
+}
+
+/**
+ * @MESSAGE /window/current-tab
+ */
+export async function GetCurrentGameTab() {
+  const tab = await WindowService.getInstance().find();
+  return { status: tab ? 200 : 404, tab };
+}
+
+/**
+ * @MESSAGE /window/action
+ */
+export async function CurrentAction() {
+  const tab = await WindowService.getInstance().find();
+  return tab ? Screenshot({open:true}) : WindowOpen();
 }

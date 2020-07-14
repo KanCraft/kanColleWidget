@@ -9,6 +9,8 @@ import {
   OpenOptionsPage,
   OpenDeckCapturePage,
   OpenDashboardPage,
+  GetCurrentGameTab,
+  CurrentAction,
 } from "../../../../../src/js/Applications/Background/Controllers/Message/Window";
 
 describe("Window Controller", () => {
@@ -67,6 +69,16 @@ describe("Window Controller", () => {
       fake(chrome.tabs.query).callbacks([]);
       fake(chrome.windows.create).callbacks({tabs: [{}]});
       await OpenDashboardPage();
+    });
+  });
+  describe("GetCurrentGameTab", () => {
+    it("なんかする", async () => {
+      await GetCurrentGameTab();
+    });
+  });
+  describe("CurrentAction", () => {
+    it("なんかする", async () => {
+      await CurrentAction();
     });
   });
 });
