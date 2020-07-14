@@ -43,6 +43,9 @@ echo "[INFO] タグをつけて commit します"
 npm run version -- --commit --tag
 sleep 1s
 
+NEW_TAG=`git describe --tags --abbrev=0`
+echo "::set-env name=NEW_TAG::${NEW_TAG}"
+
 echo "[INFO] 直近タグからのコミットリスト"
 git log --pretty="%h %s" --no-merges ${LATEST_TAG}..HEAD
 sleep 1s
@@ -56,6 +59,7 @@ echo '[INFO] /**'
 echo "[INFO]  * LATEST_TAG: ${LATEST_TAG}"
 echo "[INFO]  * COMMIT_CNT: ${COMMIT_CNT}"
 echo "[INFO]  * FILES_CNT:  ${FILES_CNT}"
+echo "[INFO]  * NEW_TAG:    ${NEW_TAG}"
 echo '[INFO] **/'
 
 exit 0
