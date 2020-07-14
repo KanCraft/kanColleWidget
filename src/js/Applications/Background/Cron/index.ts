@@ -6,7 +6,7 @@ import Tiredness from "../../Models/Queue/Tiredness";
 import { Kind } from "../../Models/Queue/Queue";
 import NotificationSetting from "../../Models/Settings/NotificationSetting";
 
-function showNotifications(finished: (Mission | Recovery | Shipbuilding | Tiredness)[]) {
+async function showNotifications(finished: (Mission | Recovery | Shipbuilding | Tiredness)[]) {
   const service = new NotificationService();
   const settings: { [kind: string]: NotificationSetting } = {
     [Kind.Mission]: NotificationSetting.find(Kind.Mission),
@@ -14,14 +14,14 @@ function showNotifications(finished: (Mission | Recovery | Shipbuilding | Tiredn
     [Kind.Shipbuilding]: NotificationSetting.find(Kind.Shipbuilding),
     [Kind.Tiredness]: NotificationSetting.find(Kind.Tiredness),
   };
-  finished.map(q => {
+  return await finished.map(q => {
     const s = settings[q.kind()];
     if (!s.enabled) return;
-    service.create(q.toNotificationID(), s.getChromeOptions(q), s.sound);
+    return service.create(q.toNotificationID(), s.getChromeOptions(q), s.sound);
   });
 }
 
-export function UpdateQueues() {
+export async function UpdateQueues() {
 
   const missions = Mission.scan();
   const recoveries = Recovery.scan();
@@ -34,7 +34,7 @@ export function UpdateQueues() {
     ...shipbuildings.finished,
     ...tiredness.finished,
   ];
-  showNotifications(finished);
+  await showNotifications(finished);
 
   // const nearest = upcoming.sort((p, n) => p.scheduled < n.scheduled ? -1 : 1)[0];
   // console.log("TODO: これでバッジとかどうにかする", nearest);
