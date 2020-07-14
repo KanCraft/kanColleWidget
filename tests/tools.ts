@@ -15,6 +15,7 @@ export class Clock {
   static freeze(datestring: string): Clock {
     const mocked = new Date(datestring);
     const spied = jest.spyOn(global, "Date").mockImplementation(() => mocked);
+    Date.now = jest.fn().mockReturnValue(mocked.getTime());
     return new this(spied);
   }
   release() {
