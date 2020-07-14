@@ -24,4 +24,11 @@ describe("Mission", () => {
       expect(scanned.finished).toBeInstanceOf(Array);
     });
   });
+  describe("その他もろもろ", () => {
+    it("なんかする", async () => {
+      const mission = Mission.for(1, 1);
+      expect(mission.registeredOn(1)).toBe(true);
+      expect(mission.getTimerLabel()).toBe("第1艦隊 練習航海");
+    });
+  });
 });

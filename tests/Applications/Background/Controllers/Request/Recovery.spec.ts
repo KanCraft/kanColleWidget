@@ -1,6 +1,8 @@
 import {
   OnRecoveryStart,
   OnRecoveryStartCompleted,
+  OnRecoveryHighspeed,
+  OnRecoveryPrepare,
 } from "../../../../../src/js/Applications/Background/Controllers/Request/Recovery";
 import { dummyrequest, Fetch, fake } from "../../../../tools";
 
@@ -22,6 +24,19 @@ describe("Recovery Controllers", () => {
       const res = await OnRecoveryStartCompleted(req);
       expect(res.status).toBe(202);
       done();
+    });
+  });
+  describe("OnRecoveryHighspeed", () => {
+    it("登録済みタイマーをキャンセルする", async () => {
+      const req = dummyrequest({ requestBody: { formData: { api_ndock_id: [1] } } });
+      await OnRecoveryHighspeed(req);
+    });
+  });
+  describe("OnRecoveryPrepare", () => {
+    it("なんかする", async () => {
+      fake(chrome.notifications.getAll).callbacks({ "Recovery?ts=1234": true, "Mission?ts=1234": true });
+      fake(chrome.notifications.clear).callbacks({});
+      await OnRecoveryPrepare();
     });
   });
 });
