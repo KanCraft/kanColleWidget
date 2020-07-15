@@ -100,7 +100,7 @@ function main(zip_file_path, client_id, client_secret, refresh_token, app_id) {
   }).then(access_token => {
     return uploadPackageFile(access_token, zip_file_path, app_id);
   }).then(res => {
-    return publishUploadedPackageFile(access_token, app_id, true);
+    return publishUploadedPackageFile(access_token, app_id, process.env.NODE_ENV != "production");
   }).then(res => {
     console.log(res);
   });

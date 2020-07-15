@@ -12,8 +12,7 @@ jobs:
       NODE_ENV: production
     steps:
     - uses: actions/checkout@v2
-      ref: ${{ GITHUB_REF }}
-
+    - run: echo "[DEBUG] ${{ github.ref }}"
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
