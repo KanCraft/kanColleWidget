@@ -1,8 +1,7 @@
 name: Web Store PRODUCTION
 on:
-  push:
-    branches:
-      - release
+  release:
+    types: [published]
 
 jobs:
   delivery:
@@ -13,9 +12,8 @@ jobs:
       NODE_ENV: production
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: release
-        fetch-depth: 0
+      ref: ${{ GITHUB_REF }}
+
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
@@ -29,6 +27,16 @@ jobs:
 
     - name: Pack ZIP
       run: npm run pack
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./release/kcwidget.zip
+        asset_name: kcwidget.zip
+        asset_content_type: application/zip
 
     - name: Publish to Chrome Web Store
       run: npm run publish

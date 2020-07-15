@@ -41,29 +41,6 @@ jobs:
       run: npm run pack
       if: ${{ env.SHOULD_DELIVER_DEV }}
 
-    - name: Create Release
-      if: ${{ env.SHOULD_DELIVER_DEV }}
-      id: create-release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ env.NEW_TAG }}
-        release_name: ${{ env.NEW_TAG }}
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset
-      if: ${{ env.SHOULD_DELIVER_DEV }}
-      id: upload-release-asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create-release.outputs.upload_url }}
-        asset_path: ./release/kcwidget.zip
-        asset_name: kcwidget.zip
-        asset_content_type: application/zip
-
     - name: Publish to Chrome Web Store
       run: npm run publish
       if: ${{ env.SHOULD_DELIVER_DEV }}
