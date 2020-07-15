@@ -1,7 +1,7 @@
 name: Web Store PRODUCTION
 on:
   release:
-    types: [published]
+    types: [published, created, edited, released]
 
 jobs:
   delivery:
@@ -12,7 +12,9 @@ jobs:
       NODE_ENV: production
     steps:
     - uses: actions/checkout@v2
-    - run: echo "[DEBUG] ${{ github.ref }}"
+    - run: |
+        echo "[DEBUG] github.ref ${{ github.ref }}"
+        echo "[DEBUG] github.event.action ${{ github.event.action }}"
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
