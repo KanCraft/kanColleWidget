@@ -1,7 +1,14 @@
 name: Web Store PRODUCTION
 on:
   release:
-    types: [published, created, edited, released]
+    types:
+    - published
+    - unpublished
+    - created
+    - edited
+    - deleted
+    - prereleased
+    - released
 
 jobs:
   delivery:
@@ -13,8 +20,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        echo "[DEBUG] github.ref ${{ github.ref }}"
-        echo "[DEBUG] github.event.action ${{ github.event.action }}"
+        echo "[DEBUG] github.event_name: ${{ github.event_name }}"
+        echo "[DEBUG] github.event.action: ${{ github.event.action }}"
+        echo "[DEBUG] github.ref: ${{ github.ref }}"
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
@@ -39,23 +47,23 @@ jobs:
         asset_name: kcwidget.zip
         asset_content_type: application/zip
 
-    - name: Publish to Chrome Web Store
-      run: npm run publish
-      env:
-        GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
-        GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
-        GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+    # - name: Publish to Chrome Web Store
+    #   run: npm run publish
+    #   env:
+    #     GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+    #     GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+    #     GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
 
-    - name: Create release announcement
-      run: npm run announce
+    # - name: Create release announcement
+    #   run: npm run announce
 
-    - name: Tweet announcement
-      run: |
-        announcement=`cat announcement.txt`
-        echo "[DEBUG] ${announcement}"
-        npm run tweet "${announcement}"
-      env:
-        TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
-        TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
-        TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
-        TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+    # - name: Tweet announcement
+    #   run: |
+    #     announcement=`cat announcement.txt`
+    #     echo "[DEBUG] ${announcement}"
+    #     npm run tweet "${announcement}"
+    #   env:
+    #     TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+    #     TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+    #     TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+    #     TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
