@@ -9,7 +9,7 @@ export default class NotificationService {
 
   create(id: string, opt: chrome.notifications.NotificationOptions, sound?: string): Promise<string> {
     return new Promise(resolve => {
-      this.n.create(id, {...opt, eventTime: Date.now() + 1}, (created) => resolve(created));
+      this.n.create(id, {type: "basic", ...opt, eventTime: Date.now() + 1}, (created) => resolve(created));
       if (sound) (new Audio(sound)).play();
     });
   }
