@@ -15,8 +15,8 @@ describe("DMM context", () => {
       fake(chrome.runtime.sendMessage).callbacks({
         status: 200,
         data: {
-          tab: {}, frame: {}, configs: { "inapp-mute-button": { value: false }, "inapp-screenshot-button": {value: false} },
-        }
+          tab: {}, frame: {}, setting: { mute: true, screenshot: true }
+        },
       });
       await dmm.init();
       dmm.onresize();
@@ -38,10 +38,7 @@ describe("DMM context", () => {
         status: 200,
         data: {
           frame: { zoom: 1 },
-          configs: {
-            "inapp-mute-button": { value: true },
-            "inapp-screenshot-button": { value: true },
-          }
+          setting: { mute: true, screenshot: true },
         }
       });
       await dmm.init();

@@ -5,7 +5,6 @@ import TempStorage from "../../../../Services/TempStorage";
 import TrimService from "../../../../Services/Trim";
 import WindowService from "../../../../Services/Window";
 import { sleep } from "../../../../utils";
-import Config from "../../../Models/Config";
 import DamageSnapshotSetting, { DamageSnapshotType } from "../../../Models/Settings/DamageSnapshotSetting";
 
 export async function DamageSnapshotCapture(message: {after: number; key: string}) {
@@ -22,7 +21,7 @@ export async function DamageSnapshotCapture(message: {after: number; key: string
   const setting = DamageSnapshotSetting.user();
   switch (setting.type) {
   case DamageSnapshotType.InApp:
-    Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", { uri: trimmed, height: Config.find<Config<number>>("inapp-dsnapshot-size").value });
+    Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", { uri: trimmed, height: 25 });
     break;
   case DamageSnapshotType.Separate:
     (new TempStorage()).store(`damagesnapshot_${key}`, trimmed);
