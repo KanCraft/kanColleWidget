@@ -12,6 +12,8 @@ describe("DMM context", () => {
       const dmm = new DMM({...window, resizeBy: () => {/* */} } as any);
       fake(chrome.runtime.sendMessage).callbacks({ status: 405 });
       await dmm.init();
+      fake(chrome.runtime.sendMessage).callbacks({ status: 200 });
+      await dmm.init();
       fake(chrome.runtime.sendMessage).callbacks({
         status: 200,
         data: {
@@ -19,6 +21,15 @@ describe("DMM context", () => {
         },
       });
       await dmm.init();
+
+      fake(chrome.runtime.sendMessage).callbacks({
+        status: 200,
+        data: {
+          tab: {}, frame: {}, setting: { mute: false, screenshot: false }
+        },
+      });
+      await dmm.init();
+
       dmm.onresize();
       expect(dmm.listener()).toBeInstanceOf(Function);
       expect(dmm.interval()).toBeInstanceOf(Function);
@@ -46,6 +57,21 @@ describe("DMM context", () => {
       dmm.onresize();
       await sleep(210);
       dmm.onresize();
+    });
+  });
+  describe("listener", () => {
+    it("なんかする", async () => {
+      const dmm = new DMM({...window, resizeBy: () => {/* */} } as any);
+      const fn = dmm.listener();
+      fn({ action: "/reconfigured" });
+    });
+  });
+  describe("interval", () => {
+    it("なんかする", async () => {
+      fake(chrome.runtime.sendMessage).callbacks({});
+      const dmm = new DMM({...window, resizeBy: () => {/* */} } as any);
+      const fn = dmm.interval();
+      fn();
     });
   });
 });

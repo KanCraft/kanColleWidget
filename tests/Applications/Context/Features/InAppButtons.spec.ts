@@ -12,7 +12,7 @@ describe("InAppButtons", () => {
     });
 
     it("なんかする", () => {
-      fake(chrome.runtime.sendMessage).callbacks({});
+      fake(chrome.runtime.sendMessage).callbacks({ data: { mutedInfo: {} } });
       const frame = new Frame({muted: false});
       const ctx = new InAppButtons(window.document, { mute: true, screenshot: true }, frame, new Client(chrome.runtime));
       const [mute, screenshot] = Array.from(ctx.container.querySelectorAll("button"));

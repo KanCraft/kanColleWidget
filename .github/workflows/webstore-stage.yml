@@ -2,10 +2,6 @@ name: Web Store TEST
 on:
   schedule:
     - cron: '0 4 * * *'
-  # {{{ DEBUG
-  push:
-    branches: [develop]
-  # }}}
 
 jobs:
   delivery:
