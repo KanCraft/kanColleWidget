@@ -46,7 +46,7 @@ export class Quest extends Model {
 
   // TODO: 命名が悪い
   private availableToday(now: Date): boolean {
-    const date = now.getDate().toString();
+    const date = now.toKCDate().getDate().toString();
     switch (this.condition) {
     case Condition.Date037:
       return /[037]$/.test(date);
