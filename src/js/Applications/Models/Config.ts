@@ -88,6 +88,13 @@ export default class Config<T> extends Model {
       type: Type.Switch,
       value: true,
     },
+    "notification-tiredness": {
+      category: Category.Notification,
+      description: "疲労回復時に通知を表示します",
+      title: "疲労回復を通知する",
+      type: Type.Switch,
+      value: true,
+    },
   };
 
   static select(keys: string[]): {[name: string]: Config<any>} {

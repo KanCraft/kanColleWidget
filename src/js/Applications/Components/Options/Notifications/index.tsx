@@ -139,6 +139,7 @@ export default class NotificationSettings extends React.Component {
         <NotificationSettingView label="遠征" kind={Kind.Mission} />
         <NotificationSettingView label="修復" kind={Kind.Recovery} />
         <NotificationSettingView label="建造" kind={Kind.Shipbuilding} />
+        <NotificationSettingView label="疲労回復" kind={Kind.Tiredness} />
       </section>
     );
   }

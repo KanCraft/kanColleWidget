@@ -91,6 +91,10 @@ export default class NotificationSetting extends Model {
     // 疲労の通知設定
     [Kind.Tiredness]: {
       enabled: true,
+      start: {
+        title: "出撃開始",
+        message: "第{0}艦隊が出撃しました。",
+      },
       finish: {
         title: "疲労回復",
         message: "間もなく、第{0}艦隊の疲労が回復する見込みです",
