@@ -18,6 +18,18 @@ describe("Rectangle", () => {
       r = Rectangle.new(Const.GameWidth * 2, Const.GameHeight);
       g = r.game();
       expect(r.aspect()).not.toBe(g.aspect());
+      expect(g.aspect()).toBeLessThan(r.aspect());
+      // 縦長だった場合
+      r = Rectangle.new(Const.GameWidth, Const.GameHeight * 3);
+      g = r.game();
+      expect(r.aspect()).not.toBe(g.aspect());
+      expect(g.aspect()).toBeGreaterThan(r.aspect());
+    });
+  });
+  describe("reframe", () => {
+    it("切り抜く", () => {
+      const r = Rectangle.new(Const.GameWidth, Const.GameHeight);
+      r.reframe({x: 0.1, y: 0.1, w: 0.1, h: 0.1});
     });
   });
 });

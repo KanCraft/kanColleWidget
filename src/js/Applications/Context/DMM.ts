@@ -129,7 +129,7 @@ export default class DMM {
    */
   async init() {
     const {status, data} = await this.client.message("/window/decoration");
-    if (status < 200 && 300 <= status) {
+    if (status < 200 || 300 <= status) {
       return;
     }
     if (!data) {

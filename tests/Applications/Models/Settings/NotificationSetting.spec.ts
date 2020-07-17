@@ -37,6 +37,10 @@ describe("NotificationSetting", () => {
       const tiredness = new Tiredness();
       setting = NotificationSetting.find(Kind.Tiredness);
       setting.getChromeOptions(tiredness);
+
+      setting.update({ finish: undefined, start: undefined });
+      setting.getChromeOptions(tiredness);
+      setting.getChromeOptions(tiredness, false);
     });
   });
 });
