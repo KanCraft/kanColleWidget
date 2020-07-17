@@ -13,12 +13,8 @@ describe("InAppButtons", () => {
 
     it("なんかする", () => {
       fake(chrome.runtime.sendMessage).callbacks({});
-      const configs = {
-        "inapp-mute-button": {value: true},
-        "inapp-screenshot-button": {value: true},
-      };
       const frame = new Frame({muted: false});
-      const ctx = new InAppButtons(window.document, configs, frame , new Client(chrome.runtime));
+      const ctx = new InAppButtons(window.document, { mute: true, screenshot: true }, frame, new Client(chrome.runtime));
       const [mute, screenshot] = Array.from(ctx.container.querySelectorAll("button"));
       container.dispatchEvent(new Event("mouseover"));
       container.dispatchEvent(new Event("mouseout"));

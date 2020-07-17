@@ -7,10 +7,10 @@
  */
 
 import WindowService from "../../../../Services/Window";
-import Config from "../../../Models/Config";
 import Frame from "../../../Models/Frame";
 import DashboardFrame from "../../../Models/DashboardFrame";
 import { Screenshot } from "./Capture"; // XXX: コントローラからコントローラ呼ぶのってアリかなあ...
+import InAppButtonSetting from "../../../Models/Settings/InAppButtonSetting";
 
 /**
  * WindowOpen
@@ -35,12 +35,9 @@ export async function WindowDecoration(/* message: any */) {
     return Promise.reject({status: 404});
   }
   // 必要な設定があればそれを返す
-  const configs = Config.select([
-    "inapp-mute-button",
-    "inapp-screenshot-button",
-  ]);
+  const setting = InAppButtonSetting.user();
   await ws.zoom(launched.tab, 1);
-  return {...launched, configs};
+  return { ...launched, setting };
 }
 
 export async function WindowRecord(message: any) {

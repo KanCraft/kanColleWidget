@@ -15,7 +15,7 @@ export default class InAppButtons {
 
   constructor(
     private document: HTMLDocument,
-    private configs: {[key: string]: any},
+    private setting: { mute: boolean, screenshot: boolean },
     private frame: Frame,
     private client: any
   ) {
@@ -26,10 +26,10 @@ export default class InAppButtons {
 
     this.createContainer();
 
-    if (configs["inapp-mute-button"].value) {
+    if (setting.mute) {
       this.container.appendChild(this.createMuteButton());
     }
-    if (configs["inapp-screenshot-button"].value) {
+    if (setting.screenshot) {
       this.container.appendChild(this.createScreenshotButton());
     }
 
@@ -122,7 +122,7 @@ export default class InAppButtons {
    * そもそも表示するかしないか決める
    */
   enabled(): boolean {
-    return this.configs["inapp-mute-button"].value || this.configs["inapp-screenshot-button"].value;
+    return this.setting.mute || this.setting.screenshot;
   }
 
 }
