@@ -3,6 +3,10 @@ export default class TempStorage {
 
   constructor(private storage: Storage = localStorage) {}
 
+  static new(): TempStorage {
+    return new this();
+  }
+
   private get(key: string): string {
     return this.storage.getItem(key);
   }

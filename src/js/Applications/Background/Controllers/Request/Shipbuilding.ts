@@ -8,6 +8,8 @@ import { DebuggableRequest, DebuggableResponse } from "../../../../definitions/d
 import NotificationService from "../../../../Services/Notification";
 import OCRService from "../../../../Services/OCR";
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
+import DebugSetting from "../../../Models/Settings/DebugSetting";
+import TempStorage from "../../../../Services/TempStorage";
 
 const tmp = {
   dock: null,
@@ -65,6 +67,8 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
 
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
   shipbuilding.register(Date.now() + time);
+
+  if (DebugSetting.user().on) ws.openCapturePage({ key: TempStorage.new().store("debug", base64), info: JSON.stringify(shipbuilding) });
 
   const setting = NotificationSetting.find<NotificationSetting>(shipbuilding.kind());
   if (!setting.enabled) return { status: 202, shipbuilding };
