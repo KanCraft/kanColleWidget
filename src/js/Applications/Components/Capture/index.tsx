@@ -12,12 +12,15 @@ import ScreenshotSetting from "../../Models/Settings/ScreenshotSetting";
 
 export default class CapturePage extends Component<{}, {
   uri: string,
+  info: string,
 }> {
   private canvas: RefObject<HTMLCanvasElement>;
   constructor(props) {
     super(props);
+    const search = new URLSearchParams(location.search);
     this.state = {
       uri: null,
+      info: search.get("info"),
     };
     this.canvas = createRef<HTMLCanvasElement>();
   }
@@ -103,7 +106,11 @@ export default class CapturePage extends Component<{}, {
             </div>
           </div>
         </div>
-        <div className="container bottom-pane"></div>
+        <div className="container bottom-pane">
+          {this.state.info ? <pre className="code" data-lang="DEBUG">
+            <code>{this.state.info}</code>
+          </pre> : null}
+        </div>
       </div>
     );
   }
