@@ -116,7 +116,6 @@ export default class DeckCaptureView extends Component<{}, {
     const storage = new TempStorage();
     WindowService.getInstance().openCapturePage({
       key: storage.store("capture", composed),
-      filename: "編成キャプチャ_yyyyMMdd_HHmm",
     });
   }
 }
