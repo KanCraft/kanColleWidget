@@ -9,7 +9,7 @@ export interface ComposeStrategy {
 
 export class DeckCaptureStrategy implements ComposeStrategy {
 
-  scale = 0.4;
+  scale = 1.0;
 
   private canvas: HTMLCanvasElement;
 
