@@ -156,7 +156,7 @@ export default class SimulatorView extends Component<{}, {
   async execute() {
     try {
       const res = await this.client.message("/debug/controller", { ...this.state.body, __controller: this.state.active.controller });
-      console.log(res);
+      console.debug(res);
     } catch (err) {
       console.error(err);
     }

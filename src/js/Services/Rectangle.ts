@@ -72,12 +72,13 @@ export default class Rectangle {
 
   shipbuilding(dock: number): Rectangle {
     const game = this.game();
-    const dockHeight = game.size.h * (117 / 720);
+    // ドックひとつずれたときのY開始位置
+    const dockOffset = game.size.h * (120 / 720);
     return new Rectangle(
       game.size.w * (148 / 1200),
-      game.size.h * (36 / 720),
+      game.size.h * (32 / 720),
       game.start.x + (game.size.w * (592 / 1200)),
-      game.start.y + (game.size.h * (268 / 720)) + ((dock - 1) * dockHeight),
+      game.start.y + (game.size.h * (268 / 720)) + ((dock - 1) * dockOffset),
     );
   }
 
