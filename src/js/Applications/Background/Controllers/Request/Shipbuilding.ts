@@ -68,7 +68,10 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});
   shipbuilding.register(Date.now() + time);
 
-  if (DebugSetting.user().on) ws.openCapturePage({ key: TempStorage.new().store("debug", base64), info: JSON.stringify(shipbuilding) });
+  if (DebugSetting.user().on) {
+    const key = await TempStorage.new().store(`debug_${Date.now()}`, base64);
+    ws.openCapturePage({ key, info: JSON.stringify(shipbuilding) });
+  }
 
   const setting = NotificationSetting.find<NotificationSetting>(shipbuilding.kind());
   if (!setting.enabled) return { status: 202, shipbuilding };

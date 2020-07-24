@@ -24,7 +24,7 @@ export async function DamageSnapshotCapture(message: {after: number; key: string
     Client.for(chrome.tabs, tab.id, false).message("/snapshot/show", { uri: trimmed, height: 25 });
     break;
   case DamageSnapshotType.Separate:
-    (new TempStorage()).store(`damagesnapshot_${key}`, trimmed);
+    TempStorage.new().store(`damagesnapshot_${key}`, trimmed);
     break;
   }
   return {status: 202, tabId: tab.id};

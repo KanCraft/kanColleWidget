@@ -24,7 +24,7 @@ export default class CapturePage extends Component<{}, {
     };
     this.canvas = createRef<HTMLCanvasElement>();
   }
-  componentDidMount() {
+  async componentDidMount() {
     /**
      * 当初は、capture.htmlで chrome.runtime.onMessage を listen しようとしたが、
      * Chrome拡張ドメイン（chrome-extension://{ext_id}）において複数 runtime.onMessage
@@ -38,8 +38,7 @@ export default class CapturePage extends Component<{}, {
     // chrome.runtime.onMessage.addListener(router.listener());
     const search = new URLSearchParams(location.search);
     const key = search.get("key");
-    const temp = new TempStorage();
-    const uri = temp.draw(key);
+    const uri = await TempStorage.new().draw(key);
     // this.setState({ uri });
     this.drawImageURI(uri);
   }
