@@ -29,9 +29,8 @@ export default class DamageSnapshot extends Component<{}, {
    * それを引き出して表示する。
    * 初期化で使われた "count" に至れば、もうこれ以上同じことはしない。
    */
-  private renderImage() {
-    const temp = new TempStorage();
-    const uri = temp.draw(`damagesnapshot_${this.key}`);
+  private async renderImage() {
+    const uri = await TempStorage.new().draw(`damagesnapshot_${this.key}`);
     if (!uri) {
       return;
     }

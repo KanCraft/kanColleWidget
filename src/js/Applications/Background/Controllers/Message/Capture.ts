@@ -27,8 +27,8 @@ export async function Screenshot(
   const area = message.rect ? rect.reframe(message.rect) : rect.game();
   const trimmed = ts.trim(area);
   if (message.open) {
-    const storage = new TempStorage();
-    WindowService.getInstance().openCapturePage({ key: storage.store("capture", trimmed) });
+    const key = await TempStorage.new().store(`capture_${Date.now()}`, trimmed);
+    WindowService.getInstance().openCapturePage({ key });
   }
   return {status: 202, uri: trimmed};
 }
