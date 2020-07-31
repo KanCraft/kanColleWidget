@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Client } from "chomex";
 import TempStorage from "../../../Services/TempStorage";
+import { resizeToAdjustAero } from "../../../Services/Window";
 
 export default class DamageSnapshot extends Component<{}, {
   count: number;
@@ -44,6 +45,9 @@ export default class DamageSnapshot extends Component<{}, {
       position: { left: window.screenLeft, top: window.screenTop },
       size: { height: window.innerHeight },
     });
+  }
+  componentDidMount() {
+    resizeToAdjustAero(window);
   }
   render() {
     const {text, uris} = this.state;
