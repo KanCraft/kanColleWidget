@@ -11,6 +11,7 @@ import TirednessView from "./QueuesView/TirednessView";
 import DashboardFrame from "../../Models/DashboardFrame";
 import QuestProgressView from "./QuestProgressView";
 import { QuestProgress } from "../../Models/Quest";
+import { resizeToAdjustAero } from "../../../Services/Window";
 
 export default class DashboardView extends React.Component<Record<string, any>, {
   missions: Scanned<Mission>;
@@ -32,24 +33,11 @@ export default class DashboardView extends React.Component<Record<string, any>, 
 
   componentDidMount() {
     this.timerId = setInterval(() => this.tick(), 1000);
-    this.resizeToAdjustAero();
+    resizeToAdjustAero(window);
   }
 
   componentWillUnmount() {
     clearTimeout(this.timerId);
-  }
-
-  /**
-   * エアロ領域への対応
-   * エアロとかタイトルバーとか呼ばれる領域と、
-   * chrome.windows.createの差分を吸収する.
-   * FIXME: Windowsでもちゃんと動いてくれるといいな.
-   */
-  private resizeToAdjustAero() {
-    window.resizeBy(
-      window.outerWidth - window.innerWidth,
-      window.outerHeight - window.innerHeight,
-    );
   }
 
   private getQueues() {
