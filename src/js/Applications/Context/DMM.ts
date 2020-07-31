@@ -2,6 +2,7 @@ import {Client, Router} from "chomex";
 import Const from "../../Constants";
 import Frame from "../Models/Frame";
 import InAppButtons from "./Features/InAppButtons";
+import { resizeToAdjustAero } from "../../Services/Window";
 
 /**
  * http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/
@@ -26,7 +27,7 @@ export default class DMM {
    */
   private reconfigure(message: {frame: Frame}) {
     this.frame = message.frame;
-    this.resizeToAdjustAero();
+    resizeToAdjustAero(this.scope);
   }
 
   /**
@@ -51,16 +52,6 @@ export default class DMM {
         e.style.visibility = "hidden";
       }
     });
-  }
-
-  /**
-   * エアロ領域への対応
-   */
-  private resizeToAdjustAero() {
-    this.scope.resizeBy(
-      this.scope.outerWidth - this.scope.innerWidth,
-      this.scope.outerHeight - this.scope.innerHeight,
-    );
   }
 
   /**
@@ -140,7 +131,7 @@ export default class DMM {
     this.tab = tab;
     this.frame = frame;
 
-    this.resizeToAdjustAero();
+    resizeToAdjustAero(this.scope);
     this.shiftFrame(this.frame.zoom);
     this.injectStyles();
     this.hideNavigations(Const.HiddenElements);

@@ -240,3 +240,13 @@ class WindowService {
 }
 
 export default WindowService;
+
+/**
+ * エアロ領域への対応
+ */
+export function resizeToAdjustAero(scope: Window) {
+  scope.resizeBy(
+    scope.outerWidth - scope.innerWidth,
+    scope.outerHeight - scope.innerHeight,
+  );
+}
