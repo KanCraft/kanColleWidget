@@ -4,6 +4,7 @@ import Setting from "../../../Models/Settings/NotificationSetting";
 import FileService from "../../../../Services/Files";
 import NotificationService from "../../../../Services/Notification";
 import { Kind } from "../../../Models/Queue/Queue";
+import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
 
 class NotificationSettingView extends React.Component<{
   label: string,
@@ -130,6 +131,34 @@ class NotificationSettingView extends React.Component<{
   }
 }
 
+// FIXME: ただの通知設定だと思ってると将来的に痛い目にあうかも...
+class QuestAlertSettingView extends React.Component<{}, { setting: QuestAlertSetting }> {
+  constructor(props) {
+    super(props);
+    this.state = { setting: QuestAlertSetting.user() };
+  }
+  render() {
+    const { setting } = this.state;
+    return (
+      <div className={"container notification-kind-setting QuestAlert"}>
+        <div className="columns">
+          <div className="column col-3 kind-label"><div>未着手任務</div></div>
+          <div className="column col-1">
+            <div className="form-group">
+              <label className="form-switch">
+                <input type="checkbox"
+                  defaultChecked={setting.enabled}
+                  onChange={(ev) => this.setState({ setting: setting.update({ enabled: ev.target.checked }) })}
+                /><i className="form-icon"></i>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 export default class NotificationSettings extends React.Component {
   render() {
     return (
@@ -140,6 +169,7 @@ export default class NotificationSettings extends React.Component {
         <NotificationSettingView label="修復" kind={Kind.Recovery} />
         <NotificationSettingView label="建造" kind={Kind.Shipbuilding} />
         <NotificationSettingView label="疲労回復" kind={Kind.Tiredness} />
+        <QuestAlertSettingView />
       </section>
     );
   }
