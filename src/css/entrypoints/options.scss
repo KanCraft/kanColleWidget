@@ -28,6 +28,33 @@ section {
   margin-bottom: 24px;
 }
 
+section.announce {
+  $balloon-param-size: 16px;
+  .widget-chang {
+    width: 90px;
+  }
+  .balloon {
+    font-size: x-small;
+    position: relative;
+    background-color: white;
+    box-shadow: 0 0 4px #e0e0e0;
+    height: 100%;
+    padding: $balloon-param-size;
+    border-radius: $balloon-param-size;
+    ul {
+      padding: 0;
+      margin: 8px 24px;
+      line-height: 1;
+      li {
+        margin: 0;
+      }
+      a {
+        font-family: monospace;
+      }
+    }
+  }
+}
+
 section.screenshot-setting {
   select {
     max-width: 20%;
