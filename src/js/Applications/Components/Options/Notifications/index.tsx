@@ -87,7 +87,11 @@ class NotificationSettingView extends React.Component<{
   renderSoundChangerView(setting: Setting) {
     if (setting.sound) return (
       <div className="sound-preview">
-        <audio src={setting.sound} controls={true} />
+        <audio src={setting.sound} controls={true}
+          onVolumeChange={ev => {
+            this.setState({ setting: this.state.setting.update({ volume: ev.currentTarget.volume }) });
+          }}
+        />
         <i className="icon icon-cross"
           onClick={() => window.confirm(`${this.props.label}の通知音を削除？`) ? this.onSoundFileDelete() : null}
         />

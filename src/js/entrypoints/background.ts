@@ -19,5 +19,8 @@ chrome.runtime.onUpdateAvailable.addListener(OnUpdateAvailable);
 import NotificationClickListener from "../Applications/Background/Routers/NotificationClick";
 chrome.notifications.onClicked.addListener(NotificationClickListener);
 
+import CommandListener from "../Applications/Background/Routers/Command";
+chrome.commands.onCommand.addListener(CommandListener);
+
 import {UpdateQueues} from "../Applications/Background/Cron";
 setInterval(UpdateQueues, 5 * 1000);

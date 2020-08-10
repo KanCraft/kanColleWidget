@@ -17,7 +17,7 @@ async function showNotifications(finished: (Mission | Recovery | Shipbuilding | 
   return await finished.map(q => {
     const s = settings[q.kind()];
     if (!s.enabled) return;
-    return service.create(q.toNotificationID(), s.getChromeOptions(q), s.sound);
+    return service.create(q.toNotificationID(), s.getChromeOptions(q), s.getSound());
   });
 }
 

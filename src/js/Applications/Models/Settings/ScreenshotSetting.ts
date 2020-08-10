@@ -24,6 +24,7 @@ export default class ScreenshotSetting extends Model {
       folder: "艦これウィジェット",
       format: ImageFormat.PNG,
       filename: "スクリーンショット_yyyyMMdd_HHmm",
+      skipPage: false,
     },
   };
 
@@ -33,6 +34,8 @@ export default class ScreenshotSetting extends Model {
   folder: string;
   format: ImageFormat;
   filename: string;
+  // 編集画面を開かずにダウンロードする
+  skipPage: boolean;
 
   // 1エンティティモデルなので
   static user(): ScreenshotSetting {

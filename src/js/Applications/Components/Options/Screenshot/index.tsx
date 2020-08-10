@@ -1,5 +1,6 @@
 import React from "react";
 import ScreenshotSetting, { ImageFormat } from "../../../Models/Settings/ScreenshotSetting";
+import DownloadService from "../../../../Services/Download";
 
 export default class ScrenshotSettingView extends React.Component<{}, {
   setting: ScreenshotSetting,
@@ -19,8 +20,28 @@ export default class ScrenshotSettingView extends React.Component<{}, {
 
           <div className="columns">
             <div className="column col-6">
+              <h5>編集ページをスキップして保存する</h5>
+              <blockquote className="description text-gray">スクショを編集するページをスキップして、バックグラウンドで画像ファイルをダウンロードします。ダウンロードフォルダは、以下の設定に従います。</blockquote>
+            </div>
+            <div className="column col-auto form-group">
+              {/* TODO: on/off系の設定でスイッチのUI、よくつかうっぽいからどっかにまとめたほうがよさそうだな */}
+              <label className="form-switch">
+                <input type="checkbox"
+                  defaultChecked={setting.skipPage}
+                  onChange={ev => this.setState({ setting: setting.update({ skipPage: ev.target.checked }) })}
+                />
+                <i className="form-icon" />
+              </label>
+            </div>
+          </div>
+
+          <div className="columns">
+            <div className="column col-6">
               <h5>ダウンロードフォルダ</h5>
-              <blockquote className="description text-gray">OSのデフォルトの「ダウンロード」フォルダの下のフォルダを指定できます</blockquote>
+              <blockquote className="description text-gray">
+                OSで設定されているダウンロード用のフォルダの下のフォルダを指定できます.
+                <span className="text-primary c-hand" onClick={() => DownloadService.new().showDefaultFolder()}>それってどこ？</span>
+              </blockquote>
             </div>
             <div className="column col-auto">
               <input type="text" className="form-input"

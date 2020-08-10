@@ -30,8 +30,12 @@
     .time-wrapper {
       display: flex;
       justify-content: center;
-      span {
+      // TODO: #1150がmergeされたら（.second）はここには要らない
+      div:not(.second)>span {
         font-size: 4em;
+      }
+      div.second {
+        width: 20px;
       }
     }
   }
