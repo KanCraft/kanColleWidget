@@ -51,5 +51,17 @@
     "/dest/img/mute.svg",
     "/dest/img/unmute.svg",
     "/dest/img/camera.svg"
-  ]
+  ],
+  "commands": {
+    "screenshot": {
+      "description": "プレイ画面のスクショを撮ります",
+      "suggested_key": {
+        "windows": "Ctrl+Shift+0",
+        "mac": "Command+Shift+0",
+        "chromeos": "Ctrl+Shift+0",
+        "linux": "Ctrl+Shift+0"
+      },
+      "global": true
+    }
+  }
 }
