@@ -20,7 +20,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   shipbuildings: Scanned<Shipbuilding>;
   tiredness: Scanned<Tiredness>;
   now: Date;
-  isWindow: Boolean;
+  gameWindowExists: Boolean;
 }> {
 
   private timerId: number;
@@ -31,7 +31,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
     this.state = {
       ...this.getQueues(),
       now: new Date(),
-      isWindow: false,
+      gameWindowExists: false,
     };
   }
 
@@ -55,11 +55,11 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   private async tick() {
     const now = new Date();
     const res = await this.client.message("/window/current-tab");
-    const isWindow = (res.status == 200) ? true : false;
+    const gameWindowExists = (res.status == 200) ? true : false;
     this.setState({
       ...this.getQueues(),
       now,
-      isWindow,
+      gameWindowExists,
     });
     if (now.getSeconds() % 10 == 0) {
       // FIXME: ほんとはmessage使うべきだけどめんどくさいので直でmodelいじる
@@ -73,7 +73,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   render() {
     return (
       <div className="container">
-        <ClockView now={this.state.now} isWindow={this.state.isWindow} />
+        <ClockView now={this.state.now} gameWindowExists={this.state.gameWindowExists} />
         <MatrixView {...this.state} />
         <TirednessView {...this.state.tiredness} now={this.state.now} />
         <QuestProgressView progress={QuestProgress.user()} />
