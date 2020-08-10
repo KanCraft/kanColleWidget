@@ -48,6 +48,8 @@ export default class ClockView extends React.Component<{
             <div className="hours"><span>{now.getHours().pad(2)}</span></div>
             <div className="colon"><span>:</span></div>
             <div className="minute"><span>{now.getMinutes().pad(2)}</span></div>
+            {/* TODO: #1150がmergeされたらrenderIconの中にもっていく */}
+            <div className="second"><span>{now.getSeconds().pad(2)}</span></div>
           </div>
         </div>
       </div>
