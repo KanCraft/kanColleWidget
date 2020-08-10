@@ -8,6 +8,7 @@
     "tabs",
     "storage",
     "downloads",
+    "downloads.shelf",
     "<all_urls>",
     "webRequest",
     "notifications",
