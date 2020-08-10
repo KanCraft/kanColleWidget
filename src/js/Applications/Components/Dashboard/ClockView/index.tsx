@@ -60,7 +60,7 @@ export default class ClockView extends React.Component<{
     // ユーザー指定のアイコンを優先
     if (setting.icon) return <figure className="avatar avatar-xl" onClick={this.onClickIcon.bind(this)}><img src={setting.icon} /></figure>;
     // ウィンドウが開かれていたらカメラ、それ以外は錨
-    let icon = isWindow ? faCamera : faAnchor;
+    const icon = isWindow ? faCamera : faAnchor;
     return (
       <figure className="avatar avatar-xl bg-secondary" onClick={this.onClickIcon.bind(this)}>
         <FontAwesomeIcon icon={icon} />

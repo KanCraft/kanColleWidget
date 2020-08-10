@@ -55,7 +55,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   private async tick() {
     const now = new Date();
     const res = await this.client.message("/window/current-tab");
-    let isWindow = (res.status == 200) ? true : false;
+    const isWindow = (res.status == 200) ? true : false;
     this.setState({
       ...this.getQueues(),
       now,
