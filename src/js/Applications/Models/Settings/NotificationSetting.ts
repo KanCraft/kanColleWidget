@@ -14,6 +14,7 @@ export default class NotificationSetting extends Model {
   enabled: boolean; // そもそも通知を出すかどうか
   icon: string; // icon URL
   sound: string; // sound URL
+  volume?: number; // 音声のボリューム
 
   start: {
     title: string;
@@ -29,6 +30,7 @@ export default class NotificationSetting extends Model {
     enabled: Types.bool,
     icon: Types.string,
     sound: Types.string,
+    volume: Types.number,
     start: Types.shape({
       title: Types.string,
       message: Types.string,
@@ -41,7 +43,8 @@ export default class NotificationSetting extends Model {
 
   static default: {
     [id: string]: {
-      enabled: boolean, icon?: string, sound?: string
+      enabled: boolean, icon?: string, sound?: string,
+      volume?: number,
       start?: { title: string, message: string },
       finish?: { title: string, message: string },
     }
@@ -109,9 +112,11 @@ export default class NotificationSetting extends Model {
     return `notification_sound_${this._id}`;
   }
 
-  getSound(): string | undefined {
+  getSound(): { url: string, volume: number } | undefined {
     const def = NotificationSetting.find<NotificationSetting>("default");
-    return this.sound || def.sound || undefined;
+    if (this.sound) return { url: this.sound, volume: def.volume || 0.5 };
+    if (def.sound) return { url: def.sound, volume: def.volume || 0.5 };
+    return;
   }
 
   getIcon(): string {
