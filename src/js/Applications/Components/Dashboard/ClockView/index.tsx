@@ -1,12 +1,13 @@
 import React from "react";
 import { Client } from "chomex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnchor } from "@fortawesome/free-solid-svg-icons";
+import { faAnchor, faCamera } from "@fortawesome/free-solid-svg-icons";
 
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
 
 export default class ClockView extends React.Component<{
   now: Date;
+  gameWindowExists: Boolean;
 }> {
 
   private client: Client = new Client(chrome.runtime, false);
@@ -25,10 +26,10 @@ export default class ClockView extends React.Component<{
   }
 
   render(): JSX.Element {
-    const { now } = this.props;
+    const { now, gameWindowExists } = this.props;
     return (
       <div className="icon-clock-container row">
-        <div className="icon-wrapper">{this.renderIcon()}</div>
+        <div className="icon-wrapper">{this.renderIcon(gameWindowExists)}</div>
         <div className="clock-wrapper cell">
           <div className="date-wrapper">
             <div className="month">
@@ -54,12 +55,15 @@ export default class ClockView extends React.Component<{
     );
   }
 
-  renderIcon() {
+  renderIcon(gameWindowExists) {
     const setting: NotificationSetting = NotificationSetting.find("default");
+    // ユーザー指定のアイコンを優先
     if (setting.icon) return <figure className="avatar avatar-xl" onClick={this.onClickIcon.bind(this)}><img src={setting.icon} /></figure>;
+    // ウィンドウが開かれていたらカメラ、それ以外は錨
+    const icon = gameWindowExists ? faCamera : faAnchor;
     return (
       <figure className="avatar avatar-xl bg-secondary" onClick={this.onClickIcon.bind(this)}>
-        <FontAwesomeIcon icon={faAnchor} />
+        <FontAwesomeIcon icon={icon} />
       </figure>
     );
   }

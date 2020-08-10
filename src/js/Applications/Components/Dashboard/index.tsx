@@ -11,6 +11,7 @@ import TirednessView from "./QueuesView/TirednessView";
 import DashboardFrame from "../../Models/DashboardFrame";
 import QuestProgressView from "./QuestProgressView";
 import { QuestProgress } from "../../Models/Quest";
+import { Client } from "chomex";
 import { resizeToAdjustAero } from "../../../Services/Window";
 
 export default class DashboardView extends React.Component<Record<string, any>, {
@@ -19,15 +20,18 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   shipbuildings: Scanned<Shipbuilding>;
   tiredness: Scanned<Tiredness>;
   now: Date;
+  gameWindowExists: Boolean;
 }> {
 
   private timerId: number;
+  private client: Client = new Client(chrome.runtime, false);
 
   constructor(props) {
     super(props);
     this.state = {
       ...this.getQueues(),
       now: new Date(),
+      gameWindowExists: false,
     };
   }
 
@@ -48,11 +52,14 @@ export default class DashboardView extends React.Component<Record<string, any>, 
       tiredness: Tiredness.scan(false),
     };
   }
-  private tick() {
+  private async tick() {
     const now = new Date();
+    const res = await this.client.message("/window/current-tab");
+    const gameWindowExists = (res.status == 200) ? true : false;
     this.setState({
       ...this.getQueues(),
       now,
+      gameWindowExists,
     });
     if (now.getSeconds() % 10 == 0) {
       // FIXME: ほんとはmessage使うべきだけどめんどくさいので直でmodelいじる
@@ -66,7 +73,7 @@ export default class DashboardView extends React.Component<Record<string, any>, 
   render() {
     return (
       <div className="container">
-        <ClockView now={this.state.now} />
+        <ClockView now={this.state.now} gameWindowExists={this.state.gameWindowExists} />
         <MatrixView {...this.state} />
         <TirednessView {...this.state.tiredness} now={this.state.now} />
         <QuestProgressView progress={QuestProgress.user()} />
