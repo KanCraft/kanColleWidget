@@ -8,6 +8,7 @@ import WindowService from "../../../../Services/Window";
 import TempStorage from "../../../../Services/TempStorage";
 import ScreenshotSetting from "../../../Models/Settings/ScreenshotSetting";
 import DownloadService from "../../../../Services/Download";
+import NotificationService from "../../../../Services/Notification";
 
 /**
  * @MESSAGE /capture/screenshot
@@ -33,8 +34,13 @@ export async function Screenshot(
   if (message.open) {
     if (setting.skipPage) {
       const service = DownloadService.new();
-      /* const id = */await service.download({ url: trimmed, filename: setting.getFullDownloadPath() });
-      // TODO: downloads.onChangedでitem.stateがcompleteになってはじめてshowが効く
+      const filename = setting.getFullDownloadPath();
+      await service.download({ url: trimmed, filename });
+      new NotificationService().create(`Screenshot?ts=${Date.now()}`, {
+        iconUrl: trimmed,
+        title: "スクリーンショットを保存",
+        message: filename,
+      });
     } else {
       const key = await TempStorage.new().store(`capture_${Date.now()}`, trimmed);
       WindowService.getInstance().openCapturePage({ key });
