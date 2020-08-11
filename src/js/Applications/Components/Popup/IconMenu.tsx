@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Client } from "chomex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faCog, faGripVertical, faClock, faCamera, faVolumeMute, faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import { faCog, faGripVertical, faClock, faCamera, faVolumeMute, faVolumeUp, faImages } from "@fortawesome/free-solid-svg-icons";
 
 interface Menu {
   title: string;
@@ -22,6 +22,11 @@ export default class IconMenu extends Component<{}, {
           title: "設定",
           icon: faCog,
           onClick: async () => await this.client.message("/options/open"),
+        },
+        {
+          title: "画像アーカイブ",
+          icon: faImages,
+          onClick: async () => await this.client.message("/archive/open"),
         },
         {
           title: "編成キャプチャ",
