@@ -19,6 +19,7 @@ import {
   OpenDashboardPage,
   OpenDeckCapturePage,
   OpenOptionsPage,
+  OpenArchivePage,
   WindowDecoration,
   WindowOpen,
   WindowRecord,
@@ -37,6 +38,9 @@ router.on("/window/action", CurrentAction);
 
 // 設定画面
 router.on("/options/open", OpenOptionsPage);
+
+// アーカイブ
+router.on("/archive/open", OpenArchivePage);
 
 // 編成キャプチャ
 router.on("/deckcapture/open", OpenDeckCapturePage);

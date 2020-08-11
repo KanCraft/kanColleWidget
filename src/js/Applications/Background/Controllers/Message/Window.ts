@@ -72,6 +72,10 @@ export async function OpenDashboardPage() {
   return ws.openDashboardPage(frame);
 }
 
+export async function OpenArchivePage() {
+  return WindowService.getInstance().openArchivePage();
+}
+
 /**
  * @MESSAGE /window/current-tab
  */

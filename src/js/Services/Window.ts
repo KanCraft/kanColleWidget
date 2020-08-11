@@ -139,7 +139,11 @@ class WindowService {
     return this.launched && this.launched.tab.id === tabId ? this.launched : null;
   }
 
-  openCapturePage(params: { key: any, filename?: string, info?: string }): Promise<chrome.tabs.Tab> {
+  /**
+   * @param params.key TempStorageのkey. これか、urlのいずれかが必要
+   * @param params.url 画像ファイルのURL. これか、keyのいずれかが必要
+   */
+  openCapturePage(params: { key?: any, url?: string, filename?: string, info?: string }): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/capture.html");
     const search = new URLSearchParams(params);
     return new Promise(resolve => {
@@ -209,6 +213,13 @@ class WindowService {
 
   openDeckCapturePage(): Promise<chrome.tabs.Tab> {
     const url = this.extension.getURL("/dest/html/deckcapture.html");
+    return new Promise(resolve => {
+      this.tabs.create({url}, tab => resolve(tab));
+    });
+  }
+
+  openArchivePage(): Promise<chrome.tabs.Tab> {
+    const url = this.extension.getURL("/dest/html/archive.html");
     return new Promise(resolve => {
       this.tabs.create({url}, tab => resolve(tab));
     });

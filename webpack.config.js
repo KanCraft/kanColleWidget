@@ -21,6 +21,7 @@ module.exports = [
       capture:    "./src/js/entrypoints/capture.tsx",
       dashboard:  "./src/js/entrypoints/dashboard.tsx",
       deckcapture:"./src/js/entrypoints/deckcapture.tsx",
+      archive:    "./src/js/entrypoints/archive.tsx",
       dmm:        "./src/js/entrypoints/dmm.ts",
       kcs2:       "./src/js/entrypoints/kcs2.ts",
       dsnapshot:  "./src/js/entrypoints/dsnapshot.tsx",
@@ -57,6 +58,7 @@ module.exports = [
       dashboard:   "./src/css/entrypoints/dashboard.scss",
       dsnapshot:   "./src/css/entrypoints/dsnapshot.scss",
       deckcapture: "./src/css/entrypoints/deckcapture.scss",
+      archive:     "./src/css/entrypoints/archive.scss",
     },
     output: {
       path: path.resolve(__dirname, "dest/css"),
