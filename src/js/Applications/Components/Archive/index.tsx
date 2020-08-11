@@ -5,7 +5,7 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import WindowService from "../../../Services/Window";
 
 class ScrapCell extends React.Component<{
-  scrap: Scrap | any,
+  scrap: Scrap,
 }, {}> {
   render() {
     const { scrap } = this.props;
@@ -29,49 +29,12 @@ class ScrapCell extends React.Component<{
   }
 }
 export default class ArchiveView extends React.Component<{}, {
-  scraps: (Scrap | any)[],
+  scraps: Scrap[],
 }> {
   constructor(props) {
     super(props);
     this.state = {
-      // scraps: Scrap.list(),
-      scraps: [
-        {
-          _id: "1",
-          filename: "scrap-1597107177930.png",
-          name: "E7-2-1",
-          created: 1597107177992,
-          url: "https://user-images.githubusercontent.com/931554/82826950-ff3cd700-9ee8-11ea-927a-05f3881de75f.png",
-        },
-        {
-          _id: "2",
-          filename: "scrap-1597107177930.png",
-          name: "E7-2-1",
-          created: 1597107177992,
-          url: "https://user-images.githubusercontent.com/931554/82826950-ff3cd700-9ee8-11ea-927a-05f3881de75f.png",
-        },
-        {
-          _id: "3",
-          filename: "scrap-1597107177930.png",
-          name: "E7-2-1",
-          created: 1597107177992,
-          url: "https://user-images.githubusercontent.com/931554/82826950-ff3cd700-9ee8-11ea-927a-05f3881de75f.png",
-        },
-        {
-          _id: "4",
-          filename: "scrap-1597107177930.png",
-          name: "E7-2-1",
-          created: 1597107177992,
-          url: "https://user-images.githubusercontent.com/931554/82826950-ff3cd700-9ee8-11ea-927a-05f3881de75f.png",
-        },
-        {
-          _id: "5",
-          filename: "scrap-1597107177930.png",
-          name: "E7-2-1",
-          created: 1597107177992,
-          url: "https://user-images.githubusercontent.com/931554/82826950-ff3cd700-9ee8-11ea-927a-05f3881de75f.png",
-        }
-      ]
+      scraps: Scrap.list(),
     };
   }
   render() {

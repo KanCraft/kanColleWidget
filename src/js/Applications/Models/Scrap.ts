@@ -17,4 +17,11 @@ export default class Scrap extends Model {
     filename: () => `scrap-${Date.now()}`,
   }
   static nextID = Model.sequentialID;
+
+  name: string;
+  filename: string;
+  url: string;
+  description: string;
+  created: number;
+  updated: number;
 }
