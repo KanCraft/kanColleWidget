@@ -38,9 +38,13 @@ export default class CapturePage extends Component<{}, {
     // chrome.runtime.onMessage.addListener(router.listener());
     const search = new URLSearchParams(location.search);
     const key = search.get("key");
-    const uri = await TempStorage.new().draw(key);
-    // this.setState({ uri });
-    this.drawImageURI(uri);
+    const url = search.get("url");
+    if (key) {
+      const uri = await TempStorage.new().draw(key);
+      this.drawImageURI(uri);
+    } else if (url) {
+      this.drawImageURI(url);
+    }
   }
   async drawImageURI(uri: string) {
     const img = new Image();
