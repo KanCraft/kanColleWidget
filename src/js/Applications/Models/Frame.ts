@@ -6,6 +6,17 @@ export default class Frame extends Model {
   static __ns = "Frame";
 
   static default = {
+    user: {
+      addressbar: false,
+      alias: "CUSTOM",
+      description: "前回選択サイズ",
+      id: "user",
+      muted: false,
+      position: {left: 40, top: 40},
+      size: { width: Const.GameWidth * (2 / 3), height: Const.GameHeight * (2 / 3) },
+      url: Const.KanColleURL,
+      zoom: 2 / 3,
+    },
     classic: {
       addressbar: false,
       alias: "CLASSIC",
@@ -13,7 +24,6 @@ export default class Frame extends Model {
       id: "classic",
       muted: false,
       position: {left: 40, top: 40},
-      selectedAt: 3,
       size: { width: Const.GameWidth * (2 / 3), height: Const.GameHeight * (2 / 3) },
       url: Const.KanColleURL,
       zoom: 2 / 3,
@@ -25,7 +35,6 @@ export default class Frame extends Model {
       id: "original",
       muted: false,
       position: {left: 40, top: 40},
-      selectedAt: 2,
       size: {width: Const.GameWidth, height: Const.GameHeight},
       url: Const.KanColleURL,
       zoom: 1,
@@ -38,7 +47,6 @@ export default class Frame extends Model {
       muted: false,
       position: { left: 40, top: 40 },
       protected: true,
-      selectedAt: 1,
       size: { width: Const.GameWidth * (1 / 2), height: Const.GameHeight * (1 / 2) },
       url: Const.KanColleURL,
       zoom: 1 / 2,
@@ -51,7 +59,6 @@ export default class Frame extends Model {
       muted: false,
       position: { left: 40, top: 40 },
       protected: true,
-      selectedAt: 1,
       size: { width: Const.GameWidth * (1 / 4), height: Const.GameHeight * (1 / 4) },
       url: Const.KanColleURL,
       zoom: 1 / 4,
@@ -62,14 +69,15 @@ export default class Frame extends Model {
    * 直近、選択された窓を返す
    */
   static latest(): Frame {
-    return super.list<Frame>().sort((prev, next) => prev.selectedAt < next.selectedAt ? -1 : 1).pop();
+    const user = this.find<Frame>("user");
+    if (user) return user;
+    return this.new(this.default.user);
   }
 
   id: string;
   alias: string;
 
   zoom: number;
-  selectedAt: number; // 最後にこの窓が選択されたタイムスタンプ
   muted: boolean;
 
   private addressbar: boolean;

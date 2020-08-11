@@ -132,14 +132,17 @@ export default class DMM {
     this.frame = frame;
 
     resizeToAdjustAero(this.scope);
-    this.shiftFrame(this.frame.zoom);
+    await this.shiftFrame(this.frame.zoom);
     this.injectStyles();
     this.hideNavigations(Const.HiddenElements);
 
     // DEBUG: ホントはConfigを見てやる。/window/decorationのレスポンスに必要なConfigも含めちゃえばいいのでは？
     this.showInAppButtons(setting, frame);
 
-    setTimeout(() => this.initialized = true, 200);
+    setTimeout(() => {
+      this.initialized = true;
+      this.onresize();
+    }, 200);
   }
 
   /**
@@ -184,11 +187,15 @@ export default class DMM {
   }
 
   /**
-   * 定期的になんかやるやつ
+   * 定期的に現在のゲーム画面の大きさと位置を送ります
    */
   interval(): () => any {
     return () => {
-      this.client.message("/window/record", {frame: this.frame});
+      const frame = {
+        size: { width: window.innerWidth, height: window.innerHeight },
+        position: { left: window.screenLeft, top: window.screenTop },
+      };
+      this.client.message("/window/record", { frame });
     };
   }
 }
