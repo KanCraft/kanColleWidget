@@ -4,19 +4,24 @@ import { Scanned, Kind } from "../../../Models/Queue/Queue";
 import Mission from "../../../Models/Queue/Mission";
 import Recovery from "../../../Models/Queue/Recovery";
 import Shipbuilding from "../../../Models/Queue/Shipbuilding";
+import TimerDisplaySetting, { DisplayFormat } from "../../../Models/Settings/TimerDisplaySetting";
 
 class CellModel {
   draft: string; // マニュアル登録時のやつ
   constructor(public kind: Kind, public index: number, public queue: Mission | Recovery | Shipbuilding) {
     if (this.queue) {
       const upto = (new Date()).upto(this.queue.scheduled);
-      this.draft = `${Math.floor(upto / 60).pad(2)}:${(upto % 60).pad(2)}`;
+      this.draft = `${upto.hours}:${upto.minutes}`;
     } else {
       this.draft = "00:00";
     }
   }
-  getScheduledTime(): string {
+  getDisplayTime(format: DisplayFormat): string {
     if (!this.queue) return "--:--";
+    if (format == DisplayFormat.RemainingTIme) {
+      const upto = (new Date()).upto(this.queue.scheduled);
+      return `${upto.hours.pad(2)}:${upto.minutes.pad(2)}`;
+    }
     return (new Date(this.queue.scheduled)).toKCWTimeString();
   }
   getTooltipAttributes(): { className?: string, data?: string } {
@@ -65,7 +70,7 @@ export default class MatrixView extends React.Component<{
     this.state = {manual: null};
   }
 
-  getColumn<T>(label: string, cells: CellModel[]) {
+  getColumn<T>(label: string, cells: CellModel[], format: DisplayFormat) {
     return (
       <div className={cn("container", "column", label)}>
         <div className="columns">
@@ -81,7 +86,7 @@ export default class MatrixView extends React.Component<{
                 className={cn("column", "col-9", "queue-time", tooltip.className)}
                 data-tooltip={tooltip.data}
                 onClick={() => this.openManualTimerDialog(label, cell)}
-              >{cell.getScheduledTime()}</div>
+              >{cell.getDisplayTime(format)}</div>
             </div>
           );
         })}
@@ -151,12 +156,13 @@ export default class MatrixView extends React.Component<{
 
   render() {
     const { missions, recoveries, shipbuildings } = this.props;
+    const format = TimerDisplaySetting.user().format;
     return (
       <div className="queue-matrix container">
         <div className="columns">
-          {this.getColumn("遠征", this.populateCells(Kind.Mission, missions))}
-          {this.getColumn("修復", this.populateCells(Kind.Recovery, recoveries))}
-          {this.getColumn("建造", this.populateCells(Kind.Shipbuilding, shipbuildings))}
+          {this.getColumn("遠征", this.populateCells(Kind.Mission, missions), format)}
+          {this.getColumn("修復", this.populateCells(Kind.Recovery, recoveries), format)}
+          {this.getColumn("建造", this.populateCells(Kind.Shipbuilding, shipbuildings), format)}
         </div>
       </div>
     );
