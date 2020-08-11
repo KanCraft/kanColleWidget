@@ -40,11 +40,14 @@ export async function WindowDecoration(/* message: any */) {
   return { ...launched, setting };
 }
 
+/**
+ * @MESSAGE /window/record
+ * @param {{width: number, height: number}} message.frame.size
+ * @param {{left: number, top: number}} message.frame.position
+ */
 export async function WindowRecord(message: any) {
-  const frame = Frame.find(message.frame.id);
-  const ws = WindowService.getInstance();
-  const win = await ws.get(this.sender.tab.windowId);
-  return frame.update({position: {left: win.left, top: win.top}});
+  const frame = Frame.latest();
+  return frame.update({ ...message.frame });
 }
 
 export async function WindowToggleMute(/* message: any */) {

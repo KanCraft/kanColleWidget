@@ -236,7 +236,6 @@ class WindowService {
     let tab = await this.find();
     if (!tab) {
       const frame = Frame.find<Frame>(message.id) || Frame.latest();
-      frame.update({selectedAt: Date.now()});
       tab = await this.create(frame);
       await this.mute(tab, frame.muted);
       return tab;

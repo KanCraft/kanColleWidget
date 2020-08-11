@@ -14,5 +14,5 @@ declare interface App {
   scope.onresize = () => app.onresize();
   scope.onbeforeunload = (ev: Event) => app.onbeforeunload(ev);
   chrome.runtime.onMessage.addListener(app.listener());
-  setInterval(app.interval(), 20 * 1000);
+  setInterval(app.interval(), 10 * 1000);
 })(window);

@@ -21,8 +21,8 @@ export default class TirednessView extends React.Component<{
     );
   }
   renderBar(q: Tiredness) {
-    const upto = this.props.now.upto(q.scheduled) + 1;
-    const percentage = Math.floor(upto * 60 * 1000 * 100 / q.interval);
+    const upto = this.props.now.upto(q.scheduled);
+    const percentage = Math.floor((upto.minutes + 1) * 60 * 1000 * 100 / q.interval);
     return (
       <div className="column tiredness-bar-container">
         <div className="bar">
