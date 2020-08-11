@@ -9,6 +9,7 @@ import InAppButtonSettingView from "./InAppButton";
 declare let NODE_ENV;
 import Debugger from "./Debugger";
 import AnnounceView from "./Announce";
+import DashboardDesignView from "./DashboardDesign";
 
 export default class OptionsPage extends Component {
   render() {
@@ -16,6 +17,7 @@ export default class OptionsPage extends Component {
       <div className="container options">
         <AnnounceView />
         <NotificationSettings />
+        <DashboardDesignView />
         <DamageSnapshotSettingView />
         <ScreenshotSettingView />
         <InAppButtonSettingView />
