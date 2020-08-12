@@ -5,6 +5,7 @@ import Shipbuilding from "../../Models/Queue/Shipbuilding";
 import Tiredness from "../../Models/Queue/Tiredness";
 import { Kind } from "../../Models/Queue/Queue";
 import NotificationSetting from "../../Models/Settings/NotificationSetting";
+import SoundService from "../../../Services/Sound";
 
 async function showNotifications(finished: (Mission | Recovery | Shipbuilding | Tiredness)[]) {
   const service = new NotificationService();
@@ -15,9 +16,10 @@ async function showNotifications(finished: (Mission | Recovery | Shipbuilding | 
     [Kind.Tiredness]: NotificationSetting.find(Kind.Tiredness),
   };
   return await finished.map(q => {
-    const s = settings[q.kind()];
-    if (!s.enabled) return;
-    return service.create(q.toNotificationID(), s.getChromeOptions(q), s.getSound());
+    const setting = settings[q.kind()];
+    const sound = setting.getSound();
+    if (sound) new SoundService(sound.url, sound.volume).play();
+    if (setting.enabled) return service.create(q.toNotificationID(), setting.getChromeOptions(q));
   });
 }
 
