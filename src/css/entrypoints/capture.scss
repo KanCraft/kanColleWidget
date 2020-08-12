@@ -18,6 +18,17 @@ html, body, main#app {
       div:not(.divider) {
         text-align: center;
         padding: $spacing-base/3 0;
+        position: relative;
+        &.selected::before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          border: 8px solid transparent;
+          border-left: 6px solid #66758c;
+          top: 9px;
+          left: -8px;
+        }
       }
       input[type=color] {
         -webkit-appearance: none;

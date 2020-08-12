@@ -11,6 +11,9 @@ export default class InAppButtons {
 
   private static containerID = "kcw-inapp-buttons";
 
+  // FIXME: #1138 とりあえずレスポンシブにしたが、指定可能にする場合はこの "6%" だけを変えればよい
+  private width = "6%";
+
   container: HTMLDivElement = null;
 
   constructor(
@@ -49,6 +52,7 @@ export default class InAppButtons {
       background-color: rgba(0, 0, 0, 0.6); padding: 4px 2px;
       cursor: pointer; opacity: 0;
     `;
+    container.style.width = this.width;
     this.container = container;
     container.addEventListener("mouseover", this.onMouseOver);
     container.addEventListener("mouseout", this.onMouseOut);
@@ -59,8 +63,10 @@ export default class InAppButtons {
     const button = this.buttonElementForInApp();
     const img = this.document.createElement("img") as HTMLImageElement;
     img.src = iconURLs.unmute;
+    img.style.width = "100%";
     button.appendChild(img);
     button.addEventListener("click", () => this.toggleMute());
+    button.style.width = "100%";
     button.id = "kcw-mute-button";
     return button;
   }
@@ -74,8 +80,10 @@ export default class InAppButtons {
     const button = this.buttonElementForInApp();
     const img = this.document.createElement("img") as HTMLImageElement;
     img.src = iconURLs.camera;
+    img.style.width = "100%";
     button.appendChild(img);
     button.addEventListener("click", () => this.takeScreenshot());
+    button.style.width = "100%";
     button.id = "kcw-screenshot-button";
     return button;
   }

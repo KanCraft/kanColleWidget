@@ -5,6 +5,7 @@ import FileService from "../../../../Services/Files";
 import NotificationService from "../../../../Services/Notification";
 import { Kind } from "../../../Models/Queue/Queue";
 import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
+import SoundService from "../../../../Services/Sound";
 
 class NotificationSettingView extends React.Component<{
   label: string,
@@ -100,7 +101,7 @@ class NotificationSettingView extends React.Component<{
     const ref = createRef<HTMLInputElement>();
     return (
       <div>
-        <button className={cn("btn", { disabled: !setting.enabled })} onClick={() => ref.current.click()}>通知音</button>
+        <button className="btn" onClick={() => ref.current.click()}>通知音</button>
         <input type="file" hidden accept="audio/*" ref={ref} onChange={ev => this.onSoundFileChange(ev)} />
       </div>
     );
@@ -129,7 +130,8 @@ class NotificationSettingView extends React.Component<{
         const ns = new NotificationService();
         const opt = { title: "テスト", message: `${this.props.label}通知のテスト`, iconUrl: setting.getIcon() };
         const sound = setting.getSound();
-        ns.create(`test_${this.props.kind}_${Date.now()}`, opt, sound);
+        if (sound) new SoundService(sound.url, sound.volume).play();
+        ns.create(`test_${this.props.kind}_${Date.now()}`, opt);
       }}
     >TEST</button>;
   }
@@ -168,6 +170,9 @@ export default class NotificationSettings extends React.Component {
     return (
       <section className="category notification-setting">
         <h1>通知設定</h1>
+        <blockquote className="description text-gray">
+          通知音を設定した状態でオフにすると、通知音のみが流れることになります. // TODO: なんかもっと気の利いた説明をする
+        </blockquote>
         <NotificationSettingView label="デフォルト" kind="default" />
         <NotificationSettingView label="遠征" kind={Kind.Mission} />
         <NotificationSettingView label="修復" kind={Kind.Recovery} />
