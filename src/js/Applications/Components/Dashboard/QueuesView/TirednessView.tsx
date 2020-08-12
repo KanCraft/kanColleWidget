@@ -22,15 +22,16 @@ export default class TirednessView extends React.Component<{
   }
   renderBar(q: Tiredness) {
     const upto = this.props.now.upto(q.scheduled);
-    const percentage = Math.floor((upto.minutes + 1) * 60 * 1000 * 100 / q.interval);
+    const diff = (q.scheduled - Date.now());
+    const progress = Math.round(diff * 100 / q.interval);
     return (
       <div className="column tiredness-bar-container">
         <div className="bar">
           <div
-            className={cn("bar-item", "tooltip", this.getColorClass(percentage))}
+            className={cn("bar-item", "tooltip", this.getColorClass(progress))}
             data-tooltip={`疲労回復まであと${upto.minutes}分`}
-            style={{ width: `${percentage}%` }}
-          >{upto.minutes}:{upto.seconds}</div>
+            style={{ width: `${progress}%` }}
+          >{upto.minutes.pad(2)}:{upto.seconds.pad(2)}</div>
         </div>
       </div>
     );
