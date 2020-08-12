@@ -51,7 +51,17 @@ jobs:
         GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
 
     - name: Create release announcement
-      run: npm run announce
+      run: |
+        cat << EOS > announcement.txt
+        【リリース情報: ${NAME}】 #艦これウィジェット
+        あたらしいバージョン ${NAME} がストアのレビューに提出されたよ！
+        ${NAME}に含まれる変更は以下のリンクから確認できます。
+        よい提督ライフを！ この、クソ提督！
+        ${URL}
+        EOS
+      env:
+        URL: ${{ github.event.release.upload_url }}
+        NAME: ${{ github.event.release.name }}
 
     - name: Tweet announcement
       run: |
