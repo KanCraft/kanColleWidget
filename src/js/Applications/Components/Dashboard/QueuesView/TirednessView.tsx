@@ -30,7 +30,7 @@ export default class TirednessView extends React.Component<{
             className={cn("bar-item", "tooltip", this.getColorClass(percentage))}
             data-tooltip={`疲労回復まであと${upto.minutes}分`}
             style={{ width: `${percentage}%` }}
-          >{upto.minutes}</div>
+          >{upto.minutes}:{upto.seconds}</div>
         </div>
       </div>
     );
