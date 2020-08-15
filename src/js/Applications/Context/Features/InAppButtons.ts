@@ -11,8 +11,8 @@ export default class InAppButtons {
 
   private static containerID = "kcw-inapp-buttons";
 
-  // FIXME: #1138 とりあえずレスポンシブにしたが、指定可能にする場合はこの "6%" だけを変えればよい
-  private width = "6%";
+  // FIXME: #1138 とりあえずレスポンシブにしたが、指定可能にする場合はこの "4%" だけを変えればよい
+  private width = "4%";
 
   container: HTMLDivElement = null;
 
