@@ -60,8 +60,8 @@ jobs:
         ${URL}
         EOS
       env:
-        URL: ${{ github.event.release.upload_url }}
-        NAME: ${{ github.event.release.name }}
+        URL: ${{ github.event.release.html_url }}
+        NAME: ${{ github.event.release.tag_name }}
 
     - name: Tweet announcement
       run: |
