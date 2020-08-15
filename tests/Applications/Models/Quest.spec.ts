@@ -41,7 +41,6 @@ describe("QuestProgress", () => {
       qp.lastRefreshed = new Date("2020-01-15 07:00");
       const groupsShouldBeUpdated = qp.shouldRefresh(new Date("2020-01-16 07:00"));
       expect(groupsShouldBeUpdated).toStrictEqual([Group.Daily]);
-      expect(qp.shouldRefresh()).toStrictEqual([Group.Daily]);
       qp.refresh();
       qp.refresh(groupsShouldBeUpdated);
       expect(QuestProgress.user().quests[201].status).toBe(Status.Open);
