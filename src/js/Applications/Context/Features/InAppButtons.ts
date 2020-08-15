@@ -36,8 +36,8 @@ export default class InAppButtons {
       this.container.appendChild(this.createScreenshotButton());
     }
 
-    // 最後のmute状態を反映させる
-    this.updateMuteStatus(frame.muted);
+    // ミュートボタンを表示するときは最後のmute状態を反映させる
+    if (setting.mute) this.updateMuteStatus(frame.muted);
   }
 
   private createContainer(): HTMLDivElement {
