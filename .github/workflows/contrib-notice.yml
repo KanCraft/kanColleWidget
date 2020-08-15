@@ -3,10 +3,9 @@ name: Contribution Notice
 on:
   issues:
     types: [opened, reopened]
-  pull_request:
-    # ほんとはopenedでアナウンスしたいんだけど、secretsの問題で、closedにしてみる
-    # https://github.community/t/cant-push-to-forked-repository-on-the-original-repositorys-pull-request-with-github-token/16287/2#M2372
-    types: [closed]
+  # pull_request:
+  # PullRequestの通知は、IFTTTにしました。
+  # ソースブランチがこのRepoの外だと、このWorkflowの中でSecretsのTWITTER_*が利用できないので。
 
 jobs:
   notification:
@@ -27,14 +26,14 @@ jobs:
       run: |
         echo -ne "ご意見が届きました！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
 
-    - name: PR用ツイート内容の生成
-      if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
-      env:
-        SENDER: ${{ github.event.sender.login}}
-        TITLE: ${{ github.event.pull_request.title}}
-        URL: ${{ github.event.pull_request.html_url }}
-      run: |
-        echo -ne "開発ありがとう！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
+    # - name: PR用ツイート内容の生成
+    #   if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    #   env:
+    #     SENDER: ${{ github.event.sender.login}}
+    #     TITLE: ${{ github.event.pull_request.title}}
+    #     URL: ${{ github.event.pull_request.html_url }}
+    #   run: |
+    #     echo -ne "開発ありがとう！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     - name: Tweet
       run: |
