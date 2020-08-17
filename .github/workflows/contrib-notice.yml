@@ -24,7 +24,7 @@ jobs:
         TITLE: ${{ github.event.issue.title}}
         URL: ${{ github.event.issue.html_url }}
       run: |
-        echo -ne "ご意見が届きました！\n\n${TITLE}\nby ${SENDER}\n#艦これウィジェット\n${URL}" >> announcement.txt
+        echo -ne "ご意見が届きました！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     # - name: PR用ツイート内容の生成
     #   if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
