@@ -3,6 +3,7 @@ name: Contribution Notice
 on:
   issues:
     types: [opened, reopened]
+  gollum:
   # pull_request:
   # PullRequestの通知は、IFTTTにしました。
   # ソースブランチがこのRepoの外だと、このWorkflowの中でSecretsのTWITTER_*が利用できないので。
@@ -25,6 +26,15 @@ jobs:
         URL: ${{ github.event.issue.html_url }}
       run: |
         echo -ne "ご意見が届きました！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
+
+    - name: Wiki用ツイート内容の生成
+      if: github.event_name == 'gollum'
+      env:
+        SENDER: ${{ github.event.sender.login }}
+        TITLE: ${{ github.event.pages[0].page_name }}
+        URL: ${{ github.event.pages[0].html_url }}
+      run: |
+        echo -ne "Wikiが更新されました！ありがとう！！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     # - name: PR用ツイート内容の生成
     #   if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
