@@ -19,18 +19,18 @@ const sleep = (millisec) => {
 const main = async () => {
   const yesterday = new Date(Date.now() - (24 * 60 * 60 * 1000));
   const since = `${yesterday.getFullYear()}-${('0' + (yesterday.getMonth() + 1)).slice(-1)}-${('0' + yesterday.getDate()).slice(-2)}`
-  const q = `艦これウィジェット OR #艦これウィジェット -RT since:${since}`;
-  const count = 40;
-  const params = { q, count }
+  const q = `艦これウィジェット OR #艦これウィジェット -from:KanColleWidget -RT since:${since}`;
+  console.log("[INFO]", q);
+  const params = { q }
   const { statuses } = await client.get('search/tweets', params);
   console.log("[INFO]", "FOUND", statuses.length);
   for (let i = 0; i < statuses.length; i++) {
     const status = statuses[i];
-    console.log("[DEBUG]", i, status.id_str, status.user.screen_name, status.text);
+    console.log("[DEBUG]", i, status.id_str, status.user.screen_name)
+    console.log(status.text);
     await sleep(1000);
     try {
-      const { retweeted } = await client.post(`statuses/retweet/${status.id_str}`, {});
-      console.log("[DEBUG]", "RETWEETED", retweeted);
+      await client.post(`statuses/retweet/${status.id_str}`, {});
     } catch (err) {
       console.log("[ERROR]", err);
     }
