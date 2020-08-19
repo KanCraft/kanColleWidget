@@ -16,9 +16,13 @@ const sleep = (millisec) => {
   return new Promise(resolve => setTimeout(() => resolve(millisec), millisec));
 }
 
-const main = async () => {
-  const yesterday = new Date(Date.now() - (24 * 60 * 60 * 1000));
-  const since = `${yesterday.getFullYear()}-${('0' + (yesterday.getMonth() + 1)).slice(-1)}-${('0' + yesterday.getDate()).slice(-2)}`
+const main = async (intervalHours) => {
+  const lasttime = new Date(Date.now() - (intervalHours * 60 * 60 * 1000));
+  const since = [
+    `${lasttime.getFullYear()}-${('0' + (lasttime.getMonth() + 1)).slice(-2)}-${('0' + lasttime.getDate()).slice(-2)}`,
+    `${('0' + lasttime.getHours()).slice(-2)}:00:00`,
+    "JST"
+  ].join("_"); // 前回実行からのツイートのみ検索する
   const q = `艦これウィジェット OR #艦これウィジェット -from:KanColleWidget -RT since:${since}`;
   console.log("[INFO]", q);
   const params = { q }
@@ -28,7 +32,7 @@ const main = async () => {
     const status = statuses[i];
     console.log("[DEBUG]", i, status.id_str, status.user.screen_name)
     console.log(status.text);
-    await sleep(1000);
+    await sleep(5 * 1000 * Math.random());
     try {
       await client.post(`statuses/retweet/${status.id_str}`, {});
     } catch (err) {
@@ -40,5 +44,12 @@ const main = async () => {
 
 // __main__
 if (require.main == module) {
-  main();
+  let intervalHours = 8;
+  if (process.argv.length > 2) {
+    const parsed = parseInt(process.argv[2]);
+    if (parsed == process.argv[2] && parsed <= 24) {
+      intervalHours = parsed;
+    }
+  }
+  main(intervalHours);
 }
