@@ -18,3 +18,5 @@ Chrome拡張内のフォームからのみ受け付けます。
 
 1. `develop`ブランチをベースに、開発してください
 2. `develop`ブランチに対してpul-reqしてください
+
+forkしたリポジトリでActionsのワークフローが動いてしまう場合は`Settings > Actions > Actions permissions`の設定を`Disable Actions for this repository `に変更してください
