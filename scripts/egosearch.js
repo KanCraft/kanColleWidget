@@ -23,7 +23,7 @@ const main = async (intervalHours) => {
     `${('0' + lasttime.getHours()).slice(-2)}:00:00`,
     "JST"
   ].join("_"); // 前回実行からのツイートのみ検索する
-  const q = `艦これウィジェット OR #艦これウィジェット -from:KanColleWidget -RT since:${since}`;
+  const q = `艦これウィジェット OR #艦これウィジェット OR #編成キャプチャ -from:KanColleWidget -RT since:${since}`;
   console.log("[INFO]", q);
   const params = { q }
   const { statuses } = await client.get('search/tweets', params);
