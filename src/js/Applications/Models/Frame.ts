@@ -95,7 +95,7 @@ export default class Frame extends Model {
   createData(): chrome.windows.CreateData {
     return {
       type: this.addressbar ? "normal" : "popup",
-      url: this.url,
+      url: this.url || Const.KanColleURL,
       ...this.size,
       ...this.position,
     };

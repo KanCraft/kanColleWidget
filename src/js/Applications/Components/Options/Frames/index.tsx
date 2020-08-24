@@ -48,6 +48,7 @@ class FrameEditorView extends React.Component<{
               <input
                 disabled={!editMode}
                 className="form-input input-sm" type="number" min="54" defaultValue={frame.size.height}
+                onChange={(ev) => frame.size.height = parseInt(ev.target.value)}
               />
             </div>
           </div>
@@ -59,6 +60,7 @@ class FrameEditorView extends React.Component<{
               <input
                 disabled={!editMode}
                 className="form-input input-sm" type="number" min="0" defaultValue={frame.position.left}
+                onChange={(ev) => frame.position.left = parseInt(ev.target.value)}
               />
             </div>
             <div className="column col-3"><label className="form-label label-sm text-right">縦位置</label></div>
@@ -66,6 +68,7 @@ class FrameEditorView extends React.Component<{
               <input
                 disabled={!editMode}
                 className="form-input input-sm" type="number" min="0" defaultValue={frame.position.top}
+                onChange={(ev) => frame.position.top = parseInt(ev.target.value)}
               />
             </div>
           </div>
