@@ -8,7 +8,7 @@ export default class Frame extends Model {
   static default = {
     user: {
       addressbar: false,
-      alias: "CUSTOM",
+      alias: "MEMORY",
       description: "前回選択サイズ",
       id: "user",
       muted: false,
