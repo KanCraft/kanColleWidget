@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import DeckCapture from "../../Models/DeckCapture";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt, faPencilAlt, faForward } from "@fortawesome/free-solid-svg-icons";
 
 export default class ComposerView extends Component<{
   setting: DeckCapture;
   stack: string[];
-  push: () => void;
+  push: (blank?: boolean) => void;
   pop: () => void;
   compose: () => Promise<void>;
 }> {
@@ -64,7 +66,15 @@ export default class ComposerView extends Component<{
         <div
           className="cell-content bg-gray focused"
           onClick={() => this.props.push()}
-        ><i key={serial} className="icon icon-edit text-primary"></i></div>
+        >
+          <FontAwesomeIcon title="切り抜いてここに貼る" icon={faPencilAlt} />
+          <div style={{ margin: "18px" }}>
+            <FontAwesomeIcon
+              title="ここを空白にする" icon={faForward}
+              onClick={ev => this.onClickLeaveBlank(ev)}
+            />
+          </div>
+        </div>
       );
     }
     return <div className="cell-content bg-gray"><span className="text-secondary">{serial + 1}</span></div>;
@@ -72,13 +82,9 @@ export default class ComposerView extends Component<{
 
   private getCapturedContent(serial: number): JSX.Element {
     const { stack } = this.props;
-    const button = (serial == stack.length - 1) ? <i className="icon icon-cross" onClick={this.props.pop} /> : null;
-    return (
-      <div
-        key={serial} className="cell-content captured"
-        style={{ backgroundImage: `url("${stack[serial]}")` }}
-      >{button}</div>
-    );
+    const button = (serial == stack.length - 1) ? <FontAwesomeIcon title="この画像を削除" icon={faTrashAlt} onClick={this.props.pop} /> : null;
+    const style = stack[serial] ? { backgroundImage: `url("${stack[serial]}")` } : {};
+    return <div key={serial} className="cell-content captured" style={style}>{button}</div>;
   }
 
   private getCompleteButton(): JSX.Element {
@@ -87,5 +93,10 @@ export default class ComposerView extends Component<{
       return <button className="btn column" disabled>編集ボタンを押して画像を追加してください</button>;
     }
     return <button className="btn btn-primary column" onClick={this.props.compose}>{stack.length}枚の画像をまとめて編成キャプチャをつくる</button>;
+  }
+
+  private onClickLeaveBlank(ev: React.MouseEvent) {
+    ev.stopPropagation();
+    this.props.push(true);
   }
 }

@@ -11,7 +11,7 @@ class CellModel {
   constructor(public kind: Kind, public index: number, public queue: Mission | Recovery | Shipbuilding) {
     if (this.queue) {
       const upto = (new Date()).upto(this.queue.scheduled);
-      this.draft = `${upto.hours}:${upto.minutes}`;
+      this.draft = `${upto.hours.pad(2)}:${upto.minutes.pad(2)}`;
     } else {
       this.draft = "00:00";
     }

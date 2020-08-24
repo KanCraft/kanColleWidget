@@ -18,7 +18,7 @@ export default class DeckCaptureView extends Component<{}, {
   row; col; page: number;
   preview: string;
   open: boolean;
-  stack: string[]; // すでに撮影された画像断片
+  stack: (string | null)[]; // すでに撮影された画像断片
 }> {
 
   private client: chomex.Client = new Client(chrome.runtime);
@@ -73,15 +73,12 @@ export default class DeckCaptureView extends Component<{}, {
             <Composer
               setting={selected}
               stack={stack}
-              push={() => this.pushCapture()}
+              push={(blank = false) => this.pushCapture(blank)}
               pop={() => this.popCapture()}
               compose={() => this.composeDeckCapture()}
             />
           </div>
-
         </div>
-
-
       </div>
     );
   }
@@ -95,12 +92,11 @@ export default class DeckCaptureView extends Component<{}, {
     });
   }
 
-  private async pushCapture() {
+  private async pushCapture(blank = false) {
+    if (blank) return this.setState({ stack: this.state.stack.concat(null) });
     const rect: RectParam = this.state.selected.cell;
     const { uri } = await this.client.message("/capture/screenshot", { open: false, rect });
-    this.setState({
-      stack: this.state.stack.concat(uri),
-    });
+    this.setState({ stack: this.state.stack.concat(uri) });
   }
 
   private popCapture() {

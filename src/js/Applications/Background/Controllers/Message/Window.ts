@@ -47,7 +47,7 @@ export async function WindowDecoration(/* message: any */) {
  */
 export async function WindowRecord(message: any) {
   const frame = Frame.latest();
-  return frame.update({ ...message.frame });
+  return frame.update({ ...message.frame, alias: "MEMORY" });
 }
 
 export async function WindowToggleMute(/* message: any */) {

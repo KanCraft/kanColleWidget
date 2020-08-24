@@ -125,8 +125,40 @@
   }
 }
 
+@mixin status-open {
+  background-color: transparent;
+  border: thin solid #d0d0d0;
+  color: #d0d0d0;
+}
+@mixin status-ongoing {
+  background-color: orange;
+  color: #fff;
+}
+@mixin status-completed {
+  background-color: $mission-color;
+  color: #fff;
+}
+
 .quest-progress {
   padding: 8px;
+  .quest-progress-manual {
+    .modal-footer {
+      .columns>.column {
+        justify-content: center;
+        button.btn {
+          &.open {
+            @include status-open();
+          }
+          &.ongoing {
+            @include status-ongoing();
+          }
+          &.completed {
+            @include status-completed();
+          }
+        }
+      }
+    }
+  }
   .columns {
     .column {
       display: flex;
@@ -156,17 +188,13 @@
       span.status.label {
         font-size: x-small;
         &.open {
-          background-color: transparent;
-          border: thin solid #d0d0d0;
-          color: #d0d0d0;
+          @include status-open();
         }
         &.ongoing {
-          background-color: orange;
-          color: #fff;
+          @include status-ongoing();
         }
         &.completed {
-          background-color: $mission-color;
-          color: #fff;
+          @include status-completed();
         }
       }
     }

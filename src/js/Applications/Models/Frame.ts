@@ -8,7 +8,7 @@ export default class Frame extends Model {
   static default = {
     user: {
       addressbar: false,
-      alias: "CUSTOM",
+      alias: "MEMORY",
       description: "前回選択サイズ",
       id: "user",
       muted: false,
@@ -76,17 +76,18 @@ export default class Frame extends Model {
 
   id: string;
   alias: string;
+  description: string;
 
   zoom: number;
   muted: boolean;
 
   private addressbar: boolean;
   private url: string;
-  private position: {
+  position: {
     left: number;
     top: number;
   };
-  private size: {
+  size: {
     width: number;
     height: number;
   };
@@ -94,7 +95,7 @@ export default class Frame extends Model {
   createData(): chrome.windows.CreateData {
     return {
       type: this.addressbar ? "normal" : "popup",
-      url: this.url,
+      url: this.url || Const.KanColleURL,
       ...this.size,
       ...this.position,
     };

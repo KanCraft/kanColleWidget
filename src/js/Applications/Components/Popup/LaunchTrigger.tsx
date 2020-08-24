@@ -20,10 +20,10 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[]; selec
               onChange={ev => this.onSelect(ev)}
               className="form-select"
               style={{WebkitAppearance: "none" }}
-              defaultValue={this.state.selected.id}
+              defaultValue={this.state.selected._id}
             >
               {this.state.frames.map(f => {
-                return <option key={f.id} value={f.id}>{f.alias}</option>;
+                return <option key={f._id} value={f._id}>{f.alias}</option>;
               })}
             </select>
           </div>
@@ -39,12 +39,12 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[]; selec
     );
   }
   onSelect(ev) {
-    this.client.message("/window/open", {id: ev.target.value});
+    this.client.message("/window/open", { id: ev.target.value });
     // FIXME: ここでWindowを参照したくなかった
     window.close();
   }
   launch() {
-    this.client.message("/window/open", {id: this.state.selected._id});
+    this.client.message("/window/open", { id: this.state.selected._id });
     // FIXME: ここでWindowを参照したくなかった
     window.close();
   }
