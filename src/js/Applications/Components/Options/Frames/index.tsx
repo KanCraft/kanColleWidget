@@ -2,6 +2,7 @@ import React from "react";
 import Frame from "../../../Models/Frame";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faPencilAlt, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import SectionTitle from "../SectionTitle";
 
 class FrameEditorView extends React.Component<{
   frame: Frame | null;
@@ -105,7 +106,8 @@ export default class FrameSettingView extends React.Component<{}, {
     const ts = Date.now();
     return (
       <section className="category frame-setting">
-        <h1>ゲーム窓サイズ設定</h1>
+        <SectionTitle models={[Frame]}>ゲーム窓サイズ設定</SectionTitle>
+        <blockquote className="description text-gray">MEMORYっていうのは「前回起動してた状態」っていう意味です。</blockquote>
         <div className="container">
           {frames.map(frame => <FrameEditorView key={`${frame._id}?ts=${ts}`} frame={frame} done={() => this.refresh()} />)}
           {addMode ? <FrameEditorView key={"new"} frame={null} done={() => this.refresh()}
