@@ -76,17 +76,18 @@ export default class Frame extends Model {
 
   id: string;
   alias: string;
+  description: string;
 
   zoom: number;
   muted: boolean;
 
   private addressbar: boolean;
   private url: string;
-  private position: {
+  position: {
     left: number;
     top: number;
   };
-  private size: {
+  size: {
     width: number;
     height: number;
   };
