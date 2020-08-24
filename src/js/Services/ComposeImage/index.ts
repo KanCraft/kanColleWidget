@@ -30,8 +30,9 @@ export class DeckCaptureStrategy implements ComposeStrategy {
     // }}}
   }
 
-  async put(i: number, uri: string): Promise<void> {
+  async put(i: number, uri: string | null): Promise<void> {
     const img = this.scope.createElement("img");
+    if (!uri) return this.draw(i, img);
     setTimeout(() => img.src = uri);
     return new Promise(resolve => {
       img.onload = () => {
