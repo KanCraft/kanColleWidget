@@ -23,7 +23,7 @@ export default class DamageSnapshotSettingView extends Component<{}, {
           <div className="columns">
             <div className="column col-6">
               <h5>大破進撃防止窓の表示</h5>
-              <blockquote className="description text-gray">戦闘終了時の艦隊状況を撮影し、次の戦闘開始時まで表示し続けます。窓内表示を選択した場合、表示された艦隊状況はマウスオーバーで非表示にできます</blockquote>
+              <blockquote className="description text-gray">戦闘終了時の艦隊状況を撮影し、次の戦闘開始時まで表示し続けます。ゲーム内表示を選択した場合、表示された艦隊状況はマウスオーバーで非表示にできます</blockquote>
             </div>
             <div className="column col-auto">
               <select className="form-select" defaultValue={dssetting.type}
