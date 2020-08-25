@@ -32,7 +32,6 @@ export default class DamageSnapshot {
   private createContainer(height: number): HTMLDivElement {
     const div = this.scope.document.createElement("div");
     div.style.height = `${height}%`;
-    div.style.backgroundColor = "green";
     div.style.position = "fixed";
     div.style.top = "0";
     div.style.left = "0";
@@ -46,20 +45,21 @@ export default class DamageSnapshot {
     return div;
   }
 
-  private additionalText(): HTMLDivElement {
-    const div = this.scope.document.createElement("div");
-    div.style.position = "absolute";
-    div.style.top = "0";
-    div.style.left = "0";
-    div.style.right = "0";
-    div.style.fontSize = "2vh";
-    div.style.color = "white";
-    div.style.padding = "0 4px";
-    div.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
-    div.style.whiteSpace = "nowrap";
-    div.id = "kcw-damagesnapshot-additional-information";
-    div.innerText = this.text;
-    return div;
+  private additionalText(): HTMLSpanElement {
+    const span = this.scope.document.createElement("span");
+    // div.style.position = "absolute";
+    span.style.display = "block";
+    span.style.top = "0";
+    span.style.left = "0";
+    span.style.right = "0";
+    span.style.fontSize = "2vh";
+    span.style.color = "white";
+    span.style.padding = "0 4px";
+    span.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+    span.style.whiteSpace = "nowrap";
+    span.id = "kcw-damagesnapshot-additional-information";
+    span.innerText = this.text;
+    return span;
   }
 
   private createImage(uri: string): HTMLImageElement {
