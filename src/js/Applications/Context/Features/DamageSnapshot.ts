@@ -12,6 +12,8 @@ export default class DamageSnapshot {
   private text: string; // なんか付随して表示する情報。おもにSortie.context()
   private clicked = 0;
 
+  private deactivatedMillisecFromBattleResulted = 8200; // 戦闘終了から「次」が登場するまでのミリ秒
+
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime);
   }
@@ -78,7 +80,11 @@ export default class DamageSnapshot {
     this.text = m.text;
     const canvas = this.scope.document.querySelector("canvas");
     this.canvas = canvas;
-    this.listener = () => this.onClickNext();
+    this.listener = () => {
+      if (Date.now() - m.key > this.deactivatedMillisecFromBattleResulted) {
+        this.onClickNext();
+      }
+    };
     canvas.addEventListener("mousedown", this.listener);
   }
 
