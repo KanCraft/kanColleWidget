@@ -36,8 +36,8 @@ jobs:
         BODY: ${{ github.event.issue_comment.body }}
         URL: ${{ github.event.issue_comment.html_url }}
       run: |
-        if [ ${#BODY} -gt 80 ]; then BODY="$(echo ${BODY} | cut -c1-80)…"; fi;
-        echo -ne "${SENDER}さんがコメントしました！\n\n> ${BODY}\n${URL}" >> announcement.txt
+        # if [ ${#BODY} -gt 80 ]; then BODY="$(echo ${BODY} | cut -c1-80)…"; fi;
+        echo -ne "${SENDER}さんがコメントしました！\n${URL}" >> announcement.txt
 
     - name: Wiki用ツイート内容の生成
       if: github.event_name == 'gollum'
