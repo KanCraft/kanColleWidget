@@ -30,17 +30,17 @@ jobs:
         echo -ne "ご意見が届きました！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     - name: Issueコメント用ツイート内容の生成
-      if: github.event_name == 'issue_comment' && github.event.action == 'created'
+      if: github.event_name == 'issue_comment' && github.event.action == 'created' && github.event.sender.login != 'coveralls'
       env:
         SENDER: ${{ github.event.sender.login }}
-        BODY: ${{ github.event.issue_comment.body }}
-        URL: ${{ github.event.issue_comment.html_url }}
+        BODY: ${{ github.event.comment.body }}
+        URL: ${{ github.event.comment.html_url }}
       run: |
-        echo "[DEBUG] ORIG: ${{ github.event.issue_comment.body }}"
+        echo "[DEBUG] ORIG: ${{ github.event.comment.body }}"
         echo "[DEBUG] BODY: ${BODY}"
         if [ ${#BODY} -gt 80 ]; then TEXT="$(echo ${BODY} | cut -c1-80)…"; else TEXT=${BODY}; fi;
         echo "[DEBUG] TEXT: ${TEXT}"
-        echo -ne "${SENDER}さんがコメントしました！\n${URL}" >> announcement.txt
+        echo -ne "${SENDER}さんがコメントしました！\n> ${TEXT}\n${URL}" >> announcement.txt
 
     - name: Wiki用ツイート内容の生成
       if: github.event_name == 'gollum'
