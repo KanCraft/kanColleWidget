@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import chomex, { Client } from "chomex";
 
-import DeckCapture from "../../Models/DeckCapture";
+import DeckCapture, { DeckCaptureLike } from "../../Models/DeckCapture";
 import SideBar from "./SideBar";
 import SettingModal from "./SettingModal";
 import Composer from "./Composer";
@@ -13,12 +13,13 @@ import WindowService from "../../../Services/Window";
 // FIXME: このstateの構造、汚すぎでは？
 // eslint-disable-next-line @typescript-eslint/ban-types
 export default class DeckCaptureView extends Component<{}, {
-  selected:  DeckCapture;  // 現在選択されている設定
-  settings: DeckCapture[]; // 選択可能なせってい一覧
+  selected:  DeckCaptureLike;  // 現在選択されている設定
+  settings: DeckCaptureLike[]; // 選択可能なせってい一覧
   row; col; page: number;
   preview: string;
-  open: boolean;
   stack: (string | null)[]; // すでに撮影された画像断片
+  modified: boolean; // フォームを使って設定がカスタマイズされたかどうか
+  open: boolean; // カスタマイズされた設定を保存するとかしないとかのモーダル
 }> {
 
   private client: chomex.Client = new Client(chrome.runtime);
@@ -26,16 +27,17 @@ export default class DeckCaptureView extends Component<{}, {
   // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(props: Readonly<{}>) {
     super(props);
-    const setting: DeckCapture = DeckCapture.find("normal");
+    const setting: DeckCaptureLike = DeckCapture.find<DeckCapture>("normal").obj();
     this.state = {
       selected: setting,
-      settings: DeckCapture.list(),
+      settings: DeckCapture.listObj(),
       row: setting.row,
       col: setting.col,
       page: setting.page,
       preview: null,
       open: false,
       stack: [],
+      modified: false,
     };
   }
 
@@ -51,8 +53,9 @@ export default class DeckCaptureView extends Component<{}, {
       selected,
       preview,
       row, col, page,
-      open,
       stack,
+      open,
+      modified,
     } = this.state;
     return (
       <div className="container root">
@@ -67,8 +70,12 @@ export default class DeckCaptureView extends Component<{}, {
               row={row}
               col={col}
               page={page}
+              modified={modified}
+              openModal={() => this.setState({ open: true })}
             />
-            <SettingModal active={open} />
+            {open ? <SettingModal active={open} setting={selected} close={(refresh = false) => {
+              this.setState({ open: false, settings: refresh ? this.state.settings : DeckCapture.listObj() });
+            }} /> : null}
           </div>
           <div className="column col-9">
             <Composer
@@ -86,6 +93,7 @@ export default class DeckCaptureView extends Component<{}, {
   private onSettingChange(ev) {
     const selected = DeckCapture.find<DeckCapture>(ev.target.value);
     this.setState({
+      modified: false,
       selected,
       row:  selected.row,
       col:  selected.col,
@@ -94,6 +102,7 @@ export default class DeckCaptureView extends Component<{}, {
   }
 
   private onSettingAttrChange(key: string, value: number) {
+    this.setState({ modified: true });
     const selected = this.state.selected;
     switch (key) {
     case "row":
@@ -135,7 +144,7 @@ export default class DeckCaptureView extends Component<{}, {
 
   private async composeDeckCapture() {
     const { stack, selected: deckcapture } = this.state;
-    const service = ComposeImageService.withStrategyFor(deckcapture);
+    const service = ComposeImageService.withStrategyFor(DeckCapture.find(deckcapture._id));
     const composed = await service.compose(stack);
     const key = await TempStorage.new().store(`deckcapture_${Date.now()}`, composed);
     WindowService.getInstance().openCapturePage({ key });

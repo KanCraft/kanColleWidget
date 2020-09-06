@@ -1,6 +1,13 @@
 import { Model } from "chomex";
 import catalog from "./catalog";
 
+export interface DeckCaptureLike {
+  _id: any;
+  title: string;
+  row: number; col: number; page: number;
+  cell: { x: number; y: number; w: number, h: number; };
+}
+
 /**
  * 編成キャプチャの設定を保存する用のモデル。
  * ふつうの1艦隊編成もあれば、連合艦隊、航空基地編成などもある。
@@ -47,5 +54,18 @@ export default class DeckCapture extends Model {
   protected = false; // 削除禁止
   page = 1; // 繰り返しページ数
   pagelabel: string[] = []; // ページごとのラベル
+
+  obj(): DeckCaptureLike {
+    return {
+      _id: this._id,
+      title: this.title,
+      row: this.row, col: this.col, page: this.page,
+      cell: {...this.cell},
+    };
+  }
+
+  static listObj(): DeckCaptureLike[] {
+    return this.list<DeckCapture>().map(d => d.obj());
+  }
 
 }

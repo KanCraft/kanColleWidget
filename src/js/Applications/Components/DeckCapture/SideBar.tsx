@@ -1,19 +1,21 @@
 import React, { Component } from "react";
-import DeckCapture from "../../Models/DeckCapture";
+import { DeckCaptureLike } from "../../Models/DeckCapture";
 
 /**
  * 編成キャプチャの設定などを操作する左のやつ
  */
 export default class SideBar extends Component<{
-  onSelect: (DeckCapture) => any;
+  onSelect: (DeckCaptureLike) => any;
   onModify: (k: string, v: number) => void;
-  settings: DeckCapture[];
-  selected: DeckCapture;
+  settings: DeckCaptureLike[];
+  selected: DeckCaptureLike;
   preview: string;
   row; col; page: number;
+  modified: boolean;
+  openModal: () => void;
 }> {
   render(): JSX.Element {
-    const { settings, selected, preview, row, col, page } = this.props;
+    const { settings, selected, preview, row, col, page, modified, openModal } = this.props;
     return (
       <div className="container sidebar">
         <div className="form-group">
@@ -91,11 +93,16 @@ export default class SideBar extends Component<{
           <span className="input-group-addon">ページ</span>
         </div>
 
+        {modified ? <div>
+          <button className="btn" style={{ width: "100%" }}
+            onClick={() => openModal()}
+          >この設定に名前をつけて保存</button>
+        </div>: null}
       </div>
     );
   }
 
-  private getMeshStyle(setting: DeckCapture): { [key: string]: string } {
+  private getMeshStyle(setting: DeckCaptureLike): { [key: string]: string } {
     const { cell: { x, y, w, h } } = setting;
     return {
       left: `${Math.floor(x * 100)}%`,
