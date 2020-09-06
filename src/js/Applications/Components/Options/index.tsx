@@ -11,6 +11,7 @@ import Debugger from "./Debugger";
 import AnnounceView from "./Announce";
 import DashboardDesignView from "./DashboardDesign";
 import FrameSettingView from "./Frames";
+import DeckCaptureSettingView from "./DeckCapture";
 
 export default class OptionsPage extends Component {
   render() {
@@ -18,11 +19,12 @@ export default class OptionsPage extends Component {
       <div className="container options">
         <AnnounceView />
         <NotificationSettings />
-        <FrameSettingView />
         <DashboardDesignView />
         <DamageSnapshotSettingView />
         <ScreenshotSettingView />
         <InAppButtonSettingView />
+        <FrameSettingView />
+        <DeckCaptureSettingView />
         {NODE_ENV == "production" ? null : <Debugger />}
       </div>
     );

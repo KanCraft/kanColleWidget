@@ -1,18 +1,21 @@
 import React, { Component } from "react";
-import DeckCapture from "../../Models/DeckCapture";
+import { DeckCaptureLike } from "../../Models/DeckCapture";
 
 /**
  * 編成キャプチャの設定などを操作する左のやつ
  */
 export default class SideBar extends Component<{
-  onSelect: (DeckCapture) => any;
-  settings: DeckCapture[];
-  selected: DeckCapture;
+  onSelect: (DeckCaptureLike) => any;
+  onModify: (k: string, v: number) => void;
+  settings: DeckCaptureLike[];
+  selected: DeckCaptureLike;
   preview: string;
   row; col; page: number;
+  modified: boolean;
+  openModal: () => void;
 }> {
   render(): JSX.Element {
-    const { settings, selected, preview, row, col, page } = this.props;
+    const { settings, selected, preview, row, col, page, modified, openModal } = this.props;
     return (
       <div className="container sidebar">
         <div className="form-group">
@@ -32,26 +35,74 @@ export default class SideBar extends Component<{
           </div>
         </div>
 
+        <h6>キャプチャ範囲（相対値）</h6>
+
+        <div className="columns">
+          <div className="input-group column">
+            <span className="input-group-addon">x</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.x * 100)}
+              onChange={ev => this.props.onModify("cell.x", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+          <div className="input-group column">
+            <span className="input-group-addon">y</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.y * 100)}
+              onChange={ev => this.props.onModify("cell.y", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+        </div>
+
+        <div className="columns">
+          <div className="input-group column">
+            <span className="input-group-addon">w</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.w * 100)}
+              onChange={ev => this.props.onModify("cell.w", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+
+          <div className="input-group column">
+            <span className="input-group-addon">h</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.h * 100)}
+              onChange={ev => this.props.onModify("cell.h", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+        </div>
+
+        <h6>ページ構成</h6>
+
         <div className="input-group">
-          <input type="number" className="form-input" value={row} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={row} onChange={ev => this.props.onModify("row", parseInt(ev.target.value))} />
           <span className="input-group-addon">行</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={col} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={col} onChange={ev => this.props.onModify("col", parseInt(ev.target.value))} />
           <span className="input-group-addon">列</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={page} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={page} onChange={ev => this.props.onModify("page", parseInt(ev.target.value))} />
           <span className="input-group-addon">ページ</span>
         </div>
 
+        {modified ? <div>
+          <button className="btn" style={{ width: "100%" }}
+            onClick={() => openModal()}
+          >この設定に名前をつけて保存</button>
+        </div>: null}
       </div>
     );
   }
 
-  private getMeshStyle(setting: DeckCapture): { [key: string]: string } {
+  private getMeshStyle(setting: DeckCaptureLike): { [key: string]: string } {
     const { cell: { x, y, w, h } } = setting;
     return {
       left: `${Math.floor(x * 100)}%`,

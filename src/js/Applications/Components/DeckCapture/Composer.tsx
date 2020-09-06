@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import DeckCapture from "../../Models/DeckCapture";
+import { DeckCaptureLike } from "../../Models/DeckCapture";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faPencilAlt, faForward } from "@fortawesome/free-solid-svg-icons";
 
 export default class ComposerView extends Component<{
-  setting: DeckCapture;
+  setting: DeckCaptureLike;
   stack: string[];
   push: (blank?: boolean) => void;
   pop: () => void;
