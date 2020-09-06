@@ -6,7 +6,7 @@ import TempStorage from "../../../Services/TempStorage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownload,
-  faSquareFull,
+  faSquareFull, faCut,
   faPen, faEraser,
   faUndoAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import ScreenshotSetting from "../../Models/Settings/ScreenshotSetting";
 import DrawToolBase, { ToolParams } from "./Tools/DrawToolBase";
 import Rect from "./Tools/Rect";
+import Crop from "./Tools/Crop";
 
 export default class CapturePage extends Component<{}, {
   uri: string,
@@ -99,6 +100,12 @@ export default class CapturePage extends Component<{}, {
                   <div className="divider"></div>
                   <div>
                     <FontAwesomeIcon className="c-hand" icon={faPen} onClick={() => alert("未実装です")} />
+                  </div>
+                  <div className={cn("tooltip tooltip-right", {"selected": this.state.tool == Crop})} data-tooltip="切り取り">
+                    <FontAwesomeIcon className="c-hand"
+                      icon={faCut}
+                      onClick={() => this.setState({ tool: Crop })}
+                    />
                   </div>
                   <div className={cn("tooltip tooltip-right", { "selected": this.state.tool == Rect })} data-tooltip="矩形">
                     <FontAwesomeIcon className="c-hand"
