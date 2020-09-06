@@ -3,6 +3,8 @@ name: Contribution Notice
 on:
   issues:
     types: [opened, reopened]
+  issue_comment:
+    types: [created]
   gollum:
   # pull_request:
   # PullRequestの通知は、IFTTTにしました。
@@ -26,6 +28,16 @@ jobs:
         URL: ${{ github.event.issue.html_url }}
       run: |
         echo -ne "ご意見が届きました！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
+
+    - name: Issueコメント用ツイート内容の生成
+      if: github.event_name == 'issue_comment' && github.event.action == 'created'
+      env:
+        SENDER: ${{ github.event.sender.login }}
+        BODY: ${{ github.event.issue_comment.body }}
+        URL: ${{ github.event.issue_comment.html_url }}
+      run: |
+        if [ ${#BODY} -gt 80 ]; then BODY="$(echo ${BODY} | cut -c1-80)…"; fi;
+        echo -ne "${SENDER}さんがコメントしました！\n\n> ${BODY}\n${URL}" >> announcement.txt
 
     - name: Wiki用ツイート内容の生成
       if: github.event_name == 'gollum'
