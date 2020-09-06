@@ -33,6 +33,49 @@ export default class SideBar extends Component<{
           </div>
         </div>
 
+        <h6>キャプチャ範囲（相対値）</h6>
+
+        <div className="columns">
+          <div className="input-group column">
+            <span className="input-group-addon">x</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.x * 100)}
+              onChange={ev => this.props.onModify("cell.x", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+          <div className="input-group column">
+            <span className="input-group-addon">y</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.y * 100)}
+              onChange={ev => this.props.onModify("cell.y", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+        </div>
+
+        <div className="columns">
+          <div className="input-group column">
+            <span className="input-group-addon">w</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.w * 100)}
+              onChange={ev => this.props.onModify("cell.w", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+
+          <div className="input-group column">
+            <span className="input-group-addon">h</span>
+            <input type="number" min="10" max="100" className="form-input"
+              value={Math.floor(this.props.selected.cell.h * 100)}
+              onChange={ev => this.props.onModify("cell.h", (parseInt(ev.target.value) / 100))}
+            />
+            <span className="input-group-addon">%</span>
+          </div>
+        </div>
+
+        <h6>ページ構成</h6>
+
         <div className="input-group">
           <input type="number" min="1" className="form-input" value={row} onChange={ev => this.props.onModify("row", parseInt(ev.target.value))} />
           <span className="input-group-addon">行</span>

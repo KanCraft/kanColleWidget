@@ -95,11 +95,28 @@ export default class DeckCaptureView extends Component<{}, {
 
   private onSettingAttrChange(key: string, value: number) {
     const selected = this.state.selected;
-    selected[key] = value;
     switch (key) {
-    case "row": return this.setState({ row: value, selected });
-    case "col": return this.setState({ col: value, selected });
-    case "page": return this.setState({ page: value, selected });
+    case "row":
+      selected[key] = value;
+      return this.setState({ row: value, selected });
+    case "col":
+      selected[key] = value;
+      return this.setState({ col: value, selected });
+    case "page":
+      selected[key] = value;
+      return this.setState({ page: value, selected });
+    case "cell.x":
+      selected.cell.x = value;
+      return this.setState({ selected });
+    case "cell.y":
+      selected.cell.y = value;
+      return this.setState({ selected });
+    case "cell.w":
+      selected.cell.w = value;
+      return this.setState({ selected });
+    case "cell.h":
+      selected.cell.h = value;
+      return this.setState({ selected });
     }
   }
 
