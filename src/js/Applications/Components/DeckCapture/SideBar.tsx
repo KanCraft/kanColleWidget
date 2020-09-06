@@ -6,6 +6,7 @@ import DeckCapture from "../../Models/DeckCapture";
  */
 export default class SideBar extends Component<{
   onSelect: (DeckCapture) => any;
+  onModify: (k: string, v: number) => void;
   settings: DeckCapture[];
   selected: DeckCapture;
   preview: string;
@@ -33,17 +34,17 @@ export default class SideBar extends Component<{
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={row} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={row} onChange={ev => this.props.onModify("row", parseInt(ev.target.value))} />
           <span className="input-group-addon">行</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={col} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={col} onChange={ev => this.props.onModify("col", parseInt(ev.target.value))} />
           <span className="input-group-addon">列</span>
         </div>
 
         <div className="input-group">
-          <input type="number" className="form-input" value={page} onChange={() => console.log("TODO: 親に伝える")} />
+          <input type="number" min="1" className="form-input" value={page} onChange={ev => this.props.onModify("page", parseInt(ev.target.value))} />
           <span className="input-group-addon">ページ</span>
         </div>
 

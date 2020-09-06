@@ -62,6 +62,7 @@ export default class DeckCaptureView extends Component<{}, {
               settings={settings}
               selected={selected}
               onSelect={ev => this.onSettingChange(ev)}
+              onModify={(k, v) => this.onSettingAttrChange(k, v)}
               preview={preview}
               row={row}
               col={col}
@@ -90,6 +91,16 @@ export default class DeckCaptureView extends Component<{}, {
       col:  selected.col,
       page: selected.page,
     });
+  }
+
+  private onSettingAttrChange(key: string, value: number) {
+    const selected = this.state.selected;
+    selected[key] = value;
+    switch (key) {
+    case "row": return this.setState({ row: value, selected });
+    case "col": return this.setState({ col: value, selected });
+    case "page": return this.setState({ page: value, selected });
+    }
   }
 
   private async pushCapture(blank = false) {
