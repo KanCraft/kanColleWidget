@@ -36,7 +36,10 @@ jobs:
         BODY: ${{ github.event.issue_comment.body }}
         URL: ${{ github.event.issue_comment.html_url }}
       run: |
-        # if [ ${#BODY} -gt 80 ]; then BODY="$(echo ${BODY} | cut -c1-80)…"; fi;
+        echo "[DEBUG] ORIG: ${{ github.event.issue_comment.body }}"
+        echo "[DEBUG] BODY: ${BODY}"
+        if [ ${#BODY} -gt 80 ]; then TEXT="$(echo ${BODY} | cut -c1-80)…"; else TEXT=${BODY}; fi;
+        echo "[DEBUG] TEXT: ${TEXT}"
         echo -ne "${SENDER}さんがコメントしました！\n${URL}" >> announcement.txt
 
     - name: Wiki用ツイート内容の生成
