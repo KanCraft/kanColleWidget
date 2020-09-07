@@ -73,8 +73,8 @@ export default class DeckCaptureView extends Component<{}, {
               modified={modified}
               openModal={() => this.setState({ open: true })}
             />
-            {open ? <SettingModal active={open} setting={selected} close={(refresh = false) => {
-              this.setState({ open: false, settings: refresh ? this.state.settings : DeckCapture.listObj() });
+            {open ? <SettingModal active={open} setting={selected} close={(created: number|string) => {
+              created ? this.setState({ settings: DeckCapture.listObj(), selected: DeckCapture.find<DeckCapture>(created), open: false }) : this.setState({ open: false });
             }} /> : null}
           </div>
           <div className="column col-9">
