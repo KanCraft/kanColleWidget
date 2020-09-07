@@ -144,7 +144,7 @@ export default class DeckCaptureView extends Component<{}, {
 
   private async composeDeckCapture() {
     const { stack, selected: deckcapture } = this.state;
-    const service = ComposeImageService.withStrategyFor(DeckCapture.find(deckcapture._id));
+    const service = ComposeImageService.withStrategyFor(deckcapture);
     const composed = await service.compose(stack);
     const key = await TempStorage.new().store(`deckcapture_${Date.now()}`, composed);
     WindowService.getInstance().openCapturePage({ key });

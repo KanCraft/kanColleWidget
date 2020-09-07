@@ -1,4 +1,4 @@
-import DeckCapture from "../../Applications/Models/DeckCapture";
+import { DeckCaptureLike } from "../../Applications/Models/DeckCapture";
 import Constants from "../../Constants";
 
 export interface ComposeStrategy {
@@ -16,7 +16,7 @@ export class DeckCaptureStrategy implements ComposeStrategy {
   // scaleを加味したcanvas上のcellの大きさ
   private cell: {w: number, h: number};
 
-  constructor(public setting: DeckCapture, private scope: Document = document) {}
+  constructor(public setting: DeckCaptureLike, private scope: Document = document) {}
 
   begin(): void {
     this.canvas = this.scope.createElement("canvas");
@@ -77,11 +77,8 @@ export class DeckCaptureStrategy implements ComposeStrategy {
 
 export default class ComposeImageService {
   constructor(private strategy: ComposeStrategy) {}
-  static withStrategyFor(entry: DeckCapture): ComposeImageService {
-    switch (entry.constructor) {
-    case DeckCapture: return new ComposeImageService(new DeckCaptureStrategy(entry));
-    default: throw new Error(`Unkonwn strategy provider: ${entry.constructor.name}`);
-    }
+  static withStrategyFor(entry: DeckCaptureLike): ComposeImageService {
+    return new ComposeImageService(new DeckCaptureStrategy(entry));
   }
   async compose(imageURIs: string[]): Promise<string> {
     this.strategy.begin();
