@@ -14,8 +14,4 @@ describe("ComposeImage", () => {
     expect(service).toBeInstanceOf(ComposeImageService);
     await service.compose(["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii"]);
   });
-  it("なんかしらんやつがきた", async () => {
-    const combined = DeckCapture.find<DeckCapture>("unkonwn");
-    expect(() => ComposeImageService.withStrategyFor(combined)).toThrow();
-  });
 });

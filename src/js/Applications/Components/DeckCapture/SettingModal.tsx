@@ -7,7 +7,7 @@ import DeckCapture, { DeckCaptureLike } from "../../Models/DeckCapture";
  */
 export default class SettingModal extends Component<{
   active: boolean;
-  close: (refresh?: boolean) => void;
+  close: (created?: number|string) => void;
   setting: DeckCaptureLike;
 }, {
   title: string;
@@ -70,7 +70,7 @@ export default class SettingModal extends Component<{
   private onClickSave() {
     const { title } = this.state;
     const { row, col, cell } = this.props.setting;
-    DeckCapture.create({ title, row, col, cell, protected: false });
-    this.props.close(true);
+    const created = DeckCapture.create({ title, row, col, cell, protected: false });
+    this.props.close(created._id);
   }
 }
