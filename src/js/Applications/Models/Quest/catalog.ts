@@ -103,12 +103,12 @@ const catalog: {
   673: {
     title: "装備開発力の整備",
     requires: [607],
-    group: Group.Daily, category: Category.CreateItem, status: Status.Unavailable,
+    group: Group.Daily, category: Category.DestroyItem, status: Status.Unavailable,
   },
   674: {
     title: "工廠環境の整備",
     requires: [673],
-    group: Group.Daily, category: Category.Remodel, status: Status.Unavailable,
+    group: Group.Daily, category: Category.DestroyItem, status: Status.Unavailable,
   },
   702: {
     title: "艦の「近代化改修」を実施せよ！",
