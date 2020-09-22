@@ -127,6 +127,90 @@ const catalog: {
     group: Group.Daily, category: Category.Sortie, status: Status.Unavailable,
     condition: Condition.Date28,
   },
+  214: {
+    title: "あ号作戦",
+    requires:[216],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+  220: {
+    title: "い号作戦",
+    requires:[218],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+  213: {
+    title: "海上通商破壊作戦",
+    requires:[216],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable
+    ,},
+  221: {
+    title: "ろ号作戦",
+    requires:[214],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+  228: {
+    title: "海上護衛戦",
+    requires:[220],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+  229: {
+    title: "敵東方艦隊を撃滅せよ！",
+    requires:[228],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+  241: {
+    title: "敵北方艦隊主力を撃滅せよ！",
+    requires:[228],
+    group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  },
+// TODO: IDを調べる
+// : {title: "敵東方中枢艦隊を撃破せよ！",requires:[229],group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,},
+// : {title: "南方海域珊瑚諸島沖の制空権を握れ！",requires:[],group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,},
+// : {title: "海上輸送路の安全確保に努めよ！",requires:[, 221],group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,},
+  302: {
+    title: "大規模演習",
+    requires:[303],
+    group: Group.Weekly, category: Category.Practice,status: Status.Unavailable,
+  },
+  404: {
+    title: "大規模遠征作戦、発令！",
+    requires:[],
+    group: Group.Weekly, category: Category.Practice,status: Status.Unavailable,
+  },
+  410: {
+    title: "南方への輸送作戦を成功させよ！",
+    requires:[],
+    group: Group.Weekly, category: Category.Mission,status: Status.Unavailable,
+  },
+  411: {
+    title: "南方への鼠輸送を継続実施せよ！",
+    requires:[410],
+    group: Group.Weekly, category: Category.Mission,status: Status.Unavailable,
+  },
+  613: {
+    title: "資源の再利用",
+    requires:[228],
+    group: Group.Weekly, category: Category.DestroyItem,status: Status.Unavailable,
+  },
+  638: {
+    title: "対空機銃量産",
+    requires:[619],
+    group: Group.Weekly, category: Category.DestroyItem,status: Status.Unavailable,
+  },
+  676: {
+    title: "装備開発力の集中整備",
+    requires:[674],
+    group: Group.Weekly, category: Category.DestroyItem,status: Status.Unavailable,
+  },
+  677: {
+    title: "継戦支援能力の整備",
+    requires:[674],
+    group: Group.Weekly, category: Category.DestroyItem,status: Status.Unavailable,
+  },
+  703: {
+    title: "「近代化改修」を進め、戦備を整えよ！",
+    requires:[702],
+    group: Group.Weekly, category: Category.Shipbuilding,status: Status.Unavailable,
+  },
 };
 
 export default catalog;
