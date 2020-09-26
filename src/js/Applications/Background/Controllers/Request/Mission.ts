@@ -5,8 +5,10 @@ import { DebuggableRequest } from "../../../../definitions/debuggable";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
   const { formData: { api_mission_id: [mid], api_deck_id: [did] } } = req.requestBody;
+  const notifications = new NotificationService();
   const mission = Mission.for(mid, did);
   if (!mission) {
+    await notifications.create(`MissionNotFound?ts=${Date.now()}&mid=${mid}`, Mission.notfoundNotification(mid));
     return { status: 404 };
   }
   mission.register();
@@ -14,7 +16,6 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
   const setting = NotificationSetting.find<NotificationSetting>(mission.kind());
   if (!setting.enabled) return { status: 202, mission };
 
-  const notifications = new NotificationService();
   const nid = mission.toNotificationID({ start: Date.now() });
   await notifications.create(nid, setting.getChromeOptions(mission, false));
 
