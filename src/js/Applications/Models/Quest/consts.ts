@@ -13,6 +13,7 @@ export enum Status {
   Ongoing = "ongoing", // 遂行中
   Completed = "completed", // 完了&回収済み
   Unavailable = "unavailable", // 未開放 （これ要る？）
+  Hidden = "hidden", // 完了&回収済み&ダッシュボードのUIから消す
 }
 
 // 任務の出現条件

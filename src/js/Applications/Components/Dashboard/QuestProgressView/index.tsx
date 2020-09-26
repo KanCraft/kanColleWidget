@@ -32,7 +32,7 @@ export default class QuestProgressView extends React.Component<{
               <div className="column col-auto">
                 <span
                   className={`c-hand status label ${quest.status}`}
-                  onClick={() => this.setState({ manual: quest })}
+                  onClick={() => this.onClickStatus(quest)}
                 >{this.getStatusText(quest.status)}</span>
               </div>
             </div>
@@ -41,6 +41,13 @@ export default class QuestProgressView extends React.Component<{
         {this.state.manual ? this.renderModal() : null}
       </div>
     );
+  }
+  onClickStatus(quest: Quest) {
+    if (quest.status == Status.Completed) {
+      this.props.progress.hide(quest.id);
+    } else {
+      this.setState({ manual: quest });
+    }
   }
   questSortFunc(prev: Quest, next: Quest): number {
     return sortmap[prev.status] < sortmap[next.status] ? -1 : 1;
