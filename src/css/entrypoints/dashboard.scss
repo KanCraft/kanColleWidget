@@ -197,6 +197,15 @@
           @include status-completed();
         }
       }
+      &.btn-filters {
+        .btn-sm {
+          font-size: 0.6rem;
+          &:focus {
+            // outline: none;
+            box-shadow: none;
+          }
+        }
+      }
     }
   }
 }
