@@ -12,7 +12,7 @@ export default class DamageSnapshot {
   private text: string; // なんか付随して表示する情報。おもにSortie.context()
   private clicked = 0;
 
-  private deactivatedMillisecFromBattleResulted = 8000; // 戦闘終了から「次」が登場するまでのミリ秒
+  private deactivatedMillisecFromBattleResulted = 7800; // 戦闘終了から「次」が登場するまでのミリ秒
 
   constructor(private scope: Window) {
     this.client = new Client(chrome.runtime);
