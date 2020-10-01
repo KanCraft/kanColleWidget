@@ -164,19 +164,19 @@ const catalog: {
   },
   // TODO: IDを調べる
   // : {
-    // title: "敵東方中枢艦隊を撃破せよ！",
-    // requires:[229],
-    // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  // title: "敵東方中枢艦隊を撃破せよ！",
+  // requires:[229],
+  // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
   // },
   // : {
-    // title: "南方海域珊瑚諸島沖の制空権を握れ！",
-    // requires:[],
-    // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  // title: "南方海域珊瑚諸島沖の制空権を握れ！",
+  // requires:[],
+  // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
   // },
   // : {
-    // title: "海上輸送路の安全確保に努めよ！",
-    // requires:[, 221],
-    // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
+  // title: "海上輸送路の安全確保に努めよ！",
+  // requires:[, 221],
+  // group: Group.Weekly, category: Category.Sortie,status: Status.Unavailable,
   // },
   302: {
     title: "大規模演習",

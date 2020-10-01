@@ -29,6 +29,7 @@ export class Quest extends Model {
    */
   get visible(): boolean {
     if (this.status == Status.Unavailable) return false;
+    if (this.status == Status.Hidden) return false;
     return this.availableToday(new Date());
   }
 
@@ -125,6 +126,11 @@ export class QuestProgress extends Model {
       return ctx;
     }, {});
     return this.update({ quests });
+  }
+  hide(id: number): QuestProgress {
+    if (!this.quests[id]) return this; // TODO: なんかする
+    this.quests[id].status = Status.Hidden;
+    return this.update({ quests: { ...this.quests } });
   }
 
   /**
