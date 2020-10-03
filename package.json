@@ -92,6 +92,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "chomex": "^2.2.0",
     "classnames": "^2.2.6",
+    "firebase": "^7.22.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "spectre.css": "^0.5.3"

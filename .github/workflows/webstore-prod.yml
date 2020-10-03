@@ -13,6 +13,7 @@ jobs:
       # 本番用のAPP_ID
       CHROMEWEBSTORE_APP_ID: iachoklpnnjfgmldgelflgifhdaebnol
       NODE_ENV: production
+      FIREBASE_CONFIG_JSONSTR: ${{ secrets.FIREBASE_CONFIG_JSONSTR }}
     steps:
     - uses: actions/checkout@v2
     - run: |

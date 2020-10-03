@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 
-import NotificationSettings from "./Notifications";
-import ScreenshotSettingView from "./Screenshot";
-import DamageSnapshotSettingView from "./DamageSnapshot";
-import InAppButtonSettingView from "./InAppButton";
-
-// webpack.config.jsの、DefinePluginを参照
-declare let NODE_ENV;
-import Debugger from "./Debugger";
 import AnnounceView from "./Announce";
+
+import NotificationSettings from "./Notifications";
 import DashboardDesignView from "./DashboardDesign";
+import DamageSnapshotSettingView from "./DamageSnapshot";
+import ScreenshotSettingView from "./Screenshot";
+import TwitterAccountSettingView from "./TwitterAccount";
+import InAppButtonSettingView from "./InAppButton";
 import FrameSettingView from "./Frames";
 import DeckCaptureSettingView from "./DeckCapture";
+
+// {{{ webpack.config.jsの、DefinePluginを参照
+declare let NODE_ENV;
+import Debugger from "./Debugger";
+// }}}
 
 export default class OptionsPage extends Component {
   render() {
@@ -22,6 +25,7 @@ export default class OptionsPage extends Component {
         <DashboardDesignView />
         <DamageSnapshotSettingView />
         <ScreenshotSettingView />
+        <TwitterAccountSettingView />
         <InAppButtonSettingView />
         <FrameSettingView />
         <DeckCaptureSettingView />
