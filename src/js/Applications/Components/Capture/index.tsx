@@ -2,6 +2,7 @@ import React, { Component, createRef, RefObject } from "react";
 import cn from "classnames";
 
 import TempStorage from "../../../Services/TempStorage";
+import TwitterAPI from "../../../Services/API/Twitter";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -127,7 +128,7 @@ export default class CapturePage extends Component<{}, {
                   <div>
                     <FontAwesomeIcon
                       className="c-hand" icon={faTwitter as IconProp}
-                      onClick={() => alert("未実装です")}
+                      onClick={() => this.tweetImage()}
                     />
                   </div>
                   <div className="divider"></div>
@@ -197,5 +198,21 @@ export default class CapturePage extends Component<{}, {
         this.canvas.current.width, this.canvas.current.height
       )
     );
+  }
+
+  private getBlob(): Promise<Blob> {
+    // TODO: クオリティを考慮するべきか？
+    // TODO: 連合艦隊は2枚のmediaにしたい
+    return new Promise(resolve => this.canvas.current.toBlob(resolve, "image/jpeg"));
+  }
+
+  private async tweetImage() {
+    const blob = await this.getBlob();
+    const api = new TwitterAPI();
+    const media = await api.uploadSingleImage(blob);
+    // TODO: textを入力させるUIをつくる
+    const status = await api.postTweetWithMedia(`Test ${Date.now()}`, [media]);
+    // TODO: ツイート後のインタラクションを考える
+    window.open(`https://twitter.com/${status.user.screen_name}/status/${status.id_str}`);
   }
 }
