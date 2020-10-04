@@ -13,7 +13,7 @@ export default class LaunchTrigger extends Component<{}, {frames: Frame[]; selec
   }
   render() {
     return (
-      <div className="columns">
+      <div className="columns launch-trigger">
         <div className="column col-10">
           <div className="form-group">
             <select

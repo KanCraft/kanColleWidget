@@ -17,6 +17,17 @@ const firebaseconfigstr = ((env) => {
   }
 })(process.env.NODE_ENV);
 
+const twitterconfigstr = ((env) => {
+  switch (env) {
+  case "staging":
+  case "production":
+    return JSON.stringify({ key: process.env.TWITTER_CONSUMER_KEY, secret: process.env.TWITTER_CONSUMER_SECRET });
+  case "development":
+  default:
+    return JSON.stringify(require("./config/dev/twitter.json"));
+  }
+})(process.env.NODE_ENV);
+
 module.exports = [
   {
     mode,
@@ -56,6 +67,7 @@ module.exports = [
       new webpack.DefinePlugin({
         "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         "FIREBASE_CONFIG": firebaseconfigstr,
+        "TWITTER_CONFIG": twitterconfigstr,
       }),
     ],
     performance: {

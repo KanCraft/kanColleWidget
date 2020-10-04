@@ -1,6 +1,6 @@
 import React from "react";
 import {render} from "react-dom";
-
+import "./global-pollution";
 import App from "../Applications/Components/Popup";
 
 // 使用するすべてのアイコンをここでlibraryに登録する必要がある
