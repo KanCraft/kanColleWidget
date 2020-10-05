@@ -19,4 +19,9 @@ export default class DisableMissionNotificationSetting extends Model {
       missionId: 198// 前衛支援任務(イベント)
     }
   }
+
+  static hasMissionId(missionId: number | string): boolean {
+    const setting = this.filter<DisableMissionNotificationSetting>(setting => setting.missionId == missionId);
+    return setting.length > 0;
+  }
 }

@@ -11,6 +11,9 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     await notifications.create(`MissionNotFound?ts=${Date.now()}&mid=${mid}`, Mission.notfoundNotification(mid));
     return { status: 404 };
   }
+  if (!mission.shouldNotify()) {
+    return { status: 202 };
+  }
   mission.register();
 
   const setting = NotificationSetting.find<NotificationSetting>(mission.kind());
