@@ -117,8 +117,8 @@ export default class FrameSettingView extends React.Component<{}, {
           />: <div className="columns add-btn-wrapper">
             <div className="column"></div>
             <div className="column col-auto">
-              <button className="btn btn-sm add-btn">
-                <FontAwesomeIcon icon={faPlus} onClick={() => this.setState({ addMode: true })} />
+              <button className="btn btn-sm add-btn" onClick={() => this.setState({ addMode: true })}>
+                <FontAwesomeIcon icon={faPlus} />
               </button>
             </div>
           </div>}
