@@ -12,7 +12,7 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     return { status: 404 };
   }
   if (!mission.shouldNotify()) {
-    return { status: 202 };
+    return { status: 202, mission };
   }
   mission.register();
 
