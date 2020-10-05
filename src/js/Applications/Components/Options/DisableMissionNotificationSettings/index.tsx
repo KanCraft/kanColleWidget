@@ -192,8 +192,8 @@ export default class DisableMissionNotificationSettingView extends React.Compone
                 <div className="columns col-12 add-btn-wrapper">
                   <div className="column"></div>
                   <div className="column col-auto">
-                    <button className="btn btn-sm add-btn">
-                      <FontAwesomeIcon icon={faPlus} onClick={() => this.setState({ addMode: true })} />
+                    <button className="btn btn-sm add-btn" onClick={() => this.setState({ addMode: true })}>
+                      <FontAwesomeIcon icon={faPlus} />
                     </button>
                   </div>
                 </div>
