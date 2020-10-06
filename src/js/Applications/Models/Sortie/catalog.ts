@@ -32,6 +32,10 @@ const catalog: MapCatalog = {
         title: "鎮守府近海",
         extra: true,
       },
+      6: {
+        title: "鎮守府近海航路",
+        extra: true,
+      },
     },
   },
   2: {
@@ -143,6 +147,12 @@ const catalog: MapCatalog = {
     maps: {
       1: {
         title: "ブルネイ泊地沖",
+      },
+      2: {
+        title: "タウイタウイ泊地沖",
+      },
+      3: {
+        title: "ペナン島沖",
       },
     },
   },
