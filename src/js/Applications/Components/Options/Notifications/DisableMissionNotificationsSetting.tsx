@@ -3,62 +3,52 @@ import DisableMissionNotificationSetting from "../../../Models/Settings/DisableM
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import missionCatalog from "../../../Models/Queue/missions";
+import Mission from "../../../Models/Queue/Mission";
 import ResetButton from "../ResetButton";
 
 interface mission {
-  id: number,
+  id: number | string,// numberにしたいが、../../../Models/Queue/Mission.id からキャストするため、同一の型である必要がある
   title: string
 }
 
 const UNKNOWN_MISSION_LABEL = "知らない子ですね...";
 const UNKNOWN_MISSION_ID = 0;
 
-class DisableMissionNotificationEditor extends React.Component <{
+class DisableMissionNotificationCreator extends React.Component <{
   done: () => void;
-  setting: DisableMissionNotificationSetting | null;
 }, {
-  setting: DisableMissionNotificationSetting;
-  missionId: number,
-  editMode: boolean;
   missions: mission[]
+  missionId: number,
 }> {
   constructor(props) {
     super(props);
-    const setting: DisableMissionNotificationSetting = props.setting || DisableMissionNotificationSetting.new({ _id: 0 });
     const missions = Object
       .keys(missionCatalog)
       .filter(id => parseInt(id) > 0)
-      .map(id => {
-        return {
-          "title": missionCatalog[id]["title"],
-          "id": parseInt(id)
-        };
-      });
+      .map(id => Mission.for(parseInt(id), 0));
     this.state = {
-      setting: setting,
-      missionId: parseInt(setting._id),
-      editMode: props.setting === null,
+      missionId: 0,
       missions: missions
     };
   }
+
   render() {
-    const { editMode, missions } = this.state;
+    const { missionId, missions } = this.state;
+    const mission = Mission.for(missionId, 0);
+    const selectedMissionId = mission ? missionId : UNKNOWN_MISSION_ID;
+
     return (
       <div className="columns column col-12">
-        {editMode ?
-          <div className="column col-10">
-            遠征<select value={this.getSelectedMission().id} onChange={(ev) => this.onChange(ev)}>
-              <option value={UNKNOWN_MISSION_ID}>{UNKNOWN_MISSION_LABEL}</option>
-              {missions.map(mission => (<option key={mission.id} value={mission.id}>{mission.title}</option>))}
-            </select>
-            ID<input type="number" value={this.state.missionId} onChange={(ev) => this.onChange(ev)}/>
-          </div> : <div className="column col-10">{this.getSelectedMissionTitle()}</div>
-        }
+        <div className="column col-10">
+          遠征<select value={selectedMissionId} onChange={(ev) => this.onChange(ev)}>
+            <option value={UNKNOWN_MISSION_ID}>{UNKNOWN_MISSION_LABEL}</option>
+            {missions.map(mission => (<option key={mission.id} value={mission.id}>{mission.title}</option>))}
+          </select>
+         ID<input type="number" value={this.state.missionId} onChange={(ev) => this.onChange(ev)}/>
+        </div>
         <div className="column col-2">
-          {editMode ? [
-            <button key={0} className="btn btn-sm btn-primary float-right" title="保存" onClick={() => this.onClickSave()}><FontAwesomeIcon icon={faCheck} /></button>,
-            <button key={1} className="btn btn-sm btn-error float-right" title="削除" onClick={() => this.onClickDelete()}><FontAwesomeIcon icon={faTrashAlt} /></button>
-          ] : <button className="btn btn-sm btn-link float-right" title="削除" onClick={() => this.onClickDelete()}><FontAwesomeIcon icon={faTrashAlt} /></button>}
+          <button key={0} className="btn btn-sm btn-primary float-right" title="保存" onClick={() => this.onClickSave()}><FontAwesomeIcon icon={faCheck} /></button>,
+          <button key={1} className="btn btn-sm btn-error float-right" title="削除" onClick={() => this.props.done()}><FontAwesomeIcon icon={faTrashAlt} /></button>
         </div>
       </div>
     );
@@ -71,55 +61,50 @@ class DisableMissionNotificationEditor extends React.Component <{
   }
 
   onClickSave(): void {
-    const { setting, missionId } = this.state;
-    setting._id = missionId.toString();
+    const { missionId } = this.state;
+    const setting = DisableMissionNotificationSetting.new({ _id: missionId.toString() });
     setting.save();
-    this.done();
+    this.props.done();
+  }
+}
+
+class DisableMissionNotificationEditor extends React.Component <{
+  done: () => void;
+  setting: DisableMissionNotificationSetting;
+}> {
+  render() {
+    return (
+      <div className="columns column col-12">
+        <div className="column col-10">{ this.getMissionTitle() }</div>
+        <div className="column col-2">
+          <button className="btn btn-sm btn-link float-right" title="削除" onClick={() => this.onClickDelete()}><FontAwesomeIcon icon={faTrashAlt} /></button>
+        </div>
+      </div>
+    );
+  }
+
+  getMissionTitle(): string {
+    const { setting } = this.props;
+    const mission = Mission.for(setting._id, 0);
+
+    if (parseInt(setting._id) <= 0 || !mission) {
+      return `${UNKNOWN_MISSION_LABEL}（ID：${setting._id}）`;
+    }
+
+    return mission.title;
   }
 
   onClickDelete(): void {
-    const { setting } = this.state;
-    if (!setting._id) {
-      this.props.done();
-      return;
-    }
+    const { setting } = this.props;
 
-    const title = this.getSelectedMissionTitle();
+    const title = this.getMissionTitle();
     const isAccepted = window.confirm(`以下の非通知遠征を削除してもいいですか？\n\n${title}`);
     if (!isAccepted) {
       return;
     }
 
     setting.delete();
-    this.done();
-  }
-
-  done(): void {
-    this.setState({
-      editMode: false
-    });
     this.props.done();
-  }
-
-  getSelectedMission(): mission {
-    const { missions, missionId } = this.state;
-    const mission = missions.find(mission => mission.id == missionId);
-    if (mission) {
-      return mission;
-    }
-    return {
-      "title": UNKNOWN_MISSION_LABEL,
-      "id": UNKNOWN_MISSION_ID
-    };
-  }
-
-  getSelectedMissionTitle(): string {
-    const mission = this.getSelectedMission();
-    if (mission.id === UNKNOWN_MISSION_ID) {
-      const { missionId } = this.state;
-      return `${mission.title}（ID：${missionId}）`;
-    }
-    return mission.title;
   }
 }
 
@@ -151,7 +136,7 @@ export default class DisableMissionNotificationSettingView extends React.Compone
             }
             {
               addMode ?
-                <DisableMissionNotificationEditor key={"new"} done={() => this.refresh()} setting={null}/>
+                <DisableMissionNotificationCreator key={"new"} done={() => this.refresh()}/>
                 :
                 <div className="columns col-12 add-btn-wrapper">
                   <div className="column"></div>
