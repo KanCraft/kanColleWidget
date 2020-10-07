@@ -6,7 +6,7 @@ import NotificationService from "../../../../Services/Notification";
 import { Kind } from "../../../Models/Queue/Queue";
 import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
 import SoundService from "../../../../Services/Sound";
-import DisableMissionNotificationsSettingView from "./DisableMissionNotificationsSetting"
+import DisableMissionNotificationsSettingView from "./DisableMissionNotificationsSetting";
 
 class NotificationSettingView extends React.Component<{
   label: string,
