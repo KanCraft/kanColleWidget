@@ -123,51 +123,6 @@ class DisableMissionNotificationEditor extends React.Component <{
   }
 }
 
-class UnknownMissionHelp extends React.Component <{}, {
-  isOpen: boolean
-}> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false
-    };
-  }
-
-  render() {
-    const { isOpen } = this.state;
-
-    return (
-      <div className="columns column col-12">
-        <div className="column col-12">
-          {isOpen ?
-            <button className="btn btn-sm" onClick={() => this.close()}><FontAwesomeIcon icon={faCompressArrowsAlt}/></button>
-            : <button className="btn btn-sm"  onClick={() => this.open()}><FontAwesomeIcon icon={faExpandArrowsAlt}/></button>
-          }
-        </div>
-        {this.renderImage()}
-      </div>
-    );
-  }
-
-  renderImage() {
-    const { isOpen } = this.state;
-    const imageSrc = chrome.extension.getURL("dest/img/unknown-mission-help.png");
-    return isOpen ? (<img src={imageSrc} />) : ("");
-  }
-
-  open(): void {
-    this.setState({
-      isOpen: true
-    });
-  }
-
-  close(): void {
-    this.setState({
-      isOpen: false
-    });
-  }
-}
-
 export default class DisableMissionNotificationSettingView extends React.Component <{}, {
   settings: DisableMissionNotificationSetting[];
   addMode: boolean;
@@ -187,9 +142,8 @@ export default class DisableMissionNotificationSettingView extends React.Compone
           <div className="columns">
             <div className="column col-12">
               <h5>非通知遠征 <ResetButton models={[DisableMissionNotificationSetting]}/></h5>
-              <blockquote className="description text-gray">遠征に出した際に通知を行わない遠征を設定できます。<br />新しい遠征で、艦これウィジェットの更新が追いついていない場合はIDを入力できます。（折り畳みの画像を参照）</blockquote>
+              <blockquote className="description text-gray">遠征に出した際に通知を行わない遠征を設定できます。<br />新しい遠征で、艦これウィジェットの更新が追いついていない場合はIDを入力できます。（詳しくは<a href="https://github.com/KanCraft/kanColleWidget/wiki/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9#%E9%81%A0%E5%BE%81%E7%B5%82%E4%BA%86%E9%80%9A%E7%9F%A5">マニュアル</a>へ）</blockquote>
             </div>
-            <UnknownMissionHelp />
             {
               settings.map((setting) =>
                 <DisableMissionNotificationEditor key={setting._id} done={() => this.refresh()} setting={setting}/>
