@@ -86,12 +86,7 @@ class DisableMissionNotificationEditor extends React.Component <{
   getMissionTitle(): string {
     const { setting } = this.props;
     const mission = Mission.for(setting._id, 0);
-
-    if (parseInt(setting._id) <= 0 || !mission) {
-      return `${UNKNOWN_MISSION_LABEL}（ID：${setting._id}）`;
-    }
-
-    return mission.title;
+    return parseInt(setting._id) > 0 && mission ? mission.title : `${UNKNOWN_MISSION_LABEL}（ID：${setting._id}）`;
   }
 
   onClickDelete(): void {
