@@ -6,6 +6,7 @@ import NotificationService from "../../../../Services/Notification";
 import { Kind } from "../../../Models/Queue/Queue";
 import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
 import SoundService from "../../../../Services/Sound";
+import DisableMissionNotificationsSettingView from "./DisableMissionNotificationsSetting"
 
 class NotificationSettingView extends React.Component<{
   label: string,
@@ -179,6 +180,7 @@ export default class NotificationSettings extends React.Component {
         <NotificationSettingView label="建造" kind={Kind.Shipbuilding} />
         <NotificationSettingView label="疲労回復" kind={Kind.Tiredness} />
         <QuestAlertSettingView />
+        <DisableMissionNotificationsSettingView />
       </section>
     );
   }

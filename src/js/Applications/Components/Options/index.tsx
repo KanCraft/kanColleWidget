@@ -12,7 +12,6 @@ import AnnounceView from "./Announce";
 import DashboardDesignView from "./DashboardDesign";
 import FrameSettingView from "./Frames";
 import DeckCaptureSettingView from "./DeckCapture";
-import DisableMissionNotificationSettingView from "./DisableMissionNotificationSettings";
 
 export default class OptionsPage extends Component {
   render() {
@@ -26,7 +25,6 @@ export default class OptionsPage extends Component {
         <InAppButtonSettingView />
         <FrameSettingView />
         <DeckCaptureSettingView />
-        <DisableMissionNotificationSettingView />
         {NODE_ENV == "production" ? null : <Debugger />}
       </div>
     );

@@ -3,7 +3,7 @@ import DisableMissionNotificationSetting from "../../../Models/Settings/DisableM
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faPencilAlt, faCheck, faPlus, faExpandArrowsAlt, faCompressArrowsAlt } from "@fortawesome/free-solid-svg-icons";
 import missionCatalog from "../../../Models/Queue/missions";
-import SectionTitle from "../SectionTitle";
+import ResetButton from "../ResetButton";
 
 interface mission {
   id: number,
@@ -172,11 +172,10 @@ export default class DisableMissionNotificationSettingView extends React.Compone
     const { settings, addMode } = this.state;
     return (
       <section className="category notification-setting">
-        <SectionTitle models={[DisableMissionNotificationSetting]}>遠征設定</SectionTitle>
         <div className={"container"}>
           <div className="columns">
             <div className="column col-12">
-              <h5>非通知遠征</h5>
+              <h5>非通知遠征 <ResetButton models={[DisableMissionNotificationSetting]}/></h5>
               <blockquote className="description text-gray">遠征に出した際に通知を行わない遠征を設定できます。<br />新しい遠征で、艦これウィジェットの更新が追いついていない場合はIDを入力できます。（折り畳みの画像を参照）</blockquote>
             </div>
             <UnknownMissionHelp />
