@@ -1,7 +1,7 @@
 import React from "react";
 import DisableMissionNotificationSetting from "../../../Models/Settings/DisableMissionNotificationSetting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faCheck, faPlus, faExpandArrowsAlt, faCompressArrowsAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 import missionCatalog from "../../../Models/Queue/missions";
 import ResetButton from "../ResetButton";
 

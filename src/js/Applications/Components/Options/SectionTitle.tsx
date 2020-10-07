@@ -17,10 +17,4 @@ export default class SectionTitle extends React.Component<{
       <ResetButton models={this.props.models}/>
     );
   }
-  private onClickResetButton() {
-    const ok = window.confirm("このセクションの設定を初期状態に戻しますか？");
-    if (!ok) return;
-    this.props.models.map(m => m.drop());
-    window.location.reload();
-  }
 }
