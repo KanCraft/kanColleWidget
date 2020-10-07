@@ -1,5 +1,4 @@
 import Queue, { Scanned, Kind } from "./Queue";
-import DisableMissionNotificationSetting from "../Settings/DisableMissionNotificationSetting";
 
 import catalog from "./missions";
 
@@ -57,9 +56,5 @@ export default class Mission extends Queue {
       message: "遠征カタログへの追加要望をおねがいします",
       iconUrl,
     };
-  }
-
-  shouldNotify(): boolean {
-    return !DisableMissionNotificationSetting.hasMissionId(this.id);
   }
 }

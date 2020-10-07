@@ -1,7 +1,7 @@
 import React from "react";
 import DisableMissionNotificationSetting from "../../../Models/Settings/DisableMissionNotificationSetting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faPencilAlt, faCheck, faPlus, faExpandArrowsAlt, faCompressArrowsAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt, faCheck, faPlus, faExpandArrowsAlt, faCompressArrowsAlt } from "@fortawesome/free-solid-svg-icons";
 import missionCatalog from "../../../Models/Queue/missions";
 import ResetButton from "../ResetButton";
 
@@ -24,7 +24,7 @@ class DisableMissionNotificationEditor extends React.Component <{
 }> {
   constructor(props) {
     super(props);
-    const setting: DisableMissionNotificationSetting = props.setting || DisableMissionNotificationSetting.new();
+    const setting: DisableMissionNotificationSetting = props.setting || DisableMissionNotificationSetting.new({ _id: 0 });
     const missions = Object
       .keys(missionCatalog)
       .filter(id => parseInt(id) > 0)
@@ -36,7 +36,7 @@ class DisableMissionNotificationEditor extends React.Component <{
       });
     this.state = {
       setting: setting,
-      missionId: setting.missionId,
+      missionId: parseInt(setting._id),
       editMode: props.setting === null,
       missions: missions
     };
@@ -58,7 +58,7 @@ class DisableMissionNotificationEditor extends React.Component <{
           {editMode ? [
             <button key={0} className="btn btn-sm btn-primary float-right" title="保存" onClick={() => this.onClickSave()}><FontAwesomeIcon icon={faCheck} /></button>,
             <button key={1} className="btn btn-sm btn-error float-right" title="削除" onClick={() => this.onClickDelete()}><FontAwesomeIcon icon={faTrashAlt} /></button>
-          ] : <button className="btn btn-sm btn-link float-right" title="編集" onClick={() => this.setState({ editMode: true })}><FontAwesomeIcon icon={faPencilAlt} /></button>}
+          ] : <button className="btn btn-sm btn-link float-right" title="削除" onClick={() => this.onClickDelete()}><FontAwesomeIcon icon={faTrashAlt} /></button>}
         </div>
       </div>
     );
@@ -72,13 +72,24 @@ class DisableMissionNotificationEditor extends React.Component <{
 
   onClickSave(): void {
     const { setting, missionId } = this.state;
-    setting.missionId = missionId;
+    setting._id = missionId.toString();
     setting.save();
     this.done();
   }
 
   onClickDelete(): void {
     const { setting } = this.state;
+    if (!setting._id) {
+      this.props.done();
+      return;
+    }
+
+    const title = this.getSelectedMissionTitle();
+    const isAccepted = window.confirm(`以下の非通知遠征を削除してもいいですか？\n\n${title}`);
+    if (!isAccepted) {
+      return;
+    }
+
     setting.delete();
     this.done();
   }

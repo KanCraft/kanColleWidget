@@ -1,6 +1,7 @@
 import NotificationService from "../../../../Services/Notification";
 import Mission from "../../../Models/Queue/Mission";
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
+import DisableMissionNotificationSetting from "../../../Models/Settings/DisableMissionNotificationSetting";
 import { DebuggableRequest } from "../../../../definitions/debuggable";
 
 export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetails) {
@@ -11,7 +12,7 @@ export async function OnMissionStart(req: chrome.webRequest.WebRequestBodyDetail
     await notifications.create(`MissionNotFound?ts=${Date.now()}&mid=${mid}`, Mission.notfoundNotification(mid));
     return { status: 404 };
   }
-  if (!mission.shouldNotify()) {
+  if (DisableMissionNotificationSetting.find(mid)) {
     return { status: 202, mission };
   }
   mission.register();
