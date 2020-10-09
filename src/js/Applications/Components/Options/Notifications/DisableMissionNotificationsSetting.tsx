@@ -6,19 +6,14 @@ import missionCatalog from "../../../Models/Queue/missions";
 import Mission from "../../../Models/Queue/Mission";
 import ResetButton from "../ResetButton";
 
-interface mission {
-  id: number | string,// numberにしたいが、../../../Models/Queue/Mission.id からキャストするため、同一の型である必要がある
-  title: string
-}
-
 const UNKNOWN_MISSION_LABEL = "知らない子ですね...";
 const UNKNOWN_MISSION_ID = 0;
 
 class DisableMissionNotificationCreator extends React.Component <{
   done: () => void;
 }, {
-  missions: mission[]
-  missionId: number,
+  missions: { id: number | string, title: string }[];
+  missionId: number;
 }> {
   constructor(props) {
     super(props);
@@ -68,7 +63,7 @@ class DisableMissionNotificationCreator extends React.Component <{
   }
 }
 
-class DisableMissionNotificationEditor extends React.Component <{
+class DisableMissionNotification extends React.Component <{
   done: () => void;
   setting: DisableMissionNotificationSetting;
 }> {
@@ -126,7 +121,7 @@ export default class DisableMissionNotificationSettingView extends React.Compone
             </div>
             {
               settings.map((setting) =>
-                <DisableMissionNotificationEditor key={setting._id} done={() => this.refresh()} setting={setting}/>
+                <DisableMissionNotification key={setting._id} done={() => this.refresh()} setting={setting}/>
               )
             }
             {
