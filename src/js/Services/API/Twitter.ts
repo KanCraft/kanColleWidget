@@ -22,6 +22,9 @@ export interface Status {
   id_str: string;
   text: string;
   user: User;
+  entities: {
+    media: Media[];
+  };
 }
 
 export interface Media {
@@ -31,6 +34,7 @@ export interface Media {
   };
   media_id_string: string;
   media_key: string;
+  media_url_https?: string;
   size: number;
 }
 

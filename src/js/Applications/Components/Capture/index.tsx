@@ -17,12 +17,15 @@ import ScreenshotSetting from "../../Models/Settings/ScreenshotSetting";
 import DrawToolBase, { ToolParams } from "./Tools/DrawToolBase";
 import Rect from "./Tools/Rect";
 import Crop from "./Tools/Crop";
+import TweetModal from "./Tweet/Modal";
+import TwitterSetting from "../../Models/Settings/TwitterSetting";
 
 export default class CapturePage extends Component<{}, {
   uri: string,
   info: string,
   tool?: typeof DrawToolBase, // コンストラクタのみstateとして持つ
   color: string,
+  tweet: boolean;
 }> {
   private canvas: RefObject<HTMLCanvasElement>;
   // {{{ Drawer Tools 系
@@ -40,6 +43,7 @@ export default class CapturePage extends Component<{}, {
       info: search.get("info"),
       tool: null,
       color: "#01d0d0",
+      tweet: false,
     };
     this.canvas = createRef<HTMLCanvasElement>();
   }
@@ -82,6 +86,7 @@ export default class CapturePage extends Component<{}, {
     });
   }
   render() {
+    const auth = TwitterSetting.user().authorized;
     return (
       <div className="pane-container">
         <div className="container main-pane">
@@ -125,10 +130,10 @@ export default class CapturePage extends Component<{}, {
                     />
                   </div>
                   <div className="divider"></div>
-                  <div>
+                  <div className="tooltip tooltip-right" data-tooltip={auth ? "ツイート" : "設定画面で連携してください"}>
                     <FontAwesomeIcon
                       className="c-hand" icon={faTwitter as IconProp}
-                      onClick={() => this.tweetImage()}
+                      onClick={() => auth ? this.setState({ tweet: true }) : null}
                     />
                   </div>
                   <div className="divider"></div>
@@ -156,6 +161,12 @@ export default class CapturePage extends Component<{}, {
             <code>{this.state.info}</code>
           </pre> : null}
         </div>
+        {this.state.tweet ? <TweetModal
+          images={() => this.getImageURLs()}
+          open={this.state.tweet}
+          done={() => this.setState({ tweet: false })}
+          tweet={(text, indices) => this.tweetImage(text, indices)}
+        /> : null}
       </div>
     );
   }
@@ -200,19 +211,31 @@ export default class CapturePage extends Component<{}, {
     );
   }
 
-  private getBlob(): Promise<Blob> {
+  private getBlobs(indices: number[] = []): Promise<Blob[]> {
+    if (indices.length == 0) return Promise.resolve([]);
     // TODO: クオリティを考慮するべきか？
     // TODO: 連合艦隊は2枚のmediaにしたい
-    return new Promise(resolve => this.canvas.current.toBlob(resolve, "image/jpeg"));
+    return Promise.all([
+      new Promise(resolve => this.canvas.current.toBlob(resolve, "image/png"))
+    ]);
   }
 
-  private async tweetImage() {
-    const blob = await this.getBlob();
+  private getImageURLs(): string[] {
+    return [this.canvas.current.toDataURL("image/png")];
+  }
+
+  private async tweetImage(text: string, _indices: number[] = []): Promise<string> {
+    const blobs: Blob[] = await this.getBlobs(_indices);
     const api = new TwitterAPI();
-    const media = await api.uploadSingleImage(blob);
-    // TODO: textを入力させるUIをつくる
-    const status = await api.postTweetWithMedia(`Test ${Date.now()}`, [media]);
-    // TODO: ツイート後のインタラクションを考える
-    window.open(`https://twitter.com/${status.user.screen_name}/status/${status.id_str}`);
+    const media = await api.uploadSingleImage(blobs[0]);
+    const status = await api.postTweetWithMedia(text, [media]);
+    const url = `https://twitter.com/${status.user.screen_name}/status/${status.id_str}`;
+    chrome.notifications.create(url, {
+      title: url,
+      message: text,
+      type: "basic",
+      iconUrl: status.entities.media[0].media_url_https,
+    });
+    return url;
   }
 }
