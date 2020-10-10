@@ -7,12 +7,12 @@ import OfficialTwitterView from "./OfficialTwitter";
 
 export default class PopupPage extends Component {
   render() {
-    const { displayOfficialTwitter } = TwitterSetting.user();
+    const setting = TwitterSetting.user();
     return (
       <div className="container popup" style={{width: "320px"}}>
         <LaunchTrigger />
         <IconMenu />
-        {displayOfficialTwitter ? <OfficialTwitterView /> : null}
+        {(setting.authorized && setting.displayOfficialTwitter) ? <OfficialTwitterView /> : null}
       </div>
     );
   }
