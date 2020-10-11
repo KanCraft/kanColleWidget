@@ -3,7 +3,7 @@ import Mission from "../../Models/Queue/Mission";
 import Recovery from "../../Models/Queue/Recovery";
 import Shipbuilding from "../../Models/Queue/Shipbuilding";
 import Tiredness from "../../Models/Queue/Tiredness";
-import { Kind } from "../../Models/Queue/Queue";
+import Queue, { Kind } from "../../Models/Queue/Queue";
 import NotificationSetting from "../../Models/Settings/NotificationSetting";
 import SoundService from "../../../Services/Sound";
 
@@ -23,6 +23,21 @@ async function showNotifications(finished: (Mission | Recovery | Shipbuilding | 
   });
 }
 
+function updateBadge(queue: Queue) {
+  let text, color: string;
+  const upto = (new Date()).upto(queue.scheduled);
+  if (upto.hours > 0) text = `${upto.hours}h`;
+  else text = `${upto.minutes}m`;
+  switch (queue.kind()) {
+  case Kind.Mission: color = "#5755d9"; break;
+  case Kind.Recovery: color = "#56c2c1"; break;
+  case Kind.Shipbuilding: color = "#fa9836"; break;
+  case Kind.Tiredness: default: color = "gray";
+  }
+  chrome.browserAction.setBadgeText({ text });
+  chrome.browserAction.setBadgeBackgroundColor({ color });
+}
+
 export async function UpdateQueues() {
 
   const missions = Mission.scan();
@@ -38,6 +53,12 @@ export async function UpdateQueues() {
   ];
   await showNotifications(finished);
 
-  // const nearest = upcoming.sort((p, n) => p.scheduled < n.scheduled ? -1 : 1)[0];
-  // console.log("TODO: これでバッジとかどうにかする", nearest);
+  const upcoming =  [
+    ...missions.upcomming,
+    ...recoveries.upcomming,
+    ...shipbuildings.upcomming,
+    ...tiredness.upcomming,
+  ];
+  const nearest = upcoming.sort((p, n) => p.scheduled < n.scheduled ? -1 : 1)[0];
+  updateBadge(nearest);
 }

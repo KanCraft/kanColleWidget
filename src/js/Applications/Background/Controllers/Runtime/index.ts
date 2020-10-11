@@ -1,4 +1,4 @@
-import KanColleServerSetting from "../../../Models/Settings/KanColleServerSetting";
+// import KanColleServerSetting from "../../../Models/Settings/KanColleServerSetting";
 import NotificationService from "../../../../Services/Notification";
 // import WindowService from "../../../../Services/Window";
 
