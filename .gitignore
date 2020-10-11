@@ -47,6 +47,7 @@ v2_backup
 config/*
 !config/example/
 !config/example/*
+!config/dev/.gitkeep
 
 dest/css/
 # https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151
