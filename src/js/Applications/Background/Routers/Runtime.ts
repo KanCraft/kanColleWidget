@@ -1,10 +1,5 @@
 import { Router } from "chomex";
-import { OnInstalled, OnUpdateAvailable, OnUpdated } from "../Controllers/Runtime";
-
-const installed = new Router((d: chrome.runtime.InstalledDetails) => ({ name: d.reason }));
-installed.on("install", OnInstalled);
-installed.on("update", OnUpdated);
-export const OnInstalledListener = installed.listener();
+import { OnUpdateAvailable } from "../Controllers/Runtime";
 
 const onUpdateAvailable = new Router(() => ({ name: "*" }));
 onUpdateAvailable.on("*", OnUpdateAvailable);

@@ -12,11 +12,9 @@ import MessageListener from "../Applications/Background/Routers/Message";
 chrome.runtime.onMessage.addListener(MessageListener);
 
 import {
-  OnInstalledListener,
   OnUpdateAvailableListener,
 } from "../Applications/Background/Routers/Runtime";
 chrome.runtime.onUpdateAvailable.addListener(OnUpdateAvailableListener);
-chrome.runtime.onInstalled.addListener(OnInstalledListener);
 
 import WebRequestListener from "../Applications/Background/Routers/WebRequest";
 chrome.webRequest.onBeforeRequest.addListener(WebRequestListener, { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);
