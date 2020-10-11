@@ -6,6 +6,28 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const mode = process.env.NODE_ENV == "staging" ? "production" : (process.env.NODE_ENV || "development");
 
+const firebaseconfigstr = ((env) => {
+  switch (env) {
+  case "staging":
+  case "production":
+    return process.env.FIREBASE_CONFIG_JSONSTR;
+  case "development":
+  default:
+    return JSON.stringify(require("./config/dev/firebase.json"));
+  }
+})(process.env.NODE_ENV);
+
+const twitterconfigstr = ((env) => {
+  switch (env) {
+  case "staging":
+  case "production":
+    return JSON.stringify({ key: process.env.TWITTER_CONSUMER_KEY, secret: process.env.TWITTER_CONSUMER_SECRET });
+  case "development":
+  default:
+    return JSON.stringify(require("./config/dev/twitter.json"));
+  }
+})(process.env.NODE_ENV);
+
 module.exports = [
   {
     mode,
@@ -42,7 +64,11 @@ module.exports = [
       extensions: [".ts", ".js", ".tsx"]
     },
     plugins: [
-      new webpack.DefinePlugin({"NODE_ENV": JSON.stringify(process.env.NODE_ENV)}),
+      new webpack.DefinePlugin({
+        "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+        "FIREBASE_CONFIG": firebaseconfigstr,
+        "TWITTER_CONFIG": twitterconfigstr,
+      }),
     ],
     performance: {
       hints: false,

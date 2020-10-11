@@ -27,4 +27,62 @@
       cursor: pointer;
     }
   }
+
+  .container.popup {
+    >.columns:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+
+  .official-twitter {
+    @keyframes wave {
+      0% {
+        width:  0%;
+        height: 0%;
+        box-shadow: 0 0 100px inset #e0e0e0;
+        transform: none;
+      }
+      100% {
+        width:  60%;
+        height: 60%;
+        opacity:   0;
+        transform: none;
+      }
+    }
+    &.tweet-container {
+      max-height: 380px;
+      overflow-y: scroll;
+      .status {
+        .text-small {
+          font-size: small;
+        }
+        .text-tiny {
+          font-size: x-small;
+        }
+      }
+    }
+    .loader-ripple {
+      width: 40vw;
+      height: 40vw;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div {
+        animation: wave 1s infinite;
+        position: absolute;
+        border: solid thin #303030;
+        border-radius: 50%;
+        &:nth-child(0) {
+          animation-delay: 0s;
+        }
+        &:nth-child(1) {
+          animation-delay: 100ms;
+        }
+        &:nth-child(2) {
+          animation-delay: 100ms;
+        }
+      }
+    }
+  }
 }

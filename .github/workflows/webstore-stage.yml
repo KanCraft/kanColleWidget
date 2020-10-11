@@ -10,6 +10,7 @@ jobs:
       # v3開発版のAPP_ID
       CHROMEWEBSTORE_APP_ID: egkgleinehaapbpijnlpbllfeejjpceb
       NODE_ENV: staging
+      FIREBASE_CONFIG_JSONSTR: ${{ secrets.FIREBASE_CONFIG_JSONSTR }}
     steps:
     - uses: actions/checkout@v2
       with:

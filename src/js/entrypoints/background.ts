@@ -1,6 +1,13 @@
 /// <reference types="chrome" />
 import "./global-pollution";
 
+// {{{ 現状、設定画面のruntimeだけで完結しているので、ここでは必要ない
+// import * as firebase from "firebase/app";
+// import "firebase/auth";
+// declare const FIREBASE_CONFIG: string;
+// firebase.initializeApp(FIREBASE_CONFIG);
+// }}}
+
 import MessageListener from "../Applications/Background/Routers/Message";
 chrome.runtime.onMessage.addListener(MessageListener);
 

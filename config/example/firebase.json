@@ -1,0 +1,10 @@
+{
+  "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "authDomain": "xxxxxxxxxxxxxxxxxxx.firebaseapp.com",
+  "databaseURL": "https://xxxxxxxxxxxxxxxxxxxxx.firebaseio.com",
+  "projectId": "kancollewidget",
+  "storageBucket": "xxxxxxxxxxxxxx.appspot.com",
+  "messagingSenderId": "111111111111111",
+  "appId": "1:xxxxxxxxxxxxxxxxxxxxxxxx",
+  "measurementId": "X-XXXXXXXXXXXXXXXXXXXX"
+}

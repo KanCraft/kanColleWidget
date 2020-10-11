@@ -61,7 +61,7 @@ export default class IconMenu extends Component<{}, {
   render() {
     const { menu } = this.state;
     return (
-      <div className="columns" style={{marginTop: "18px"}}>
+      <div className="columns icon-menu">
         {this.viewForMenu(menu)}
       </div>
     );
