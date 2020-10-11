@@ -13,9 +13,10 @@ export default class SideBar extends Component<{
   row; col; page: number;
   modified: boolean;
   openModal: () => void;
+  deleteSetting: (_id) => void;
 }> {
   render(): JSX.Element {
-    const { settings, selected, preview, row, col, page, modified, openModal } = this.props;
+    const { settings, selected, preview, row, col, page } = this.props;
     return (
       <div className="container sidebar">
         <div className="form-group">
@@ -92,12 +93,7 @@ export default class SideBar extends Component<{
           <input type="number" min="1" className="form-input" value={page} onChange={ev => this.props.onModify("page", parseInt(ev.target.value))} />
           <span className="input-group-addon">ページ</span>
         </div>
-
-        {modified ? <div>
-          <button className="btn" style={{ width: "100%" }}
-            onClick={() => openModal()}
-          >この設定に名前をつけて保存</button>
-        </div>: null}
+        {this.renderAdditionalAction()}
       </div>
     );
   }
@@ -110,5 +106,27 @@ export default class SideBar extends Component<{
       width: `${Math.floor(w * 100)}%`,
       height: `${Math.floor(h * 100)}%`,
     };
+  }
+
+  private renderAdditionalAction() {
+    if (this.props.modified) {
+      return (
+        <div>
+          <button className="btn btn-link" style={{ width: "100%" }}
+            onClick={() => this.props.openModal()}
+          >この設定に名前をつけて保存</button>
+        </div>
+      );
+    }
+    if (!this.props.selected.protected) {
+      return (
+        <div>
+          <button className="btn btn-sm btn-link" style={{ width: "100%" }}
+            onClick={() => this.props.deleteSetting(this.props.selected._id)}
+          >この設定を削除</button>
+        </div>
+      );
+    }
+    return null;
   }
 }

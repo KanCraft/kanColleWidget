@@ -6,6 +6,7 @@ export interface DeckCaptureLike {
   title: string;
   row: number; col: number; page: number;
   cell: { x: number; y: number; w: number, h: number; };
+  protected?: boolean;
 }
 
 /**
@@ -61,6 +62,7 @@ export default class DeckCapture extends Model {
       title: this.title,
       row: this.row, col: this.col, page: this.page,
       cell: {...this.cell},
+      protected: this.protected,
     };
   }
 

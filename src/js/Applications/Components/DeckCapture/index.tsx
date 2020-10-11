@@ -72,6 +72,13 @@ export default class DeckCaptureView extends Component<{}, {
               page={page}
               modified={modified}
               openModal={() => this.setState({ open: true })}
+              deleteSetting={(_id) => {
+                const setting = DeckCapture.find<DeckCapture>(_id);
+                if (window.confirm(`「${setting.title}」を削除します`)) {
+                  setting.delete();
+                  window.location.reload();
+                }
+              }}
             />
             {open ? <SettingModal active={open} setting={selected} close={(created: number|string) => {
               created ? this.setState({ settings: DeckCapture.listObj(), selected: DeckCapture.find<DeckCapture>(created), open: false }) : this.setState({ open: false });
