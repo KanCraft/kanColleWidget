@@ -8,6 +8,8 @@ import { Category } from "../../../Models/Quest/consts";
 import NotificationService from "../../../../Services/Notification";
 import QuestAlertSetting from "../../../Models/Settings/QuestAlertSetting";
 import SortieContextSetting from "../../../Models/Settings/SortieContextSetting";
+import NotificationSetting from "../../../Models/Settings/NotificationSetting";
+import { Kind } from "../../../Models/Queue/Queue";
 
 /**
  * @MESSAGE /api_get_member/mapinfo
@@ -30,7 +32,8 @@ export async function OnMapStart(req: DebuggableRequest) {
   context.start(parseInt(area, 10), parseInt(info, 10));
 
   // 疲労タイマーの登録
-  const interval = 15 * 60 * 1000;
+  const notesetting: NotificationSetting = NotificationSetting.find(Kind.Tiredness);
+  const interval = (notesetting.interval || 15) * 60 * 1000;
   const setting = SortieContextSetting.user();
   const tiredness = new Tiredness({ deck, interval, label: context.toText(setting.type, false) });
   tiredness.register(Date.now() + interval);

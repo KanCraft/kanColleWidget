@@ -16,6 +16,8 @@ export default class NotificationSetting extends Model {
   sound: string; // sound URL
   volume?: number; // 音声のボリューム
 
+  interval?: number; // 疲労度のやつだけに存在するやつ.固定の数字.デフォでは15分とか.
+
   start: {
     title: string;
     message: string;
@@ -47,6 +49,7 @@ export default class NotificationSetting extends Model {
       volume?: number,
       start?: { title: string, message: string },
       finish?: { title: string, message: string },
+      interval?: number,
     }
   } = {
     // なんも設定されてないときに使うやつ
@@ -102,6 +105,7 @@ export default class NotificationSetting extends Model {
         title: "疲労回復",
         message: "間もなく、第{0}艦隊の疲労が回復する見込みです",
       },
+      interval: 15,
     },
   }
 

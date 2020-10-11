@@ -22,12 +22,25 @@ class NotificationSettingView extends React.Component<{
   }
   render() {
     const { setting } = this.state;
+    const { kind } = this.props;
     return (
       <div className={`container notification-kind-setting ${this.props.kind}`}>
         <div className="columns">
-          <div className="column col-3 kind-label">
+          <div className={cn("column", "kind-label", kind == Kind.Tiredness ? "col-1" : "col-3" )}>
             <div>{this.props.label}</div>
           </div>
+          {kind == Kind.Tiredness ? <div className="column col-2 form-group">
+            {setting.enabled ? <select
+              disabled={!setting.enabled}
+              className="form-select"
+              onChange={ev => this.setState({ setting: setting.update({ interval: parseInt(ev.currentTarget.value) }) })}
+              value={setting.interval || 15}
+            >
+              <option key="10" value={10}>10分</option>
+              <option key="15" value={15}>15分</option>
+              <option key="20" value={20}>20分</option>
+            </select> : null}
+          </div> : null}
           <div className="column col-1">{this.renderEnabledSwitchView(setting)}</div>
           <div className="column col-2">{this.renderIconChangerView(setting)}</div>
           <div className="column">{this.renderSoundChangerView(setting)}</div>
