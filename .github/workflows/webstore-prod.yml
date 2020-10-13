@@ -14,6 +14,8 @@ jobs:
       CHROMEWEBSTORE_APP_ID: iachoklpnnjfgmldgelflgifhdaebnol
       NODE_ENV: production
       FIREBASE_CONFIG_JSONSTR: ${{ secrets.FIREBASE_CONFIG_JSONSTR }}
+      TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+      TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
     steps:
     - uses: actions/checkout@v2
     - run: |
@@ -70,7 +72,5 @@ jobs:
         echo "[DEBUG] ${announcement}"
         npm run tweet "${announcement}"
       env:
-        TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
-        TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
         TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
         TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
