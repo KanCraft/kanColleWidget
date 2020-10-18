@@ -36,7 +36,6 @@ jobs:
         BODY: ${{ github.event.comment.body }}
         URL: ${{ github.event.comment.html_url }}
       run: |
-        echo "[DEBUG] ORIG: ${{ github.event.comment.body }}"
         echo "[DEBUG] BODY: ${BODY}"
         if [ ${#BODY} -gt 80 ]; then TEXT="$(echo ${BODY} | cut -c1-80)…"; else TEXT=${BODY}; fi;
         echo "[DEBUG] TEXT: ${TEXT}"
