@@ -56,6 +56,10 @@ jobs:
       run: npm run announce
       if: ${{ env.SHOULD_DELIVER_DEV }}
 
+    - name: Create RELEASE PR
+      run: npm run create-release-pr
+      if: ${{ env.SHOULD_DELIVER_DEV }}
+
     # SHOULD_DELIVER_DEV に関わらず、announcement.txtの内容をツイートする
     - name: Tweet announcement
       run: |

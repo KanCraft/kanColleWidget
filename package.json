@@ -16,6 +16,7 @@
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
     "lint": "eslint src && eslint tests",
+    "create-release-pr": "node ./scripts/create-release-pr.js",
     "test": "jest --coverage"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
@@ -26,6 +27,8 @@
   },
   "homepage": "https://github.com/otiai10/kanColleWidget#readme",
   "devDependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
     "@types/chrome": "0.0.114",
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.13",
