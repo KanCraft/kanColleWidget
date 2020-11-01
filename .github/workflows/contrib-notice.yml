@@ -37,7 +37,7 @@ jobs:
         URL: ${{ github.event.comment.html_url }}
       run: |
         echo "[DEBUG] BODY: ${BODY}"
-        if [ ${#BODY} -gt 80 ]; then TEXT="$(echo ${BODY} | cut -c1-80)…"; else TEXT=${BODY}; fi;
+        if [ ${#BODY} -gt 80 ]; then TEXT="$(echo ${BODY} | cut -n -c1-80)…"; else TEXT=${BODY}; fi;
         echo "[DEBUG] TEXT: ${TEXT}"
         echo -ne "${SENDER}さんがコメントしました！\n> ${TEXT}\n${URL}" >> announcement.txt
 
