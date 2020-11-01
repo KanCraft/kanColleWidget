@@ -48,6 +48,7 @@ config/*
 !config/example/
 !config/example/*
 !config/dev/.gitkeep
+announcement.txt
 
 dest/css/
 # https://github.com/webpack-contrib/mini-css-extract-plugin/issues/151

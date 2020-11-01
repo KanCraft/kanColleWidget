@@ -1,10 +1,7 @@
 name: Web Store PRODUCTION
-# Tagはwebstore-stageが作るので、
-# これをreleaseしたら、このworkflowが走ります.
 on:
-  release:
-    types:
-    - published
+  issue_comment:
+    types: [created, deleted]
 
 jobs:
   delivery:
