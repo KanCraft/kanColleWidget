@@ -12,7 +12,7 @@ if (require.main == module) {
   if (process.argv.length < 3) return;
   const status = process.argv[2];
   twitter.post("statuses/update", {status}).then(tweet => {
-    console.log(`Tweet:\thttps://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id}\nStatus:\t${status}`);
+    console.log(`Tweet:\thttps://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}\nStatus:\t${status}`);
     process.exit(0);
   }).catch(err => {
     console.error("Error:", err);
