@@ -23,7 +23,7 @@ async function main() {
   // すでに "RLEASE PR" が開いているなら、bodyの更新、無いならPRの作成をする
   const head = "develop", base = "main";
   const title = `RELEASE: ${process.env.NEW_TAG || (new Date()).toLocaleDateString()}`;
-  const body = commits.map(c => `${c.hash} (${c.author}) ${c.message}`).join("\n");
+  const body = commits.map(c => `${c.hash} (${c.author}) ${c.message}`).join("\n") + "\n\nこのバージョンをリリースするには、コメント欄に `:+1:` とコメントしてください.";
   const exists = await octokit.pulls.list({ owner, repo, head, base, state: "open" })
   if (exists.data.length) {
     const res = await octokit.pulls.update({ owner, repo, title, body, pull_number: exists.data[0].number });
