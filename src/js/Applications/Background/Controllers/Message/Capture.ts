@@ -31,20 +31,21 @@ export async function Screenshot(
   const area = message.rect ? rect.reframe(message.rect) : rect.game();
   const trimmed = ts.trim(area);
 
-  if (message.open) {
-    if (setting.skipPage) {
-      const service = DownloadService.new();
-      const filename = setting.getFullDownloadPath();
-      await service.download({ url: trimmed, filename });
-      new NotificationService().create(`Screenshot?ts=${Date.now()}`, {
-        iconUrl: trimmed,
-        title: "スクリーンショットを保存",
-        message: filename,
-      });
-    } else {
-      const key = await TempStorage.new().store(`capture_${Date.now()}`, trimmed);
-      WindowService.getInstance().openCapturePage({ key });
-    }
+  if (!message.open) return {status: 202, uri: trimmed};
+
+  if (setting.skipPage) {
+    const service = DownloadService.new();
+    const filename = setting.getFullDownloadPath();
+    await service.download({ url: trimmed, filename });
+    new NotificationService().create(`Screenshot?ts=${Date.now()}`, {
+      iconUrl: trimmed,
+      title: "スクリーンショットを保存",
+      message: filename,
+    });
+  } else {
+    const key = await TempStorage.new().store(`capture_${Date.now()}`, trimmed);
+    WindowService.getInstance().openCapturePage({ key });
   }
+
   return {status: 202, uri: trimmed};
 }
