@@ -2,8 +2,9 @@
 
 ![CI](https://github.com/KanCraft/kanColleWidget/workflows/CI/badge.svg?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/KanCraft/kanColleWidget/badge.svg?branch=develop)](https://coveralls.io/github/KanCraft/kanColleWidget?branch=develop)
-[![Web Store TEST](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20TEST/badge.svg)](https://groups.google.com/forum/#!forum/kcwidget)
 [![Contribution Notice](https://github.com/KanCraft/kanColleWidget/workflows/Contribution%20Notice/badge.svg)](https://twitter.com/KanColleWidget)
+[![Web Store TEST](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20TEST/badge.svg)](https://groups.google.com/forum/#!forum/kcwidget)
+![Web Store PRODUCTION](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20PRODUCTION/badge.svg)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/iachoklpnnjfgmldgelflgifhdaebnol.svg)](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol?hl=ja)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/iachoklpnnjfgmldgelflgifhdaebnol.svg)](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol?hl=ja)
