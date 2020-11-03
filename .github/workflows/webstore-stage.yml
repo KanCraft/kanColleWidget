@@ -3,7 +3,8 @@ on:
   # scheduleはdefault-latestでしか動かない
   # https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#scheduled-events
   schedule:
-    - cron: '0 4 * * *'
+    # - cron: '0 4 * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   delivery:

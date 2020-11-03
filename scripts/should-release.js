@@ -70,21 +70,29 @@ async function shouldReleaseStage() {
   // const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   // const tags = await octokit.repos.listTags({ repo, owner, });
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
+  console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
 
   // (1) コミットが無い
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
+  console.log("[DEBUG]", "count:", count);
   if (parseInt(count, 10) == 0) {
     return await writeAnnouncement("開発鎮守府海域、異常なし.");
   };
 
+  // 直近タグからのコミットリスト取得
+  const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
+  console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
+
   // (2) アプリケーションに変更が無い
-  const app_files_count = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD | grep "^src/\|^dest\|^manifest.json" | wc -l`).toString().trim();
+  const app_files_count = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
+    if (!line) return false;
+    console.log("[INFO]", line.trim());
+    return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
+  });
+  console.log("[DEBUG]", "app_files_count:", app_files_count);
   if (parseInt(app_files_count, 10) == 0) {
     return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
   }
-
-  // 直近タグからのコミットリスト取得
-  const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
