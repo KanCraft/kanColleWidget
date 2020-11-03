@@ -1,4 +1,4 @@
-import { OnNotificationClick } from "../../../../src/js/Applications/Background/Controllers/Notification";
+import { OnMissionNotFoundClick, OnNotificationClick } from "../../../../src/js/Applications/Background/Controllers/Notification";
 import {fake} from "../../../tools";
 
 describe("OnNotificationClick", () => {
@@ -11,5 +11,12 @@ describe("OnNotificationClick", () => {
     fake(chrome.tabs.update).callbacks({});
     await OnNotificationClick("Test");
     done();
+  });
+});
+
+describe("OnMissionNotFoundClick", () => {
+  it("なんかする", async () => {
+    window.open = jest.fn();
+    await OnMissionNotFoundClick("xxx");
   });
 });
