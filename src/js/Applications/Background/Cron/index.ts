@@ -24,6 +24,7 @@ async function showNotifications(finished: (Mission | Recovery | Shipbuilding | 
 }
 
 function updateBadge(queue: Queue) {
+  if (!queue) return chrome.browserAction.setBadgeText({ text: "" });
   let text, color: string;
   const upto = (new Date()).upto(queue.scheduled);
   if (upto.hours > 0) text = `${upto.hours}h`;
