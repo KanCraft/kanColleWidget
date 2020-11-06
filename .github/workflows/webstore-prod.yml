@@ -1,10 +1,9 @@
 name: Web Store PRODUCTION
-on:
-  issue_comment:
-    types: [created, deleted]
+on: issue_comment
 
 jobs:
-  delivery:
+  pr_commented:
+    if: ${{ github.event.issue.state == 'open' && github.event.action == 'created' && github.event.issue.pull_request != null }}
     runs-on: ubuntu-latest
     env:
       # 本番用のAPP_ID
@@ -19,6 +18,11 @@ jobs:
         echo "[DEBUG] github.event_name: ${{ github.event_name }}"
         echo "[DEBUG] github.event.action: ${{ github.event.action }}"
         echo "[DEBUG] github.ref: ${{ github.ref }}"
+        echo "[DEBUG] github.event.head: ${{ github.event.head }}"
+        echo "[DEBUG] github.event.issue.pull_request.head: ${{ github.event.issue.pull_request.head }}"
+        echo "[DEBUG] github.event.issue.pull_request.base: ${{ github.event.issue.pull_request.base }}"
+        echo "[DEBUG] github.head_ref: ${{ github.head_ref }}"
+        echo "[DEBUG] github.base_ref: ${{ github.base_ref }}"
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
