@@ -20,6 +20,11 @@ const github = require("@actions/github");
 const shell = require("child_process");
 const fs = require("fs").promises;
 
+function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
+  const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
+  return pulls[0];
+}
+
 function formatTweetStatus(header, commits, hashtag, suffix = "") {
   const MAX_LENGTH = 140;
   const status = `${header}\n${commits.join("\n")}\n${suffix}\n${hashtag}`;
@@ -130,11 +135,10 @@ async function shouldReleaseStage() {
 // - SHOULD_RELEASE_PRODUCTION=yes
 async function shouldReleaseProduction() {
   const { repo, owner } = github.context.repo;
-  const head = "develop", base = "main";
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-  const pulls = await octokit.pulls.list({ repo, owner, head, base, state: "open" });
-  if (pulls.data.length == 0) return;
-  const [pr] = pulls.data;
+  const pr = getReleasePR(octokit);
+  if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
+  // TODO: このworkflowをトリガしたissue/prが、リリースPRではない
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
   if (comments.data.length == 0) return;
   const EXPRESSION = /(:\+1:|:shipit:|LGTM)/i;
