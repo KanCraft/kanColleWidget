@@ -25,6 +25,15 @@ function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head
   return pulls[0];
 }
 
+function getReleasePRAnnounce(pr) {
+  return (
+    `自動リリースプロセスがOPENしています.
+    テストユーザ各位は、テストリリースに問題が無ければ、下記リンクで :+1: とコメントしてください.
+    ${pr.title}
+    ${pr.html_url}`
+  );
+}
+
 function formatTweetStatus(header, commits, hashtag, suffix = "") {
   const MAX_LENGTH = 140;
   const status = `${header}\n${commits.join("\n")}\n${suffix}\n${hashtag}`;
@@ -70,18 +79,23 @@ async function updateVersion(next_version) {
 // - NEW_TAG=3.2.2
 // - 副作用: タグをつけてpush backする
 async function shouldReleaseStage() {
-  const { repo, owner } = github.context.repo;
   const BRANCH = "develop";
-  // const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   // const tags = await octokit.repos.listTags({ repo, owner, });
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
   console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
+
+  const pr = getReleasePR(octokit);
 
   // (1) コミットが無い
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
   console.log("[DEBUG]", "count:", count);
   if (parseInt(count, 10) == 0) {
-    return await writeAnnouncement("開発鎮守府海域、異常なし.");
+    if (pr) {
+      return await writeAnnouncement(getReleasePRAnnounce(pr));
+    } else {
+      return await writeAnnouncement("開発鎮守府海域、異常なし.");
+    }
   };
 
   // 直近タグからのコミットリスト取得
@@ -94,7 +108,11 @@ async function shouldReleaseStage() {
   });
   console.log("[DEBUG]", "diff_files:", diff_files.length);
   if (diff_files == 0) {
-    return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+    if (pr) {
+      return await writeAnnouncement(getReleasePRAnnounce(pr));
+    } else {
+      return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+    }
   }
 
   // 次のタグを決定
