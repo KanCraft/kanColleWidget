@@ -156,17 +156,18 @@ async function shouldReleaseProduction() {
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   const pr = getReleasePR(octokit);
   if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
-  // TODO: このworkflowをトリガしたissue/prが、リリースPRではない
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
-  if (comments.data.length == 0) return;
-  const EXPRESSION = /(:\+1:|:shipit:|LGTM)/i;
+  if (comments.data.length == 0) return console.log("[INFO]", "リリースPRにコメントが無い");
+  const EXPRESSION = /(^👍|^:shipit:|^LGTM)/i;
   const REQUIRED_LGTM = 3;
   const summary = comments.data.reduce((ctx, comment) => {
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
-  }, {})
-  if (Object.keys(summary).length < REQUIRED_LGTM) return;
-  const body = `${REQUIRED_LGTM}つのLGTMが集まったのでマージし、プロダクションリリースします！`;
+  }, {});
+  console.log("[INFO]", "SUMMARY\n", summary);
+  const count = Object.keys(summary).length;
+  if (count < REQUIRED_LGTM) return console.log("[INFO]", "LGTM:", count);
+  const body = `${count}つのLGTMが集まったのでマージし、プロダクションリリースします！`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
   core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
