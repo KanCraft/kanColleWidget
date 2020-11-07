@@ -35,8 +35,8 @@ jobs:
 
     - name: リリース必要性の判断
       run: npm run should-release
-      # env:
-      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: npm run build
