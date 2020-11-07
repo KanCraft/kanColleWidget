@@ -20,7 +20,7 @@ const github = require("@actions/github");
 const shell = require("child_process");
 const fs = require("fs").promises;
 
-function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
+async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
   return pulls[0];
 }
@@ -85,7 +85,7 @@ async function shouldReleaseStage() {
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
   console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
 
-  const pr = getReleasePR(octokit);
+  const pr = await getReleasePR(octokit);
 
   // (1) コミットが無い
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
@@ -154,7 +154,7 @@ async function shouldReleaseStage() {
 async function shouldReleaseProduction() {
   const { repo, owner } = github.context.repo;
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-  const pr = getReleasePR(octokit);
+  const pr = await getReleasePR(octokit);
   if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
   if (comments.data.length == 0) return console.log("[INFO]", "リリースPRにコメントが無い");
