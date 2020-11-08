@@ -22,8 +22,7 @@ const fs = require("fs").promises;
 
 async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
-  console.log("[DEBUG]", "PULLS:\n", pulls);
-  return pulls[0];
+  return pulls.data[0];
 }
 
 function getReleasePRAnnounce(pr) {
@@ -86,14 +85,15 @@ async function shouldReleaseStage() {
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
   console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
 
-  const pr = await getReleasePR(octokit);
-  console.log("[INFO]", "RELEASE PR:\n", pr);
-
   // 直近タグからのコミットリスト取得
   const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
   console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
 
-  // (1) コミットが無い
+  // すでに開いているリリースPRを取得
+  const pr = await getReleasePR(octokit);
+  console.log("[DEBUG]", "RELEASE PR:", pr.title);
+
+  // 直近のコミットが無い場合はテストリリースをスキップする
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
   if (parseInt(count, 10) == 0) {
     if (pr) {
@@ -121,6 +121,8 @@ async function shouldReleaseStage() {
 
   // リリースアナウンスを作成
   await writeAnnouncement(createStageReleaseAnnounce(LATEST_TAG, NEW_TAG));
+
+  if (!process.env.GITHUB_WORKFLOW) return console.log("[DEBUG]", "終了")
 
   // jsonファイルをedit
   await updateVersion(NEW_TAG);
