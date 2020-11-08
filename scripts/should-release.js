@@ -22,13 +22,14 @@ const fs = require("fs").promises;
 
 async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
+  console.log("[DEBUG]", "PULLS:\n", pulls);
   return pulls[0];
 }
 
 function getReleasePRAnnounce(pr) {
   return (
     `自動リリースプロセスがOPENしています.
-    テストユーザ各位は、テストリリースに問題が無ければ、下記リンクで :+1: とコメントしてください.
+    テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄で :+1: とコメントしてください.
     ${pr.title}
     ${pr.html_url}`
   );
@@ -86,10 +87,14 @@ async function shouldReleaseStage() {
   console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
 
   const pr = await getReleasePR(octokit);
+  console.log("[INFO]", "RELEASE PR:\n", pr);
+
+  // 直近タグからのコミットリスト取得
+  const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
+  console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
 
   // (1) コミットが無い
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
-  console.log("[DEBUG]", "count:", count);
   if (parseInt(count, 10) == 0) {
     if (pr) {
       return await writeAnnouncement(getReleasePRAnnounce(pr));
@@ -98,22 +103,18 @@ async function shouldReleaseStage() {
     }
   };
 
-  // 直近タグからのコミットリスト取得
-  const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
-  console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
-
-  // (2) アプリケーションに変更が無い
-  const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
-    return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
-  });
-  console.log("[DEBUG]", "diff_files:", diff_files.length);
-  if (diff_files == 0) {
-    if (pr) {
-      return await writeAnnouncement(getReleasePRAnnounce(pr));
-    } else {
-      return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
-    }
-  }
+  // (2) アプリケーションに変更が無い場合テストリリースをスキップする
+  // const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
+  //   return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
+  // });
+  // console.log("[DEBUG]", "diff_files:", diff_files.length);
+  // if (diff_files == 0) {
+  //   if (pr) {
+  //     return await writeAnnouncement(getReleasePRAnnounce(pr));
+  //   } else {
+  //     return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+  //   }
+  // }
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
