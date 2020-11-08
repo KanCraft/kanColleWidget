@@ -12,6 +12,7 @@ jobs:
       FIREBASE_CONFIG_JSONSTR: ${{ secrets.FIREBASE_CONFIG_JSONSTR }}
       TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
       TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
     steps:
     - uses: actions/checkout@v2
     - run: |
