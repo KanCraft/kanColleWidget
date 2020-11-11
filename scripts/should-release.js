@@ -27,10 +27,10 @@ async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget"
 
 function getReleasePRAnnounce(pr) {
   return (
-    `自動リリースプロセスがOPENしています.
-    テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄で :+1: とコメントしてください.
-    ${pr.title}
-    ${pr.html_url}`
+    "自動リリースプロセスがOPENしています."
+    + "テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄で :+1: とコメントしてください.\n\n"
+    + `> ${pr.title} #艦これウィジェット\n`
+    + pr.html_url
   );
 }
 
