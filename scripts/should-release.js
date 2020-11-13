@@ -161,6 +161,8 @@ async function shouldReleaseProduction() {
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   const pr = await getReleasePR(octokit);
   if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
+  if (pr.number != process.env.ISSUE_NUMBER) return console.log("[INFO]", "RELEASE PR 上のコメントではない");
+
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
   if (comments.data.length == 0) return console.log("[INFO]", "リリースPRにコメントが無い");
   const EXPRESSION = /(^👍|^:shipit:|^LGTM)/i;
