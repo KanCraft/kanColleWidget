@@ -180,9 +180,14 @@ async function shouldReleaseProduction() {
   const body = `${count}人の「👍」が集まったのでマージし、プロダクションリリースします！`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
-  core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
 
-  await writeAnnouncement(body + "\n#艦これウィジェット\n" + pr.html_url);
+  const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
+  core.exportVariable("RELEASE_TAG", LATEST_TAG);
+  // {{{ TODO: ここはGitHub上のReleaseであるべきなので、create-release-artifactみたいなタスクが必要
+  core.exportVariable("RELEASE_URL", pr.html_url);
+  // }}}
+
+  core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
 }
 
 async function main() {
