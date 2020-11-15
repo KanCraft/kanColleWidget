@@ -41,7 +41,9 @@ npm start
 
 # リリースフローについて
 
-- `develop`: [test-艦これウィジェット](https://chrome.google.com/webstore/detail/test-%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/egkgleinehaapbpijnlpbllfeejjpceb)に自動でリリースされる
-- `release`: 公開版の[艦これウィジェット](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol)に自動でリリースされる
+- テスト版リリース [test-艦これウィジェット](https://chrome.google.com/webstore/detail/test-%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/egkgleinehaapbpijnlpbllfeejjpceb)
+  - デイリーで`develop`ブランチの差分を見て新しいタグをつけて上記の非公開Chrome拡張にリリースされます
+- プロダクション版リリース [艦これウィジェット](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol)
+  - 上記のデイリーバッチが作成したリリースPRに、規定の人数以上の👍コメントが付くと、公開版にリリースされます
 
-くわしくは[このへん](https://github.com/KanCraft/kanColleWidget/blob/develop/scripts/should_deliver_dev.sh)を参照。
+くわしくは[このへん](https://github.com/KanCraft/kanColleWidget/blob/main/scripts/should-release.js)を参照。
