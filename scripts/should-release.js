@@ -173,11 +173,13 @@ async function shouldReleaseProduction() {
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
   }, {});
-  const count = Object.keys(summary).length;
-  // }}}
   console.log("[INFO]", "SUMMARY\n", summary);
-  if (count < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", count);
-  const body = `${count}人の「👍」が集まったのでマージし、プロダクションリリースします！`;
+  const reviewers = Object.keys(summary);
+  // }}}
+
+  if (reviewers.length < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", reviewers.length);
+  const body = `${reviewers.length}人の「👍」が集まったのでマージし、プロダクションリリースします！\n`
+    + `Thank you! ${reviewers.map(name => "@" + name).join(", ")}`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
 
