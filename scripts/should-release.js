@@ -20,6 +20,22 @@ const github = require("@actions/github");
 const shell = require("child_process");
 const fs = require("fs").promises;
 
+async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
+  const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
+  return pulls.data[0];
+}
+
+const REQUIRED_LGTM_FOR_PRODUCTION_RELEASE = 3;
+function getReleasePRAnnounce(pr) {
+  return (
+    "自動リリースプロセスがOPENしています。\n"
+    + "テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄に「👍」とコメントしてください。\n"
+    + `${REQUIRED_LGTM_FOR_PRODUCTION_RELEASE}人以上の 👍 が集まると自動で本番環境へリリースされます！\n\n`
+    + `> ${pr.title}\n#艦これウィジェット\n`
+    + pr.html_url
+  );
+}
+
 function formatTweetStatus(header, commits, hashtag, suffix = "") {
   const MAX_LENGTH = 140;
   const status = `${header}\n${commits.join("\n")}\n${suffix}\n${hashtag}`;
@@ -65,38 +81,50 @@ async function updateVersion(next_version) {
 // - NEW_TAG=3.2.2
 // - 副作用: タグをつけてpush backする
 async function shouldReleaseStage() {
-  const { repo, owner } = github.context.repo;
   const BRANCH = "develop";
-  // const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   // const tags = await octokit.repos.listTags({ repo, owner, });
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
   console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
-
-  // (1) コミットが無い
-  const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
-  console.log("[DEBUG]", "count:", count);
-  if (parseInt(count, 10) == 0) {
-    return await writeAnnouncement("開発鎮守府海域、異常なし.");
-  };
 
   // 直近タグからのコミットリスト取得
   const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
   console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
 
-  // (2) アプリケーションに変更が無い
-  const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
-    return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
-  });
-  console.log("[DEBUG]", "diff_files:", diff_files.length);
-  if (diff_files == 0) {
-    return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
-  }
+  // すでに開いているリリースPRを取得
+  const pr = await getReleasePR(octokit);
+  console.log("[DEBUG]", "RELEASE PR:", pr.title);
+
+  // 直近のコミットが無い場合はテストリリースをスキップする
+  const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
+  if (parseInt(count, 10) == 0) {
+    if (pr) {
+      return await writeAnnouncement(getReleasePRAnnounce(pr));
+    } else {
+      return await writeAnnouncement("開発鎮守府海域、異常なし.");
+    }
+  };
+
+  // (2) アプリケーションに変更が無い場合テストリリースをスキップする
+  // const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
+  //   return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
+  // });
+  // console.log("[DEBUG]", "diff_files:", diff_files.length);
+  // if (diff_files == 0) {
+  //   if (pr) {
+  //     return await writeAnnouncement(getReleasePRAnnounce(pr));
+  //   } else {
+  //     return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+  //   }
+  // }
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
 
   // リリースアナウンスを作成
   await writeAnnouncement(createStageReleaseAnnounce(LATEST_TAG, NEW_TAG));
+
+  if (!process.env.GITHUB_WORKFLOW) return console.log("[DEBUG]", "終了")
 
   // jsonファイルをedit
   await updateVersion(NEW_TAG);
@@ -130,27 +158,31 @@ async function shouldReleaseStage() {
 // - SHOULD_RELEASE_PRODUCTION=yes
 async function shouldReleaseProduction() {
   const { repo, owner } = github.context.repo;
-  const head = "develop", base = "main";
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-  const pulls = await octokit.pulls.list({ repo, owner, head, base, state: "open" });
-  if (pulls.data.length == 0) return console.log("[INFO]", "リリースPRがopenされていない");
-  // TODO: このworkflowをトリガしたissue/prが、リリースPRではない
-  const [pr] = pulls.data;
+  const pr = await getReleasePR(octokit);
+  if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
+  // if (pr.number != process.env.ISSUE_NUMBER) return console.log("[INFO]", "RELEASE PR 上のコメントではない");
+
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
   if (comments.data.length == 0) return console.log("[INFO]", "リリースPRにコメントが無い");
-  const EXPRESSION = /(^👍|^:shipit:|^LGTM)/i;
-  const REQUIRED_LGTM = 3;
+  const EXPRESSION = /(^👍|^:\+1:|^:shipit:|^LGTM)/i;
+
+  // {{{ ひとりで何回も👍してもムダです
   const summary = comments.data.reduce((ctx, comment) => {
+    console.log("[DEBUG]", EXPRESSION.test(comment.body), comment.body);
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
   }, {});
-  console.log("[INFO]", "SUMMARY\n", summary);
   const count = Object.keys(summary).length;
-  if (count < REQUIRED_LGTM) return console.log("[INFO]", "LGTM:", count);
-  const body = `${count}つのLGTMが集まったのでマージし、プロダクションリリースします！`;
+  // }}}
+  console.log("[INFO]", "SUMMARY\n", summary);
+  if (count < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", count);
+  const body = `${count}人の「👍」が集まったのでマージし、プロダクションリリースします！`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
   core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
+
+  await writeAnnouncement(body + "\n#艦これウィジェット\n" + pr.html_url);
 }
 
 async function main() {

@@ -1,6 +1,5 @@
 import TwitterAPI from "../../../src/js/Services/API/Twitter";
 import { Fetch } from "../../tools";
-jest.mock("oauthsimple");
 
 declare let global: any;
 describe("TwitterAPI", () => {
