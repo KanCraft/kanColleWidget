@@ -45,16 +45,16 @@ jobs:
       run: npm run pack
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
 
-    # - name: Upload Release Asset
-    #   uses: actions/upload-release-asset@v1
-    #   if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     upload_url: ${{ github.event.release.upload_url }}
-    #     asset_path: ./release/kcwidget.zip
-    #     asset_name: kcwidget.zip
-    #     asset_content_type: application/zip
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+        asset_path: ./release/kcwidget.zip
+        asset_name: kcwidget.zip
+        asset_content_type: application/zip
 
     - name: Publish to Chrome Web Store
       run: npm run publish

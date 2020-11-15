@@ -181,13 +181,14 @@ async function shouldReleaseProduction() {
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
 
+  // {{{ リリースを作成
   const LATEST_TAG = shell.execSync(`git describe --tags --abbrev=0`).toString().trim();
   core.exportVariable("RELEASE_TAG", LATEST_TAG);
-  // {{{ TODO: ここはGitHub上のReleaseであるべきなので、create-release-artifactみたいなタスクが必要
-  core.exportVariable("RELEASE_URL", pr.html_url);
-  // }}}
-
   core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
+  const { data: release } = await octokit.repos.createRelease({ repo, owner, tag_name: LATEST_TAG, name: LATEST_TAG, body: pr.body.split("\n").slice(2).join("\n") });
+  core.exportVariable("RELEASE_URL", release.html_url);
+  core.exportVariable("RELEASE_UPLOAD_URL", release.upload_url);
+  // }}}
 }
 
 async function main() {
