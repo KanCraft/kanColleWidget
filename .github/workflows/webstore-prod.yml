@@ -30,6 +30,7 @@ jobs:
     - name: リリースするか判断
       run: npm run should-release
       env:
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build

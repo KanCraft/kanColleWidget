@@ -25,11 +25,13 @@ async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget"
   return pulls.data[0];
 }
 
+const REQUIRED_LGTM_FOR_PRODUCTION_RELEASE = 3;
 function getReleasePRAnnounce(pr) {
   return (
-    "自動リリースプロセスがOPENしています."
-    + "テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄で :+1: とコメントしてください.\n\n"
-    + `> ${pr.title} #艦これウィジェット\n`
+    "自動リリースプロセスがOPENしています。\n"
+    + "テストユーザ各位は、テストリリースに問題が無ければ、下記リンクのコメント欄に「👍」とコメントしてください。\n"
+    + `${REQUIRED_LGTM_FOR_PRODUCTION_RELEASE}人以上の 👍 が集まると自動で本番環境へリリースされます！\n\n`
+    + `> ${pr.title}\n#艦これウィジェット\n`
     + pr.html_url
   );
 }
@@ -159,21 +161,28 @@ async function shouldReleaseProduction() {
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
   const pr = await getReleasePR(octokit);
   if (!pr) return console.log("[INFO]", "リリースPRがopenされていない");
+  if (pr.number != process.env.ISSUE_NUMBER) return console.log("[INFO]", "RELEASE PR 上のコメントではない");
+
   const comments = await octokit.issues.listComments({ repo, owner, issue_number: pr.number });
   if (comments.data.length == 0) return console.log("[INFO]", "リリースPRにコメントが無い");
   const EXPRESSION = /(^👍|^:shipit:|^LGTM)/i;
-  const REQUIRED_LGTM = 3;
+
+  // {{{ ひとりで何回も👍してもムダです
   const summary = comments.data.reduce((ctx, comment) => {
+    console.log("[DEBUG]", comment.body, EXPRESSION.test(comment.body), /(^👍|^:\+1:|^:shipit:|^LGTM)/i.test(comment.body));
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
   }, {});
-  console.log("[INFO]", "SUMMARY\n", summary);
   const count = Object.keys(summary).length;
-  if (count < REQUIRED_LGTM) return console.log("[INFO]", "LGTM:", count);
-  const body = `${count}つのLGTMが集まったのでマージし、プロダクションリリースします！`;
+  // }}}
+  console.log("[INFO]", "SUMMARY\n", summary);
+  if (count < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", count);
+  const body = `${count}人の「👍」が集まったのでマージし、プロダクションリリースします！`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
   core.exportVariable("SHOULD_RELEASE_PRODUCTION", "yes");
+
+  await writeAnnouncement(body + "\n#艦これウィジェット\n" + pr.html_url);
 }
 
 async function main() {

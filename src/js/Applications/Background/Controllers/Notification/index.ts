@@ -21,3 +21,9 @@ export async function OnMissionNotFoundClick(id: string): Promise<void> {
   url.searchParams.set("body", `遠征ID ${mid} 確認ください\n\n- https://wikiwiki.jp/kancolle/%E9%81%A0%E5%BE%81\n- https://github.com/KanCraft/kanColleWidget/blob/develop/src/js/Applications/Models/Queue/missions.ts`);
   window.open(url.toString());
 }
+
+export async function OnUpdateAvailableClick(id: string): Promise<void> {
+  await clearNotification(id);
+  const url = `chrome://extensions/?id=${chrome.runtime.id}`;
+  chrome.tabs.create({ url });
+}
