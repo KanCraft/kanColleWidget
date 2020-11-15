@@ -169,6 +169,7 @@ async function shouldReleaseProduction() {
 
   // {{{ ひとりで何回も👍してもムダです
   const summary = comments.data.reduce((ctx, comment) => {
+    console.log("[DEBUG]", comment.body, EXPRESSION.test(comment.body), /(^👍|^:\+1:|^:shipit:|^LGTM)/i.test(comment.body));
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
   }, {});
