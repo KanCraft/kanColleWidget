@@ -93,14 +93,15 @@ async function shouldReleaseStage() {
 
   // すでに開いているリリースPRを取得
   const pr = await getReleasePR(octokit);
-  console.log("[DEBUG]", "RELEASE PR:", pr.title);
 
   // 直近のコミットが無い場合はテストリリースをスキップする
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
   if (parseInt(count, 10) == 0) {
     if (pr) {
+      console.log("[DEBUG]", "RELEASE PR:", pr.title);
       return await writeAnnouncement(getReleasePRAnnounce(pr));
     } else {
+      console.log("[DEBUG]", "RELEASE PR:", pr);
       return await writeAnnouncement("開発鎮守府海域、異常なし.");
     }
   };
