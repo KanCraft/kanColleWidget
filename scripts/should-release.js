@@ -93,14 +93,15 @@ async function shouldReleaseStage() {
 
   // すでに開いているリリースPRを取得
   const pr = await getReleasePR(octokit);
-  console.log("[DEBUG]", "RELEASE PR:", pr.title);
 
   // 直近のコミットが無い場合はテストリリースをスキップする
   const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
   if (parseInt(count, 10) == 0) {
     if (pr) {
+      console.log("[DEBUG]", "RELEASE PR:", pr.title);
       return await writeAnnouncement(getReleasePRAnnounce(pr));
     } else {
+      console.log("[DEBUG]", "RELEASE PR:", pr);
       return await writeAnnouncement("開発鎮守府海域、異常なし.");
     }
   };
@@ -173,11 +174,13 @@ async function shouldReleaseProduction() {
     if (EXPRESSION.test(comment.body)) ctx[comment.user.login] = (ctx[comment.user.login] || 0) + 1;
     return ctx;
   }, {});
-  const count = Object.keys(summary).length;
-  // }}}
   console.log("[INFO]", "SUMMARY\n", summary);
-  if (count < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", count);
-  const body = `${count}人の「👍」が集まったのでマージし、プロダクションリリースします！`;
+  const reviewers = Object.keys(summary);
+  // }}}
+
+  if (reviewers.length < REQUIRED_LGTM_FOR_PRODUCTION_RELEASE) return console.log("[INFO]", "LGTM:", reviewers.length);
+  const body = `${reviewers.length}人の「👍」が集まったのでマージし、プロダクションリリースします！\n`
+    + `Thank you! ${reviewers.map(name => "@" + name).join(", ")}`;
   await octokit.issues.createComment({ repo, owner, issue_number: pr.number, body });
   await octokit.pulls.merge({ repo, owner, pull_number: pr.number });
 
