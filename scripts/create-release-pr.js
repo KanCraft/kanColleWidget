@@ -30,7 +30,7 @@ async function main() {
   const { data: [release] } = await octokit.repos.listReleases({ owner, repo, per_page: 1, page: 1 });
   const { data: contributions } = await octokit.repos.listCommits({ owner, repo, sha: "develop", since: release.published_at, per_page: 100 });
 
-  const { data: [pr] } = await octokit.pulls.list({ owner, repo, head, base, state: "open" })
+  let { data: [pr] } = await octokit.pulls.list({ owner, repo, head, base, state: "open" })
 
   const exp = /\/([a-z0-9]+)$/;
   const commits = contributions.map(({ commit }) => {
