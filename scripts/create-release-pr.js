@@ -12,10 +12,13 @@ async function upsertReleasePR(octokit, pr, owner, repo, title, body, head = "de
   if (pr) {
     const res = await octokit.pulls.update({ owner, repo, title, body, pull_number: pr.number });
     console.log("[INFO] RELEASE PR UPDATED:", res.data.html_url);
+    pr = res.data;
   } else {
     const res = await octokit.pulls.create({ owner, repo, title, body, head, base });
     console.log("[INFO] RELEASE PR CREATED:", res.data.html_url);
+    pr = res.data;
   }
+  return pr;
 }
 
 async function main() {
@@ -48,7 +51,18 @@ async function main() {
     return
   }
 
-  upsertReleasePR(octokit, pr, owner, repo, title, body);
+  pr = await upsertReleasePR(octokit, pr, owner, repo, title, body);
+
+  // Authorのlogin nameを取得したいのでわざわざ再度listCommitsをする
+  // https://twitter.com/otiai10/status/1329199822323077121
+  const { data: prcommits } = await octokit.pulls.listCommits({ owner, repo, pull_number: pr.number, per_page: 100 });
+  const authors = prcommits.reduce((ctx, commit) => {
+    if (commit.author.login == 'ayanel-ci') return ctx;
+    ctx[commit.author.login] == commit.author;
+    return ctx;
+  }, {});
+  console.log(authors);
+  console.log("[DEBUG]", Object.keys(authors));
 };
 
 if (require.main === module) {
