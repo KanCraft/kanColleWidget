@@ -17,15 +17,12 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: develop
+        fetch-depth: 0
     - run: |
+        echo "[DEBUG] github.ref: ${{ github.ref }}"
         echo "[DEBUG] github.event_name: ${{ github.event_name }}"
         echo "[DEBUG] github.event.action: ${{ github.event.action }}"
-        echo "[DEBUG] github.ref: ${{ github.ref }}"
-        echo "[DEBUG] github.event.head: ${{ github.event.head }}"
-        echo "[DEBUG] github.event.issue.pull_request.head: ${{ github.event.issue.pull_request.head }}"
-        echo "[DEBUG] github.event.issue.pull_request.base: ${{ github.event.issue.pull_request.base }}"
-        echo "[DEBUG] github.head_ref: ${{ github.head_ref }}"
-        echo "[DEBUG] github.base_ref: ${{ github.base_ref }}"
+        echo "[DEBUG] github.event.issue.number: github.event.issue.number }}"
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
@@ -48,19 +45,19 @@ jobs:
       run: npm run pack
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
 
-    # - name: Upload Release Asset
-    #   uses: actions/upload-release-asset@v1
-    #   if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     upload_url: ${{ github.event.release.upload_url }}
-    #     asset_path: ./release/kcwidget.zip
-    #     asset_name: kcwidget.zip
-    #     asset_content_type: application/zip
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+        asset_path: ./release/kcwidget.zip
+        asset_name: kcwidget.zip
+        asset_content_type: application/zip
 
     - name: Publish to Chrome Web Store
-      run: npm run publish
+      run: npm run webstore-publish
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
       env:
         GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
@@ -71,15 +68,15 @@ jobs:
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
       run: |
         cat << EOS > announcement.txt
-        【リリース情報: ${NAME}】 #艦これウィジェット
-        あたらしいバージョン ${NAME} がストアのレビューに提出されたよ！
-        ${NAME}に含まれる変更は以下のリンクから確認できます。
+        【リリース情報: ${RELEASE_TAG}】 #艦これウィジェット
+        あたらしいバージョン ${RELEASE_TAG} がストアのレビューに提出されたよ！
+        ${RELEASE_TAG}に含まれる変更は以下のリンクから確認できます。
         よい提督ライフを！ この、クソ提督！
-        ${URL}
+        ${RELEASE_URL}
         EOS
       env:
-        URL: ${{ github.event.release.html_url }}
-        NAME: ${{ github.event.release.tag_name }}
+        RELEASE_URL: ${{ env.RELEASE_URL }}
+        RELEASE_TAG: ${{ env.RELEASE_TAG }}
 
     - name: Tweet announcement
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}

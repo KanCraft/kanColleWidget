@@ -1,6 +1,6 @@
 {
   "name": "kan-colle-widget",
-  "version": "3.2.6",
+  "version": "3.2.8",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
     "node": "~12.14.0",
@@ -11,13 +11,13 @@
     "start": "NODE_ENV=development webpack --progress --watch",
     "version": "node ./scripts/version.js",
     "build": "webpack && rm dest/css/*.js",
-    "publish": "node ./scripts/publish.js ./release/kcwidget.zip",
     "announce": "node ./scripts/announce.js",
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
     "lint": "eslint src && eslint tests",
     "should-release": "node ./scripts/should-release.js",
     "create-release-pr": "node ./scripts/create-release-pr.js",
+    "webstore-publish": "node ./scripts/webstore-publish.js ./release/kcwidget.zip",
     "test": "jest --coverage"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
