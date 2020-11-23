@@ -48,7 +48,7 @@ jobs:
       if: ${{ env.SHOULD_RELEASE_STAGE }}
 
     - name: Publish to Chrome Web Store
-      run: npm run publish
+      run: npm run webstore-publish
       if: ${{ env.SHOULD_RELEASE_STAGE }}
       env:
         GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}

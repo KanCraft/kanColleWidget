@@ -125,6 +125,7 @@ if (require.main == module) {
   main(zip_file_path).catch(err => {
     // StatusCodeError: 400 - "{\"error\":{\"errors\":[{\"domain\":\"global\",\"reason\":\"badRequest\",\"message\":\"Publish condition not met: \"}],\"code\":400,\"message\":\"Publish condition not met: \"}}"
     console.error("[ERROR]", err.message);
-    process.exit(0);
+    console.log(err);
+    process.exit(1);
   });
 }
