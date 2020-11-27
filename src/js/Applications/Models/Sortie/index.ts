@@ -33,14 +33,16 @@ export default class Sortie extends Model {
    * 出撃の開始
    */
   start(area: number, map: number): Sortie {
-    return this.update({area, map, depth: 0});
+    // nextでincrementする設計のため、depth = 1 でstartする
+    return this.update({area, map, depth: 1});
   }
 
   /**
    * 戦闘の開始
    */
   battle(): Sortie {
-    return this.update({depth: this.depth + 1});
+    // 今んとこ何もしない
+    return this;
   }
 
   /**
@@ -49,6 +51,13 @@ export default class Sortie extends Model {
   result(): Sortie {
     // 今んとこ何もしない
     return this;
+  }
+
+  /**
+   * 次のマスへ移動
+   */
+  next(): Sortie {
+    return this.update({depth: this.depth + 1});
   }
 
   /**
