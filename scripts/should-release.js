@@ -107,19 +107,19 @@ async function shouldReleaseStage() {
   };
 
   // アプリケーションに変更が無い場合テストリリースをスキップする
-  const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
-    return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
-  });
-  console.log("[DEBUG]", "diff_files:", diff_files.length);
-  if (diff_files == 0) {
-    if (pr) {
-      console.log("[DEBUG]", "RELEASE PR:", pr.title);
-      return await writeAnnouncement(getReleasePRAnnounce(pr));
-    } else {
-      console.log("[DEBUG]", "RELEASE PR:", pr);
-      return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
-    }
-  }
+  // const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
+  //   return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
+  // });
+  // console.log("[DEBUG]", "diff_files:", diff_files.length);
+  // if (diff_files == 0) {
+  //   if (pr) {
+  //     console.log("[DEBUG]", "RELEASE PR:", pr.title);
+  //     return await writeAnnouncement(getReleasePRAnnounce(pr));
+  //   } else {
+  //     console.log("[DEBUG]", "RELEASE PR:", pr);
+  //     return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+  //   }
+  // }
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
