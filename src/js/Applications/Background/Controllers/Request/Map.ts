@@ -41,6 +41,6 @@ export async function OnMapStart(req: DebuggableRequest) {
   await (new NotificationService).clearAll(/^Tiredness/);
 }
 
-export async function OnMapMoveNext(req: DebuggableRequest) {
+export async function OnMapMoveNext(/* req: DebuggableRequest */) {
   Sortie.context().next();
 }
