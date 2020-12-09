@@ -35,7 +35,7 @@ export default class Sortie extends Model {
    * 出撃の開始
    */
   start(area: number, map: number): Sortie {
-    return this.update({area, map, depth: 0});
+    return this.update({area, map, depth: 1});
   }
 
   /**
@@ -72,10 +72,6 @@ export default class Sortie extends Model {
 
   toText(type: SortieContextType, withDepth = true): string {
     if (type == SortieContextType.Disabled) return "";
-    // {{{ FIXME: 暫定対応。たぶん新旧データ不整合だと思うんだけど。
-    // @see https://github.com/KanCraft/kanColleWidget/issues/1232
-    if (this.area == 6 && this.map == 5) this.depth += 1;
-    // }}}
     const shorttext = `${this.area}-${this.map}` + ((withDepth && this.depth) ? ` (${this.depth})` : "");
     if (type == SortieContextType.Short) return shorttext;
     try {
