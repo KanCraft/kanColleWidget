@@ -50,7 +50,7 @@ export default class Sortie extends Model {
   /**
    * 戦闘の終了
    * FIXME: YAGNI.
-   *        そもそも`api_req_sortie/battleresult`はルーティングしていないので、現状これを呼ぶのはテストだけ
+   * そもそも`api_req_sortie/battleresult`はルーティングしていないので、現状これを呼ぶのはテストだけ
    */
   result(): Sortie {
     return this.update({ inbattle: false });
@@ -72,6 +72,10 @@ export default class Sortie extends Model {
 
   toText(type: SortieContextType, withDepth = true): string {
     if (type == SortieContextType.Disabled) return "";
+    // {{{ FIXME: 暫定対応。たぶん新旧データ不整合だと思うんだけど。
+    // @see https://github.com/KanCraft/kanColleWidget/issues/1232
+    if (this.area == 6 && this.map == 5) this.depth += 1;
+    // }}}
     const shorttext = `${this.area}-${this.map}` + ((withDepth && this.depth) ? ` (${this.depth})` : "");
     if (type == SortieContextType.Short) return shorttext;
     try {
