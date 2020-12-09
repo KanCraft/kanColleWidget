@@ -46,6 +46,16 @@ export async function OnCombinedBattleResulted(req: chrome.webRequest.WebRespons
   return {status: 200};
 }
 
+/**
+ * @REQUEST api_req_sortie/battle
+ * @REQUEST api_req_combined_battle/battle
+ * @REQUEST api_req_combined_battle/battle_water
+ * @REQUEST api_req_combined_battle/each_battle
+ * @REQUEST api_req_combined_battle/each_battle_water
+ * @REQUEST api_req_combined_battle/ec_battle
+ * @REQUEST api_req_combined_battle/sp_midnight
+ * @REQUEST api_req_battle_midnight/sp_midnight
+ */
 export async function OnBattleStarted(req: chrome.webRequest.WebRequestBodyDetails) {
 
   Sortie.context().battle();
