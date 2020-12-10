@@ -8,7 +8,7 @@ describe("Sortie Model", () => {
       ctx.start(2, 5);
 
       // {{{ 1戦目
-      ctx.battle();
+      // ctx.battle(); // https://github.com/KanCraft/kanColleWidget/issues/1232
       ctx.result();
       expect(ctx.toText(SortieContextType.Disabled)).toBe("");
       expect(ctx.toText(SortieContextType.Short)).toBe("2-5 (1)");
