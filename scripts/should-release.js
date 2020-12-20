@@ -22,7 +22,7 @@ const fs = require("fs").promises;
 
 async function getReleasePR(octokit, owner = "KanCraft", repo = "kanColleWidget", head = "develop", base = "main", state = "open") {
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state });
-  return pulls.data[0];
+  return pulls.data.filter(pr => pr.head.ref == head && pr.base.ref == base)[0];
 }
 
 const REQUIRED_LGTM_FOR_PRODUCTION_RELEASE = 3;
