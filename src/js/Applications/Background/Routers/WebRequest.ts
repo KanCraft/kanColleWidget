@@ -6,7 +6,7 @@
 import {SerialRouter} from "chomex";
 
 import { OnAirBattleStarted, OnBattleStarted } from "../Controllers/Request/Battle";
-import { OnMapStart, OnMapPrepare } from "../Controllers/Request/Map";
+import { OnMapStart, OnMapPrepare, OnMapMoveNext } from "../Controllers/Request/Map";
 import { OnMissionStart, OnMissionInterruption, OnMissionResult } from "../Controllers/Request/Mission";
 import { OnPort } from "../Controllers/Request/Port";
 import { OnRecoveryStart, OnRecoveryHighspeed, OnRecoveryPrepare } from "../Controllers/Request/Recovery";
@@ -50,6 +50,7 @@ router.on(["api_get_member/practice"], OnPracticePrepare);
 // 出撃
 router.on(["api_get_member/mapinfo"], OnMapPrepare);
 router.on(["api_req_map/start"], OnMapStart); // 出撃開始
+router.on(["api_req_map/next"], OnMapMoveNext); // 次のマスへ移動
 
 // 戦闘開始時
 router.on(["api_req_sortie/battle"], OnBattleStarted); // 通常艦隊
