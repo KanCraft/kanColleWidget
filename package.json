@@ -98,7 +98,7 @@
     "classnames": "^2.2.6",
     "firebase": "^7.22.0",
     "oauthsimple": "0.0.1",
-    "react": "^16.6.3",
+    "react": "^16.14.0",
     "react-dom": "^16.6.3",
     "spectre.css": "^0.5.3"
   }
