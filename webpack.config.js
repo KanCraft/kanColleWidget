@@ -2,7 +2,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const mode = process.env.NODE_ENV == "staging" ? "production" : (process.env.NODE_ENV || "development");
 
@@ -31,10 +31,20 @@ const twitterconfigstr = ((env) => {
 module.exports = [
   {
     mode,
-    devtool: "source-map",
+    devtool: process.env.NODE_ENV == "production" ? false : "source-map",
     optimization: {
       minimize: process.env.NODE_ENV == "production",
-      minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            mangle: true,
+            // keep_fnames: true, // chomex.Modelには__nsを使っているので不要
+          },
+          extractComments: {
+            condition: /^\**!|@preserve|@license|@cc_on/i,
+          },
+        }),
+      ],
     },
     entry: {
       background: "./src/js/entrypoints/background.ts",
