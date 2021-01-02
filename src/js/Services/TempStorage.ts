@@ -23,7 +23,7 @@ export default class TempStorage {
   }
 
   private delete(key: string) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       this.storage.remove(key, () => resolve());
     });
   }

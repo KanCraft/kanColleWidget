@@ -19,7 +19,7 @@ export default class TwitterSetting extends Model {
   get authorized(): boolean {
     return !!(this.screenName && this.accessToken && this.tokenSecret);
   }
-  success(cred: firebase.auth.UserCredential): TwitterSetting {
+  success(cred: firebase.default.auth.UserCredential): TwitterSetting {
     const credential = cred.credential.toJSON();
     return this.update({
       screenName: cred.additionalUserInfo.username || cred.additionalUserInfo.profile["screen_name"],

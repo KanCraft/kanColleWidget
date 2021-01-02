@@ -94,10 +94,9 @@ module.exports = [
         {
           test: /\.s?css$/,
           use: [
-            {loader: MiniCssExtractPlugin.loader},
-            // {loader: "style-loader"},
-            {loader: "css-loader"},
-            {loader: "sass-loader"},
+            MiniCssExtractPlugin.loader,
+            { loader: "css-loader", options: { url: false } },
+            "sass-loader",
           ],
         },
         // {
@@ -112,7 +111,6 @@ module.exports = [
     plugins: [
       new MiniCssExtractPlugin({
         filename: "[name].css",
-        path: path.resolve(__dirname, "dest/css"),
       }),
     ],
   }
