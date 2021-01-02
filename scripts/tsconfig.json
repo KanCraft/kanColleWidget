@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "module": "CommonJS",
+        "target": "es5",
+        "lib": ["es6", "es2015", "ES2017", "dom"],
+        "types": [
+            "node"
+        ],
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true
+    }
+}
