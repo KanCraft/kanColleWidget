@@ -10,8 +10,9 @@
  * @param {string} zip_file_path
  */
 
-import nodefetch from "node-fetch";
+import nodefetch, { Response } from "node-fetch";
 import * as fs from "fs";
+import { URLSearchParams } from "url";
 
 // https://developer.chrome.com/docs/webstore/using_webstore_api/#overview
 interface AuthResponse {
@@ -90,7 +91,7 @@ async function publishUploadedPackageFile(
   trustedTesters: boolean
 ) {
   const query = new URLSearchParams({ publishTarget: trustedTesters ? "trustedTesters" : "default" });
-  return fetch(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish?${query.toString()}`, {
+  return nodefetch(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish?${query.toString()}`, {
     method: "POST",
     headers: { "Authorization": `Bearer ${access_token}`, "x-goog-api-version": "2", "Content-Length": "0" },
   });
