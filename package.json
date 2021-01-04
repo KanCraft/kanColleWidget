@@ -15,7 +15,7 @@
     "announce": "node ./scripts/announce.js",
     "tweet": "node ./scripts/tweet.js",
     "pack": "./scripts/pack.sh",
-    "lint": "eslint src && eslint tests",
+    "lint": "eslint src tests scripts/*.ts",
     "should-release": "node ./scripts/should-release.js",
     "create-release-pr": "node ./scripts/create-release-pr.js",
     "__devbackup__webstore-publish": "node ./scripts/webstore-publish.js ./release/kcwidget.zip",
