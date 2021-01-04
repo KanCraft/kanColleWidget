@@ -53,6 +53,10 @@ async function main() {
 
   pr = await upsertReleasePR(octokit, pr, owner, repo, title, body);
 
+  // Reviewerの追加
+  const reviewers = ["otiai10"];
+  await octokit.pulls.requestReviewers({ owner, repo, pull_number: pr.number, reviewers });
+
   // Authorのlogin nameを取得したいのでわざわざ再度listCommitsをする
   // https://twitter.com/otiai10/status/1329199822323077121
   const { data: prcommits } = await octokit.pulls.listCommits({ owner, repo, pull_number: pr.number, per_page: 100 });
