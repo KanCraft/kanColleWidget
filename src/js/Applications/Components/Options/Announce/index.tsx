@@ -17,11 +17,12 @@ export default class AnnounceView extends React.Component<{}, {
     if (res.status != 200) return;
     const text = await res.text();
     const doc = new DOMParser().parseFromString(text, "text/html");
-    const commits = doc.querySelector("div.commit-desc>pre").innerHTML.split("\n").map(line => {
-      const [hash, title] = line.split(/\s\([^)]+\)\s/);
-      return { hash, url: this.commitURL(hash), title };
-    });
+    const commits = Array.from(doc.querySelectorAll("div.markdown-body>ul>li")).map(this.extractCommitFromLiNode);
     this.setState({ commits });
+  }
+  private extractCommitFromLiNode(li: HTMLLIElement): { hash: string, url: string, title: string } {
+    const url = li.querySelector("a").href;
+    return { url, hash: url.match(/[a-z0-9]+$/)[0], title: li.textContent };
   }
   render() {
     const { commits, help } = this.state;
@@ -38,7 +39,7 @@ export default class AnnounceView extends React.Component<{}, {
                 <div>艦これウィジェット <a href={this.releaseURL}>ver {this.manifest.version_name}</a></div>
                 {commits.length ? <div className="commit-list">
                   <ul>
-                    {commits.map(c => <li key={c.hash}><a href={c.url}>{c.hash}</a> {c.title}</li>)}
+                    {commits.map(c => <li key={c.hash}><a href={c.url} target="_blank" rel="noreferrer">{c.title}</a></li>)}
                     <li>Thank you!</li>
                   </ul>
                 </div> : null}

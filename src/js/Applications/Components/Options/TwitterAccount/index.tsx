@@ -1,5 +1,5 @@
 import React from "react";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 import TwitterSetting from "../../../Models/Settings/TwitterSetting";
 declare const FIREBASE_CONFIG: string;

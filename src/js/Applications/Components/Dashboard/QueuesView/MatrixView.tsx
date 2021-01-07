@@ -70,7 +70,7 @@ export default class MatrixView extends React.Component<{
     this.state = {manual: null};
   }
 
-  getColumn<T>(label: string, cells: CellModel[], format: DisplayFormat) {
+  getColumn(label: string, cells: CellModel[], format: DisplayFormat) {
     return (
       <div className={cn("container", "column", label)}>
         <div className="columns">

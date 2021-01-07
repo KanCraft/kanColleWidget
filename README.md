@@ -1,7 +1,7 @@
 # KanColleWidget
 
 ![CI](https://github.com/KanCraft/kanColleWidget/workflows/CI/badge.svg?branch=develop)
-[![Coverage Status](https://coveralls.io/repos/github/KanCraft/kanColleWidget/badge.svg?branch=develop)](https://coveralls.io/github/KanCraft/kanColleWidget?branch=develop)
+[![codecov](https://codecov.io/gh/KanCraft/kanColleWidget/branch/develop/graph/badge.svg?token=GqJlbto2hH)](https://codecov.io/gh/KanCraft/kanColleWidget)
 [![Contribution Notice](https://github.com/KanCraft/kanColleWidget/workflows/Contribution%20Notice/badge.svg)](https://twitter.com/KanColleWidget)
 [![Web Store TEST](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20TEST/badge.svg)](https://groups.google.com/forum/#!forum/kcwidget)
 ![Web Store PRODUCTION](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20PRODUCTION/badge.svg)

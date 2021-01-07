@@ -2,7 +2,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const mode = process.env.NODE_ENV == "staging" ? "production" : (process.env.NODE_ENV || "development");
 
@@ -31,10 +31,20 @@ const twitterconfigstr = ((env) => {
 module.exports = [
   {
     mode,
-    devtool: "source-map",
+    devtool: process.env.NODE_ENV == "production" ? false : "source-map",
     optimization: {
       minimize: process.env.NODE_ENV == "production",
-      minimizer: [new UglifyJsPlugin({ uglifyOptions: { mangle: false } })],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            mangle: true,
+            // keep_fnames: true, // chomex.Modelには__nsを使っているので不要
+          },
+          extractComments: {
+            condition: /^\**!|@preserve|@license|@cc_on/i,
+          },
+        }),
+      ],
     },
     entry: {
       background: "./src/js/entrypoints/background.ts",
@@ -56,7 +66,7 @@ module.exports = [
       rules: [
         {
           test: /\.tsx?$/,
-          loader: "awesome-typescript-loader",
+          use: ["ts-loader"],
         },
       ]
     },
@@ -94,10 +104,9 @@ module.exports = [
         {
           test: /\.s?css$/,
           use: [
-            {loader: MiniCssExtractPlugin.loader},
-            // {loader: "style-loader"},
-            {loader: "css-loader"},
-            {loader: "sass-loader"},
+            MiniCssExtractPlugin.loader,
+            { loader: "css-loader", options: { url: false } },
+            "sass-loader",
           ],
         },
         // {
@@ -112,7 +121,6 @@ module.exports = [
     plugins: [
       new MiniCssExtractPlugin({
         filename: "[name].css",
-        path: path.resolve(__dirname, "dest/css"),
       }),
     ],
   }

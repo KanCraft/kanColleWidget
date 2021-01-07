@@ -47,7 +47,7 @@ export default class FileService {
    */
   async delete(filepath: string, ignoreError = true) {
     const entry = await this.get(filepath);
-    return new Promise((resolve, reject) => entry.remove(resolve, (err) => ignoreError ? resolve() : reject(err)));
+    return new Promise<void>((resolve, reject) => entry.remove(resolve, (err) => ignoreError ? resolve() : reject(err)));
   }
 
   /**

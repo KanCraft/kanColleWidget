@@ -5,3 +5,7 @@ updates:
     schedule:
       interval: daily
     target-branch: develop
+    reviewers:
+      - otiai10
+    assignees:
+      - otiai10

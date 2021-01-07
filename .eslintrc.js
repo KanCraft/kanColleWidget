@@ -34,7 +34,7 @@ module.exports = {
     "react"
   ],
   ignorePatterns: [
-    "scripts/*"
+    "scripts/*.js"
   ],
   rules: {
     "linebreak-style": [
