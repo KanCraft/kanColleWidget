@@ -1,6 +1,6 @@
 {
   "name": "kan-colle-widget",
-  "version": "3.2.18",
+  "version": "3.2.19",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
     "node": "~12.14.0",
