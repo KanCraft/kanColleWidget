@@ -146,6 +146,10 @@ async function shouldReleaseStage() {
   const REPO = `https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git`;
   shell.execSync(`git push "${REPO}" HEAD:${BRANCH} --tags --follow-tags`);
 
+  // BotによるPUSHに伴って、CIをTriggerする
+  const head_sha = shell.execSync(`git rev-list -n 1 tags/${NEW_TAG}`).toString().trim();
+  await octokit.checks.create({ owner, repo, head_sha, name: "build" });
+
   // 後続ステップのためにフラグを立てる
   core.exportVariable("SHOULD_RELEASE_STAGE", "yes");
   core.exportVariable("NEW_TAG", NEW_TAG);
