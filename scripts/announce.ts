@@ -1,18 +1,21 @@
-const shell = require("child_process");
-const fs = require("fs");
+/**
+ * リリースアナウンスツイートを生成するスクリプト
+ */
+import * as shell from "child_process";
+import { promises as fs } from "fs";
 
-function packageEnv() {
+function packageEnv(): string {
   switch (process.env.NODE_ENV) {
   case "staging":
-    return "[v3テスト版] "
+    return "[v3テスト版] ";
   case "production":
-    return "【リリース情報】"
+    return "【リリース情報】";
   default:
-    return "[DEBUG] "
+    return "[DEBUG] ";
   }
 }
 
-function constructTweetText(head, commits, omitted) {
+function constructTweetText(head, commits, omitted = false): string {
   const MAX_TWEET_LENGTH = 140;
   const TAG = "#艦これウィジェット";
   const status = packageEnv() + head + "\n\n" + commits.join("\n") + (omitted ? "\nなど" : "") + "\n\n" + TAG;
@@ -22,7 +25,7 @@ function constructTweetText(head, commits, omitted) {
   return status;
 }
 
-function main(cb) {
+async function __main__() {
   const current_tag = shell.execSync("git describe --abbrev=0 --tags").toString().trim();
   console.log("CURRENT TAG:", current_tag);
   const last_commit = shell.execSync("git rev-list --tags --skip=1 --max-count=1 --no-merges").toString().trim();
@@ -34,16 +37,10 @@ function main(cb) {
   console.log(commits);
   const status = constructTweetText(current_tag, commits);
   console.log("STATUS:", status);
-  fs.writeFile("announcement.txt", status, cb);
+  await fs.writeFile("announcement.txt", status);
 }
 
 // 直接呼ばれたときにやるやつ
 if (require.main == module) {
-  main((err, stdout, stderr) => {
-    if (err) {
-      console.error(err, stderr);
-      process.exit(1);
-    }
-    console.log("OK", stdout);
-  });
+  __main__();
 }

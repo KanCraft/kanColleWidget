@@ -1,4 +1,4 @@
-const Twitter = require("twitter");
+import * as Twitter from "twitter";
 
 const twitter = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -9,7 +9,7 @@ const twitter = new Twitter({
 
 // __main__
 if (require.main == module) {
-  if (process.argv.length < 3) return;
+  if (process.argv.length < 3) process.exit(1);
   const status = process.argv[2];
   twitter.post("statuses/update", {status}).then(tweet => {
     console.log(`Tweet:\thttps://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}\nStatus:\t${status}`);

@@ -15,7 +15,7 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Search & Retweet
-      run: ./node_modules/.bin/ts-node ./scripts/egosearch.ts 8
+      run: ./node_modules/.bin/ts-node --script-mode ./scripts/egosearch.ts 8
       env:
         TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
         TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
