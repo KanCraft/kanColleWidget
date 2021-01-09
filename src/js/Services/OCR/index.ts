@@ -1,3 +1,4 @@
+import Tesseract from "tesseract.js";
 
 export default class OCRService {
   constructor(
@@ -16,12 +17,8 @@ export default class OCRService {
   }
 
   async base64toText(base64: string): Promise<string> {
-    const res = await fetch(this.url, {
-      body: JSON.stringify({ base64, whitelist: "0123456789:" }),
-      method: "POST",
-    });
-    const { result: text } = await res.json();
-    return text;
+    const res = await Tesseract.recognize(base64);
+    return res.data.text.trim();
   }
 
   textToMillisecond(text: string): number {
