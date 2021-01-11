@@ -148,6 +148,7 @@ async function shouldReleaseStage() {
 
   // BotによるPUSHに伴って、CIをTriggerする
   const head_sha = shell.execSync(`git rev-list -n 1 tags/${NEW_TAG}`).toString().trim();
+  const owner = "KanCraft", repo = "kanColleWidget";
   await octokit.checks.create({ owner, repo, head_sha, name: "build" });
 
   // 後続ステップのためにフラグを立てる
