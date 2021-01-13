@@ -52,7 +52,7 @@
     "/dest/img/unmute.svg",
     "/dest/img/camera.svg"
   ],
-  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'; script-src-elem 'self' https://unpkg.com/tesseract.js@v2.1.4/dist/worker.min.js",
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "commands": {
     "screenshot": {
       "description": "プレイ画面のスクショを撮ります",

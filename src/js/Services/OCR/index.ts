@@ -1,9 +1,16 @@
-import Tesseract from "tesseract.js";
+import Tesseract, {createWorker} from "tesseract.js";
 
 export default class OCRService {
   constructor(
     private url: string = "https://ocr-api-wskputa3za-an.a.run.app/base64"
-  ) {}
+  ) {
+    this.worker = createWorker({
+      errorHandler: console.error,
+      workerBlobURL: false,
+      workerPath: chrome.runtime.getURL("dest/js/tsworker.js"),
+    });
+  }
+  private readonly worker: Tesseract.Worker
 
   /**
    * Base64形式のimageを受けて、OCRのうえ、ミリ秒に変換して返す
@@ -17,7 +24,9 @@ export default class OCRService {
   }
 
   async base64toText(base64: string): Promise<string> {
-    const res = await Tesseract.recognize(base64);
+    console.log(["tes"])
+    const res = await this.worker.recognize(base64);
+    console.log(["res", res])
     return res.data.text.trim();
   }
 
