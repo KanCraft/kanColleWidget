@@ -1,9 +1,9 @@
 /**
  * エゴサするやつ。
  * 使い方
- *    node ./scripts/egosearch.js
+ *    ts-node --script-mode ./scripts/egosearch.js
  */
-import Twitter from "twitter";
+import * as Twitter from "twitter";
 
 const client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -16,7 +16,7 @@ const sleep = (millisec) => {
   return new Promise(resolve => setTimeout(() => resolve(millisec), millisec));
 };
 
-const main = async (intervalHours) => {
+const __main__ = async (intervalHours: number) => {
   const lasttime = new Date(Date.now() - (intervalHours * 60 * 60 * 1000));
   const since = [
     `${lasttime.getFullYear()}-${("0" + (lasttime.getMonth() + 1)).slice(-2)}-${("0" + lasttime.getDate()).slice(-2)}`,
@@ -42,7 +42,6 @@ const main = async (intervalHours) => {
   console.log("[INFO]", "DONE");
 };
 
-// __main__
 if (require.main == module) {
   let intervalHours = 8;
   if (process.argv.length > 2) {
@@ -51,5 +50,5 @@ if (require.main == module) {
       intervalHours = parsed;
     }
   }
-  main(intervalHours);
+  __main__(intervalHours);
 }

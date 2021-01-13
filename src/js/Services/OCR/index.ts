@@ -2,7 +2,7 @@ import Tesseract, {createWorker} from "tesseract.js";
 
 export default class OCRService {
   constructor(
-    private url: string = "https://ocr-api-wskputa3za-an.a.run.app/base64"
+    private url: string = "https://api-kcwidget.herokuapp.com/ocr/base64"
   ) {
     this.worker = createWorker({
       errorHandler: console.error,
