@@ -20,7 +20,7 @@
 // const shell = require("child_process");
 // const fs = require("fs").promises;
 
-import core from "@actions/core";
+import * as core from "@actions/core";
 import { getOctokit } from "@actions/github";
 import * as shell from "child_process";
 import { promises as fs } from "fs";
