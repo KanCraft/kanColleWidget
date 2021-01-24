@@ -15,7 +15,7 @@
     "tweet": "ts-node --script-mode ./scripts/tweet.ts",
     "pack": "./scripts/pack.sh",
     "lint": "eslint src tests scripts/*.ts",
-    "should-release": "node ./scripts/should-release.js",
+    "should-release": "ts-node --script-mode ./scripts/should-release.ts",
     "create-release-pr": "ts-node --script-mode ./scripts/create-release-pr.ts",
     "webstore-publish": "ts-node --script-mode ./scripts/webstore-publish.ts ./release/kcwidget.zip",
     "test": "jest --coverage"
