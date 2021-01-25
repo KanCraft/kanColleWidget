@@ -18,7 +18,8 @@
     "should-release": "ts-node --script-mode ./scripts/should-release.ts",
     "create-release-pr": "ts-node --script-mode ./scripts/create-release-pr.ts",
     "webstore-publish": "ts-node --script-mode ./scripts/webstore-publish.ts ./release/kcwidget.zip",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:scripts": "tsc ./scripts/*.ts --outDir ./scripts/out"
   },
   "repository": "git+https://github.com/otiai10/kanColleWidget.git",
   "author": "otiai10",
