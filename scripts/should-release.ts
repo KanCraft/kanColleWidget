@@ -112,45 +112,37 @@ async function shouldReleaseStage() {
   const owner = "KanCraft", repo = "kanColleWidget";
   const head = BRANCH, base = "main";
   const octokit = getOctokit(process.env.GITHUB_TOKEN);
-  // const tags = await octokit.repos.listTags({ repo, owner, });
+
+  // 直近タグを取得
   const LATEST_TAG = shell.execSync("git describe --tags --abbrev=0").toString().trim();
-  console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG);
+  const LATEST_TAG_SHA = shell.execSync(`git show-ref -s ${LATEST_TAG}`).toString().trim();
+  console.log("[DEBUG]", "LATEST_TAG:", LATEST_TAG, LATEST_TAG_SHA);
 
   // 直近タグからのコミットリスト取得
-  const commits = shell.execSync(`git log --pretty="%h (%an) %s" --no-merges ${LATEST_TAG}..HEAD`).toString().trim().split("\n");
-  // console.log("[DEBUG]", "commits:\n" + commits.join("\n"));
+  const { data: tag } = await octokit.git.getCommit({ owner, repo, commit_sha: LATEST_TAG_SHA });
+  const { data: commits } = await octokit.repos.listCommits({ owner, repo, sha: BRANCH, since: tag.author.date });
 
   // すでに開いているリリースPRを取得
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state: "open" });
   const pr = pulls.data.filter(pr => pr.head.ref == head && pr.base.ref == base)[0];
 
-  const count = shell.execSync(`git rev-list --count --no-merges ${LATEST_TAG}..HEAD`).toString().trim();
+  const count = commits.filter(commit => {
+    if (commit.commit.message.startsWith("Merge pull request")) return false;
+    if (commit.author.login === "dependabot[bot]") return false;
+    return true;
+  }).length;
+
   // 直近のコミットが無い場合はテストリリースをスキップする
-  if (parseInt(count, 10) == 0) {
+  if (count === 0) {
     if (pr) {
-      console.log("[DEBUG]", "RELEASE PR:", pr.title);
       const reactions = await countReactionOnReleasePR(pr);
       return await writeAnnouncement(getReleasePRAnnounce(pr, Object.keys(reactions).length));
-    } else {
-      console.log("[DEBUG]", "RELEASE PR:", pr);
-      return await writeAnnouncement("開発鎮守府海域、異常なし.");
     }
+    if (commits.length) {
+      return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
+    }
+    return await writeAnnouncement("開発鎮守府海域、異常なし.");
   }
-
-  // アプリケーションに変更が無い場合テストリリースをスキップする
-  // const diff_files = shell.execSync(`git diff --name-only ${LATEST_TAG}..HEAD`).toString().split("\n").filter(line => {
-  //   return /^src\/|^dest\/|^manifest\.json/.test(line.trim());
-  // });
-  // console.log("[DEBUG]", "diff_files:", diff_files.length);
-  // if (diff_files == 0) {
-  //   if (pr) {
-  //     console.log("[DEBUG]", "RELEASE PR:", pr.title);
-  //     return await writeAnnouncement(getReleasePRAnnounce(pr));
-  //   } else {
-  //     console.log("[DEBUG]", "RELEASE PR:", pr);
-  //     return await writeAnnouncement("開発鎮守府海域、船影あれど異常なし. 抜錨の必要なしと判断.");
-  //   }
-  // }
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
@@ -164,7 +156,12 @@ async function shouldReleaseStage() {
   await updateVersion(NEW_TAG);
 
   // 次のタグのバージョンをコミットする
-  const body = commits.join("\n");
+  const body = commits.filter(commit => {
+    if (commit.commit.message.startsWith("Merge pull request")) return false;
+    if (commit.author.login === "ayanel-ci") return false;
+    return true;
+  }).map(commit => `${commit.sha} ${commit.commit.message.split("\n")[0]}`).join("\n");
+
   const files = ["package.json", "package-lock.json", "manifest.json"];
   shell.execSync(`git add ${files.join(" ")} && git commit -m '${NEW_TAG}' -m '${body}'`);
 
@@ -175,10 +172,6 @@ async function shouldReleaseStage() {
   const { GITHUB_ACTOR, GITHUB_TOKEN, GITHUB_REPOSITORY } = process.env;
   const REPO = `https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git`;
   shell.execSync(`git push "${REPO}" HEAD:${BRANCH} --tags --follow-tags`);
-
-  // BotによるPUSHに伴って、CIをTriggerする
-  const head_sha = shell.execSync(`git rev-list -n 1 tags/${NEW_TAG}`).toString().trim();
-  await octokit.checks.create({ owner, repo, head_sha, name: "build" });
 
   // 後続ステップのためにフラグを立てる
   core.exportVariable("SHOULD_RELEASE_STAGE", "yes");
