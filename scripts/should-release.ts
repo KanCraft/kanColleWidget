@@ -126,14 +126,17 @@ async function shouldReleaseStage() {
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state: "open" });
   const pr = pulls.data.filter(pr => pr.head.ref == head && pr.base.ref == base)[0];
 
-  const count = commits.filter(commit => {
-    if (commit.commit.message.startsWith("Merge pull request")) return false;
-    if (commit.author.login === "dependabot[bot]") return false;
+  const count = commits.filter(({ commit, author }) => {
+    console.log("[DEBUG]", 100, commit.message.startsWith("Merge pull request"), commit.message);
+    if (commit.message.startsWith("Merge pull request")) return false;
+    console.log("[DEBUG]", 200, author.login == "dependabot[bog]", author.login);
+    if (author.login === "dependabot[bot]") return false;
+    console.log("[INFO]", commit.message.split("\n")[0]);
     return true;
   }).length;
 
   // 直近のコミットが無い場合はテストリリースをスキップする
-  if (count === 0) {
+  if (count == 0) {
     if (pr) {
       const reactions = await countReactionOnReleasePR(pr);
       return await writeAnnouncement(getReleasePRAnnounce(pr, Object.keys(reactions).length));
@@ -143,6 +146,9 @@ async function shouldReleaseStage() {
     }
     return await writeAnnouncement("開発鎮守府海域、異常なし.");
   }
+
+  // FIXME: #1319, #1328
+  return await writeAnnouncement("デバッグのためリリースをスキップします");
 
   // 次のタグを決定
   const NEW_TAG = await getNextVersion();
