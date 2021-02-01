@@ -25,11 +25,6 @@ import { getOctokit } from "@actions/github";
 import * as shell from "child_process";
 import { promises as fs } from "fs";
 
-const stageReleaseBlacklistAuthors = [
-  // "otiai10",
-  "ayanel-ci",
-  "dependabot[bot]",
-];
 
 const RELEASE_APPROVAL_EXPRESSION = /(^👍|^:\+1:|^\+1|^:shipit:|^LGTM)/i;
 
@@ -114,10 +109,25 @@ async function updateVersion(next_version) {
   await fs.writeFile("./package-lock.json", JSON.stringify(lock, null, 2) + "\n", "utf-8");
 }
 
-function filterBlacklistCommits({ commit, author }: { commit: { message: string }, author: { login: string } }): boolean {
+/**
+ * テストリリースで、 **リリースするべき** コミットをフィルタする
+ */
+function filterStageReleaseCommits({ commit, author }): boolean {
   if (commit.message.startsWith("Merge pull request")) return false;
-  if (stageReleaseBlacklistAuthors.includes(author.login)) return false;
-  core.info(commit.message.split("\n")[0]);
+  const skipAuthors = ["ayanel-ci"];
+  if (skipAuthors.includes(author.login)) return false;
+  core.info(`RELEASE: ${commit.message.split("\n")[0]}`);
+  return true;
+}
+
+/**
+ * テストリリースで、 **アナウンスするべき** コミットをフィルタする
+ */
+function filterStageAnnounceCommits({ commit, author }: { commit: { message: string }, author: { login: string } }): boolean {
+  if (commit.message.startsWith("Merge pull request")) return false;
+  const skipAuthors = ["ayanel-ci", "dependabot[bot]"];
+  if (skipAuthors.includes(author.login)) return false;
+  core.info(`ANNOUNCE: ${commit.message.split("\n")[0]}`);
   return true;
 }
 
@@ -140,15 +150,17 @@ async function shouldReleaseStage() {
 
   // 直近タグからのコミットリスト取得
   const { data: tag } = await octokit.git.getCommit({ owner, repo, commit_sha: LATEST_TAG_SHA });
-  let { data: commits } = await octokit.repos.listCommits({ owner, repo, sha: BRANCH, since: tag.author.date });
-  commits = commits.filter(filterBlacklistCommits);
+  const { data: all } = await octokit.repos.listCommits({ owner, repo, sha: BRANCH, since: tag.author.date });
+
+  // リリースすべきコミットをフィルタ
+  const releasecommits = all.filter(filterStageReleaseCommits);
 
   // すでに開いているリリースPRを取得
   const pulls = await octokit.pulls.list({ repo, owner, head, base, state: "open" });
   const pr = pulls.data.filter(pr => pr.head.ref == head && pr.base.ref == base)[0];
 
   // 直近のコミットが無い場合はテストリリースをスキップする
-  if (commits.length == 0) {
+  if (releasecommits.length == 0) {
     if (!pr) return await writeAnnouncement("開発鎮守府海域、異常なし."); // TODO: #1323
     const reactions = await countReactionOnReleasePR(pr);
     return await writeAnnouncement(getReleasePRAnnounce(pr, Object.keys(reactions).length));
@@ -158,7 +170,10 @@ async function shouldReleaseStage() {
   const NEW_TAG = await getNextVersion();
 
   // リリースアナウンスを作成
-  await writeAnnouncement(createStageReleaseAnnounce(LATEST_TAG, NEW_TAG, commits));
+  const announcecommits = all.filter(filterStageAnnounceCommits);
+  if (announcecommits.length) {
+    await writeAnnouncement(createStageReleaseAnnounce(LATEST_TAG, NEW_TAG, announcecommits));
+  }
 
   if (!process.env.GITHUB_WORKFLOW) return core.debug("終了");
 
@@ -166,16 +181,10 @@ async function shouldReleaseStage() {
   await updateVersion(NEW_TAG);
 
   // 次のタグのバージョンをコミットする
-  const body = commits.filter(commit => {
-    if (commit.commit.message.startsWith("Merge pull request")) return false;
-    if (commit.author.login === "ayanel-ci") return false;
-    return true;
-  }).map(commit => `${commit.sha} ${commit.commit.message.split("\n")[0]}`).join("\n");
-
+  const body = releasecommits.map(c => `${c.sha} ${c.commit.message.split("\n")[0]}`).join("\n");
   const files = ["package.json", "package-lock.json", "manifest.json"];
-  shell.execSync(`git add ${files.join(" ")} && git commit -m '${NEW_TAG}' -m '${body}'`);
-
-  // 次のタグを固定する
+  shell.execSync(`git add ${files.join(" ")}`);
+  shell.execSync(`git commit -m '${NEW_TAG}' -m '${body}'`);
   shell.execSync(`git tag ${NEW_TAG}`);
 
   // PUSH BACK する
@@ -189,7 +198,7 @@ async function shouldReleaseStage() {
 
   // 確認
   core.info(`LATEST_TAG: ${LATEST_TAG}`);
-  core.info(`COMMITS: ${commits.length}`);
+  core.info(`COMMITS: ${releasecommits.length}`);
   core.info(`NEW_TAG: ${NEW_TAG}`);
 }
 
@@ -209,7 +218,6 @@ async function shouldReleaseProduction() {
   const summary = await countReactionOnReleasePR(pr);
   core.info(`SUMMARY:\n${summary}`);
   const reviewers = Object.keys(summary);
-  // }}}
 
   if (!process.env.GITHUB_WORKFLOW) return core.debug("終了");
 
@@ -232,10 +240,10 @@ async function shouldReleaseProduction() {
 async function main() {
   if (process.env.NODE_ENV == "production") {
     // issue_comment: [created, deleted] でトリガする想定
-    shouldReleaseProduction();
+    await shouldReleaseProduction();
   } else {
     // schedule: cron でトリガする想定
-    shouldReleaseStage();
+    await shouldReleaseStage();
   }
 }
 
