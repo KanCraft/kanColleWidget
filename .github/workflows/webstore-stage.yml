@@ -58,8 +58,10 @@ jobs:
     # SHOULD_RELEASE_STAGE に関わらず、announcement.txtの内容をツイートする
     - name: Tweet announcement
       run: |
-        announcement=`cat announcement.txt`
-        npm run tweet "${announcement}"
+        if [ -f announcement.txt ]; then
+          announcement=`cat announcement.txt`
+          npm run tweet "${announcement}"
+        fi
       env:
         TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
         TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}

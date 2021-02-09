@@ -81,9 +81,10 @@ jobs:
     - name: Tweet announcement
       if: ${{ env.SHOULD_RELEASE_PRODUCTION }}
       run: |
-        announcement=`cat announcement.txt`
-        echo "[DEBUG] ${announcement}"
-        npm run tweet "${announcement}"
+        if [ -f announcement.txt ]; then
+          announcement=`cat announcement.txt`
+          npm run tweet "${announcement}"
+        fi
       env:
         TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
         TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
