@@ -1,6 +1,6 @@
 import { QuestProgress } from "../../../src/js/Applications/Models/Quest";
 import { Category, Status, Group } from "../../../src/js/Applications/Models/Quest/consts";
-import { Clock } from "../../tools";
+import { Clock } from "jestil";
 
 describe("QuestProgress", () => {
   describe("availables", () => {

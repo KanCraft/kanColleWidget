@@ -1,7 +1,7 @@
+import { Clock } from "jestil";
 import {
   UpdateQueues,
 } from "../../../../src/js/Applications/Background/Cron";
-import { Clock } from "../../../tools";
 import Recovery from "../../../../src/js/Applications/Models/Queue/Recovery";
 import Shipbuilding from "../../../../src/js/Applications/Models/Queue/Shipbuilding";
 import NotificationSetting from "../../../../src/js/Applications/Models/Settings/NotificationSetting";

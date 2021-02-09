@@ -5,7 +5,8 @@ import {
 } from "../../../../../src/js/Applications/Background/Controllers/Request/Quest";
 import { QuestProgress } from "../../../../../src/js/Applications/Models/Quest";
 import { Category } from "../../../../../src/js/Applications/Models/Quest/consts";
-import { dummyrequest, Clock } from "../../../../tools";
+import { dummyrequest } from "../../../../tools";
+import { Clock } from "jestil";
 
 describe("QuestControllers", () => {
   describe("基本的なストーリー", () => {
