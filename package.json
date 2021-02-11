@@ -98,7 +98,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "chomex": "^2.2.0",
     "classnames": "^2.2.6",
-    "firebase": "^8.2.5",
+    "firebase": "^8.2.6",
     "oauthsimple": "0.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
