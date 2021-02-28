@@ -4,26 +4,6 @@ import * as chrome from "sinon-chrome";
 declare let global: any;
 
 /**
- * めちゃくちゃかっこいいDateをmockするutil.
- * 使い方:
- *   const clock = Clock.freeze("2020-07-07 22:00:00");
- *   // Do your test
- *   clock.release();
- */
-export class Clock {
-  constructor(private spied: jest.SpyInstance) {}
-  static freeze(datestring: string): Clock {
-    const mocked = new Date(datestring);
-    const spied = jest.spyOn(global, "Date").mockImplementation(() => mocked);
-    Date.now = jest.fn().mockReturnValue(mocked.getTime());
-    return new this(spied);
-  }
-  release() {
-    this.spied.mockRestore();
-  }
-}
-
-/**
  * 直接使わない。fakeを経由してください。
  * fakeの使い方は下記参照。
  */

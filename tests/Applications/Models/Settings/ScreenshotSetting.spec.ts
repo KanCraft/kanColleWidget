@@ -1,5 +1,5 @@
 import ScreenshotSetting from "../../../../src/js/Applications/Models/Settings/ScreenshotSetting";
-import { Clock } from "../../../tools";
+import { Clock } from "jestil";
 
 describe("ScreenshotSetting", () => {
   describe("getFullDownloadPath", () => {
