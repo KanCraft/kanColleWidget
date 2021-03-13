@@ -38,11 +38,17 @@ async function __main__() {
   }
 
   // リリースPRの更新もしくは作成
-  let { data: [pr] } = await octokit.pulls.list({ owner, repo, head, base, state: "open" });
+  const RELEASE_LABEL = "RELEASE";
+  // {{{ すでに開いているPRの取得
+  const { data: prs } = await octokit.pulls.list({ owner, repo, head, base, state: "open" });
+  let pr = prs.find(pr => pr.labels.some(label => label.name == RELEASE_LABEL));
+  // }}}
+
   if (pr) {
     pr = (await octokit.pulls.update({ owner, repo, title, body, pull_number: pr.number })).data;
   } else {
     pr = (await octokit.pulls.create({ owner, repo, title, body, head, base })).data;
+    await octokit.issues.addLabels({ owner, repo, issue_number: pr.number, labels: [RELEASE_LABEL] });
   }
   console.log("[INFO] RELEASE PR UPDATED:", pr.html_url);
 
