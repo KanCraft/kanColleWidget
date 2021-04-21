@@ -1,6 +1,6 @@
 {
   "name": "kan-colle-widget",
-  "version": "3.2.44",
+  "version": "3.2.45",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
     "node": "~14.15.0",
@@ -54,7 +54,7 @@
     "source-map-loader": "^2.0.1",
     "terser-webpack-plugin": "^5.1.1",
     "ts-jest": "^26.5.0",
-    "ts-loader": "^8.0.14",
+    "ts-loader": "^9.0.2",
     "ts-node": "^9.1.1",
     "twitter": "^1.7.1",
     "typescript": "^4.2.3",
