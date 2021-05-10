@@ -5,6 +5,7 @@
 [![Contribution Notice](https://github.com/KanCraft/kanColleWidget/workflows/Contribution%20Notice/badge.svg)](https://twitter.com/KanColleWidget)
 [![Web Store TEST](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20TEST/badge.svg)](https://groups.google.com/forum/#!forum/kcwidget)
 ![Web Store PRODUCTION](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20PRODUCTION/badge.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FKanCraft%2FkanColleWidget.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FKanCraft%2FkanColleWidget?ref=badge_shield)
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/iachoklpnnjfgmldgelflgifhdaebnol.svg)](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol?hl=ja)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/iachoklpnnjfgmldgelflgifhdaebnol.svg)](https://chrome.google.com/webstore/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol?hl=ja)
@@ -47,3 +48,7 @@ npm start
   - 上記のデイリーバッチが作成したリリースPRに、規定の人数以上の👍コメントが付くと、公開版にリリースされます
 
 くわしくは[このへん](https://github.com/KanCraft/kanColleWidget/blob/main/scripts/should-release.js)を参照。
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FKanCraft%2FkanColleWidget.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FKanCraft%2FkanColleWidget?ref=badge_large)
