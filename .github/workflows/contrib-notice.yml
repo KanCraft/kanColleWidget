@@ -30,7 +30,7 @@ jobs:
         echo -ne "ご意見が届きました！\n\n> ${TITLE}\n${SENDER}さん より\n\n#艦これウィジェット\n${URL}" >> announcement.txt
 
     - name: Issueコメント用ツイート内容の生成
-      if: github.event_name == 'issue_comment' && github.event.action == 'created' && github.event.sender.login != 'codecov-io' && github.event.sender.login != 'dependabot[bot]'
+      if: github.event_name == 'issue_comment' && github.event.action == 'created' && github.event.sender.login != 'codecov-commenter' && github.event.sender.login != 'dependabot[bot]'
       env:
         SENDER: ${{ github.event.sender.login }}
         BODY: ${{ github.event.comment.body }}
