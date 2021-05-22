@@ -37,7 +37,7 @@ async function countReactionOnReleasePR(
   pr: { number: number },
   EXPRESSION = RELEASE_APPROVAL_EXPRESSION,
 ): Promise<{ [user: string]: number }> {
-  const octokit = getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = getOctokit(process.env.GITHUB_TOKEN).rest;
   const owner = "KanCraft", repo = "kanColleWidget";
   const { data: comments } = await octokit.issues.listComments({ owner, repo, issue_number: pr.number });
   const { data: reactions } = await octokit.reactions.listForIssue({ owner, repo, issue_number: pr.number });
@@ -150,7 +150,7 @@ async function shouldReleaseStage() {
   const BRANCH = "develop";
   const owner = "KanCraft", repo = "kanColleWidget";
   const head = BRANCH, base = "main";
-  const octokit = getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = getOctokit(process.env.GITHUB_TOKEN).rest;
 
   // 直近タグを取得
   const LATEST_TAG = shell.execSync("git describe --tags --abbrev=0").toString().trim();
@@ -218,7 +218,7 @@ async function shouldReleaseStage() {
 async function shouldReleaseProduction() {
   // const { repo, owner } = github.context.repo;
   const owner = "KanCraft", repo = "kanColleWidget";
-  const octokit = getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = getOctokit(process.env.GITHUB_TOKEN).rest;
   const pr = await getReleasePR(octokit);
   if (!pr) return core.info("リリースPRがopenされていない");
   // if (pr.number != process.env.ISSUE_NUMBER) return console.log("[INFO]", "RELEASE PR 上のコメントではない");
