@@ -24,7 +24,7 @@ import * as core from "@actions/core";
 import { getOctokit } from "@actions/github";
 import * as shell from "child_process";
 import { promises as fs } from "fs";
-
+import { messages } from "./messages";
 
 const RELEASE_APPROVAL_EXPRESSION = /(^👍|^:\+1:|^\+1|^:shipit:|^LGTM)/i;
 
@@ -67,8 +67,8 @@ function getReleasePRAnnounce(pr, count) {
 
 function formatTweetStatus(header, commits: { commit: { message: string } }[], hashtag, suffix = "") {
   const MAX_LENGTH = 140;
-  const messages: string[] = commits.map(c => c.commit.message.split("\n")[0]);
-  const status = `${header}\n${messages.join("\n")}\n${suffix}\n${hashtag}`;
+  const lines: string[] = commits.map(c => c.commit.message.split("\n")[0]);
+  const status = `${header}\n${lines.join("\n")}\n${suffix}\n${hashtag}`;
   if (status.length < MAX_LENGTH) return status;
   return formatTweetStatus(header, commits.slice(0, -1), hashtag, "など");
 }
@@ -131,6 +131,15 @@ function filterStageAnnounceCommits({ commit, author }: { commit: { message: str
   return true;
 }
 
+/**
+ * developに更新が無く、とくに言うことが無いときのメッセージを取得する.
+ */
+function getEmptyMessage(): string {
+  if (Math.random() * 10 > 1) return "開発鎮守府海域、異常なし.";
+  const emptyMessages = messages["empty-commit"];
+  return emptyMessages[Math.floor(Math.random() * emptyMessages.length)];
+}
+
 // テスト用Chrome拡張をWebStoreにリリースするかどうか決める.
 // - トリガ: 定期
 // - 条件: 最新のtagから、現在のdevelopブランチに差分があるかどうかで判断.
@@ -161,7 +170,7 @@ async function shouldReleaseStage() {
 
   // 直近のコミットが無い場合はテストリリースをスキップする
   if (releasecommits.length == 0) {
-    if (!pr) return await writeAnnouncement("開発鎮守府海域、異常なし."); // TODO: #1323
+    if (!pr) return await writeAnnouncement(getEmptyMessage());
     const reactions = await countReactionOnReleasePR(pr);
     return await writeAnnouncement(getReleasePRAnnounce(pr, Object.keys(reactions).length));
   }
