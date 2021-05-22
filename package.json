@@ -41,7 +41,7 @@
     "css-loader": "^5.2.5",
     "eslint": "^7.19.0",
     "eslint-plugin-jest": "^24.3.6",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react": "^7.23.2",
     "jest": "^26.6.3",
     "jest-canvas-mock": "^2.3.1",
     "jest-cli": "^26.6.3",
