@@ -25,7 +25,7 @@ describe("WindowService", () => {
       fake(chrome.windows.update).callbacks({});
       const ws = new WindowService();
       const tab: chrome.tabs.Tab = {
-        id: 123, index: 1, pinned: false, highlighted: false, windowId: 12345, active: false,
+        id: 123, groupId: 234, index: 1, pinned: false, highlighted: false, windowId: 12345, active: false,
         incognito: false, selected: false, discarded: false, autoDiscardable: false,
       };
       await ws.reconfigure(tab, new Frame());
