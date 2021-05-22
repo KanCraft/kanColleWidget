@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/otiai10/kanColleWidget#readme",
   "devDependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.3.0",
     "@actions/github": "^4.0.0",
     "@types/chrome": "0.0.129",
     "@types/jest": "^26.0.23",
