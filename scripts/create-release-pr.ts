@@ -11,7 +11,7 @@ function getRepositoryInformation(): { repo: string, owner: string, head: string
 
 async function __main__() {
   const { owner, repo, head, base } = getRepositoryInformation();
-  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN).rest;
 
   // 直近のReleaseからのCommitsをすべて取得する
   const { data: [release] } = await octokit.repos.listReleases({ owner, repo, per_page: 1, page: 1 });
