@@ -135,7 +135,7 @@ function filterStageAnnounceCommits({ commit, author }: { commit: { message: str
  * developに更新が無く、とくに言うことが無いときのメッセージを取得する.
  */
 function getEmptyMessage(): string {
-  if (Math.random() * 10 > 1) return "開発鎮守府海域、異常なし.";
+  if (Math.random() > 0.2) return "開発鎮守府海域、異常なし.";
   const emptyMessages = messages["empty-commit"];
   return emptyMessages[Math.floor(Math.random() * emptyMessages.length)];
 }
