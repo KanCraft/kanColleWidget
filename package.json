@@ -1,6 +1,6 @@
 {
   "name": "kan-colle-widget",
-  "version": "3.2.48",
+  "version": "3.2.49",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
     "node": "~14.15.0",
@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "chomex": "^2.2.0",
