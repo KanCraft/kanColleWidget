@@ -3,9 +3,7 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
     target-branch: develop
-    reviewers:
-      - otiai10
     assignees:
       - otiai10
