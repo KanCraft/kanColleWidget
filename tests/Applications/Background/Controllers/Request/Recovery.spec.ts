@@ -17,13 +17,12 @@ describe("Recovery Controllers", () => {
   describe("OnRecoveryStartCompleted", () => {
     fake(chrome.tabs.query).callbacks([{}]);
     fake(chrome.tabs.captureVisibleTab).callbacks("data:image/png;base64,xxxxx");
-    it("Start時につくられたdock情報で、入渠モデルを作成・登録する", async (done) => {
+    it("Start時につくられたdock情報で、入渠モデルを作成・登録する", async () => {
       const req = dummyrequest({ debug: { dock: 1 } });
       Fetch.replies({ result: "12:34:56" });
       fake(chrome.notifications.create).callbacks({});
       const res = await OnRecoveryStartCompleted(req);
       expect(res.status).toBe(202);
-      done();
     });
   });
   describe("OnRecoveryHighspeed", () => {

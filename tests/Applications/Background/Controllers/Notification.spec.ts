@@ -2,7 +2,7 @@ import { OnMissionNotFoundClick, OnNotificationClick } from "../../../../src/js/
 import {fake} from "../../../tools";
 
 describe("OnNotificationClick", () => {
-  it("なんかする", async (done) => {
+  it("なんかする", async () => {
     fake(chrome.notifications.clear).callbacks({});
     fake(chrome.tabs.sendMessage).callbacks({});
     fake(chrome.tabs.query).callbacks([{ id: 12345 }]);
@@ -10,7 +10,6 @@ describe("OnNotificationClick", () => {
     fake(chrome.windows.update).callbacks({});
     fake(chrome.tabs.update).callbacks({});
     await OnNotificationClick("Test");
-    done();
   });
 });
 
