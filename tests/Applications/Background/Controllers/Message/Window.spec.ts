@@ -18,9 +18,8 @@ describe("Window Controller", () => {
     fake(chrome.tabs.query).callbacks([]);
     fake(chrome.windows.create).callbacks({tabs: [ {} ] });
     fake(chrome.tabs.update).callbacks({});
-    it("TODO: なんかアサーションする", async (ok) => {
+    it("TODO: なんかアサーションする", async () => {
       await WindowOpen({ id: "mini" });
-      ok();
     });
   });
 
@@ -33,20 +32,18 @@ describe("Window Controller", () => {
   });
 
   describe("WindowRecord", () => {
-    it("TODO: なんかアサーションする", async (ok) => {
+    it("TODO: なんかアサーションする", async () => {
       fake(chrome.windows.get).callbacks({});
       const context = { sender: { tab: {} } };
       await WindowRecord.bind(context)({frame: {id: "small"}});
-      ok();
     });
   });
 
   describe("WindowToggleMute", () => {
-    it("TODO: なんかアサーションする", async (ok) => {
+    it("TODO: なんかアサーションする", async () => {
       fake(chrome.tabs.update).callbacks({});
       const context = { sender: { tab: { mutedInfo: { muted: false } } } };
       await WindowToggleMute.bind(context)({});
-      ok();
     });
   });
 
