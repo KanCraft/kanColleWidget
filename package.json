@@ -31,7 +31,7 @@
   "devDependencies": {
     "@actions/core": "^1.4.0",
     "@actions/github": "^5.0.0",
-    "@types/chrome": "0.0.153",
+    "@types/chrome": "0.0.154",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.10",
     "@types/react": "^17.0.15",
