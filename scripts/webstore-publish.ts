@@ -107,15 +107,22 @@ async function main(
   refresh_token: string = process.env.GOOGLEAPI_REFRESH_TOKEN,
   app_id: string = process.env.CHROMEWEBSTORE_APP_ID
 ) {
-  console.log("[DEBUG]", "ZIP FILE PATH:", zip_file_path);
   const refreshResponse = await refreshAccessToken(client_id, client_secret, refresh_token);
   const body: AuthResponse  = await refreshResponse.json();
   const access_token = body.access_token;
   if (!access_token) throw new Error("couldn't retrieve access_token from this refresh_token");
-  const uploadResponse = await uploadPackageFile(access_token, zip_file_path, app_id);
-  console.log("[DEBUG]", "UPLOAD PACKAGE FILE:\n", await uploadResponse.json());
-  const publishResponse = await publishUploadedPackageFile(access_token, app_id, process.env.NODE_ENV != "production");
-  console.log("[DEBUG]", "PUBLISH PACKAGE:\n", await publishResponse.json());
+
+  const uploadResponse: Response = await uploadPackageFile(access_token, zip_file_path, app_id);
+  const urBody = await uploadResponse.json();
+  console.log("[INFO]", "UPLOAD PACKAGE FILE:", uploadResponse.ok, uploadResponse.status);
+  console.log("[DEBUG]", urBody);
+  if (!uploadResponse.ok) throw new Error(`http response of UPLOAD is NOT OK: ${uploadResponse.statusText}\n${JSON.stringify(urBody)}`);
+
+  const publishResponse: Response = await publishUploadedPackageFile(access_token, app_id, process.env.NODE_ENV != "production");
+  const prBody = await publishResponse.json();
+  console.log("[INFO]", "PUBLISH PACKAGE:", publishResponse.ok, publishResponse.status);
+  console.log("[DEBUG]", prBody);
+  if (!publishResponse.ok) throw new Error(`http response of PUBLISH is NOT OK: ${publishResponse.statusText}\n${JSON.stringify(prBody)}`);
 }
 
 module.exports = main; // default
