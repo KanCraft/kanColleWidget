@@ -2,8 +2,8 @@ import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup , TwitterAuthProvider } from "firebase/auth";
 import TwitterSetting from "../../../Models/Settings/TwitterSetting";
-declare const FIREBASE_CONFIG: string;
-const app = initializeApp(JSON.parse(FIREBASE_CONFIG));
+declare const FIREBASE_CONFIG: any;
+const app = initializeApp(FIREBASE_CONFIG);
 
 export default class TwitterAccountSettingView extends React.Component<{}, {
   setting: TwitterSetting,
