@@ -2,6 +2,8 @@
 
 ![CI](https://github.com/KanCraft/kanColleWidget/workflows/CI/badge.svg?branch=develop)
 [![codecov](https://codecov.io/gh/KanCraft/kanColleWidget/branch/develop/graph/badge.svg?token=GqJlbto2hH)](https://codecov.io/gh/KanCraft/kanColleWidget)
+[![Maintainability](https://api.codeclimate.com/v1/badges/90bab592be22a66bf72f/maintainability)](https://codeclimate.com/github/KanCraft/kanColleWidget/maintainability)
+
 [![Contribution Notice](https://github.com/KanCraft/kanColleWidget/workflows/Contribution%20Notice/badge.svg)](https://twitter.com/KanColleWidget)
 [![Web Store TEST](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20TEST/badge.svg)](https://groups.google.com/forum/#!forum/kcwidget)
 ![Web Store PRODUCTION](https://github.com/KanCraft/kanColleWidget/workflows/Web%20Store%20PRODUCTION/badge.svg)
