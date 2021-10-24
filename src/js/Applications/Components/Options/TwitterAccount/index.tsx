@@ -1,9 +1,9 @@
 import React from "react";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup , TwitterAuthProvider } from "firebase/auth";
 import TwitterSetting from "../../../Models/Settings/TwitterSetting";
-declare const FIREBASE_CONFIG: string;
-firebase.initializeApp(FIREBASE_CONFIG);
+declare const FIREBASE_CONFIG: any;
+const app = initializeApp(FIREBASE_CONFIG);
 
 export default class TwitterAccountSettingView extends React.Component<{}, {
   setting: TwitterSetting,
@@ -66,12 +66,14 @@ export default class TwitterAccountSettingView extends React.Component<{}, {
   }
   private async onSwitchAuthentication(ev: React.ChangeEvent<HTMLInputElement>) {
     const { setting } = this.state;
-    const provider = new firebase.auth.TwitterAuthProvider();
+    const provider = new TwitterAuthProvider();
+    const auth = getAuth(app);
     if (ev.currentTarget.checked) {
-      const credential = await firebase.auth().signInWithPopup(provider);
-      this.setState({ setting: setting.success(credential) });
+      const userCred = await signInWithPopup(auth, provider);
+      const oauthCred = TwitterAuthProvider.credentialFromResult(userCred);
+      this.setState({ setting: setting.success(userCred, oauthCred) });
     } else {
-      await firebase.auth().signOut();
+      await auth.signOut();
       this.setState({ setting: setting.revoke() });
     }
   }

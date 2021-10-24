@@ -74,6 +74,8 @@ module.exports = [
       extensions: [".ts", ".js", ".tsx"]
     },
     plugins: [
+      // https://webpack.js.org/plugins/define-plugin/
+      // オブジェクトのJSON文字列を渡すと、ランタイムではオブジェクトで渡される.
       new webpack.DefinePlugin({
         "NODE_ENV": JSON.stringify(process.env.NODE_ENV),
         "FIREBASE_CONFIG": firebaseconfigstr,
