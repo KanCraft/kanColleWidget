@@ -108,7 +108,7 @@ async function main(
   app_id: string = process.env.CHROMEWEBSTORE_APP_ID
 ) {
   const refreshResponse = await refreshAccessToken(client_id, client_secret, refresh_token);
-  const body: AuthResponse  = await refreshResponse.json();
+  const body  = (await refreshResponse.json()) as AuthResponse;
   const access_token = body.access_token;
   if (!access_token) throw new Error("couldn't retrieve access_token from this refresh_token");
 
