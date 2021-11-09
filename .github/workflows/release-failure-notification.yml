@@ -1,0 +1,32 @@
+on:
+  workflow_run:
+    workflows: ["Web Store TEST", "Web Store PRODUCTION"]
+    types: [completed]
+
+jobs:
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: develop
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+    - name: Install dependencies
+      run: npm install
+    - name: Tweet announcement
+      run: |
+        cat << EOS > announcement.txt
+        なんか失敗してるから見て @otiai10
+        https://github.com/KanCraft/kanColleWidget/actions
+        EOS
+        if [ -f announcement.txt ]; then
+          announcement=`cat announcement.txt`
+          npm run tweet "${announcement}"
+        fi
+      env:
+        TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+        TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
