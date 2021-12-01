@@ -47,7 +47,7 @@
     "jest-cli": "^27.0.6",
     "jestil": "0.0.1",
     "mini-css-extract-plugin": "^2.4.3",
-    "node-fetch": "^3.0.0",
+    "node-fetch": "^2.6.6",
     "node-sass": "^6.0.1",
     "sass-loader": "^12.1.0",
     "sinon-chrome": "^3.0.1",
