@@ -1,6 +1,6 @@
 {
   "name": "kan-colle-widget",
-  "version": "3.2.64",
+  "version": "3.2.65",
   "description": "『艦これ』をちょっとだけ快適にするやつ",
   "engines": {
     "node": "~14.15.0",
@@ -34,7 +34,7 @@
     "@types/chrome": "0.0.158",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.4.10",
-    "@types/react": "^17.0.37",
+    "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.30.0",
@@ -51,7 +51,7 @@
     "node-sass": "^6.0.1",
     "sass-loader": "^12.4.0",
     "sinon-chrome": "^3.0.1",
-    "source-map-loader": "^3.0.0",
+    "source-map-loader": "^3.0.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.5",
