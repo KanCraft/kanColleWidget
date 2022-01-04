@@ -44,7 +44,7 @@
     "eslint-plugin-react": "^7.26.1",
     "jest": "^27.0.6",
     "jest-canvas-mock": "^2.3.1",
-    "jest-cli": "^27.4.2",
+    "jest-cli": "^27.4.5",
     "jestil": "0.0.3",
     "mini-css-extract-plugin": "^2.4.5",
     "node-fetch": "^2.6.6",
