@@ -15,7 +15,7 @@ export default class QuestAlertSetting extends Model {
     return QuestAlertSetting.find("user");
   }
 
-  getChromeOptions(quests: Quest[]): chrome.notifications.NotificationOptions {
+  getChromeOptions(quests: Quest[]): chrome.notifications.NotificationOptions<true> {
     const message = quests.map(q => `[${q.id}] ${q.title}`).join("\n");
     return {
       type: "basic",

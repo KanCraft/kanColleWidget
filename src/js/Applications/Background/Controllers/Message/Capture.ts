@@ -41,6 +41,7 @@ export async function Screenshot(
       iconUrl: trimmed,
       title: "スクリーンショットを保存",
       message: filename,
+      type: "basic",
     });
   } else {
     const key = await TempStorage.new().store(`capture_${Date.now()}`, trimmed);
