@@ -142,7 +142,12 @@ class NotificationSettingView extends React.Component<{
       className="btn btn-link"
       onClick={() => {
         const ns = new NotificationService();
-        const opt = { title: "テスト", message: `${this.props.label}通知のテスト`, iconUrl: setting.getIcon() };
+        const opt: chrome.notifications.NotificationOptions<true> = {
+          iconUrl: setting.getIcon(),
+          message: `${this.props.label}通知のテスト`,
+          type: "basic",
+          title: "テスト",
+        };
         const sound = setting.getSound();
         if (sound) new SoundService(sound.url, sound.volume).play();
         ns.create(`test_${this.props.kind}_${Date.now()}`, opt);
