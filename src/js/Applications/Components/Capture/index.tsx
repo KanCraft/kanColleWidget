@@ -216,7 +216,7 @@ export default class CapturePage extends Component<{}, {
     // TODO: クオリティを考慮するべきか？
     // TODO: 連合艦隊は2枚のmediaにしたい
     return Promise.all([
-      new Promise(resolve => this.canvas.current.toBlob(resolve, "image/png"))
+      new Promise<Blob>(resolve => this.canvas.current.toBlob(resolve, "image/png"))
     ]);
   }
 
