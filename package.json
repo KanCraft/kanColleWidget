@@ -51,7 +51,7 @@
     "node-sass": "^6.0.1",
     "sass-loader": "^12.4.0",
     "sinon-chrome": "^3.0.1",
-    "source-map-loader": "^3.0.0",
+    "source-map-loader": "^3.0.1",
     "terser-webpack-plugin": "^5.1.4",
     "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.5",
