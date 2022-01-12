@@ -128,10 +128,16 @@ export default class NotificationSetting extends Model {
     return this.icon || def.icon || NotificationSetting.defaultIcon;
   }
 
-  getChromeOptions(queue: Mission | Recovery | Shipbuilding | Tiredness, finish = true): chrome.notifications.NotificationOptions {
-    const opt: chrome.notifications.NotificationOptions = {
-      iconUrl: this.getIcon(), type: "basic",
+  getChromeOptions(
+    queue: Mission | Recovery | Shipbuilding | Tiredness,
+    finish = true,
+  ): chrome.notifications.NotificationOptions<true> {
+    const opt: chrome.notifications.NotificationOptions<true> = {
+      iconUrl: this.getIcon(),
+      type: "basic",
       requireInteraction: finish, // 終了時は常にrequiredInteractionとする
+      title: `UNKNOWN: ${queue.constructor.name}`,
+      message: `未対応のqueueタイプです: ${queue.constructor.name}`,
     };
     const tpl = this.getTextTemplate(queue.kind(), finish);
     if (queue.constructor === Mission) {

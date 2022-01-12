@@ -1,4 +1,5 @@
 import { Model } from "chomex";
+import auth, { getAdditionalUserInfo } from "firebase/auth";
 
 export default class TwitterSetting extends Model {
 
@@ -19,13 +20,13 @@ export default class TwitterSetting extends Model {
   get authorized(): boolean {
     return !!(this.screenName && this.accessToken && this.tokenSecret);
   }
-  success(cred: firebase.default.auth.UserCredential): TwitterSetting {
-    const credential = cred.credential.toJSON();
+  success(user: auth.UserCredential, oauth: auth.OAuthCredential): TwitterSetting {
+    const info = getAdditionalUserInfo(user);
     return this.update({
-      screenName: cred.additionalUserInfo.username || cred.additionalUserInfo.profile["screen_name"],
-      profileImageUrlHttps: cred.additionalUserInfo.profile["profile_image_url_https"],
-      accessToken: credential["oauthAccessToken"],
-      tokenSecret: credential["oauthTokenSecret"],
+      screenName: info.username || info.profile["screen_name"],
+      profileImageUrlHttps: info.profile["profile_image_url_https"],
+      accessToken: oauth.accessToken,
+      tokenSecret: oauth.secret,
     });
   }
   revoke(): TwitterSetting {
