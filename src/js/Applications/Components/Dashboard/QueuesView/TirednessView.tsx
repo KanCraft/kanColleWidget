@@ -23,7 +23,7 @@ export default class TirednessView extends React.Component<{
            clickAction(q);
         }}>
           <div className="column col-auto">第{q.deck}艦隊</div>
-          {q.label ? <div className="column col-auto">{q.label} {TirednessTimerSetting.user().clickAction}</div> : null}
+          {q.label ? <div className="column col-auto">{q.label}</div> : null}
           {this.renderBar(q)}
         </div>)}
       </div>
