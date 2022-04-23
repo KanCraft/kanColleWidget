@@ -1,6 +1,7 @@
 import React from "react";
 import Tiredness from "../../../Models/Queue/Tiredness";
 import cn from "classnames";
+import TirednessTimerSetting, {ClickAction} from "../../../Models/Settings/TirednessTimerSetting";
 
 export default class TirednessView extends React.Component<{
   upcomming: Tiredness[];
@@ -8,13 +9,21 @@ export default class TirednessView extends React.Component<{
 }> {
   render() {
     const queues = this.props.upcomming;
+    const clickAction = (q: Tiredness) => {
+      switch (TirednessTimerSetting.user().clickAction) {
+        case ClickAction.RemoveConfirm:
+          return window.confirm("このタイマーを削除しますか？\nTODO: ほんとはModalを使うべき") ? q.delete() : null;
+        case ClickAction.RemoveSilently:
+          return q.delete();
+      }
+    };
     return (
       <div className="container">
         {queues.map(q => <div key={q._id} className="columns c-hand" onClick={() => {
-          window.confirm("このタイマーを削除しますか？\nTODO: ほんとはModalを使うべき") ? q.delete() : null;
+           clickAction(q);
         }}>
           <div className="column col-auto">第{q.deck}艦隊</div>
-          {q.label ? <div className="column col-auto">{q.label}</div> : null}
+          {q.label ? <div className="column col-auto">{q.label} {TirednessTimerSetting.user().clickAction}</div> : null}
           {this.renderBar(q)}
         </div>)}
       </div>
