@@ -46,7 +46,7 @@ class TirednessTimerSettingView extends React.Component<{}, { setting: Tiredness
           </div>
           <div className="column col-auto">
             <select className="form-select" defaultValue={setting.clickAction}
-                    onChange={ev => this.setState({ setting: setting.update({ clickAction: ev.target.value }) })}
+              onChange={ev => this.setState({ setting: setting.update({ clickAction: ev.target.value }) })}
             >
               <option value={ClickAction.RemoveConfirm}>確認付き削除</option>
               <option value={ClickAction.RemoveSilently}>黙って削除</option>
