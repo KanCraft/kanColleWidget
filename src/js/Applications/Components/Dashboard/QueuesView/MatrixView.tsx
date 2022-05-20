@@ -116,6 +116,7 @@ export default class MatrixView extends React.Component<{
                 defaultValue={cell.draft}
                 onChange={ev => cell.draft = ev.target.value}
                 onKeyPress={ev => ev.key === "Enter" && this.onManualTimerCommit(cell)}
+                autoFocus={true}
               />
             </div>
           </div>
