@@ -8,6 +8,7 @@ import Recovery from "../../../Models/Queue/Recovery";
 import { DebuggableRequest, DebuggableResponse } from "../../../../definitions/debuggable";
 import OCRService from "../../../../Services/OCR";
 import NotificationSetting from "../../../Models/Settings/NotificationSetting";
+import DebugSetting from "../../../Models/Settings/DebugSetting";
 
 const tmp = {
   dock: null,
@@ -58,7 +59,7 @@ export async function OnRecoveryStartCompleted(req: DebuggableResponse) {
   const rect = Rectangle.new(ts.img.width, ts.img.height).recovery(dock);
   const base64 = ts.trim(rect);
 
-  const ocr = new OCRService();
+  const ocr = new OCRService(DebugSetting.user().ocrServerUrl);
   const {text, time} = await ocr.fromBase64(base64);
 
   const recovery = Recovery.new<Recovery>({dock, time, text});
