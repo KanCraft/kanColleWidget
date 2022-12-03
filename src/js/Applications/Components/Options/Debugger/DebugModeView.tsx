@@ -30,6 +30,23 @@ export default class DebugModeView extends React.Component<{}, {
               </label>
             </div>
           </div>
+          <div className="columns">
+            <div className="column col-6">
+              <h5>OCRサーバ</h5>
+              <blockquote className="description text-gray">
+                OCRサーバを変更します.
+              </blockquote>
+            </div>
+            <div className="column">
+              <input type="text" className="form-input"
+                     defaultValue={setting.ocrServerUrl}
+                     onChange={ev => this.setState({
+                       setting: setting.update({ ocrServerUrl: ev.target.value })
+                     })}
+                     placeholder="未指定(デフォルトサーバ)"
+              />
+            </div>
+          </div>
         </div>
       </section>
     );
