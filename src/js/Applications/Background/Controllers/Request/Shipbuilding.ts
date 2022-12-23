@@ -62,7 +62,7 @@ export async function OnShipbuildingStartCompleted(req: DebuggableResponse) {
   const rect = Rectangle.new(ts.img.width, ts.img.height).shipbuilding(dock);
   const base64 = ts.trim(rect);
 
-  const ocr = new OCRService();
+  const ocr = new OCRService(DebugSetting.user().ocrServerUrl);
   const { text, time } = await ocr.fromBase64(base64);
 
   const shipbuilding = Shipbuilding.new<Shipbuilding>({dock, time, text});

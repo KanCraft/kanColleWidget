@@ -1,8 +1,13 @@
 
 export default class OCRService {
+
+  private readonly url;
+
   constructor(
-    private url: string = "https://api-kcwidget.herokuapp.com/ocr/base64"
-  ) {}
+    url: string | null = null
+  ) {
+    this.url = url || "https://api-kcwidget.herokuapp.com/ocr/base64";
+  }
 
   /**
    * Base64形式のimageを受けて、OCRのうえ、ミリ秒に変換して返す
