@@ -39,11 +39,11 @@ export default class DebugModeView extends React.Component<{}, {
             </div>
             <div className="column">
               <input type="text" className="form-input"
-                     defaultValue={setting.ocrServerUrl}
-                     onChange={ev => this.setState({
-                       setting: setting.update({ ocrServerUrl: ev.target.value })
-                     })}
-                     placeholder="未指定(デフォルトサーバ)"
+                defaultValue={setting.ocrServerUrl}
+                onChange={ev => this.setState({
+                  setting: setting.update({ ocrServerUrl: ev.target.value })
+                })}
+                placeholder="未指定(デフォルトサーバ)"
               />
             </div>
           </div>

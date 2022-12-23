@@ -6,7 +6,7 @@ export default class OCRService {
   constructor(
     url: string | null = null
   ) {
-    this.url = url || "https://api-kcwidget.herokuapp.com/ocr/base64"
+    this.url = url || "https://api-kcwidget.herokuapp.com/ocr/base64";
   }
 
   /**
