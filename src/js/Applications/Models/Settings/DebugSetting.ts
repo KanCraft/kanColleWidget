@@ -5,9 +5,11 @@ export default class DebugSetting extends Model {
   static default = {
     "user": {
       on: false,
+      ocrServerUrl: "",
     }
   }
   on: boolean;
+  ocrServerUrl: string;
   static user(): DebugSetting {
     return this.find("user");
   }
