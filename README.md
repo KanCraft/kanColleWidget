@@ -18,8 +18,8 @@
 
 環境
 
-- Node.js: v12.14 (ぐらい)
-- npm: 6.13.14 (ぐらい)
+- Node.js: v18.12.1
+- npm: v8.19.2
 
 ```bash
 git clone git@github.com:KanCraft/kanColleWidget.git
