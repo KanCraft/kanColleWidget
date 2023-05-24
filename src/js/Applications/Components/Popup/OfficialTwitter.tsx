@@ -38,12 +38,17 @@ export default class OfficialTwitterView extends React.Component<{}, {
     this.state = { statuses: [] };
   }
   async componentDidMount() {
-    const api = new TwitterAPI();
-    const [statuses] = await Promise.all([
-      api.getOfficialTweets(),
-      sleep(800),
-    ]);
-    this.setState({ statuses });
+    try {
+      const api = new TwitterAPI();
+      const [statuses] = await Promise.all([
+        api.getOfficialTweets(),
+        sleep(800),
+      ]);
+      this.setState({ statuses });
+    } catch (e) {
+      // TODO: どうにかしてエラーを表示する
+      console.log("にゃーん");
+    }
   }
   render() {
     const { statuses } = this.state;
