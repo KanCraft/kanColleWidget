@@ -1,5 +1,5 @@
 {
-  "apiKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "apiKey": "AAAAAAAAA:XXX: このFirebaseのconfigは、Firebaseがある限り不変。FirebaseとTwitterアプリの紐づけは、Firebaseのコンソールで行う.",
   "authDomain": "xxxxxxxxxxxxxxxxxxx.firebaseapp.com",
   "databaseURL": "https://xxxxxxxxxxxxxxxxxxxxx.firebaseio.com",
   "projectId": "kancollewidget",
