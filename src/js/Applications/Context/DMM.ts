@@ -81,7 +81,7 @@ export default class DMM {
     wrapper.style.justifyContent = "center";
     wrapper.style.zIndex = "1";
     // 動的なものはこれだけなので、これ以外はinjectに持っていってもいいかもしれない
-    wrapper.style.paddingTop = `${54 * zoom}px`;
+    wrapper.style.paddingTop = `${204 * zoom}px`;
   }
 
   private injectStyles() {
