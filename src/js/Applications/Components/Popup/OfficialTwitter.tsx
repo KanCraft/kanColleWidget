@@ -35,24 +35,19 @@ export default class OfficialTwitterView extends React.Component<{}, {
 }> {
   constructor(props) {
     super(props);
-    this.state = { statuses: [] };
+    this.state = { statuses: null };
   }
   async componentDidMount() {
-    try {
-      const api = new TwitterAPI();
-      const [statuses] = await Promise.all([
-        api.getOfficialTweets(),
-        sleep(800),
-      ]);
-      this.setState({ statuses });
-    } catch (e) {
-      // TODO: どうにかしてエラーを表示する
-      console.log("にゃーん");
-    }
+    const api = new TwitterAPI();
+    const [statuses] = await Promise.all([
+      api.getOfficialTweets(),
+      sleep(800),
+    ]);
+    this.setState({ statuses });
   }
   render() {
     const { statuses } = this.state;
-    if (statuses.length == 0) {
+    if (statuses === null) {
       return this.renderLoading();
     }
     return this.tweets(statuses);
@@ -69,6 +64,12 @@ export default class OfficialTwitterView extends React.Component<{}, {
     );
   }
   tweets(statuses: Status[]) {
+    if (statuses.length == 0) {
+      return <span>
+        <div style={{fontSize: "x-small"}}>Twitter API Error</div>
+        <span style={{fontSize: "small"}}>{"ζ(>_<)ノ"} <a href='https://twitter.com/kancolle_staff' target="_blank" rel="noreferrer">@KanColle_STAFF</a></span>
+      </span>;
+    }
     return (
       <div className="official-twitter tweet-container">
         {statuses.map(status => <TweetStatusView key={status.id_str} {...status} />)}
