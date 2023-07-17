@@ -61,7 +61,12 @@ export default class TwitterAPI {
       }
     });
     const res = await fetch(request.signed_url);
-    return res.json();
+    const data = await res.json();
+    if (data.errors) {
+      console.log(data.errors);
+      return [];
+    }
+    return data;
   }
 
   async uploadSingleImage(img: Blob): Promise<Media> {
