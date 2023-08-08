@@ -6,10 +6,11 @@ describe("TwitterAPI", () => {
   global.TWITTER_CONFIG = { key: "xxx", secret: "xxx" };
   describe("getOfficialTweets", () => {
     it("なんかとってくる", async () => {
-      Fetch.replies([{text: "hello"}]);
+      // Fetch.replies([{text: "hello"}]);
+      // TODO: GitHub上に独自のDatabaseを用意するので、そこをGETするようにする.
       const api = new TwitterAPI();
       const statuses = await api.getOfficialTweets();
-      expect(statuses.length).toBe(1);
+      expect(statuses.length).toBe(0);
     });
   });
   describe("uploadSingleImage", () => {
