@@ -47,26 +47,31 @@ export default class TwitterAPI {
   ) {}
 
   async getOfficialTweets(count = 5): Promise<Status[]> {
-    const oauth = OAuthSimple(this.consumer.key, this.consumer.secret);
-    const request = oauth.sign({
-      action: "GET",
-      path: "https://api.twitter.com/1.1/statuses/user_timeline.json",
-      parameters: {
-        screen_name: "KanColle_STAFF",
-        count,
-      },
-      signatures: {
-        oauth_token: this.credential.accessToken,
-        oauth_secret : this.credential.tokenSecret,
-      }
-    });
-    const res = await fetch(request.signed_url);
-    const data = await res.json();
-    if (data.errors) {
-      console.log(data.errors);
-      return [];
-    }
-    return data;
+    return [];
+    /**
+     * Chrome拡張からTwitterAPIを叩かないようにする.
+     * TODO: 独自のDatabaseをGitHub上に用意するので、そこをGETするようにする.
+     */
+    // const oauth = OAuthSimple(this.consumer.key, this.consumer.secret);
+    // const request = oauth.sign({
+    //   action: "GET",
+    //   path: "https://api.twitter.com/1.1/statuses/user_timeline.json",
+    //   parameters: {
+    //     screen_name: "KanColle_STAFF",
+    //     count,
+    //   },
+    //   signatures: {
+    //     oauth_token: this.credential.accessToken,
+    //     oauth_secret : this.credential.tokenSecret,
+    //   }
+    // });
+    // const res = await fetch(request.signed_url);
+    // const data = await res.json();
+    // if (data.errors) {
+    //   console.log(data.errors);
+    //   return [];
+    // }
+    // return data;
   }
 
   async uploadSingleImage(img: Blob): Promise<Media> {
