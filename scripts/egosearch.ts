@@ -26,7 +26,15 @@ const __main__ = async (intervalHours: number) => {
   const q = `艦これウィジェット OR #艦これウィジェット OR #編成キャプチャ -from:KanColleWidget -RT since:${since}`;
   console.log("[INFO]", q);
   const params = { q };
-  const { statuses } = await client.get("search/tweets", params);
+  let statuses = [];
+  try {
+    const res = await client.get("search/tweets", params);
+    statuses = res.statuses;
+  } catch (err) {
+    console.log("[ERROR]", err);
+    // FIXME: process.exit(1); // ひとまずTwitterAPI対応できるまでエラーは無視
+    return;
+  }
   console.log("[INFO]", "FOUND", statuses.length);
   for (let i = 0; i < statuses.length; i++) {
     const status = statuses[i];
