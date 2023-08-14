@@ -15,7 +15,8 @@ if (require.main == module) {
     console.log(`Tweet:\thttps://twitter.com/${tweet.user.screen_name}/statuses/${tweet.id_str}\nStatus:\t${status}`);
     process.exit(0);
   }).catch(err => {
-    console.error("Error:", err);
-    process.exit(1);
+    console.log("[ERROR]", err);
+    console.log("[DEBUG]", "ツイート内容:\t", status);
+    // FIXME: process.exit(1); // ひとまずTwitterAPI対応できるまでエラーは無視
   });
 }
