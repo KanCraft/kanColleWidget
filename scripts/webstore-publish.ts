@@ -118,7 +118,7 @@ async function main(
   console.log("[DEBUG]", urBody);
   if (!uploadResponse.ok) throw new Error(`http response of UPLOAD is NOT OK: ${uploadResponse.statusText}\n${JSON.stringify(urBody)}`);
 
-  const publishResponse: Response = await publishUploadedPackageFile(access_token, app_id, process.env.NODE_ENV != "production");
+  const publishResponse: Response = await publishUploadedPackageFile(access_token, app_id, false);
   const prBody = await publishResponse.json();
   console.log("[INFO]", "PUBLISH PACKAGE:", publishResponse.ok, publishResponse.status);
   console.log("[DEBUG]", prBody);
