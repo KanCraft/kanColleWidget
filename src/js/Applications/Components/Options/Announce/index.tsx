@@ -31,6 +31,13 @@ export default class AnnounceView extends React.Component<{}, {
       <section className="category announce">
         <div className="container">
           <div className="columns">
+            <div className="column">
+              <h1>Chrome Manifest V3 対応にともない、大改修を予定しています。改修後のバージョンは <a href="https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb?hl=ja">テスト版</a>でいち早く確認できるので、そちらをご利用ください 👉 <a href="https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb">https://chromewebstore.google.com/detail/艦これウィジェット/egkgleinehaapbpijnlpbllfeejjpceb</a></h1>
+              <h2>改修にともなう不具合報告や機能サポートの要望、事前のバグ出しなどの議論は、こちらのリンクで集約しています <a href="https://github.com/KanCraft/kanColleWidget/issues/1737">https://github.com/KanCraft/kanColleWidget/issues/1737</a>。こちらも、ふるってご参加ください</h2>
+              <hr />
+            </div>
+          </div>
+          <div className="columns">
             <div className="column col-auto">
               <a href="https://twitter.com/KanColleWidget"><img src={widgetChang} className="widget-chang c-hand" /></a>
             </div>

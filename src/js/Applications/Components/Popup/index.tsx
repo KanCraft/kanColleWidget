@@ -13,6 +13,7 @@ export default class PopupPage extends Component {
         <LaunchTrigger />
         <IconMenu />
         {(setting.authorized && setting.displayOfficialTwitter) ? <OfficialTwitterView /> : null}
+        <div>☝️ 設定画面にてお知らせあり</div>
       </div>
     );
   }
