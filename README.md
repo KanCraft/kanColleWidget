@@ -1,3 +1,7 @@
+# Chrome Manifest V3 対応にともない、大改修を予定しています。改修後のバージョンは [テスト版](https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb?hl=ja)でいち早く確認できるので、そちらをご利用ください 👉 [https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb](https://chromewebstore.google.com/detail/艦これウィジェット/egkgleinehaapbpijnlpbllfeejjpceb) 改修にともなう不具合報告や機能サポートの要望、事前のバグ出しなどの議論は、こちらのリンクで集約しています [https://github.com/KanCraft/kanColleWidget/issues/1737](https://github.com/KanCraft/kanColleWidget/issues/1737)。こちらも、ふるってご参加ください
+
+-----
+
 # KanColleWidget
 
 ![CI](https://github.com/KanCraft/kanColleWidget/workflows/CI/badge.svg?branch=develop)
