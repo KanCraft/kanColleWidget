@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "艦これウィジェット",
+  "description": "艦これをちょっとだけ遊びやすくするChrome拡張. 遠征タイマーとかあるよ",
+  "version": "4.0.0",
+  "permissions": [
+    "activeTab",
+    "webNavigation"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "icons": {
+    "128": "icons/128.png",
+    "480": "icons/480.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_page": "page/index.html#options"
+}
