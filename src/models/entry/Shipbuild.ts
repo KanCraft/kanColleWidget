@@ -1,5 +1,5 @@
-import QueueEntryBase from "./Base";
+import { NotificationEntryBase } from "./Base";
 
-export class Shipbuild extends QueueEntryBase {
+export class Shipbuild extends NotificationEntryBase {
   public static type = "shipbuild";
 }

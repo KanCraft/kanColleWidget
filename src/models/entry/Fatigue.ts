@@ -1,5 +1,5 @@
-import QueueEntryBase from "./Base";
+import { NotificationEntryBase } from "./Base";
 
-export class Fatigue extends QueueEntryBase {
+export class Fatigue extends NotificationEntryBase {
   public static type = "fatigue";
 }

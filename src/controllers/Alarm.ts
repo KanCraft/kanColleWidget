@@ -7,7 +7,7 @@ r.on("/cron/queues", async (/* alarm */) => {
   QueueWatcher.Once();
 });
 
+setTimeout(() => QueueWatcher.Once(), 10);
+
 export default r;
 
-// Debug
-QueueWatcher.Once();

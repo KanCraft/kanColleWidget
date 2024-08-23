@@ -6,6 +6,7 @@
   "permissions": [
     "activeTab",
     "alarms",
+    "notifications",
     "storage",
     "webRequest",
     "webNavigation"

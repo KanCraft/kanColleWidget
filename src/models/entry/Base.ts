@@ -1,5 +1,16 @@
 
-export default class QueueEntryBase {
+export class NotificationEntryBase {
   public static type: string;
-  public scheduled: number = 0; // 予定時刻 (Epoch Time) [ms]
+  public toNotificationID(): string {
+    throw new Error("必ずoverrideして使ってください");
+  }
+  public toNotificationOptions(): chrome.notifications.NotificationOptions<true> {
+    throw new Error("必ずoverrideして使ってください");
+    return {
+      type: "basic",
+      iconUrl: "icons/128.png",
+      title: "UNKNOWN",
+      message: "UNKNOWN",
+    }
+  }
 }
