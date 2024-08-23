@@ -7,10 +7,15 @@
     "activeTab",
     "alarms",
     "storage",
+    "webRequest",
     "webNavigation"
   ],
+  "host_permissions": [
+    "http://dmm.com/*",
+    "http://osapi.dmm.com/*"
+  ],
   "optional_host_permissions": [
-    "<all_urls>"
+    "http://203.104.209.167/*"
   ],
   "icons": {
     "128": "icons/128.png",
