@@ -5,6 +5,8 @@
   "version": "4.0.0",
   "permissions": [
     "activeTab",
+    "alarms",
+    "storage",
     "webNavigation"
   ],
   "optional_host_permissions": [
