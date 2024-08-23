@@ -15,6 +15,10 @@ export class PermissionsService {
             const origins = addresses.map((address) => `http://${address}/*`);
             return await this.mod.request({ origins });
         },
+        revoke: async (addresses: string[]) => {
+            const origins = addresses.map((address) => `http://${address}/*`);
+            return await this.mod.remove({ origins });
+        },
         contains: async (address: string) => {
             return await this.mod.contains({ origins: [`http://${address}/*`] });
         },
