@@ -13,7 +13,9 @@ export default defineConfig({
       input: [ // Multiple entry points
         path.resolve(__dirname, 'src/page/index.html'),
         path.resolve(__dirname, 'src/background.ts'),
-        // path.resolve(__dirname, 'src/injection/dynamic-config.ts'),
+        path.resolve(__dirname, 'src/injection/dmm.ts'),
+        path.resolve(__dirname, 'src/injection/dmm.scss'),
+        path.resolve(__dirname, 'src/injection/theater.scss'),
         // path.resolve(__dirname, 'src/injection/content-script.ts'),
       ],
       output: {
