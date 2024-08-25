@@ -7,6 +7,9 @@ chrome.alarms.onAlarm.addListener(Alarm.listener());
 import { onBeforeRequest } from './controllers/WebRequest';
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest.listener(), { urls: ["<all_urls>"] }, ["requestBody"]);
 
+import { onMessage } from './controllers/Message';
+chrome.runtime.onMessage.addListener(onMessage.listener());
+
 import { onInstalled } from "./controllers/Runtime";
 chrome.runtime.onInstalled.addListener(onInstalled);
 

@@ -14,7 +14,8 @@ import { type FrameParams } from "../models/Frame";
   (function __main__() {
     resize();
     fit(frame.zoom);
-    window.addEventListener("resize", onresize);
+    window.onresize = onresize;
+    setInterval(track, 10 * 1000);
   })();
 
   /**
@@ -59,5 +60,17 @@ import { type FrameParams } from "../models/Frame";
     }
     const debounce = 200;
     resizetimeout = setTimeout(execute, debounce) as unknown as number;
+  }
+
+  /**
+   * __memory__ の Frame を更新する
+   * 今開いている位置とサイズを記憶する
+   */
+  function track() {
+    chrome.runtime.sendMessage(chrome.runtime.id, {
+      __action__: "/frame/memory:track",
+      position: { left: window.screenX, top: window.screenY },
+      size: { width: window.innerWidth, height: window.innerHeight },
+    });
   }
 })();
