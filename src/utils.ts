@@ -16,4 +16,8 @@ export class KCWDate extends Date {
   public static ETA(time: number, now: number = Date.now()): KCWDate {
     return new KCWDate(now + time);
   }
-} 
+}
+
+export function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

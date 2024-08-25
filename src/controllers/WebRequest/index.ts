@@ -17,7 +17,9 @@ onBeforeRequest.on("/kcsapi/api_req_mission/start", onMissionStart); // 遠征�
 onBeforeRequest.on("/kcsapi/api_req_mission/return_instruction", onMissionReturnInstruction); // 遠征帰還命令出したとき
 onBeforeRequest.on("/kcsapi/api_req_mission/result", onMissionResult); // 遠征結果の回収をしたとき
 
-onBeforeRequest.onNotFound(async (/* detail */) => {
+onBeforeRequest.onNotFound(async (
+  // detail: chrome.webRequest.WebRequestBodyDetails,
+) => {
   // new Logger("notfound").warn("notfound", detail.url, detail);
 });
 

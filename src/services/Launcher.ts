@@ -20,7 +20,7 @@ export class Launcher {
   public async launch(frame: Frame) {
     // すでに存在する場合、retouchして終わる
     const exists = await this.find(frame);
-    if (exists && exists.id) return this.retouch(exists, frame);
+    if (exists && exists.id) return this.retouch(exists, /* frame */);
     // ない場合、新規作成してactivateする
     const win = await this.windows.create(frame.toWindowCreateData());
     this.anchor(win, frame);
@@ -34,7 +34,7 @@ export class Launcher {
     }, [frame]);
   }
 
-  public async retouch(win: chrome.windows.Window, _frame: Frame) {
+  public async retouch(win: chrome.windows.Window, /* frame: Frame */) {
     await this.focus(win.id!);
   }
 

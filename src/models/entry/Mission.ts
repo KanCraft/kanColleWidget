@@ -1,5 +1,6 @@
 import { MissionSpec } from "../../catalog";
-import { NotificationEntryBase } from "./Base";
+import { KCWDate } from "../../utils";
+import { NotificationEntryBase, TriggerType } from "./Base";
 
 export class Mission extends NotificationEntryBase {
   public static get type() {
@@ -20,15 +21,27 @@ export class Mission extends NotificationEntryBase {
     this.deck = deckId;
   }
 
-  override toNotificationID(): string {
-    return `mission-${this.id}`;
-  }
-  override toNotificationOptions(): chrome.notifications.NotificationOptions<true> {
-    return {
-      iconUrl: "icons/128.png",
-      title: "遠征完了",
-      message: `まもなく第${this.deck}艦隊が「${this.title}」から帰投します`,
-      type: "basic",
+  override $n = {
+    id: (type: TriggerType = TriggerType.END): string => {
+      if (type === TriggerType.START) return `/mission/${this.id}/${TriggerType.START}`;
+      if (type === TriggerType.END) return `/mission/${this.id}/${TriggerType.END}`;
+      return `/mission/${this.id}/${TriggerType.UNKNOWN}`;
+    },
+    options: (type: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+      if (type === TriggerType.START) {
+        return {
+          iconUrl: "icons/128.png",
+          title: "遠征開始",
+          message: `第${this.deck}艦隊が「${this.title}」へ出航しました.\n終了予定時刻は${KCWDate.ETA(this.time).format("HH:mm")}です`,
+          type: "basic",
+        }
+      }
+      return {
+        iconUrl: "icons/128.png",
+        title: "遠征完了",
+        message: `まもなく第${this.deck}艦隊が「${this.title}」から帰投します`,
+        type: "basic",
+      }
     }
-  }
+  };
 }

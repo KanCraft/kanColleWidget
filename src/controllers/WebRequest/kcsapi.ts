@@ -1,8 +1,10 @@
 import { Logger } from "chromite";
-import { MissionStartFormData } from "./datatypes";
 import { missions } from "../../catalog";
+import { sleep } from "../../utils";
 import Queue from "../../models/Queue";
+import { MissionStartFormData } from "./datatypes";
 import { EntryType, Mission } from "../../models/entry";
+import { TriggerType } from "../../models/entry/Base";
 
 const log = new Logger("WebRequest");
 
@@ -14,9 +16,11 @@ export async function onMissionStart(details: chrome.webRequest.WebRequestBodyDe
   const data: MissionStartFormData = details.requestBody?.formData as unknown as MissionStartFormData;
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
-  const m = missions[mid];
-  const queue = await Queue.create({ type: EntryType.MISSION, params: new Mission(did, mid, m), scheduled: Date.now() + m.time });
-  log.info("onMissionStart", m, queue);
+  const m = new Mission(did, mid, missions[mid]);
+  await Queue.create({ type: EntryType.MISSION, params: m, scheduled: Date.now() + m.time });
+  await chrome.notifications.create(m.$n.id(TriggerType.START), m.$n.options(TriggerType.START));
+  await sleep(6 * 1000);
+  await chrome.notifications.clear(m.$n.id(TriggerType.START));
 }
 
 export async function onMissionReturnInstruction(details: chrome.webRequest.WebRequestBodyDetails) {

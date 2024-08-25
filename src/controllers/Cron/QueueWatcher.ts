@@ -8,7 +8,7 @@ export async function Once() {
     const queue = queues[i];
     if (queue.scheduled < Date.now()) {
       const e = queue.entry();
-      await chrome.notifications.create(e.toNotificationID(), e.toNotificationOptions())
+      await chrome.notifications.create(e.$n.id(), e.$n.options())
       await queue.delete();
     }
   }
