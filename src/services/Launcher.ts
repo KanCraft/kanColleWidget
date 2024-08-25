@@ -34,8 +34,8 @@ export class Launcher {
     }, [frame]);
   }
 
-  public async retouch(_win: chrome.windows.Window, frame: Frame) {
-    (new Logger("Launcher")).debug("retouch", _win, frame);
+  public async retouch(win: chrome.windows.Window, _frame: Frame) {
+    await this.focus(win.id!);
   }
 
   public async activate(win: chrome.windows.Window, frame: Frame) {
