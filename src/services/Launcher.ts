@@ -13,6 +13,10 @@ export class Launcher {
         private readonly scriptings: ScriptingService = new ScriptingService(),
   ) { }
 
+  public static async launch(frame: Frame) {
+    return (new this()).launch(frame);
+  }
+
   public async launch(frame: Frame) {
     // すでに存在する場合、retouchして終わる
     const exists = await this.find(frame);
@@ -35,12 +39,9 @@ export class Launcher {
   }
 
   public async activate(win: chrome.windows.Window, frame: Frame) {
-    // なんかconent-scriptとかをinjectしたりする
-    (new Logger("Launcher")).debug("activate", win, frame);
     const tab = win.tabs![0];
     this.scriptings.js(tab.id!, ["dmm.js"]);
     this.scriptings.css(tab.id!, ["assets/dmm.css"]);
-
     if (frame.theater.enabled) setTimeout(() => {
       this.scriptings.css({ tabId: tab.id!, allFrames: true }, ["assets/theater.css"]);
     }, 5 * 1000);

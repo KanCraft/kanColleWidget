@@ -26,10 +26,10 @@ export class Frame extends Model {
   public size = { width: (GameRawWidth * this.zoom), height: (GameRawHeight * this.zoom), }
   public url = KanColleURL;
   public protected = false;
-  public theater: { enabled: boolean } = { enabled: false };
+  public theater: { enabled: boolean } = { enabled: true };
 
   public static override default = {
-    memory: {
+    __memory__: {
       addressbar: false,
       name: "MEMORY",
       description: "最後に開いてたサイズの記憶",
@@ -43,7 +43,7 @@ export class Frame extends Model {
   }
 
   public static async memory(): Promise<Frame> {
-    return (await this.find("memory"))!;
+    return (await this.find("__memory__"))!;
   }
 
   public toWindowCreateData(): chrome.windows.CreateData {

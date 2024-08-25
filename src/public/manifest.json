@@ -46,5 +46,8 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "options_page": "page/index.html#options"
+  "action": {
+    "default_popup": "page/index.html#/popup"
+  },
+  "options_page": "page/index.html#/options"
 }
