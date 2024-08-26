@@ -3,9 +3,7 @@ import { KCWDate } from "../../utils";
 import { NotificationEntryBase, TriggerType } from "./Base";
 
 export class Mission extends NotificationEntryBase {
-  public static get type() {
-    return "mission";
-  }
+  public override readonly type = "mission";
   public deck: number | string = 0; // 艦隊ID [2,3,4]
   public id: number | string = 0; // 遠征ID
 
@@ -22,13 +20,11 @@ export class Mission extends NotificationEntryBase {
   }
 
   override $n = {
-    id: (type: TriggerType = TriggerType.END): string => {
-      if (type === TriggerType.START) return `/mission/${this.id}/${TriggerType.START}`;
-      if (type === TriggerType.END) return `/mission/${this.id}/${TriggerType.END}`;
-      return `/mission/${this.id}/${TriggerType.UNKNOWN}`;
+    id: (trigger: TriggerType = TriggerType.END): string => {
+      return `/${this.type}/${this.deck}/${trigger}`;
     },
-    options: (type: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
-      if (type === TriggerType.START) {
+    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+      if (trigger === TriggerType.START) {
         return {
           iconUrl: "icons/128.png",
           title: "遠征開始",

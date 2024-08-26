@@ -2,7 +2,7 @@ import { KCWDate } from "../../utils";
 import { NotificationEntryBase, TriggerType } from "./Base";
 
 export class Recovery extends NotificationEntryBase {
-  public static type = "recovery";
+  public override readonly type = "recovery";
   constructor(
     public dock: number,
     public time: number, // 所要時間（ミリ秒）
@@ -11,13 +11,11 @@ export class Recovery extends NotificationEntryBase {
   }
 
   override $n = {
-    id: (type: TriggerType = TriggerType.END): string => {
-      if (type === TriggerType.START) return `/recovery/${this.dock}/${TriggerType.START}`;
-      if (type === TriggerType.END) return `/recovery/${this.dock}/${TriggerType.END}`;
-      return `/recovery/${this.dock}/${TriggerType.UNKNOWN}`;
+    id: (trigger: TriggerType = TriggerType.END): string => {
+      return `/${this.type}/${this.dock}/${trigger}`;
     },
-    options: (type: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
-      if (type === TriggerType.START) {
+    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+      if (trigger === TriggerType.START) {
         return {
           iconUrl: "icons/128.png",
           title: "修復開始",

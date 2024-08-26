@@ -2,7 +2,7 @@ import { M } from "../../utils";
 import { NotificationEntryBase, TriggerType } from "./Base";
 
 export class Fatigue extends NotificationEntryBase {
-  public static type = "fatigue";
+  public override readonly type = "fatigue";
   constructor(
     public deck: number | string, // 艦隊
     public time: number = 15 * M, // 疲労回復までの時間（ミリ秒）
@@ -12,13 +12,11 @@ export class Fatigue extends NotificationEntryBase {
 
   // 疲労の場合は、STARTはたぶん使わないけど
   override $n = {
-    id: (type: TriggerType = TriggerType.END): string => {
-      if (type === TriggerType.START) return `/fatigue/${this.deck}/${TriggerType.START}`;
-      if (type === TriggerType.END) return `/fatigue/${this.deck}/${TriggerType.END}`;
-      return `/fatigue/${this.deck}/${TriggerType.UNKNOWN}`;
+    id: (trigger: TriggerType = TriggerType.END): string => {
+      return `/${this.type}/${this.deck}/${trigger}`;
     },
-    options: (type: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
-      if (type === TriggerType.START) {
+    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+      if (trigger === TriggerType.START) {
         return {
           iconUrl: "icons/128.png",
           title: "疲労回復開始",

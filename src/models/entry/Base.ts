@@ -6,7 +6,7 @@ export enum TriggerType {
 }
 
 export class NotificationEntryBase {
-  public static type: string;
+  public readonly type: string = "unknown";
 
   public $n = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
