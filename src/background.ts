@@ -5,7 +5,7 @@ import Alarm from './controllers/Alarm';
 chrome.alarms.onAlarm.addListener(Alarm.listener());
 
 import { onBeforeRequest } from './controllers/WebRequest';
-chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest.listener(), { urls: ["<all_urls>"] }, ["requestBody"]);
+chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest.listener(), { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);
 
 import { onMessage } from './controllers/Message';
 chrome.runtime.onMessage.addListener(onMessage.listener());

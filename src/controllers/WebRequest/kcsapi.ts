@@ -2,7 +2,7 @@ import { Logger } from "chromite";
 import { missions } from "../../catalog";
 import { sleep } from "../../utils";
 import Queue from "../../models/Queue";
-import { MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
+import { CreateShipFormData, MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
 import { TriggerType } from "../../models/entry/Base";
 import { TabService } from "../../services/TabService";
@@ -52,6 +52,16 @@ export async function onMapStart([details]: chrome.webRequest.WebRequestBodyDeta
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 
-export async function onCreateShip(stack: chrome.webRequest.WebResponseCacheDetails[]) {
-  log.info("onCreateShip", stack);
+export async function onCreateShip([details]: chrome.webRequest.WebRequestBodyDetails[]) {
+  const data = details.requestBody?.formData as unknown as CreateShipFormData; 
+  const dock = data.api_kdock_id[0];
+  const tab = await new TabService().get(details.tabId);
+  await sleep(600); // いったんめんどくさいんでこれで
+  const url = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
+  await chrome.tabs.sendMessage(details.tabId, {
+    __action__: "/injected/dmm/ocr",
+    url, purpose: EntryType.SHIPBUILD,
+    [EntryType.SHIPBUILD]: { dock }
+  });
+  log.info("onCreateShip", details, dock, tab);
 }

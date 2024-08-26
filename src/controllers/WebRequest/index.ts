@@ -1,4 +1,5 @@
 import {
+  Logger,
   SequentialRouter,
 } from "chromite";
 
@@ -9,6 +10,7 @@ import {
   onMissionResult,
   onRecoveryStart,
   onMapStart,
+  onCreateShip,
 } from "./kcsapi";
 
 const onBeforeRequest = new SequentialRouter<chrome.webRequest.WebRequestBodyEvent>(2, async (details) => {
@@ -23,18 +25,14 @@ onBeforeRequest.on(["/kcsapi/api_req_mission/result"], onMissionResult); // 遠�
 onBeforeRequest.on(["/kcsapi/api_req_nyukyo/start"], onRecoveryStart); // 修復用の入渠をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_map/start"], onMapStart); // 出撃をしようとしたとき
 
-// onBeforeRequest.onNotFound(async (
-//   // detail: chrome.webRequest.WebRequestBodyDetails,
-// ) => {
-//   // new Logger("BeforeRequest").debug("*", detail.url, detail);
-// });
+onBeforeRequest.on([
+  '/kcsapi/api_req_kousyou/createship',
+  '/kcsapi/api_get_member/kdock',
+], onCreateShip); // 新造艦を作成しようとしたとき
 
-// const onComplete = new SequentialRouter<chrome.webRequest.WebResponseCacheEvent>(2, async (details) => {
-//   const url = new URL(details.url);
-//   return { __action__: url.pathname };
-// });
-
-// onComplete.on(['/kcsapi/api_req_kousyou/createship', '/kcsapi/api_get_member/kdock'], onCreateShip);
+onBeforeRequest.onNotFound(async (details) => {
+  (new Logger("WebRequest")).warn("onNotFound", details);
+});
 
 export {
   onBeforeRequest,

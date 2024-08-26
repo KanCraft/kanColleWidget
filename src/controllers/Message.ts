@@ -1,7 +1,7 @@
 import { Router } from "chromite";
 import { Frame } from "../models/Frame";
 import { type Page } from "tesseract.js";
-import { EntryType, Recovery } from "../models/entry";
+import { EntryType, Recovery, Shipbuild } from "../models/entry";
 import { H, M, S, sleep } from "../utils";
 import Queue from "../models/Queue";
 import { TriggerType } from "../models/entry/Base";
@@ -13,7 +13,7 @@ onMessage.on("/frame/memory:track", async (req) => {
   return await frame.update({ position: req.position, size: req.size });
 });
 
-onMessage.on("/injected/dmm/ocr:result", async (req) => {
+onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.RECOVERY].dock;
   const [h, m, s] = data.text.split(":").map(Number);
@@ -22,6 +22,17 @@ onMessage.on("/injected/dmm/ocr:result", async (req) => {
   await chrome.notifications.create(r.$n.id(TriggerType.START), r.$n.options(TriggerType.START));
   await sleep(6 * 1000);
   await chrome.notifications.clear(r.$n.id(TriggerType.START));
+});
+
+onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
+  const data = req.data as Page;
+  const dock = req[EntryType.SHIPBUILD].dock;
+  const [h, m, s] = data.text.split(":").map(Number);
+  const sb = new Shipbuild(dock, (h * H + m * M + s * S));
+  await Queue.create({ type: EntryType.SHIPBUILD, params: sb, scheduled: Date.now() + sb.time });
+  await chrome.notifications.create(sb.$n.id(TriggerType.START), sb.$n.options(TriggerType.START));
+  await sleep(6 * 1000);
+  await chrome.notifications.clear(sb.$n.id(TriggerType.START));
 });
 
 export { onMessage };

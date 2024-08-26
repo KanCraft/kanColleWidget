@@ -79,11 +79,12 @@ import { type FrameParams } from "../models/Frame";
     chrome.runtime.onMessage.addListener(async (msg) => {
       if (msg.__action__ === "/injected/dmm/ocr" && msg.url) {
         const img = await load(msg.url);
-        const rect = Rectangle.new(img).game().purpose(msg.purpose);
+        const rect = Rectangle.new(img).game().purpose(msg.purpose, msg[msg.purpose]);
         const url = await crop(img, rect);
+        const i = document.createElement("img"); i.src = url; document.body.appendChild(i);
         const ret = await ocr(url);
         chrome.runtime.sendMessage(chrome.runtime.id, {
-          __action__: "/injected/dmm/ocr:result", data: ret.data,
+          __action__: `/injected/dmm/ocr/${msg.purpose}:result`, data: ret.data,
           purpose: msg.purpose, [msg.purpose]: msg[msg.purpose],
         });
       }
@@ -107,9 +108,10 @@ import { type FrameParams } from "../models/Frame";
       else if (a - r < 0) return new Rectangle(this.size.h / r, this.size.h, (this.size.w - (this.size.h / r)) / 2, 0); // ヨコなが
       return this;
     }
-    public purpose(purpose: string): Rectangle {
+    public purpose(purpose: string, params: Record<string, unknown> = {}): Rectangle {
       switch (purpose) {
       case "recovery": return this.recovery();
+      case "shipbuild": return this.shipbuild(params.dock as number);
       default: return this.recovery();
       }
     }
@@ -120,6 +122,17 @@ import { type FrameParams } from "../models/Frame";
         g.size.h * (36 / 720),
         g.start.x + (g.size.w * (55 / 100)),
         g.start.y + (g.size.h * (57 / 100)),
+      );
+    }
+    public shipbuild(dock: number): Rectangle {
+      const g = this.game();
+      // ドックひとつずれたときのY開始位置
+      const dockOffset = g.size.h * (120 / 720);
+      return new Rectangle(
+        g.size.w * (148 / 1200),
+        g.size.h * (32 / 720),
+        g.start.x + (g.size.w * (592 / 1200)),
+        g.start.y + (g.size.h * (268 / 720)) + ((dock - 1) * dockOffset),
       );
     }
   }
