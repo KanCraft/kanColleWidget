@@ -8,3 +8,9 @@ export interface MissionStartFormData {
     // api_token: string[];
     // api_verno: string[];
 }
+
+export interface RecoveryStartFormData {
+    api_highspeed: string[];
+    api_ndock_id: string[];
+    api_ship_id: string[];
+}

@@ -1,4 +1,4 @@
-// 基本 type import しか許可しない
+import { createWorker, RecognizeResult, WorkerParams } from 'tesseract.js';
 import { type FrameParams } from "../models/Frame";
 
 (async () => {
@@ -16,6 +16,7 @@ import { type FrameParams } from "../models/Frame";
     fit(frame.zoom);
     window.onresize = onresize;
     setInterval(track, 10 * 1000);
+    startListeningMessage();
   })();
 
   /**
@@ -73,4 +74,79 @@ import { type FrameParams } from "../models/Frame";
       size: { width: window.innerWidth, height: window.innerHeight },
     });
   }
+
+  function startListeningMessage() {
+    chrome.runtime.onMessage.addListener(async (msg) => {
+      if (msg.__action__ === "/injected/dmm/ocr" && msg.url) {
+        const img = await load(msg.url);
+        const rect = Rectangle.new(img).game().purpose(msg.purpose);
+        const url = await crop(img, rect);
+        const ret = await ocr(url);
+        chrome.runtime.sendMessage(chrome.runtime.id, {
+          __action__: "/injected/dmm/ocr:result", data: ret.data,
+          purpose: msg.purpose, [msg.purpose]: msg[msg.purpose],
+        });
+      }
+    });
+  }
+
+  class Rectangle {
+    public size: { w: number, h: number };
+    public start: { x: number, y: number };
+    constructor(w: number, h: number, x = 0, y = 0) {
+      this.size = { w, h };
+      this.start = { x, y };
+    }
+    public static new(bounds: { width: number, height: number }): Rectangle {
+      return new Rectangle(bounds.width, bounds.height);
+    }
+    public game(): Rectangle {
+      const a = this.size.h / this.size.w;
+      const r = GameRawHeight / GameRawWidth;
+      if (a - r > 0) return new Rectangle(this.size.w, this.size.w * r, 0, (this.size.h - (this.size.w * r)) / 2); // タテなが
+      else if (a - r < 0) return new Rectangle(this.size.h / r, this.size.h, (this.size.w - (this.size.h / r)) / 2, 0); // ヨコなが
+      return this;
+    }
+    public purpose(purpose: string): Rectangle {
+      switch (purpose) {
+      case "recovery": return this.recovery();
+      default: return this.recovery();
+      }
+    }
+    public recovery(): Rectangle {
+      const g = this.game();
+      return new Rectangle(
+        g.size.w * (1 / 8),
+        g.size.h * (36 / 720),
+        g.start.x + (g.size.w * (55 / 100)),
+        g.start.y + (g.size.h * (57 / 100)),
+      );
+    }
+  }
+
+  function load(uri: string): Promise<HTMLImageElement> {
+    return new Promise(resolve => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.src = uri;
+    });
+  }
+
+  function crop(image: HTMLImageElement, rect: Rectangle): string {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = rect.size.w;
+    canvas.height = rect.size.h;
+    ctx.drawImage(image, rect.start.x, rect.start.y, rect.size.w, rect.size.h, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg", 0.5);
+  }
+
+  async function ocr(url: string, params: Partial<WorkerParams> = { tessedit_char_whitelist: "0123456789:" }): Promise<RecognizeResult> {
+    const worker = await createWorker('eng');
+    worker.setParameters(params);
+    const ret = await worker.recognize(url);
+    worker.terminate();
+    return ret;
+  }
+
 })();

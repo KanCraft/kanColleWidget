@@ -1,10 +1,14 @@
-import { Router } from "chromite";
+import {
+  // Logger,
+  Router,
+} from "chromite";
 
 import {
   onPort,
   onMissionStart,
   onMissionReturnInstruction,
   onMissionResult,
+  onRecoveryStart,
 } from "./kcsapi";
 
 const onBeforeRequest = new Router<chrome.webRequest.WebRequestBodyEvent>(async (details) => {
@@ -16,6 +20,7 @@ onBeforeRequest.on("/kcsapi/api_port/port", onPort);
 onBeforeRequest.on("/kcsapi/api_req_mission/start", onMissionStart); // 遠征に出したとき
 onBeforeRequest.on("/kcsapi/api_req_mission/return_instruction", onMissionReturnInstruction); // 遠征帰還命令出したとき
 onBeforeRequest.on("/kcsapi/api_req_mission/result", onMissionResult); // 遠征結果の回収をしたとき
+onBeforeRequest.on("/kcsapi/api_req_nyukyo/start", onRecoveryStart); // 修復用の入渠をしようとしたとき
 
 onBeforeRequest.onNotFound(async (
   // detail: chrome.webRequest.WebRequestBodyDetails,

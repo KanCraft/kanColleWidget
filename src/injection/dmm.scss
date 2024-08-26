@@ -7,7 +7,7 @@ html {
     display: none;
 }
 
-// 消しちゃだめなやつ
+// ここの扱いどうするか
 div#foot {
     display: flex;
     flex-direction: column;
@@ -17,6 +17,12 @@ div#foot {
     margin: 0;
     position: fixed;
     bottom: 16px;
+
+    font-size: 0.3rem;
+    color: #303030 !important;
+    >p {
+        margin: 0 !important;
+    }
 }
 
 // 一応残しておくやつ

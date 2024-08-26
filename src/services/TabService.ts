@@ -11,4 +11,8 @@ export class TabService {
       });
     });
   }
+
+  public async get(tabId: number): Promise<chrome.tabs.Tab> {
+    return await this.mod.get(tabId);
+  }
 }

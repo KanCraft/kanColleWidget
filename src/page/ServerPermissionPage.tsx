@@ -20,6 +20,7 @@ export function ServerPermissonPage() {
           return <div className={"border rounded p-2 cursor-pointer " + c} onClick={async () => {
             if (server.granted) await perms.servers.revoke([server.ip_address]);
             else await perms.servers.request([server.ip_address]);
+            perms.request({ origins: [`<all_urls>`], permissions: ["activeTab"] }) // TODO: 設定に持っていく
             navigate(0);
           }}>
             <h3 className="text-lg font-bold">{server.name}</h3>
@@ -31,6 +32,7 @@ export function ServerPermissonPage() {
       <div>
         <div className="border rounded cursor-pointer text-lg p-4 text-center" onClick={async () => {
           await perms.servers.request(servers.map((s) => s.ip_address));
+          perms.request({ origins: [`<all_urls>`], permissions: ["activeTab"] }) // TODO: 設定に持っていく
           navigate(0);
         }}>すべてのサーバについて許可する</div>
       </div>

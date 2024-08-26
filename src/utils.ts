@@ -21,3 +21,11 @@ export class KCWDate extends Date {
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+const S = 1000;
+const M = 60 * S;
+const H = 60 * M;
+const D = 24 * H;
+export {
+  S, M, H, D
+}

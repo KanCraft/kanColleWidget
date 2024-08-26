@@ -17,6 +17,7 @@
     "http://osapi.dmm.com/*"
   ],
   "optional_host_permissions": [
+    "<all_urls>",
     "http://203.104.209.71/*",
     "http://203.104.209.87/*",
     "http://125.6.184.215/*",

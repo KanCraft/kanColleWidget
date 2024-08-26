@@ -19,10 +19,12 @@ chrome.notifications.onClicked.addListener(onClicked.listener());
 // queueを見てるcronを起動
 chrome.alarms.create('/cron/queues', { periodInMinutes: 0.5 });
 
-import { Launcher } from "./services/Launcher";
-import { Frame } from "./models/Frame";
-(async () => {
-  const launcher = new Launcher();
-  const frame = await Frame.memory();
-  launcher.launch(frame);
-})();
+// import { Launcher } from "./services/Launcher";
+// import { Frame } from "./models/Frame";
+// (async () => {
+//   const launcher = new Launcher();
+//   const frame = await Frame.memory();
+//   launcher.launch(frame);
+// })();
+
+

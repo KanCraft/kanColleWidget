@@ -9,6 +9,10 @@ export class PermissionsService {
         private readonly mod: typeof chrome.permissions = chrome.permissions,
   ) { }
 
+  public async request(permissions: chrome.permissions.Permissions) {
+    return await this.mod.request(permissions);
+  }
+
   // 艦これサーバのモジュール
   public servers = {
     request: async (addresses: string[]) => {
