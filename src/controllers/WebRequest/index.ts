@@ -9,6 +9,7 @@ import {
   onMissionReturnInstruction,
   onMissionResult,
   onRecoveryStart,
+  onMapStart,
 } from "./kcsapi";
 
 const onBeforeRequest = new Router<chrome.webRequest.WebRequestBodyEvent>(async (details) => {
@@ -21,11 +22,12 @@ onBeforeRequest.on("/kcsapi/api_req_mission/start", onMissionStart); // 遠征�
 onBeforeRequest.on("/kcsapi/api_req_mission/return_instruction", onMissionReturnInstruction); // 遠征帰還命令出したとき
 onBeforeRequest.on("/kcsapi/api_req_mission/result", onMissionResult); // 遠征結果の回収をしたとき
 onBeforeRequest.on("/kcsapi/api_req_nyukyo/start", onRecoveryStart); // 修復用の入渠をしようとしたとき
+onBeforeRequest.on("/kcsapi/api_req_map/start", onMapStart); // 出撃をしようとしたとき
 
 onBeforeRequest.onNotFound(async (
   // detail: chrome.webRequest.WebRequestBodyDetails,
 ) => {
-  // new Logger("notfound").warn("notfound", detail.url, detail);
+  // new Logger("BeforeRequest").debug("*", detail.url, detail);
 });
 
 export { onBeforeRequest };
