@@ -1,8 +1,6 @@
-// import { Logger } from "chromite";
 import Queue from "../../models/Queue";
 
 export async function Once() {
-  // const log = new Logger("QueueWatcher");
   const queues = await Queue.list();
   for (let i = 0; i < queues.length; i++) {
     const queue = queues[i];

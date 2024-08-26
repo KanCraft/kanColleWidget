@@ -1,4 +1,4 @@
-import { Logger, Router } from "chromite";
+import { Router } from "chromite";
 import { Frame } from "../models/Frame";
 import { type Page } from "tesseract.js";
 import { EntryType, Recovery } from "../models/entry";
@@ -17,7 +17,6 @@ onMessage.on("/injected/dmm/ocr:result", async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.RECOVERY].dock;
   const [h, m, s] = data.text.split(":").map(Number);
-  new Logger("ocr").info({ h, m, s });
   const r = new Recovery(dock, (h * H + m * M + s * S));
   await Queue.create({ type: EntryType.RECOVERY, params: r, scheduled: Date.now() + r.time });
   await chrome.notifications.create(r.$n.id(TriggerType.START), r.$n.options(TriggerType.START));

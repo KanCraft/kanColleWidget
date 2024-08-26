@@ -1,4 +1,3 @@
-import { Logger } from "chromite";
 import { TabService } from "./TabService";
 import { WindowService } from "./WindowService";
 import { ScriptingService } from "./ScriptingService";
@@ -28,7 +27,6 @@ export class Launcher {
   }
 
   private async anchor(_win: chrome.windows.Window, frame: Frame) {
-    (new Logger("Launcher")).debug("anchor", _win, frame);
     this.scriptings.func(_win.tabs![0].id!, (f) => {
       sessionStorage.setItem("kancollewidget-frame-jsonstr", JSON.stringify(f));
     }, [frame]);
