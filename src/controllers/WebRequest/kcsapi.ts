@@ -9,11 +9,11 @@ import { TabService } from "../../services/TabService";
 
 const log = new Logger("WebRequest");
 
-export async function onPort(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onPort(details: chrome.webRequest.WebRequestBodyDetails[]) {
   log.info("onPort", details);
 }
 
-export async function onMissionStart(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onMissionStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   const data: MissionStartFormData = details.requestBody?.formData as unknown as MissionStartFormData;
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
@@ -24,15 +24,16 @@ export async function onMissionStart(details: chrome.webRequest.WebRequestBodyDe
   await chrome.notifications.clear(m.$n.id(TriggerType.START));
 }
 
-export async function onMissionReturnInstruction(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onMissionReturnInstruction([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   log.info("onMissionReturnInstruction", details);
 }
 
-export async function onMissionResult(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onMissionResult([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   log.info("onMissionResult", details);
 }
 
-export async function onRecoveryStart(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onRecoveryStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
+  log.info("onRecoveryStart", details);
   const data = details.requestBody?.formData as unknown as RecoveryStartFormData;
   const dock = data.api_ndock_id[0];
   const tab = await new TabService().get(details.tabId);
@@ -44,9 +45,13 @@ export async function onRecoveryStart(details: chrome.webRequest.WebRequestBodyD
   });
 }
 
-export async function onMapStart(details: chrome.webRequest.WebRequestBodyDetails) {
+export async function onMapStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   const data = details.requestBody?.formData as unknown as MapStartFormData;
   const deck = data.api_deck_id[0];
   const fatigue = new Fatigue(deck);
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
+}
+
+export async function onCreateShip(stack: chrome.webRequest.WebResponseCacheDetails[]) {
+  log.info("onCreateShip", stack);
 }

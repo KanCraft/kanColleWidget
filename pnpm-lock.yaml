@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       chromite:
-        specifier: ^0.1.4
-        version: 0.1.4
+        specifier: ^0.1.8
+        version: 0.1.8
       jstorm:
         specifier: ^0.17.0
         version: 0.17.0
@@ -934,8 +934,8 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chromite@0.1.4:
-    resolution: {integrity: sha512-ljSNQ/potvAXT+9EKM2VGh0JQKtEK46mEUcwVxfX07gvj2Zad3VvVerfiPGRr9kKDqXIuqPyxdJ8Dns5RGlKJw==}
+  chromite@0.1.8:
+    resolution: {integrity: sha512-NiR/IvBDF0/emasDLLYVmhsfy6LH/s3CFu0AxCUPXW2ndyIrfZYnt3Zune2TtFeV8ODDwRK6P3tXEbjB4ak0UQ==}
 
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -2825,7 +2825,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chromite@0.1.4: {}
+  chromite@0.1.8: {}
 
   color-convert@1.9.3:
     dependencies:
