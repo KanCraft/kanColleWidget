@@ -12,6 +12,9 @@ export class PermissionsService {
   public async request(permissions: chrome.permissions.Permissions) {
     return await this.mod.request(permissions);
   }
+  public async revoke(permissions: chrome.permissions.Permissions) {
+    return await this.mod.remove(permissions);
+  }
 
   // 艦これサーバのモジュール
   public servers = {

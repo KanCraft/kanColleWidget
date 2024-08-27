@@ -2,7 +2,7 @@ import { PermissionsService } from "../../services/PermissionsService";
 import { servers } from "../../catalog";
 import { Frame } from "../../models/Frame";
 
-export async function serverpermissions() {
+export async function options() {
   const perms = new PermissionsService();
   const ss = await perms.servers.granted(servers);
   return { servers: ss };

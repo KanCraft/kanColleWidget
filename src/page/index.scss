@@ -5,4 +5,22 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+h1.fold {
+    &::after {
+        transition: all 0.2s;
+        margin-left: 4px;
+        color: #475569; // slatte-600
+        content: '▶︎';
+    }
+    &.open {
+        &::after {
+            color: #0d9488; // teal-600
+            content: '▼';
+        }
+    }
+    &:hover::after {
+        color: #0d9488; // teal-600
+    }
+}
 // もうこれ以上CSS書かないぞ、というつよいきもち
