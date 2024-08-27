@@ -3,6 +3,7 @@ import { WindowService } from "./WindowService";
 import { ScriptingService } from "./ScriptingService";
 
 import { Frame } from "../models/Frame";
+import { KanColleURL } from "../constants";
 
 export class Launcher {
 
@@ -45,10 +46,11 @@ export class Launcher {
     }, 5 * 1000);
   }
 
-  public async find(frame: Frame): Promise<chrome.windows.Window | undefined> {
-    const tabs = await this.tabs.query({ url: frame.url });
+  public async find(frame?: Frame): Promise<chrome.windows.Window | undefined> {
+    const url = frame ? frame.url : KanColleURL;
+    const tabs = await this.tabs.query({ url });
     for (const tab of tabs) {
-      if (tab.url !== frame.url) continue;
+      if (tab.url !== url) continue;
       const win = await this.windows.get(tab.windowId, { populate: true });
       if (win.tabs && win.tabs.length === 1) return win;
     }
@@ -58,5 +60,4 @@ export class Launcher {
   public async focus(windowId: number) {
     return this.windows.update(windowId, { focused: true });
   }
-
 }

@@ -32,6 +32,7 @@ import { type FrameParams } from "../models/Frame";
      * @param zoom ズーム値
      */
   function fit(zoom: number) {
+    sessionStorage.setItem("kancollewidget-frame-zoom", zoom.toString());
     const iframe = window.document.querySelector(GameIFrame) as HTMLIFrameElement;
     iframe.style.position = "absolute";
     iframe.style.transition = "transform 0.2s";

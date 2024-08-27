@@ -5,7 +5,8 @@ import { Frame } from "../../models/Frame";
 export async function options() {
   const perms = new PermissionsService();
   const ss = await perms.servers.granted(servers);
-  return { servers: ss };
+  const frames = await Frame.list();
+  return { servers: ss, frames };
 }
 
 export async function popup() {
