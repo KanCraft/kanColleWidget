@@ -2,6 +2,8 @@ import { useLoaderData } from "react-router-dom"
 import { Launcher } from "../services/Launcher"
 import { Frame } from "../models/Frame"
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 export function PopupPage() {
   const { frames } = useLoaderData() as { frames: Frame[] }
   const defaultId = "__memory__";
@@ -21,13 +23,14 @@ export function PopupPage() {
             const frame = frames.find((frame) => frame._id === defaultId);
             if (frame) Launcher.launch(frame);
           }}
-        ><img src="/anchor.svg" alt="抜錨！" />
+        ><img src="/anchor.svg" alt="抜錨！" title="抜錨！" />
         </div>
       </div>
-      <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden">
-        <div className="py-2 px-4 cursor-pointer"
+      <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-min">
+        <div className="py-2 px-4 cursor-pointer text-slate-400 hover:text-slate-600 transition hover:bg-teal-50"
+          title="ダッシュボードを開く"
           onClick={() => Launcher.dashboard()}
-        >ダッシュボード</div>
+        ><FontAwesomeIcon icon="clock" className="" /></div>
       </div>
     </div>
   )

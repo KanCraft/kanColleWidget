@@ -11,6 +11,11 @@ import { OptionsPage } from './OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
 
+// 使うFontAwesomeのアイコンを読み込む
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+library.add(faClock);
+
 const router = createHashRouter([
   {
     path: "/popup",
