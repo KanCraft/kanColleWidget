@@ -1,6 +1,7 @@
 import { PermissionsService } from "../../services/PermissionsService";
 import { servers } from "../../catalog";
 import { Frame } from "../../models/Frame";
+import Queue from "../../models/Queue";
 
 export async function options() {
   const perms = new PermissionsService();
@@ -13,4 +14,10 @@ export async function popup() {
   return {
     frames: await Frame.list(),
   };
+}
+
+export async function dashboard() {
+  return {
+    queues: await Queue.list(),
+  }
 }

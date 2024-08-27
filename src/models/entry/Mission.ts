@@ -4,19 +4,19 @@ import { NotificationEntryBase, TriggerType } from "./Base";
 
 export class Mission extends NotificationEntryBase {
   public override readonly type = "mission";
-  public deck: number | string = 0; // 艦隊ID [2,3,4]
+  public deck: number = 0; // 艦隊ID [2,3,4]
   public id: number | string = 0; // 遠征ID
 
   // カタログから来る基本情報 (idさえあればcatalogからひける)
   public title: string = "UNKNOWN"; // 遠征タイトル
   public time: number = 0; // 所要時間（ミリ秒）
 
-  constructor(deckId: number | string, missionId: number | string, mission: MissionSpec) {
+  constructor(deckId: string, missionId: number | string, mission: MissionSpec) {
     super();
     this.id = missionId;
     this.title = mission.title;
     this.time = mission.time;
-    this.deck = deckId;
+    this.deck = parseInt(deckId);
   }
 
   override $n = {

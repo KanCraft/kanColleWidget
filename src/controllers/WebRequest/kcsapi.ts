@@ -48,7 +48,7 @@ export async function onRecoveryStart([details]: chrome.webRequest.WebRequestBod
 export async function onMapStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   const data = details.requestBody?.formData as unknown as MapStartFormData;
   const deck = data.api_deck_id[0];
-  const fatigue = new Fatigue(deck);
+  const fatigue = new Fatigue(parseInt(deck));
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 

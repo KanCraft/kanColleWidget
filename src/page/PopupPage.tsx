@@ -7,7 +7,7 @@ export function PopupPage() {
   const defaultId = "__memory__";
   return (
     <div className="lg:container p-2">
-      <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-60">
+      <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-60 mb-2">
         <div className="grow">
           <select className="h-full w-full text-lg px-4 cursor-pointer hover:bg-indigo-50 transition-all appearance-none"
             defaultValue={defaultId} onChange={(e) => {
@@ -23,6 +23,11 @@ export function PopupPage() {
           }}
         ><img src="/anchor.svg" alt="抜錨！" />
         </div>
+      </div>
+      <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden">
+        <div className="py-2 px-4 cursor-pointer"
+          onClick={() => Launcher.dashboard()}
+        >ダッシュボード</div>
       </div>
     </div>
   )

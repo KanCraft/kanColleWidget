@@ -17,6 +17,10 @@ export class Launcher {
     return (new this()).launch(frame);
   }
 
+  public static async dashboard() {
+    return await (new this()).windows.create({ url: "page/index.html#/dashboard", width: 400, height: 220, type: "popup" });
+  }
+
   public async launch(frame: Frame) {
     // すでに存在する場合、retouchして終わる
     const exists = await this.find(frame);
