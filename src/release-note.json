@@ -1,0 +1,134 @@
+{
+  "reference": {
+    "repo": "https://github.com/kancraft/kanColleWidget"
+  },
+  "releases": [
+    {
+      "date": "2024-09-01",
+      "version": "v4.0.2",
+      "message": "",
+      "commits": [
+        {
+          "title": "自動リリーススクリプトを他プロジェクトから移植",
+          "hash": "0e70d874564cd0e5fdf4beb8bcaf9256c0af50b5"
+        },
+        {
+          "title": "Makefile作成",
+          "hash": "733573ceb1df45b4ffee0131397e8380c9399c11"
+        },
+        {
+          "title": "大破進撃防止窓の最小限実装",
+          "hash": "321672b4f25c2fcf5a397d6c8e14d78010d5aa8f"
+        },
+        {
+          "title": "FontAwesome導入",
+          "hash": "2079a9d8202f715636822ad06da52a2e5336efa7"
+        },
+        {
+          "title": "ダッシュボード機能をとりあえず実装",
+          "hash": "d9d06d561833364dad5280607e73d083e159702a"
+        },
+        {
+          "title": "窓設定の保存機能を実装",
+          "hash": "f4bbd4a15b3541ce5ecbc4cbd8f9f3c3bf8e86b4"
+        },
+        {
+          "title": "設定ページをリファクタ & サーバ選択を設定ページへ引越し",
+          "hash": "727fbe027427cae2319d0fcd840d2fe49f509345"
+        },
+        {
+          "title": "建造完了のタイマーのバグを修正",
+          "hash": "7cfd38a28cf2442c5fad9f8ce00fb62f70530af4"
+        },
+        {
+          "title": "建造タイマーを実装",
+          "hash": "e9fc4c8080a37271c34ff5157163b988f57f1094"
+        },
+        {
+          "title": "WebRequestにはSequentialRouterを使うようにした",
+          "hash": "15ee5b015cabeda39d4d6040b3025f6336a67f55"
+        },
+        {
+          "title": "通知エントリモデルのあたりをリファクタリングした",
+          "hash": "ff410673327bfb8a1de077f66f174c125e31362f"
+        },
+        {
+          "title": "不要なログを削除",
+          "hash": "3e212fc6e481c374a59fc057b6e6a7f4b805dde4"
+        },
+        {
+          "title": "疲労タイマーを実装",
+          "hash": "6be2d39d7d51145350e6787886729db185ccbaf7"
+        },
+        {
+          "title": "README追加",
+          "hash": "d31e66c0e9b6de16a53dc2bc42e7a6d6a91e3995"
+        },
+        {
+          "title": "Fix test",
+          "hash": "3ab623cdbefbbe8e9d286956101387b7dafe3c4a"
+        },
+        {
+          "title": "CIを設置",
+          "hash": "2ffdd6f10cfa9ddbd728ecd211ac25f56c352ca3"
+        },
+        {
+          "title": "修復タイマーを実装",
+          "hash": "169782498b284602e83a341d1bd363290e1a684c"
+        },
+        {
+          "title": "遠征開始時も通知を出す",
+          "hash": "06675d88159cb82b0f48347280971bcb76ab00ec"
+        },
+        {
+          "title": "KCWDateを導入",
+          "hash": "e8fe5f88296eb8f7b77bf49eddf78e8821ce5da3"
+        },
+        {
+          "title": "launchを再度押したらfocusするように修正",
+          "hash": "b35a5f18e07174dd5265ab88e8741f7a68c66a95"
+        },
+        {
+          "title": "通知を押したときに通知を消すように修正",
+          "hash": "cd600d72b0e0c377346ef827ee635fdf073458fb"
+        },
+        {
+          "title": "MEMORY窓の位置とサイズを覚える",
+          "hash": "a28878ff9e034383e4378b80c1b272994dffe196"
+        },
+        {
+          "title": "ポップアップ部分を実装",
+          "hash": "41bfff482ab9f4c1f4a35666c3c85a3443383f47"
+        },
+        {
+          "title": "窓の生成を実装",
+          "hash": "d008ba6922500bf97cb1ec99250e9a67c6b579f5"
+        },
+        {
+          "title": "とりあえず遠征だけは対応したと思う",
+          "hash": "b81346d6d281cd5ab5455ec71d861ae862379f39"
+        },
+        {
+          "title": "所属サーバを選択できるようにした",
+          "hash": "beac9f825e6d3569fdc12da69afb1f50aa83803d"
+        },
+        {
+          "title": "サーバのパーミッションについて変えた",
+          "hash": "7478f34d999fe998b826301f75f7267dc7402c4b"
+        },
+        {
+          "title": "なんとなくタイマーまわりのドメインモデルを実装",
+          "hash": "667c6240051e54f701786ca032af228de95fd970"
+        },
+        {
+          "title": "lint整えた",
+          "hash": "882ebbbf4e3a1137f37daf8355014988992ac270"
+        },
+        {
+          "title": "Chrome拡張としての体裁を整えた",
+          "hash": "34965de84d3f4187eb891e3c8f0d353fae4a8f53"
+        }
+      ]
+    }
+  ]
+}
