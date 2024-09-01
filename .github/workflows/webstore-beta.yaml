@@ -1,0 +1,34 @@
+name: Webstore BETA Publish
+
+on:
+  pull_request:
+    types: [edited]
+
+jobs:
+  webstore_beta_publish:
+    if: |
+      github.event.changes.title && startsWith(github.event.pull_request.title, '[v')
+    # github.event.pull_request.base.ref == 'master' &&
+    # github.event.pull_request.head.ref == 'develop' &&
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: beta
+      GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+      GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+      GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+      CHROMEWEBSTORE_EXTENSION_ID: egkgleinehaapbpijnlpbllfeejjpceb
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - run: pnpm install
+    - run: make beta-release
+    - name: Publish to Webstore (BETA)
+      run: |
+        npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット-beta.zip
