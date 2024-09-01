@@ -39,6 +39,18 @@
     "http://203.104.209.55/*",
     "http://203.104.209.102/*"
   ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/",
+        "http://*/kcs2/*"
+      ],
+      "js": [
+        "crop.js"
+      ],
+      "all_frames": true
+    }
+  ],
   "icons": {
     "128": "icons/128.png",
     "480": "icons/480.png"

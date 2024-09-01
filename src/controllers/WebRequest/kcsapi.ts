@@ -9,8 +9,8 @@ import { TabService } from "../../services/TabService";
 
 const log = new Logger("WebRequest");
 
-export async function onPort(details: chrome.webRequest.WebRequestBodyDetails[]) {
-  log.info("onPort", details);
+export async function onPort([details]: chrome.webRequest.WebRequestBodyDetails[]) {
+  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
 }
 
 export async function onMissionStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
@@ -50,6 +50,10 @@ export async function onMapStart([details]: chrome.webRequest.WebRequestBodyDeta
   const deck = data.api_deck_id[0];
   const fatigue = new Fatigue(parseInt(deck));
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
+}
+
+export async function onBattleStarted([details]: chrome.webRequest.WebRequestBodyDetails[]) {
+  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
 }
 
 export async function onCreateShip([details]: chrome.webRequest.WebRequestBodyDetails[]) {

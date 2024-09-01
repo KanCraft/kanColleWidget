@@ -35,4 +35,13 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   await chrome.notifications.clear(sb.$n.id(TriggerType.START));
 });
 
+onMessage.on("/damage-snapshot/capture", async (req, sender) => {
+  console.log("/damage-snapshot/capture", req, sender);
+  const { after, timestamp } = req;
+  await sleep(after || 1000); // 描画待ち
+  const uri = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
+  console.log("uri", uri);
+  chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
+})
+
 export { onMessage };

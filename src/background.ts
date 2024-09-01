@@ -4,8 +4,9 @@ Logger.global.level(LogLevel.DEBUG);
 import Alarm from './controllers/Alarm';
 chrome.alarms.onAlarm.addListener(Alarm.listener());
 
-import { onBeforeRequest } from './controllers/WebRequest';
+import { onBeforeRequest, onComplete } from './controllers/WebRequest';
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest.listener(), { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);
+chrome.webRequest.onCompleted.addListener(onComplete.listener(), { urls: ["*://*/kcsapi/*"] }, ["responseHeaders"]);
 
 import { onMessage } from './controllers/Message';
 chrome.runtime.onMessage.addListener(onMessage.listener());
