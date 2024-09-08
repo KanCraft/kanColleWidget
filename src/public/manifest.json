@@ -54,7 +54,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "tess-worker.min.js",
+        "tessworker.min.js",
         "tessdata-4.0.0_best_int/*"
       ],
       "matches": [
