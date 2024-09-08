@@ -20,6 +20,9 @@ export class Launcher {
   public static async dashboard() {
     return await (new this()).windows.create({ url: "page/index.html#/dashboard", width: 400, height: 220, type: "popup" });
   }
+  public static async options() {
+    return await (new this()).tabs.create({ url: "page/index.html#/options" });
+  }
 
   public async launch(frame: Frame) {
     // すでに存在する場合、retouchして終わる

@@ -6,6 +6,9 @@
     {
       "date": "2024-09-01",
       "version": "v4.0.2",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
       "message": "",
       "commits": [
         {

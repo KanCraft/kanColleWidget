@@ -1,8 +1,21 @@
 import { useLoaderData } from "react-router-dom"
 import { Launcher } from "../services/Launcher"
-import { Frame } from "../models/Frame"
+import { type Frame } from "../models/Frame"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { type IconProp } from "@fortawesome/fontawesome-svg-core";
+
+function ShortCutIcon({icon, title, action}: {
+  icon: IconProp;
+  title: string;
+  action: () => void;
+}) {
+  return (
+    <div className="py-2 px-4 cursor-pointer text-slate-400 hover:text-slate-600 transition hover:bg-teal-50"
+      title={title} onClick={action}
+    ><FontAwesomeIcon icon={icon} className="" /></div>
+  )
+}
 
 export function PopupPage() {
   const { frames } = useLoaderData() as { frames: Frame[] }
@@ -27,10 +40,8 @@ export function PopupPage() {
         </div>
       </div>
       <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-min">
-        <div className="py-2 px-4 cursor-pointer text-slate-400 hover:text-slate-600 transition hover:bg-teal-50"
-          title="ダッシュボードを開く"
-          onClick={() => Launcher.dashboard()}
-        ><FontAwesomeIcon icon="clock" className="" /></div>
+        <ShortCutIcon icon="clock" title="ダッシュボードを開く" action={() => Launcher.dashboard()} />
+        <ShortCutIcon icon="cog"   title="設定を開く"         action={() => Launcher.options()} />
       </div>
     </div>
   )
