@@ -13,7 +13,7 @@
     "start": "tsc && pnpm run copy-tesseract && vite build --watch",
     "build": "tsc && pnpm run copy-tesseract && vite build",
     "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int",
-    "remove-remote-code": "sed -i '' 's#\"https://cdn.jsdelivr.net/[^\"]*\"#\"FILTERED_BY_KCWIDGET\"#g' dist/tessworker.min.js && sed -i '' 's#`https://cdn.jsdelivr.net/[^`]*`#`FILTERED_BY_KCWIDGET`#g' dist/dmm.js",
+    "remove-remote-code": "sed -i.bak 's#\"https://cdn.jsdelivr.net/[^\"]*\"#\"FILTERED_BY_KCWIDGET\"#g' dist/tessworker.min.js && sed -i.bak 's#`https://cdn.jsdelivr.net/[^`]*`#`FILTERED_BY_KCWIDGET`#g' dist/dmm.js && rm dist/*.bak",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
