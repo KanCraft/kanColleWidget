@@ -31,4 +31,4 @@ jobs:
     - run: make beta-release
     - name: Publish to Webstore (BETA)
       run: |
-        npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット-beta.zip
+        npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット-BETA.zip
