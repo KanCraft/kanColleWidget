@@ -9,8 +9,7 @@
     "notifications",
     "scripting",
     "storage",
-    "webRequest",
-    "webNavigation"
+    "webRequest"
   ],
   "host_permissions": [
     "http://www.dmm.com/*",
