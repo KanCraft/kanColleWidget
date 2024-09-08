@@ -4,11 +4,42 @@
   },
   "releases": [
     {
-      "date": "2024-09-01",
-      "version": "v4.0.2",
+      "date": "2024-09-08",
+      "version": "v4.0.3",
       "announce": {
         "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
       },
+      "message": "",
+      "commits": [
+        {
+          "title": "リリースノートを表示する仕組みを実装",
+          "hash": "894936082469c723706ff1b37914691267da8d87"
+        },
+        {
+          "title": "webNavigationまだ使ってないのでmanifestから削除",
+          "hash": "d3498436ff06ed45c55cea18cd6c0b19f8d7132b"
+        },
+        {
+          "title": "ウェブストアの審査のために、念の為jsdelivrへの参照を削除しておく",
+          "hash": "e144f88172c88930d0c135099529c33a86f2e862"
+        },
+        {
+          "title": "distフォルダ下にtessdataが重複して作成されるのを予防",
+          "hash": "d7fb11a9544b47e3cca491d797518528b1a650a8"
+        },
+        {
+          "title": "ローカルTesseractのためにリモートコード実行を排除",
+          "hash": "056e10c4b5786db2443411133345932dc3b4af0f"
+        },
+        {
+          "title": "v4.0.2",
+          "hash": "0f0e5957dc6be751aba52f3bacf99f7e71c378de"
+        }
+      ]
+    },
+    {
+      "date": "2024-09-01",
+      "version": "v4.0.2",
       "message": "",
       "commits": [
         {
