@@ -1,31 +1,43 @@
 project = 艦これウィジェット
 
+# ANSI Color
+# 0: Black, 1: Red, 2: Green, 3: Yellow, 4: Blue, 5: Magenta, 6: Cyan, 7: White
 clean:
+	@echo "\033[0;33m[clean]\t既存ビルドファイルを削除します\033[0m"
+	rm -rf dist
 	rm -rf release
+
+dist: clean
+	@echo "\033[0;33m[dist]\tdistフォルダのビルドを行います\033[0m"
+	pnpm run build
+	@echo "\033[0;33m[dist]\tリモードコードに該当する部分を削除します\033[0m"
+	pnpm run remove-remote-code
 
 # 公開版リリース用のzipを作成します
 # 基本的に GitHub Actions が叩くため、手動で実行することはありません
-release: clean
-	@mkdir -p release
-	@pnpm run build
-	@mv dist/icons/prod/*.png dist/icons/
-	@rm -rf dist/icons/beta dist/icons/prod
-	@cp -r dist release/$(project)
-	@zip -r release/$(project).zip release/$(project)/*
+release: dist
+	@echo "\033[0;33m[release] 公開版のアイコンを移動します\033[0m"
+	mv dist/icons/prod/*.png dist/icons/
+	rm -rf dist/icons/beta dist/icons/prod
+	@echo "\033[0;33m[release] 公開版リリース用のzipを作成します\033[0m"
+	mkdir -p release
+	cp -r dist release/$(project)
+	zip -r release/$(project).zip release/$(project)/*
 	@echo "\n\033[0;32m[SUCCESSFULLY PACKAGED]\033[0m release/$(project).zip\n"
 
 # ベータリリース用のzipを作成します
 # 基本的に GitHub Actions が叩くため、手動で実行することはありません
 # 公開版との違いは、アイコンが beta フォルダに配置されることと、manifest.json の name に(BETA)が追加されることだけです
-beta-release: clean
-	@mkdir -p release
-	@pnpm run build
-	@mv dist/icons/beta/*.png dist/icons/
-	@rm -rf dist/icons/beta dist/icons/prod
-	@sed "s/\"$(project)\"/\"$(project) (BETA)\"/" src/public/manifest.json > dist/manifest.json
-	@cp -r dist release/$(project)-beta
-	@zip -r release/$(project)-beta.zip release/$(project)-beta/*
-	@echo "\n\033[0;32m[SUCCESSFULLY PACKAGED]\033[0m release/$(project)-beta.zip\n"
+beta-release: dist
+	@echo "\033[0;33m[beta-release] ベータ版のアイコンを移動します\033[0m"
+	sed "s/\"$(project)\"/\"$(project) (BETA)\"/" src/public/manifest.json > dist/manifest.json
+	mv dist/icons/beta/*.png dist/icons/
+	rm -rf dist/icons/beta dist/icons/prod
+	@echo "\033[0;33m[beta-release] ベータリリース用のzipを作成します\033[0m"
+	mkdir -p release
+	cp -r dist release/$(project)-BETA
+	zip -r release/$(project)-BETA.zip release/$(project)-BETA/*
+	@echo "\n\033[0;32m[SUCCESSFULLY PACKAGED]\033[0m release/$(project)-BETA.zip\n"
 
 # draft はリリースノートの下書きを行うためのタスクです
 # 直近のタグから現在までのコミットは、ベータリリースすべき内容としてリリースノートに記載されます
