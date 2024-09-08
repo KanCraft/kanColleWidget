@@ -134,7 +134,7 @@
       if (!this.container) {
         this.container = document.querySelector("#kcw-damagesnapshot")!;
       }
-      if (typeof this.container.remove === "function") {
+      if (this.container && typeof this.container.remove === "function") {
         this.container.remove();
         this.container = null;
       }

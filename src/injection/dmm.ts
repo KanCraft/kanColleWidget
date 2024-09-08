@@ -1,4 +1,4 @@
-import { createWorker, RecognizeResult, WorkerParams } from 'tesseract.js';
+import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tesseract.js';
 import { type FrameParams } from "../models/Frame";
 // import { Rectangle, load, crop } from './crop';
 
@@ -96,7 +96,11 @@ import { type FrameParams } from "../models/Frame";
   }
 
   async function ocr(url: string, params: Partial<WorkerParams> = { tessedit_char_whitelist: "0123456789:" }): Promise<RecognizeResult> {
-    const worker = await createWorker('eng');
+    const worker = await createWorker('eng', OEM.LSTM_ONLY, {
+      logger: m => console.log(m),
+      workerPath: chrome.runtime.getURL('tess-worker.min.js'),
+      langPath: chrome.runtime.getURL('tessdata-4.0.0_best_int'),
+    });
     worker.setParameters(params);
     const ret = await worker.recognize(url);
     worker.terminate();

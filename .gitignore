@@ -24,6 +24,10 @@ dist-ssr
 *.sw?
 .env
 
+# Application src
+src/public/tessdata*
+src/public/tessworker*
+
 # Release
 release
 

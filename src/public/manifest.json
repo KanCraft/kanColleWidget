@@ -51,6 +51,17 @@
       "all_frames": true
     }
   ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "tess-worker.min.js",
+        "tessdata-4.0.0_best_int/*"
+      ],
+      "matches": [
+        "*://www.dmm.com/*"
+      ]
+    }
+  ],
   "icons": {
     "128": "icons/128.png",
     "480": "icons/480.png"
