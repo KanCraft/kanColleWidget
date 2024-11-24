@@ -25,5 +25,6 @@ export async function dashboard() {
   return {
     queues: await Queue.list(),
     window: win,
+    time: new Date(),
   }
 }

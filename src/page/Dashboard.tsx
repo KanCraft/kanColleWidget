@@ -1,17 +1,24 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRevalidator } from "react-router-dom";
 import { ActionsView } from "./components/dashboard/ActionsView";
 import { ClockView } from "./components/dashboard/ClockView";
 import { QueuesView } from "./components/dashboard/QueuesView";
+import type Queue from "../models/Queue";
+import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window } = useLoaderData() as { window: chrome.windows.Window };
+  const { window, queues, time } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date };
+  const revalidater = useRevalidator();
+  useEffect(() => {
+    const interval = setInterval(() => revalidater.revalidate(), 1000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div className="p-4">
       <div className="flex space-x-4">
-        <ClockView />
+        <ClockView time={time} />
         <ActionsView tab={window?.tabs?.[0]} />
       </div>
-      <QueuesView />
+      <QueuesView queues={queues} />
     </div>
   )
 }

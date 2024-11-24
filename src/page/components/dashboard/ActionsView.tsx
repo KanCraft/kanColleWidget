@@ -3,14 +3,9 @@ import { useMemo } from "react";
 import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
 
-function MuteControlButton({tab}: { tab?: chrome.tabs.Tab }) {
+function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
-  const launcher = useMemo(() => new Launcher(), []);
-  const revalidater = useRevalidator();
-  const onClick = async () => {
-    await launcher.mute(tab.id!, !tab.mutedInfo?.muted);
-    revalidater.revalidate();
-  };
+  const onClick = async () => { await launcher.mute(tab.id!, !tab.mutedInfo?.muted); refresh(); };
   const icon = tab.mutedInfo?.muted ? "volume-mute" : "volume-high";
   return (
     <div onClick={onClick} className="cursor-pointer text-slate-400 hover:text-slate-600">
@@ -39,11 +34,14 @@ function LaunchControlButton() {
 }
 
 export function ActionsView({tab}: { tab?: chrome.tabs.Tab }) {
+  const launcher = useMemo(() => new Launcher(), []);
+  const revalidater = useRevalidator();
+  const refresh = () => revalidater.revalidate();
   return (
     <div className="flex-1 flex items-center justify-end space-x-4">
       <LaunchControlButton />
       <CaptureControlButton tab={tab} />
-      <MuteControlButton tab={tab} />
+      <MuteControlButton tab={tab} launcher={launcher} refresh={refresh} />
     </div>
   )
 }

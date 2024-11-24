@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
 import Queue from "../../../models/Queue";
 import { KCWDate } from "../../../utils";
@@ -49,13 +48,7 @@ function QueueTableView({ queues }: { queues: Queue[] }) {
   )
 }
 
-export function QueuesView() {
-  const [queues, setQueues] = useState<Queue[]>([]);
-  useEffect(() => {
-    Queue.list().then(setQueues);
-    const interval = setInterval(async () => Queue.list().then(setQueues), 1000);
-    return () => clearInterval(interval);
-  }, []);
+export function QueuesView({ queues }: { queues: Queue[] }) {
   return (
     <div>
       <QueueTableView queues={queues} />

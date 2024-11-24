@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 
 enum DayOfWeek {
     日 = 0,
@@ -10,14 +9,7 @@ enum DayOfWeek {
     土 = 6,
 }
 
-export function ClockView() {
-  const [time, setTime] = useState(new Date());
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+export function ClockView({ time }: { time: Date }) {
   const year = time.getFullYear();
   const month = time.getMonth() + 1;
   const date = time.getDate();
