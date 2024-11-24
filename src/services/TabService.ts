@@ -23,4 +23,13 @@ export class TabService {
   public async update(tabId: number, props: chrome.tabs.UpdateProperties) {
     return await this.mod.update(tabId, props);
   }
+
+  // TODO: 各所で chrome.tabs.captureVisibleTab を使っているので、ここに集約させたい
+  public async capture(windowId: number, options: chrome.tabs.CaptureVisibleTabOptions) {
+    return await new Promise<string>((resolve) => {
+      this.mod.captureVisibleTab(windowId, options, (dataUrl) => {
+        resolve(dataUrl);
+      });
+    });
+  }
 }

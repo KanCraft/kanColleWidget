@@ -71,4 +71,11 @@ export class Launcher {
   public async mute(tabId: number, muted: boolean = true) {
     return this.tabs.update(tabId, { muted });
   }
+
+  public async capture(tabId: number, options: chrome.tabs.CaptureVisibleTabOptions = {
+    format: "jpeg",
+    quality: 100,
+  }): Promise<string> {
+    return this.tabs.capture(tabId, options);
+  }
 }

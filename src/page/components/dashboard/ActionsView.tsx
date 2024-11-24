@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMemo } from "react";
 import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
+import { DownloadService } from "../../../services/DownloadService";
 
 function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
@@ -14,11 +15,16 @@ function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, 
   )
 }
 
-function CaptureControlButton({tab}: { tab?: chrome.tabs.Tab }) {
+function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launcher: Launcher }) {
   if (!tab) return null;
   return (
-    <div onClick={() => {
-      window.alert("capture!");
+    <div onClick={async () => {
+      const s = new DownloadService();
+      const format = "jpeg";
+      const uri = await launcher.capture(tab.windowId, { format });
+      const dir = "艦これ";
+      /* const downloadId = */ await s.download(uri, DownloadService.filename.screenshot({ dir, format }));
+      // await s.show(downloadId);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600">
       <FontAwesomeIcon icon="camera" className="w-8 h-8"/>
     </div>
@@ -40,7 +46,7 @@ export function ActionsView({tab}: { tab?: chrome.tabs.Tab }) {
   return (
     <div className="flex-1 flex items-center justify-end space-x-4">
       <LaunchControlButton />
-      <CaptureControlButton tab={tab} />
+      <CaptureControlButton tab={tab} launcher={launcher} />
       <MuteControlButton tab={tab} launcher={launcher} refresh={refresh} />
     </div>
   )
