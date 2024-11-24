@@ -5,6 +5,24 @@
   "releases": [
     {
       "date": "2024-11-24",
+      "version": "v4.0.6",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
+      "message": "",
+      "commits": [
+        {
+          "title": "自動リリーススクリプトのtokenが古い時のMakefile整備",
+          "hash": "307e96e96f6ed6fd608308f26b923421e723f78b"
+        },
+        {
+          "title": "v4.0.5",
+          "hash": "48f4ce80cba4742ce3350e62b8a65283acfc2e5b"
+        }
+      ]
+    },
+    {
+      "date": "2024-11-24",
       "version": "v4.0.5",
       "announce": {
         "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
