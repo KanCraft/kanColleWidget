@@ -76,3 +76,6 @@ draft:
 	@echo "\033[0;32m[UPDATED]\033[0m release-note.json\t$(relv) => v$(pkgv)"
 	##################################################
 	@echo "\033[0;36m[PLEASE EDIT]\033[0m "`pwd`/src/release-note.json
+
+token:
+	bash ./scripts/retrieve-token.sh
