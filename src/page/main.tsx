@@ -13,8 +13,8 @@ import { DashboardPage } from './Dashboard';
 
 // 使うFontAwesomeのアイコンを読み込む
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faClock, faCog } from '@fortawesome/free-solid-svg-icons';
-library.add(faClock, faCog);
+import { faClock, faCog, faCamera, faVolumeMute, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
+library.add(faClock, faCog, faCamera, faVolumeMute, faVolumeHigh);
 
 const router = createHashRouter([
   {

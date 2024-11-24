@@ -67,4 +67,8 @@ export class Launcher {
   public async focus(windowId: number) {
     return this.windows.update(windowId, { focused: true });
   }
+
+  public async mute(tabId: number, muted: boolean = true) {
+    return this.tabs.update(tabId, { muted });
+  }
 }

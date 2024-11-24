@@ -19,4 +19,8 @@ export class TabService {
   public async create(props: chrome.tabs.CreateProperties) {
     return await this.mod.create(props);
   }
+
+  public async update(tabId: number, props: chrome.tabs.UpdateProperties) {
+    return await this.mod.update(tabId, props);
+  }
 }
