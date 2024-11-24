@@ -4,6 +4,52 @@
   },
   "releases": [
     {
+      "date": "2024-11-24",
+      "version": "v4.0.5",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
+      "message": "",
+      "commits": [
+        {
+          "title": "窓サイズのプリセットを追加し、窓設定の初期化機能を実装",
+          "hash": "7bfe47350e8db01f4663cb04c88ce4d6e6b541e6"
+        },
+        {
+          "title": "Fix lint",
+          "hash": "694f8f7d818c2e24ce80d1a98f305bf172aa32cc"
+        },
+        {
+          "title": "ダッシュボードでスクショボタンを設置",
+          "hash": "3d125f5fe090316691e610d37eed523d4c2fb62f"
+        },
+        {
+          "title": "時計の時刻更新についてもなるべくsetIntervalはrootのレベルで実施",
+          "hash": "963d15b69f51c4d16c95c5a222711e6e35fa9770"
+        },
+        {
+          "title": "navigate(0) よりも、revalidator.revalidate でリフレッシュすべき",
+          "hash": "7f94a61a646c3d8a31c45d7733dc97f30451eb11"
+        },
+        {
+          "title": "ダッシュボードでミュートできるボタンを実装",
+          "hash": "c2de260b35c772af0a1b6bc76362d9758e28f0db"
+        },
+        {
+          "title": "自動リリーススクリプトのバグを修正",
+          "hash": "1c8ad24082a22028b2477da0179a92e826274526"
+        },
+        {
+          "title": "ubuntu-latestに対応",
+          "hash": "8bc1ba417bfcae09385ebc10466014ba3164645f"
+        },
+        {
+          "title": "v4.0.3",
+          "hash": "ec0cebbe5af8aa9ca6ccb67ef00581f9c361067c"
+        }
+      ]
+    },
+    {
       "date": "2024-09-08",
       "version": "v4.0.3",
       "announce": {
