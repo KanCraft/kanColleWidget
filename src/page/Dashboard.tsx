@@ -11,7 +11,7 @@ export function DashboardPage() {
   useEffect(() => {
     const interval = setInterval(() => revalidater.revalidate(), 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [revalidater]);
   return (
     <div className="p-4">
       <div className="flex space-x-4">
