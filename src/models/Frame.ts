@@ -40,6 +40,28 @@ export class Frame extends Model {
       url: KanColleURL,
       protected: true,
     },
+    __original__: {
+      addressbar: false,
+      name: "ORIGINAL",
+      description: "オリジナルサイズ",
+      muted: false,
+      position: { left: 0, top: 0, },
+      zoom: 1,
+      size: { width: GameRawWidth, height: GameRawHeight, },
+      url: KanColleURL,
+      protected: true,
+    },
+    __small__: {
+      addressbar: false,
+      name: "SMALL",
+      description: "小さいサイズ",
+      muted: false,
+      position: { left: 0, top: 0, },
+      zoom: 1 / 3,
+      size: { width: (GameRawWidth / 3), height: (GameRawHeight / 3), },
+      url: KanColleURL,
+      protected: true,
+    },
   }
 
   public static async memory(): Promise<Frame> {

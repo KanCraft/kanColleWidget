@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useRevalidator } from "react-router-dom";
 import { Frame } from "../../../models/Frame";
 import { Launcher } from "../../../services/Launcher";
 import { ScriptingService } from "../../../services/ScriptingService";
@@ -8,6 +8,7 @@ export function FrameSettingView({frames}: {frames: Frame[]}) {
   const launcher = new Launcher();
   const scripts = new ScriptingService();
   const navigate = useNavigate();
+  const revalidator = useRevalidator();
   return (
     <FoldableSection title="別窓化の設定" id="frames">
       <div className="mb-4">
@@ -26,9 +27,14 @@ export function FrameSettingView({frames}: {frames: Frame[]}) {
           </div>
         ))}
       </div>
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-4">
         <div className="">
-          <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
+          <button className="border rounded p-2 cursor-pointer border-slate-200 bg-red-400 text-white"
+            onClick={async () => { await Frame.drop(); revalidator.revalidate(); }}
+          >窓設定を全部消して初期化する</button>
+        </div>
+        <div className="">
+          <button className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400"
             onClick={async () => {
               const win = await launcher.find();
               if (!win) return window.alert("艦これウィジェットが開いている別窓が見つかりませんでした。");
