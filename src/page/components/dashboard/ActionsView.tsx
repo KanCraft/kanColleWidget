@@ -1,15 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMemo } from "react";
 import { Launcher } from "../../../services/Launcher";
-import { useNavigate } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 
 function MuteControlButton({tab}: { tab?: chrome.tabs.Tab }) {
   if (!tab) return null;
   const launcher = useMemo(() => new Launcher(), []);
-  const navigate = useNavigate();
+  const revalidater = useRevalidator();
   const onClick = async () => {
     await launcher.mute(tab.id!, !tab.mutedInfo?.muted);
-    navigate(0);
+    revalidater.revalidate();
   };
   const icon = tab.mutedInfo?.muted ? "volume-mute" : "volume-high";
   return (
