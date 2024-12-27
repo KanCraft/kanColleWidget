@@ -5,7 +5,7 @@ export class Fatigue extends NotificationEntryBase {
   public override readonly type = "fatigue";
   constructor(
     public deck: number, // 艦隊
-    public map: { area: number | string, info: number | string }, // 海域
+    public seamap: { area: number | string, info: number | string }, // 海域
     public time: number = 15 * M, // 疲労回復までの時間（ミリ秒）
   ) {
     super();

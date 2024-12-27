@@ -1,6 +1,6 @@
 import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
 import Queue from "../../../models/Queue";
-import { KCWDate } from "../../../utils";
+import { KCWDate, M } from "../../../utils";
 
 function QueueItemView({ queue, index, label }: { queue: Queue | null, index: number, label: string }) {
   if (!queue) {
@@ -28,22 +28,41 @@ function QueueTableView({ queues }: { queues: Queue[] }) {
   }
   return (
     <div className="flex space-x-4">
-      <div id="mission-queue">
+      <div id="mission-queue" className="flex-1">
         <h1 className="font-bold border-b-2 border-sky-200">遠征</h1>
         {table.mission.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="艦隊" />)}
       </div>
-      <div id="recovery-queue">
+      <div id="recovery-queue" className="flex-1">
         <h1 className="font-bold border-b-2 border-teal-200">修復</h1>
         {table.recovery.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="ドック" />)}
       </div>
-      <div id="shipbuild-queue">
+      <div id="shipbuild-queue" className="flex-1">
         <h1 className="font-bold border-b-2 border-orange-200">建造</h1>
         {table.shipbuild.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="ドック" />)}
       </div>
-      <div id="fatigue-queue">
-        <h1 className="font-bold border-b-2 border-red-200">疲労</h1>
-        {table.fatigue.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="艦隊" />)}
-      </div>
+    </div>
+  )
+}
+
+function FatigueQueueView({ queues }: { queues: Queue[] }) {
+  // TODO: 本来は設定で時間を変更できるようにする
+  const max = 15 * M;
+  return (
+    <div className="mt-2 space-y-1">
+      {queues.sort((p,n) => p.scheduled > n.scheduled ? 1 : -1).map((q, i) => {
+        const r = q.remain(max);
+        const color = r.progress < 0.3 ? "bg-yellow-100" : r.progress < 0.6 ? "bg-orange-200" : "bg-red-200";
+        const fatigue = q.entry<Fatigue>();
+        return <div key={i} className="flex space-x-2 text-xs">
+          <div className="mr-1">第{fatigue.deck}艦隊</div>
+          <div>{fatigue.seamap.area}-{fatigue.seamap.info}</div>
+          <div className="flex-1 bg-gray-100">
+            <div className={`pl-1 text-gray-400 ${color}`} style={{width: `${Math.floor(r.progress * 100)}%`}}>
+              {r.minutes}:{r.seconds}
+            </div>
+          </div>
+        </div>
+      })}
     </div>
   )
 }
@@ -52,6 +71,7 @@ export function QueuesView({ queues }: { queues: Queue[] }) {
   return (
     <div>
       <QueueTableView queues={queues} />
+      <FatigueQueueView queues={queues.filter(q => q.type == EntryType.FATIGUE)} />
     </div>
   )
 }

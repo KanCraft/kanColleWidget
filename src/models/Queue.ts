@@ -2,7 +2,7 @@ import { Model } from "jstorm/chrome/local";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild } from "./entry";
 import { MissionSpec } from "../catalog";
 import { Logger } from "chromite";
-
+import { H, M, S } from "../utils";
 
 export default class Queue extends Model {
   public static readonly _namespace_ = "Queue";  
@@ -18,9 +18,21 @@ export default class Queue extends Model {
     case EntryType.SHIPBUILD:
       return new Shipbuild(this.params.dock, this.params.time) as unknown as T;
     case EntryType.FATIGUE:
-      return new Fatigue(this.params.deck, this.params.time) as unknown as T;
+      return new Fatigue(this.params.deck, this.params.seamap, this.params.time) as unknown as T;
     }
     (new Logger("Queue")).warn("Unknown EntryType", this.type, this.params);
     return {} as T;
+  }
+
+  public remain(max: number): { hours: number, minutes: number, seconds: number, progress: number };
+  public remain(): { hours: number, minutes: number, seconds: number };
+  public remain(max?: number)  {
+    const msec = this.scheduled - Date.now();
+    return {
+      hours: Math.max(0, Math.floor(msec / H)),
+      minutes: Math.max(0, Math.floor(msec % H / M)),
+      seconds: Math.max(0, Math.floor(msec % M / S)),
+      progress: max ? msec / max : undefined,
+    }
   }
 }
