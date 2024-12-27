@@ -28,7 +28,7 @@ export class Mission extends NotificationEntryBase {
         return {
           iconUrl: "icons/128.png",
           title: "遠征開始",
-          message: `第${this.deck}艦隊が「${this.title}」へ出航しました.\n終了予定時刻は${KCWDate.ETA(this.time).format("HH:mm")}です`,
+          message: `第${this.deck}艦隊が「${this.title}」へ出航しました.\n終了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }

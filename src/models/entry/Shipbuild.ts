@@ -17,7 +17,7 @@ export class Shipbuild extends NotificationEntryBase {
         return {
           iconUrl: "icons/128.png",
           title: "建造開始",
-          message: `第${this.dock}番ドックにて新艦建造を開始しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:mm")}です`,
+          message: `第${this.dock}番ドックにて新艦建造を開始しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }

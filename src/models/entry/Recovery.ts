@@ -19,7 +19,7 @@ export class Recovery extends NotificationEntryBase {
         return {
           iconUrl: "icons/128.png",
           title: "修復開始",
-          message: `修復のため第${this.dock}番ドックに入渠しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:mm")}です`,
+          message: `修復のため第${this.dock}番ドックに入渠しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }

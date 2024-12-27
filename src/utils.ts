@@ -1,15 +1,16 @@
 
 export class KCWDate extends Date {
   public format(format: string): string {
-    const matches = format.matchAll(/(?<year>y{2,4})?\/?(?<month>M{2})?\/?(?<day>d{2})?[ ]*?(?<hour>H{1,2}):(?<minute>m{1,2}):?(?<second>s{1,2})?/g);
-    const { year, month, day, hour, minute, second } = matches.next().value.groups;
+    const matches = format.matchAll(/(?<year>y{2,4})?\/?(?<month>m{2})?\/?(?<day>d{2})?[ ]*?(?<hour>H{1,2}):(?<minute>M{1,2}):?(?<second>S{1,2})?/g);
+    if (!matches) return format;
+    const g = matches.next()?.value?.groups || {};
     let r = format;
-    if (year) r = r.replace(year, this.getFullYear().toString().slice(-year.length));
-    if (month) r = r.replace(month, (this.getMonth() + 1).toString().padStart(2, "0"));
-    if (day) r = r.replace(day, this.getDate().toString().padStart(2, "0"));
-    if (hour) r = r.replace(hour, this.getHours().toString().padStart(2, "0"));
-    if (minute) r = r.replace(minute, this.getMinutes().toString().padStart(2, "0"));
-    if (second) r = r.replace(second, this.getSeconds().toString().padStart(2, "0"));
+    if (g.year)   r = r.replace(g.year, this.getFullYear().toString().slice(-g.year.length));
+    if (g.month)  r = r.replace(g.month, (this.getMonth() + 1).toString().padStart(2, "0"));
+    if (g.day)    r = r.replace(g.day, this.getDate().toString().padStart(2, "0"));
+    if (g.hour)   r = r.replace(g.hour, this.getHours().toString().padStart(2, "0"));
+    if (g.minute) r = r.replace(g.minute, this.getMinutes().toString().padStart(2, "0"));
+    if (g.second) r = r.replace(g.second, this.getSeconds().toString().padStart(2, "0"));
     return r;
   }
 

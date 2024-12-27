@@ -12,7 +12,7 @@ function QueueItemView({ queue, index, label }: { queue: Queue | null, index: nu
   return (
     <div className="flex">
       <div className="mr-1">第{index + 1}{label}</div>
-      <div>{new KCWDate(queue.scheduled).format("HH:mm")}</div>
+      <div>{new KCWDate(queue.scheduled).format("HH:MM")}</div>
     </div>
   )
 
