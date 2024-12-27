@@ -40,7 +40,7 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   const { after, timestamp } = req;
   await sleep(after || 1000); // 描画待ち
   const uri = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
-  console.log("uri", uri);
+  // console.log("URI", uri.length);
   chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
 })
 
