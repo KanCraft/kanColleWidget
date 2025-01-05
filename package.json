@@ -1,7 +1,7 @@
 {
   "name": "kancollewidget",
   "private": true,
-  "version": "4.0.6",
+  "version": "4.0.8",
   "type": "module",
   "engines": {
     "node": "^20.15.0",

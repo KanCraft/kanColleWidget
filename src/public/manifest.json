@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "艦これウィジェット",
   "description": "艦これをちょっとだけ遊びやすくするChrome拡張. 遠征タイマーとかあるよ",
-  "version": "4.0.6",
+  "version": "4.0.8",
   "permissions": [
     "activeTab",
     "alarms",

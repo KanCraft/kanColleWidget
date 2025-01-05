@@ -4,6 +4,61 @@
   },
   "releases": [
     {
+      "date": "2025-01-05",
+      "version": "v4.0.8",
+      "message": "",
+      "commits": [
+        {
+          "title": "テストの修正",
+          "hash": "fe57e09bccf36a4df7f91edaa0ea8457e9b75500"
+        },
+        {
+          "title": "lint --format",
+          "hash": "7b1e3138f6fe0211ac8ea051290e1e61af3e7c4f"
+        },
+        {
+          "title": "スクショのファイル名をとりあえずYYYY-mm-dd_HHMMSS.pngにした",
+          "hash": "709d32b7d76983e4e62ea280b914735e850eff70"
+        },
+        {
+          "title": "リファクタ: Intl.DateTimeFormatを使う",
+          "hash": "9d893c506b26ae0766b49759afc653adbade8bc3"
+        },
+        {
+          "title": "navigate(0)を撲滅",
+          "hash": "cea17a455c6d5dcf90a59f2057753ddb4aceed25"
+        },
+        {
+          "title": "疲労タイマーをクリックしたら削除できるようにした",
+          "hash": "463683e453109ba78df62864ef9e02a55d78f17a"
+        },
+        {
+          "title": "ちょっとリファクタ",
+          "hash": "9bb8a172bf80d9b09a997e793d5966a0bd51edeb"
+        },
+        {
+          "title": "不要なログを削除",
+          "hash": "97de59bfb4bc5504692fcff5cd02de4fbabd92f6"
+        },
+        {
+          "title": "ダッシュボードでの疲労の表示を下部に変更",
+          "hash": "ad5edcd547d04969f03b763884b6094e464afe7c"
+        },
+        {
+          "title": "時刻フォーマットを修正",
+          "hash": "c5a0691ec856051ce3c5c8ea59f69956747851f6"
+        },
+        {
+          "title": "出撃海域情報を疲労queueに追加",
+          "hash": "82b71365e6ba8872a0e59503fea19fd8a0a8c449"
+        },
+        {
+          "title": "v4.0.6",
+          "hash": "146c0b1abd800ede042abd0dd54203dbf18f68e8"
+        }
+      ]
+    },
+    {
       "date": "2024-11-24",
       "version": "v4.0.6",
       "announce": {
