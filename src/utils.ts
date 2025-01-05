@@ -21,13 +21,13 @@ export class KCWDate extends Date {
     const exp = /(?<year>YYYY)|(?<month>mm)|(?<day>dd)|(?<hour>HH)|(?<minute>MM)|(?<second>SS)/g;
     return format.replace(exp, (match) => {
       switch (match) {
-        case 'YYYY': return year;
-        case 'mm': return month;
-        case 'dd': return day;
-        case 'HH': return hour;
-        case 'MM': return minute;
-        case 'SS': return second;
-        default: return format;
+      case 'YYYY': return year;
+      case 'mm': return month;
+      case 'dd': return day;
+      case 'HH': return hour;
+      case 'MM': return minute;
+      case 'SS': return second;
+      default: return format;
       }
     });
   }
