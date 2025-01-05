@@ -23,4 +23,13 @@ h1.fold {
         color: #0d9488; // teal-600
     }
 }
+
+.kcw-fatigue-queue-item:hover {
+    &::after {
+        content: 'この疲労登録を削除';
+        color: #475569; // slatte-600
+        position: absolute;
+        right: 32px;
+    }
+}
 // もうこれ以上CSS書かないぞ、というつよいきもち
