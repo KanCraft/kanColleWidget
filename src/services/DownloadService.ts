@@ -1,3 +1,4 @@
+import { KCWDate } from "../utils";
 
 export class DownloadService {
   constructor(
@@ -6,7 +7,8 @@ export class DownloadService {
 
   public static filename = {
     screenshot: (opt: { dir?: string, format: "jpeg" | "png" }) => {
-      const datetime =  new Date().toISOString().replace(/[-:]/g, "").replace("T", "_").replace("Z", "").replace(/\..+/, "");
+      const now = new KCWDate();
+      const datetime = now.format("YYYY-mm-dd_HHMMSS");
       return opt.dir ? `${opt.dir}/${datetime}.${opt.format}` : `艦これ_${datetime}.${opt.format}`;
     },
   }

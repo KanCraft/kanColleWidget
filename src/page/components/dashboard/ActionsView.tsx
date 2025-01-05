@@ -20,7 +20,7 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
   return (
     <div onClick={async () => {
       const s = new DownloadService();
-      const format = "jpeg";
+      const format = "png";
       const uri = await launcher.capture(tab.windowId, { format });
       const dir = "艦これ";
       /* const downloadId = */ await s.download(uri, DownloadService.filename.screenshot({ dir, format }));

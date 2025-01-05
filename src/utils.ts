@@ -10,8 +10,11 @@ export class KCWDate extends Date {
     second: "2-digit",
   });
 
-  // https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html
-  // YYYY-mm-dd HH:MM:SS
+  /**
+   * @param format YYYY-mm-dd HH:MM:SS
+   * @returns {string} formatted date
+   * @see https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html
+   */
   public format(format: string): string {
     const now = KCWDate.fmt.format(this);
     const year = now.slice(0, 4), month = now.slice(5, 7), day = now.slice(8, 10), hour = now.slice(11, 13), minute = now.slice(14, 16), second = now.slice(17, 19);
