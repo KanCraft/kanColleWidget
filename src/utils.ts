@@ -1,17 +1,32 @@
 
 export class KCWDate extends Date {
+
+  static fmt = Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  // https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html
+  // YYYY-mm-dd HH:MM:SS
   public format(format: string): string {
-    const matches = format.matchAll(/(?<year>y{2,4})?\/?(?<month>m{2})?\/?(?<day>d{2})?[ ]*?(?<hour>H{1,2}):(?<minute>M{1,2}):?(?<second>S{1,2})?/g);
-    if (!matches) return format;
-    const g = matches.next()?.value?.groups || {};
-    let r = format;
-    if (g.year)   r = r.replace(g.year, this.getFullYear().toString().slice(-g.year.length));
-    if (g.month)  r = r.replace(g.month, (this.getMonth() + 1).toString().padStart(2, "0"));
-    if (g.day)    r = r.replace(g.day, this.getDate().toString().padStart(2, "0"));
-    if (g.hour)   r = r.replace(g.hour, this.getHours().toString().padStart(2, "0"));
-    if (g.minute) r = r.replace(g.minute, this.getMinutes().toString().padStart(2, "0"));
-    if (g.second) r = r.replace(g.second, this.getSeconds().toString().padStart(2, "0"));
-    return r;
+    const now = KCWDate.fmt.format(this);
+    const year = now.slice(0, 4), month = now.slice(5, 7), day = now.slice(8, 10), hour = now.slice(11, 13), minute = now.slice(14, 16), second = now.slice(17, 19);
+    const exp = /(?<year>YYYY)|(?<month>mm)|(?<day>dd)|(?<hour>HH)|(?<minute>MM)|(?<second>SS)/g;
+    return format.replace(exp, (match) => {
+      switch (match) {
+        case 'YYYY': return year;
+        case 'mm': return month;
+        case 'dd': return day;
+        case 'HH': return hour;
+        case 'MM': return minute;
+        case 'SS': return second;
+        default: return format;
+      }
+    });
   }
 
   public static ETA(time: number, now: number = Date.now()): KCWDate {
