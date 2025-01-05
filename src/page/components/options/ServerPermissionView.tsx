@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 import { PermissionsService, ServerPermission } from "../../../services/PermissionsService";
 import { FoldableSection } from "../FoldableSection";
 
 
 export function ServerPermissionView({ servers }: { servers: ServerPermission[] }) {
   const perms = new PermissionsService();
-  const navigate = useNavigate();
+  const revalidator = useRevalidator();
   return (
     <FoldableSection title="所属サーバ選択" id="server-perms">
       <div className="mb-4">
@@ -19,7 +19,7 @@ export function ServerPermissionView({ servers }: { servers: ServerPermission[] 
             if (server.granted) await perms.servers.revoke([server.ip_address]);
             else await perms.servers.request([server.ip_address]);
             perms.request({ origins: [`<all_urls>`], permissions: ["activeTab"] });
-            navigate(0);
+            revalidator.revalidate();
           }}>
             <h3 className="text-lg font-bold">{server.name}</h3>
             <code>{server.ip_address}</code>
@@ -32,13 +32,13 @@ export function ServerPermissionView({ servers }: { servers: ServerPermission[] 
           <div className="border rounded cursor-pointer text-lg p-4 text-center bg-red-200" onClick={async () => {
             await perms.servers.revoke(servers.map((s) => s.ip_address));
             await perms.revoke({ origins: [`<all_urls>`] });
-            navigate(0);
+            revalidator.revalidate();
           }}>すべてのサーバについて許可を取り消す</div>
           :
           <div className="border rounded cursor-pointer text-lg p-4 text-center" onClick={async () => {
             await perms.servers.request(servers.map((s) => s.ip_address));
             await perms.request({ origins: [`<all_urls>`], permissions: ["activeTab"] });
-            navigate(0);
+            revalidator.revalidate();
           }}>すべてのサーバについて許可する</div>
         }
       </div>
