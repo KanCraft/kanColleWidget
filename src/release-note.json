@@ -4,6 +4,37 @@
   },
   "releases": [
     {
+      "date": "2025-01-14",
+      "version": "v4.0.10",
+      "message": "",
+      "commits": [
+        {
+          "title": "pnpm run lint",
+          "hash": "b34bab45d213aa884b4b7c8e0bae85c25696d575"
+        },
+        {
+          "title": "遠征回収したときに遠征の通知を消すようにした",
+          "hash": "4c1b3b6480bd5fe6a2b0c2c277c5036cf15fa935"
+        },
+        {
+          "title": "ダッシュボードから任意のタイマーを設定できる機能を実装",
+          "hash": "993f1d42002f8b70f13c19ab20b9d6b8e50f6897"
+        },
+        {
+          "title": "ゲーム画面内スクショボタンを実装",
+          "hash": "c556402e1fbc712fca28d761f1f648985acebc52"
+        },
+        {
+          "title": "ゲーム内ミュートボタンを設置",
+          "hash": "8a02ea5954bb463564c5b26cb12e2c1d11b899dc"
+        },
+        {
+          "title": "v4.0.8",
+          "hash": "c195c62126c0cb3db4ae1e71f355d8b35101c4c4"
+        }
+      ]
+    },
+    {
       "date": "2025-01-05",
       "version": "v4.0.8",
       "message": "",
