@@ -5,6 +5,8 @@ import { EntryType, Recovery, Shipbuild } from "../models/entry";
 import { H, M, S, sleep } from "../utils";
 import Queue from "../models/Queue";
 import { TriggerType } from "../models/entry/Base";
+import { Launcher } from "../services/Launcher";
+import { DownloadService } from "../services/DownloadService";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -16,6 +18,16 @@ onMessage.on("/frame/memory:track", async (req) => {
 onMessage.on("/mute:toggle", async (_, sender) => {
   if (!sender.tab || !sender.tab.mutedInfo) return;
   return await chrome.tabs.update(sender.tab!.id!, { muted: !sender.tab.mutedInfo.muted });
+});
+
+onMessage.on("/screenshot", async (_, sender) => {
+  if (!sender.tab) return;
+  const launcher = new Launcher();
+  const s = new DownloadService();
+  const format = "png";
+  const uri = await launcher.capture(sender.tab.windowId, { format });
+  const dir = "艦これ";
+  return await s.download(uri, DownloadService.filename.screenshot({ dir, format }));
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
