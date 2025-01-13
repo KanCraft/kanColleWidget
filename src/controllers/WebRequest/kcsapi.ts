@@ -30,10 +30,12 @@ export async function onMissionReturnInstruction([details]: chrome.webRequest.We
 
 export async function onMissionResult([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   const { api_deck_id: [api_deck_id] } = details.requestBody?.formData as unknown as { api_deck_id: string[], api_mission_id: string[] };
-  const notifications = await (chrome.notifications as any).getAll() as Promise<Record<string, boolean>>;
-  for (const id in notifications) {
-    if (id.match(`/${EntryType.MISSION}/${api_deck_id}`)) chrome.notifications.clear(id);
-  }
+  // TODO: @types/chrome の chrome.notifications.getAll が Promise を返すようになったら修正
+  await chrome.notifications.getAll((notifications) => {
+    for (const id in notifications) {
+      if (id.match(`/${EntryType.MISSION}/${api_deck_id}`)) chrome.notifications.clear(id);
+    }
+  });
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
