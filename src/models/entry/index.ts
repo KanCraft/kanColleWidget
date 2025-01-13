@@ -11,4 +11,13 @@ export enum EntryType {
     FATIGUE = "fatigue",
     UNKNOWN = "unknown",
 }
+
+export const EntryColor = {
+    [EntryType.MISSION]: "sky",
+    [EntryType.RECOVERY]: "teal",
+    [EntryType.SHIPBUILD]: "orange",
+    [EntryType.FATIGUE]: "red",
+    [EntryType.UNKNOWN]: "gray",
+}
+
 export { Mission, Recovery, Shipbuild, Fatigue };

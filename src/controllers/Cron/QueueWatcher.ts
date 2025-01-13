@@ -4,7 +4,7 @@ import Queue from "../../models/Queue";
 export async function Once() {
   const log = new Logger("QueueWatcher");
   const queues = await Queue.list();
-  console.log(queues.length, queues);
+  // console.log(queues.length, queues);
   for (const queue of queues) {
     if (queue.scheduled > Date.now()) continue;
     try {
