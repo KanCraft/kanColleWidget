@@ -3,23 +3,7 @@
 /**
  * iframeの中のゲーム画面に対するinjection
  */
-(async () => {
-  // もう初期化済みなら何もしない
-  const initialized = sessionStorage.getItem("kcw_initialized");
-  if (initialized) return;
-  sessionStorage.setItem("kcw_initialized", "1");
-
-  chrome.runtime.onMessage.addListener(async (msg) => {
-    const ds = new DamageSnapshot();
-    switch (msg.__action__) {
-    case "/injected/kcs/dsnapshot:prepare":
-      return ds.prepare(msg);
-    case "/injected/kcs/dsnapshot:show":
-      return ds.show(msg);
-    case "/injected/kcs/dsnapshot:remove":
-      return ds.remove();
-    }
-  });
+(() => {
 
   const GameRawWidth = 1200;
   const GameRawHeight = 720;
@@ -176,4 +160,65 @@
       return div;
     }
   }
+
+  class InAppActionButtons {
+    private container: HTMLDivElement;
+    private muteButton: HTMLButtonElement;
+    private static self: InAppActionButtons | null = null;
+    public static create(): InAppActionButtons {
+      if (this.self && this.self.container) return this.self;
+      this.self = new InAppActionButtons();
+      return this.self;
+    }
+    constructor() {
+      this.container = this.createContainer();
+      this.muteButton = this.createButton("🔊", () => this.toggleMute());
+      this.container.appendChild(this.muteButton);
+      window.document.body.appendChild(this.container);
+    }
+    private async toggleMute() {
+      const tab = await chrome.runtime.sendMessage<any, chrome.tabs.Tab>(chrome.runtime.id, { action: "/mute:toggle" })
+      this.muteButton.innerHTML = tab.mutedInfo?.muted ? "🔇" : "🔊";
+    }
+    private createContainer(): HTMLDivElement {
+      const div = window.document.createElement("div");
+      div.style.position = "fixed";
+      div.style.top = "0";
+      div.style.right = "0";
+      div.style.opacity = "0";
+      div.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+      div.addEventListener("mouseover", () => div.style.opacity = "0.8");
+      div.addEventListener("mouseout", () => div.style.opacity = "0");
+      div.id = "kcw-inapp-action-buttons";
+      return div;
+    }
+    private createButton(text: string, onclick = () => { }): HTMLButtonElement {
+      const button = window.document.createElement("button");
+      button.style.backgroundColor = "#fff";
+      button.style.fontSize = "32px";
+      button.style.cursor = "pointer";
+      button.style.border = "none";
+      button.innerHTML = text;
+      button.addEventListener("click", onclick);
+      return button;
+    }
+  }
+
+  // 以下、初期化処理
+  sessionStorage.setItem("kcw_initialized", "1");
+
+  InAppActionButtons.create();
+
+  const ds = new DamageSnapshot();
+  chrome.runtime.onMessage.addListener(async (msg) => {
+    switch (msg.__action__) {
+    case "/injected/kcs/dsnapshot:prepare":
+      return ds.prepare(msg);
+    case "/injected/kcs/dsnapshot:show":
+      return ds.show(msg);
+    case "/injected/kcs/dsnapshot:remove":
+      return ds.remove();
+    }
+  });
+
 })();

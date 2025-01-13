@@ -13,6 +13,11 @@ onMessage.on("/frame/memory:track", async (req) => {
   return await frame.update({ position: req.position, size: req.size });
 });
 
+onMessage.on("/mute:toggle", async (_, sender) => {
+  if (!sender.tab || !sender.tab.mutedInfo) return;
+  return await chrome.tabs.update(sender.tab!.id!, { muted: !sender.tab.mutedInfo.muted });
+});
+
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.RECOVERY].dock;
