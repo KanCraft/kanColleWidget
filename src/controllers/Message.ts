@@ -2,11 +2,12 @@ import { Router } from "chromite";
 import { Frame } from "../models/Frame";
 import { type Page } from "tesseract.js";
 import { EntryType, Recovery, Shipbuild } from "../models/entry";
-import { H, M, S, sleep } from "../utils";
+import { H, M, S, sleep, WorkerImage } from "../utils";
 import Queue from "../models/Queue";
 import { TriggerType } from "../models/entry/Base";
 import { Launcher } from "../services/Launcher";
 import { DownloadService } from "../services/DownloadService";
+import { CropService } from "../services/CropService";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -53,11 +54,11 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
 });
 
 onMessage.on("/damage-snapshot/capture", async (req, sender) => {
-  console.log("/damage-snapshot/capture", req, sender);
   const { after, timestamp } = req;
   await sleep(after || 1000); // 描画待ち
-  const uri = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
-  // console.log("URI", uri.length);
+  const raw = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
+  const img = await WorkerImage.from(raw);
+  const uri = await (new CropService(img)).crop("damagesnapshot");
   chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
 })
 

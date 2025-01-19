@@ -1,4 +1,15 @@
 
+export class WorkerImage {
+  constructor(public bitmap: ImageBitmap) {}
+  public static async from(uri: string): Promise<WorkerImage>;
+  public static async from(blob: Blob): Promise<WorkerImage>;
+  public static async from(raw: string | Blob): Promise<WorkerImage> {
+    const bitmap = await createImageBitmap(raw instanceof Blob ? raw : await (await fetch(raw)).blob());
+    return new this(bitmap);
+  }
+
+}
+
 export class KCWDate extends Date {
 
   static fmt = Intl.DateTimeFormat("ja-JP", {
