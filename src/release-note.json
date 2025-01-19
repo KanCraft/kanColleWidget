@@ -4,6 +4,29 @@
   },
   "releases": [
     {
+      "date": "2025-01-20",
+      "version": "v4.0.11",
+      "message": "",
+      "commits": [
+        {
+          "title": "crop処理はbackgroundでやることにしたので変なcontent_scriptは要らない",
+          "hash": "3072d6bdf357bec4aac4c87660bad48f29aed4f1"
+        },
+        {
+          "title": "母港から修復に画面遷移したときは修復の通知を自動で消す",
+          "hash": "dd74738b9b75902fdd2e17c3b2593f46d21e5f7f"
+        },
+        {
+          "title": "crop処理はbackgroundでやるよう修正",
+          "hash": "761b49f30091f4b2e3315d15189060813fda9f99"
+        },
+        {
+          "title": "v4.0.10",
+          "hash": "92caba87639f37d794c8f2961467df473fa4bf28"
+        }
+      ]
+    },
+    {
       "date": "2025-01-14",
       "version": "v4.0.10",
       "message": "",
