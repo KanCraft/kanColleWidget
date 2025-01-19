@@ -79,12 +79,8 @@ import { type FrameParams } from "../models/Frame";
 
   function startListeningMessage() {
     chrome.runtime.onMessage.addListener(async (msg) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { Rectangle, load, crop } = (window as any).KanColleWidget;
       if (msg.__action__ === "/injected/dmm/ocr" && msg.url) {
-        const img = await load(msg.url);
-        const rect = Rectangle.new(img).game().purpose(msg.purpose, msg[msg.purpose]);
-        const url = await crop(img, rect);
+        const url = msg.url;
         const i = document.createElement("img"); i.src = url; document.body.appendChild(i);
         const ret = await ocr(url);
         chrome.runtime.sendMessage(chrome.runtime.id, {

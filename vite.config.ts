@@ -15,7 +15,6 @@ export default defineConfig({
         path.resolve(__dirname, 'src/background.ts'),
         path.resolve(__dirname, 'src/injection/dmm.ts'),
         path.resolve(__dirname, 'src/injection/kcs.ts'),
-        path.resolve(__dirname, 'src/injection/crop.ts'),
         path.resolve(__dirname, 'src/injection/dmm.scss'),
         path.resolve(__dirname, 'src/injection/theater.scss'),
         // path.resolve(__dirname, 'src/injection/content-script.ts'),

@@ -1,11 +1,12 @@
 import { Logger } from "chromite";
 import { missions } from "../../catalog";
-import { sleep } from "../../utils";
+import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
 import { CreateShipFormData, MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
 import { TriggerType } from "../../models/entry/Base";
 import { TabService } from "../../services/TabService";
+import { CropService } from "../../services/CropService";
 
 const log = new Logger("WebRequest");
 
@@ -43,7 +44,9 @@ export async function onRecoveryStart([details]: chrome.webRequest.WebRequestBod
   const data = details.requestBody?.formData as unknown as RecoveryStartFormData;
   const dock = data.api_ndock_id[0];
   const tab = await new TabService().get(details.tabId);
-  const url = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
+  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
+  const img = await WorkerImage.from(raw);
+  const url = await (new CropService(img)).crop(EntryType.RECOVERY);
   await chrome.tabs.sendMessage(details.tabId, {
     __action__: "/injected/dmm/ocr",
     url, purpose: EntryType.RECOVERY,
@@ -68,11 +71,12 @@ export async function onCreateShip([details]: chrome.webRequest.WebRequestBodyDe
   const dock = data.api_kdock_id[0];
   const tab = await new TabService().get(details.tabId);
   await sleep(600); // いったんめんどくさいんでこれで
-  const url = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
+  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
+  const img = await WorkerImage.from(raw);
+  const url = await (new CropService(img)).crop(EntryType.SHIPBUILD, { dock });
   await chrome.tabs.sendMessage(details.tabId, {
     __action__: "/injected/dmm/ocr",
     url, purpose: EntryType.SHIPBUILD,
     [EntryType.SHIPBUILD]: { dock }
   });
-  log.info("onCreateShip", details, dock, tab);
 }

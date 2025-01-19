@@ -50,7 +50,7 @@ export class Rectangle {
     );
   }
 
-  public transform(purpose: Purpose, params: { dock: number } = { dock: 0 }): Rectangle {
+  public transform(purpose: Purpose, params: { dock: number | string } = { dock: 0 }): Rectangle {
     switch (purpose) {
     case "recovery": return this.recovery();
     case "shipbuild": return this.shipbuild(params.dock as number);
@@ -71,7 +71,7 @@ export class CropService {
    * @param params
    * @returns {Promise<string>} URL
    */
-  async crop(purpose: Purpose, params: { dock: number } = { dock: 0 }): Promise<string> {
+  async crop(purpose: Purpose, params: { dock: number | string } = { dock: 0 }): Promise<string> {
     const rect = new Rectangle(this.image.bitmap.width, this.image.bitmap.height);
     const crop = rect.transform(purpose, params);
     const canvas = new OffscreenCanvas(crop.size.w, crop.size.h);
