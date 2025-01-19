@@ -66,6 +66,17 @@ onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]
   });
 });
 
+onComplete.on([
+  "/kcsapi/api_port/port",
+  "/kcsapi/api_get_member/ndock"
+], async () => {
+  chrome.notifications.getAll((notifications) => {
+    for (const id in notifications) {
+      if (id.startsWith("/recovery")) chrome.notifications.clear(id);
+    }
+  });
+})
+
 export {
   onBeforeRequest,
   onComplete,
