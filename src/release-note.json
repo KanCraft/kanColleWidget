@@ -4,6 +4,17 @@
   },
   "releases": [
     {
+      "date": "2025-03-11",
+      "version": "v4.0.12",
+      "message": "",
+      "commits": [
+        {
+          "title": "大破進撃防止窓がうまく消えないのでクリックしたら消えるようにした",
+          "hash": "ce04079e930dc7923eaccc63e2e87acbb8916001"
+        }
+      ]
+    },
+    {
       "date": "2025-01-20",
       "version": "v4.0.11",
       "message": "",
