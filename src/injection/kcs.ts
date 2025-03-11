@@ -86,6 +86,11 @@
       // if (this.text) {
       //   div.appendChild(this.additionalText());
       // }
+
+      // FIXME: /injected/kcs/dsnapshot:remove が正しく発火せずに
+      //        大破進撃防止窓が消えないことがあるので、いったんクリックで消すようにする
+      //        @see https://x.com/jumbo762/status/1899076594377039923
+      div.addEventListener("click", () => window.confirm("この大破確認窓を消しますか？") ? this.remove() : null);
       return div;
     }
   }
