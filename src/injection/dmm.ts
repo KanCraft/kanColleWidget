@@ -38,9 +38,10 @@ import { type FrameParams } from "../models/Frame";
   // sessionStorageに入ってくれているFrameParamsを取得
   const frame: FrameParams = JSON.parse(sessionStorage.getItem("kancollewidget-frame-jsonstr") || "{}");
 
-  (function __main__() {
+  (async function __main__() {
     try {
       Log.info("[START] DMM版用スクリプトを起動");
+      await waitUntilGameFrameLoaded(4000);
       resize();
       const fitted = fit(frame.zoom);
       if (!fitted) {
@@ -62,6 +63,17 @@ import { type FrameParams } from "../models/Frame";
   function resize() {
     // TODO: これだとなんか問題ありそう
     window.resizeBy(window.outerWidth - window.innerWidth, window.outerHeight - window.innerHeight);
+  }
+
+  async function waitUntilGameFrameLoaded(millisec: number = 2000): Promise<HTMLIFrameElement> {
+    if (millisec <= 0) throw new Error("時間内にゲームフレームの読み込みが完了しませんでした。");
+    Log.debug(`ゲームフレームの読み込み完了を待機中... 残り時間: ${millisec}ms`);
+    const iframe = window.document.querySelector(GameIFrame) as HTMLIFrameElement | null;
+    if (iframe && iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
+      return iframe;
+    }
+    await new Promise(resolve => setTimeout(resolve, 100));
+    return await waitUntilGameFrameLoaded(millisec - 100);
   }
 
   /**
