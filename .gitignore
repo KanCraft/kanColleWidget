@@ -38,3 +38,11 @@ coverage
 .specify/**/*.tmp
 .specify/**/*.cache
 .specify/**/node_modules/
+
+# codex
+.codex/log
+.codex/auth.json
+.codex/config.toml
+.codex/history.jsonl
+.codex/sessions/
+.codex/version.json
