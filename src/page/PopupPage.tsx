@@ -21,22 +21,37 @@ function ShortCutIcon({icon, title, action}: {
 export function PopupPage() {
   const { frames } = useLoaderData() as { frames: Frame[] }
   const [selectedId, selectId] = useState<string>("__memory__");
+
+  const openFrame = async (frameId?: string) => {
+    if (typeof chrome === "undefined" || !chrome.runtime?.id) return;
+    try {
+      await chrome.runtime.sendMessage<
+        { action: string; frame_id?: string },
+        { opened: boolean; frame_id: string | null }
+      >(chrome.runtime.id, {
+        action: "/frame/open-or-focus",
+        frame_id: frameId,
+      });
+    } catch (error) {
+      console.error("/frame/open-or-focus の送信に失敗しました", error);
+    }
+  };
+
   return (
     <div className="lg:container p-2">
       <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-60 mb-2">
         <div className="grow">
           <select className="h-full w-full text-lg px-4 cursor-pointer hover:bg-indigo-50 transition-all appearance-none"
             defaultValue={selectedId} onChange={(e) => {
-              const frame = frames.find((frame) => frame._id === e.target.value);
-              if (frame) Launcher.launch(frame);
-              selectId(e.target.value);
+              const frameId = e.target.value;
+              selectId(frameId);
+              void openFrame(frameId);
             }}
-          >{frames.map((frame) => <option value={frame._id!}>{frame.name}</option>)}</select>
+          >{frames.map((frame) => <option value={frame._id!} key={frame._id}>{frame.name}</option>)}</select>
         </div>
         <div className="py-2 pr-2 pl-1.5 w-10 cursor-pointer hover:bg-indigo-50 transition-all"
           onClick={() => {
-            const frame = frames.find((frame) => frame._id === selectedId);
-            if (frame) Launcher.launch(frame);
+            void openFrame(selectedId);
           }}
         ><img src="/anchor.svg" alt="抜錨！" title="抜錨！" />
         </div>
