@@ -14,7 +14,9 @@
   ],
   "host_permissions": [
     "http://www.dmm.com/*",
-    "http://osapi.dmm.com/*"
+    "https://play.games.dmm.com/game/kancolle/*",
+    "http://osapi.dmm.com/*",
+    "https://*.kancolle-server.com/*"
   ],
   "optional_host_permissions": [
     "<all_urls>",
@@ -46,7 +48,8 @@
         "tessdata-4.0.0_best_int/*"
       ],
       "matches": [
-        "*://www.dmm.com/*"
+        "*://www.dmm.com/*",
+        "*://play.games.dmm.com/*"
       ]
     }
   ],

@@ -1,4 +1,4 @@
-const KanColleURL = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/";
+const KanColleURL = "https://play.games.dmm.com/game/kancolle";
 
 const GameRawWidth = 1200;
 const GameRawHeight = 720;
