@@ -103,9 +103,10 @@ export class Launcher {
    */
   public async find(frame?: Frame): Promise<chrome.windows.Window | undefined> {
     const url = frame ? frame.url : KanColleURL;
-    const tabs = await this.tabs.query({ url });
+    const pattern = url.endsWith("*") ? url : `${url}*`;
+    const tabs = await this.tabs.query({ url: [pattern] });
     for (const tab of tabs) {
-      if (tab.url !== url) continue;
+      if (!(tab.url && tab.url.startsWith(url))) continue;
       const win = await this.windows.get(tab.windowId, { populate: true });
       if (win.tabs && win.tabs.length === 1) return win;
     }
