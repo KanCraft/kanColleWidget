@@ -4,8 +4,8 @@
   "version": "4.0.12",
   "type": "module",
   "engines": {
-    "node": "^20.15.0",
-    "pnpm": ">=9.4.0"
+    "node": "v22.20.0",
+    "pnpm": "10.18.0"
   },
   "scripts": {
     "test": "vitest",
