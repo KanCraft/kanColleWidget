@@ -33,3 +33,8 @@ release
 
 # Tests
 coverage
+
+# Specify
+.specify/**/*.tmp
+.specify/**/*.cache
+.specify/**/node_modules/
