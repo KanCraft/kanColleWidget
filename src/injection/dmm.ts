@@ -9,15 +9,51 @@ import { type FrameParams } from "../models/Frame";
   const GameIFrame = "iframe#game_frame";
   let resizetimeout: number;
 
+  const Log = {
+    app: "艦これウィジェット",
+    brandStyle: "color: white; background-color: teal; padding: 2px 4px; border-radius: 2px;",
+    context: "dmm.js",
+    debug(...args: unknown[]) {
+      console.debug(`%c[${this.app}]%c[${this.context}]`, this.brandStyle, "color: #0dcaf0;", ...args);
+    },
+    info(...args: unknown[]) {
+      console.info(`%c[${this.app}]%c[${this.context}]`, this.brandStyle, "color: #0d6efd;", ...args);
+    },
+    warn(...args: unknown[]) {
+      console.warn(`%c[${this.app}]%c[${this.context}]`, this.brandStyle, "color: #ffc107;", ...args);
+    },
+    error(...args: unknown[]) {
+      console.error(`%c[${this.app}]%c[${this.context}]`, this.brandStyle, "color: #dc3545;", ...args);
+    }
+  } satisfies {
+    app: string;
+    brandStyle: string;
+    context: string;
+    debug: (...args: unknown[]) => void;
+    info: (...args: unknown[]) => void;
+    warn: (...args: unknown[]) => void;
+    error: (...args: unknown[]) => void;
+  };
+
   // sessionStorageに入ってくれているFrameParamsを取得
   const frame: FrameParams = JSON.parse(sessionStorage.getItem("kancollewidget-frame-jsonstr") || "{}");
 
   (function __main__() {
-    resize();
-    fit(frame.zoom);
-    window.onresize = onresize;
-    setInterval(track, 10 * 1000);
-    startListeningMessage();
+    try {
+      Log.info("[START] DMM版用スクリプトを起動");
+      resize();
+      const fitted = fit(frame.zoom);
+      if (!fitted) {
+        Log.error("初期ズーム調整に失敗したため、スクリプトを中断します。DOM 構造の変化を確認してください。");
+        return;
+      }
+      window.onresize = onresize;
+      setInterval(track, 10 * 1000);
+      startListeningMessage();
+      Log.info("[DONE] DMM版用スクリプトの初期化が完了しました");
+    } catch (error) {
+      Log.error("DMM版用スクリプトの初期化中に例外が発生しました。", error);
+    }
   })();
 
   /**
@@ -34,13 +70,21 @@ import { type FrameParams } from "../models/Frame";
      */
   function fit(zoom: number) {
     sessionStorage.setItem("kancollewidget-frame-zoom", zoom.toString());
-    const iframe = window.document.querySelector(GameIFrame) as HTMLIFrameElement;
+    const iframe = window.document.querySelector(GameIFrame) as HTMLIFrameElement | null;
+    if (!iframe) {
+      Log.error(`${GameIFrame} が見つかりません。別窓の DOM 構造が変更された可能性があります。`);
+      return false;
+    }
     iframe.style.position = "absolute";
     iframe.style.transition = "transform 0.2s";
     iframe.style.zIndex = "2";
     iframe.style.transform = `scale(${zoom})`;
     // コンテンツを中央に寄せる
-    const wrapper = window.document.querySelector(GameWrapper) as HTMLDivElement;
+    const wrapper = window.document.querySelector(GameWrapper) as HTMLDivElement | null;
+    if (!wrapper) {
+      Log.error(`${GameWrapper} が見つかりません。別窓の DOM 構造が変更された可能性があります。`);
+      return false;
+    }
     wrapper.style.position = "fixed";
     wrapper.style.width = "100vw";
     wrapper.style.height = "100vh";
@@ -51,6 +95,7 @@ import { type FrameParams } from "../models/Frame";
     wrapper.style.justifyContent = "center";
     wrapper.style.zIndex = "1";
     wrapper.style.paddingTop = `${54 * zoom}px`; // 54pxは微妙なiframeの中の余白
+    return true;
   }
 
   function onresize() {
