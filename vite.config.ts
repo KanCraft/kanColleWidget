@@ -21,7 +21,7 @@ export default defineConfig({
         // path.resolve(__dirname, 'src/injection/content-script.ts'),
       ],
       output: {
-        entryFileNames: (chunkInfo) => {
+        entryFileNames: () => {
           // SCSSエントリーポイントの空のJSラッパーを無視
           // または適切な場所に配置する
           return '[name].js';
