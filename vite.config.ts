@@ -14,14 +14,25 @@ export default defineConfig({
         path.resolve(__dirname, 'src/page/index.html'),
         path.resolve(__dirname, 'src/background.ts'),
         path.resolve(__dirname, 'src/injection/dmm.ts'),
-        path.resolve(__dirname, 'src/injection/kcs.ts'),
         path.resolve(__dirname, 'src/injection/dmm.scss'),
-        path.resolve(__dirname, 'src/injection/theater.scss'),
+        path.resolve(__dirname, 'src/injection/osapi.ts'),
+        path.resolve(__dirname, 'src/injection/osapi.scss'),
+        // path.resolve(__dirname, 'src/injection/theater.scss'),
         // path.resolve(__dirname, 'src/injection/content-script.ts'),
       ],
       output: {
-        entryFileNames: '[name].js', // Remove hash from output file names
-        assetFileNames: 'assets/[name].[ext]', // asset file names as well
+        entryFileNames: (chunkInfo) => {
+          // SCSSエントリーポイントの空のJSラッパーを無視
+          // または適切な場所に配置する
+          return '[name].js';
+        },
+        assetFileNames: (assetInfo) => {
+          // CSSファイルは assets/ ディレクトリに配置
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'assets/[name].[ext]';
+          }
+          return 'assets/[name].[ext]';
+        },
       },
     }, 
   },

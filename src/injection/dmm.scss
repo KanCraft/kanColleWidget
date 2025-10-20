@@ -1,4 +1,3 @@
-
 /* This CSS is injected by KanColleWidget */
 html {
     overflow-x: hidden;
@@ -7,34 +6,33 @@ html {
     display: none;
 }
 
-// ここの扱いどうするか
-div#foot {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    margin: 0;
-    position: fixed;
-    bottom: 16px;
-
-    font-size: 0.3rem;
-    color: #303030 !important;
-    >p {
-        margin: 0 !important;
-    }
+header {
+    display: none !important;
 }
 
-// 一応残しておくやつ
-div.dmm-ntgnavi,    // うえのナビゲーション
-div.area-naviapp,   // お問い合わせへのリンクなど
-div#ntg-recommend   // 右側の「おすすめゲーム」とかいうの
-{
-    visibility: hidden;
+dialog {
+    display: none !important;
 }
 
-// 消してもいいやつ
-div.twitter>iframe // 「ツイートする」ボタン
-{
-    display: none;
+main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background-color: cadetblue !important;
+}
+
+iframe#game_frame {
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+}
+
+footer {
+    display: none !important;
+}
+
+aside {
+    display: none !important;
 }

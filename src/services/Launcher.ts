@@ -59,8 +59,28 @@ export class Launcher {
     if (exists && exists.id) return this.retouch(exists, /* frame */);
     // ない場合、新規作成してactivateする
     const win = await this.windows.create(frame.toWindowCreateData());
+    const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
-    await this.activate(win, frame);
+    await this.activate(win, innerIframe);
+  }
+
+  /**
+   * osapi.dmm.com/gadgets/ifr?... 形式の iframe が完全に読み込まれるまで待機する。
+   * @param tabId 
+   * @param timeout 
+   * @returns 
+   */
+  private async waitForInnerIframeLoaded(tabId: number, timeout: number = 8 * 1000) {
+    return new Promise<chrome.webNavigation.GetAllFrameResultDetails>((resolve, reject) => {
+      const check = async (timeoutMilliseconds: number) => {
+        const all_webframes = (await chrome.webNavigation.getAllFrames({ tabId }) || []);
+        const found = all_webframes.find(f => f.url.includes("osapi.dmm.com/gadgets/ifr"));
+        if (found) resolve(found);
+        if (timeoutMilliseconds <= 0) reject(new Error("Timeout waiting for inner iframe loaded"));
+        setTimeout(() => check(timeoutMilliseconds - 500), 500);
+      };
+      check(timeout);
+    });
   }
 
   /**
@@ -87,13 +107,14 @@ export class Launcher {
    * @param win 対象ウィンドウ
    * @param frame 劇場モードなどの設定を含むフレーム情報
    */
-  public async activate(win: chrome.windows.Window, frame: Frame) {
+  public async activate(win: chrome.windows.Window, innerIframe: chrome.webNavigation.GetAllFrameResultDetails) {
     const tab = win.tabs![0];
     this.scriptings.js(tab.id!, ["dmm.js"]);
     this.scriptings.css(tab.id!, ["assets/dmm.css"]);
-    if (frame.theater.enabled) setTimeout(() => {
-      this.scriptings.css({ tabId: tab.id!, allFrames: true }, ["assets/theater.css"]);
-    }, 5 * 1000);
+    this.scriptings.css({ tabId: tab.id!, frameIds: [innerIframe.frameId] }, ["assets/osapi.css"]);
+    // if (frame.theater.enabled) setTimeout(() => {
+    //   this.scriptings.css({ tabId: tab.id!, allFrames: true }, ["assets/theater.css"]);
+    // }, 5 * 1000);
   }
 
   /**
@@ -104,10 +125,10 @@ export class Launcher {
   public async find(frame?: Frame): Promise<chrome.windows.Window | undefined> {
     const url = frame ? frame.url : KanColleURL;
     const pattern = url.endsWith("*") ? url : `${url}*`;
-    const tabs = await this.tabs.query({ url: [pattern] });
+    const tabs = await this.tabs.query({ url: [pattern], windowType: "popup" });
     for (const tab of tabs) {
       if (!(tab.url && tab.url.startsWith(url))) continue;
-      const win = await this.windows.get(tab.windowId, { populate: true });
+      const win = await this.windows.get(tab.windowId, { populate: true, windowTypes: ["popup"] });
       if (win.tabs && win.tabs.length === 1) return win;
     }
     return;
