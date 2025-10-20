@@ -46,3 +46,6 @@ coverage
 .codex/history.jsonl
 .codex/sessions/
 .codex/version.json
+
+# claude
+.claude/settings.local.json
