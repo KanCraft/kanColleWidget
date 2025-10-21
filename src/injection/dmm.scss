@@ -1,9 +1,14 @@
 /* This CSS is injected by KanColleWidget */
 html {
-    overflow-x: hidden;
+    overflow: hidden !important;
 }
 ::-webkit-scrollbar {
     display: none;
+}
+
+body {
+    margin: 0 !important;
+    overflow: hidden !important;
 }
 
 header {
