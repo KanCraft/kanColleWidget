@@ -48,7 +48,7 @@ onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
   await s.js({
     tabId: details.tabId,
     frameIds: [details.frameId],
-  }, ["kcs.js"]);
+  }, ["osapi.js"]);
 });
 
 onComplete.on(["/kcsapi/api_req_sortie/battleresult"], async ([details]) => {
