@@ -31,7 +31,6 @@
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
     public async show({ uri, /* timestamp */ }: { uri: string; timestamp: number; }) {
-      console.log("直接表示できる！", uri);
       const img = await load(uri);
       img.style.height = "100%";
       if (!this.container) {
