@@ -5,6 +5,133 @@
   "releases": [
     {
       "date": "2025-10-21",
+      "version": "v4.0.14",
+      "message": "",
+      "commits": [
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        },
+        {
+          "title": "Launcher.findのURL検索ロジックを改善",
+          "hash": "d4dc0b338474bb87f5b1ab87684b8cd09069a1bb"
+        },
+        {
+          "title": "Launcherサービスに日本語JSDocコメントを追加",
+          "hash": "e477726c74e11c470d0a1aa6ec0337341181fd68"
+        },
+        {
+          "title": "艦これゲームURLを新しいDMMプラットフォームに更新",
+          "hash": "0735a8b1e269b8e9b76404854a91526954cbc9aa"
+        },
+        {
+          "title": "Node.jsとpnpmのバージョンを更新",
+          "hash": "3f374112f79d641fc4a5aab03396c5036dd3bf60"
+        },
+        {
+          "title": "艦これウィジェット仕様書を追加",
+          "hash": "551738c7d7a0fa397477bf46e036f2f498ae2988"
+        },
+        {
+          "title": "AGENTS.mdのルールを更新",
+          "hash": "47f4632f771d68d769fd891b55a48d1e544f6a00"
+        },
+        {
+          "title": ".gitignoreにcodex関連ファイルを追加",
+          "hash": "eaad4e313fb0620a764c5023a24a58bfd54ee0f4"
+        },
+        {
+          "title": "Speckit開発ワークフロー環境を追加",
+          "hash": "7c959c31336fc227d79e236cbfb65e4036fdc7a9"
+        },
+        {
+          "title": "エージェント運用とリポジトリガイドラインを追加",
+          "hash": "6a0c3bed337487fcbbcd1a7e98d90f791cdca6b9"
+        },
+        {
+          "title": "日本語版CLAUDE.mdを追加",
+          "hash": "97931d51d767541ebd85349b35ec172bc1c6488b"
+        },
+        {
+          "title": "v4.0.12",
+          "hash": "fe25efd455edb2b542b14be1a69773b235421626"
+        },
+        {
+          "title": "大破進撃防止窓がうまく消えないのでクリックしたら消えるようにした",
+          "hash": "ce04079e930dc7923eaccc63e2e87acbb8916001"
+        },
+        {
+          "title": "v4.0.11",
+          "hash": "0d6d55ff9ff947f6584d42394ad0e4708b9ec129"
+        },
+        {
+          "title": "crop処理はbackgroundでやることにしたので変なcontent_scriptは要らない",
+          "hash": "3072d6bdf357bec4aac4c87660bad48f29aed4f1"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-21",
       "version": "v4.0.13",
       "message": "",
       "commits": [
