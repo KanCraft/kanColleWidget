@@ -39,8 +39,7 @@ export function FrameSettingView({frames}: {frames: Frame[]}) {
               const win = await launcher.find();
               if (!win) return window.alert("艦これウィジェットが開いている別窓が見つかりませんでした。");
               const [{ result }] = await scripts.func(win.tabs![0].id!, () => {
-                const zoom = parseFloat(sessionStorage.getItem("kancollewidget-frame-zoom") || "1");
-                return { size: { width: window.innerWidth, height: window.innerHeight }, zoom };
+                return { size: { width: window.innerWidth, height: window.innerHeight } };
               });
               if (!result) return window.alert("ウィンドウサイズの取得に失敗しました。");
               const name = window.prompt("新規設定の名前を入力してください。");

@@ -7,7 +7,6 @@ export interface FrameParams {
     description?: string;
     muted?: boolean;
     position: { left: number, top: number, };
-    zoom: number;
     size: { width: number, height: number, };
     url: string;
     protected?: boolean;
@@ -22,8 +21,7 @@ export class Frame extends Model {
   public description = "";
   public muted = false;
   public position = { left: 0, top: 0, }
-  public zoom = 2 / 3;
-  public size = { width: (GameRawWidth * this.zoom), height: (GameRawHeight * this.zoom), }
+  public size = { width: (GameRawWidth * (2 / 3)), height: (GameRawHeight * (2 / 3)), }
   public url = KanColleURL;
   public protected = false;
   public theater: { enabled: boolean } = { enabled: true };
@@ -35,7 +33,6 @@ export class Frame extends Model {
       description: "最後に開いてたサイズの記憶",
       muted: false,
       position: { left: 0, top: 0, },
-      zoom: 2 / 3,
       size: { width: (GameRawWidth * (2 / 3)), height: (GameRawHeight * (2 / 3)), },
       url: KanColleURL,
       protected: true,
@@ -46,7 +43,6 @@ export class Frame extends Model {
       description: "オリジナルサイズ",
       muted: false,
       position: { left: 0, top: 0, },
-      zoom: 1,
       size: { width: GameRawWidth, height: GameRawHeight, },
       url: KanColleURL,
       protected: true,
@@ -57,7 +53,6 @@ export class Frame extends Model {
       description: "小さいサイズ",
       muted: false,
       position: { left: 0, top: 0, },
-      zoom: 1 / 3,
       size: { width: (GameRawWidth / 3), height: (GameRawHeight / 3), },
       url: KanColleURL,
       protected: true,
