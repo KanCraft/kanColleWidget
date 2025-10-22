@@ -43,7 +43,7 @@ export function FrameSettingView({frames}: {frames: Frame[]}) {
               });
               if (!result) return window.alert("ウィンドウサイズの取得に失敗しました。");
               const name = window.prompt("新規設定の名前を入力してください。");
-              await Frame.create({ name, ...result });
+              await Frame.create({ name, ...result, position: { left: win.left, top: win.top } });
               navigate("/options?open=frames");
             }}
           >今開いている別窓を新規設定として登録</button>
