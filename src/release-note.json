@@ -5,6 +5,133 @@
   "releases": [
     {
       "date": "2025-10-23",
+      "version": "v4.0.19",
+      "message": "",
+      "commits": [
+        {
+          "title": "post-tweet.tsの関数定義順序を修正して初期化エラーを解消",
+          "hash": "de23d6c0ad30815a2a8e2bc994016d9b0c957734"
+        },
+        {
+          "title": "v4.0.18",
+          "hash": "fdbf2292e1dbcade49abba1c35fc27bc83c78af5"
+        },
+        {
+          "title": "GitHub Actionsワークフローを2025年のベストプラクティスに準拠",
+          "hash": "fc0d50a71dd45cb8ab0a449ff9fa0ef95e5eb7f1"
+        },
+        {
+          "title": "v4.0.17",
+          "hash": "ae7d284fc48bd954a2ab4671797713671a9684fa"
+        },
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        },
+        {
+          "title": "ベータ版リリース失敗時の通知機能とメンション機能を追加",
+          "hash": "5426fb7b814f2b347a64db7375b6aabfc05f33cf"
+        },
+        {
+          "title": "v4.0.16",
+          "hash": "d7b3ae5aed4b0e0217ec7984b15086fbd07ec2cb"
+        },
+        {
+          "title": "ベータ版リリース時に自動的にX投稿を行うGitHub Actionsジョブを追加",
+          "hash": "4b1a8b77604dc1a23a072b68002e88f45daab9f9"
+        },
+        {
+          "title": "スクリプトファイル名をtweet.tsからpost-tweet.tsに変更",
+          "hash": "5074c097e276ca93191b0a5fe79b3822a47a8528"
+        },
+        {
+          "title": "リリースノートからX向けアナウンス文を生成するスクリプトを追加",
+          "hash": "03d993188c7a92e91b04120b379bee8f8f1f7768"
+        },
+        {
+          "title": "X (Twitter) API v2へ投稿するスクリプトを追加",
+          "hash": "b33489ddda00aee5d4eeab27a0b8d069a87eda62"
+        },
+        {
+          "title": "Commands.tsのコードを改善し、エラーハンドリングを追加",
+          "hash": "93b58c21c1c5dfa4dd0315b6f253291ff8293d14"
+        },
+        {
+          "title": "v4.0.15",
+          "hash": "83843ecf6830de331e89e3f17ba6dad0868150f5"
+        },
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
       "version": "v4.0.18",
       "message": "",
       "commits": [
