@@ -11,9 +11,11 @@ jobs:
     # github.event.pull_request.base.ref == 'master' &&
     # github.event.pull_request.head.ref == 'develop' &&
     runs-on: ubuntu-latest
+    continue-on-error: true
     outputs:
       failure_reason: ${{ steps.collect_failure.outputs.failure_reason }}
       failure_step: ${{ steps.collect_failure.outputs.failure_step }}
+      has_failure: ${{ steps.collect_failure.outputs.has_failure }}
     env:
       NODE_ENV: beta
       GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
@@ -39,32 +41,30 @@ jobs:
       run: |
         npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット-BETA.zip
     - name: Collect failure summary
-      if: failure()
+      if: always()
       id: collect_failure
       run: |
         reason="詳細不明"
         failed_step="unknown"
-        if [ "${{ steps.publish.conclusion }}" = "failure" ]; then
+        if [ "${{ steps.publish.outcome }}" = "failure" ]; then
           reason="Webstore公開処理で失敗"
           failed_step="publish"
-        elif [ "${{ steps.build_beta_release.conclusion }}" = "failure" ]; then
+        elif [ "${{ steps.build_beta_release.outcome }}" = "failure" ]; then
           reason="beta-releaseビルドで失敗"
           failed_step="build_beta_release"
-        elif [ "${{ steps.install_deps.conclusion }}" = "failure" ]; then
+        elif [ "${{ steps.install_deps.outcome }}" = "failure" ]; then
           reason="依存関係のインストールで失敗"
           failed_step="install_deps"
         fi
-        echo "failure_reason<<'EOF'" >> "$GITHUB_OUTPUT"
-        echo "$reason" >> "$GITHUB_OUTPUT"
-        echo "EOF" >> "$GITHUB_OUTPUT"
-        echo "failure_step<<'EOF'" >> "$GITHUB_OUTPUT"
-        echo "$failed_step" >> "$GITHUB_OUTPUT"
-        echo "EOF" >> "$GITHUB_OUTPUT"
+        {
+          echo "failure_reason=$reason"
+          echo "failure_step=$failed_step"
+          echo "has_failure=${{ job.status == 'failure' }}"
+        } >> "$GITHUB_OUTPUT"
 
   announce_beta_tweet:
     needs: webstore_beta_publish
-    if: |
-      needs.webstore_beta_publish.result == 'success'
+    if: needs.webstore_beta_publish.outputs.has_failure == 'false'
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
@@ -91,8 +91,7 @@ jobs:
 
   announce_beta_failure:
     needs: webstore_beta_publish
-    if: |
-      needs.webstore_beta_publish.result == 'failure'
+    if: needs.webstore_beta_publish.outputs.has_failure == 'true'
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
