@@ -1,8 +1,6 @@
 import { useLoaderData } from "react-router-dom";
-import { ServerPermissionView } from "./components/options/ServerPermissionView";
 import { FrameSettingView } from "./components/options/FrameSettingView";
 
-import { type ServerPermission } from "../services/PermissionsService";
 import { type Frame } from "../models/Frame";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "./components/options/DevelopmentInfoView";
 
@@ -10,11 +8,9 @@ const KCWidgetChanURL = "https://cloud.githubusercontent.com/assets/931554/26664
 
 export function OptionsPage() {
   const {
-    servers,
     frames,
     releasenote,
   } = useLoaderData() as {
-    servers: ServerPermission[],
     frames: Frame[],
     releasenote: ReleaseNoteObject
   };
@@ -23,8 +19,6 @@ export function OptionsPage() {
       <Header releasenote={releasenote} />
       <Divider />
       <FrameSettingView frames={frames} />
-      <Divider />
-      <ServerPermissionView servers={servers} />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>

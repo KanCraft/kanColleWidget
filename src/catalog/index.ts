@@ -13,10 +13,8 @@ export interface MissionCatalog {
 export const missions = missiondata as unknown as MissionCatalog;
 
 // サーバカタログ
-import serverdata from "./servers.json";
 export interface ServerEntry {
     name: string;
     ip_address: string;
 }
 export type ServerCatalog = ServerEntry[];
-export const servers = serverdata as unknown as ServerCatalog;

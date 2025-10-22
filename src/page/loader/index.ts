@@ -1,5 +1,3 @@
-import { PermissionsService } from "../../services/PermissionsService";
-import { servers } from "../../catalog";
 import { Frame } from "../../models/Frame";
 import Queue from "../../models/Queue";
 import note from "../../release-note.json"
@@ -7,11 +5,9 @@ import { ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { Launcher } from "../../services/Launcher";
 
 export async function options() {
-  const perms = new PermissionsService();
-  const ss = await perms.servers.granted(servers);
   const frames = await Frame.list();
   const releasenote = note as ReleaseNoteObject;
-  return { servers: ss, frames, releasenote };
+  return { frames, releasenote };
 }
 
 export async function popup() {
