@@ -16,7 +16,8 @@
   "host_permissions": [
     "*://play.games.dmm.com/game/kancolle/*",
     "*://osapi.dmm.com/*",
-    "*://*.kancolle-server.com/*"
+    "*://*.kancolle-server.com/*",
+    "<all_urls>"
   ],
   "web_accessible_resources": [
     {
@@ -40,6 +41,15 @@
   },
   "action": {
     "default_popup": "page/index.html#/popup"
+  },
+  "commands": {
+    "/screenshot": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "ゲーム別窓のスクリーンショットを撮影する"
+    }
   },
   "options_page": "page/index.html#/options"
 }

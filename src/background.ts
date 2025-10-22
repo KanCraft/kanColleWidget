@@ -20,6 +20,9 @@ chrome.notifications.onClicked.addListener(onClicked.listener());
 // queueを見てるcronを起動
 chrome.alarms.create('/cron/queues', { periodInMinutes: 0.5 });
 
+import { onCommand } from "./controllers/Commands";
+chrome.commands.onCommand.addListener(onCommand.listener());
+
 // import { Launcher } from "./services/Launcher";
 // import { Frame } from "./models/Frame";
 // (async () => {
