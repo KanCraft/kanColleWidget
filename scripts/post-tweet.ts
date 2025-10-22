@@ -23,6 +23,49 @@ interface PostOptions {
   mention?: string;
 }
 
+const extractOptions = (argv: string[]): { options: PostOptions; messageArgs: string[] } => {
+  const options: PostOptions = {};
+  const message: string[] = [];
+
+  for (let index = 0; index < argv.length; index++) {
+    const arg = argv[index];
+    if (!arg.startsWith("--")) {
+      message.push(arg);
+      continue;
+    }
+    if (arg === "--mention") {
+      const value = argv[++index];
+      if (!value) {
+        console.warn("--mentionにはユーザー名を指定してください");
+        continue;
+      }
+      options.mention = normalizeHandle(value);
+      continue;
+    }
+    console.warn("未対応のオプションを無視します:", arg);
+  }
+
+  return { options, messageArgs: message };
+};
+
+const normalizeHandle = (input: string): string => {
+  const trimmed = input.trim().replace(/^@+/, "");
+  return trimmed.length > 0 ? trimmed : "";
+};
+
+const appendMention = (text: string, options: PostOptions): string => {
+  if (!options.mention) {
+    return text;
+  }
+  const mention = `@${options.mention}`;
+  const candidate = text ? `${mention} ${text}` : mention;
+  if (candidate.length > 280) {
+    console.warn("メンションを付与すると280文字を超えるため省略しました");
+    return text;
+  }
+  return candidate;
+};
+
 const main = async () => {
   const missing = REQUIRED_ENV.filter((key) => !process.env[key]);
   if (missing.length > 0) {
@@ -134,46 +177,3 @@ main().catch((error) => {
   console.error("[ERROR] 予期せぬ失敗:", error);
   process.exit(1);
 });
-
-const extractOptions = (argv: string[]): { options: PostOptions; messageArgs: string[] } => {
-  const options: PostOptions = {};
-  const message: string[] = [];
-
-  for (let index = 0; index < argv.length; index++) {
-    const arg = argv[index];
-    if (!arg.startsWith("--")) {
-      message.push(arg);
-      continue;
-    }
-    if (arg === "--mention") {
-      const value = argv[++index];
-      if (!value) {
-        console.warn("--mentionにはユーザー名を指定してください");
-        continue;
-      }
-      options.mention = normalizeHandle(value);
-      continue;
-    }
-    console.warn("未対応のオプションを無視します:", arg);
-  }
-
-  return { options, messageArgs: message };
-};
-
-const normalizeHandle = (input: string): string => {
-  const trimmed = input.trim().replace(/^@+/, "");
-  return trimmed.length > 0 ? trimmed : "";
-};
-
-const appendMention = (text: string, options: PostOptions): string => {
-  if (!options.mention) {
-    return text;
-  }
-  const mention = `@${options.mention}`;
-  const candidate = text ? `${mention} ${text}` : mention;
-  if (candidate.length > 280) {
-    console.warn("メンションを付与すると280文字を超えるため省略しました");
-    return text;
-  }
-  return candidate;
-};
