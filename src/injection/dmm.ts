@@ -13,6 +13,12 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     private muteButton: HTMLButtonElement;
     private screenshotButton: HTMLButtonElement;
     private static self: InAppActionButtons | null = null;
+
+    // Heroicons SVG (outline, 24x24)
+    private static readonly ICON_SPEAKER_WAVE = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"/></svg>';
+    private static readonly ICON_SPEAKER_X_MARK = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"/></svg>';
+    private static readonly ICON_CAMERA = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"/></svg>';
+
     public static create(): InAppActionButtons {
       if (this.self && this.self.container) return this.self;
       this.self = new InAppActionButtons();
@@ -20,8 +26,8 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     }
     constructor() {
       this.container = this.createContainer();
-      this.muteButton = this.createButton("🔊", () => this.toggleMute());
-      this.screenshotButton = this.createButton("📷", () => this.screenshot());
+      this.muteButton = this.createButton(InAppActionButtons.ICON_SPEAKER_WAVE, () => this.toggleMute());
+      this.screenshotButton = this.createButton(InAppActionButtons.ICON_CAMERA, () => this.screenshot());
       this.container.appendChild(this.screenshotButton);
       this.container.appendChild(this.muteButton);
       window.document.body.appendChild(this.container);
@@ -36,7 +42,7 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
 
     private async toggleMute() {
       const tab = await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/mute:toggle" })
-      this.muteButton.innerHTML = tab.mutedInfo?.muted ? "🔇" : "🔊";
+      this.muteButton.innerHTML = tab.mutedInfo?.muted ? InAppActionButtons.ICON_SPEAKER_X_MARK : InAppActionButtons.ICON_SPEAKER_WAVE;
     }
     private createContainer(): HTMLDivElement {
       const div = window.document.createElement("div");
@@ -50,14 +56,25 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
       div.id = "kcw-inapp-action-buttons";
       return div;
     }
-    private createButton(text: string, onclick = () => { }): HTMLButtonElement {
+    private createButton(svgContent: string, onclick = () => { }): HTMLButtonElement {
       const button = window.document.createElement("button");
       button.style.backgroundColor = "#fff";
-      button.style.fontSize = "32px";
+      button.style.width = "48px";
+      button.style.height = "48px";
+      button.style.padding = "8px";
       button.style.cursor = "pointer";
       button.style.border = "none";
-      button.innerHTML = text;
+      button.style.display = "flex";
+      button.style.alignItems = "center";
+      button.style.justifyContent = "center";
+      button.innerHTML = svgContent;
       button.addEventListener("click", onclick);
+      // SVGのサイズを調整
+      const svg = button.querySelector("svg");
+      if (svg) {
+        svg.style.width = "100%";
+        svg.style.height = "100%";
+      }
       return button;
     }
   }
