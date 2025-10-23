@@ -43,3 +43,19 @@ footer {
 aside {
     display: none !important;
 }
+
+// 縦長の場合
+@media (max-aspect-ratio: 1200/720) {
+  div#kcw-inapp-action-buttons {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+  }
+}
+
+// 横長の場合
+@media (min-aspect-ratio: 1200/720) {
+  div#kcw-inapp-action-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
