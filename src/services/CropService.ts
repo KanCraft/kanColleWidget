@@ -1,7 +1,7 @@
 import { GameRawHeight, GameRawWidth } from "../constants";
 import { WorkerImage } from "../utils";
 
-type Purpose = "game" | "recovery" | "shipbuild" | "damagesnapshot";
+export type Purpose = "game" | "recovery" | "shipbuild" | "damagesnapshot" | "fleet" | "aviation";
 
 /**
  * 画像の切り抜き範囲を表すクラス
@@ -49,12 +49,32 @@ export class Rectangle {
       g.start.y + (g.size.h * (7 / 18)),
     );
   }
+  public fleet(): Rectangle {
+    const g = this.game();
+    return new Rectangle(
+      g.size.w * (60 / 100),
+      g.size.h * (78 / 100),
+      g.start.x + (g.size.w * (39 / 100)),
+      g.start.y + (g.size.h * (20 / 100)),
+    );
+  }
+  public aviation(): Rectangle {
+    const g = this.game();
+    return new Rectangle(
+      g.size.w * (27 / 100),
+      g.size.h * (73 / 100),
+      g.start.x + (g.size.w * (72 / 100)),
+      g.start.y + (g.size.h * (22 / 100)),
+    );
+  }
 
   public transform(purpose: Purpose, params: { dock: number | string } = { dock: 0 }): Rectangle {
     switch (purpose) {
     case "recovery": return this.recovery();
     case "shipbuild": return this.shipbuild(params.dock as number);
     case "damagesnapshot": return this.damagesnapshot();
+    case "fleet": return this.fleet();
+    case "aviation": return this.aviation();
     case "game": return this.game();
     default: return this.game();
     }
