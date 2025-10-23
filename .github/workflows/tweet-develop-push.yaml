@@ -62,24 +62,14 @@ jobs:
         HASH_TAGS="#艦これウィジェット"
 
         # ツイート本文を生成（280文字制限を考慮）
-        # heredocを使って複数行テキストを生成
-        TWEET_TEXT=$(cat <<EOF
-        ${COMMIT_MSG}
-        ${COMMIT_URL}
-        ${HASH_TAGS}
-        EOF
-        )
+        # printf を使って複数行テキストを生成（heredoc より安全）
+        TWEET_TEXT=$(printf "%s\n%s\n%s" "${COMMIT_MSG}" "${COMMIT_URL}" "${HASH_TAGS}")
 
         # 280文字を超える場合はコミットメッセージを切り詰め
         if [ ${#TWEET_TEXT} -gt 280 ]; then
           MAX_MSG_LEN=$((280 - 100))  # URL等の固定部分を除いた長さ
           COMMIT_MSG_SHORT=$(echo "$COMMIT_MSG" | cut -c1-$MAX_MSG_LEN)
-          TWEET_TEXT=$(cat <<EOF
-          ${COMMIT_MSG_SHORT}...
-          ${COMMIT_URL}
-          ${HASH_TAGS}
-          EOF
-          )
+          TWEET_TEXT=$(printf "%s...\n%s\n%s" "${COMMIT_MSG_SHORT}" "${COMMIT_URL}" "${HASH_TAGS}")
         fi
 
         # GitHub Actionsの出力に設定

@@ -39,26 +39,15 @@ jobs:
         HASH_TAGS="#艦これウィジェット"
 
         # ツイート本文を生成（280文字制限を考慮）
-        BASE_TEXT=$(cat <<EOF
-        #${ISSUE_NUMBER} ${ISSUE_TITLE}
-        ${ISSUE_URL}
-        ${HASH_TAGS}
-        EOF
-        )
-
-        TWEET_TEXT="$BASE_TEXT"
+        # printf を使って複数行テキストを生成（heredoc より安全）
+        TWEET_TEXT=$(printf "#%s %s\n%s\n%s" "${ISSUE_NUMBER}" "${ISSUE_TITLE}" "${ISSUE_URL}" "${HASH_TAGS}")
 
         # 280文字を超える場合はタイトルを切り詰め
         if [ ${#TWEET_TEXT} -gt 280 ]; then
           # URL等の固定部分の長さを計算
           MAX_TITLE_LEN=$((280 - 120))
           ISSUE_TITLE_SHORT=$(echo "$ISSUE_TITLE" | cut -c1-$MAX_TITLE_LEN)
-          TWEET_TEXT=$(cat <<EOF
-          #${ISSUE_NUMBER} ${ISSUE_TITLE_SHORT}...
-          ${ISSUE_URL}
-          ${HASH_TAGS}
-          EOF
-          )
+          TWEET_TEXT=$(printf "#%s %s...\n%s\n%s" "${ISSUE_NUMBER}" "${ISSUE_TITLE_SHORT}" "${ISSUE_URL}" "${HASH_TAGS}")
         fi
 
         # GitHub Actionsの出力に設定
