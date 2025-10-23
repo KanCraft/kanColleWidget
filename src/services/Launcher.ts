@@ -49,6 +49,14 @@ export class Launcher {
   }
 
   /**
+   * 編成キャプチャページを新規タブで開く。
+   * @returns 作成されたタブの Promise
+   */
+  public static async fleetcapture() {
+    return await (new this()).tabs.create({ url: "page/index.html#/fleet-capture" });
+  }
+
+  /**
    * 指定されたフレーム設定でゲーム別窓を起動する。
    * 既存別窓があればフォーカスのみ行い、無ければ新規作成して活性化する。
    * @param frame 起動対象のフレーム設定

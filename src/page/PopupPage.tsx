@@ -3,7 +3,7 @@ import { Launcher } from "../services/Launcher"
 import { type Frame } from "../models/Frame"
 
 import { useState, type ReactNode } from "react";
-import { ClockIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { ClockIcon, SquaresPlusIcon ,Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 function ShortCutIcon({icon, title, action}: {
   icon: ReactNode;
@@ -57,6 +57,7 @@ export function PopupPage() {
       </div>
       <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-min">
         <ShortCutIcon icon={<ClockIcon className="w-5 h-5" aria-hidden="true" />} title="ダッシュボードを開く" action={() => Launcher.dashboard()} />
+        <ShortCutIcon icon={<SquaresPlusIcon className="w-5 h-5" aria-hidden="true" />} title="編成キャプチャを開く" action={() => Launcher.fleetcapture()} />
         <ShortCutIcon icon={<Cog6ToothIcon className="w-5 h-5" aria-hidden="true" />}   title="設定を開く"         action={() => Launcher.options()} />
       </div>
     </div>

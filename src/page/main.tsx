@@ -10,6 +10,7 @@ import './index.scss'
 import { OptionsPage } from './OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
+import { FleetCapturePage } from './FleetCapturePage';
 
 const router = createHashRouter([
   {
@@ -21,6 +22,10 @@ const router = createHashRouter([
     path: "/options",
     element: <OptionsPage />,
     loader: options,
+  },
+  {
+    path: "/fleet-capture",
+    element: <FleetCapturePage />,
   },
   {
     path: "/dashboard",
