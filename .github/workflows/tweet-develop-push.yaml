@@ -64,12 +64,8 @@ jobs:
         # ツイート本文を生成（280文字制限を考慮）
         # heredocを使って複数行テキストを生成
         TWEET_TEXT=$(cat <<EOF
-        developブランチに新しいコミットが追加されました
-
         ${COMMIT_MSG}
-
         ${COMMIT_URL}
-
         ${HASH_TAGS}
         EOF
         )
@@ -79,14 +75,10 @@ jobs:
           MAX_MSG_LEN=$((280 - 100))  # URL等の固定部分を除いた長さ
           COMMIT_MSG_SHORT=$(echo "$COMMIT_MSG" | cut -c1-$MAX_MSG_LEN)
           TWEET_TEXT=$(cat <<EOF
-        developブランチに新しいコミットが追加されました
-
-        ${COMMIT_MSG_SHORT}...
-
-        ${COMMIT_URL}
-
-        ${HASH_TAGS}
-        EOF
+          ${COMMIT_MSG_SHORT}...
+          ${COMMIT_URL}
+          ${HASH_TAGS}
+          EOF
           )
         fi
 

@@ -40,12 +40,8 @@ jobs:
 
         # ツイート本文を生成（280文字制限を考慮）
         BASE_TEXT=$(cat <<EOF
-        新しいissueが投稿されました
-
-        #${ISSUE_NUMBER}: ${ISSUE_TITLE}
-
+        #${ISSUE_NUMBER} ${ISSUE_TITLE}
         ${ISSUE_URL}
-
         ${HASH_TAGS}
         EOF
         )
@@ -58,14 +54,10 @@ jobs:
           MAX_TITLE_LEN=$((280 - 120))
           ISSUE_TITLE_SHORT=$(echo "$ISSUE_TITLE" | cut -c1-$MAX_TITLE_LEN)
           TWEET_TEXT=$(cat <<EOF
-        新しいissueが投稿されました
-
-        #${ISSUE_NUMBER}: ${ISSUE_TITLE_SHORT}...
-
-        ${ISSUE_URL}
-
-        ${HASH_TAGS}
-        EOF
+          #${ISSUE_NUMBER} ${ISSUE_TITLE_SHORT}...
+          ${ISSUE_URL}
+          ${HASH_TAGS}
+          EOF
           )
         fi
 
