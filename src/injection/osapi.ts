@@ -94,67 +94,8 @@
     }
   }
 
-  /**
-   * 画面内のボタンの描画
-   */
-  class InAppActionButtons {
-    private container: HTMLDivElement;
-    private muteButton: HTMLButtonElement;
-    private screenshotButton: HTMLButtonElement;
-    private static self: InAppActionButtons | null = null;
-    public static create(): InAppActionButtons {
-      if (this.self && this.self.container) return this.self;
-      this.self = new InAppActionButtons();
-      return this.self;
-    }
-    constructor() {
-      this.container = this.createContainer();
-      this.muteButton = this.createButton("🔊", () => this.toggleMute());
-      this.screenshotButton = this.createButton("📷", () => this.screenshot());
-      this.container.appendChild(this.screenshotButton);
-      this.container.appendChild(this.muteButton);
-      window.document.body.appendChild(this.container);
-    }
-
-    private async screenshot() {
-      this.container.style.display = "none";
-      await new Promise(resolve => setTimeout(resolve, 50)); // XXX: なぜか写り込んじゃうので、ちょっと待つ
-      await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/screenshot" });
-      this.container.style.display = "block";
-    }
-
-    private async toggleMute() {
-      const tab = await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/mute:toggle" })
-      this.muteButton.innerHTML = tab.mutedInfo?.muted ? "🔇" : "🔊";
-    }
-    private createContainer(): HTMLDivElement {
-      const div = window.document.createElement("div");
-      div.style.position = "fixed";
-      div.style.top = "0";
-      div.style.right = "0";
-      div.style.opacity = "0";
-      div.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
-      div.addEventListener("mouseover", () => div.style.opacity = "0.8");
-      div.addEventListener("mouseout", () => div.style.opacity = "0");
-      div.id = "kcw-inapp-action-buttons";
-      return div;
-    }
-    private createButton(text: string, onclick = () => { }): HTMLButtonElement {
-      const button = window.document.createElement("button");
-      button.style.backgroundColor = "#fff";
-      button.style.fontSize = "32px";
-      button.style.cursor = "pointer";
-      button.style.border = "none";
-      button.innerHTML = text;
-      button.addEventListener("click", onclick);
-      return button;
-    }
-  }
-
   // 以下、初期化処理
   sessionStorage.setItem("kcw_initialized", "1");
-
-  InAppActionButtons.create();
 
   const ds = new DamageSnapshot();
   chrome.runtime.onMessage.addListener(async (msg) => {
