@@ -2,19 +2,18 @@ import { useLoaderData } from "react-router-dom"
 import { Launcher } from "../services/Launcher"
 import { type Frame } from "../models/Frame"
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { type IconProp } from "@fortawesome/fontawesome-svg-core";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
+import { ClockIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 function ShortCutIcon({icon, title, action}: {
-  icon: IconProp;
+  icon: ReactNode;
   title: string;
   action: () => void;
 }) {
   return (
     <div className="py-2 px-4 cursor-pointer text-slate-400 hover:text-slate-600 transition hover:bg-teal-50"
       title={title} onClick={action}
-    ><FontAwesomeIcon icon={icon} className="" /></div>
+    >{icon}</div>
   )
 }
 
@@ -57,8 +56,8 @@ export function PopupPage() {
         </div>
       </div>
       <div className="flex divide-x rounded-lg border border-slate-200 overflow-hidden w-min">
-        <ShortCutIcon icon="clock" title="ダッシュボードを開く" action={() => Launcher.dashboard()} />
-        <ShortCutIcon icon="cog"   title="設定を開く"         action={() => Launcher.options()} />
+        <ShortCutIcon icon={<ClockIcon className="w-5 h-5" aria-hidden="true" />} title="ダッシュボードを開く" action={() => Launcher.dashboard()} />
+        <ShortCutIcon icon={<Cog6ToothIcon className="w-5 h-5" aria-hidden="true" />}   title="設定を開く"         action={() => Launcher.options()} />
       </div>
     </div>
   )
