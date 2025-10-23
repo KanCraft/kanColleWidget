@@ -286,6 +286,36 @@ new SequentialRouter<WebRequestEvent>(2, handler)
   - 関数: camelCase (`onMessage`, `listener`)
   - 定数: UPPER_SNAKE_CASE（環境変数など）
 
+## Claude Code 使用時の重要な指示
+
+### 診断チェックの必須実行
+
+ファイルを作成・編集した後は、**必ず** `mcp__ide__getDiagnostics` ツールを使用して診断情報を確認すること。
+
+- **タイミング**: Edit、Write、NotebookEdit ツールを使用した直後
+- **目的**: 構文エラー、型エラー、lintエラーを即座に検出して修正
+- **方法**:
+  ```
+  mcp__ide__getDiagnostics({ uri: "file:///<absolute-path-to-file>" })
+  ```
+- **対応**: 診断結果にエラーや警告がある場合は、ユーザーに報告する前に修正を試みること
+
+**例**:
+```typescript
+// YAMLファイルを編集した後
+await edit(".github/workflows/example.yaml", ...);
+// 必ず診断チェックを実行
+const diagnostics = await getDiagnostics({
+  uri: "file:///Users/.../example.yaml"
+});
+// エラーがあれば即座に修正
+if (diagnostics.length > 0) {
+  // 修正処理...
+}
+```
+
+この手順により、ユーザーに提示する前にコード品質を保証できる。
+
 ## 注意事項
 
 - Chrome拡張機能の権限設定に注意（manifest.json の `permissions` と `optional_host_permissions`）
