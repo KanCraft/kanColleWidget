@@ -15,9 +15,11 @@ header {
     display: none !important;
 }
 
-dialog {
-    display: none !important;
-}
+// アイテム購入時にDMMのポイント購入画面への遷移導線が表示されるため
+// 非表示にしてはいけない
+// dialog {
+//     display: none !important;
+// }
 
 main {
     margin: 0 !important;
