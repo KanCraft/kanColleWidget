@@ -5,10 +5,20 @@
 
 [![Coverage Graph](https://codecov.io/gh/KanCraft/kanColleWidget/graphs/sunburst.svg?token=GqJlbto2hH)](https://app.codecov.io/gh/KanCraft/kanColleWidget/tree/develop)
 
-# 開発
+## インストール
 
-* node.js 20
-* pnpm 9
+**ベータ版**<br>
+<a href="https://chromewebstore.google.com/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88-beta/egkgleinehaapbpijnlpbllfeejjpceb">
+  <img src="https://developer.chrome.com/static/docs/webstore/branding/image/iNEddTyWiMfLSwFD6qGq.png" alt="Chrome Web Store (BETA)で入手" height="58">
+</a>
+
+**公開版**</br>
+<a href="https://chromewebstore.google.com/detail/%E8%89%A6%E3%81%93%E3%82%8C%E3%82%A6%E3%82%A3%E3%82%B8%E3%82%A7%E3%83%83%E3%83%88/iachoklpnnjfgmldgelflgifhdaebnol">
+  <img src="https://developer.chrome.com/static/docs/webstore/branding/image/iNEddTyWiMfLSwFD6qGq.png" alt="Chrome Web Storeで入手" height="58">
+</a>
+
+
+# 開発
 
 ```sh
 git clone git@github.com:KanCraft/kanColleWidget.git
