@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { CropService } from "../../services/CropService";
+import { DownloadService } from "../../services/DownloadService";
 import { Launcher } from "../../services/Launcher";
 import { WorkerImage } from "../../utils";
 import {
@@ -71,16 +72,10 @@ export function useFleetCapture({
           ctx.drawImage(img, colIndex * width, rowIndex * height, width, height);
         });
       });
-
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.download = `fleet_capture_${Date.now()}.png`;
-        anchor.click();
-        URL.revokeObjectURL(url);
-      }, "image/png");
+      const downloadService = new DownloadService();
+      const dataUrl = canvas.toDataURL("image/png");
+      const filename = DownloadService.filename.screenshot({ dir: "艦これ/編成キャプチャ", format: "png" });
+      await downloadService.download(dataUrl, filename);
     } catch (error) {
       console.error(error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");
