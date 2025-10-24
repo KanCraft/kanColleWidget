@@ -19,12 +19,11 @@ export function OptionsPage() {
   return (
     <div className="p-8">
       <Header releasenote={releasenote} manifest={manifest} />
+      <VersionView manifest={manifest} />
       <Divider />
       <FrameSettingView frames={frames} />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
-      <Divider />
-      <VersionView manifest={manifest} />
     </div>
   );
 }
