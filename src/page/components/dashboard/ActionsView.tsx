@@ -3,6 +3,7 @@ import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
 import { DownloadService } from "../../../services/DownloadService";
 import { CameraIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
+import { FileSaveConfig } from "../../../models/configs/FileSaveConfig";
 
 function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
@@ -19,11 +20,11 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
   if (!tab) return null;
   return (
     <div onClick={async () => {
-      const s = new DownloadService();
+      const config = await FileSaveConfig.user();
       const format = "png";
       const uri = await launcher.capture(tab.windowId, { format });
-      const filename = DownloadService.filename.screenshot({ dir: "艦これ", format });
-      /* const downloadId = */ await s.download(uri, filename);
+      const s = new DownloadService(config);
+      /* const downloadId = */ await s.download(uri);
       // await s.show(downloadId);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600" title="スクリーンショットを保存">
       <CameraIcon className="w-8 h-8" aria-hidden="true" />

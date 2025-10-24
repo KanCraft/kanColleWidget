@@ -8,6 +8,7 @@ import { TriggerType } from "../models/entry/Base";
 import { Launcher } from "../services/Launcher";
 import { DownloadService } from "../services/DownloadService";
 import { CropService } from "../services/CropService";
+import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -37,11 +38,11 @@ onMessage.on("/mute:toggle", async (_, sender) => {
 onMessage.on("/screenshot", async (_, sender) => {
   if (!sender.tab) return;
   const launcher = new Launcher();
-  const s = new DownloadService();
+  const config = await FileSaveConfig.user();
+  const s = new DownloadService(config);
   const format = "png";
   const uri = await launcher.capture(sender.tab.windowId, { format });
-  const filename = DownloadService.filename.screenshot({ dir: "艦これ", format });
-  return await s.download(uri, filename);
+  return await s.download(uri);
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {

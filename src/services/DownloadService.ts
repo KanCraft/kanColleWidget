@@ -1,18 +1,13 @@
-import { KCWDate } from "../utils";
+import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 
 export class DownloadService {
   constructor(
+    private readonly config: FileSaveConfig,
     private readonly mod = chrome.downloads,
   ) { }
 
-  public static filename = {
-    screenshot: (opt: { dir?: string, format: "jpeg" | "png" }) => {
-      const now = new KCWDate();
-      const datetime = now.format("YYYY-mm-dd_HHMMSS");
-      return opt.dir ? `${opt.dir}/${datetime}.${opt.format}` : `艦これ_${datetime}.${opt.format}`;
-    },
-  }
-  public async download(url: string, filename: string): Promise<number> {
+  public async download(url: string, filename?: string): Promise<number> {
+    filename = filename || (this.config.folder + "/" + this.config.getFilename(new Date()));
     return new Promise((resolve, reject) => {
       this.mod.download({ url, filename }, (id) => {
         if (chrome.runtime.lastError) return reject(chrome.runtime.lastError);

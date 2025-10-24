@@ -9,6 +9,7 @@ import {
   type ResultSet,
   type Usecase,
 } from "./types";
+import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 
 interface UseFleetCaptureOptions {
   availableUsecases: Usecase[];
@@ -72,10 +73,10 @@ export function useFleetCapture({
           ctx.drawImage(img, colIndex * width, rowIndex * height, width, height);
         });
       });
-      const downloadService = new DownloadService();
+      const config = await FileSaveConfig.user();
+      const downloadService = new DownloadService(config);
       const dataUrl = canvas.toDataURL("image/png");
-      const filename = DownloadService.filename.screenshot({ dir: "艦これ/編成キャプチャ", format: "png" });
-      await downloadService.download(dataUrl, filename);
+      await downloadService.download(dataUrl);
     } catch (error) {
       console.error(error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");
