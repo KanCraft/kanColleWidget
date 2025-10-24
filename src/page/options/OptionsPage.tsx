@@ -1,7 +1,9 @@
 import { useLoaderData } from "react-router-dom";
 import { FrameSettingView } from "../components/options/FrameSettingView";
+import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 
 import { type Frame } from "../../models/Frame";
+import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
 
@@ -11,9 +13,11 @@ export function OptionsPage() {
   const {
     frames,
     releasenote,
+    filesave,
   } = useLoaderData() as {
     frames: Frame[],
     releasenote: ReleaseNoteObject
+    filesave: FileSaveConfig,
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -22,6 +26,8 @@ export function OptionsPage() {
       <VersionView manifest={manifest} />
       <Divider />
       <FrameSettingView frames={frames} />
+      <Divider />
+      <FileSaveSettingView config={filesave} />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>
