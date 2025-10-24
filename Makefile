@@ -19,6 +19,8 @@ release: dist
 	@echo "\033[0;33m[release] 公開版のアイコンを移動します\033[0m"
 	mv dist/icons/prod/*.png dist/icons/
 	rm -rf dist/icons/beta dist/icons/prod
+	@echo "\033[0;33m[release] manifest.json の name を公開版向けに設定します\033[0m"
+	jq '.name = "$(project)"' dist/manifest.json > dist/manifest.json.tmp && mv dist/manifest.json.tmp dist/manifest.json
 	@echo "\033[0;33m[release] 公開版リリース用のzipを作成します\033[0m"
 	mkdir -p release
 	cp -r dist release/$(project)
@@ -30,9 +32,10 @@ release: dist
 # 公開版との違いは、アイコンが beta フォルダに配置されることと、manifest.json の name に(BETA)が追加されることだけです
 beta-release: dist
 	@echo "\033[0;33m[beta-release] ベータ版のアイコンを移動します\033[0m"
-	sed "s/\"$(project)\"/\"$(project) (BETA)\"/" src/public/manifest.json > dist/manifest.json
 	mv dist/icons/beta/*.png dist/icons/
 	rm -rf dist/icons/beta dist/icons/prod
+	@echo "\033[0;33m[beta-release] manifest.json の name をベータ版向けに設定します\033[0m"
+	jq '.name = "$(project) (BETA)"' dist/manifest.json > dist/manifest.json.tmp && mv dist/manifest.json.tmp dist/manifest.json
 	@echo "\033[0;33m[beta-release] ベータリリース用のzipを作成します\033[0m"
 	mkdir -p release
 	cp -r dist release/$(project)-BETA

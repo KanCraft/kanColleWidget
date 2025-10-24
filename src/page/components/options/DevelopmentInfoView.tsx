@@ -4,7 +4,7 @@ import { FoldableSection } from "../FoldableSection";
 export function DevelopmentInfoView({ releasenote }: { releasenote: ReleaseNoteObject }) {
   const repo = new URL(releasenote.reference.repo);
   return (
-    <FoldableSection title={`開発情報 v${chrome.runtime.getManifest().version}`} id="devinfo">
+    <FoldableSection title="開発情報" id="devinfo">
       <div className="mb-4">
         {releasenote.releases.map((release) => <ReleaseEntry key={release.version} release={release} repo={repo} />)}
       </div>

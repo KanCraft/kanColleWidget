@@ -7,7 +7,7 @@ import { popup, options, dashboard } from './loader';
 
 // View
 import './index.scss'
-import { OptionsPage } from './OptionsPage';
+import { OptionsPage } from './options/OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
 import { FleetCapturePage } from './fleet-capture/FleetCapturePage';
