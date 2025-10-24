@@ -10,7 +10,7 @@ import './index.scss'
 import { OptionsPage } from './OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
-import { FleetCapturePage } from './FleetCapturePage';
+import { FleetCapturePage } from './fleet-capture/FleetCapturePage';
 
 const router = createHashRouter([
   {
