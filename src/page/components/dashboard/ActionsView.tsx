@@ -22,8 +22,8 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
       const s = new DownloadService();
       const format = "png";
       const uri = await launcher.capture(tab.windowId, { format });
-      const dir = "艦これ";
-      /* const downloadId = */ await s.download(uri, DownloadService.filename.screenshot({ dir, format }));
+      const filename = DownloadService.filename.screenshot({ dir: "艦これ", format });
+      /* const downloadId = */ await s.download(uri, filename);
       // await s.show(downloadId);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600" title="スクリーンショットを保存">
       <CameraIcon className="w-8 h-8" aria-hidden="true" />

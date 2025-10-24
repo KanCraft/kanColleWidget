@@ -40,8 +40,8 @@ onMessage.on("/screenshot", async (_, sender) => {
   const s = new DownloadService();
   const format = "png";
   const uri = await launcher.capture(sender.tab.windowId, { format });
-  const dir = "艦これ";
-  return await s.download(uri, DownloadService.filename.screenshot({ dir, format }));
+  const filename = DownloadService.filename.screenshot({ dir: "艦これ", format });
+  return await s.download(uri, filename);
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {

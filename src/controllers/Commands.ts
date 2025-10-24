@@ -13,8 +13,8 @@ onCommand.on("/screenshot", async () => {
   const service = new DownloadService();
   const format = "png";
   const uri = await launcher.capture(win.id, { format });
-  const dir = "艦これ";
-  return await service.download(uri, DownloadService.filename.screenshot({ dir, format }));
+  const filename = DownloadService.filename.screenshot({ dir: "艦これ", format });
+  return await service.download(uri, filename);
 });
 
 export {
