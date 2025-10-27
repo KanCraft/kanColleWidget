@@ -1,10 +1,17 @@
 /**
  * テスト投稿用スクリプト
  * Bot アカウントの環境変数を利用して X API v2 に投稿する
+ *
+ * 重要: X APIのエラーメッセージについて
+ * 文字数制限超過の場合でも "You are not permitted to perform this action" (403 Forbidden)
+ * という曖昧なエラーが返されることがあります。このため、投稿前に必ず
+ * calculateTwitterWeight() で文字数を検証しています。
+ * @see https://devcommunity.x.com/t/you-are-not-permitted-to-perform-this-action-when-posting-a-message/226715/4
  */
 
 import "dotenv/config";
 import crypto from "node:crypto";
+import { calculateTwitterWeight, MAX_TWEET_LENGTH } from "./twitter-text-weight.js";
 
 type TweetResponse =
   | { data: { id: string; text: string } }
@@ -59,8 +66,8 @@ const appendMention = (text: string, options: PostOptions): string => {
   }
   const mention = `@${options.mention}`;
   const candidate = text ? `${mention} ${text}` : mention;
-  if (candidate.length > 280) {
-    console.warn("メンションを付与すると280文字を超えるため省略しました");
+  if (calculateTwitterWeight(candidate) > MAX_TWEET_LENGTH) {
+    console.warn(`メンションを付与すると${MAX_TWEET_LENGTH}文字を超えるため省略しました`);
     return text;
   }
   return candidate;
@@ -79,10 +86,13 @@ const main = async () => {
   const baseText = messageArgs.join(" ").trim() || `テスト投稿 ${new Date().toISOString()}`;
   const text = appendMention(baseText, options);
 
-  if (text.length > 280) {
-    console.error("投稿文字数が 280 文字を超えています");
+  const twitterWeight = calculateTwitterWeight(text);
+  if (twitterWeight > MAX_TWEET_LENGTH) {
+    console.error(`投稿文字数が ${MAX_TWEET_LENGTH} 文字を超えています (calculated weight: ${twitterWeight})`);
     process.exit(1);
   }
+  console.log(`Twitter weight: ${twitterWeight}/${MAX_TWEET_LENGTH}`);
+
 
   const authorization = buildOAuthHeader({
     method: "POST",

@@ -9,6 +9,7 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { calculateTwitterWeight, MAX_TWEET_LENGTH } from "./twitter-text-weight.js";
 
 interface ReleaseNote {
   reference?: { repo?: string };
@@ -28,7 +29,6 @@ interface Commit {
 }
 
 const RELEASE_NOTE_PATH = join(process.cwd(), "src", "release-note.json");
-const TWEET_LIMIT = 280;
 const HASH_TAGS = ["#艦これウィジェット"];
 
 interface AnnounceOptions {
@@ -131,27 +131,44 @@ const composeTweet = (note: ReleaseNote, release: Release, options: AnnounceOpti
       return;
     }
     const candidate = text ? `${text}\n${line}` : line;
-    if (charCount(candidate) <= TWEET_LIMIT) {
+    if (calculateTwitterWeight(candidate) <= MAX_TWEET_LENGTH) {
       text = candidate;
     }
   }
 
   function truncateToFit(input: string): string {
-    const available = TWEET_LIMIT - (text ? charCount(text) + 1 : 0);
+    const currentWeight = text ? calculateTwitterWeight(text) : 0;
+    const newlineWeight = text ? calculateTwitterWeight("\n") : 0;
+    const available = MAX_TWEET_LENGTH - currentWeight - newlineWeight;
     if (available <= 0) return "";
-    const characters = Array.from(input);
-    if (characters.length <= available) {
-      return input;
+
+    // 1文字ずつ追加していって制限に収まるか確認
+    let result = "";
+    for (const char of Array.from(input)) {
+      const testResult = result + char;
+      if (calculateTwitterWeight(testResult) > available) {
+        break;
+      }
+      result = testResult;
     }
-    if (available === 1) {
-      return "…";
+
+    if (result.length === 0) {
+      return "";
     }
-    return `${characters.slice(0, available - 1).join("")}…`;
+    if (result.length < Array.from(input).length) {
+      // 切り詰めが必要な場合は最後に「…」を追加
+      const withEllipsis = result.slice(0, -1) + "…";
+      if (calculateTwitterWeight(withEllipsis) <= available) {
+        return withEllipsis;
+      }
+      return result;
+    }
+    return result;
   }
 
   function canFit(line: string): boolean {
     const candidate = text ? `${text}\n${line}` : line;
-    return charCount(candidate) <= TWEET_LIMIT;
+    return calculateTwitterWeight(candidate) <= MAX_TWEET_LENGTH;
   }
 
   function appendHashtags(currentOptions: AnnounceOptions): void {
@@ -175,8 +192,6 @@ const extractHighlights = (release: Release): string[] => {
     .map((commit) => commit.title.trim())
     .filter((title) => title.length > 0);
 };
-
-const charCount = (value: string): number => Array.from(value).length;
 
 const collectReleaseCommits = (release: Release): Commit[] => {
   const result: Commit[] = [];
