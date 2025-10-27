@@ -21,12 +21,12 @@ jobs:
     - name: Check if version update commit
       id: check_commit
       run: |
-        # 最新のコミットメッセージを取得
-        COMMIT_MSG=$(git log -1 --pretty=%B)
-        echo "Commit message: $COMMIT_MSG"
+        # 最新のコミットタイトル（1行目のみ）を取得
+        COMMIT_TITLE=$(git log -1 --pretty=%s)
+        echo "Commit title: $COMMIT_TITLE"
 
-        # バージョン更新コミットかどうかをチェック（vX.X.X形式）
-        if echo "$COMMIT_MSG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+'; then
+        # バージョン更新コミットかどうかをチェック（vX.X.X形式のみ）
+        if echo "$COMMIT_TITLE" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
           echo "is_version_update=true" >> "$GITHUB_OUTPUT"
           echo "This is a version update commit. Skipping tweet."
         else
