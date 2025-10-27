@@ -11,8 +11,8 @@ type TweetResponse =
   | { errors: Array<{ message: string; parameter?: string }> };
 
 const REQUIRED_ENV = [
-  "X_BOT_API_KEY",
-  "X_BOT_API_KEY_SECRET",
+  "X_APP_API_KEY",
+  "X_APP_API_KEY_SECRET",
   "X_BOT_ACCESS_TOKEN",
   "X_BOT_ACCESS_TOKEN_SECRET",
 ] as const;
@@ -87,8 +87,8 @@ const main = async () => {
   const authorization = buildOAuthHeader({
     method: "POST",
     url: ENDPOINT,
-    consumerKey: process.env.X_BOT_API_KEY!,
-    consumerSecret: process.env.X_BOT_API_KEY_SECRET!,
+    consumerKey: process.env.X_APP_API_KEY!,
+    consumerSecret: process.env.X_APP_API_KEY_SECRET!,
     accessToken: process.env.X_BOT_ACCESS_TOKEN!,
     accessTokenSecret: process.env.X_BOT_ACCESS_TOKEN_SECRET!,
   });

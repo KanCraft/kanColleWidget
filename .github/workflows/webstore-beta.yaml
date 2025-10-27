@@ -68,8 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
-      X_BOT_API_KEY:             ${{ secrets.X_BOT_API_KEY }}
-      X_BOT_API_KEY_SECRET:      ${{ secrets.X_BOT_API_KEY_SECRET }}
+      X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
@@ -95,8 +95,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
-      X_BOT_API_KEY:             ${{ secrets.X_BOT_API_KEY }}
-      X_BOT_API_KEY_SECRET:      ${{ secrets.X_BOT_API_KEY_SECRET }}
+      X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
