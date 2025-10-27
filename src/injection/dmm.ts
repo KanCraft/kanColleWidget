@@ -125,11 +125,24 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     return ret;
   }
 
+  /**
+   * ウィンドウを閉じようとしたときに確認ダイアログを表示
+   */
+  function setupBeforeUnloadHandler() {
+    window.addEventListener("beforeunload", (event) => {
+      // 標準的な確認メッセージを表示
+      event.preventDefault();
+      // Chrome では returnValue に値を設定することで確認ダイアログが表示される
+      event.returnValue = "";
+    });
+  }
+
   (async function __main__() {
     resize();
     setInterval(track, 10 * 1000);
     startListeningMessage();
     InAppActionButtons.create();
+    setupBeforeUnloadHandler();
   })();
 
 })();
