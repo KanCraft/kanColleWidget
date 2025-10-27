@@ -18,6 +18,8 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     private static readonly ICON_SPEAKER_WAVE = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"/></svg>';
     private static readonly ICON_SPEAKER_X_MARK = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 9.75 19.5 12m0 0 2.25 2.25M19.5 12l2.25-2.25M19.5 12l-2.25 2.25m-10.5-6 4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"/></svg>';
     private static readonly ICON_CAMERA = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"/></svg>';
+    // DOM から外したあとに最低限待つフレーム数。Chrome の描画タイミング次第で 1 フレームでは不足するため 2 を既定とする。
+    private static readonly FRAME_WAIT_FOR_CAPTURE = 2;
 
     public static create(): InAppActionButtons {
       if (this.self && this.self.container) return this.self;
@@ -34,10 +36,25 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     }
 
     private async screenshot() {
-      this.container.style.display = "none";
-      await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/screenshot" });
-      await new Promise(resolve => setTimeout(resolve, 100)); // XXX: なぜか写り込んじゃうので、ちょっと待つ
-      this.container.style.display = "block";
+      const parent = this.container.parentElement;
+      if (!parent) return;
+      // Chrome のキャプチャ API は現在表示中のフレームを即座に保存するため、
+      // 非表示を指示しただけでは描画が反映される前のフレームが撮影対象になる。
+      // ボタン自身が撮影フレームに残る原因がここにあるので、いったん DOM から外し、
+      // 次フレームの描画完了を待ってから撮影する。
+      parent.removeChild(this.container);
+      await this.waitNextFrame(InAppActionButtons.FRAME_WAIT_FOR_CAPTURE);
+      try {
+        await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/screenshot" });
+      } finally {
+        parent.appendChild(this.container);
+      }
+    }
+
+    private async waitNextFrame(times: number = 1) {
+      for (let i = 0; i < times; i += 1) {
+        await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      }
     }
 
     private async toggleMute() {
