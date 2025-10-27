@@ -21,7 +21,7 @@ export function ResultGrid({ usecase, results, onRequestCapture }: ResultGridPro
                   ) : (
                     <button
                       type="button"
-                      className="w-32 h-24 bg-gray-200 flex items-center justify-center cursor-pointer text-gray-600"
+                      className="w-48 aspect-[200/156] bg-gray-200 flex items-center justify-center cursor-pointer text-gray-600"
                       onClick={() => onRequestCapture(rowIndex, colIndex)}
                     >
                       {label}
