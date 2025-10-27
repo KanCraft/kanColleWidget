@@ -4,8 +4,7 @@ export const usecases: Usecase[] = [
   {
     id: "normal-fleet-capture",
     title: "通常艦隊の編成キャプチャ",
-    description:
-      "艦隊編成画面のスクリーンショットを手動で取得し、統合し、一枚の画像として保存する機能です。",
+    description: "通常の最大6隻編成の艦隊に対応したキャプチャです",
     crop: "fleet",
     page: 1,
     count: 6,
