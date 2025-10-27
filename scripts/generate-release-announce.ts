@@ -80,7 +80,8 @@ const selectRelease = (releases: Release[], targetVersion?: string): Release | u
     return releases.find((item) => item.version === targetVersion);
   }
 
-  return [...releases].sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+  // releases[0] が常に最新リリース
+  return releases[0];
 };
 
 const composeTweet = (note: ReleaseNote, release: Release, options: AnnounceOptions): string => {
