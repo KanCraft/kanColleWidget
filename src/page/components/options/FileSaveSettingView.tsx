@@ -17,6 +17,26 @@ export function FileSaveSettingView({
         <p>スクリーンショットの保存先フォルダとファイル名のテンプレートを設定できます.</p>
       </div>
 
+      <div className="mb-6">
+        <label className="flex items-center space-x-3">
+          <input
+            type="checkbox"
+            className="h-4 w-4"
+            defaultChecked={config.askAlways}
+            onChange={async (e) => {
+              const next = e.target.checked;
+              await config.update({ askAlways: next });
+            }}
+          />
+          <div>
+            <div className="font-bold">毎回保存先を確認する</div>
+            <div className="text-sm text-gray-600">
+              有効にすると保存ダイアログを開き、任意のファイル名や場所を都度選べます。
+            </div>
+          </div>
+        </label>
+      </div>
+
       <div className="mb-4">
         <div className="mb-4">
           <label className="block mb-2">

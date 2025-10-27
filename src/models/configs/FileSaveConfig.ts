@@ -5,6 +5,7 @@ export class FileSaveConfig extends Model {
 
   static default = {
     "user": {
+      askAlways: false,
       folder: "艦これ",
       filenameTemplate: "%Y%m%d_%H%M%S.png",
     }
@@ -13,6 +14,10 @@ export class FileSaveConfig extends Model {
   static async user(): Promise<FileSaveConfig> {
     return (await this.find("user"))!;
   }
+
+  // 保存前に毎回ファイル保存先を指定すべきか
+  // chrome.downloads API の saveAs オプションに対応
+  public askAlways: boolean = false;
 
   // 保存先フォルダ名 ~/Downloads/ 以下のフォルダ
   // デフォルト: "艦これ" (= "~/Downloads/艦これ")
