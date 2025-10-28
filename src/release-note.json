@@ -4,6 +4,133 @@
   },
   "releases": [
     {
+      "date": "2025-10-28",
+      "version": "v4.2.1",
+      "message": "",
+      "commits": [
+        {
+          "title": "スクリーンショットにアクションボタンが写り込む問題を修正",
+          "hash": "3e2297fb927d204c30c9c4717721b1e417551b6d"
+        },
+        {
+          "title": "developプッシュ時のバージョン更新判定のfalse positiveを修正",
+          "hash": "5201a5c3e7f90fe8dbd9cc3a080342f3aaa86891"
+        },
+        {
+          "title": "リリースアナウンス生成で誤ったバージョンが選択される不具合を修正",
+          "hash": "fb4c0bb1c893d0696e0a2379e2ea140927301b00"
+        },
+        {
+          "title": "v4.2.0",
+          "hash": "ca8d2062cff49746a6153a463259c44395b36e80"
+        },
+        {
+          "title": "ゲーム窓を誤って閉じないようbeforeunloadイベントハンドラーを追加",
+          "hash": "c67dc736472739e41c305af80c6137499846b6c4"
+        },
+        {
+          "title": "通常艦隊キャプチャの説明文を簡潔化",
+          "hash": "e18805fdc2e9018fe6cfc3e5f744e8f63a604e6b"
+        },
+        {
+          "title": "艦隊キャプチャのプレースホルダーボタンのアスペクト比を修正",
+          "hash": "43eda97e1a979e06e355c8ba34a65f9c40f4389d"
+        },
+        {
+          "title": "X API文字数制限に対応したツイート生成・検証機能を実装",
+          "hash": "e5f575b28a55324db4d3b3fab750ea99c32322aa"
+        },
+        {
+          "title": "v4.1.1",
+          "hash": "dc6c1cf4c5ff3c65b7d827795750c14d615f9c8a"
+        },
+        {
+          "title": "X API環境変数名をアプリレベルとBotレベルで明確に区別",
+          "hash": "c615f9652d9d7db2bd53e761b32ae32b1d1a7dee"
+        },
+        {
+          "title": "v4.1.0",
+          "hash": "d5026611d49e0c814fe3d72f5b70a837f212c191"
+        },
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能の実装",
+          "hash": "fe26687e8148bafe832d69b436458a5c4f12ed28"
+        },
+        {
+          "title": "fix: ツイートワークフローのシェルスクリプト構文エラーを修正",
+          "hash": "828ebe7791af16a2ba60a3b8156af0fdc6aba5fa"
+        },
+        {
+          "title": "艦隊編成キャプチャページの基本構造を追加",
+          "hash": "4849fbfae67760d859a8d255e1aea04fb9188678"
+        },
+        {
+          "title": "FontAwesomeからHeroiconsへアイコンライブラリを移行",
+          "hash": "7bcca8be1911cf0ed7153736bbba037fdf401a11"
+        },
+        {
+          "title": "アスペクト比に応じたアクションボタンのレスポンシブレイアウトを追加",
+          "hash": "37d7eea6bf4445f8b4c88c4d4dc69c019ad76430"
+        },
+        {
+          "title": "fix: issue 通知ツイートの番号表記を復元",
+          "hash": "57cfdbbedc6edbb404ba3b8de2d574256b032875"
+        },
+        {
+          "title": "READMEにChrome Web Storeインストールバッジを追加",
+          "hash": "1c2728b9e79fef63316ad3ef0159df982d826921"
+        },
+        {
+          "title": "CLAUDE.mdに診断チェック必須実行の指示を追加",
+          "hash": "92a01829e6741e2bb37d9706044ba06c2ba7701c"
+        },
+        {
+          "title": "新規issue投稿時のTwitter自動投稿ワークフローを追加",
+          "hash": "8eb507b697bc717ded9d7c8a0f78aac082460138"
+        },
+        {
+          "title": "developブランチpush時のTwitter自動投稿ワークフローを追加",
+          "hash": "38268f8b953437eda25453c4f3f0352f0208c9af"
+        }
+      ]
+    },
+    {
       "date": "2025-10-27",
       "version": "v4.2.0",
       "message": "",
