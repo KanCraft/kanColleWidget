@@ -4,6 +4,7 @@ import { ScriptingService } from "./ScriptingService";
 
 import { Frame } from "../models/Frame";
 import { KanColleURL } from "../constants";
+import { DashboardConfig } from "../models/configs/DashboardConfig";
 
 /**
  * 艦これウィジェットがゲーム別窓や関連タブを起動・管理するための制御クラス。
@@ -34,10 +35,12 @@ export class Launcher {
 
   /**
    * ダッシュボードをポップアップウィンドウで開く。
+   * @param config ダッシュボード窓の設定（未指定時はユーザー設定を取得）
    * @returns 作成されたウィンドウの Promise
    */
-  public static async dashboard() {
-    return await (new this()).windows.create({ url: "page/index.html#/dashboard", width: 400, height: 220, type: "popup" });
+  public static async dashboard(config?: DashboardConfig) {
+    const dashboardConfig = config ?? await DashboardConfig.user();
+    return await (new this()).windows.create({ url: "page/index.html#/dashboard", type: "popup", ...dashboardConfig.toWindowCreateData() });
   }
 
   /**

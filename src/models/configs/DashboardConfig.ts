@@ -21,4 +21,12 @@ export class DashboardConfig extends Model {
     return (await this.find("user"))!;
   }
 
+  public toWindowCreateData(): chrome.windows.CreateData {
+    return {
+      width: this.width,
+      height: this.height,
+      left: this.left,
+      top: this.top,
+    };
+  }
 }
