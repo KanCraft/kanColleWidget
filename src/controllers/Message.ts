@@ -10,6 +10,7 @@ import { DownloadService } from "../services/DownloadService";
 import { CropService } from "../services/CropService";
 import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
+import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -86,7 +87,16 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   const raw = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
   const img = await WorkerImage.from(raw);
   const uri = await (new CropService(img)).crop("damagesnapshot");
-  chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
-})
+
+  const config = await DamageSnapshotConfig.user();
+  switch (config.mode) {
+  case DamageSnapshotMode.DISABLED:
+    return;
+  case DamageSnapshotMode.INAPP:
+  default:
+    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
+  }
+
+});
 
 export { onMessage };
