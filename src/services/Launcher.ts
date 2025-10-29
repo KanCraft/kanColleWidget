@@ -39,8 +39,15 @@ export class Launcher {
    * @returns 作成されたウィンドウの Promise
    */
   public static async dashboard(config?: DashboardConfig) {
+    const self = new this();
+    const url = chrome.runtime.getURL("page/index.html#/dashboard");
+    const tabs = await self.tabs.query({ windowType: "popup" });
+    const exists = tabs.find(t => t.url === url);
+    if (exists) {
+      return self.windows.update(exists.windowId!, { focused: true });
+    }
     const dashboardConfig = config ?? await DashboardConfig.user();
-    return await (new this()).windows.create({ url: "page/index.html#/dashboard", type: "popup", ...dashboardConfig.toWindowCreateData() });
+    return await self.windows.create({ url: "page/index.html#/dashboard", type: "popup", ...dashboardConfig.toWindowCreateData() });
   }
 
   /**
