@@ -5,15 +5,15 @@ export class DashboardConfig extends Model {
 
   static default = {
     "user": {
-      "width": 600,
-      "height": 400,
-      "left": 100,
-      "top": 100,
+      "width": 320,
+      "height": 220,
+      "left": 10,
+      "top": 10,
     },
   };
 
-  public width: number = 600;
-  public height: number = 400;
+  public width: number = 320;
+  public height: number = 220;
   public left: number = 100;
   public top: number = 100;
 
