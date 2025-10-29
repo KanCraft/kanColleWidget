@@ -5,13 +5,15 @@ import { ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { Launcher } from "../../services/Launcher";
 import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../../models/configs/DashboardConfig";
+import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 
 export async function options() {
   const frames = await Frame.list();
   const filesave = await FileSaveConfig.user();
   const dashboard = await DashboardConfig.user();
+  const damagesnapshot = await DamageSnapshotConfig.user();
   const releasenote = note as ReleaseNoteObject;
-  return { frames, releasenote, filesave, dashboard };
+  return { frames, releasenote, filesave, dashboard, damagesnapshot };
 }
 
 export async function popup() {

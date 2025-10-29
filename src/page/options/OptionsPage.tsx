@@ -2,10 +2,12 @@ import { useLoaderData } from "react-router-dom";
 import { FrameSettingView } from "../components/options/FrameSettingView";
 import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
+import { DamageSnapshotSettingView } from "../components/options/DamageSnapshotSettingView";
 
 import { type Frame } from "../../models/Frame";
 import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { type DashboardConfig } from "../../models/configs/DashboardConfig";
+import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
 
@@ -17,11 +19,13 @@ export function OptionsPage() {
     releasenote,
     filesave,
     dashboard,
+    damagesnapshot,
   } = useLoaderData() as {
     frames: Frame[],
     releasenote: ReleaseNoteObject
     filesave: FileSaveConfig,
     dashboard: DashboardConfig,
+    damagesnapshot: DamageSnapshotConfig,
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -34,6 +38,8 @@ export function OptionsPage() {
       <DashboardSettingView config={dashboard} />
       <Divider />
       <FileSaveSettingView config={filesave} />
+      <Divider />
+      <DamageSnapshotSettingView config={damagesnapshot} />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>
