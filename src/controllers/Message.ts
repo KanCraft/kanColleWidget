@@ -9,6 +9,7 @@ import { Launcher } from "../services/Launcher";
 import { DownloadService } from "../services/DownloadService";
 import { CropService } from "../services/CropService";
 import { FileSaveConfig } from "../models/configs/FileSaveConfig";
+import { DashboardConfig } from "../models/configs/DashboardConfig";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -28,6 +29,18 @@ onMessage.on("/frame/open-or-focus", async (req) => {
 onMessage.on("/frame/memory:track", async (req) => {
   const frame = await Frame.memory();
   return await frame.update({ position: req.position, size: req.size });
+});
+
+/**
+ * ダッシュボードウィンドウの位置・サイズを保存する
+ * @param req.left 左位置
+ * @param req.top 上位置
+ * @param req.width 幅
+ * @param req.height 高さ
+ */
+onMessage.on("/dashboard:track", async (req) => {
+  const dashboard = await DashboardConfig.user();
+  return await dashboard.update({ left: req.left, top: req.top, width: req.width, height: req.height });
 });
 
 onMessage.on("/mute:toggle", async (_, sender) => {
