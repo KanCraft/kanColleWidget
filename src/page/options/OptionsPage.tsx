@@ -10,22 +10,25 @@ import { type DashboardConfig } from "../../models/configs/DashboardConfig";
 import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
+import { type GameWindowConfig } from "../../models/configs/GameWindowConfig";
 
 const KCWidgetChanURL = "https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png";
 
 export function OptionsPage() {
   const {
     frames,
+    game,
     releasenote,
     filesave,
     dashboard,
     damagesnapshot,
   } = useLoaderData() as {
-    frames: Frame[],
-    releasenote: ReleaseNoteObject
-    filesave: FileSaveConfig,
-    dashboard: DashboardConfig,
-    damagesnapshot: DamageSnapshotConfig,
+    frames: Frame[];
+    game: GameWindowConfig;
+    releasenote: ReleaseNoteObject;
+    filesave: FileSaveConfig;
+    dashboard: DashboardConfig;
+    damagesnapshot: DamageSnapshotConfig;
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -33,7 +36,7 @@ export function OptionsPage() {
       <Header releasenote={releasenote} manifest={manifest} />
       <VersionView manifest={manifest} />
       <Divider />
-      <FrameSettingView frames={frames} />
+      <FrameSettingView frames={frames} config={game} />
       <Divider />
       <DashboardSettingView config={dashboard} />
       <Divider />

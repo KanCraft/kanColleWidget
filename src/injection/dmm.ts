@@ -1,4 +1,5 @@
 import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tesseract.js';
+import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
 // import { Rectangle, load, crop } from './crop';
 
 (async () => {
@@ -116,6 +117,14 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
     });
   }
 
+  function fetchNecessaryConfig(): Promise<{
+    game: GameWindowConfig;
+  }> {
+    return new Promise(resolve => {
+      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/configs" }, resolve);
+    });
+  }
+
   function startListeningMessage() {
     chrome.runtime.onMessage.addListener(async (msg) => {
       if (msg.__action__ === "/injected/dmm/ocr" && msg.url) {
@@ -160,9 +169,11 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
   (async function __main__() {
     resize();
     setInterval(track, 10 * 1000);
+    const configs = await fetchNecessaryConfig();
     startListeningMessage();
     InAppActionButtons.create();
-    setupBeforeUnloadHandler();
+    const shouldAlertBeforeClose = configs.game.alertBeforeClose ?? true;
+    if (shouldAlertBeforeClose) setupBeforeUnloadHandler();
   })();
 
 })();

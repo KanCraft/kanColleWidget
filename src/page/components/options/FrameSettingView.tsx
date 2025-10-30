@@ -1,16 +1,41 @@
+import { useState } from "react";
 import { useNavigate, useRevalidator } from "react-router-dom";
 import { Frame } from "../../../models/Frame";
+import { GameWindowConfig } from "../../../models/configs/GameWindowConfig";
 import { Launcher } from "../../../services/Launcher";
 import { ScriptingService } from "../../../services/ScriptingService";
 import { FoldableSection } from "../FoldableSection";
 
-export function FrameSettingView({frames}: {frames: Frame[]}) {
+export function FrameSettingView({
+  frames,
+  config,
+}: {
+  frames: Frame[];
+  config: GameWindowConfig;
+}) {
   const launcher = new Launcher();
   const scripts = new ScriptingService();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
+  const [alertBeforeClose, setAlertBeforeClose] = useState<boolean>(config.alertBeforeClose ?? true);
   return (
     <FoldableSection title="別窓化の設定" id="frames">
+      <div className="mb-4">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={alertBeforeClose}
+            onChange={async (event) => {
+              const next = event.target.checked;
+              await config.update({ alertBeforeClose: next });
+              setAlertBeforeClose(next);
+            }}
+            className="w-4 h-4"
+          />
+          <span className="font-bold">閉じる前に確認ダイアログを表示する</span>
+        </label>
+        <p className="text-sm text-gray-600 mt-1">無効にすると別窓を閉じる際、確認なしで終了します。</p>
+      </div>
       <div className="mb-4">
         <p>現在開いている窓のサイズを新規設定として追加できます. アドレスバーの有無とかは細かいんで需要があれば将来対応します.</p>
       </div>

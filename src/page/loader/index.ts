@@ -6,14 +6,16 @@ import { Launcher } from "../../services/Launcher";
 import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
+import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
 
 export async function options() {
   const frames = await Frame.list();
+  const game = await GameWindowConfig.user();
   const filesave = await FileSaveConfig.user();
   const dashboard = await DashboardConfig.user();
   const damagesnapshot = await DamageSnapshotConfig.user();
   const releasenote = note as ReleaseNoteObject;
-  return { frames, releasenote, filesave, dashboard, damagesnapshot };
+  return { frames, game, releasenote, filesave, dashboard, damagesnapshot };
 }
 
 export async function popup() {

@@ -11,6 +11,7 @@ import { CropService } from "../services/CropService";
 import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
+import { GameWindowConfig } from "../models/configs/GameWindowConfig";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -91,6 +92,11 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
     return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
   }
 
+});
+
+onMessage.on("/configs", async () => {
+  const game = await GameWindowConfig.user();
+  return { game };
 });
 
 export { onMessage };
