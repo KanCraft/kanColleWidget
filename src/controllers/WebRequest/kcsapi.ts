@@ -4,7 +4,7 @@ import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
 import { CreateShipFormData, MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
-import { TriggerType } from "../../models/entry/Base";
+import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
 import { CropService } from "../../services/CropService";
 import { NotificationService } from "../../services/NotificationService";

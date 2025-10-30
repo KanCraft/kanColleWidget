@@ -4,7 +4,7 @@ import { type Page } from "tesseract.js";
 import { EntryType, Recovery, Shipbuild } from "../models/entry";
 import { H, M, S, sleep, WorkerImage } from "../utils";
 import Queue from "../models/Queue";
-import { TriggerType } from "../models/entry/Base";
+import { TriggerType } from "../models/entry";
 import { Launcher } from "../services/Launcher";
 import { DownloadService } from "../services/DownloadService";
 import { CropService } from "../services/CropService";
