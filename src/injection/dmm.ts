@@ -127,6 +127,9 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
           purpose: msg.purpose, [msg.purpose]: msg[msg.purpose],
         });
       }
+      if (msg.__action__ === "/injected/dmm/retouch") {
+        resize();
+      }
     });
   }
 

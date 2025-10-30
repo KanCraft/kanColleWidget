@@ -16,15 +16,9 @@ const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
 onMessage.on("/frame/open-or-focus", async (req) => {
   const launcher = new Launcher();
-  let frame: Frame | null = null;
-  if (typeof req.frame_id === "string" && req.frame_id.length > 0) {
-    frame = await Frame.find(req.frame_id);
-  }
-  if (!frame) {
-    frame = await Frame.memory();
-  }
-  await launcher.launch(frame);
-  return { opened: true, frame_id: frame._id ?? null };
+  const id = req.frame_id;
+  const frame = (await Frame.find(id)) ?? (await Frame.memory());
+  return await launcher.launch(frame);
 });
 
 onMessage.on("/frame/memory:track", async (req) => {

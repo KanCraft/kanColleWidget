@@ -74,7 +74,7 @@ export class Launcher {
   public async launch(frame: Frame) {
     // すでに存在する場合、retouchして終わる
     const exists = await this.find(frame);
-    if (exists && exists.id) return this.retouch(exists, /* frame */);
+    if (exists && exists.id) return this.retouch(exists, frame);
     // ない場合、新規作成してactivateする
     const win = await this.windows.create(frame.toWindowCreateData());
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
@@ -113,10 +113,14 @@ export class Launcher {
   }
 
   /**
-   * 既存のゲーム別窓を前面に出す。
+   * 既存のゲーム別窓を前面に出し、サイズをフレーム設定に合わせて調整する。
    * @param win 対象ウィンドウ
    */
-  public async retouch(win: chrome.windows.Window, /* frame: Frame */) {
+  public async retouch(win: chrome.windows.Window, frame: Frame | null) {
+    if (frame) {
+      await this.windows.update(win.id!, { ...frame.size });
+      chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: "/injected/dmm/retouch" });
+    }
     await this.focus(win.id!);
   }
 
