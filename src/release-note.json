@@ -1,0 +1,1876 @@
+{
+  "reference": {
+    "repo": "https://github.com/kancraft/kanColleWidget"
+  },
+  "releases": [
+    {
+      "date": "2025-10-30",
+      "version": "v4.3.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "feat: 別窓の閉じる確認を設定化",
+          "hash": "1ad4b26f5ab31b142449478762924499869fc375"
+        },
+        {
+          "title": "fix: 既存ゲーム窓のリサイズ後にフォーカスを維持",
+          "hash": "6eded945b3239fd2797482cbdc553517a8c8b19c"
+        },
+        {
+          "title": "大破進撃防止スナップショット表示時に設定モードを適用",
+          "hash": "122d879d75f803103e0e1be35c17d5802f165d1e"
+        },
+        {
+          "title": "大破進撃防止機能の設定画面を追加",
+          "hash": "aeead55932c0bebb70a81c60df8b3f35276e8e94"
+        },
+        {
+          "title": "ダッシュボード窓の重複起動を防止",
+          "hash": "0e5ebd48d448608c2963f04e1fd6337ac6d8f16d"
+        },
+        {
+          "title": "ダッシュボード窓の位置・サイズ自動保存機能を実装",
+          "hash": "0f2523dd53d813ed36af8e0fcf2de231f68e74b0"
+        },
+        {
+          "title": "ダッシュボード窓のデフォルトサイズを縮小",
+          "hash": "e79651db1f7dfc79514d5689765a57281adf8da1"
+        },
+        {
+          "title": "ダッシュボード窓の設定適用機能を実装",
+          "hash": "e095f21f602f5fd2513dd61eae7fbf5c2dbfc441"
+        },
+        {
+          "title": "ダッシュボード窓のサイズ・位置設定機能を追加",
+          "hash": "39ac6e986294131943da6dbd3055e45b743ebb6c"
+        },
+        {
+          "title": "v4.2.1",
+          "hash": "298c641be35153ab69ef776cb115af5038d6de01"
+        },
+        {
+          "title": "スクリーンショットにアクションボタンが写り込む問題を修正",
+          "hash": "3e2297fb927d204c30c9c4717721b1e417551b6d"
+        },
+        {
+          "title": "developプッシュ時のバージョン更新判定のfalse positiveを修正",
+          "hash": "5201a5c3e7f90fe8dbd9cc3a080342f3aaa86891"
+        },
+        {
+          "title": "リリースアナウンス生成で誤ったバージョンが選択される不具合を修正",
+          "hash": "fb4c0bb1c893d0696e0a2379e2ea140927301b00"
+        },
+        {
+          "title": "v4.2.0",
+          "hash": "ca8d2062cff49746a6153a463259c44395b36e80"
+        },
+        {
+          "title": "ゲーム窓を誤って閉じないようbeforeunloadイベントハンドラーを追加",
+          "hash": "c67dc736472739e41c305af80c6137499846b6c4"
+        },
+        {
+          "title": "通常艦隊キャプチャの説明文を簡潔化",
+          "hash": "e18805fdc2e9018fe6cfc3e5f744e8f63a604e6b"
+        },
+        {
+          "title": "艦隊キャプチャのプレースホルダーボタンのアスペクト比を修正",
+          "hash": "43eda97e1a979e06e355c8ba34a65f9c40f4389d"
+        },
+        {
+          "title": "X API文字数制限に対応したツイート生成・検証機能を実装",
+          "hash": "e5f575b28a55324db4d3b3fab750ea99c32322aa"
+        },
+        {
+          "title": "v4.1.1",
+          "hash": "dc6c1cf4c5ff3c65b7d827795750c14d615f9c8a"
+        },
+        {
+          "title": "X API環境変数名をアプリレベルとBotレベルで明確に区別",
+          "hash": "c615f9652d9d7db2bd53e761b32ae32b1d1a7dee"
+        },
+        {
+          "title": "v4.1.0",
+          "hash": "d5026611d49e0c814fe3d72f5b70a837f212c191"
+        },
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-28",
+      "version": "v4.2.1",
+      "message": "",
+      "commits": [
+        {
+          "title": "スクリーンショットにアクションボタンが写り込む問題を修正",
+          "hash": "3e2297fb927d204c30c9c4717721b1e417551b6d"
+        },
+        {
+          "title": "developプッシュ時のバージョン更新判定のfalse positiveを修正",
+          "hash": "5201a5c3e7f90fe8dbd9cc3a080342f3aaa86891"
+        },
+        {
+          "title": "リリースアナウンス生成で誤ったバージョンが選択される不具合を修正",
+          "hash": "fb4c0bb1c893d0696e0a2379e2ea140927301b00"
+        },
+        {
+          "title": "v4.2.0",
+          "hash": "ca8d2062cff49746a6153a463259c44395b36e80"
+        },
+        {
+          "title": "ゲーム窓を誤って閉じないようbeforeunloadイベントハンドラーを追加",
+          "hash": "c67dc736472739e41c305af80c6137499846b6c4"
+        },
+        {
+          "title": "通常艦隊キャプチャの説明文を簡潔化",
+          "hash": "e18805fdc2e9018fe6cfc3e5f744e8f63a604e6b"
+        },
+        {
+          "title": "艦隊キャプチャのプレースホルダーボタンのアスペクト比を修正",
+          "hash": "43eda97e1a979e06e355c8ba34a65f9c40f4389d"
+        },
+        {
+          "title": "X API文字数制限に対応したツイート生成・検証機能を実装",
+          "hash": "e5f575b28a55324db4d3b3fab750ea99c32322aa"
+        },
+        {
+          "title": "v4.1.1",
+          "hash": "dc6c1cf4c5ff3c65b7d827795750c14d615f9c8a"
+        },
+        {
+          "title": "X API環境変数名をアプリレベルとBotレベルで明確に区別",
+          "hash": "c615f9652d9d7db2bd53e761b32ae32b1d1a7dee"
+        },
+        {
+          "title": "v4.1.0",
+          "hash": "d5026611d49e0c814fe3d72f5b70a837f212c191"
+        },
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能の実装",
+          "hash": "fe26687e8148bafe832d69b436458a5c4f12ed28"
+        },
+        {
+          "title": "fix: ツイートワークフローのシェルスクリプト構文エラーを修正",
+          "hash": "828ebe7791af16a2ba60a3b8156af0fdc6aba5fa"
+        },
+        {
+          "title": "艦隊編成キャプチャページの基本構造を追加",
+          "hash": "4849fbfae67760d859a8d255e1aea04fb9188678"
+        },
+        {
+          "title": "FontAwesomeからHeroiconsへアイコンライブラリを移行",
+          "hash": "7bcca8be1911cf0ed7153736bbba037fdf401a11"
+        },
+        {
+          "title": "アスペクト比に応じたアクションボタンのレスポンシブレイアウトを追加",
+          "hash": "37d7eea6bf4445f8b4c88c4d4dc69c019ad76430"
+        },
+        {
+          "title": "fix: issue 通知ツイートの番号表記を復元",
+          "hash": "57cfdbbedc6edbb404ba3b8de2d574256b032875"
+        },
+        {
+          "title": "READMEにChrome Web Storeインストールバッジを追加",
+          "hash": "1c2728b9e79fef63316ad3ef0159df982d826921"
+        },
+        {
+          "title": "CLAUDE.mdに診断チェック必須実行の指示を追加",
+          "hash": "92a01829e6741e2bb37d9706044ba06c2ba7701c"
+        },
+        {
+          "title": "新規issue投稿時のTwitter自動投稿ワークフローを追加",
+          "hash": "8eb507b697bc717ded9d7c8a0f78aac082460138"
+        },
+        {
+          "title": "developブランチpush時のTwitter自動投稿ワークフローを追加",
+          "hash": "38268f8b953437eda25453c4f3f0352f0208c9af"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "version": "v4.2.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "ゲーム窓を誤って閉じないようbeforeunloadイベントハンドラーを追加",
+          "hash": "c67dc736472739e41c305af80c6137499846b6c4"
+        },
+        {
+          "title": "通常艦隊キャプチャの説明文を簡潔化",
+          "hash": "e18805fdc2e9018fe6cfc3e5f744e8f63a604e6b"
+        },
+        {
+          "title": "艦隊キャプチャのプレースホルダーボタンのアスペクト比を修正",
+          "hash": "43eda97e1a979e06e355c8ba34a65f9c40f4389d"
+        },
+        {
+          "title": "X API文字数制限に対応したツイート生成・検証機能を実装",
+          "hash": "e5f575b28a55324db4d3b3fab750ea99c32322aa"
+        },
+        {
+          "title": "v4.1.1",
+          "hash": "dc6c1cf4c5ff3c65b7d827795750c14d615f9c8a"
+        },
+        {
+          "title": "X API環境変数名をアプリレベルとBotレベルで明確に区別",
+          "hash": "c615f9652d9d7db2bd53e761b32ae32b1d1a7dee"
+        },
+        {
+          "title": "v4.1.0",
+          "hash": "d5026611d49e0c814fe3d72f5b70a837f212c191"
+        },
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能の実装",
+          "hash": "fe26687e8148bafe832d69b436458a5c4f12ed28"
+        },
+        {
+          "title": "fix: ツイートワークフローのシェルスクリプト構文エラーを修正",
+          "hash": "828ebe7791af16a2ba60a3b8156af0fdc6aba5fa"
+        },
+        {
+          "title": "艦隊編成キャプチャページの基本構造を追加",
+          "hash": "4849fbfae67760d859a8d255e1aea04fb9188678"
+        },
+        {
+          "title": "FontAwesomeからHeroiconsへアイコンライブラリを移行",
+          "hash": "7bcca8be1911cf0ed7153736bbba037fdf401a11"
+        },
+        {
+          "title": "アスペクト比に応じたアクションボタンのレスポンシブレイアウトを追加",
+          "hash": "37d7eea6bf4445f8b4c88c4d4dc69c019ad76430"
+        },
+        {
+          "title": "fix: issue 通知ツイートの番号表記を復元",
+          "hash": "57cfdbbedc6edbb404ba3b8de2d574256b032875"
+        },
+        {
+          "title": "READMEにChrome Web Storeインストールバッジを追加",
+          "hash": "1c2728b9e79fef63316ad3ef0159df982d826921"
+        },
+        {
+          "title": "CLAUDE.mdに診断チェック必須実行の指示を追加",
+          "hash": "92a01829e6741e2bb37d9706044ba06c2ba7701c"
+        },
+        {
+          "title": "新規issue投稿時のTwitter自動投稿ワークフローを追加",
+          "hash": "8eb507b697bc717ded9d7c8a0f78aac082460138"
+        },
+        {
+          "title": "developブランチpush時のTwitter自動投稿ワークフローを追加",
+          "hash": "38268f8b953437eda25453c4f3f0352f0208c9af"
+        },
+        {
+          "title": "Unicode emojiをHeroicons SVGアイコンに置き換え",
+          "hash": "542e33f982ded6dfd1de72f92ef62ba18249fe7c"
+        },
+        {
+          "title": "DMMポイント購入画面へのdialog非表示処理をコメントアウト",
+          "hash": "620f03a173a2d3278a6f047cb1bbbf431c28612b"
+        },
+        {
+          "title": "InAppActionButtonsをosapi.tsからdmm.tsへ移動",
+          "hash": "ed208d5b8fdb2229196cb6b6b178ddeb06beea1b"
+        },
+        {
+          "title": "v4.0.19",
+          "hash": "a01e64d604df141cb351d5dd1b85fa55a53c4f74"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "version": "v4.1.1",
+      "message": "",
+      "commits": [
+        {
+          "title": "X API環境変数名をアプリレベルとBotレベルで明確に区別",
+          "hash": "c615f9652d9d7db2bd53e761b32ae32b1d1a7dee"
+        },
+        {
+          "title": "v4.1.0",
+          "hash": "d5026611d49e0c814fe3d72f5b70a837f212c191"
+        },
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能の実装",
+          "hash": "fe26687e8148bafe832d69b436458a5c4f12ed28"
+        },
+        {
+          "title": "fix: ツイートワークフローのシェルスクリプト構文エラーを修正",
+          "hash": "828ebe7791af16a2ba60a3b8156af0fdc6aba5fa"
+        },
+        {
+          "title": "艦隊編成キャプチャページの基本構造を追加",
+          "hash": "4849fbfae67760d859a8d255e1aea04fb9188678"
+        },
+        {
+          "title": "FontAwesomeからHeroiconsへアイコンライブラリを移行",
+          "hash": "7bcca8be1911cf0ed7153736bbba037fdf401a11"
+        },
+        {
+          "title": "アスペクト比に応じたアクションボタンのレスポンシブレイアウトを追加",
+          "hash": "37d7eea6bf4445f8b4c88c4d4dc69c019ad76430"
+        },
+        {
+          "title": "fix: issue 通知ツイートの番号表記を復元",
+          "hash": "57cfdbbedc6edbb404ba3b8de2d574256b032875"
+        },
+        {
+          "title": "READMEにChrome Web Storeインストールバッジを追加",
+          "hash": "1c2728b9e79fef63316ad3ef0159df982d826921"
+        },
+        {
+          "title": "CLAUDE.mdに診断チェック必須実行の指示を追加",
+          "hash": "92a01829e6741e2bb37d9706044ba06c2ba7701c"
+        },
+        {
+          "title": "新規issue投稿時のTwitter自動投稿ワークフローを追加",
+          "hash": "8eb507b697bc717ded9d7c8a0f78aac082460138"
+        },
+        {
+          "title": "developブランチpush時のTwitter自動投稿ワークフローを追加",
+          "hash": "38268f8b953437eda25453c4f3f0352f0208c9af"
+        },
+        {
+          "title": "Unicode emojiをHeroicons SVGアイコンに置き換え",
+          "hash": "542e33f982ded6dfd1de72f92ef62ba18249fe7c"
+        },
+        {
+          "title": "DMMポイント購入画面へのdialog非表示処理をコメントアウト",
+          "hash": "620f03a173a2d3278a6f047cb1bbbf431c28612b"
+        },
+        {
+          "title": "InAppActionButtonsをosapi.tsからdmm.tsへ移動",
+          "hash": "ed208d5b8fdb2229196cb6b6b178ddeb06beea1b"
+        },
+        {
+          "title": "v4.0.19",
+          "hash": "a01e64d604df141cb351d5dd1b85fa55a53c4f74"
+        },
+        {
+          "title": "post-tweet.tsの関数定義順序を修正して初期化エラーを解消",
+          "hash": "de23d6c0ad30815a2a8e2bc994016d9b0c957734"
+        },
+        {
+          "title": "v4.0.18",
+          "hash": "fdbf2292e1dbcade49abba1c35fc27bc83c78af5"
+        },
+        {
+          "title": "GitHub Actionsワークフローを2025年のベストプラクティスに準拠",
+          "hash": "fc0d50a71dd45cb8ab0a449ff9fa0ef95e5eb7f1"
+        },
+        {
+          "title": "v4.0.17",
+          "hash": "ae7d284fc48bd954a2ab4671797713671a9684fa"
+        },
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "version": "v4.1.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "DownloadServiceにsaveAsオプションを統合",
+          "hash": "ec5a05cecdbd2da22c7cd1b3ea6e1e11a9677bf3"
+        },
+        {
+          "title": "毎回保存先確認オプションを追加",
+          "hash": "47d1adadd735a60f0847b84bfec09564128e97e2"
+        },
+        {
+          "title": "スクリーンショット保存処理をFileSaveConfig設定に統合",
+          "hash": "40ba51b16d7b2512359ceffba6d7426bfddaf5fd"
+        },
+        {
+          "title": "スクリーンショット保存設定機能を追加",
+          "hash": "1b3bff114776359dead451f1c811182c5b495d73"
+        },
+        {
+          "title": "設定画面のレイアウトを改善し、バージョン情報を上部に移動",
+          "hash": "71a25f5b70c32a1a6ae5bef099b0562d39f05f31"
+        },
+        {
+          "title": "設定画面のバージョン表示を改善し、開発版・ベータ版・公開版の識別を強化",
+          "hash": "8aaae44506c468a7e26367f802dc5a363d80d102"
+        },
+        {
+          "title": "スクリーンショット処理のコードを整理",
+          "hash": "f7265c2464b8c0b33d5ed961dffcf2c6a1ff42f8"
+        },
+        {
+          "title": "艦隊編成キャプチャのダウンロード処理をDownloadServiceに統一",
+          "hash": "d044c110b89b634b054dbd888c53cbacc3bf3e6c"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能をリファクタリング",
+          "hash": "ed9ae72664e07228f880f812c14c63e363ba2c6e"
+        },
+        {
+          "title": "艦隊編成キャプチャ機能の実装",
+          "hash": "fe26687e8148bafe832d69b436458a5c4f12ed28"
+        },
+        {
+          "title": "fix: ツイートワークフローのシェルスクリプト構文エラーを修正",
+          "hash": "828ebe7791af16a2ba60a3b8156af0fdc6aba5fa"
+        },
+        {
+          "title": "艦隊編成キャプチャページの基本構造を追加",
+          "hash": "4849fbfae67760d859a8d255e1aea04fb9188678"
+        },
+        {
+          "title": "FontAwesomeからHeroiconsへアイコンライブラリを移行",
+          "hash": "7bcca8be1911cf0ed7153736bbba037fdf401a11"
+        },
+        {
+          "title": "アスペクト比に応じたアクションボタンのレスポンシブレイアウトを追加",
+          "hash": "37d7eea6bf4445f8b4c88c4d4dc69c019ad76430"
+        },
+        {
+          "title": "fix: issue 通知ツイートの番号表記を復元",
+          "hash": "57cfdbbedc6edbb404ba3b8de2d574256b032875"
+        },
+        {
+          "title": "READMEにChrome Web Storeインストールバッジを追加",
+          "hash": "1c2728b9e79fef63316ad3ef0159df982d826921"
+        },
+        {
+          "title": "CLAUDE.mdに診断チェック必須実行の指示を追加",
+          "hash": "92a01829e6741e2bb37d9706044ba06c2ba7701c"
+        },
+        {
+          "title": "新規issue投稿時のTwitter自動投稿ワークフローを追加",
+          "hash": "8eb507b697bc717ded9d7c8a0f78aac082460138"
+        },
+        {
+          "title": "developブランチpush時のTwitter自動投稿ワークフローを追加",
+          "hash": "38268f8b953437eda25453c4f3f0352f0208c9af"
+        },
+        {
+          "title": "Unicode emojiをHeroicons SVGアイコンに置き換え",
+          "hash": "542e33f982ded6dfd1de72f92ef62ba18249fe7c"
+        },
+        {
+          "title": "DMMポイント購入画面へのdialog非表示処理をコメントアウト",
+          "hash": "620f03a173a2d3278a6f047cb1bbbf431c28612b"
+        },
+        {
+          "title": "InAppActionButtonsをosapi.tsからdmm.tsへ移動",
+          "hash": "ed208d5b8fdb2229196cb6b6b178ddeb06beea1b"
+        },
+        {
+          "title": "v4.0.19",
+          "hash": "a01e64d604df141cb351d5dd1b85fa55a53c4f74"
+        },
+        {
+          "title": "post-tweet.tsの関数定義順序を修正して初期化エラーを解消",
+          "hash": "de23d6c0ad30815a2a8e2bc994016d9b0c957734"
+        },
+        {
+          "title": "v4.0.18",
+          "hash": "fdbf2292e1dbcade49abba1c35fc27bc83c78af5"
+        },
+        {
+          "title": "GitHub Actionsワークフローを2025年のベストプラクティスに準拠",
+          "hash": "fc0d50a71dd45cb8ab0a449ff9fa0ef95e5eb7f1"
+        },
+        {
+          "title": "v4.0.17",
+          "hash": "ae7d284fc48bd954a2ab4671797713671a9684fa"
+        },
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        },
+        {
+          "title": "ベータ版リリース失敗時の通知機能とメンション機能を追加",
+          "hash": "5426fb7b814f2b347a64db7375b6aabfc05f33cf"
+        },
+        {
+          "title": "v4.0.16",
+          "hash": "d7b3ae5aed4b0e0217ec7984b15086fbd07ec2cb"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "version": "v4.0.19",
+      "message": "",
+      "commits": [
+        {
+          "title": "post-tweet.tsの関数定義順序を修正して初期化エラーを解消",
+          "hash": "de23d6c0ad30815a2a8e2bc994016d9b0c957734"
+        },
+        {
+          "title": "v4.0.18",
+          "hash": "fdbf2292e1dbcade49abba1c35fc27bc83c78af5"
+        },
+        {
+          "title": "GitHub Actionsワークフローを2025年のベストプラクティスに準拠",
+          "hash": "fc0d50a71dd45cb8ab0a449ff9fa0ef95e5eb7f1"
+        },
+        {
+          "title": "v4.0.17",
+          "hash": "ae7d284fc48bd954a2ab4671797713671a9684fa"
+        },
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        },
+        {
+          "title": "ベータ版リリース失敗時の通知機能とメンション機能を追加",
+          "hash": "5426fb7b814f2b347a64db7375b6aabfc05f33cf"
+        },
+        {
+          "title": "v4.0.16",
+          "hash": "d7b3ae5aed4b0e0217ec7984b15086fbd07ec2cb"
+        },
+        {
+          "title": "ベータ版リリース時に自動的にX投稿を行うGitHub Actionsジョブを追加",
+          "hash": "4b1a8b77604dc1a23a072b68002e88f45daab9f9"
+        },
+        {
+          "title": "スクリプトファイル名をtweet.tsからpost-tweet.tsに変更",
+          "hash": "5074c097e276ca93191b0a5fe79b3822a47a8528"
+        },
+        {
+          "title": "リリースノートからX向けアナウンス文を生成するスクリプトを追加",
+          "hash": "03d993188c7a92e91b04120b379bee8f8f1f7768"
+        },
+        {
+          "title": "X (Twitter) API v2へ投稿するスクリプトを追加",
+          "hash": "b33489ddda00aee5d4eeab27a0b8d069a87eda62"
+        },
+        {
+          "title": "Commands.tsのコードを改善し、エラーハンドリングを追加",
+          "hash": "93b58c21c1c5dfa4dd0315b6f253291ff8293d14"
+        },
+        {
+          "title": "v4.0.15",
+          "hash": "83843ecf6830de331e89e3f17ba6dad0868150f5"
+        },
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "version": "v4.0.18",
+      "message": "",
+      "commits": [
+        {
+          "title": "GitHub Actionsワークフローを2025年のベストプラクティスに準拠",
+          "hash": "fc0d50a71dd45cb8ab0a449ff9fa0ef95e5eb7f1"
+        },
+        {
+          "title": "v4.0.17",
+          "hash": "ae7d284fc48bd954a2ab4671797713671a9684fa"
+        },
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        },
+        {
+          "title": "ベータ版リリース失敗時の通知機能とメンション機能を追加",
+          "hash": "5426fb7b814f2b347a64db7375b6aabfc05f33cf"
+        },
+        {
+          "title": "v4.0.16",
+          "hash": "d7b3ae5aed4b0e0217ec7984b15086fbd07ec2cb"
+        },
+        {
+          "title": "ベータ版リリース時に自動的にX投稿を行うGitHub Actionsジョブを追加",
+          "hash": "4b1a8b77604dc1a23a072b68002e88f45daab9f9"
+        },
+        {
+          "title": "スクリプトファイル名をtweet.tsからpost-tweet.tsに変更",
+          "hash": "5074c097e276ca93191b0a5fe79b3822a47a8528"
+        },
+        {
+          "title": "リリースノートからX向けアナウンス文を生成するスクリプトを追加",
+          "hash": "03d993188c7a92e91b04120b379bee8f8f1f7768"
+        },
+        {
+          "title": "X (Twitter) API v2へ投稿するスクリプトを追加",
+          "hash": "b33489ddda00aee5d4eeab27a0b8d069a87eda62"
+        },
+        {
+          "title": "Commands.tsのコードを改善し、エラーハンドリングを追加",
+          "hash": "93b58c21c1c5dfa4dd0315b6f253291ff8293d14"
+        },
+        {
+          "title": "v4.0.15",
+          "hash": "83843ecf6830de331e89e3f17ba6dad0868150f5"
+        },
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "version": "v4.0.17",
+      "message": "",
+      "commits": [
+        {
+          "title": "失敗通知に失敗ステップ名とGitHub Actions実行URLを追加",
+          "hash": "8cb70e794076cbcb406c7663a8705cafeb2e16fb"
+        },
+        {
+          "title": "ベータ版リリース失敗時の通知機能とメンション機能を追加",
+          "hash": "5426fb7b814f2b347a64db7375b6aabfc05f33cf"
+        },
+        {
+          "title": "v4.0.16",
+          "hash": "d7b3ae5aed4b0e0217ec7984b15086fbd07ec2cb"
+        },
+        {
+          "title": "ベータ版リリース時に自動的にX投稿を行うGitHub Actionsジョブを追加",
+          "hash": "4b1a8b77604dc1a23a072b68002e88f45daab9f9"
+        },
+        {
+          "title": "スクリプトファイル名をtweet.tsからpost-tweet.tsに変更",
+          "hash": "5074c097e276ca93191b0a5fe79b3822a47a8528"
+        },
+        {
+          "title": "リリースノートからX向けアナウンス文を生成するスクリプトを追加",
+          "hash": "03d993188c7a92e91b04120b379bee8f8f1f7768"
+        },
+        {
+          "title": "X (Twitter) API v2へ投稿するスクリプトを追加",
+          "hash": "b33489ddda00aee5d4eeab27a0b8d069a87eda62"
+        },
+        {
+          "title": "Commands.tsのコードを改善し、エラーハンドリングを追加",
+          "hash": "93b58c21c1c5dfa4dd0315b6f253291ff8293d14"
+        },
+        {
+          "title": "v4.0.15",
+          "hash": "83843ecf6830de331e89e3f17ba6dad0868150f5"
+        },
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "version": "v4.0.16",
+      "message": "",
+      "commits": [
+        {
+          "title": "ベータ版リリース時に自動的にX投稿を行うGitHub Actionsジョブを追加",
+          "hash": "4b1a8b77604dc1a23a072b68002e88f45daab9f9"
+        },
+        {
+          "title": "スクリプトファイル名をtweet.tsからpost-tweet.tsに変更",
+          "hash": "5074c097e276ca93191b0a5fe79b3822a47a8528"
+        },
+        {
+          "title": "リリースノートからX向けアナウンス文を生成するスクリプトを追加",
+          "hash": "03d993188c7a92e91b04120b379bee8f8f1f7768"
+        },
+        {
+          "title": "X (Twitter) API v2へ投稿するスクリプトを追加",
+          "hash": "b33489ddda00aee5d4eeab27a0b8d069a87eda62"
+        },
+        {
+          "title": "Commands.tsのコードを改善し、エラーハンドリングを追加",
+          "hash": "93b58c21c1c5dfa4dd0315b6f253291ff8293d14"
+        },
+        {
+          "title": "v4.0.15",
+          "hash": "83843ecf6830de331e89e3f17ba6dad0868150f5"
+        },
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        },
+        {
+          "title": "Launcher.findのURL検索ロジックを改善",
+          "hash": "d4dc0b338474bb87f5b1ab87684b8cd09069a1bb"
+        },
+        {
+          "title": "Launcherサービスに日本語JSDocコメントを追加",
+          "hash": "e477726c74e11c470d0a1aa6ec0337341181fd68"
+        },
+        {
+          "title": "艦これゲームURLを新しいDMMプラットフォームに更新",
+          "hash": "0735a8b1e269b8e9b76404854a91526954cbc9aa"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "version": "v4.0.15",
+      "message": "「ユーザーが待ってるプロダクトを作る」というのの楽しさをひさしぶりに思い出しています。ありがとう 、艦これウィジェット",
+      "commits": [
+        {
+          "title": "キーボードショートカットでスクリーンショットを撮影できる機能を追加",
+          "hash": "ed6e4a5fc9772f5176fcfb22b940928e58413ea0"
+        },
+        {
+          "title": "サーバ権限管理機能を削除し、manifest.jsonのhost_permissionsを簡素化",
+          "hash": "27ca0baab5f9ea8b76b7ab3bd4a8dc50723d6db3"
+        },
+        {
+          "title": "新規Frame設定登録時にウィンドウ位置を保存するように改善",
+          "hash": "93c16fbe1161ffaf149ca0c46d7f8ad5a3cd4c84"
+        },
+        {
+          "title": "Frameモデルからzoomプロパティを削除し、サイズ計算を直接実行するように変更",
+          "hash": "f53777963d375a1691836e9099aff3cde589886b"
+        },
+        {
+          "title": "v4.0.14",
+          "hash": "581924014492f4e67814117503096d9ce3684a06"
+        },
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        },
+        {
+          "title": "Launcher.findのURL検索ロジックを改善",
+          "hash": "d4dc0b338474bb87f5b1ab87684b8cd09069a1bb"
+        },
+        {
+          "title": "Launcherサービスに日本語JSDocコメントを追加",
+          "hash": "e477726c74e11c470d0a1aa6ec0337341181fd68"
+        },
+        {
+          "title": "艦これゲームURLを新しいDMMプラットフォームに更新",
+          "hash": "0735a8b1e269b8e9b76404854a91526954cbc9aa"
+        },
+        {
+          "title": "Node.jsとpnpmのバージョンを更新",
+          "hash": "3f374112f79d641fc4a5aab03396c5036dd3bf60"
+        },
+        {
+          "title": "艦これウィジェット仕様書を追加",
+          "hash": "551738c7d7a0fa397477bf46e036f2f498ae2988"
+        },
+        {
+          "title": "AGENTS.mdのルールを更新",
+          "hash": "47f4632f771d68d769fd891b55a48d1e544f6a00"
+        },
+        {
+          "title": ".gitignoreにcodex関連ファイルを追加",
+          "hash": "eaad4e313fb0620a764c5023a24a58bfd54ee0f4"
+        },
+        {
+          "title": "Speckit開発ワークフロー環境を追加",
+          "hash": "7c959c31336fc227d79e236cbfb65e4036fdc7a9"
+        },
+        {
+          "title": "エージェント運用とリポジトリガイドラインを追加",
+          "hash": "6a0c3bed337487fcbbcd1a7e98d90f791cdca6b9"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-21",
+      "version": "v4.0.14",
+      "message": "",
+      "commits": [
+        {
+          "title": "DamageSnapshotクラスのデバッグログを削除",
+          "hash": "88d4f5f5b0a3e33cd0a447686efecb823e2fc4ee"
+        },
+        {
+          "title": "大破進撃防止窓が表示されていなかった問題を修正",
+          "hash": "08db473453d7332f0a353866c05b3ebb6ea15e44"
+        },
+        {
+          "title": "大破進撃防止窓の機能仕様書を追加",
+          "hash": "75c6d5f551fadbff3be6ba8dc52a2be5e90a5221"
+        },
+        {
+          "title": "DMMとOSAPI注入スタイルのスクロールバー非表示とマージン削除を改善",
+          "hash": "5d110e9b432b34efbda1c345c7d1bd0dcd1f4c7b"
+        },
+        {
+          "title": "v4.0.13",
+          "hash": "93e31a478ed4c6e1241ff5b71608257e60992699"
+        },
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        },
+        {
+          "title": "Launcher.findのURL検索ロジックを改善",
+          "hash": "d4dc0b338474bb87f5b1ab87684b8cd09069a1bb"
+        },
+        {
+          "title": "Launcherサービスに日本語JSDocコメントを追加",
+          "hash": "e477726c74e11c470d0a1aa6ec0337341181fd68"
+        },
+        {
+          "title": "艦これゲームURLを新しいDMMプラットフォームに更新",
+          "hash": "0735a8b1e269b8e9b76404854a91526954cbc9aa"
+        },
+        {
+          "title": "Node.jsとpnpmのバージョンを更新",
+          "hash": "3f374112f79d641fc4a5aab03396c5036dd3bf60"
+        },
+        {
+          "title": "艦これウィジェット仕様書を追加",
+          "hash": "551738c7d7a0fa397477bf46e036f2f498ae2988"
+        },
+        {
+          "title": "AGENTS.mdのルールを更新",
+          "hash": "47f4632f771d68d769fd891b55a48d1e544f6a00"
+        },
+        {
+          "title": ".gitignoreにcodex関連ファイルを追加",
+          "hash": "eaad4e313fb0620a764c5023a24a58bfd54ee0f4"
+        },
+        {
+          "title": "Speckit開発ワークフロー環境を追加",
+          "hash": "7c959c31336fc227d79e236cbfb65e4036fdc7a9"
+        },
+        {
+          "title": "エージェント運用とリポジトリガイドラインを追加",
+          "hash": "6a0c3bed337487fcbbcd1a7e98d90f791cdca6b9"
+        },
+        {
+          "title": "日本語版CLAUDE.mdを追加",
+          "hash": "97931d51d767541ebd85349b35ec172bc1c6488b"
+        },
+        {
+          "title": "v4.0.12",
+          "hash": "fe25efd455edb2b542b14be1a69773b235421626"
+        },
+        {
+          "title": "大破進撃防止窓がうまく消えないのでクリックしたら消えるようにした",
+          "hash": "ce04079e930dc7923eaccc63e2e87acbb8916001"
+        },
+        {
+          "title": "v4.0.11",
+          "hash": "0d6d55ff9ff947f6584d42394ad0e4708b9ec129"
+        },
+        {
+          "title": "crop処理はbackgroundでやることにしたので変なcontent_scriptは要らない",
+          "hash": "3072d6bdf357bec4aac4c87660bad48f29aed4f1"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-21",
+      "version": "v4.0.13",
+      "message": "",
+      "commits": [
+        {
+          "title": "pnpmバージョン要件を緩和してCI失敗を修正",
+          "hash": "8eb94e8f916d0a102272531e6499eb509d5f7ba9"
+        },
+        {
+          "title": "CLAUDE.mdを大幅に拡充し、アーキテクチャドキュメントを追加",
+          "hash": "954ad661a46b58f1d6ff0c75b6c019e608b64bee"
+        },
+        {
+          "title": "README.mdにリリースフローのドキュメントを追加",
+          "hash": "dd6d77173b434aa015ba6363cf773c3ea772e133"
+        },
+        {
+          "title": "CIワークフローのNode.jsとpnpmバージョンをpackage.jsonの要件に合わせて更新",
+          "hash": "a926b63e7c53fcb0279918e41abd6f4e14f25890"
+        },
+        {
+          "title": "typecheckスクリプトの追加とESLintエラーの修正",
+          "hash": "225c831bff2a5c2901ac636db3effc24b27d4222"
+        },
+        {
+          "title": ".gitignoreにClaude Code設定ファイルを追加",
+          "hash": "8909c6f68fc649b551912d66c39a9e55d5059c5f"
+        },
+        {
+          "title": "既存機能仕様書を詳細化・網羅性を向上",
+          "hash": "cfee0b4426d735f481ac312a51de15b65c9d74fc"
+        },
+        {
+          "title": "injection層のリファクタリングとフレーム管理の改善",
+          "hash": "9f49f2b5590be00d9c02ebb280d24a1fa962c574"
+        },
+        {
+          "title": "dmm.tsにゲームフレーム読み込み待機機能を追加",
+          "hash": "12f37141053dea12e597f28e392aa698d3a5c73e"
+        },
+        {
+          "title": "dmm.tsにロギングとエラーハンドリングを追加",
+          "hash": "5493f47f1df6c3b5679369c935a60b79b95c6c3b"
+        },
+        {
+          "title": "ポップアップからのフレーム起動をメッセージベースに変更",
+          "hash": "4d5ed949fab31a289398f4fbe260907a6de90117"
+        },
+        {
+          "title": "Launcher.findのURL検索ロジックを改善",
+          "hash": "d4dc0b338474bb87f5b1ab87684b8cd09069a1bb"
+        },
+        {
+          "title": "Launcherサービスに日本語JSDocコメントを追加",
+          "hash": "e477726c74e11c470d0a1aa6ec0337341181fd68"
+        },
+        {
+          "title": "艦これゲームURLを新しいDMMプラットフォームに更新",
+          "hash": "0735a8b1e269b8e9b76404854a91526954cbc9aa"
+        },
+        {
+          "title": "Node.jsとpnpmのバージョンを更新",
+          "hash": "3f374112f79d641fc4a5aab03396c5036dd3bf60"
+        },
+        {
+          "title": "艦これウィジェット仕様書を追加",
+          "hash": "551738c7d7a0fa397477bf46e036f2f498ae2988"
+        },
+        {
+          "title": "AGENTS.mdのルールを更新",
+          "hash": "47f4632f771d68d769fd891b55a48d1e544f6a00"
+        },
+        {
+          "title": ".gitignoreにcodex関連ファイルを追加",
+          "hash": "eaad4e313fb0620a764c5023a24a58bfd54ee0f4"
+        },
+        {
+          "title": "Speckit開発ワークフロー環境を追加",
+          "hash": "7c959c31336fc227d79e236cbfb65e4036fdc7a9"
+        },
+        {
+          "title": "エージェント運用とリポジトリガイドラインを追加",
+          "hash": "6a0c3bed337487fcbbcd1a7e98d90f791cdca6b9"
+        },
+        {
+          "title": "日本語版CLAUDE.mdを追加",
+          "hash": "97931d51d767541ebd85349b35ec172bc1c6488b"
+        },
+        {
+          "title": "v4.0.12",
+          "hash": "fe25efd455edb2b542b14be1a69773b235421626"
+        },
+        {
+          "title": "大破進撃防止窓がうまく消えないのでクリックしたら消えるようにした",
+          "hash": "ce04079e930dc7923eaccc63e2e87acbb8916001"
+        },
+        {
+          "title": "v4.0.11",
+          "hash": "0d6d55ff9ff947f6584d42394ad0e4708b9ec129"
+        },
+        {
+          "title": "crop処理はbackgroundでやることにしたので変なcontent_scriptは要らない",
+          "hash": "3072d6bdf357bec4aac4c87660bad48f29aed4f1"
+        },
+        {
+          "title": "母港から修復に画面遷移したときは修復の通知を自動で消す",
+          "hash": "dd74738b9b75902fdd2e17c3b2593f46d21e5f7f"
+        },
+        {
+          "title": "crop処理はbackgroundでやるよう修正",
+          "hash": "761b49f30091f4b2e3315d15189060813fda9f99"
+        },
+        {
+          "title": "v4.0.10",
+          "hash": "92caba87639f37d794c8f2961467df473fa4bf28"
+        },
+        {
+          "title": "pnpm run lint",
+          "hash": "b34bab45d213aa884b4b7c8e0bae85c25696d575"
+        },
+        {
+          "title": "遠征回収したときに遠征の通知を消すようにした",
+          "hash": "4c1b3b6480bd5fe6a2b0c2c277c5036cf15fa935"
+        }
+      ]
+    },
+    {
+      "date": "2025-03-11",
+      "version": "v4.0.12",
+      "message": "",
+      "commits": [
+        {
+          "title": "大破進撃防止窓がうまく消えないのでクリックしたら消えるようにした",
+          "hash": "ce04079e930dc7923eaccc63e2e87acbb8916001"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-20",
+      "version": "v4.0.11",
+      "message": "",
+      "commits": [
+        {
+          "title": "crop処理はbackgroundでやることにしたので変なcontent_scriptは要らない",
+          "hash": "3072d6bdf357bec4aac4c87660bad48f29aed4f1"
+        },
+        {
+          "title": "母港から修復に画面遷移したときは修復の通知を自動で消す",
+          "hash": "dd74738b9b75902fdd2e17c3b2593f46d21e5f7f"
+        },
+        {
+          "title": "crop処理はbackgroundでやるよう修正",
+          "hash": "761b49f30091f4b2e3315d15189060813fda9f99"
+        },
+        {
+          "title": "v4.0.10",
+          "hash": "92caba87639f37d794c8f2961467df473fa4bf28"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-14",
+      "version": "v4.0.10",
+      "message": "",
+      "commits": [
+        {
+          "title": "pnpm run lint",
+          "hash": "b34bab45d213aa884b4b7c8e0bae85c25696d575"
+        },
+        {
+          "title": "遠征回収したときに遠征の通知を消すようにした",
+          "hash": "4c1b3b6480bd5fe6a2b0c2c277c5036cf15fa935"
+        },
+        {
+          "title": "ダッシュボードから任意のタイマーを設定できる機能を実装",
+          "hash": "993f1d42002f8b70f13c19ab20b9d6b8e50f6897"
+        },
+        {
+          "title": "ゲーム画面内スクショボタンを実装",
+          "hash": "c556402e1fbc712fca28d761f1f648985acebc52"
+        },
+        {
+          "title": "ゲーム内ミュートボタンを設置",
+          "hash": "8a02ea5954bb463564c5b26cb12e2c1d11b899dc"
+        },
+        {
+          "title": "v4.0.8",
+          "hash": "c195c62126c0cb3db4ae1e71f355d8b35101c4c4"
+        }
+      ]
+    },
+    {
+      "date": "2025-01-05",
+      "version": "v4.0.8",
+      "message": "",
+      "commits": [
+        {
+          "title": "テストの修正",
+          "hash": "fe57e09bccf36a4df7f91edaa0ea8457e9b75500"
+        },
+        {
+          "title": "lint --format",
+          "hash": "7b1e3138f6fe0211ac8ea051290e1e61af3e7c4f"
+        },
+        {
+          "title": "スクショのファイル名をとりあえずYYYY-mm-dd_HHMMSS.pngにした",
+          "hash": "709d32b7d76983e4e62ea280b914735e850eff70"
+        },
+        {
+          "title": "リファクタ: Intl.DateTimeFormatを使う",
+          "hash": "9d893c506b26ae0766b49759afc653adbade8bc3"
+        },
+        {
+          "title": "navigate(0)を撲滅",
+          "hash": "cea17a455c6d5dcf90a59f2057753ddb4aceed25"
+        },
+        {
+          "title": "疲労タイマーをクリックしたら削除できるようにした",
+          "hash": "463683e453109ba78df62864ef9e02a55d78f17a"
+        },
+        {
+          "title": "ちょっとリファクタ",
+          "hash": "9bb8a172bf80d9b09a997e793d5966a0bd51edeb"
+        },
+        {
+          "title": "不要なログを削除",
+          "hash": "97de59bfb4bc5504692fcff5cd02de4fbabd92f6"
+        },
+        {
+          "title": "ダッシュボードでの疲労の表示を下部に変更",
+          "hash": "ad5edcd547d04969f03b763884b6094e464afe7c"
+        },
+        {
+          "title": "時刻フォーマットを修正",
+          "hash": "c5a0691ec856051ce3c5c8ea59f69956747851f6"
+        },
+        {
+          "title": "出撃海域情報を疲労queueに追加",
+          "hash": "82b71365e6ba8872a0e59503fea19fd8a0a8c449"
+        },
+        {
+          "title": "v4.0.6",
+          "hash": "146c0b1abd800ede042abd0dd54203dbf18f68e8"
+        }
+      ]
+    },
+    {
+      "date": "2024-11-24",
+      "version": "v4.0.6",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
+      "message": "",
+      "commits": [
+        {
+          "title": "自動リリーススクリプトのtokenが古い時のMakefile整備",
+          "hash": "307e96e96f6ed6fd608308f26b923421e723f78b"
+        },
+        {
+          "title": "v4.0.5",
+          "hash": "48f4ce80cba4742ce3350e62b8a65283acfc2e5b"
+        }
+      ]
+    },
+    {
+      "date": "2024-11-24",
+      "version": "v4.0.5",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
+      "message": "",
+      "commits": [
+        {
+          "title": "窓サイズのプリセットを追加し、窓設定の初期化機能を実装",
+          "hash": "7bfe47350e8db01f4663cb04c88ce4d6e6b541e6"
+        },
+        {
+          "title": "Fix lint",
+          "hash": "694f8f7d818c2e24ce80d1a98f305bf172aa32cc"
+        },
+        {
+          "title": "ダッシュボードでスクショボタンを設置",
+          "hash": "3d125f5fe090316691e610d37eed523d4c2fb62f"
+        },
+        {
+          "title": "時計の時刻更新についてもなるべくsetIntervalはrootのレベルで実施",
+          "hash": "963d15b69f51c4d16c95c5a222711e6e35fa9770"
+        },
+        {
+          "title": "navigate(0) よりも、revalidator.revalidate でリフレッシュすべき",
+          "hash": "7f94a61a646c3d8a31c45d7733dc97f30451eb11"
+        },
+        {
+          "title": "ダッシュボードでミュートできるボタンを実装",
+          "hash": "c2de260b35c772af0a1b6bc76362d9758e28f0db"
+        },
+        {
+          "title": "自動リリーススクリプトのバグを修正",
+          "hash": "1c8ad24082a22028b2477da0179a92e826274526"
+        },
+        {
+          "title": "ubuntu-latestに対応",
+          "hash": "8bc1ba417bfcae09385ebc10466014ba3164645f"
+        },
+        {
+          "title": "v4.0.3",
+          "hash": "ec0cebbe5af8aa9ca6ccb67ef00581f9c361067c"
+        }
+      ]
+    },
+    {
+      "date": "2024-09-08",
+      "version": "v4.0.3",
+      "announce": {
+        "message": "ChromeのManifest v3に対応するために、大きく修正しています。放っておくとストアから削除されるので、いったん緊急対応です。これに伴って、画像認識などをサーバ上ではなくローカルのJavaScriptで行うよう修正しています。くわしくは https://github.com/kancraft/kanColleWidget/tree/develop を確認ください。"
+      },
+      "message": "",
+      "commits": [
+        {
+          "title": "リリースノートを表示する仕組みを実装",
+          "hash": "894936082469c723706ff1b37914691267da8d87"
+        },
+        {
+          "title": "webNavigationまだ使ってないのでmanifestから削除",
+          "hash": "d3498436ff06ed45c55cea18cd6c0b19f8d7132b"
+        },
+        {
+          "title": "ウェブストアの審査のために、念の為jsdelivrへの参照を削除しておく",
+          "hash": "e144f88172c88930d0c135099529c33a86f2e862"
+        },
+        {
+          "title": "distフォルダ下にtessdataが重複して作成されるのを予防",
+          "hash": "d7fb11a9544b47e3cca491d797518528b1a650a8"
+        },
+        {
+          "title": "ローカルTesseractのためにリモートコード実行を排除",
+          "hash": "056e10c4b5786db2443411133345932dc3b4af0f"
+        },
+        {
+          "title": "v4.0.2",
+          "hash": "0f0e5957dc6be751aba52f3bacf99f7e71c378de"
+        }
+      ]
+    },
+    {
+      "date": "2024-09-01",
+      "version": "v4.0.2",
+      "message": "",
+      "commits": [
+        {
+          "title": "自動リリーススクリプトを他プロジェクトから移植",
+          "hash": "0e70d874564cd0e5fdf4beb8bcaf9256c0af50b5"
+        },
+        {
+          "title": "Makefile作成",
+          "hash": "733573ceb1df45b4ffee0131397e8380c9399c11"
+        },
+        {
+          "title": "大破進撃防止窓の最小限実装",
+          "hash": "321672b4f25c2fcf5a397d6c8e14d78010d5aa8f"
+        },
+        {
+          "title": "FontAwesome導入",
+          "hash": "2079a9d8202f715636822ad06da52a2e5336efa7"
+        },
+        {
+          "title": "ダッシュボード機能をとりあえず実装",
+          "hash": "d9d06d561833364dad5280607e73d083e159702a"
+        },
+        {
+          "title": "窓設定の保存機能を実装",
+          "hash": "f4bbd4a15b3541ce5ecbc4cbd8f9f3c3bf8e86b4"
+        },
+        {
+          "title": "設定ページをリファクタ & サーバ選択を設定ページへ引越し",
+          "hash": "727fbe027427cae2319d0fcd840d2fe49f509345"
+        },
+        {
+          "title": "建造完了のタイマーのバグを修正",
+          "hash": "7cfd38a28cf2442c5fad9f8ce00fb62f70530af4"
+        },
+        {
+          "title": "建造タイマーを実装",
+          "hash": "e9fc4c8080a37271c34ff5157163b988f57f1094"
+        },
+        {
+          "title": "WebRequestにはSequentialRouterを使うようにした",
+          "hash": "15ee5b015cabeda39d4d6040b3025f6336a67f55"
+        },
+        {
+          "title": "通知エントリモデルのあたりをリファクタリングした",
+          "hash": "ff410673327bfb8a1de077f66f174c125e31362f"
+        },
+        {
+          "title": "不要なログを削除",
+          "hash": "3e212fc6e481c374a59fc057b6e6a7f4b805dde4"
+        },
+        {
+          "title": "疲労タイマーを実装",
+          "hash": "6be2d39d7d51145350e6787886729db185ccbaf7"
+        },
+        {
+          "title": "README追加",
+          "hash": "d31e66c0e9b6de16a53dc2bc42e7a6d6a91e3995"
+        },
+        {
+          "title": "Fix test",
+          "hash": "3ab623cdbefbbe8e9d286956101387b7dafe3c4a"
+        },
+        {
+          "title": "CIを設置",
+          "hash": "2ffdd6f10cfa9ddbd728ecd211ac25f56c352ca3"
+        },
+        {
+          "title": "修復タイマーを実装",
+          "hash": "169782498b284602e83a341d1bd363290e1a684c"
+        },
+        {
+          "title": "遠征開始時も通知を出す",
+          "hash": "06675d88159cb82b0f48347280971bcb76ab00ec"
+        },
+        {
+          "title": "KCWDateを導入",
+          "hash": "e8fe5f88296eb8f7b77bf49eddf78e8821ce5da3"
+        },
+        {
+          "title": "launchを再度押したらfocusするように修正",
+          "hash": "b35a5f18e07174dd5265ab88e8741f7a68c66a95"
+        },
+        {
+          "title": "通知を押したときに通知を消すように修正",
+          "hash": "cd600d72b0e0c377346ef827ee635fdf073458fb"
+        },
+        {
+          "title": "MEMORY窓の位置とサイズを覚える",
+          "hash": "a28878ff9e034383e4378b80c1b272994dffe196"
+        },
+        {
+          "title": "ポップアップ部分を実装",
+          "hash": "41bfff482ab9f4c1f4a35666c3c85a3443383f47"
+        },
+        {
+          "title": "窓の生成を実装",
+          "hash": "d008ba6922500bf97cb1ec99250e9a67c6b579f5"
+        },
+        {
+          "title": "とりあえず遠征だけは対応したと思う",
+          "hash": "b81346d6d281cd5ab5455ec71d861ae862379f39"
+        },
+        {
+          "title": "所属サーバを選択できるようにした",
+          "hash": "beac9f825e6d3569fdc12da69afb1f50aa83803d"
+        },
+        {
+          "title": "サーバのパーミッションについて変えた",
+          "hash": "7478f34d999fe998b826301f75f7267dc7402c4b"
+        },
+        {
+          "title": "なんとなくタイマーまわりのドメインモデルを実装",
+          "hash": "667c6240051e54f701786ca032af228de95fd970"
+        },
+        {
+          "title": "lint整えた",
+          "hash": "882ebbbf4e3a1137f37daf8355014988992ac270"
+        },
+        {
+          "title": "Chrome拡張としての体裁を整えた",
+          "hash": "34965de84d3f4187eb891e3c8f0d353fae4a8f53"
+        }
+      ]
+    }
+  ]
+}

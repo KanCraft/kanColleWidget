@@ -1,47 +1,101 @@
 /** webstore-publish.ts
- * Chrome拡張をChromeウェブストアに公開するスクリプト
- * @see https://developer.chrome.com/webstore/using_webstore_api
- * @see https://developer.chrome.com/webstore/webstore_api/items/publish
+ * ビルド済みzipファイルを受けてChrome拡張をChromeウェブストアに公開するスクリプト
+ * @see https://developer.chrome.com/docs/webstore/using-api
+ * @see https://developer.chrome.com/docs/webstore/api
  *
- * @param {string} client_id
- * @param {string} client_secret
- * @param {string} refresh_token
- * @param {string} app_id
- * @param {string} zip_file_path
- */
+ * @env {string} GOOGLEAPI_CLIENT_ID         Google Cloud Consoleで作成したOAuth 2.0 クライアント ID
+ * @env {string} GOOGLEAPI_CLIENT_SECRET     Google Cloud Consoleで作成したOAuth 2.0 クライアント シークレット
+ * @env {string} GOOGLEAPI_REFRESH_TOKEN     Google OAuth 2.0 Playgroundで取得したリフレッシュトークン
+ * @env {string} CHROMEWEBSTORE_EXTENSION_ID Chromeウェブストアで取得した拡張機能ID
+ * @env {string} NODE_ENV                    デフォルトは"production"、"development"の場合はtrusted_testers=true
+**/
 
-import nodefetch, { Response } from "node-fetch";
-import * as fs from "fs";
-import { URLSearchParams } from "url";
+import fs from "fs";
 
-// https://developer.chrome.com/docs/webstore/using_webstore_api/#overview
-interface AuthResponse {
-  access_token: string,
-  token_type: string,
-  expires_in: number,
-  refresh_token: string,
+const __main__ = async () => {
+  if (process.argv.length < 3) {
+    console.error("zip file path is required.");
+    console.error("Usage: node webstore-publish.ts <zip_file_path>");
+    process.exit(1);
+  }
+  const [/* nodepath */, /* _scriptpath */, zip_file_path] = process.argv;
+  if (!fs.existsSync(zip_file_path)) {
+    console.error(`zip file not found: ${zip_file_path}`);
+    process.exit(1);
+  }
+  try {
+    await __webstore_publish__(zip_file_path);
+  } catch (e) {
+    console.error("[ERROR]", e);
+    process.exit(1);
+  }
+};
+
+const __webstore_publish__ = async (
+  zip_file_path:   string,
+  client_id:       string = process.env.GOOGLEAPI_CLIENT_ID!,
+  client_secret:   string = process.env.GOOGLEAPI_CLIENT_SECRET!,
+  refresh_token:   string = process.env.GOOGLEAPI_REFRESH_TOKEN!,
+  extension_id:    string = process.env.CHROMEWEBSTORE_EXTENSION_ID!,
+  trusted_testers: boolean = false, // process.env.NODE_ENV !== "production", // Betaもリンク知ってるひとに公開なので false でいい
+) => {
+  console.log("[INFO]", "START PUBLISHING...");
+
+  // (1) リフレッシュトークンを使ってアクセストークンを取得
+  const refreshResponse = await refreshAccessToken(client_id, client_secret, refresh_token);
+  const authbody = (await refreshResponse.json()) as OAuthResponse;
+  const { access_token, token_type, scope, expires_in } = authbody;
+  if (!refreshResponse.ok) throw new Error(`http response of REFRESH is NOT OK: ${refreshResponse.statusText}\n${JSON.stringify(authbody)}`,);
+  console.log("[INFO]", "ACCESS TOKEN REFRESHED:", token_type, scope, expires_in);
+  if (!access_token) throw new Error(`couldn't retrieve access_token from this refresh_token`);
+
+  // (2) アクセストークンを使ってzipファイルをアップロード
+  const uploadResponse = await uploadPackageFile(access_token, zip_file_path, extension_id);
+  const uploadbody = await uploadResponse.json();
+  console.log("[INFO]", "UPLOAD PACKAGE FILE:", uploadResponse.ok, uploadResponse.status);
+  if (!uploadResponse.ok) throw new Error(`http response of UPLOAD is NOT OK: ${uploadResponse.statusText}\n${JSON.stringify(uploadbody)}`);
+  console.log("[INFO]", "UPLOAD SUCCESSFULLY DONE:", uploadbody);
+
+  // (3) アップロードしたzipファイルを公開申請
+  const publishResponse = await publishUploadedPackageFile(access_token, extension_id, trusted_testers);
+  const publishbody = await publishResponse.json();
+  console.log("[INFO]", "PUBLISH NEW PACKGE:", publishResponse.ok, publishResponse.status);
+  if (!publishResponse.ok) throw new Error(`http response of PUBLISH is NOT OK: ${publishResponse.statusText}\n${JSON.stringify(publishbody)}`);
+  console.log("[INFO]", "PUBLISH SUCCESSFULLY DONE:", publishbody);
+};
+
+/**
+ * OAuth 2.0 レスポンス
+ * @see https://developer.chrome.com/docs/webstore/using-api?hl=ja#test-oauth
+**/
+interface OAuthResponse {
+  access_token:  string;
+  expires_in:    number;
+  refresh_token: string;
+  token_type:    string;
+  scope:         string;
 }
 
-/** refreshAccessToken
+/**
+ * refreshAccessToken
  * デフォルトでは、得られた access_token は40分でExpireするため、
  * publishのAPIを叩く前に、必ずここで access_token を新たに取得
  * する必要がある.
  * ということで、こいつは refresh_token なんかを使って access_token
  * を得るメソッドです。
- *
- * @param {string} client_id
- * @param {string} client_secret
- * @param {string} refresh_token
- *
- * @return {Promise<Response>}
- * {access_token, expires_in, scope, token_type}
+ * 
+ * @param {string} client_id 
+ * @param {string} client_secret 
+ * @param {string} refresh_token 
+ * 
+ * @returns {Promise<OAuthResponse>} 
  */
 async function refreshAccessToken(
   client_id: string,
   client_secret: string,
   refresh_token: string
 ): Promise<Response> {
-  return nodefetch("https://www.googleapis.com/oauth2/v4/token", {
+  return fetch("https://www.googleapis.com/oauth2/v4/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -53,98 +107,52 @@ async function refreshAccessToken(
   });
 }
 
-/** uploadPackageFile
+/**
+ * uploadPackageFile
  * ちゃんとリフレッシュされてるアクセストークンを使って、
  * 指定されたファイルを指定されたアプリにアップロードする.
  * まだpublishされてないので注意.
- *
- * @param {string} access_token
- * @param {string} zip_file_path
- * @param {string} app_id
- *
- * @return {Promise<Response>}
+ * 
+ * @param {string} access_token 
+ * @param {string} zip_file_path 
+ * @param {string} extension_id 
+ * 
+ * @returns {Promise<Response>}
  */
 async function uploadPackageFile(
   access_token: string,
   zip_file_path: string,
-  app_id: string
+  extension_id: string
 ): Promise<Response> {
-  return nodefetch(`https://www.googleapis.com/upload/chromewebstore/v1.1/items/${app_id}`, {
+  const buf = fs.readFileSync(zip_file_path);
+  return fetch(`https://www.googleapis.com/upload/chromewebstore/v1.1/items/${extension_id}`, {
     method: "PUT",
     headers: { "Authorization": `Bearer ${access_token}`, "x-goog-api-version": "2" },
-    body: fs.createReadStream(zip_file_path),
+    body: Buffer.from(buf),
   });
 }
 
-/** publishUploadedPackageFile
+/**
+ * publishUploadedPackageFile
  * パブリッシュする.
  *
  * @param {string} access_token
- * @param {string} app_id
+ * @param {string} extension_id
  * @param {boolean} trustedTesters
  *
  * @return {Promise<Response>}
  */
 async function publishUploadedPackageFile(
   access_token: string,
-  app_id: string,
+  extension_id: string,
   trustedTesters: boolean
 ) {
   const query = new URLSearchParams({ publishTarget: trustedTesters ? "trustedTesters" : "default" });
-  return nodefetch(`https://www.googleapis.com/chromewebstore/v1.1/items/${app_id}/publish?${query.toString()}`, {
+  return fetch(`https://www.googleapis.com/chromewebstore/v1.1/items/${extension_id}/publish?${query.toString()}`, {
     method: "POST",
     headers: { "Authorization": `Bearer ${access_token}`, "x-goog-api-version": "2", "Content-Length": "0" },
   });
 }
 
-/** このスクリプトのデフォルトエクスポート
- * __main__的なもの
- */
-async function main(
-  zip_file_path: string,
-  client_id: string = process.env.GOOGLEAPI_CLIENT_ID,
-  client_secret: string = process.env.GOOGLEAPI_CLIENT_SECRET,
-  refresh_token: string = process.env.GOOGLEAPI_REFRESH_TOKEN,
-  app_id: string = process.env.CHROMEWEBSTORE_APP_ID
-) {
-  const refreshResponse = await refreshAccessToken(client_id, client_secret, refresh_token);
-  const body  = (await refreshResponse.json()) as AuthResponse;
-  const access_token = body.access_token;
-  if (!access_token) throw new Error("couldn't retrieve access_token from this refresh_token");
-
-  const uploadResponse: Response = await uploadPackageFile(access_token, zip_file_path, app_id);
-  const urBody = await uploadResponse.json();
-  console.log("[INFO]", "UPLOAD PACKAGE FILE:", uploadResponse.ok, uploadResponse.status);
-  console.log("[DEBUG]", urBody);
-  if (!uploadResponse.ok) throw new Error(`http response of UPLOAD is NOT OK: ${uploadResponse.statusText}\n${JSON.stringify(urBody)}`);
-
-  const publishResponse: Response = await publishUploadedPackageFile(access_token, app_id, false);
-  const prBody = await publishResponse.json();
-  console.log("[INFO]", "PUBLISH PACKAGE:", publishResponse.ok, publishResponse.status);
-  console.log("[DEBUG]", prBody);
-  if (!publishResponse.ok) throw new Error(`http response of PUBLISH is NOT OK: ${publishResponse.statusText}\n${JSON.stringify(prBody)}`);
-}
-
-module.exports = main; // default
-module.exports.refreshAccessToken         = refreshAccessToken;
-module.exports.uploadPackageFile          = uploadPackageFile;
-module.exports.publishUploadedPackageFile = publishUploadedPackageFile;
-
-// 直接呼ばれたときにやるやつ
-if (require.main == module) {
-  if (process.argv.length < 3) {
-    console.error("argument `zip_file_path` is required");
-    process.exit(1);
-  }
-  const zip_file_path = process.argv[2];
-  if (!fs.existsSync(zip_file_path)) {
-    console.error(`zip file is not found on path ${zip_file_path}`);
-    process.exit(1);
-  }
-  main(zip_file_path).catch(err => {
-    // StatusCodeError: 400 - "{\"error\":{\"errors\":[{\"domain\":\"global\",\"reason\":\"badRequest\",\"message\":\"Publish condition not met: \"}],\"code\":400,\"message\":\"Publish condition not met: \"}}"
-    console.error("[ERROR]", err.message);
-    console.log(err);
-    process.exit(1);
-  });
-}
+// Entrypoint
+__main__();

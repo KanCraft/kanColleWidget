@@ -1,0 +1,61 @@
+/* This CSS is injected by KanColleWidget */
+html {
+    overflow: hidden !important;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+header {
+    display: none !important;
+}
+
+// アイテム購入時にDMMのポイント購入画面への遷移導線が表示されるため
+// 非表示にしてはいけない
+// dialog {
+//     display: none !important;
+// }
+
+main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background-color: cadetblue !important;
+}
+
+iframe#game_frame {
+    width: 100vw !important;
+    height: 100vh !important;
+    border: none !important;
+}
+
+footer {
+    display: none !important;
+}
+
+aside {
+    display: none !important;
+}
+
+// 縦長の場合
+@media (max-aspect-ratio: 1200/720) {
+  div#kcw-inapp-action-buttons {
+    display: flex !important;
+    flex-direction: row-reverse !important;
+  }
+}
+
+// 横長の場合
+@media (min-aspect-ratio: 1200/720) {
+  div#kcw-inapp-action-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}

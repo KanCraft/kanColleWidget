@@ -1,0 +1,45 @@
+/* This CSS is injected by KanColleWidget */
+html {
+  overflow: hidden;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: #222222 !important;
+
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+#sectionWrap {
+  display: none !important;
+}
+
+#messageWrap {
+  display: none !important;
+}
+
+#debugDiv {
+  display: none !important;
+}
+
+// 縦長の場合
+@media (max-aspect-ratio: 1200/720) {
+  #flashWrap {
+    transform: scale(unquote("calc(100vw / 1200px)")) !important;
+  }
+}
+
+// 横長の場合
+@media (min-aspect-ratio: 1200/720) {
+  #flashWrap {
+    transform: scale(unquote("calc(100vh / 720px)")) !important;
+  }
+}

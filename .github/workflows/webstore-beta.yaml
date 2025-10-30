@@ -1,0 +1,120 @@
+name: Webstore BETA Publish
+
+on:
+  pull_request:
+    types: [edited]
+
+jobs:
+  webstore_beta_publish:
+    if: |
+      github.event.changes.title && startsWith(github.event.pull_request.title, '[v')
+    # github.event.pull_request.base.ref == 'master' &&
+    # github.event.pull_request.head.ref == 'develop' &&
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      failure_reason: ${{ steps.collect_failure.outputs.failure_reason }}
+      failure_step: ${{ steps.collect_failure.outputs.failure_step }}
+      has_failure: ${{ steps.collect_failure.outputs.has_failure }}
+    env:
+      NODE_ENV: beta
+      GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+      GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+      GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+      CHROMEWEBSTORE_EXTENSION_ID: egkgleinehaapbpijnlpbllfeejjpceb
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+    - id: install_deps
+      run: pnpm install
+    - id: build_beta_release
+      run: make beta-release
+    - name: Publish to Webstore (BETA)
+      id: publish
+      run: |
+        npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット-BETA.zip
+    - name: Collect failure summary
+      if: always()
+      id: collect_failure
+      run: |
+        reason="詳細不明"
+        failed_step="unknown"
+        if [ "${{ steps.publish.outcome }}" = "failure" ]; then
+          reason="Webstore公開処理で失敗"
+          failed_step="publish"
+        elif [ "${{ steps.build_beta_release.outcome }}" = "failure" ]; then
+          reason="beta-releaseビルドで失敗"
+          failed_step="build_beta_release"
+        elif [ "${{ steps.install_deps.outcome }}" = "failure" ]; then
+          reason="依存関係のインストールで失敗"
+          failed_step="install_deps"
+        fi
+        {
+          echo "failure_reason=$reason"
+          echo "failure_step=$failed_step"
+          echo "has_failure=${{ job.status == 'failure' }}"
+        } >> "$GITHUB_OUTPUT"
+
+  announce_beta_tweet:
+    needs: webstore_beta_publish
+    if: needs.webstore_beta_publish.outputs.has_failure == 'false'
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: beta
+      X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
+      X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
+      X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+    - run: pnpm install
+    - name: Post release announcement tweet
+      run: |
+        TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts --beta)"
+        printf 'Generated tweet:\n%s\n' "$TWEET_TEXT"
+        pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"
+
+  announce_beta_failure:
+    needs: webstore_beta_publish
+    if: needs.webstore_beta_publish.outputs.has_failure == 'true'
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: beta
+      X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
+      X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
+      X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 22.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+    - run: pnpm install
+    - name: Post failure notification tweet
+      env:
+        FAILURE_REASON: ${{ needs.webstore_beta_publish.outputs.failure_reason }}
+        FAILURE_STEP: ${{ needs.webstore_beta_publish.outputs.failure_step }}
+      run: |
+        RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        MESSAGE="ベータ版リリース処理でエラーが発生しました。 原因: ${FAILURE_REASON:-詳細不明} (step: ${FAILURE_STEP:-unknown}) / ${RUN_URL}"
+        pnpm exec tsx scripts/post-tweet.ts --mention=otiai10 "$MESSAGE"

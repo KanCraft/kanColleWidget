@@ -1,0 +1,35 @@
+// Tailwind CSS
+// See https://tailwindcss.com/docs
+// Sse https://tailwindcss.com/docs/guides/vite
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+h1.fold {
+    &::after {
+        transition: all 0.2s;
+        margin-left: 4px;
+        color: #475569; // slatte-600
+        content: '▶︎';
+    }
+    &.open {
+        &::after {
+            color: #0d9488; // teal-600
+            content: '▼';
+        }
+    }
+    &:hover::after {
+        color: #0d9488; // teal-600
+    }
+}
+
+.kcw-fatigue-queue-item:hover {
+    &::after {
+        content: 'この疲労登録を削除';
+        color: #475569; // slatte-600
+        position: absolute;
+        right: 32px;
+    }
+}
+// もうこれ以上CSS書かないぞ、というつよいきもち

@@ -1,0 +1,85 @@
+name: Tweet Develop Push
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  tweet_develop_push:
+    runs-on: ubuntu-latest
+    env:
+      X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
+      X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
+      X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # 直前のコミットと比較するために2コミット取得
+
+    - name: Check if version update commit
+      id: check_commit
+      run: |
+        # 最新のコミットタイトル（1行目のみ）を取得
+        COMMIT_TITLE=$(git log -1 --pretty=%s)
+        echo "Commit title: $COMMIT_TITLE"
+
+        # バージョン更新コミットかどうかをチェック（vX.X.X形式のみ）
+        if echo "$COMMIT_TITLE" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "is_version_update=true" >> "$GITHUB_OUTPUT"
+          echo "This is a version update commit. Skipping tweet."
+        else
+          echo "is_version_update=false" >> "$GITHUB_OUTPUT"
+          echo "This is not a version update commit. Will tweet."
+        fi
+
+    - name: Setup Node.js
+      if: steps.check_commit.outputs.is_version_update == 'false'
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+
+    - name: Setup pnpm
+      if: steps.check_commit.outputs.is_version_update == 'false'
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Install dependencies
+      if: steps.check_commit.outputs.is_version_update == 'false'
+      run: pnpm install
+
+    - name: Generate tweet content
+      if: steps.check_commit.outputs.is_version_update == 'false'
+      id: generate_tweet
+      run: |
+        # コミット情報を取得
+        COMMIT_HASH=$(git rev-parse --short HEAD)
+        COMMIT_MSG=$(git log -1 --pretty=%B | head -n 1)
+        COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+        COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+        HASH_TAGS="#艦これウィジェット"
+
+        # ツイート本文を生成（280文字制限を考慮）
+        # printf を使って複数行テキストを生成（heredoc より安全）
+        TWEET_TEXT=$(printf "%s\n%s\n%s" "${COMMIT_MSG}" "${COMMIT_URL}" "${HASH_TAGS}")
+
+        # 280文字を超える場合はコミットメッセージを切り詰め
+        if [ ${#TWEET_TEXT} -gt 280 ]; then
+          MAX_MSG_LEN=$((280 - 100))  # URL等の固定部分を除いた長さ
+          COMMIT_MSG_SHORT=$(echo "$COMMIT_MSG" | cut -c1-$MAX_MSG_LEN)
+          TWEET_TEXT=$(printf "%s...\n%s\n%s" "${COMMIT_MSG_SHORT}" "${COMMIT_URL}" "${HASH_TAGS}")
+        fi
+
+        # GitHub Actionsの出力に設定
+        {
+          echo "tweet_text<<EOF"
+          echo "$TWEET_TEXT"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Post tweet
+      if: steps.check_commit.outputs.is_version_update == 'false'
+      run: |
+        pnpm exec tsx scripts/post-tweet.ts "${{ steps.generate_tweet.outputs.tweet_text }}"

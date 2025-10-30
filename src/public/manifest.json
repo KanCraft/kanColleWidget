@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "艦これウィジェット_DEV",
+  "description": "艦これをちょっとだけ遊びやすくするChrome拡張. 遠征タイマーとかあるよ",
+  "version": "4.3.0",
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "downloads",
+    "notifications",
+    "scripting",
+    "storage",
+    "tabs",
+    "webNavigation",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "*://play.games.dmm.com/game/kancolle/*",
+    "*://osapi.dmm.com/*",
+    "*://*.kancolle-server.com/*",
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "tessworker.min.js",
+        "tessdata-4.0.0_best_int/*"
+      ],
+      "matches": [
+        "*://www.dmm.com/*",
+        "*://play.games.dmm.com/*"
+      ]
+    }
+  ],
+  "icons": {
+    "128": "icons/128.png",
+    "480": "icons/480.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "page/index.html#/popup"
+  },
+  "commands": {
+    "/screenshot": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      },
+      "description": "ゲーム別窓のスクリーンショットを撮影する"
+    }
+  },
+  "options_page": "page/index.html#/options"
+}

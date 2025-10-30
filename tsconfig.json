@@ -1,22 +1,25 @@
 {
-    "compilerOptions": {
-        "outDir": "./dest/js",
-        "sourceMap": false,
-        "module": "es2015",
-        "target": "es5",
-        "jsx": "react",
-        "lib": ["es6", "es2015", "ES2017", "dom"],
-        "types": [
-            "jest", "chrome"
-        ],
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true
-    },
-    "include": [
-        "./src/js/**/*"
-    ],
-    "exclude": [
-        "./node_modules"
-    ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
