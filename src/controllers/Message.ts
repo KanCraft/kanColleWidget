@@ -12,6 +12,7 @@ import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
 import { GameWindowConfig } from "../models/configs/GameWindowConfig";
+import { NotificationService } from "../services/NotificationService";
 
 const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -59,10 +60,9 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   const dock = req[EntryType.RECOVERY].dock;
   const [h, m, s] = data.text.split(":").map(Number);
   const r = new Recovery(dock, (h * H + m * M + s * S));
-  await Queue.create({ type: EntryType.RECOVERY, params: r, scheduled: Date.now() + r.time });
-  await chrome.notifications.create(r.$n.id(TriggerType.START), r.$n.options(TriggerType.START));
-  await sleep(6 * 1000);
-  await chrome.notifications.clear(r.$n.id(TriggerType.START));
+  const q = await Queue.create({ type: EntryType.RECOVERY, params: r, scheduled: Date.now() + r.time });
+  const e = q.entry();
+  NotificationService.new().notify(e, TriggerType.START);
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
@@ -70,10 +70,9 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   const dock = req[EntryType.SHIPBUILD].dock;
   const [h, m, s] = data.text.split(":").map(Number);
   const sb = new Shipbuild(dock, (h * H + m * M + s * S));
-  await Queue.create({ type: EntryType.SHIPBUILD, params: sb, scheduled: Date.now() + sb.time });
-  await chrome.notifications.create(sb.$n.id(TriggerType.START), sb.$n.options(TriggerType.START));
-  await sleep(6 * 1000);
-  await chrome.notifications.clear(sb.$n.id(TriggerType.START));
+  const q = await Queue.create({ type: EntryType.SHIPBUILD, params: sb, scheduled: Date.now() + sb.time });
+  const e = q.entry();
+  NotificationService.new().notify(e, TriggerType.START);
 });
 
 onMessage.on("/damage-snapshot/capture", async (req, sender) => {

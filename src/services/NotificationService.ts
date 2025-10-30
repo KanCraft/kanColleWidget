@@ -1,4 +1,5 @@
 import { Entry } from "../models/entry";
+import { TriggerType } from "../models/entry/Base";
 import { sleep } from "../utils";
 
 export class NotificationService {
@@ -27,10 +28,10 @@ export class NotificationService {
     return new Promise((resolve) => this.mod.create(id, options, (notificationId) => resolve(notificationId)));
   }
 
-  public async notify(entry: Entry): Promise<string> {
-    await this.create(entry.$n.id(), entry.$n.options());
+  public async notify(entry: Entry, trigger: TriggerType = TriggerType.END): Promise<string> {
+    await this.create(entry.$n.id(trigger), entry.$n.options(trigger));
     await sleep(6 * 1000);
-    await this.clear(entry.$n.id());
+    await this.clear(entry.$n.id(trigger));
     return entry.$n.id();
   }
 }
