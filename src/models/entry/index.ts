@@ -20,4 +20,10 @@ export const EntryColor = {
   [EntryType.UNKNOWN]: "gray",
 }
 
+export enum TriggerType {
+  START = "start",
+  END = "end",
+  UNKNOWN = "unknown",
+}
+
 export { Mission, Recovery, Shipbuild, Fatigue };

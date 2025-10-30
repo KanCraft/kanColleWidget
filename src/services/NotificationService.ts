@@ -1,5 +1,4 @@
-import { Entry } from "../models/entry";
-import { TriggerType } from "../models/entry/Base";
+import { Entry, TriggerType } from "../models/entry";
 import { sleep } from "../utils";
 
 export class NotificationService {

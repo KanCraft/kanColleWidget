@@ -1,5 +1,6 @@
+import { TriggerType } from ".";
 import { KCWDate } from "../../utils";
-import { NotificationEntryBase, TriggerType } from "./Base";
+import { NotificationEntryBase } from "./Base";
 
 export class Shipbuild extends NotificationEntryBase {
   public static type = "shipbuild";
@@ -10,7 +11,7 @@ export class Shipbuild extends NotificationEntryBase {
 
   override $n = {
     id: (trigger: TriggerType = TriggerType.END): string => {
-      return `/${Shipbuild.type}/${this.dock}/${trigger}`;
+      return `/${this.type}/${trigger}/${this.dock}`;
     },
     options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
       if (trigger === TriggerType.START) {

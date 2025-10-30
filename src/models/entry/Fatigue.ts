@@ -1,5 +1,6 @@
+import { TriggerType } from ".";
 import { M } from "../../utils";
-import { NotificationEntryBase, TriggerType } from "./Base";
+import { NotificationEntryBase } from "./Base";
 
 export class Fatigue extends NotificationEntryBase {
   public override readonly type = "fatigue";
@@ -14,7 +15,7 @@ export class Fatigue extends NotificationEntryBase {
   // 疲労の場合は、STARTはたぶん使わないけど
   override $n = {
     id: (trigger: TriggerType = TriggerType.END): string => {
-      return `/${this.type}/${this.deck}/${trigger}`;
+      return `/${this.type}/${trigger}/${this.deck}`;
     },
     options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
       if (trigger === TriggerType.START) {
