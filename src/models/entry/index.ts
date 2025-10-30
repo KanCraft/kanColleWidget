@@ -10,6 +10,7 @@ export enum EntryType {
     SHIPBUILD = "shipbuild",
     FATIGUE = "fatigue",
     UNKNOWN = "unknown",
+    TEST_DEFAULT = "default",
 }
 
 export const EntryColor = {
@@ -18,6 +19,7 @@ export const EntryColor = {
   [EntryType.SHIPBUILD]: "orange",
   [EntryType.FATIGUE]: "red",
   [EntryType.UNKNOWN]: "gray",
+  [EntryType.TEST_DEFAULT]: "gray",
 }
 
 export enum TriggerType {

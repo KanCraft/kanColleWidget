@@ -1,7 +1,7 @@
 
 // 遠征カタログ
 import missiondata from "./missions.json";
-export type MissionCategory = "monthly" | "weekly" | "daily"; // わらかんけどいったんおいておく
+export type MissionCategory = "monthly" | "weekly" | "daily" | "test"; // わらかんけどいったんおいておく
 export interface MissionSpec {
     title: string;
     category: MissionCategory;

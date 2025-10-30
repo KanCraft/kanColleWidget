@@ -3,6 +3,7 @@ import { FrameSettingView } from "../components/options/FrameSettingView";
 import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
 import { DamageSnapshotSettingView } from "../components/options/DamageSnapshotSettingView";
+import { NotificationSettingView } from "../components/options/NotificationSettingView";
 
 import { type Frame } from "../../models/Frame";
 import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
@@ -11,6 +12,8 @@ import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotCo
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
 import { type GameWindowConfig } from "../../models/configs/GameWindowConfig";
+import { NotificationConfig } from "../../models/configs/NotificationConfig";
+import { EntryType, TriggerType } from "../../models/entry";
 
 const KCWidgetChanURL = "https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png";
 
@@ -22,6 +25,7 @@ export function OptionsPage() {
     filesave,
     dashboard,
     damagesnapshot,
+    notification,
   } = useLoaderData() as {
     frames: Frame[];
     game: GameWindowConfig;
@@ -29,6 +33,10 @@ export function OptionsPage() {
     filesave: FileSaveConfig;
     dashboard: DashboardConfig;
     damagesnapshot: DamageSnapshotConfig;
+    notification: {
+      defaults: Record<TriggerType.START | TriggerType.END, NotificationConfig>;
+      entries: Record<EntryType, Record<TriggerType.START | TriggerType.END, NotificationConfig>>;
+    };
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -43,6 +51,11 @@ export function OptionsPage() {
       <FileSaveSettingView config={filesave} />
       <Divider />
       <DamageSnapshotSettingView config={damagesnapshot} />
+      <Divider />
+      <NotificationSettingView
+        defaults={notification.defaults}
+        entries={notification.entries}
+      />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>
