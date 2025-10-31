@@ -7,7 +7,7 @@
     "skipLibCheck": true,
 
     /* Types */
-    "types": ["chrome", "vite/client", "@types/wicg-file-system-access"],
+    "types": ["chrome", "vite/client"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
