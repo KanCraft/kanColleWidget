@@ -1,5 +1,6 @@
 import { TriggerType } from ".";
 import { KCWDate } from "../../utils";
+import { NotificationConfigData } from "../configs/NotificationConfig";
 import { NotificationEntryBase } from "./Base";
 
 export class Recovery extends NotificationEntryBase {
@@ -15,17 +16,20 @@ export class Recovery extends NotificationEntryBase {
     id: (trigger: TriggerType = TriggerType.END): string => {
       return `/${this.type}/${trigger}/${this.dock}`;
     },
-    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+    options: (
+      trigger: TriggerType = TriggerType.END,
+      overwrite: Partial<NotificationConfigData> = {},
+    ): chrome.notifications.NotificationOptions<true> => {
       if (trigger === TriggerType.START) {
         return {
-          iconUrl: chrome.runtime.getURL("icons/128.png"),
+          iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
           title: "修復開始",
           message: `修復のため第${this.dock}番ドックに入渠しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }
       return {
-        iconUrl: chrome.runtime.getURL("icons/128.png"),
+        iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
         title: "修復完了",
         message: `第${this.dock}番ドックでの修復がまもなく完了します`,
         type: "basic",

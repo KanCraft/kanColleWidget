@@ -1,5 +1,6 @@
 import { TriggerType } from ".";
 import { KCWDate } from "../../utils";
+import { NotificationConfigData } from "../configs/NotificationConfig";
 import { NotificationEntryBase } from "./Base";
 
 export class Shipbuild extends NotificationEntryBase {
@@ -13,17 +14,20 @@ export class Shipbuild extends NotificationEntryBase {
     id: (trigger: TriggerType = TriggerType.END): string => {
       return `/${this.type}/${trigger}/${this.dock}`;
     },
-    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+    options: (
+      trigger: TriggerType = TriggerType.END,
+      overwrite: Partial<NotificationConfigData> = {},
+    ): chrome.notifications.NotificationOptions<true> => {
       if (trigger === TriggerType.START) {
         return {
-          iconUrl: chrome.runtime.getURL("icons/128.png"),
+          iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
           title: "建造開始",
           message: `第${this.dock}番ドックにて新艦建造を開始しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }
       return {
-        iconUrl: chrome.runtime.getURL("icons/128.png"),
+        iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
         title: "建造完了",
         message: `第${this.dock}番ドックでの新艦建造がまもなく完了します`,
         type: "basic",
