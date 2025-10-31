@@ -1,10 +1,12 @@
 import { NotificationConfig } from "../models/configs/NotificationConfig";
 import { Entry, TriggerType } from "../models/entry";
 import { sleep } from "../utils";
+import { SoundPlayer } from "./SoundService";
 
 export class NotificationService {
   constructor(
     private readonly mod: typeof chrome.notifications = chrome.notifications,
+    private readonly sound: SoundPlayer = SoundPlayer.shared(),
   ) { }
 
   public static new() {
@@ -32,10 +34,7 @@ export class NotificationService {
     const config = await NotificationConfig.get(entry.$n.id(trigger));
     if (!config.enabled) return "";
     await this.create(entry.$n.id(trigger), entry.$n.options(trigger, config));
-    if (config.sound && typeof globalThis.Audio === "function") {
-      const audio = new Audio(config.sound);
-      audio.play().catch(() => { /* noop */ });
-    }
+    await this.sound.play(config.sound);
     await sleep(6 * 1000);
     await this.clear(entry.$n.id(trigger));
     return entry.$n.id();
