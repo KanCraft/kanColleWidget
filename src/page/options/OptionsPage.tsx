@@ -46,16 +46,16 @@ export function OptionsPage() {
       <Divider />
       <FrameSettingView frames={frames} config={game} />
       <Divider />
+      <NotificationSettingView
+        defaults={notification.defaults}
+        entries={notification.entries}
+      />
+      <Divider />
       <DashboardSettingView config={dashboard} />
       <Divider />
       <FileSaveSettingView config={filesave} />
       <Divider />
       <DamageSnapshotSettingView config={damagesnapshot} />
-      <Divider />
-      <NotificationSettingView
-        defaults={notification.defaults}
-        entries={notification.entries}
-      />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>
