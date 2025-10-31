@@ -4,6 +4,61 @@
   },
   "releases": [
     {
+      "date": "2025-10-31",
+      "version": "v4.4.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "fix: オプション設定の表示順序を調整",
+          "hash": "09adf26a33d6eb8fe2cbbfacf6dbf363bf7a00b1"
+        },
+        {
+          "title": "fix: 通知アイコン設定の反映",
+          "hash": "146b3284b6deb71d2ef8f7732edbb0a6474dfdb5"
+        },
+        {
+          "title": "docs: AGENTS.md の調整",
+          "hash": "1f5056bd16cfad0e99f25952a670ec1a068b6d07"
+        },
+        {
+          "title": "feat: オフスクリーン経由で通知音を再生",
+          "hash": "fa36dd8fb164504e7a81a67a756d715abaeacd84"
+        },
+        {
+          "title": "refactor: 未使用の型定義を削除",
+          "hash": "a0235339ea53e30bdde977bbb1acf3f2e9915cd2"
+        },
+        {
+          "title": "fix: サービスワーカー通知音の初期化ガード",
+          "hash": "99a9a75460c16d096158f131f0733d67f59bcf05"
+        },
+        {
+          "title": "feat: 通知設定UIを実装し型安全性を改善",
+          "hash": "a47353d47ccb0e35fc0ce6fe95022ab6084fe72d"
+        },
+        {
+          "title": "feat: 通知設定を管理するNotificationConfigモデルを追加",
+          "hash": "44f4b90b2216ae38fe9434f6790c9605dd334de4"
+        },
+        {
+          "title": "refactor: TriggerTypeをindex.tsに移動し通知ID形式を統一",
+          "hash": "264d54c88da539d78fa9d01d1841f1fb51b27ccf"
+        },
+        {
+          "title": "fix: NotificationServiceのバグ修正と既存コードへの適用",
+          "hash": "11350317cfdfdfb9138fc88ec720c70943c6ac75"
+        },
+        {
+          "title": "feat: NotificationServiceを導入し通知の自動クリアを実装",
+          "hash": "c5c7d97cb2e128ef67d5a77bef7e6afe332d91b9"
+        },
+        {
+          "title": "refactor: Alarmリスナー登録直後にcronを起動",
+          "hash": "828afccb06b50fc2ba90ca2da56d59c14f11d84d"
+        }
+      ]
+    },
+    {
       "date": "2025-10-30",
       "version": "v4.3.0",
       "message": "",
