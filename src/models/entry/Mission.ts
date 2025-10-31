@@ -1,6 +1,7 @@
 import { TriggerType } from ".";
 import { MissionSpec } from "../../catalog";
 import { KCWDate } from "../../utils";
+import { NotificationConfigData } from "../configs/NotificationConfig";
 import { NotificationEntryBase } from "./Base";
 
 export class Mission extends NotificationEntryBase {
@@ -24,17 +25,17 @@ export class Mission extends NotificationEntryBase {
     id: (trigger: TriggerType = TriggerType.END): string => {
       return `/${this.type}/${trigger}/${this.deck}`;
     },
-    options: (trigger: TriggerType = TriggerType.END): chrome.notifications.NotificationOptions<true> => {
+    options: (trigger: TriggerType = TriggerType.END, overwrite: Partial<NotificationConfigData> = {}): chrome.notifications.NotificationOptions<true> => {
       if (trigger === TriggerType.START) {
         return {
-          iconUrl: chrome.runtime.getURL("icons/128.png"),
+          iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
           title: "遠征開始",
           message: `第${this.deck}艦隊が「${this.title}」へ出航しました.\n終了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
         }
       }
       return {
-        iconUrl: chrome.runtime.getURL("icons/128.png"),
+        iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
         title: "遠征完了",
         message: `まもなく第${this.deck}艦隊が「${this.title}」から帰投します`,
         type: "basic",

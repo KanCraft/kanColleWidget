@@ -88,13 +88,17 @@ export class NotificationConfig extends Model {
    * @returns 指定されたIDに対応するNotificationConfigを返す
    */
   public static async get(id: string): Promise<NotificationConfigData> {
-    const [type, trigger] = id.split("/");
-    const config = (await this.find(`/${type}/${trigger}`)) || {} as NotificationConfig;
-    const def = (await this.user(trigger as TriggerType))!;
+    const [, type, trigger] = id.split("/");
+    const triggerKey = (Object.values(TriggerType) as string[]).includes(trigger ?? "")
+      ? trigger as TriggerType
+      : TriggerType.END;
+    const configKey = type ? `/${type}/${triggerKey}` : null;
+    const config = configKey ? await this.find(configKey) as NotificationConfig | null : null;
+    const def = (await this.user(triggerKey))!;
     return {
-      enabled: config.enabled ?? def.enabled,
-      sound: config.sound ?? def.sound,
-      icon: config.icon ?? def.icon,
+      enabled: config?.enabled ?? def.enabled,
+      sound: config?.sound ?? def.sound,
+      icon: config?.icon ?? def.icon,
     };
   }
 
