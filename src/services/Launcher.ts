@@ -106,6 +106,7 @@ export class Launcher {
     const win = await this.windows.create(frame.toWindowCreateData());
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
+    this.mute(win.tabs![0].id!, frame.muted);
     await this.activate(win, innerIframe);
   }
 

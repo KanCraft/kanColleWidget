@@ -42,7 +42,9 @@ onMessage.on("/dashboard:track", async (req) => {
 
 onMessage.on("/mute:toggle", async (_, sender) => {
   if (!sender.tab || !sender.tab.mutedInfo) return;
-  return await chrome.tabs.update(sender.tab!.id!, { muted: !sender.tab.mutedInfo.muted });
+  const muted = !sender.tab.mutedInfo.muted;
+  (await Frame.memory()).update({ muted });
+  return await chrome.tabs.update(sender.tab!.id!, { muted });
 });
 
 onMessage.on("/screenshot", async (_, sender) => {
