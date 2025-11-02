@@ -87,10 +87,12 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   case DamageSnapshotMode.DISABLED:
     return;
   case DamageSnapshotMode.INAPP:
-  default:
     return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
+  case DamageSnapshotMode.SEPARATE: {
+    const win = await Launcher.damagesnapshot(config);
+    return chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: "/dsnapshot/separate:push", uri, timestamp });
   }
-
+  }
 });
 
 onMessage.on("/configs", async () => {

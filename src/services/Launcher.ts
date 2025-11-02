@@ -5,6 +5,8 @@ import { ScriptingService } from "./ScriptingService";
 import { Frame } from "../models/Frame";
 import { KanColleURL } from "../constants";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
+import { DamageSnapshotConfig } from "../models/configs/DamageSnapshotConfig";
+import { sleep } from "../utils";
 
 /**
  * 艦これウィジェットがゲーム別窓や関連タブを起動・管理するための制御クラス。
@@ -64,6 +66,31 @@ export class Launcher {
    */
   public static async fleetcapture() {
     return await (new this()).tabs.create({ url: "page/index.html#/fleet-capture" });
+  }
+
+  /**
+   * ダメージスナップショットページを新規ウィンドウ（popup）で開く。
+   * @returns {Promise<chrome.windows.Window>} 作成されたウィンドウのPromise
+   */
+  public static async damagesnapshot(config: DamageSnapshotConfig) {
+    const url = chrome.runtime.getURL("page/index.html#/damage-snapshot");
+    const self = new this();
+    const exists = (await self.tabs.query({ windowType: "popup" })).find(t => t.url === url);
+    if (exists) {
+      await self.windows.update(exists.windowId!, { focused: true });
+      return await self.windows.get(exists.windowId!, { populate: true });
+    }
+    let win = await (new this()).windows.create({
+      type: "popup",
+      url: chrome.runtime.getURL("page/index.html#/damage-snapshot"),
+      ...config.position,
+      ...config.size,
+    });
+    while (win.tabs![0].status !== "complete") {
+      await sleep(10);
+      win = await chrome.windows.get(win.id!, { populate: true });
+    }
+    return win;
   }
 
   /**

@@ -71,3 +71,7 @@ export async function dashboard() {
     time: new Date(),
   }
 }
+
+export async function damagesnapshot() {
+  return {};
+}
