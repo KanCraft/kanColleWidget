@@ -13,6 +13,7 @@ export default defineConfig({
       input: [ // Multiple entry points
         path.resolve(__dirname, 'src/page/index.html'),
         path.resolve(__dirname, 'src/background.ts'),
+        path.resolve(__dirname, 'src/offscreen/index.html'),
         path.resolve(__dirname, 'src/injection/dmm.ts'),
         path.resolve(__dirname, 'src/injection/dmm.scss'),
         path.resolve(__dirname, 'src/injection/osapi.ts'),

@@ -1,9 +1,9 @@
 # 艦これウィジェット
 
 [![JavaScript CI](https://github.com/KanCraft/kanColleWidget/actions/workflows/javascript-ci.yaml/badge.svg)](https://github.com/KanCraft/kanColleWidget/actions/workflows/javascript-ci.yaml)
-[![codecov](https://codecov.io/gh/KanCraft/kanColleWidget/branch/develop/graph/badge.svg?token=GqJlbto2hH)](https://codecov.io/gh/KanCraft/kanColleWidget)
+[![codecov](https://codecov.io/gh/KanCraft/kanColleWidget/graph/badge.svg?token=GqJlbto2hH)](https://codecov.io/gh/KanCraft/kanColleWidget)
 
-[![Coverage Graph](https://codecov.io/gh/KanCraft/kanColleWidget/graphs/sunburst.svg?token=GqJlbto2hH)](https://app.codecov.io/gh/KanCraft/kanColleWidget/tree/develop)
+[![Coverage Graph](https://codecov.io/gh/KanCraft/kanColleWidget/graphs/tree.svg?token=GqJlbto2hH)](https://codecov.io/gh/KanCraft/kanColleWidget/graphs/tree.svg?token=GqJlbto2hH)
 
 ## インストール
 

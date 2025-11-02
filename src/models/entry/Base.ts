@@ -1,10 +1,4 @@
 
-export enum TriggerType {
-  START = "start",
-  END = "end",
-  UNKNOWN = "unknown",
-}
-
 export class NotificationEntryBase {
   public readonly type: string = "unknown";
 

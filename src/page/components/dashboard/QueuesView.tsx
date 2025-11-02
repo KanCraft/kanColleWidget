@@ -37,11 +37,12 @@ function QueueTableView({
   edit: (q: Queue | null) => void,
 }) {
   const table: { [key in EntryType]: (Queue | null)[] } = {
-    mission: queues.filter(q => q.type === "mission").reduce((acc, q) => { acc[q.entry<Mission>().deck - 1] = q; return acc }, new Array(4).fill(null)),
-    recovery: queues.filter(q => q.type === "recovery").reduce((acc, q) => { acc[q.entry<Recovery>().dock - 1] = q; return acc }, new Array(4).fill(null)),
-    shipbuild: queues.filter(q => q.type === "shipbuild").reduce((acc, q) => { acc[q.entry<Shipbuild>().dock - 1] = q; return acc }, new Array(4).fill(null)),
-    fatigue: queues.filter(q => q.type === "fatigue").reduce((acc, q) => { acc[q.entry<Fatigue>().deck - 1] = q; return acc }, new Array(4).fill(null)),
+    mission: queues.filter(q => q.type === "mission").reduce((acc, q) => { const entry = q.entry<Mission>(); acc[Number(entry.deck ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
+    recovery: queues.filter(q => q.type === "recovery").reduce((acc, q) => { const entry = q.entry<Recovery>(); acc[Number(entry.dock ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
+    shipbuild: queues.filter(q => q.type === "shipbuild").reduce((acc, q) => { const entry = q.entry<Shipbuild>(); acc[Number(entry.dock ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
+    fatigue: queues.filter(q => q.type === "fatigue").reduce((acc, q) => { const entry = q.entry<Fatigue>(); acc[Number(entry.deck ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
     "unknown": [],
+    "default": [],
   }
   return (
     <div className="flex space-x-4">
