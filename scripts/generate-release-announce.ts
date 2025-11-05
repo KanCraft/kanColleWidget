@@ -96,7 +96,7 @@ const composeTweet = (note: ReleaseNote, release: Release, options: AnnounceOpti
   );
 
   if (options.beta) {
-    appendLine(() => "ベータ版へのフィードバックをお待ちしています。");
+    appendLine(() => "フィードバックはGitHubのIssuesか直接リプライしてください。");
   }
 
   const releaseMessage = (release.message ?? "").trim();
