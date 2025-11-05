@@ -13,10 +13,17 @@ export function DamageSnapshotPage() {
     // TODO: このウィンドウのサイズ・位置を保存して次回起動時に復元する
   }, []);
   return (
-    <div id="damage-snapshot-page-root">
+    <div id="damage-snapshot-page-root" style={{
+      display: "flex",
+      flexDirection: "row-reverse",
+      width: "max-content",
+      height: "100vh",
+    }}>
       {uris.map((uri, i) => (
         <div key={i} className="snapshot-item">
-          <img src={uri} alt={`Damage Snapshot ${i + 1}`} />
+          <img src={uri} alt={`Damage Snapshot ${i + 1}`} style={{
+            height: "100%",
+          }} />
         </div>
       ))}
     </div>
