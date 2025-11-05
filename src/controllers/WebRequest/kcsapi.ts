@@ -4,14 +4,18 @@ import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
 import { CreateShipFormData, MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
-import { TriggerType } from "../../models/entry/Base";
+import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
 import { CropService } from "../../services/CropService";
+import { NotificationService } from "../../services/NotificationService";
+import { Launcher } from "../../services/Launcher";
 
 const log = new Logger("WebRequest");
 
 export async function onPort([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  const dsnapshot = await new Launcher().getDsnapshotTab();
+  if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
 }
 
 export async function onMissionStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
@@ -19,10 +23,9 @@ export async function onMissionStart([details]: chrome.webRequest.WebRequestBody
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
   const m = new Mission(did, mid, missions[mid]);
-  await Queue.create({ type: EntryType.MISSION, params: m, scheduled: Date.now() + m.time });
-  await chrome.notifications.create(m.$n.id(TriggerType.START), m.$n.options(TriggerType.START));
-  await sleep(6 * 1000);
-  await chrome.notifications.clear(m.$n.id(TriggerType.START));
+  const q = await Queue.create({ type: EntryType.MISSION, params: m, scheduled: Date.now() + m.time });
+  const e = q.entry();
+  NotificationService.new().notify(e, TriggerType.START);
 }
 
 export async function onMissionReturnInstruction([details]: chrome.webRequest.WebRequestBodyDetails[]) {

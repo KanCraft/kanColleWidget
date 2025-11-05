@@ -7,6 +7,8 @@ import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
+import { NotificationConfig } from "../../models/configs/NotificationConfig";
+import { EntryType, TriggerType } from "../../models/entry";
 
 export async function options() {
   const frames = await Frame.list();
@@ -14,8 +16,45 @@ export async function options() {
   const filesave = await FileSaveConfig.user();
   const dashboard = await DashboardConfig.user();
   const damagesnapshot = await DamageSnapshotConfig.user();
+  const notificationDefaults = {
+    [TriggerType.START]: (await NotificationConfig.find("/default/start"))!,
+    [TriggerType.END]: (await NotificationConfig.find("/default/end"))!,
+  };
+  const notificationEntries = {
+    [EntryType.MISSION]: {
+      [TriggerType.START]: (await NotificationConfig.find("/mission/start"))!,
+      [TriggerType.END]: (await NotificationConfig.find("/mission/end"))!,
+    },
+    [EntryType.RECOVERY]: {
+      [TriggerType.START]: (await NotificationConfig.find("/recovery/start"))!,
+      [TriggerType.END]: (await NotificationConfig.find("/recovery/end"))!,
+    },
+    [EntryType.SHIPBUILD]: {
+      [TriggerType.START]: (await NotificationConfig.find("/shipbuild/start"))!,
+      [TriggerType.END]: (await NotificationConfig.find("/shipbuild/end"))!,
+    },
+    [EntryType.FATIGUE]: {
+      [TriggerType.START]: (await NotificationConfig.find("/fatigue/start"))!,
+      [TriggerType.END]: (await NotificationConfig.find("/fatigue/end"))!,
+    },
+    [EntryType.UNKNOWN]: {
+      [TriggerType.START]: (await NotificationConfig.find("/default/start"))!,
+      [TriggerType.END]: (await NotificationConfig.find("/default/end"))!,
+    },
+  };
   const releasenote = note as ReleaseNoteObject;
-  return { frames, game, releasenote, filesave, dashboard, damagesnapshot };
+  return {
+    frames,
+    game,
+    releasenote,
+    filesave,
+    dashboard,
+    damagesnapshot,
+    notification: {
+      defaults: notificationDefaults,
+      entries: notificationEntries,
+    },
+  };
 }
 
 export async function popup() {
@@ -31,4 +70,8 @@ export async function dashboard() {
     window: win,
     time: new Date(),
   }
+}
+
+export async function damagesnapshot() {
+  return {};
 }

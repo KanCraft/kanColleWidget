@@ -5,6 +5,8 @@ import { ScriptingService } from "./ScriptingService";
 import { Frame } from "../models/Frame";
 import { KanColleURL } from "../constants";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
+import { DamageSnapshotConfig } from "../models/configs/DamageSnapshotConfig";
+import { sleep } from "../utils";
 
 /**
  * 艦これウィジェットがゲーム別窓や関連タブを起動・管理するための制御クラス。
@@ -67,6 +69,35 @@ export class Launcher {
   }
 
   /**
+   * ダメージスナップショットページを新規ウィンドウ（popup）で開く。
+   * @returns {Promise<chrome.windows.Window>} 作成されたウィンドウのPromise
+   */
+  public static async damagesnapshot(config: DamageSnapshotConfig) {
+    const self = new this();
+    const exists = await self.getDsnapshotTab();
+    if (exists) {
+      await self.windows.update(exists.windowId!, { focused: true });
+      return await self.windows.get(exists.windowId!, { populate: true });
+    }
+    let win = await (new this()).windows.create({
+      type: "popup",
+      url: chrome.runtime.getURL("page/index.html#/damage-snapshot"),
+      ...config.position,
+      ...config.size,
+    });
+    while (win.tabs![0].status !== "complete") {
+      await sleep(10);
+      win = await chrome.windows.get(win.id!, { populate: true });
+    }
+    return win;
+  }
+
+  public async getDsnapshotTab(): Promise<chrome.tabs.Tab | undefined> {
+    const url = chrome.runtime.getURL("page/index.html#/damage-snapshot");
+    return (await this.tabs.query({ windowType: "popup" })).find(t => t.url === url);
+  }
+
+  /**
    * 指定されたフレーム設定でゲーム別窓を起動する。
    * 既存別窓があればフォーカスのみ行い、無ければ新規作成して活性化する。
    * @param frame 起動対象のフレーム設定
@@ -79,6 +110,7 @@ export class Launcher {
     const win = await this.windows.create(frame.toWindowCreateData());
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
+    this.mute(win.tabs![0].id!, frame.muted);
     await this.activate(win, innerIframe);
   }
 

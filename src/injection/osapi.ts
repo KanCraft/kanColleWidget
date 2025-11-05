@@ -79,8 +79,35 @@
       div.style.top = "0";
       div.style.left = "0";
       div.style.transition = "all 0.1s";
-      div.addEventListener("mouseover", () => div.style.opacity = "1");
-      div.addEventListener("mouseout", () => div.style.opacity = "0");
+      div.style.opacity = "1";
+      let autoHideTimer: number | null = null;
+      const clearAutoHide = () => {
+        if (autoHideTimer !== null) {
+          window.clearTimeout(autoHideTimer);
+          autoHideTimer = null;
+        }
+      };
+      const armAutoHide = () => {
+        clearAutoHide();
+        autoHideTimer = window.setTimeout(() => {
+          if (div.matches(":hover")) {
+            armAutoHide();
+            return;
+          }
+          div.style.opacity = "0";
+          autoHideTimer = null;
+        }, 2000);
+      };
+      const showOverlay = () => {
+        div.style.opacity = "1";
+        armAutoHide();
+      };
+      const hideOverlay = () => {
+        clearAutoHide();
+        div.style.opacity = "0";
+      };
+      div.addEventListener("pointerenter", showOverlay);
+      div.addEventListener("pointerleave", hideOverlay);
       div.id = "kcw-damagesnapshot";
       // if (this.text) {
       //   div.appendChild(this.additionalText());

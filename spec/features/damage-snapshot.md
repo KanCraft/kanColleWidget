@@ -29,7 +29,9 @@
 6. クリック回数が `count` に達すると `DamageSnapshot.reset` が発火し、追加キャプチャ要求を停止。母港 API や戦闘開始 API 受信時は `DamageSnapshot.remove` が呼ばれコンテナを削除。
 
 ## UI 挙動
-- コンテナは `position: fixed`、画面左上・高さ 40%・幅は画像依存。通常時の `opacity` は 0、ホバーで 1 までフェード。
+- コンテナは `position: fixed`、画面左上・高さ 40%・幅は画像依存。`/injected/kcs/dsnapshot:show` 受信直後は `opacity: 1` で必ず表示され、ユーザーが存在に気付けるよう保証する。
+- ユーザーがコンテナへ `pointerenter` した時点で `opacity: 1` に遷移し、`pointerleave` で `opacity: 0` へフェードアウトする。
+- ユーザー操作による表示状態 (上記の `pointerenter`) に入った場合のみ 2000 ms の自動タイマーをセットし、継続ホバーがなければ `opacity: 0` に戻して hover の取りこぼしを防ぐ。`show` 直後はタイマーを設定しない。
 - クリック時は `window.confirm` を表示し、ユーザーが明示的に承認した場合のみ `remove()` が実行される (remove メッセージが届かないケースへの暫定対策)。
 - 画像は `height: 100%` に拡縮され、縦横比はトリミング時点で保持される。
 

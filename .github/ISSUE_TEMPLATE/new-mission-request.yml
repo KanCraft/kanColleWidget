@@ -1,0 +1,56 @@
+name: 遠征追加リクエスト
+description: |
+  艦これウィジェットが未対応の遠征IDを追加してほしい場合に使用してください。
+  可能な限り詳細な情報を提供してください。
+title: "遠征追加リクエスト: [遠征名をここに記入]"
+labels: ["enhancement", "遠征タイマー"]
+body:
+  - type: input
+    id: mission_id
+    attributes:
+      label: 遠征ID
+      description: 艦これ本体で表示される数値IDを入力してください。
+      placeholder: "5"
+    validations:
+      required: true
+  - type: input
+    id: mission_title
+    attributes:
+      label: 遠征タイトル
+      description: ゲーム内で表示される正式な遠征名を入力してください。
+      placeholder: 東京急行
+    validations:
+      required: true
+  - type: input
+    id: mission_duration_minutes
+    attributes:
+      label: 遠征所要時間（分）
+      description: 遠征が完了するまでの時間を分単位で入力してください。
+      placeholder: "90"
+    validations:
+      required: true
+  - type: dropdown
+    id: mission_category
+    attributes:
+      label: 遠征カテゴリ
+      description: MissionCategory に対応する区分を選択してください。
+      options:
+        - daily
+        - weekly
+        - monthly
+        - others
+        - test
+    validations:
+      required: true
+  - type: input
+    id: mission_info_url
+    attributes:
+      label: 遠征情報のURL
+      description: この遠征の詳細が確認できるページのURLがあれば記入してください。
+      placeholder: https://example.com/mission
+  - type: textarea
+    id: comment_for_developers
+    attributes:
+      label: 開発者へのコメント
+      description: 追加情報や特記事項、開発にあたってのメッセージなどあれば記入してください。
+      placeholder: ほしいものリストはどこですか
