@@ -8,11 +8,14 @@ import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
 import { CropService } from "../../services/CropService";
 import { NotificationService } from "../../services/NotificationService";
+import { Launcher } from "../../services/Launcher";
 
 const log = new Logger("WebRequest");
 
 export async function onPort([details]: chrome.webRequest.WebRequestBodyDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  const dsnapshot = await new Launcher().getDsnapshotTab();
+  if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
 }
 
 export async function onMissionStart([details]: chrome.webRequest.WebRequestBodyDetails[]) {
