@@ -4,10 +4,30 @@
   },
   "releases": [
     {
-      "date": "2025-11-02",
-      "version": "v4.5.0",
+      "date": "2025-11-06",
+      "version": "v4.5.1",
       "message": "",
       "commits": [
+        {
+          "title": "feat: 母港帰投時にダメージスナップショット別窓を自動クローズ",
+          "hash": "0e7fbd22edffd42e5637efb704843a299969c4db"
+        },
+        {
+          "title": "refactor: ダメージスナップショット別窓の検索処理を抽出",
+          "hash": "be7161aad1be3bc9fc011aaf13b1abce17da0436"
+        },
+        {
+          "title": "fix: ダメージスナップショット別窓のレイアウト改善",
+          "hash": "d5f5cbb1d8495f8c0ec27fe7ea7493d2efc8025f"
+        },
+        {
+          "title": "fix: ダメージスナップショット表示の改善",
+          "hash": "963c0428eb0697a1d97f10d3e116dcef2a08b665"
+        },
+        {
+          "title": "v4.5.0",
+          "hash": "c10fd909cb174af3a7d6a870a6270b6773107895"
+        },
         {
           "title": "fix: ミュート状態の記憶処理を追加",
           "hash": "85638a8dfa8d7dcb336c7a2f4805935f63e13d53"
