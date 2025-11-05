@@ -73,9 +73,8 @@ export class Launcher {
    * @returns {Promise<chrome.windows.Window>} 作成されたウィンドウのPromise
    */
   public static async damagesnapshot(config: DamageSnapshotConfig) {
-    const url = chrome.runtime.getURL("page/index.html#/damage-snapshot");
     const self = new this();
-    const exists = (await self.tabs.query({ windowType: "popup" })).find(t => t.url === url);
+    const exists = await self.getDsnapshotTab();
     if (exists) {
       await self.windows.update(exists.windowId!, { focused: true });
       return await self.windows.get(exists.windowId!, { populate: true });
@@ -91,6 +90,11 @@ export class Launcher {
       win = await chrome.windows.get(win.id!, { populate: true });
     }
     return win;
+  }
+
+  public async getDsnapshotTab(): Promise<chrome.tabs.Tab | undefined> {
+    const url = chrome.runtime.getURL("page/index.html#/damage-snapshot");
+    return (await this.tabs.query({ windowType: "popup" })).find(t => t.url === url);
   }
 
   /**
