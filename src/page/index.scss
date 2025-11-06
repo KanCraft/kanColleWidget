@@ -32,4 +32,19 @@ h1.fold {
         right: 32px;
     }
 }
+
+.kcw-custom-queue-select {
+    &.kcw-mission {
+        @apply bg-sky-200;
+    }
+    &.kcw-recovery {
+        @apply bg-teal-200;
+    }
+    &.kcw-shipbuild {
+        @apply bg-orange-200;
+    }
+    &.kcw-fatigue {
+        @apply bg-red-200;
+    }
+}
 // もうこれ以上CSS書かないぞ、というつよいきもち

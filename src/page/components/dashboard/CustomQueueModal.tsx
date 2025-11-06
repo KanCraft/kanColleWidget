@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Queue from "../../../models/Queue";
-import { EntryColor, EntryType } from "../../../models/entry";
+import { EntryType } from "../../../models/entry";
 import { H, M } from "../../../utils";
 
 function clampMinutes(value: number): number {
@@ -20,28 +20,30 @@ export function CustomQueueModal({
   close: () => void,
   update: (queue: Queue) => void,
 }) {
-  if (!queue) return null;
-  const remain = queue.remain();
-  const [hours, setHours] = useState(() => clampHours(remain.hours));
-  const [minutes, setMinutes] = useState(() => clampMinutes(remain.minutes));
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
 
   useEffect(() => {
-    const next = queue.remain();
-    setHours(clampHours(next.hours));
-    setMinutes(clampMinutes(next.minutes));
+    if (!queue) return;
+    const remain = queue.remain();
+    setHours(clampHours(remain.hours));
+    setMinutes(clampMinutes(remain.minutes));
   }, [queue]);
 
   const updateSchedule = (nextHours: number, nextMinutes: number) => {
+    if (!queue) return;
     queue.scheduled = Date.now() + nextHours * H + nextMinutes * M;
     update(queue);
   }
+
+  if (!queue) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-lg">
       <div className="bg-white p-4 flex flex-col space-y-4 rounded-md">
         <div className="flex space-x-2">
           <label>種別</label>
-          <select defaultValue={queue.type} className={`bg-${EntryColor[queue.type]}-200 flex-1 rounded-md`}
+          <select defaultValue={queue.type} className={`kcw-custom-queue-select kcw-${queue.type} flex-1 rounded-md`}
             onChange={e => { queue.type = e.target.value as EntryType; update(queue) }}
           >
             <option value={EntryType.MISSION}>遠征</option>
