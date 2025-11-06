@@ -1,6 +1,5 @@
 import { NotificationConfig } from "../models/configs/NotificationConfig";
 import { Entry, TriggerType } from "../models/entry";
-import { sleep } from "../utils";
 import { SoundPlayer } from "./SoundService";
 
 export class NotificationService {
@@ -33,10 +32,9 @@ export class NotificationService {
   public async notify(entry: Entry, trigger: TriggerType = TriggerType.END): Promise<string> {
     const config = await NotificationConfig.get(entry.$n.id(trigger));
     if (!config.enabled) return "";
+    await this.clear(entry.$n.id(trigger));
     await this.create(entry.$n.id(trigger), entry.$n.options(trigger, config));
     await this.sound.play(config.sound);
-    await sleep(6 * 1000);
-    await this.clear(entry.$n.id(trigger));
     return entry.$n.id();
   }
 }
