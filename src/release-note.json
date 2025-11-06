@@ -4,6 +4,41 @@
   },
   "releases": [
     {
+      "date": "2025-11-07",
+      "version": "v4.5.2",
+      "message": "",
+      "commits": [
+        {
+          "title": "fix: Dashboard配色スタイルの補正",
+          "hash": "f9dcd74398cb09cd4fec81d898812492412fa09c"
+        },
+        {
+          "title": "feat: Dashboard手動入力を残り時間形式に変更",
+          "hash": "bbee0a92ea90be52d2c2759170ff456a7600e6b3"
+        },
+        {
+          "title": "feat: issue テンプレートの追加",
+          "hash": "b3f105ea74fcda48f20bec56c10430999b3e0a8e"
+        },
+        {
+          "title": "feat: NotificationConfig に stay 属性を追加",
+          "hash": "87fae2520325514881fbe5be15fd3db0ae916361"
+        },
+        {
+          "title": "fix: NotificationService の通知生成順序を調整",
+          "hash": "cc1e9ce29431443f684a44ee5d9e59186976cf2c"
+        },
+        {
+          "title": "chore(deps): bump actions/setup-node from 4 to 6",
+          "hash": "25575520aaa34fc7b7139fd3ba4f91de8e8b3355"
+        },
+        {
+          "title": "chore(deps): bump codecov/codecov-action from 4 to 5",
+          "hash": "188cbf9474f53efa8e00c66afeda7cdef01eace6"
+        }
+      ]
+    },
+    {
       "date": "2025-11-06",
       "version": "v4.5.1",
       "message": "",
