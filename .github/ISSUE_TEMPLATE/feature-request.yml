@@ -1,0 +1,61 @@
+name: 機能追加要望
+description: 既存にない機能や改善案を提案する際に利用してください。できる限り詳細な背景と受け入れ条件を記載してください。
+title: "機能要望: [ここに簡潔な要約を記入]"
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 事前確認
+        - 既存のIssueとWikiを検索して重複がないか確認してください。
+        - 再現や検証に必要な情報をすべて記入してください。
+  - type: textarea
+    id: summary
+    attributes:
+      label: 実現したい内容
+      description: 提案する機能や改善の概要を箇条書きで記載してください。
+      placeholder: 例）タイマーの自動切り替え機能
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・解決したい課題
+      description: なぜこの機能が必要なのか、現状の問題点やユーザーシナリオを詳しく説明してください。
+      placeholder: どのような状況で困っているか、具体的な事例を記載
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 具体的な提案内容
+      description: UI案、処理フロー、API案など、想定している仕様があれば可能な限り詳細に記載してください。
+      placeholder: 画面遷移、設定値、優先度などを記載
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: 受け入れ条件
+      description: 完了と判断できる条件を箇条書きで記載してください。
+      placeholder: |
+        - 設定画面からON/OFFできる
+        - 通知に新しい項目が表示される
+    validations:
+      required: true
+  - type: input
+    id: impacted_users
+    attributes:
+      label: 影響範囲・対象ユーザー
+      description: 機能が影響するユーザー層や利用シナリオを記載してください。
+      placeholder: 遠征タイマーを複数運用している提督
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案・回避策
+      description: 現在はどのように対応しているか、他に検討した案があれば記載してください。
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: 補足情報
+      description: 参考資料、スクリーンショット、関連IssueやURLがあれば記載してください。
+      placeholder: 参考画像や外部リンク
+

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EntryColor, EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
+import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
 import Queue from "../../../models/Queue";
 import { KCWDate } from "../../../utils";
 import { FatigueQueueView } from "./FatigueQueueView";
@@ -47,15 +47,15 @@ function QueueTableView({
   return (
     <div className="flex space-x-4">
       <div id="mission-queue" className="flex-1">
-        <h1 className={`font-bold border-b-2 border-${EntryColor[EntryType.MISSION]}-200`}>遠征</h1>
+        <h1 className={`font-bold border-b-2 border-sky-200`}>遠征</h1>
         {table.mission.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="艦隊" type={EntryType.MISSION} edit={edit} />)}
       </div>
       <div id="recovery-queue" className="flex-1">
-        <h1 className={`font-bold border-b-2 border-${EntryColor[EntryType.RECOVERY]}-200`}>修復</h1>
+        <h1 className={`font-bold border-b-2 border-teal-200`}>修復</h1>
         {table.recovery.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="ドック" type={EntryType.RECOVERY} edit={edit} />)}
       </div>
       <div id="shipbuild-queue" className="flex-1">
-        <h1 className={`font-bold border-b-2 border-${EntryColor[EntryType.SHIPBUILD]}-200`}>建造</h1>
+        <h1 className={`font-bold border-b-2 border-orange-200`}>建造</h1>
         {table.shipbuild.map((q, i) => <QueueItemView key={i} index={i} queue={q} label="ドック" type={EntryType.SHIPBUILD} edit={edit} />)}
       </div>
     </div>

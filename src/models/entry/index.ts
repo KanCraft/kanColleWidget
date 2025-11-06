@@ -13,15 +13,6 @@ export enum EntryType {
     TEST_DEFAULT = "default",
 }
 
-export const EntryColor = {
-  [EntryType.MISSION]: "sky",
-  [EntryType.RECOVERY]: "teal",
-  [EntryType.SHIPBUILD]: "orange",
-  [EntryType.FATIGUE]: "red",
-  [EntryType.UNKNOWN]: "gray",
-  [EntryType.TEST_DEFAULT]: "gray",
-}
-
 export enum TriggerType {
   START = "start",
   END = "end",

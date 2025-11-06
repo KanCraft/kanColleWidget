@@ -1,0 +1,98 @@
+name: バグ報告
+description: 不具合を報告する際に利用してください。現象と再現手順、環境情報を詳細に記載してください。
+title: "不具合: [ここに簡潔な要約を記入]"
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 事前確認
+        - 最新版（拡張バージョンと艦これ本体）で再現するか確認してください。
+        - 既知のIssueやWikiに同様の報告がないか検索してください。
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: 確認事項
+      options:
+        - label: FAQ／既存Issueを検索済みです
+          required: true
+        - label: 最新版で再確認しました
+          required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 事象の概要
+      description: 発生している不具合を1〜2行で記載してください。
+      placeholder: 遠征終了通知が表示されない 等
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: 環境をセットアップしてから事象が起きるまでの手順を番号付きで記載してください。
+      placeholder: |
+        1. 艦これウィジェットを起動
+        2. 遠征タイマーを開始
+        3. 所定時間後も通知が来ない
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する結果
+      description: 正常に動作する場合の挙動を記載してください。
+      placeholder: 遠征終了時にデスクトップ通知が届く
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の結果
+      description: 観測した実際の挙動を詳細に記載してください。
+      placeholder: 通知が届かず、ログにも出力がない
+    validations:
+      required: true
+  - type: input
+    id: widget_version
+    attributes:
+      label: 艦これウィジェットのバージョン
+      description: chrome://extensions などで確認できるバージョン番号を記載してください。
+      placeholder: 3.0.0
+    validations:
+      required: true
+  - type: input
+    id: browser_version
+    attributes:
+      label: ブラウザとバージョン
+      description: 使用しているブラウザとバージョン（例: Chrome 130.0.0.0）を記載してください。
+      placeholder: Chrome 129.0.6668.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      description: 利用環境のOSを選択してください。
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS 15 Sequoia
+        - macOS 14 Sonoma
+        - macOS 13 Ventura 以前
+        - Linux (ディストリ名は下の補足に記載)
+        - その他
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: ログ・スクリーンショット
+      description: デベロッパーツールのConsoleログやスクリーンショットがあれば貼り付けてください。可能な範囲でマスクしてください。
+      placeholder: ログや画像をドラッグ＆ドロップ
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: 補足情報
+      description: ネットワーク環境、拡張機能の共存状況、回避策など追加で共有したい事項を記載してください。
+
