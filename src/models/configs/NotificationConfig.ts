@@ -5,6 +5,7 @@ export interface NotificationConfigData {
   enabled: boolean;
   sound: string | null;
   icon: string | null;
+  stay: boolean;
 }
 
 export class NotificationConfig extends Model {
@@ -14,51 +15,61 @@ export class NotificationConfig extends Model {
       enabled: true,
       sound: null,
       icon: chrome.runtime.getURL("icons/128.png"),
+      stay: false,
     },
     "/default/end": {
       enabled: true,
       sound: null,
       icon: chrome.runtime.getURL("icons/128.png"),
+      stay: false,
     },
     [`/${EntryType.MISSION}/${TriggerType.START}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.MISSION}/${TriggerType.END}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.RECOVERY}/${TriggerType.START}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.RECOVERY}/${TriggerType.END}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.SHIPBUILD}/${TriggerType.START}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.SHIPBUILD}/${TriggerType.END}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.FATIGUE}/${TriggerType.START}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
     [`/${EntryType.FATIGUE}/${TriggerType.END}`]: {
       enabled: true,
       sound: null,
       icon: null,
+      stay: false,
     },
   }
 
@@ -82,6 +93,13 @@ export class NotificationConfig extends Model {
   public icon: string | null = null;
 
   /**
+   * この通知が画面に表示され続けるかどうか
+   * trueの場合、ユーザーが手動で閉じるまで表示され続ける
+   * falseの場合、一定時間後に自動的に閉じられる
+   */
+  public stay: boolean = false;
+
+  /**
    * NotificationConfigを $n.id 形式から取得する
    * $n.id 形式の例: /shipbuild/start/1
    * @param id
@@ -99,6 +117,7 @@ export class NotificationConfig extends Model {
       enabled: config?.enabled ?? def.enabled,
       sound: config?.sound ?? def.sound,
       icon: config?.icon ?? def.icon,
+      stay: config?.stay ?? def.stay,
     };
   }
 
