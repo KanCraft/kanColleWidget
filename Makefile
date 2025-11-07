@@ -1,7 +1,21 @@
 project = 艦これウィジェット
+dev_image := kcw-dev
+
+ENGINE ?= docker # or ENGINE=podman make dev
 
 # ANSI Color
 # 0: Black, 1: Red, 2: Green, 3: Yellow, 4: Blue, 5: Magenta, 6: Cyan, 7: White
+dev:
+	@echo "\033[0;33m[dev]\tDocker イメージ $(dev_image) をビルドします\033[0m"
+	@echo "\033[0;33m[dev]\t現在のディレクトリ: $(CURDIR)\033[0m"
+	@echo "\033[0;33m[dev]\t使用するコンテナエンジン: $(ENGINE)\033[0m"
+	${ENGINE} build -t $(dev_image) .
+	@echo "\033[0;33m[dev]\twatch ビルドをコンテナで起動します (Ctrl+C で終了)\033[0m"
+	${ENGINE} run --rm -it \
+		-v "$(CURDIR)":/workspace \
+		-v kcw-node-modules:/workspace/node_modules \
+		$(dev_image)
+
 clean:
 	@echo "\033[0;33m[clean]\t既存ビルドファイルを削除します\033[0m"
 	rm -rf dist
