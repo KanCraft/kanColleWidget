@@ -4,6 +4,61 @@
   },
   "releases": [
     {
+      "date": "2025-11-10",
+      "version": "v4.6.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "fix: develop ブランチへの push 時、マージコミットのツイート通知をスキップ",
+          "hash": "b55dd86685a2a4199083ef352c7db0c83defd589"
+        },
+        {
+          "title": "fix: ツイート通知の @ メンションからスペースを削除",
+          "hash": "6a77c56af98b25a0540a1613bcfe3a0e7a3196f5"
+        },
+        {
+          "title": "fix: macOSで通知が自動的に消えない問題に対処",
+          "hash": "d23ca8fedfbfcf7ee1559bec2c801b6dc596fe5c"
+        },
+        {
+          "title": "feat: 基地航空隊編成のキャプチャ機能を追加",
+          "hash": "161de61378140c5030b336442d173d7c98589655"
+        },
+        {
+          "title": "feat: PR/Issue投稿時のツイート通知にコントリビューター感謝メッセージを追加",
+          "hash": "3db0453fe4cc560e90f423cfe8398a3e6d43aa63"
+        },
+        {
+          "title": "通知設定に  オプションを追加し、関連 UI を実装",
+          "hash": "3cbe8952fa8759774ec60428ba910db6a520e75e"
+        },
+        {
+          "title": "通知オブジェクトに  プロパティを追加し  オプションを適切に反映",
+          "hash": "ae3d1289780acbbe5cf190a7e54ec322bfb911b4"
+        },
+        {
+          "title": "窓サイズ「CLASSIC」の追加",
+          "hash": "c39cc726a2c1a006524078902c45d27c3b837e0a"
+        },
+        {
+          "title": "docs: 通知のstay（消さない）設定が機能しない原因の調査と現時点での結論のまとめを追加",
+          "hash": "ddce7c6a5ab8c7e1c0432585a96fd211c65f0325"
+        },
+        {
+          "title": "fix: バグ報告テンプレートの説明更新",
+          "hash": "5158e4516fafbe44f377c8638422b30ae41f4b9e"
+        },
+        {
+          "title": "feat: コンテナ開発環境の整備",
+          "hash": "e5662fd9f2d4de9f0df5ae623f998bba8a3ddd74"
+        },
+        {
+          "title": "feat: Google OAuth2 トークン取得をループバックフローに移行",
+          "hash": "4459e3a0b3bee338b417b877d26a3be373ca6111"
+        }
+      ]
+    },
+    {
       "date": "2025-11-07",
       "version": "v4.5.2",
       "message": "",
