@@ -42,7 +42,7 @@ jobs:
 
         # ツイート本文を生成（280文字制限を考慮）
         # 感謝メッセージを含める
-        TWEET_TEXT=$(printf "#%s %s\n@%s さんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
+        TWEET_TEXT=$(printf "#%s %s\n%sさんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
 
         # 280文字を超える場合はタイトルを切り詰め
         if [ ${#TWEET_TEXT} -gt 280 ]; then
@@ -50,7 +50,7 @@ jobs:
           # 余裕を見て150文字を固定部分として確保
           MAX_TITLE_LEN=$((280 - 150))
           PR_TITLE_SHORT=$(echo "$PR_TITLE" | cut -c1-$MAX_TITLE_LEN)
-          TWEET_TEXT=$(printf "#%s %s...\n@%s さんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE_SHORT}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
+          TWEET_TEXT=$(printf "#%s %s...\n%sさんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE_SHORT}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
         fi
 
         # GitHub Actionsの出力に設定
