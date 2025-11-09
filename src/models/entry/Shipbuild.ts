@@ -24,6 +24,7 @@ export class Shipbuild extends NotificationEntryBase {
           title: "建造開始",
           message: `第${this.dock}番ドックにて新艦建造を開始しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
+          requireInteraction: overwrite.stay ?? false,
         }
       }
       return {
@@ -31,6 +32,7 @@ export class Shipbuild extends NotificationEntryBase {
         title: "建造完了",
         message: `第${this.dock}番ドックでの新艦建造がまもなく完了します`,
         type: "basic",
+        requireInteraction: overwrite.stay ?? false,
       }
     }
   }
