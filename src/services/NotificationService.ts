@@ -35,6 +35,14 @@ export class NotificationService {
     await this.clear(entry.$n.id(trigger));
     await this.create(entry.$n.id(trigger), entry.$n.options(trigger, config));
     await this.sound.play(config.sound);
+
+    // XXX: macOSでは、requireInteractionに関わらずOSの設定に引っ張られるため
+    //      stay === false であれば明示的に消すようにする
+    //      @see https://github.com/KanCraft/kanColleWidget/blob/develop/spec/features/notification-stay-on-display.md
+    if (config.stay === false) {
+      setTimeout(() => this.clear(entry.$n.id(trigger)), 10 * 1000);
+    }
+
     return entry.$n.id();
   }
 }

@@ -32,6 +32,7 @@ export class Mission extends NotificationEntryBase {
           title: "遠征開始",
           message: `第${this.deck}艦隊が「${this.title}」へ出航しました.\n終了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
+          requireInteraction: overwrite.stay ?? false,
         }
       }
       return {
@@ -39,6 +40,7 @@ export class Mission extends NotificationEntryBase {
         title: "遠征完了",
         message: `まもなく第${this.deck}艦隊が「${this.title}」から帰投します`,
         type: "basic",
+        requireInteraction: overwrite.stay ?? false,
       }
     }
   };
