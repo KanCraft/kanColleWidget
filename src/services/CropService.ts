@@ -63,8 +63,8 @@ export class Rectangle {
     return new Rectangle(
       g.size.w * (27 / 100),
       g.size.h * (73 / 100),
-      g.start.x + (g.size.w * (72 / 100)),
-      g.start.y + (g.size.h * (22 / 100)),
+      g.start.x + (g.size.w * (72.3 / 100)),
+      g.start.y + (g.size.h * (23 / 100)),
     );
   }
 
