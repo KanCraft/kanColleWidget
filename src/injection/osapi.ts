@@ -30,9 +30,12 @@
     /**
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
-    public async show({ uri, /* timestamp */ }: { uri: string; timestamp: number; }) {
+    public async show({ uri, heightRatio, /* timestamp */ }: { uri: string; heightRatio?: number; timestamp: number; }) {
       const img = await load(uri);
-      img.style.height = "100%";
+      const actualHeightRatio = heightRatio ?? 40;
+      const canvasHeight = this.canvas?.clientHeight || 720;
+      img.style.height = `${canvasHeight * actualHeightRatio / 100}px`;
+      img.style.width = "auto";
       if (!this.container) {
         this.container = this.createContainer();
         window.document.body.appendChild(this.container);
@@ -72,9 +75,8 @@
       this.clicked = 0;
       this.canvas?.removeEventListener("mousedown", this.listener);
     }
-    private createContainer(height: number = 40): HTMLDivElement {
+    private createContainer(): HTMLDivElement {
       const div = window.document.createElement("div");
-      div.style.height = `${height}%`;
       div.style.position = "fixed";
       div.style.top = "0";
       div.style.left = "0";

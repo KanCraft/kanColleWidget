@@ -9,6 +9,7 @@ export function DamageSnapshotSettingView({
 }) {
   const [config] = useState<DamageSnapshotConfig>(_config);
   const [mode, setMode] = useState<DamageSnapshotMode>(config.mode);
+  const [heightRatio, setHeightRatio] = useState<number>(config.heightRatio);
 
   return (
     <FoldableSection title="大破進撃防止の設定" id="damage-snapshot">
@@ -36,6 +37,32 @@ export function DamageSnapshotSettingView({
           ))}
         </select>
       </div>
+
+      {mode === DamageSnapshotMode.INAPP && (
+        <div className="mb-4">
+          <label className="block mb-2">
+            <span className="font-bold">表示サイズ</span>
+            <span className="ml-2 text-sm text-gray-600">{Math.round(heightRatio * 2.5)}%</span>
+          </label>
+          <input
+            type="range"
+            min="4"
+            max="60"
+            value={heightRatio}
+            onChange={async (e) => {
+              const newHeightRatio = Number(e.target.value);
+              await config.update({ heightRatio: newHeightRatio });
+              setHeightRatio(newHeightRatio);
+            }}
+            className="w-full max-w-md"
+          />
+          <div className="flex justify-between text-xs text-gray-500 max-w-md mt-1">
+            <span>10%</span>
+            <span>100% (標準)</span>
+            <span>150%</span>
+          </div>
+        </div>
+      )}
     </FoldableSection>
   );
 }

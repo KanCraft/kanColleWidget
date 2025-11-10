@@ -89,7 +89,7 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   case DamageSnapshotMode.DISABLED:
     return;
   case DamageSnapshotMode.INAPP:
-    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
+    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp, heightRatio: config.heightRatio });
   case DamageSnapshotMode.SEPARATE: {
     const win = await Launcher.damagesnapshot(config);
     if (!win || !win.tabs || !win.tabs[0].id) throw new Error("Failed to get damage snapshot window");
