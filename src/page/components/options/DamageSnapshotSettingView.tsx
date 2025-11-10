@@ -41,12 +41,12 @@ export function DamageSnapshotSettingView({
       {mode === DamageSnapshotMode.INAPP && (
         <div className="mb-4">
           <label className="block mb-2">
-            <span className="font-bold">表示サイズ</span>
-            <span className="ml-2 text-sm text-gray-600">{Math.round(heightRatio * 2.5)}%</span>
+            <span className="font-bold">表示サイズ（画面縦幅比）</span>
+            <span className="ml-2 text-sm text-gray-600">{heightRatio}%</span>
           </label>
           <input
             type="range"
-            min="4"
+            min="20"
             max="60"
             value={heightRatio}
             onChange={async (e) => {
@@ -57,9 +57,9 @@ export function DamageSnapshotSettingView({
             className="w-full max-w-md"
           />
           <div className="flex justify-between text-xs text-gray-500 max-w-md mt-1">
-            <span>10%</span>
-            <span>100% (標準)</span>
-            <span>150%</span>
+            <span>20%</span>
+            <span>40% (標準)</span>
+            <span>60%</span>
           </div>
         </div>
       )}
