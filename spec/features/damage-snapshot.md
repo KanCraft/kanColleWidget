@@ -16,8 +16,10 @@
 - `src/controllers/WebRequest/index.ts`: `chrome.webRequest.onCompleted` で `/kcsapi/api_req_sortie/battleresult` 等を検知し、`/injected/kcs/dsnapshot:prepare` をゲーム iframe へ送信。
 - `src/controllers/WebRequest/kcsapi.ts`: 母港帰投や戦闘開始などで `/injected/kcs/dsnapshot:remove` を送信し、不要なオーバーレイを掃除。
 - `src/injection/osapi.ts`: ゲーム iframe に注入される `DamageSnapshot` クラスがオーバーレイ描画とクリックハンドリングを担う。
-- `src/controllers/Message.ts`: `/damage-snapshot/capture` リクエストを受け取り、タブキャプチャ・トリミング後に `/injected/kcs/dsnapshot:show` を返送。
+- `src/controllers/Message.ts`: `/damage-snapshot/capture` リクエストを受け取り、タブキャプチャ・トリミング後に設定値 `heightRatio` と共に `/injected/kcs/dsnapshot:show` を返送。
 - `src/services/CropService.ts`: `damagesnapshot()` で損傷一覧エリアを切り抜き `data:` URI を生成。
+- `src/models/configs/DamageSnapshotConfig.ts`: 表示モードと表示サイズ（heightRatio）を永続化。
+- `src/page/components/options/DamageSnapshotSettingView.tsx`: 表示サイズのスライダーUI（20%～60%）を提供。
 - `src/utils.ts`: `WorkerImage` と `sleep` がキャプチャ処理の基盤。
 
 ## 動作シーケンス
@@ -25,19 +27,21 @@
 2. iframe 内の `DamageSnapshot.prepare` が `canvas` 要素へ `mousedown` リスナーを登録し、`timestamp` から `ignoreMillisecFromBattleResulted` (7.8 秒) 経過後のクリックのみ処理。
 3. ユーザーが戦闘リザルト画面でクリックすると、`DamageSnapshot.onClickNext` が `/damage-snapshot/capture` を背景ページへ送信し、`after` パラメータで待機時間を指示 (初回 1000 ms、以降クリック毎に 800 ms 追加)。
 4. `src/controllers/Message.ts` が待機後に `chrome.tabs.captureVisibleTab` でスクリーンショットを取得し、`CropService("damagesnapshot")` でゲーム比率に応じた領域 (幅 5/24、高さ 103/180、左上 6/25, 7/18) を切り抜き `data:` URI を生成。
-5. 生成した URI と `timestamp` を `/injected/kcs/dsnapshot:show` で返送し、`DamageSnapshot.show` が `#kcw-damagesnapshot` コンテナに `img` を差し替え。
+5. 生成した URI、`timestamp`、`heightRatio`（ユーザー設定値）を `/injected/kcs/dsnapshot:show` で返送し、`DamageSnapshot.show` が `#kcw-damagesnapshot` コンテナに `img` を差し替え、`canvas.clientHeight * heightRatio / 100` のサイズで表示。
 6. クリック回数が `count` に達すると `DamageSnapshot.reset` が発火し、追加キャプチャ要求を停止。母港 API や戦闘開始 API 受信時は `DamageSnapshot.remove` が呼ばれコンテナを削除。
 
 ## UI 挙動
-- コンテナは `position: fixed`、画面左上・高さ 40%・幅は画像依存。`/injected/kcs/dsnapshot:show` 受信直後は `opacity: 1` で必ず表示され、ユーザーが存在に気付けるよう保証する。
+- コンテナは `position: fixed`、画面左上に配置。`/injected/kcs/dsnapshot:show` 受信直後は `opacity: 1` で必ず表示され、ユーザーが存在に気付けるよう保証する。
+- 画像サイズは `canvas.clientHeight * heightRatio / 100` で計算され、ゲーム画面の縦幅に対する割合で表示される（デフォルト 40%、設定可能範囲 20%～60%）。幅は `auto` で縦横比を維持。
+- ゲーム窓の倍率設定（CLASSIC、SMALL等）に関わらず、`canvas.clientHeight` が実際の表示サイズを反映するため、CSS `transform: scale` の影響を受けない。
 - ユーザーがコンテナへ `pointerenter` した時点で `opacity: 1` に遷移し、`pointerleave` で `opacity: 0` へフェードアウトする。
 - ユーザー操作による表示状態 (上記の `pointerenter`) に入った場合のみ 2000 ms の自動タイマーをセットし、継続ホバーがなければ `opacity: 0` に戻して hover の取りこぼしを防ぐ。`show` 直後はタイマーを設定しない。
 - クリック時は `window.confirm` を表示し、ユーザーが明示的に承認した場合のみ `remove()` が実行される (remove メッセージが届かないケースへの暫定対策)。
-- 画像は `height: 100%` に拡縮され、縦横比はトリミング時点で保持される。
 
 ## 状態管理とパラメータ
 - `count`: 必要キャプチャ回数。単艦隊=1、連合艦隊=2。`prepare` で受信し、クリック毎に `clicked` をインクリメント。
 - `timestamp`: 戦闘結果検出時刻を保持し、後続メッセージの整合性確認に利用 (`show` / `capture` で伝搬)。
+- `heightRatio`: ゲーム画面縦幅に対する表示サイズの割合（％）。`DamageSnapshotConfig.heightRatio` から取得され、デフォルト 40、設定可能範囲 20～60。`/injected/kcs/dsnapshot:show` で渡され、未定義時は 40 にフォールバック。
 - `ignoreMillisecFromBattleResulted`: 7800 ms。戦闘結果画面の「次へ」ボタン描画完了前の誤クリックを無視。
 - `after`: キャプチャ待機時間。初回 1 秒、以後 `800 ms * clicked` を加算し、演出描画が終わるまで猶予を持たせる。
 - `listener`: `canvas` へ付与する `mousedown` リスナー。`removeEventListener` により確実に掃除。
@@ -56,5 +60,8 @@
 - `/injected/kcs/dsnapshot:remove` の到達を ACK 付きで保証し、未到達時は背景側から再送するか、フロント側でタイムアウト自動解除を行う。
 - `DamageSnapshot` が `canvas` 要素を再取得する経路を用意し、ゲーム DOM 変化時にオーバーレイが保護されるよう MutationObserver 等で追従する。
 - キャプチャ処理が失敗した場合に最大リトライ回数・失敗通知を設け、ユーザーが手動で確認できるサイドチャネル (例: 拡張アイコンバッジ) を提供する。
-- 切り抜き領域や表示位置を設定化し、連合艦隊第 2 艦隊の詳細表示やユーザーカスタマイズ (反転・拡大率調整) に対応させる。
+- 切り抜き領域や表示位置を設定化し、連合艦隊第 2 艦隊の詳細表示やユーザーカスタマイズ（反転、表示位置移動）に対応させる。
 - 一時的な画像ロード中はスケルトンやローディング状態を表示し、空のコンテナが残る時間を最小化する。
+
+## 実装済み改善
+- **表示サイズのカスタマイズ**: `heightRatio` 設定により、ゲーム画面縦幅に対する表示サイズを 20%～60% の範囲で調整可能（デフォルト 40%）。オプション画面のスライダーで設定。
