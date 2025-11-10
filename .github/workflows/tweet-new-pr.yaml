@@ -1,7 +1,7 @@
 name: Tweet New Pull Request
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened]
     branches:
       - develop
@@ -16,6 +16,8 @@ jobs:
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: develop
 
     - name: Setup Node.js
       uses: actions/setup-node@v6
