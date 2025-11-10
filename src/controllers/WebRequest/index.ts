@@ -15,7 +15,7 @@ import {
 } from "./kcsapi";
 import { ScriptingService } from "../../services/ScriptingService";
 
-const onBeforeRequest = new SequentialRouter<chrome.webRequest.WebRequestBodyEvent>(2, async (details) => {
+const onBeforeRequest = new SequentialRouter<typeof chrome.webRequest.onBeforeRequest>(2, async (details) => {
   const url = new URL(details.url);
   return { __action__: url.pathname };
 });
@@ -37,7 +37,7 @@ onBeforeRequest.onNotFound(async (details) => {
   (new Logger("WebRequest")).warn("onNotFound", details);
 });
 
-const onComplete = new SequentialRouter<chrome.webRequest.WebResponseCacheEvent>(2, async (details) => {
+const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2, async (details) => {
   const url = new URL(details.url);
   return { __action__: url.pathname };
 });

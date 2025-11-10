@@ -25,7 +25,7 @@ export class Mission extends NotificationEntryBase {
     id: (trigger: TriggerType = TriggerType.END): string => {
       return `/${this.type}/${trigger}/${this.deck}`;
     },
-    options: (trigger: TriggerType = TriggerType.END, overwrite: Partial<NotificationConfigData> = {}): chrome.notifications.NotificationOptions<true> => {
+    options: (trigger: TriggerType = TriggerType.END, overwrite: Partial<NotificationConfigData> = {}): chrome.notifications.NotificationCreateOptions => {
       if (trigger === TriggerType.START) {
         return {
           iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),

@@ -19,7 +19,7 @@ export class Recovery extends NotificationEntryBase {
     options: (
       trigger: TriggerType = TriggerType.END,
       overwrite: Partial<NotificationConfigData> = {},
-    ): chrome.notifications.NotificationOptions<true> => {
+    ): chrome.notifications.NotificationCreateOptions => {
       if (trigger === TriggerType.START) {
         return {
           iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),

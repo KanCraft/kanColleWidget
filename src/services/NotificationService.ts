@@ -25,7 +25,7 @@ export class NotificationService {
     return new Promise((resolve) => this.mod.clear(id, (wasCleared) => resolve(wasCleared)));
   }
 
-  public create(id: string, options: chrome.notifications.NotificationOptions<true>): Promise<string> {
+  public create(id: string, options: chrome.notifications.NotificationCreateOptions): Promise<string> {
     return new Promise((resolve) => this.mod.create(id, options, (notificationId) => resolve(notificationId)));
   }
 

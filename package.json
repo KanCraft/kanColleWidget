@@ -20,7 +20,7 @@
   "dependencies": {
     "@heroicons/react": "2.1.5",
     "@tesseract.js-data/eng": "1.0.0",
-    "chromite": "^0.1.8",
+    "chromite": "^0.3.3",
     "jstorm": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,7 +31,7 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
-    "@types/chrome": "^0.0.248",
+    "@types/chrome": "^0.1.27",
     "@types/node": "^20.8.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
