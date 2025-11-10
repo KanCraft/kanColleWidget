@@ -23,7 +23,7 @@ jobs:
       GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
       CHROMEWEBSTORE_EXTENSION_ID: egkgleinehaapbpijnlpbllfeejjpceb
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:
@@ -73,7 +73,7 @@ jobs:
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:
@@ -100,7 +100,7 @@ jobs:
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:

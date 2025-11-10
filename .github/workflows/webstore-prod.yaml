@@ -12,7 +12,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.pull_request.merged && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     steps:
     - name: Checkout to ${{ github.event.pull_request.head.ref }}
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: develop
         fetch-depth: 0
