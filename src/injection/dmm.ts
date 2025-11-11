@@ -22,17 +22,22 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
     // DOM から外したあとに最低限待つフレーム数。Chrome の描画タイミング次第で 1 フレームでは不足するため 2 を既定とする。
     private static readonly FRAME_WAIT_FOR_CAPTURE = 2;
 
-    public static create(): InAppActionButtons {
+    public static create(config: GameWindowConfig): InAppActionButtons {
       if (this.self && this.self.container) return this.self;
-      this.self = new InAppActionButtons();
+      this.self = new InAppActionButtons(config);
       return this.self;
     }
-    constructor() {
+    constructor(config: GameWindowConfig) {
+      const sizeRatio = config.buttonSize / 100;
       this.container = this.createContainer();
-      this.muteButton = this.createButton(InAppActionButtons.ICON_SPEAKER_WAVE, () => this.toggleMute());
-      this.screenshotButton = this.createButton(InAppActionButtons.ICON_CAMERA, () => this.screenshot());
-      this.container.appendChild(this.screenshotButton);
-      this.container.appendChild(this.muteButton);
+      this.muteButton = this.createButton(InAppActionButtons.ICON_SPEAKER_WAVE, () => this.toggleMute(), sizeRatio);
+      this.screenshotButton = this.createButton(InAppActionButtons.ICON_CAMERA, () => this.screenshot(), sizeRatio);
+      if (config.showScreenshotButton) {
+        this.container.appendChild(this.screenshotButton);
+      }
+      if (config.showMuteButton) {
+        this.container.appendChild(this.muteButton);
+      }
       window.document.body.appendChild(this.container);
     }
 
@@ -74,12 +79,12 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
       div.id = "kcw-inapp-action-buttons";
       return div;
     }
-    private createButton(svgContent: string, onclick = () => { }): HTMLButtonElement {
+    private createButton(svgContent: string, onclick = () => { }, sizeRatio: number = 1): HTMLButtonElement {
       const button = window.document.createElement("button");
       button.style.backgroundColor = "#fff";
-      button.style.width = "48px";
-      button.style.height = "48px";
-      button.style.padding = "8px";
+      button.style.width = `${48 * sizeRatio}px`;
+      button.style.height = `${48 * sizeRatio}px`;
+      button.style.padding = `${8 * sizeRatio}px`;
       button.style.cursor = "pointer";
       button.style.border = "none";
       button.style.display = "flex";
@@ -171,7 +176,7 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
     setInterval(track, 10 * 1000);
     const configs = await fetchNecessaryConfig();
     startListeningMessage();
-    InAppActionButtons.create();
+    InAppActionButtons.create(configs.game);
     const shouldAlertBeforeClose = configs.game.alertBeforeClose ?? true;
     if (shouldAlertBeforeClose) setupBeforeUnloadHandler();
   })();
