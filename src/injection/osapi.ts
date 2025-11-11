@@ -32,12 +32,9 @@
     **/
     public async show({ uri, heightRatio, /* timestamp */ }: { uri: string; heightRatio?: number; timestamp: number; }) {
       const img = await load(uri);
-      const actualHeightRatio = heightRatio ?? 40;
-      const canvasHeight = this.canvas?.clientHeight || 720;
-      img.style.height = `${canvasHeight * actualHeightRatio / 100}px`;
-      img.style.width = "auto";
+      img.style.height = "100%";
       if (!this.container) {
-        this.container = this.createContainer();
+        this.container = this.createContainer(heightRatio);
         window.document.body.appendChild(this.container);
       }
       this.container.appendChild(img);
@@ -75,8 +72,9 @@
       this.clicked = 0;
       this.canvas?.removeEventListener("mousedown", this.listener);
     }
-    private createContainer(): HTMLDivElement {
+    private createContainer(height: number = 40): HTMLDivElement {
       const div = window.document.createElement("div");
+      div.style.height = `${height}%`;
       div.style.position = "fixed";
       div.style.top = "0";
       div.style.left = "0";
