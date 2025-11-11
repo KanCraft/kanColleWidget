@@ -19,7 +19,7 @@
 - `src/controllers/Message.ts`: `/damage-snapshot/capture` リクエストを受け取り、タブキャプチャ・トリミング後に設定値 `heightRatio` と共に `/injected/kcs/dsnapshot:show` を返送。
 - `src/services/CropService.ts`: `damagesnapshot()` で損傷一覧エリアを切り抜き `data:` URI を生成。
 - `src/models/configs/DamageSnapshotConfig.ts`: 表示モードと表示サイズ（heightRatio）を永続化。
-- `src/page/components/options/DamageSnapshotSettingView.tsx`: 表示サイズのスライダーUI（20%～60%）を提供。
+- `src/page/components/options/DamageSnapshotSettingView.tsx`: 表示サイズのスライダーUI（10%～60%）を提供。
 - `src/utils.ts`: `WorkerImage` と `sleep` がキャプチャ処理の基盤。
 
 ## 動作シーケンス

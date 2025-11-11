@@ -46,7 +46,7 @@ export function DamageSnapshotSettingView({
           </label>
           <input
             type="range"
-            min="20"
+            min="10"
             max="60"
             value={heightRatio}
             onChange={async (e) => {
@@ -57,7 +57,7 @@ export function DamageSnapshotSettingView({
             className="w-full max-w-md"
           />
           <div className="flex justify-between text-xs text-gray-500 max-w-md mt-1">
-            <span>20%</span>
+            <span>10%</span>
             <span>40% (標準)</span>
             <span>60%</span>
           </div>
