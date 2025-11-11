@@ -85,7 +85,8 @@ jobs:
     - run: pnpm install
     - name: Post release announcement tweet
       run: |
-        TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts --beta)"
+        PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+        TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts --beta --pr-url "$PR_URL")"
         printf 'Generated tweet:\n%s\n' "$TWEET_TEXT"
         pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"
 
