@@ -9,6 +9,7 @@ import { TabService } from "../../services/TabService";
 import { CropService } from "../../services/CropService";
 import { NotificationService } from "../../services/NotificationService";
 import { Launcher } from "../../services/Launcher";
+import { Logbook } from "../../models/Logbook";
 
 const log = new Logger("WebRequest");
 
@@ -16,6 +17,7 @@ export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
   const dsnapshot = await new Launcher().getDsnapshotTab();
   if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
+  await Logbook.record();
 }
 
 export async function onMissionStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -57,16 +59,45 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   });
 }
 
+// 出撃開始時
 export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const data = details.requestBody?.formData as unknown as MapStartFormData;
   const deck = data.api_deck_id[0];
   const map = { area: data.api_maparea_id[0], info: data.api_mapinfo_no[0] };
   const fatigue = new Fatigue(parseInt(deck), map);
+  Logbook.sortie.start(deck, map);
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 
+// マップ移動時
+export async function onMapNext([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  const data = details.requestBody?.formData as {
+    api_cell_id: string[]; // たぶんここにマスIDが入ってる
+  };
+  if (!data?.api_cell_id) return log.warn("onMapNext: api_cell_id not found", details);
+  Logbook.sortie.next(data.api_cell_id[0]);
+}
+
+// 戦闘（昼戦）開始時
 export async function onBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  const data = details.requestBody?.formData as {
+    api_formation: string[]; // 陣形
+    api_recovery_type: string[]; // なんだこれ
+  };
+  Logbook.sortie.battle.start(data.api_formation[0]);
+}
+
+// 夜戦突入時
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  Logbook.sortie.battle.midnight();
+}
+
+// 戦闘終了時
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function onBattleResulted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  Logbook.sortie.battle.result();
 }
 
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
