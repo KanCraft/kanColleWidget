@@ -4,10 +4,50 @@
   },
   "releases": [
     {
-      "date": "2025-11-10",
-      "version": "v4.6.0",
+      "date": "2025-11-11",
+      "version": "v4.7.0",
       "message": "",
       "commits": [
+        {
+          "title": "大破進撃防止サイズのスライダーの最小値を 10% に変更",
+          "hash": "49285938c96a60ac7660c9829851349dd39a2d1a"
+        },
+        {
+          "title": "高さ調整処理を既存実装に合わせて簡素化",
+          "hash": "d08931b560c4fef14b3536e4464b7dc855f39158"
+        },
+        {
+          "title": "feat: 出撃海域とマスの情報を記録しておく処理",
+          "hash": "82706aff932e9086bfce3f5d26104748d50fa515"
+        },
+        {
+          "title": "fix: カバレッジ計測の設定を追加しCodecovへの正しいアップロードを実現",
+          "hash": "728a2674f1aaf31426c89bd95713228faa3f6dbb"
+        },
+        {
+          "title": "fix: 外部からのPRであっても感謝メッセージを投稿できるようにする",
+          "hash": "9653754a19594c8bbcf095a4b7b12bdbca78f0a2"
+        },
+        {
+          "title": "spec に実装を反映",
+          "hash": "4cdc1afe6cea383d0050c739994628b22c276296"
+        },
+        {
+          "title": "高さ調整スライダーの最小値・最大値を修正し、ラベルや目盛り表示を更新",
+          "hash": "51d82d1fcb2d5a267b9ae8eb48e01d8ace4acee7"
+        },
+        {
+          "title": "大破進撃防止機能に高さ調整オプションを追加し，高さパーセンテージ設定機能を実装",
+          "hash": "355de77510e4eb436e382b46c4331de940e1b0e1"
+        },
+        {
+          "title": "chromite 0.3.3 と @types/chrome 0.1.27 への対応",
+          "hash": "f6070a9f99ae9d63f0d351ee56dbbc3c6d4363dc"
+        },
+        {
+          "title": "v4.6.0",
+          "hash": "bc156c326370968a1bf1b469c31417ee1a8a165d"
+        },
         {
           "title": "fix: develop ブランチへの push 時、マージコミットのツイート通知をスキップ",
           "hash": "b55dd86685a2a4199083ef352c7db0c83defd589"
