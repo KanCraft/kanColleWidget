@@ -61,6 +61,14 @@ export class Launcher {
   }
 
   /**
+   * ログブックページを新規タブで開く。
+   * @returns 作成されたタブの Promise
+   */
+  public static async logbook() {
+    return await (new this()).tabs.create({ url: "page/index.html#/logbook" });
+  }
+
+  /**
    * 編成キャプチャページを新規タブで開く。
    * @returns 作成されたタブの Promise
    */

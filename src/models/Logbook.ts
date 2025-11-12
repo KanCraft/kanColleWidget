@@ -27,7 +27,7 @@ interface Cell {
   id: string; // マスIDがあるっぽい
 }
 
-class SortieContext extends Model {
+export class SortieContext extends Model {
 
   static override _namespace_ = "SortieLog";
 

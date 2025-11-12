@@ -1,4 +1,4 @@
-import { Logger } from "chromite";
+import { Logger, LogLevel } from "chromite";
 import { missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
@@ -11,7 +11,7 @@ import { NotificationService } from "../../services/NotificationService";
 import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
 
-const log = new Logger("WebRequest");
+const log = new Logger("WebRequest", LogLevel.DEBUG);
 
 export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
@@ -71,10 +71,11 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
 
 // マップ移動時
 export async function onMapNext([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  Logger.get("WebRequest").debug("onMapNext", details);
   const data = details.requestBody?.formData as {
     api_cell_id: string[]; // たぶんここにマスIDが入ってる
   };
-  if (!data?.api_cell_id) return log.warn("onMapNext: api_cell_id not found", details);
+  if (!data?.api_cell_id) return Logger.get("WebRequest").warn("onMapNext: api_cell_id not found", details);
   Logbook.sortie.next(data.api_cell_id[0]);
 }
 
@@ -96,7 +97,8 @@ export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBe
 
 // 戦闘終了時
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function onBattleResulted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  Logger.get("WebRequest").debug("onBattleResulted", details);
   Logbook.sortie.battle.result();
 }
 
