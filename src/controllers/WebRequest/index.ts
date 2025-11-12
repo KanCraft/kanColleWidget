@@ -43,7 +43,7 @@ onBeforeRequest.on([
 ], onCreateShip); // 新造艦を作成しようとしたとき
 
 onBeforeRequest.onNotFound(async (details) => {
-  requestLogger.warn("onNotFound", details);
+  requestLogger.debug("-", details);
 });
 
 const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2, async (details) => {
@@ -52,7 +52,6 @@ const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2,
 });
 
 onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
-  completeLogger.debug("api_start2/getData", details);
   const s = new ScriptingService();
   await s.js({
     tabId: details.tabId,
