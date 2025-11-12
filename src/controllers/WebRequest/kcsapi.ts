@@ -96,7 +96,6 @@ export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBe
 }
 
 // 戦闘終了時
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onBattleResulted", details);
   Logbook.sortie.battle.result();

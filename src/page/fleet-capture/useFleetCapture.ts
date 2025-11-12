@@ -83,7 +83,7 @@ export function useFleetCapture({
       log.error("exportResults failed", error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");
     }
-  }, [results, activeUsecase]);
+  }, [results, activeUsecase, log]);
 
   const isExportDisabled = useMemo(() => !hasAnyResult(results), [results]);
 
