@@ -1,7 +1,7 @@
 import {
-  Logger,
   SequentialRouter,
 } from "chromite";
+import { Logger } from "../../logger";
 
 import {
   onPort,
@@ -17,6 +17,9 @@ import {
   onMidnightBattleStarted,
 } from "./kcsapi";
 import { ScriptingService } from "../../services/ScriptingService";
+
+const requestLogger = Logger.get("WebRequest");
+const completeLogger = Logger.get("WebRequest:onComplete");
 
 const onBeforeRequest = new SequentialRouter<typeof chrome.webRequest.onBeforeRequest>(2, async (details) => {
   const url = new URL(details.url);
@@ -40,7 +43,7 @@ onBeforeRequest.on([
 ], onCreateShip); // 新造艦を作成しようとしたとき
 
 onBeforeRequest.onNotFound(async (details) => {
-  (new Logger("WebRequest")).warn("onNotFound", details);
+  requestLogger.warn("onNotFound", details);
 });
 
 const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2, async (details) => {
@@ -49,7 +52,7 @@ const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2,
 });
 
 onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
-  (new Logger("onComplete")).info("api_start2/getData", details);
+  completeLogger.debug("api_start2/getData", details);
   const s = new ScriptingService();
   await s.js({
     tabId: details.tabId,
@@ -59,14 +62,14 @@ onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
 
 onComplete.on(["/kcsapi/api_req_sortie/battleresult"], async ([details]) => {
   const timestamp = Date.now();
-  new Logger("onComplete").info("api_req_sortie/battleresult", details);
+  completeLogger.debug("api_req_sortie/battleresult", details);
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 1, timestamp }, {
     frameId: details.frameId,
   });
 });
 onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]) => {
   const timestamp = Date.now();
-  new Logger("onComplete").info("api_req_combined_battle/battleresult", details);
+  completeLogger.debug("api_req_combined_battle/battleresult", details);
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 2, timestamp }, {
     frameId: details.frameId,
   });

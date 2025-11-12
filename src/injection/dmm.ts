@@ -1,8 +1,10 @@
 import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tesseract.js';
 import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
+import { Logger } from '../logger';
 // import { Rectangle, load, crop } from './crop';
 
 (async () => {
+  const log = Logger.get("Injection:DMM");
   // const GameIFrame = "iframe#game_frame";
 
 
@@ -144,7 +146,7 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
 
   async function ocr(url: string, params: Partial<WorkerParams> = { tessedit_char_whitelist: "0123456789:" }): Promise<RecognizeResult> {
     const worker = await createWorker('eng', OEM.LSTM_ONLY, {
-      logger: m => console.log(m),
+      logger: (message) => log.debug("ocr", message),
       workerPath: chrome.runtime.getURL('tessworker.min.js'),
       langPath: chrome.runtime.getURL('tessdata-4.0.0_best_int'),
     });

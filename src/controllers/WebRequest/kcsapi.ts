@@ -1,4 +1,4 @@
-import { Logger, LogLevel } from "chromite";
+import { Logger } from "../../logger";
 import { missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
@@ -11,7 +11,7 @@ import { NotificationService } from "../../services/NotificationService";
 import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
 
-const log = new Logger("WebRequest", LogLevel.DEBUG);
+const log = Logger.get("WebRequest");
 
 export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
@@ -31,7 +31,7 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
 }
 
 export async function onMissionReturnInstruction([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  log.info("onMissionReturnInstruction", details);
+  log.debug("onMissionReturnInstruction", details);
 }
 
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -45,7 +45,7 @@ export async function onMissionResult([details]: chrome.webRequest.OnBeforeReque
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  log.info("onRecoveryStart", details);
+  log.debug("onRecoveryStart", details);
   const data = details.requestBody?.formData as unknown as RecoveryStartFormData;
   const dock = data.api_ndock_id[0];
   const tab = await new TabService().get(details.tabId);
@@ -71,11 +71,11 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
 
 // マップ移動時
 export async function onMapNext([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  Logger.get("WebRequest").debug("onMapNext", details);
+  log.debug("onMapNext", details);
   const data = details.requestBody?.formData as {
     api_cell_id: string[]; // たぶんここにマスIDが入ってる
   };
-  if (!data?.api_cell_id) return Logger.get("WebRequest").warn("onMapNext: api_cell_id not found", details);
+  if (!data?.api_cell_id) return log.warn("onMapNext: api_cell_id not found", details);
   Logbook.sortie.next(data.api_cell_id[0]);
 }
 
@@ -98,7 +98,7 @@ export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBe
 // 戦闘終了時
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  Logger.get("WebRequest").debug("onBattleResulted", details);
+  log.debug("onBattleResulted", details);
   Logbook.sortie.battle.result();
 }
 

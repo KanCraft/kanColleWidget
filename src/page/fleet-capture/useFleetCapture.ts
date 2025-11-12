@@ -3,6 +3,7 @@ import { CropService } from "../../services/CropService";
 import { DownloadService } from "../../services/DownloadService";
 import { Launcher } from "../../services/Launcher";
 import { WorkerImage } from "../../utils";
+import { Logger } from "../../logger";
 import {
   createEmptyResultSet,
   type FleetCaptureController,
@@ -20,6 +21,7 @@ export function useFleetCapture({
   availableUsecases,
   initialUsecase,
 }: UseFleetCaptureOptions): FleetCaptureController {
+  const log = Logger.get("FleetCapture");
   const [activeUsecase, setActiveUsecase] = useState<Usecase>(initialUsecase);
   const [results, setResults] = useState<ResultSet>(
     createEmptyResultSet(initialUsecase.composition),
@@ -78,7 +80,7 @@ export function useFleetCapture({
       const dataUrl = canvas.toDataURL("image/png");
       await downloadService.download(dataUrl);
     } catch (error) {
-      console.error(error);
+      log.error("exportResults failed", error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");
     }
   }, [results, activeUsecase]);
