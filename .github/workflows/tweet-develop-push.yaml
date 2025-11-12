@@ -18,40 +18,47 @@ jobs:
       with:
         fetch-depth: 2  # 直前のコミットと比較するために2コミット取得
 
-    - name: Check if version update commit
+    - name: Check if skippable commit
       id: check_commit
       run: |
         # 最新のコミットタイトル（1行目のみ）を取得
         COMMIT_TITLE=$(git log -1 --pretty=%s)
         echo "Commit title: $COMMIT_TITLE"
 
+        # マージコミットかどうかをチェック
+        if git log -1 --pretty=%P | grep -q ' '; then
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
+          echo "This is a merge commit. Skipping tweet."
+          exit 0
+        fi
+
         # バージョン更新コミットかどうかをチェック（vX.X.X形式のみ）
         if echo "$COMMIT_TITLE" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
-          echo "is_version_update=true" >> "$GITHUB_OUTPUT"
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
           echo "This is a version update commit. Skipping tweet."
         else
-          echo "is_version_update=false" >> "$GITHUB_OUTPUT"
-          echo "This is not a version update commit. Will tweet."
+          echo "should_skip=false" >> "$GITHUB_OUTPUT"
+          echo "This is a tweetable commit. Will tweet."
         fi
 
     - name: Setup Node.js
-      if: steps.check_commit.outputs.is_version_update == 'false'
+      if: steps.check_commit.outputs.should_skip == 'false'
       uses: actions/setup-node@v6
       with:
         node-version: 22.x
 
     - name: Setup pnpm
-      if: steps.check_commit.outputs.is_version_update == 'false'
+      if: steps.check_commit.outputs.should_skip == 'false'
       uses: pnpm/action-setup@v4
       with:
         version: 10
 
     - name: Install dependencies
-      if: steps.check_commit.outputs.is_version_update == 'false'
+      if: steps.check_commit.outputs.should_skip == 'false'
       run: pnpm install
 
     - name: Generate tweet content
-      if: steps.check_commit.outputs.is_version_update == 'false'
+      if: steps.check_commit.outputs.should_skip == 'false'
       id: generate_tweet
       run: |
         # コミット情報を取得
@@ -80,6 +87,6 @@ jobs:
         } >> "$GITHUB_OUTPUT"
 
     - name: Post tweet
-      if: steps.check_commit.outputs.is_version_update == 'false'
+      if: steps.check_commit.outputs.should_skip == 'false'
       run: |
         pnpm exec tsx scripts/post-tweet.ts "${{ steps.generate_tweet.outputs.tweet_text }}"

@@ -144,7 +144,6 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
 
   async function ocr(url: string, params: Partial<WorkerParams> = { tessedit_char_whitelist: "0123456789:" }): Promise<RecognizeResult> {
     const worker = await createWorker('eng', OEM.LSTM_ONLY, {
-      logger: m => console.log(m),
       workerPath: chrome.runtime.getURL('tessworker.min.js'),
       langPath: chrome.runtime.getURL('tessdata-4.0.0_best_int'),
     });

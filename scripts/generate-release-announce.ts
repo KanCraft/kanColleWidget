@@ -34,6 +34,7 @@ const HASH_TAGS = ["#艦これウィジェット"];
 interface AnnounceOptions {
   version?: string;
   beta?: boolean;
+  prUrl?: string;
 }
 
 const main = () => {
@@ -52,9 +53,19 @@ const main = () => {
 
 const parseOptions = (argv: string[]): AnnounceOptions => {
   const options: AnnounceOptions = {};
-  for (const arg of argv) {
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
     if (arg === "--beta") {
       options.beta = true;
+      continue;
+    }
+    if (arg === "--pr-url") {
+      const nextArg = argv[++i];
+      if (!nextArg) {
+        console.warn("--pr-url にはURLを指定してください");
+        continue;
+      }
+      options.prUrl = nextArg;
       continue;
     }
     if (arg.startsWith("-")) {
@@ -86,7 +97,9 @@ const selectRelease = (releases: Release[], targetVersion?: string): Release | u
 
 const composeTweet = (note: ReleaseNote, release: Release, options: AnnounceOptions): string => {
   const repoUrl = note.reference?.repo?.replace(/\/$/, "");
-  const detailUrl = repoUrl ? `${repoUrl}/releases/tag/${release.version}` : undefined;
+  const detailUrl = options.prUrl
+    ? options.prUrl
+    : repoUrl ? `${repoUrl}/releases/tag/${release.version}` : undefined;
   let text = "";
 
   appendLine(() =>

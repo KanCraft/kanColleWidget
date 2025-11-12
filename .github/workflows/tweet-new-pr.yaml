@@ -1,11 +1,13 @@
-name: Tweet New Issue
+name: Tweet New Pull Request
 
 on:
-  issues:
+  pull_request_target:
     types: [opened]
+    branches:
+      - develop
 
 jobs:
-  tweet_new_issue:
+  tweet_new_pr:
     runs-on: ubuntu-latest
     env:
       X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
@@ -14,6 +16,8 @@ jobs:
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: develop
 
     - name: Setup Node.js
       uses: actions/setup-node@v6
@@ -31,24 +35,24 @@ jobs:
     - name: Generate tweet content
       id: generate_tweet
       env:
-        ISSUE_TITLE: ${{ github.event.issue.title }}
-        ISSUE_NUMBER: ${{ github.event.issue.number }}
-        ISSUE_URL: ${{ github.event.issue.html_url }}
-        ISSUE_USER: ${{ github.event.issue.user.login }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_URL: ${{ github.event.pull_request.html_url }}
+        PR_USER: ${{ github.event.pull_request.user.login }}
       run: |
         HASH_TAGS="#艦これウィジェット"
 
         # ツイート本文を生成（280文字制限を考慮）
         # 感謝メッセージを含める
-        TWEET_TEXT=$(printf "#%s %s\n%sさんありがとうございます!\n%s\n%s" "${ISSUE_NUMBER}" "${ISSUE_TITLE}" "${ISSUE_USER}" "${ISSUE_URL}" "${HASH_TAGS}")
+        TWEET_TEXT=$(printf "#%s %s\n%sさんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
 
         # 280文字を超える場合はタイトルを切り詰め
         if [ ${#TWEET_TEXT} -gt 280 ]; then
           # URL等の固定部分の長さを計算（感謝メッセージ + URL + ハッシュタグ + ユーザー名）
           # 余裕を見て150文字を固定部分として確保
           MAX_TITLE_LEN=$((280 - 150))
-          ISSUE_TITLE_SHORT=$(echo "$ISSUE_TITLE" | cut -c1-$MAX_TITLE_LEN)
-          TWEET_TEXT=$(printf "#%s %s...\n%sさんありがとうございます!\n%s\n%s" "${ISSUE_NUMBER}" "${ISSUE_TITLE_SHORT}" "${ISSUE_USER}" "${ISSUE_URL}" "${HASH_TAGS}")
+          PR_TITLE_SHORT=$(echo "$PR_TITLE" | cut -c1-$MAX_TITLE_LEN)
+          TWEET_TEXT=$(printf "#%s %s...\n%sさんありがとうございます!\n%s\n%s" "${PR_NUMBER}" "${PR_TITLE_SHORT}" "${PR_USER}" "${PR_URL}" "${HASH_TAGS}")
         fi
 
         # GitHub Actionsの出力に設定

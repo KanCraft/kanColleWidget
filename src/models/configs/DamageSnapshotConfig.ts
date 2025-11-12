@@ -25,11 +25,13 @@ export class DamageSnapshotConfig extends Model {
       "mode": DamageSnapshotMode.INAPP,
       "position": { left: 0, top: 0 },
       "size": { width: 160, height: 260 },
+      "heightRatio": 40,
     },
   }
   public mode: DamageSnapshotMode = DamageSnapshotMode.INAPP;
   public position = { left: 0, top: 0 };
   public size = { width: 160, height: 260};
+  public heightRatio: number = 40;
 
   public static async user(): Promise<DamageSnapshotConfig> {
     return (await DamageSnapshotConfig.find("user"))!;

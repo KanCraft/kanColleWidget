@@ -1,7 +1,7 @@
 import { Model } from "jstorm/chrome/local";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild } from "./entry";
 import { MissionSpec } from "../catalog";
-import { Logger } from "chromite";
+import { Logger } from "../logger";
 import { H, M, S } from "../utils";
 
 export default class Queue extends Model {
@@ -20,7 +20,7 @@ export default class Queue extends Model {
     case EntryType.FATIGUE:
       return new Fatigue(this.params.deck as never, this.params.seamap as never, this.params.time as never) as unknown as T;
     }
-    (new Logger("Queue")).warn("Unknown EntryType", this.type, this.params);
+    Logger.get("Queue").warn("Unknown EntryType", this.type, this.params);
     return {} as T;
   }
 

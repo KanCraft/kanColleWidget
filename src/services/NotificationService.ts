@@ -25,7 +25,7 @@ export class NotificationService {
     return new Promise((resolve) => this.mod.clear(id, (wasCleared) => resolve(wasCleared)));
   }
 
-  public create(id: string, options: chrome.notifications.NotificationOptions<true>): Promise<string> {
+  public create(id: string, options: chrome.notifications.NotificationCreateOptions): Promise<string> {
     return new Promise((resolve) => this.mod.create(id, options, (notificationId) => resolve(notificationId)));
   }
 
@@ -35,6 +35,14 @@ export class NotificationService {
     await this.clear(entry.$n.id(trigger));
     await this.create(entry.$n.id(trigger), entry.$n.options(trigger, config));
     await this.sound.play(config.sound);
+
+    // XXX: macOSでは、requireInteractionに関わらずOSの設定に引っ張られるため
+    //      stay === false であれば明示的に消すようにする
+    //      @see https://github.com/KanCraft/kanColleWidget/blob/develop/spec/features/notification-stay-on-display.md
+    if (config.stay === false) {
+      setTimeout(() => this.clear(entry.$n.id(trigger)), 10 * 1000);
+    }
+
     return entry.$n.id();
   }
 }
