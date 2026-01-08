@@ -1,0 +1,150 @@
+name: バグ報告
+description: バグや不具合を報告する
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告ありがとうございます。
+        できる限り詳細に記載いただくことで、迅速な対応が可能になります。
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: バグの概要
+      description: 何が起きているか、簡潔に説明してください
+      placeholder: 例）遠征完了通知が表示されない
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待される動作
+      description: 本来どのように動作すべきか説明してください
+      placeholder: 例）遠征完了時に通知が表示され、音が鳴る
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: 実際にはどのような動作になっているか説明してください
+      placeholder: 例）遠征が完了しても通知が表示されず、音も鳴らない
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現するための手順を記載してください
+      placeholder: |
+        1. 艦これウィジェットから艦これを起動
+        2. 遠征を開始する
+        3. 遠征完了まで待つ
+        4. → 通知が表示されない
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: 再現性
+      description: どのくらいの頻度で発生しますか？
+      options:
+        - 常に発生する（100%）
+        - 高頻度で発生する（70-99%）
+        - 時々発生する（30-70%）
+        - まれに発生する（30%未満）
+        - 一度だけ発生した
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature
+    attributes:
+      label: 関連する機能
+      description: 問題が発生している機能を選択してください
+      options:
+        - 遠征タイマー・通知
+        - 入渠タイマー・通知
+        - 建造タイマー・通知
+        - 疲労度管理
+        - スクリーンショット機能
+        - ゲーム窓の起動・リサイズ
+        - ポップアップ画面
+        - ダッシュボード
+        - 設定画面
+        - その他
+    validations:
+      required: true
+
+  - type: input
+    id: extension-version
+    attributes:
+      label: 艦これウィジェットのバージョン
+      description: "拡張機能の管理画面（chrome://extensions）で確認できます"
+      placeholder: 例）6.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: chrome-version
+    attributes:
+      label: Chromeのバージョン
+      description: "chrome://version で確認できます"
+      placeholder: 例）120.0.6099.109
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      description: 使用しているOSを選択してください
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS
+        - Linux
+        - Chrome OS
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: エラーメッセージ
+      description: |
+        コンソールに表示されたエラーメッセージがあれば記載してください。
+        Service Workerのログは chrome://extensions → 艦これウィジェット → 「Service Worker」リンクから確認できます。
+      render: shell
+      placeholder: エラーメッセージをそのまま貼り付けてください
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: スクリーンショット
+      description: 問題を説明するスクリーンショットがあれば添付してください（ドラッグ＆ドロップで添付可能）
+      placeholder: スクリーンショットをここにドラッグ＆ドロップしてください
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 追加情報
+      description: その他、関連する情報があれば記載してください
+      placeholder: |
+        例）
+        - 昨日までは正常に動いていた
+        - 特定の遠征でのみ発生する
+        - 他の拡張機能を無効にしても再現する
+    validations:
+      required: false

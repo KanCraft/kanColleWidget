@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: "使い方などのWikiページ"
-    url: "https://github.com/kancraft/kanColleWidget/wiki"
-    about: "基本的な使い方やトラブルシューティングをまとめた公式Wikiです。"
-  - name: "艦これウィジェットちゃん Xアカウント"
-    url: "https://x.com/KanColleWidget"
-    about: "開発情報を発信しているbotアカウントです。最新情報やユーザコミュニティの動向をチェックするのに便利です。"
+  - name: Chrome Web Store でレビューを書く
+    url: https://chromewebstore.google.com/detail/kdmdfnfglalcfjmoijnffnjlbknhdbod/reviews
+    about: 艦これウィジェットが気に入ったら、ぜひレビューをお願いします
+  - name: 質問・相談
+    url: https://github.com/nicegril/kanColleWidget/discussions
+    about: 使い方の質問や相談はこちら（Discussionsが有効な場合）
