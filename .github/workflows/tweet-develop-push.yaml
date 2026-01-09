@@ -18,7 +18,7 @@ jobs:
       with:
         fetch-depth: 2  # 直前のコミットと比較するために2コミット取得
 
-    - name: Check if version update commit
+    - name: Check if skippable commit
       id: check_commit
       run: |
         # 最新のコミットタイトル（1行目のみ）を取得
@@ -27,51 +27,56 @@ jobs:
         echo "Commit title: $COMMIT_TITLE"
         echo "Commit author: $COMMIT_AUTHOR"
 
-        SHOULD_SKIP=false
+        # マージコミットかどうかをチェック
+        if git log -1 --pretty=%P | grep -q ' '; then
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
+          echo "This is a merge commit. Skipping tweet."
+          exit 0
+        fi
 
         # バージョン更新コミットかどうかをチェック（vX.X.X形式のみ）
         if echo "$COMMIT_TITLE" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
           echo "This is a version update commit. Skipping tweet."
-          SHOULD_SKIP=true
+          exit 0
         fi
 
         # dependabotからのコミットかどうかをチェック
         if echo "$COMMIT_AUTHOR" | grep -qE '^dependabot(\[bot\])?$'; then
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
           echo "This is a dependabot commit. Skipping tweet."
-          SHOULD_SKIP=true
+          exit 0
         fi
 
         # dependabot関連のコミットメッセージかどうかをチェック
         if echo "$COMMIT_TITLE" | grep -qE '^chore\(deps(-dev)?\):'; then
+          echo "should_skip=true" >> "$GITHUB_OUTPUT"
           echo "This is a dependency update commit. Skipping tweet."
-          SHOULD_SKIP=true
+          exit 0
         fi
 
-        if [ "$SHOULD_SKIP" = true ]; then
-          echo "should_tweet=false" >> "$GITHUB_OUTPUT"
-        else
-          echo "should_tweet=true" >> "$GITHUB_OUTPUT"
-          echo "This commit should be tweeted."
-        fi
+        # 上記のいずれにも該当しない場合はツイート
+        echo "should_skip=false" >> "$GITHUB_OUTPUT"
+        echo "This is a tweetable commit. Will tweet."
 
     - name: Setup Node.js
-      if: steps.check_commit.outputs.should_tweet == 'true'
+      if: steps.check_commit.outputs.should_skip == 'false'
       uses: actions/setup-node@v6
       with:
         node-version: 22.x
 
     - name: Setup pnpm
-      if: steps.check_commit.outputs.should_tweet == 'true'
+      if: steps.check_commit.outputs.should_skip == 'false'
       uses: pnpm/action-setup@v4
       with:
         version: 10
 
     - name: Install dependencies
-      if: steps.check_commit.outputs.should_tweet == 'true'
+      if: steps.check_commit.outputs.should_skip == 'false'
       run: pnpm install
 
     - name: Generate tweet content
-      if: steps.check_commit.outputs.should_tweet == 'true'
+      if: steps.check_commit.outputs.should_skip == 'false'
       id: generate_tweet
       run: |
         # コミット情報を取得
@@ -100,6 +105,6 @@ jobs:
         } >> "$GITHUB_OUTPUT"
 
     - name: Post tweet
-      if: steps.check_commit.outputs.should_tweet == 'true'
+      if: steps.check_commit.outputs.should_skip == 'false'
       run: |
         pnpm exec tsx scripts/post-tweet.ts "${{ steps.generate_tweet.outputs.tweet_text }}"
