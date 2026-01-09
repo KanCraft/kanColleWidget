@@ -36,7 +36,7 @@ jobs:
         fi
 
         # dependabotからのコミットかどうかをチェック
-        if echo "$COMMIT_AUTHOR" | grep -qi "dependabot"; then
+        if echo "$COMMIT_AUTHOR" | grep -qE '^dependabot(\[bot\])?$'; then
           echo "This is a dependabot commit. Skipping tweet."
           SHOULD_SKIP=true
         fi
