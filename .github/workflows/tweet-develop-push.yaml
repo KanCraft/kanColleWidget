@@ -18,7 +18,7 @@ jobs:
       with:
         fetch-depth: 2  # 直前のコミットと比較するために2コミット取得
 
-    - name: Check if version update commit
+    - name: Check if should skip tweet
       id: check_commit
       run: |
         # 最新のコミットタイトル（1行目のみ）を取得
@@ -30,6 +30,7 @@ jobs:
         echo "Commit author: $COMMIT_AUTHOR"
 
         # dependabotからのコミットかどうかをチェック
+        # is_version_update=true でツイートをスキップ（変数名は後方互換性のため維持）
         if echo "$COMMIT_AUTHOR" | grep -qE '^dependabot'; then
           echo "is_version_update=true" >> "$GITHUB_OUTPUT"
           echo "This is a dependabot commit. Skipping tweet."
