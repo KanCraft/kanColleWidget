@@ -31,6 +31,45 @@ pnpm build
 # chrome://extensions にて読み込む
 ```
 
+## コンテナ開発フロー
+
+### Dev Container (VS Code / Codespaces)
+
+1. VS Code に Dev Containers 拡張を入れ、このリポジトリを開く。
+2. コマンドパレットで `Dev Containers: Reopen in Container` を実行する。
+3. `.devcontainer/devcontainer.json` がルートの `Dockerfile` をビルドし、
+   `kcw-node-modules` ボリュームを自動設定する。
+4. コンテナ内のターミナルで `pnpm start` を実行すると `vite build --watch`
+   が走り、`src/` の変更が `dist/` に即時反映される。
+5. `chrome://extensions` 側で「パッケージ化されていない拡張機能を読み込む」
+   から `dist/` を指定し、更新時は再読み込みするだけでよい。
+6. 依存追加を行った場合はコンテナ内で `pnpm install --frozen-lockfile` を
+   実行し、`kcw-node-modules` にキャッシュされることを確認する。
+
+### Docker 単体での利用
+
+Dev Container を使わない場合も、ルートの `Dockerfile` で同じ環境を
+構築できる。
+
+```sh
+docker build -t kcw-dev .
+docker run --rm -it \
+  -v "$(pwd)":/workspace \
+  -v kcw-node-modules:/workspace/node_modules \
+  kcw-dev
+# コンテナ内で自動的に pnpm install が実行され、続けて pnpm start が起動
+```
+
+- Makefile からまとめて起動したい場合は `make dev` を利用すると上記と
+  同じコマンド列が実行される。
+- `pnpm start` は `tsc && pnpm run copy-tesseract && vite build --watch` を
+  実行し、`dist/` を監視更新する。Chrome 拡張には監視済み `dist/` を
+  読み込ませるだけでよい。
+- ファイル監視を安定させるため `CHOKIDAR_USEPOLLING=1` 等を既定で有効化
+  済み。変更が伝播しない場合は `pnpm start -- --poll 100` を試す。
+- `kcw-node-modules` ボリュームを削除したい場合は
+  `docker volume rm kcw-node-modules` を実行する。
+
 # リリースフロー
 
 ## 概要

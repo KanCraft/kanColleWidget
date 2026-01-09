@@ -1,5 +1,4 @@
-import { Logger, LogLevel } from "chromite";
-Logger.global.level(LogLevel.DEBUG);
+import "./logger";
 
 import Alarm from './controllers/Alarm';
 chrome.alarms.onAlarm.addListener(Alarm.listener());
@@ -29,5 +28,4 @@ chrome.commands.onCommand.addListener(onCommand.listener());
 //   const frame = await Frame.memory();
 //   launcher.launch(frame);
 // })();
-
 
