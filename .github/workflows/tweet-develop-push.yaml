@@ -25,6 +25,17 @@ jobs:
         COMMIT_TITLE=$(git log -1 --pretty=%s)
         echo "Commit title: $COMMIT_TITLE"
 
+        # コミット作成者を取得
+        COMMIT_AUTHOR=$(git log -1 --pretty=%an)
+        echo "Commit author: $COMMIT_AUTHOR"
+
+        # dependabotからのコミットかどうかをチェック
+        if echo "$COMMIT_AUTHOR" | grep -qE '^dependabot'; then
+          echo "is_version_update=true" >> "$GITHUB_OUTPUT"
+          echo "This is a dependabot commit. Skipping tweet."
+          exit 0
+        fi
+
         # バージョン更新コミットかどうかをチェック（vX.X.X形式のみ）
         if echo "$COMMIT_TITLE" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
           echo "is_version_update=true" >> "$GITHUB_OUTPUT"
