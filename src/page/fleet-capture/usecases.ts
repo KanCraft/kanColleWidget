@@ -14,4 +14,15 @@ export const usecases: Usecase[] = [
       ["第五艦", "第六艦"],
     ],
   },
+  {
+    id: "aviation-fleet-capture",
+    title: "基地航空隊編成のキャプチャ",
+    description: "基地航空隊の最大3部隊編成に対応したキャプチャです",
+    crop: "aviation",
+    page: 1,
+    count: 3,
+    composition: [
+      ["第一航空隊", "第二航空隊", "第三航空隊"],
+    ],
+  }
 ];

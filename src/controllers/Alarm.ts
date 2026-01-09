@@ -1,7 +1,7 @@
 import { Router } from "chromite";
 import * as QueueWatcher from "./Cron/QueueWatcher";
 
-const r = new Router<chrome.alarms.AlarmEvent>(async (alarm) => ({ __action__: alarm.name }));
+const r = new Router<typeof chrome.alarms.onAlarm>(async (alarm) => ({ __action__: alarm.name }));
 
 r.on("/cron/queues", async (/* alarm */) => {
   QueueWatcher.Once();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, ReactNode } from "react";
 import { FoldableSection } from "../FoldableSection";
 import { NotificationConfig } from "../../../models/configs/NotificationConfig";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TriggerType } from "../../../models/entry";
@@ -197,6 +197,7 @@ function NotificationConfigEditor({
       <div className="flex items-center space-x-4">
         <IconSettingView config={config} configId={configId} />
         <SoundSettingView config={config} configId={configId} />
+        <StaySettingView config={config} />
         {type !== "default" ?
           <div className="flex-1 flex justify-end">
             <TestPlayView config={config} type={type} trigger={trigger} />
@@ -293,6 +294,30 @@ function SoundSettingView({
   )
 }
 
+function StaySettingView({
+  config,
+}: {
+  config: NotificationConfig;
+}) {
+  const [stay, setStay] = useState<boolean | null>(config.stay);
+  return (
+    <CycleButton
+      value={stay}
+      onChange={async (next) => {
+        setStay(next);
+        await config.update({ stay: next });
+      }}
+      label={<span className="font-bold">通知消去</span>}
+      buttonClassName="bg-white hover:bg-slate-50"
+      options={[
+        { value: null, label: <span className="text-gray-400">デフォルト</span> },
+        { value: false, label: <span>自動</span> },
+        { value: true, label: <span>手動</span> },
+      ]}
+    />
+  );
+}
+
 function TestPlayView({
   type,
   trigger,
@@ -322,5 +347,39 @@ function TestPlayView({
     >
       テスト通知を送信
     </button>
+  );
+}
+
+type CycleButtonOption<T> = {
+  value: T;
+  label: ReactNode;
+};
+
+function CycleButton<T>({
+  value,
+  onChange,
+  options,
+  label,
+  buttonClassName,
+}: {
+  value: T;
+  onChange: (next: T) => void;
+  options: CycleButtonOption<T>[];
+  label?: ReactNode;
+  buttonClassName?: string;
+}) {
+  const currentIndex = options.findIndex((opt) => opt.value === value);
+  const nextIndex = (currentIndex + 1) % options.length;
+  const currentLabel = options[currentIndex]?.label ?? options[0].label;
+  return (
+    <div className="flex items-center space-x-2">
+      {label}
+      <button
+        onClick={() => onChange(options[nextIndex].value)}
+        className={`px-3 py-1 border border-slate-200 rounded text-sm ${buttonClassName || ""}`}
+      >
+        {currentLabel}
+      </button>
+    </div>
   );
 }

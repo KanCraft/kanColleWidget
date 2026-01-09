@@ -4,6 +4,101 @@
   },
   "releases": [
     {
+      "date": "2025-11-11",
+      "version": "v4.7.0",
+      "message": "",
+      "commits": [
+        {
+          "title": "大破進撃防止サイズのスライダーの最小値を 10% に変更",
+          "hash": "49285938c96a60ac7660c9829851349dd39a2d1a"
+        },
+        {
+          "title": "高さ調整処理を既存実装に合わせて簡素化",
+          "hash": "d08931b560c4fef14b3536e4464b7dc855f39158"
+        },
+        {
+          "title": "feat: 出撃海域とマスの情報を記録しておく処理",
+          "hash": "82706aff932e9086bfce3f5d26104748d50fa515"
+        },
+        {
+          "title": "fix: カバレッジ計測の設定を追加しCodecovへの正しいアップロードを実現",
+          "hash": "728a2674f1aaf31426c89bd95713228faa3f6dbb"
+        },
+        {
+          "title": "fix: 外部からのPRであっても感謝メッセージを投稿できるようにする",
+          "hash": "9653754a19594c8bbcf095a4b7b12bdbca78f0a2"
+        },
+        {
+          "title": "spec に実装を反映",
+          "hash": "4cdc1afe6cea383d0050c739994628b22c276296"
+        },
+        {
+          "title": "高さ調整スライダーの最小値・最大値を修正し、ラベルや目盛り表示を更新",
+          "hash": "51d82d1fcb2d5a267b9ae8eb48e01d8ace4acee7"
+        },
+        {
+          "title": "大破進撃防止機能に高さ調整オプションを追加し，高さパーセンテージ設定機能を実装",
+          "hash": "355de77510e4eb436e382b46c4331de940e1b0e1"
+        },
+        {
+          "title": "chromite 0.3.3 と @types/chrome 0.1.27 への対応",
+          "hash": "f6070a9f99ae9d63f0d351ee56dbbc3c6d4363dc"
+        },
+        {
+          "title": "v4.6.0",
+          "hash": "bc156c326370968a1bf1b469c31417ee1a8a165d"
+        },
+        {
+          "title": "fix: develop ブランチへの push 時、マージコミットのツイート通知をスキップ",
+          "hash": "b55dd86685a2a4199083ef352c7db0c83defd589"
+        },
+        {
+          "title": "fix: ツイート通知の @ メンションからスペースを削除",
+          "hash": "6a77c56af98b25a0540a1613bcfe3a0e7a3196f5"
+        },
+        {
+          "title": "fix: macOSで通知が自動的に消えない問題に対処",
+          "hash": "d23ca8fedfbfcf7ee1559bec2c801b6dc596fe5c"
+        },
+        {
+          "title": "feat: 基地航空隊編成のキャプチャ機能を追加",
+          "hash": "161de61378140c5030b336442d173d7c98589655"
+        },
+        {
+          "title": "feat: PR/Issue投稿時のツイート通知にコントリビューター感謝メッセージを追加",
+          "hash": "3db0453fe4cc560e90f423cfe8398a3e6d43aa63"
+        },
+        {
+          "title": "通知設定に  オプションを追加し、関連 UI を実装",
+          "hash": "3cbe8952fa8759774ec60428ba910db6a520e75e"
+        },
+        {
+          "title": "通知オブジェクトに  プロパティを追加し  オプションを適切に反映",
+          "hash": "ae3d1289780acbbe5cf190a7e54ec322bfb911b4"
+        },
+        {
+          "title": "窓サイズ「CLASSIC」の追加",
+          "hash": "c39cc726a2c1a006524078902c45d27c3b837e0a"
+        },
+        {
+          "title": "docs: 通知のstay（消さない）設定が機能しない原因の調査と現時点での結論のまとめを追加",
+          "hash": "ddce7c6a5ab8c7e1c0432585a96fd211c65f0325"
+        },
+        {
+          "title": "fix: バグ報告テンプレートの説明更新",
+          "hash": "5158e4516fafbe44f377c8638422b30ae41f4b9e"
+        },
+        {
+          "title": "feat: コンテナ開発環境の整備",
+          "hash": "e5662fd9f2d4de9f0df5ae623f998bba8a3ddd74"
+        },
+        {
+          "title": "feat: Google OAuth2 トークン取得をループバックフローに移行",
+          "hash": "4459e3a0b3bee338b417b877d26a3be373ca6111"
+        }
+      ]
+    },
+    {
       "date": "2025-11-07",
       "version": "v4.5.2",
       "message": "",

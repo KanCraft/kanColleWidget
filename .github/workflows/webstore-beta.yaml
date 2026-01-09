@@ -23,7 +23,7 @@ jobs:
       GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
       CHROMEWEBSTORE_EXTENSION_ID: egkgleinehaapbpijnlpbllfeejjpceb
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:
@@ -73,7 +73,7 @@ jobs:
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:
@@ -85,7 +85,8 @@ jobs:
     - run: pnpm install
     - name: Post release announcement tweet
       run: |
-        TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts --beta)"
+        PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+        TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts --beta --pr-url "$PR_URL")"
         printf 'Generated tweet:\n%s\n' "$TWEET_TEXT"
         pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"
 
@@ -100,7 +101,7 @@ jobs:
       X_BOT_ACCESS_TOKEN:        ${{ secrets.X_BOT_ACCESS_TOKEN }}
       X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Use Node.js 22.x
       uses: actions/setup-node@v6
       with:

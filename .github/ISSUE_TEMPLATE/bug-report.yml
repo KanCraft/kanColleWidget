@@ -65,7 +65,7 @@ body:
     id: browser_version
     attributes:
       label: ブラウザとバージョン
-      description: 使用しているブラウザとバージョン（例: Chrome 130.0.0.0）を記載してください。
+      description: "使用しているブラウザとバージョン（例: Chrome 130.0.0.0）を記載してください。Chrome の場合は chrome://version 画面で確認できます。"
       placeholder: Chrome 129.0.6668.0
     validations:
       required: true

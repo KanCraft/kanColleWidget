@@ -1,9 +1,9 @@
-import { Logger } from "chromite";
+import { Logger } from "../../logger";
 import Queue from "../../models/Queue";
 import { NotificationService } from "../../services/NotificationService";
 
 export async function Once() {
-  const log = new Logger("QueueWatcher");
+  const log = Logger.get("QueueWatcher");
   const queues = await Queue.list();
   const notification = new NotificationService();
   for (const queue of queues) {
