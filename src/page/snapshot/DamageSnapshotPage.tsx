@@ -2,14 +2,23 @@ import { useEffect, useState } from "react"
 
 export function DamageSnapshotPage() {
   const [uris, setURIs] = useState<string[]>([]);
+  
   useEffect(() => {
     chrome.runtime.onMessage.addListener((msg) => {
       if (msg.__action__ === "/dsnapshot/separate:push") {
-        setURIs((prev) => [...prev, msg.uri as string]);
+        const { uri, seaArea, battleCount } = msg;
+        setURIs((prev) => [...prev, uri]);
+        
+        // タイトルを海域と連戦数で更新
+        if (seaArea && battleCount) {
+          document.title = `${seaArea} (${battleCount}) - 艦隊状況`;
+        } else if (seaArea) {
+          document.title = `${seaArea} - 艦隊状況`;
+        } else {
+          document.title = "艦隊状況";
+        }
       }
     });
-    // TODO: どの海域の何戦目かを表示するタイトルにする
-    document.title = "艦隊状況";
     // TODO: このウィンドウのサイズ・位置を保存して次回起動時に復元する
   }, []);
   return (
