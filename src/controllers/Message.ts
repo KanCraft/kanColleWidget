@@ -12,6 +12,7 @@ import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
 import { GameWindowConfig } from "../models/configs/GameWindowConfig";
+import { Logbook } from "../models/Logbook";
 import { NotificationService } from "../services/NotificationService";
 
 const onMessage = new Router<typeof chrome.runtime.onMessage>();
@@ -84,6 +85,11 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   const img = await WorkerImage.from(raw);
   const uri = await (new CropService(img)).crop("damagesnapshot");
 
+  // 海域と連戦数の情報を取得
+  const sortie = Logbook.sortie;
+  const seaAreaInfo = sortie.map ? `${sortie.map.area}-${sortie.map.info}` : "";
+  const battleCount = sortie.battles.length;
+
   const config = await DamageSnapshotConfig.user();
   switch (config.mode) {
   case DamageSnapshotMode.DISABLED:
@@ -93,7 +99,7 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   case DamageSnapshotMode.SEPARATE: {
     const win = await Launcher.damagesnapshot(config);
     if (!win || !win.tabs || !win.tabs[0].id) throw new Error("Failed to get damage snapshot window");
-    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp });
+    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp, seaArea: seaAreaInfo, battleCount });
   }
   }
 });
