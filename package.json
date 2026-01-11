@@ -1,7 +1,7 @@
 {
   "name": "kancollewidget",
   "private": true,
-  "version": "4.5.2",
+  "version": "4.8.1",
   "type": "module",
   "engines": {
     "node": "v22.20.0",
@@ -10,8 +10,8 @@
   "scripts": {
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "start": "tsc && pnpm run copy-tesseract && vite build --watch",
-    "build": "tsc && pnpm run copy-tesseract && vite build",
+    "start": "tsc && pnpm run copy-tesseract && vite build --mode=development --watch",
+    "build": "tsc && pnpm run copy-tesseract && vite build --mode=production",
     "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int",
     "remove-remote-code": "sed -i.bak 's#\"https://cdn.jsdelivr.net/[^\"]*\"#\"FILTERED_BY_KCWIDGET\"#g' dist/tessworker.min.js && sed -i.bak 's#`https://cdn.jsdelivr.net/[^`]*`#`FILTERED_BY_KCWIDGET`#g' dist/dmm.js && rm dist/*.bak",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -20,7 +20,7 @@
   "dependencies": {
     "@heroicons/react": "2.1.5",
     "@tesseract.js-data/eng": "1.0.0",
-    "chromite": "^0.1.8",
+    "chromite": "^0.3.3",
     "jstorm": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,7 +31,7 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
-    "@types/chrome": "^0.0.248",
+    "@types/chrome": "^0.1.27",
     "@types/node": "^20.8.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -44,7 +44,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "jsdom": "^24.1.1",
+    "jsdom": "^27.1.0",
     "postcss": "^8.4.41",
     "sass": "^1.77.8",
     "tailwindcss": "^3.4.10",

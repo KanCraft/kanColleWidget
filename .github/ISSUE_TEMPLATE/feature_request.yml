@@ -1,0 +1,100 @@
+name: 機能要望
+description: 新しい機能の追加を提案する
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能要望ありがとうございます。
+        背景や目的を詳しく記載いただくことで、より良い実装につなげることができます。
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 機能の概要
+      description: 追加したい機能を簡潔に説明してください
+      placeholder: 例）演習のリセット時刻を通知する機能
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・課題
+      description: なぜこの機能が必要ですか？現在どのような課題がありますか？
+      placeholder: |
+        例）
+        - 演習のリセット時刻（3時、15時）を忘れてしまうことがある
+        - 演習をし忘れると戦果が稼げない
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: ユースケース
+      description: この機能がどのように使われるか、具体的なシナリオを記載してください
+      placeholder: |
+        例）
+        1. 設定画面で演習リセット通知をONにする
+        2. 14:55頃に「演習リセットまであと5分」の通知が届く
+        3. 艦これを起動して演習を消化する
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 機能カテゴリ
+      description: 提案する機能の種類を選択してください
+      options:
+        - タイマー・通知機能
+        - UI・表示機能
+        - スクリーンショット関連
+        - ゲーム窓関連
+        - データ管理・エクスポート
+        - その他
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 希望優先度
+      description: この機能の優先度についてご意見をお聞かせください
+      options:
+        - "高: ぜひ実装してほしい"
+        - "中: あると便利"
+        - "低: 将来的にあると嬉しい"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 現在の回避策・代替案
+      description: 現在どのように対処していますか？
+      placeholder: |
+        例）
+        - スマホのアラームを手動で設定している
+        - 他のツールを併用している
+    validations:
+      required: false
+
+  - type: textarea
+    id: mockup
+    attributes:
+      label: モックアップ・参考イメージ
+      description: UIのイメージや参考になる画像があれば添付してください
+      placeholder: 画像をドラッグ＆ドロップしてください
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: その他・補足情報
+      description: その他、実装に役立つ情報があれば記載してください
+    validations:
+      required: false

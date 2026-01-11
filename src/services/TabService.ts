@@ -25,7 +25,7 @@ export class TabService {
   }
 
   // TODO: 各所で chrome.tabs.captureVisibleTab を使っているので、ここに集約させたい
-  public async capture(windowId: number, options: chrome.tabs.CaptureVisibleTabOptions) {
+  public async capture(windowId: number, options: chrome.extensionTypes.ImageDetails) {
     return await new Promise<string>((resolve) => {
       this.mod.captureVisibleTab(windowId, options, (dataUrl) => {
         resolve(dataUrl);

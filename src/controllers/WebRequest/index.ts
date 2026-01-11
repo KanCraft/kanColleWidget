@@ -1,7 +1,7 @@
 import {
-  Logger,
   SequentialRouter,
 } from "chromite";
+import { Logger } from "../../logger";
 
 import {
   onPort,
@@ -12,10 +12,16 @@ import {
   onMapStart,
   onBattleStarted,
   onCreateShip,
+  onBattleResulted,
+  onMapNext,
+  onMidnightBattleStarted,
 } from "./kcsapi";
 import { ScriptingService } from "../../services/ScriptingService";
 
-const onBeforeRequest = new SequentialRouter<chrome.webRequest.WebRequestBodyEvent>(2, async (details) => {
+const requestLogger = Logger.get("WebRequest");
+const completeLogger = Logger.get("WebRequest:onComplete");
+
+const onBeforeRequest = new SequentialRouter<typeof chrome.webRequest.onBeforeRequest>(2, async (details) => {
   const url = new URL(details.url);
   return { __action__: url.pathname };
 });
@@ -27,6 +33,9 @@ onBeforeRequest.on(["/kcsapi/api_req_mission/result"], onMissionResult); // 遠�
 onBeforeRequest.on(["/kcsapi/api_req_nyukyo/start"], onRecoveryStart); // 修復用の入渠をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_map/start"], onMapStart); // 出撃をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battle"], onBattleStarted); // 戦闘が開始されたとき
+onBeforeRequest.on(["/kcsapi/api_req_sortie/battleresult"], onBattleResulted); // 戦闘結果を回収しようとしたとき
+onBeforeRequest.on(["/kcsapi/api_req_map/next"], onMapNext); // マップ移動をしたとき
+onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/battle"], onMidnightBattleStarted); // 夜戦が開始されたとき
 
 onBeforeRequest.on([
   '/kcsapi/api_req_kousyou/createship',
@@ -34,16 +43,15 @@ onBeforeRequest.on([
 ], onCreateShip); // 新造艦を作成しようとしたとき
 
 onBeforeRequest.onNotFound(async (details) => {
-  (new Logger("WebRequest")).warn("onNotFound", details);
+  requestLogger.debug("-", details);
 });
 
-const onComplete = new SequentialRouter<chrome.webRequest.WebResponseCacheEvent>(2, async (details) => {
+const onComplete = new SequentialRouter<typeof chrome.webRequest.onCompleted>(2, async (details) => {
   const url = new URL(details.url);
   return { __action__: url.pathname };
 });
 
 onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
-  (new Logger("onComplete")).info("api_start2/getData", details);
   const s = new ScriptingService();
   await s.js({
     tabId: details.tabId,
@@ -53,14 +61,14 @@ onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
 
 onComplete.on(["/kcsapi/api_req_sortie/battleresult"], async ([details]) => {
   const timestamp = Date.now();
-  new Logger("onComplete").info("api_req_sortie/battleresult", details);
+  completeLogger.debug("api_req_sortie/battleresult", details);
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 1, timestamp }, {
     frameId: details.frameId,
   });
 });
 onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]) => {
   const timestamp = Date.now();
-  new Logger("onComplete").info("api_req_combined_battle/battleresult", details);
+  completeLogger.debug("api_req_combined_battle/battleresult", details);
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 2, timestamp }, {
     frameId: details.frameId,
   });

@@ -47,6 +47,16 @@ export class Frame extends Model {
       url: KanColleURL,
       protected: true,
     },
+    __classic__: {
+      addressbar: false,
+      name: "CLASSIC",
+      description: "なつかしの第1期のサイズ",
+      muted: false,
+      position: { left: 0, top: 0, },
+      size: { width: GameRawWidth * 2/3, height: GameRawHeight * 2/3, },
+      url: KanColleURL,
+      protected: true,
+    },
     __small__: {
       addressbar: false,
       name: "SMALL",

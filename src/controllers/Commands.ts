@@ -3,7 +3,7 @@ import { Launcher } from "../services/Launcher";
 import { DownloadService } from "../services/DownloadService";
 import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 
-const onCommand = new Router<chrome.commands.CommandEvent>(async (command) => ({ __action__: command }));
+const onCommand = new Router<typeof chrome.commands.onCommand>(async (command) => ({ __action__: command }));
 
 onCommand.on("/screenshot", async () => {
   const launcher = new Launcher();
