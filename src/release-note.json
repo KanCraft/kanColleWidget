@@ -4,10 +4,54 @@
   },
   "releases": [
     {
-      "date": "2025-11-11",
-      "version": "v4.7.0",
+      "date": "2026-01-12",
+      "version": "v4.8.1",
       "message": "",
       "commits": [
+        {
+          "title": "自由フォーマットのIssue作成を許可",
+          "hash": "efb90da785655ea4f60b39eb585c2a86ebc074e7"
+        },
+        {
+          "title": "Update ISSUE_TEMPLATE for Copilot",
+          "hash": "035daecf4553cafd843038ad327a5bdafdb659a3"
+        },
+        {
+          "title": "fix: ビルドモードを明示的に指定",
+          "hash": "255534fc62ae1607e0646626637e1c1ecef6aeb3"
+        },
+        {
+          "title": "chore(deps): bump actions/checkout from 4 to 6",
+          "hash": "6485298b4d079c3aa7a6df841b0e64ce470ba06b"
+        },
+        {
+          "title": "fix: ESLintエラーを修正",
+          "hash": "48487577b753bc3fb774d31b8d254f1095747b35"
+        },
+        {
+          "title": "injection以下ではnode_modulesへのimportできないので",
+          "hash": "735c919e3bc24efa56bab7c83ced63c58efb9915"
+        },
+        {
+          "title": "refactor: Logger 利用の共通化",
+          "hash": "6ca92ac6b5b85693939bb986424e94127a328cd1"
+        },
+        {
+          "title": "出撃記録ページを追加",
+          "hash": "4f81b8b25f12bbdc0031bfbbd4314f67d0ca41bb"
+        },
+        {
+          "title": "ゲームウィンドウ内表示設定を追加 (ミュート/スクショボタンの表示切替とサイズ設定)",
+          "hash": "e7f7f7fcea794d4d070da969cda9da3fe6b7aa9c"
+        },
+        {
+          "title": "ベータ版リリースツイートにPRリンクを含めるように改善",
+          "hash": "38d3d4de6a89a196a6b9083fcac0e0e2232fa6f4"
+        },
+        {
+          "title": "v4.7.0",
+          "hash": "8e92bc79add744c84c98ae62d790f9f927b96ae8"
+        },
         {
           "title": "大破進撃防止サイズのスライダーの最小値を 10% に変更",
           "hash": "49285938c96a60ac7660c9829851349dd39a2d1a"
@@ -27,6 +71,10 @@
         {
           "title": "fix: 外部からのPRであっても感謝メッセージを投稿できるようにする",
           "hash": "9653754a19594c8bbcf095a4b7b12bdbca78f0a2"
+        },
+        {
+          "title": "chore(deps-dev): bump jsdom from 24.1.1 to 27.1.0",
+          "hash": "de7cbfffc910f613c51cc566c4ff313f319cc384"
         },
         {
           "title": "spec に実装を反映",
@@ -79,22 +127,6 @@
         {
           "title": "窓サイズ「CLASSIC」の追加",
           "hash": "c39cc726a2c1a006524078902c45d27c3b837e0a"
-        },
-        {
-          "title": "docs: 通知のstay（消さない）設定が機能しない原因の調査と現時点での結論のまとめを追加",
-          "hash": "ddce7c6a5ab8c7e1c0432585a96fd211c65f0325"
-        },
-        {
-          "title": "fix: バグ報告テンプレートの説明更新",
-          "hash": "5158e4516fafbe44f377c8638422b30ae41f4b9e"
-        },
-        {
-          "title": "feat: コンテナ開発環境の整備",
-          "hash": "e5662fd9f2d4de9f0df5ae623f998bba8a3ddd74"
-        },
-        {
-          "title": "feat: Google OAuth2 トークン取得をループバックフローに移行",
-          "hash": "4459e3a0b3bee338b417b877d26a3be373ca6111"
         }
       ]
     },
