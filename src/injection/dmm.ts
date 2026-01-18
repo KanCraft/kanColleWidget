@@ -160,13 +160,21 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
 
   /**
    * ウィンドウを閉じようとしたときに確認ダイアログを表示
+   * 設定値を動的にチェックして、有効な場合のみダイアログを表示する
    */
   function setupBeforeUnloadHandler() {
-    window.addEventListener("beforeunload", (event) => {
-      // 標準的な確認メッセージを表示
-      event.preventDefault();
-      // Chrome では returnValue に値を設定することで確認ダイアログが表示される
-      event.returnValue = "";
+    window.addEventListener("beforeunload", async (event) => {
+      // 現在の設定値を取得
+      const configs = await fetchNecessaryConfig();
+      const shouldAlertBeforeClose = configs.game.alertBeforeClose ?? true;
+      
+      // 設定が有効な場合のみ確認ダイアログを表示
+      if (shouldAlertBeforeClose) {
+        // 標準的な確認メッセージを表示
+        event.preventDefault();
+        // Chrome では returnValue に値を設定することで確認ダイアログが表示される
+        event.returnValue = "";
+      }
     });
   }
 
@@ -176,8 +184,8 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
     const configs = await fetchNecessaryConfig();
     startListeningMessage();
     InAppActionButtons.create(configs.game);
-    const shouldAlertBeforeClose = configs.game.alertBeforeClose ?? true;
-    if (shouldAlertBeforeClose) setupBeforeUnloadHandler();
+    // beforeunload ハンドラーは常に設定し、イベント発火時に設定値を確認する
+    setupBeforeUnloadHandler();
   })();
 
 })();
