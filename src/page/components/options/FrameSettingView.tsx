@@ -32,8 +32,9 @@ export function FrameSettingView({
               // 開いているゲーム窓に設定更新を通知
               try {
                 const win = await launcher.find();
-                if (win && win.tabs && win.tabs[0] && win.tabs[0].id) {
-                  await chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/injected/dmm/config:update" });
+                const tabId = win?.tabs?.[0]?.id;
+                if (tabId) {
+                  await chrome.tabs.sendMessage(tabId, { __action__: "/injected/dmm/config:update" });
                 }
               } catch (error) {
                 // タブが閉じられている等でメッセージ送信に失敗した場合は無視
