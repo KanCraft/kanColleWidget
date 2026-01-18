@@ -30,9 +30,15 @@ export function FrameSettingView({
               await config.update({ alertBeforeClose: next });
               setAlertBeforeClose(next);
               // 開いているゲーム窓に設定更新を通知
-              const win = await launcher.find();
-              if (win && win.tabs && win.tabs[0].id) {
-                chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/injected/dmm/config:update" });
+              try {
+                const win = await launcher.find();
+                if (win && win.tabs && win.tabs[0] && win.tabs[0].id) {
+                  await chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/injected/dmm/config:update" });
+                }
+              } catch (error) {
+                // タブが閉じられている等でメッセージ送信に失敗した場合は無視
+                // 次回ゲーム窓を開いた際に正しい設定が適用される
+                console.debug("Failed to send config update message:", error);
               }
             }}
             className="w-4 h-4"
