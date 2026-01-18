@@ -34,7 +34,10 @@ export function FrameSettingView({
                 const win = await launcher.find();
                 const tabId = win?.tabs?.[0]?.id;
                 if (tabId) {
-                  await chrome.tabs.sendMessage(tabId, { __action__: "/injected/dmm/config:update" });
+                  await chrome.tabs.sendMessage(tabId, { 
+                    __action__: "/injected/dmm/config:update",
+                    alertBeforeClose: next
+                  });
                 }
               } catch (error) {
                 // タブが閉じられている等でメッセージ送信に失敗した場合は無視

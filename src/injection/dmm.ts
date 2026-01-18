@@ -148,9 +148,8 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
         resize();
       }
       // 設定更新メッセージを受信して、キャッシュを更新
-      if (msg.__action__ === "/injected/dmm/config:update") {
-        const configs = await fetchNecessaryConfig();
-        cachedAlertBeforeClose = configs.game.alertBeforeClose ?? true;
+      if (msg.__action__ === "/injected/dmm/config:update" && typeof msg.alertBeforeClose === "boolean") {
+        cachedAlertBeforeClose = msg.alertBeforeClose;
       }
     });
   }
