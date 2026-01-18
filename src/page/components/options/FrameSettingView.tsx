@@ -29,6 +29,11 @@ export function FrameSettingView({
               const next = event.target.checked;
               await config.update({ alertBeforeClose: next });
               setAlertBeforeClose(next);
+              // 開いているゲーム窓に設定更新を通知
+              const win = await launcher.find();
+              if (win && win.tabs && win.tabs[0].id) {
+                chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/injected/dmm/config:update" });
+              }
             }}
             className="w-4 h-4"
           />
