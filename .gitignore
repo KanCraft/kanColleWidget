@@ -51,3 +51,6 @@ coverage
 
 # claude
 .claude/settings.local.json
+
+# Screenshots (Playwright等)
+.screenshots
