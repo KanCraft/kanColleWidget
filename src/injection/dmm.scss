@@ -11,6 +11,15 @@ body {
     overflow: hidden !important;
 }
 
+// DMM Game Platform が React SPA 化され、
+// div#root > div.gamesResetStyle でラップされるようになったため、
+// ラッパー要素もビューポート全体に広げる
+#root, .gamesResetStyle {
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
 header {
     display: none !important;
 }
@@ -22,6 +31,9 @@ header {
 // }
 
 main {
+    // DMM側が display: flex; justify-content: center を付与するようになったため、
+    // block に上書きして従来のレイアウトを維持する
+    display: block !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100vw !important;
