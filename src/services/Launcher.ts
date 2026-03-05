@@ -61,6 +61,14 @@ export class Launcher {
   }
 
   /**
+   * ログブックページを新規タブで開く。
+   * @returns 作成されたタブの Promise
+   */
+  public static async logbook() {
+    return await (new this()).tabs.create({ url: "page/index.html#/logbook" });
+  }
+
+  /**
    * 編成キャプチャページを新規タブで開く。
    * @returns 作成されたタブの Promise
    */
@@ -85,6 +93,7 @@ export class Launcher {
       ...config.position,
       ...config.size,
     });
+    if (!win) throw new Error("Failed to create dashboard window");
     while (win.tabs![0].status !== "complete") {
       await sleep(10);
       win = await chrome.windows.get(win.id!, { populate: true });
@@ -108,6 +117,7 @@ export class Launcher {
     if (exists && exists.id) return this.retouch(exists, frame);
     // ない場合、新規作成してactivateする
     const win = await this.windows.create(frame.toWindowCreateData());
+    if (!win) throw new Error("Failed to create game window");
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
     this.mute(win.tabs![0].id!, frame.muted);
@@ -213,7 +223,7 @@ export class Launcher {
    * @param options Chrome のキャプチャオプション（既定は JPEG/100）
    * @returns キャプチャ結果の文字列
    */
-  public async capture(tabId: number, options: chrome.tabs.CaptureVisibleTabOptions = {
+  public async capture(tabId: number, options: chrome.extensionTypes.ImageDetails = {
     format: "jpeg",
     quality: 100,
   }): Promise<string> {

@@ -19,13 +19,14 @@ export class Recovery extends NotificationEntryBase {
     options: (
       trigger: TriggerType = TriggerType.END,
       overwrite: Partial<NotificationConfigData> = {},
-    ): chrome.notifications.NotificationOptions<true> => {
+    ): chrome.notifications.NotificationCreateOptions => {
       if (trigger === TriggerType.START) {
         return {
           iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
           title: "修復開始",
           message: `修復のため第${this.dock}番ドックに入渠しました.\n完了予定時刻は${KCWDate.ETA(this.time).format("HH:MM")}です`,
           type: "basic",
+          requireInteraction: overwrite.stay ?? false,
         }
       }
       return {
@@ -33,6 +34,7 @@ export class Recovery extends NotificationEntryBase {
         title: "修復完了",
         message: `第${this.dock}番ドックでの修復がまもなく完了します`,
         type: "basic",
+        requireInteraction: overwrite.stay ?? false,
       }
     }
   }

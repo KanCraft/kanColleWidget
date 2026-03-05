@@ -9,6 +9,7 @@ import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig"
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
 import { NotificationConfig } from "../../models/configs/NotificationConfig";
 import { EntryType, TriggerType } from "../../models/entry";
+import { Logbook } from "../../models/Logbook";
 
 export async function options() {
   const frames = await Frame.list();
@@ -74,4 +75,10 @@ export async function dashboard() {
 
 export async function damagesnapshot() {
   return {};
+}
+
+export async function logbook() {
+  return {
+    sorties: await Logbook.list(),
+  };
 }

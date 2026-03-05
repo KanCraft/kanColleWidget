@@ -21,13 +21,14 @@ export class Fatigue extends NotificationEntryBase {
     options: (
       trigger: TriggerType = TriggerType.END,
       overwrite: Partial<NotificationConfigData> = {},
-    ): chrome.notifications.NotificationOptions<true> => {
+    ): chrome.notifications.NotificationCreateOptions => {
       if (trigger === TriggerType.START) {
         return {
           iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
           title: "疲労回復開始",
           message: `第${this.deck}艦隊の疲労が回復しました`,
           type: "basic",
+          requireInteraction: overwrite.stay ?? false,
         }
       }
       return {
@@ -35,6 +36,7 @@ export class Fatigue extends NotificationEntryBase {
         title: "疲労回復",
         message: `まもなく第${this.deck}艦隊の疲労が完全に回復する見込みです`,
         type: "basic",
+        requireInteraction: overwrite.stay ?? false,
       }
     },
   };

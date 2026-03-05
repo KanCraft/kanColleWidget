@@ -2,7 +2,7 @@ import { Router } from "chromite";
 import { Launcher } from "../services/Launcher";
 import { Frame } from "../models/Frame";
 
-const onClicked = new Router<chrome.notifications.NotificationClickedEvent>(async (id) => {
+const onClicked = new Router<typeof chrome.notifications.onClicked>(async (id) => {
   return { __action__: id };
 });
 

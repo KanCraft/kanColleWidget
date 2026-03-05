@@ -30,11 +30,11 @@
     /**
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
-    public async show({ uri, /* timestamp */ }: { uri: string; timestamp: number; }) {
+    public async show({ uri, heightRatio, /* timestamp */ }: { uri: string; heightRatio?: number; timestamp: number; }) {
       const img = await load(uri);
       img.style.height = "100%";
       if (!this.container) {
-        this.container = this.createContainer();
+        this.container = this.createContainer(heightRatio);
         window.document.body.appendChild(this.container);
       }
       this.container.appendChild(img);

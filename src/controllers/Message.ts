@@ -14,7 +14,7 @@ import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/Dama
 import { GameWindowConfig } from "../models/configs/GameWindowConfig";
 import { NotificationService } from "../services/NotificationService";
 
-const onMessage = new Router<chrome.runtime.ExtensionMessageEvent>();
+const onMessage = new Router<typeof chrome.runtime.onMessage>();
 
 onMessage.on("/frame/open-or-focus", async (req) => {
   const launcher = new Launcher();
@@ -89,10 +89,11 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   case DamageSnapshotMode.DISABLED:
     return;
   case DamageSnapshotMode.INAPP:
-    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp });
+    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp, heightRatio: config.heightRatio });
   case DamageSnapshotMode.SEPARATE: {
     const win = await Launcher.damagesnapshot(config);
-    return chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: "/dsnapshot/separate:push", uri, timestamp });
+    if (!win || !win.tabs || !win.tabs[0].id) throw new Error("Failed to get damage snapshot window");
+    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp });
   }
   }
 });

@@ -1,0 +1,104 @@
+name: 軽微な改善提案
+description: 既存機能の改善やUI/UXの向上を提案する
+title: "[Improve]: "
+labels: ["improvement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        改善提案ありがとうございます。
+        小さな改善の積み重ねが、使いやすいツールを作ります。
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: 改善カテゴリ
+      description: 提案する改善の種類を選択してください
+      options:
+        - "UI/UX: 見た目や操作性の改善"
+        - "パフォーマンス: 表示速度や処理速度の改善"
+        - "文言: ラベルやメッセージの修正"
+        - "レイアウト: 配置や余白の調整"
+        - "その他"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target
+    attributes:
+      label: 改善対象の画面・機能
+      description: どの画面や機能についての改善ですか？
+      options:
+        - ポップアップ画面
+        - ダッシュボード
+        - 設定画面（オプション）
+        - 通知
+        - ゲーム窓
+        - その他
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: 現状
+      description: 現在どのような状態になっていますか？
+      placeholder: |
+        例）
+        - ダッシュボードの遠征タイマーの文字が小さくて見づらい
+        - 残り時間が長いときに「○○時間」と表示されない
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 改善案
+      description: どのように改善すべきか、具体的に提案してください
+      placeholder: |
+        例）
+        - フォントサイズを大きくする（14px → 16px）
+        - 1時間以上の場合は「1時間30分」のように表示する
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefit
+    attributes:
+      label: 改善による効果
+      description: この改善によってどのようなメリットがありますか？
+      placeholder: |
+        例）
+        - 一目で残り時間がわかるようになる
+        - 視認性が向上する
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 緊急度
+      description: この改善の緊急度を教えてください
+      options:
+        - "高: 使いづらくて困っている"
+        - "中: 不便だが使えている"
+        - "低: あれば嬉しい程度"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 参考画像
+      description: 現状のスクリーンショットや、改善イメージがあれば添付してください
+      placeholder: 画像をドラッグ＆ドロップしてください
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 補足情報
+      description: その他、参考になる情報があれば記載してください
+    validations:
+      required: false

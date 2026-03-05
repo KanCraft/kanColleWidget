@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 // Loaders
-import { popup, options, dashboard, damagesnapshot } from './loader';
+import { popup, options, dashboard, damagesnapshot, logbook } from './loader';
 
 // View
 import './index.scss'
@@ -12,6 +12,7 @@ import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
 import { FleetCapturePage } from './fleet-capture/FleetCapturePage';
 import { DamageSnapshotPage } from './snapshot/DamageSnapshotPage';
+import { LogbookPage } from './logbook/LogbookPage';
 
 const router = createHashRouter([
   {
@@ -38,6 +39,11 @@ const router = createHashRouter([
     element: <DamageSnapshotPage />,
     loader: damagesnapshot,
   },
+  {
+    path: "/logbook",
+    element: <LogbookPage />,
+    loader: logbook,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

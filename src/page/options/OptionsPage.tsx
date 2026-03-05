@@ -4,6 +4,7 @@ import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
 import { DamageSnapshotSettingView } from "../components/options/DamageSnapshotSettingView";
 import { NotificationSettingView } from "../components/options/NotificationSettingView";
+import { InAppSettingView } from "../components/options/InAppSettingView";
 
 import { type Frame } from "../../models/Frame";
 import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
@@ -45,6 +46,8 @@ export function OptionsPage() {
       <VersionView manifest={manifest} />
       <Divider />
       <FrameSettingView frames={frames} config={game} />
+      <Divider />
+      <InAppSettingView config={game} />
       <Divider />
       <NotificationSettingView
         defaults={notification.defaults}

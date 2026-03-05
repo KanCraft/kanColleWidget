@@ -1,0 +1,24 @@
+{
+  "name": "kan-colle-widget-dev",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "postCreateCommand": "pnpm install --frozen-lockfile",
+  "mounts": [
+    "source=kcw-node-modules,target=/workspace/node_modules,type=volume"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.eol": "\n"
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "vitest.explorer"
+      ]
+    }
+  }
+}
