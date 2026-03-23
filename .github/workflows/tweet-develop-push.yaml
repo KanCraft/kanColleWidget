@@ -49,7 +49,7 @@ jobs:
 
     - name: Setup pnpm
       if: steps.check_commit.outputs.should_skip == 'false'
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@v5
       with:
         version: 10
 
