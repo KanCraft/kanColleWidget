@@ -182,6 +182,19 @@ export class Launcher {
   }
 
   /**
+   * リロードなどで失われたコンテンツスクリプトを再注入し、別窓を再活性化する。
+   * MV3 では scripting.executeScript で注入したスクリプトはリロードで失われるため、
+   * 内側 iframe のロードを待ってから activate() 相当の注入一式を再実行する。
+   * @param win 再活性化対象のゲーム別窓（tabs が populate 済みであること）
+   */
+  public async reactivate(win: chrome.windows.Window) {
+    const tabId = win.tabs?.[0]?.id;
+    if (typeof tabId !== "number") return;
+    const innerIframe = await this.waitForInnerIframeLoaded(tabId);
+    await this.activate(win, innerIframe);
+  }
+
+  /**
    * 既存タブから対象 URL のゲーム別窓を検索する。
    * @param frame 検索対象のフレーム（未指定時は既定 URL）
    * @returns 見つかったウィンドウ、存在しない場合は undefined

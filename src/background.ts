@@ -1,5 +1,7 @@
 import "./logger";
 
+import { KanColleURL } from "./constants";
+
 import Alarm from './controllers/Alarm';
 chrome.alarms.onAlarm.addListener(Alarm.listener());
 // queueを見てるcronを起動
@@ -20,6 +22,10 @@ chrome.notifications.onClicked.addListener(onClicked.listener());
 
 import { onCommand } from "./controllers/Commands";
 chrome.commands.onCommand.addListener(onCommand.listener());
+
+import { onCommitted } from "./controllers/WebNavigation";
+// ゲーム画面のリロード時にコンテンツスクリプトを再注入する
+chrome.webNavigation.onCommitted.addListener(onCommitted.listener(), { url: [{ urlPrefix: KanColleURL }] });
 
 // import { Launcher } from "./services/Launcher";
 // import { Frame } from "./models/Frame";
