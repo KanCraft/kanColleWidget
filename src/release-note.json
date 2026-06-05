@@ -4,6 +4,41 @@
   },
   "releases": [
     {
+      "date": "2026-06-05",
+      "version": "v4.8.3",
+      "message": "ゲーム別窓のリロード時にサイズ調整が効かなくなる不具合を修正しました。",
+      "commits": [
+        {
+          "hash": "8ae47c0c0829c9525858e65c7ea3a0c333503712",
+          "title": "リリース駆動スキル /release を追加"
+        },
+        {
+          "hash": "29208b2a1008618ee24355fbb8b25b6ae55716ab",
+          "title": ".gitignore の release パターンをルート直下のビルド出力に限定"
+        },
+        {
+          "hash": "8a0f7053b7425b477d129944ab74509a660049c2",
+          "title": "リリースサイクルをGitHub完結型に再設計"
+        },
+        {
+          "hash": "8693c0db16887677c2b0de4f8712f8e64baf3401",
+          "title": "リロード時にゲーム別窓のコンテンツスクリプトを再注入する"
+        },
+        {
+          "hash": "a5bd168fc43d97d2974bdba5e7201bfa3f658723",
+          "title": "ゲーム別窓のサイズ調整とリロード耐性に関する設計判断記録を追加"
+        },
+        {
+          "hash": "f55ec8792914915b69d9a6e3f6ef9be6a8d2964e",
+          "title": "ajvのoverrideを除去（eslint 8との非互換を修正）"
+        },
+        {
+          "hash": "953a93589119f08e33738315e62c32e8a9cbcb4c",
+          "title": "依存パッケージの脆弱性を修正（pnpm audit 全件解消）"
+        }
+      ]
+    },
+    {
       "date": "2026-03-04",
       "version": "v4.8.2",
       "message": "DMM Game Platformの構造変更に対応しました",
