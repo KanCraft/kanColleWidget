@@ -74,88 +74,82 @@ docker run --rm -it \
 
 ## 概要
 
-このプロジェクトは `develop` ブランチで開発し、`main` ブランチへのマージでリリースされます。
-リリースには**ベータ版**と**プロダクション版**の2段階があります。
+開発は **`main` 1本** で行います（`develop` ブランチは廃止）。リリースは GitHub に完結し、
+**バージョンの位置** で配信先が決まる、という1つのルールに集約されています。
 
-## 1. 開発からベータリリースまで
+- **ベータ版** … `main` の `package.json` の version が **直近のタグより先行している間**、
+  `main` への push のたびに自動で BETA リスティングへ公開される（「main は常にベータ版として生きている」）。
+- **プロダクション版** … **GitHub Release を作成（= タグを打つ）** と、その版が PROD リスティングへ公開される。
 
-### 1.1 バージョンアップの準備
+バージョンの単一の真実源は **`package.json` の `version`** だけです。
+`manifest.json` はビルド成果物として毎回生成されるため、手で編集しません（テンプレートは
+`src/public/manifest.template.json`）。
+
+## 1. ベータ版を出す（開発サイクルの開始）
 
 ```bash
-# 1. package.json のバージョンを更新（例: 4.0.12 → 4.0.13）
-vim package.json
+# バージョンを上げ、リリースノートの未公開エントリを再生成する（唯一の管理コマンド）
+make version v=4.9.0
 
-# 2. リリースノートを自動生成
-make draft
-# これにより以下が自動更新されます：
-#   - manifest.json のバージョン
-#   - release-note.json に新しいリリースエントリ追加
-
-# 3. release-note.json を編集してリリースメッセージを記入
+# 生成された release-note.json の message を書く
 vim src/release-note.json
+
+# main に push すると、ベータ版が自動公開される
+git add package.json src/release-note.json
+git commit -m "v4.9.0"
+git push origin main
 ```
 
-### 1.2 コミット＆プッシュ
+- push のたびに `manifest.version = 4.9.0.<直近タグからのcommit数>`（例 `4.9.0.5`）で
+  ベータ版が更新される。表示名は `version_name = 4.9.0-beta.5`。
+- Chrome Webstore は同じ version を再アップロードできないため、commit 数を第4成分にして
+  単調増加させている（だから push ごとに必ず version が上がる）。
+- `package.json` の version が直近タグと **同じ** 間は、ベータ公開はスキップされる
+  （= 未公開の変更が無い状態）。
+
+> BETA リスティング（Chrome拡張ID: `egkgleinehaapbpijnlpbllfeejjpceb`）で動作確認する。
+
+## 2. プロダクション版を出す（昇格）
+
+ベータで問題なければ、GitHub Release を作るだけ。
 
 ```bash
-git add package.json src/public/manifest.json src/release-note.json
-git commit -m "v4.0.13"
-git push origin develop
+gh release create v4.9.0 --generate-notes
 ```
 
-### 1.3 プルリクエスト作成
+これで `release-prod.yaml` が発火し、以下が自動実行される：
 
-1. `develop` → `main` へPRを作成
-2. **PRタイトルを `[v4.0.13]` の形式に編集**
-
-👉 **この時点で自動的にベータ版がChrome Webstoreに公開されます**
-
-## 2. プロダクションリリース
-
-### 2.1 ベータ版の動作確認
-
-ベータ版（Chrome拡張ID: `egkgleinehaapbpijnlpbllfeejjpceb`）で動作確認を行います。
-
-### 2.2 プルリクエストをマージ
-
-PRをマージすると、以下が自動実行されます：
-
-1. バージョン整合性チェック（PRタイトル、package.json、manifest.json、release-note.jsonが一致しているか）
-2. `develop` ブランチに `v4.0.13` タグを作成・push
-3. プロダクション版ビルド実行
-4. Chrome Webstoreに本番公開（Chrome拡張ID: `iachoklpnnjfgmldgelflgifhdaebnol`）
+1. tag が `vX.Y.Z` 形式かつ `package.json` の version と一致するか検証（整合性チェックは1箇所）
+2. prod チャンネルでビルド（`manifest.version = 4.9.0`）
+3. Chrome Webstore（PROD, Chrome拡張ID: `iachoklpnnjfgmldgelflgifhdaebnol`）へ公開申請
+4. ビルドした zip を Release の asset として添付（GitHub に記録）
 
 ## リリースフロー図
 
 ```
-develop ブランチで開発
-    ↓
-package.json のバージョン更新
-    ↓
-make draft（manifest.json、release-note.json 自動更新）
-    ↓
-コミット & プッシュ
-    ↓
-develop → main へPR作成
-    ↓
-PRタイトルを [vX.X.X] に編集
-    ↓
-🚀 ベータ版リリース（自動）
-    ↓
-ベータ版で動作確認
-    ↓
-PRをマージ
-    ↓
-🚀 プロダクション版リリース（自動）
-    ↓
-develop ブランチに vX.X.X タグが作成される
+main 1本で開発（develop は廃止）
+    │
+    ├─ make version v=4.9.0  → package.json と release-note.json を更新
+    │      ↓
+    │   commit & push to main
+    │      ↓
+    │   🚀 BETA 自動公開（version 4.9.0.N）   ← push のたびに繰り返す
+    │      ↓
+    │   ベータ版で動作確認
+    │
+    └─ gh release create v4.9.0 --generate-notes
+           ↓
+        🚀 PROD 公開申請（version 4.9.0）＋ zip を Release に添付
 ```
 
 ## 注意事項
 
-- PRタイトルは必ず `[v` で始める（例: `[v4.0.13]`、`[v4.0.13] 新機能追加`）
-- バージョン番号は package.json、manifest.json、release-note.json で一致している必要があります
-- ベータ版と本番版は異なるChrome拡張IDを使用しています
+- バージョンを変えたいときは **`make version v=X.Y.Z`** だけを使う（`package.json` が単一の真実源）。
+- `manifest.json` は生成物。git 管理されているのは `src/public/manifest.template.json`。
+- 本番公開は **GitHub Release の作成** がトリガ。pre-release として作った Release では PROD 公開は走らない。
+- ベータ版と本番版は異なる Chrome拡張ID（別リスティング）なので、version の連番は互いに独立。
+- Chrome Webstore の審査は非同期（数日かかることがある）。GitHub 上の状態は「公開申請を出した」
+  ことを表し、実際にストアへ反映されるのは審査通過後。
 
 # 不具合報告・機能要望
 

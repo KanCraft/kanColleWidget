@@ -1,12 +1,12 @@
-name: Tweet Develop Push
+name: Tweet Main Push
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
-  tweet_develop_push:
+  tweet_main_push:
     runs-on: ubuntu-latest
     env:
       X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}

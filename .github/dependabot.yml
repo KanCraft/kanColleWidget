@@ -7,7 +7,7 @@ updates:
       day: "tuesday"
       time: "02:00"
       timezone: "Asia/Tokyo"
-    target-branch: "develop"
+    target-branch: "main"
     open-pull-requests-limit: 2
     commit-message:
       prefix: "chore"
@@ -21,7 +21,7 @@ updates:
       day: "tuesday"
       time: "02:30"
       timezone: "Asia/Tokyo"
-    target-branch: "develop"
+    target-branch: "main"
     open-pull-requests-limit: 2
     commit-message:
       prefix: "chore"

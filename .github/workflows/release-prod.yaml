@@ -1,0 +1,112 @@
+name: Release PROD
+
+# 本番版の公開。
+#
+# モデル: 「GitHub Release の作成 = 本番出荷」
+#   - `gh release create vX.Y.Z --generate-notes` で tag 付きの Release を作ると発火する。
+#   - その tag の時点のソースをビルドし、PROD リスティングへ公開する。
+#   - ビルドした zip を Release の asset として添付し、GitHub 上に記録を残す。
+#
+# 前提:
+#   - tag は vX.Y.Z 形式（SemVer）であること。
+#   - tag の version は package.json の version と一致していること（唯一の整合性チェック）。
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release_prod:
+    # pre-release（ベータ告知用などに作った場合）では発火させない
+    if: github.event.release.prerelease == false
+    runs-on: ubuntu-latest
+    # reviewer による承認ゲート（リポジトリ設定の Environments で reviewer を登録すると有効）。
+    # 未設定でも動作する（ゲート無しで進む）。
+    environment: chrome-webstore-prod
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - name: tag 形式を検証（vX.Y.Z）
+        id: ver
+        run: |
+          if ! echo "${RELEASE_TAG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "[ERROR] tag は vX.Y.Z 形式である必要があります: ${RELEASE_TAG}"
+            exit 1
+          fi
+          echo "version=${RELEASE_TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "[INFO] release version: ${RELEASE_TAG#v}"
+
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.x
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install
+
+      - name: バージョン整合性チェック（tag == package.json）
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          PKG=$(jq -r .version package.json)
+          if [ "${VERSION}" != "${PKG}" ]; then
+            echo "[ERROR] tag(${VERSION}) と package.json(${PKG}) のバージョンが一致しません"
+            exit 1
+          fi
+          echo "[INFO] バージョン整合 OK: ${VERSION}"
+
+      - name: ビルド（prod チャンネル）
+        env:
+          KCW_CHANNEL: prod
+          KCW_VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          pnpm build
+          pnpm run remove-remote-code
+          make package
+
+      - name: Webstore へ公開申請提出（PROD）
+        env:
+          GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+          GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+          GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+          CHROMEWEBSTORE_EXTENSION_ID: iachoklpnnjfgmldgelflgifhdaebnol
+        run: npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット.zip
+
+      - name: ビルド成果物を Release に添付（記録）
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${RELEASE_TAG}" ./release/艦これウィジェット.zip --clobber
+
+  announce_prod_tweet:
+    needs: release_prod
+    runs-on: ubuntu-latest
+    env:
+      X_APP_API_KEY: ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET: ${{ secrets.X_APP_API_KEY_SECRET }}
+      X_BOT_ACCESS_TOKEN: ${{ secrets.X_BOT_ACCESS_TOKEN }}
+      X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.x
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install
+      - name: リリース告知ツイートを投稿
+        run: |
+          TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts "${RELEASE_TAG}")"
+          printf 'Generated tweet:\n%s\n' "$TWEET_TEXT"
+          pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"
