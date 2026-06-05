@@ -35,15 +35,13 @@ pnpm typecheck        # 型チェックのみ（ビルドなし）
 
 ### リリース関連
 ```bash
-# 1. package.jsonのバージョンを手動更新
-# 2. 以下を実行してmanifest.jsonとrelease-note.jsonを自動更新
-make draft
+# バージョンを上げ、release-note.json の未公開エントリを再生成する（唯一の管理コマンド）
+# package.json の version がバージョンの単一の真実源。manifest.json はビルド時に生成される。
+make version v=4.9.0
 
-# ベータ版ビルド（GitHub Actionsで自動実行）
-make beta-release
-
-# プロダクション版ビルド（GitHub Actionsで自動実行）
-make release
+# → commit & push to main すると BETA が自動公開される（release-beta.yaml）
+# → 本番公開は GitHub Release を作成する（release-prod.yaml が発火）
+gh release create v4.9.0 --generate-notes
 ```
 
 詳細なリリースフローはREADME.mdの「リリースフロー」セクションを参照。
@@ -318,7 +316,7 @@ if (diagnostics.length > 0) {
 
 ## 注意事項
 
-- Chrome拡張機能の権限設定に注意（manifest.json の `permissions` と `optional_host_permissions`）
+- Chrome拡張機能の権限設定に注意（`src/public/manifest.template.json` の `permissions` と `optional_host_permissions`。`manifest.json` はビルド時に生成される成果物なので直接編集しない）
 - 艦これのAPI通信を監視するため `webRequest` 権限を使用
 - ゲームサーバーIPは `optional_host_permissions` で、ユーザーが個別に許可
 - Manifest V3 では Service Worker が idle 時に停止するため、永続的なグローバル変数は使用不可

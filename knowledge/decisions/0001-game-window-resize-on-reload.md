@@ -3,7 +3,7 @@
 - ステータス: 採用
 - 日付: 2026-06-04
 - 関連 Issue: [#1784](https://github.com/KanCraft/kanColleWidget/issues/1784)（再読み込み後に窓がぴったり合わずスクロールバーが出る）
-- 関連コード: `src/services/Launcher.ts`, `src/injection/dmm.ts`, `src/background.ts`, `src/public/manifest.json`
+- 関連コード: `src/services/Launcher.ts`, `src/injection/dmm.ts`, `src/background.ts`, `src/public/manifest.template.json`
 
 ## 概要
 

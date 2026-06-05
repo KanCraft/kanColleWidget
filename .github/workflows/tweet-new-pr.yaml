@@ -4,7 +4,7 @@ on:
   pull_request_target:
     types: [opened]
     branches:
-      - develop
+      - main
 
 jobs:
   tweet_new_pr:
@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        ref: develop
+        ref: main
 
     - name: Setup Node.js
       uses: actions/setup-node@v6
