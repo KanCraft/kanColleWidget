@@ -28,6 +28,10 @@ concurrency:
 jobs:
   release_beta:
     runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.ver.outputs.skip }}
+      cycle_start: ${{ steps.ver.outputs.cycle_start }}
+      base_version: ${{ steps.ver.outputs.base_version }}
     env:
       GOOGLEAPI_CLIENT_ID: ${{ secrets.GOOGLEAPI_CLIENT_ID }}
       GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
@@ -68,7 +72,16 @@ jobs:
           echo "skip=false" >> "$GITHUB_OUTPUT"
           echo "version=${BASE}.${N}" >> "$GITHUB_OUTPUT"
           echo "version_name=${BASE}-beta.${N}" >> "$GITHUB_OUTPUT"
+          echo "base_version=v${BASE}" >> "$GITHUB_OUTPUT"
           echo "[INFO] BETA version=${BASE}.${N} (version_name=${BASE}-beta.${N})"
+          # サイクル開始（=版上げコミット vX.Y.Z の push）の時だけ beta 告知を出す（β1）
+          HEAD_MSG=$(git log -1 --pretty=%s)
+          if echo "${HEAD_MSG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "cycle_start=true" >> "$GITHUB_OUTPUT"
+            echo "[INFO] 版上げコミットのため、新バージョンのベータ配信開始を告知します"
+          else
+            echo "cycle_start=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: ビルド（beta チャンネル）
         if: steps.ver.outputs.skip == 'false'
@@ -84,3 +97,34 @@ jobs:
       - name: Webstore へ公開（BETA）
         if: steps.ver.outputs.skip == 'false'
         run: npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット.zip
+
+  # 新バージョンが beta 入りした時（版上げコミットの push）だけ1回告知する（β1）。
+  # 毎 push の beta build では告知しない（ノイズ・コスト抑制）。
+  announce_beta_tweet:
+    needs: release_beta
+    if: needs.release_beta.outputs.cycle_start == 'true'
+    runs-on: ubuntu-latest
+    env:
+      X_APP_API_KEY: ${{ secrets.X_APP_API_KEY }}
+      X_APP_API_KEY_SECRET: ${{ secrets.X_APP_API_KEY_SECRET }}
+      X_BOT_ACCESS_TOKEN: ${{ secrets.X_BOT_ACCESS_TOKEN }}
+      X_BOT_ACCESS_TOKEN_SECRET: ${{ secrets.X_BOT_ACCESS_TOKEN_SECRET }}
+      BASE_VERSION: ${{ needs.release_beta.outputs.base_version }}
+      # ベータ版（限定公開）ストアの直リンク。告知の「詳細」リンクに使う。
+      BETA_LISTING_URL: https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22.x
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - run: pnpm install
+      - name: ベータ配信開始を告知
+        run: |
+          TWEET_TEXT="$(pnpm exec tsx scripts/generate-release-announce.ts "${BASE_VERSION}" --beta --pr-url "${BETA_LISTING_URL}")"
+          printf 'Generated tweet:\n%s\n' "$TWEET_TEXT"
+          pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"

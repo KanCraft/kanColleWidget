@@ -7,6 +7,8 @@ on:
 jobs:
   tweet_new_issue:
     runs-on: ubuntu-latest
+    # bot が起票した Issue では告知しない。感謝告知は人間の起票に対してのみ。
+    if: github.event.issue.user.type != 'Bot'
     env:
       X_APP_API_KEY:             ${{ secrets.X_APP_API_KEY }}
       X_APP_API_KEY_SECRET:      ${{ secrets.X_APP_API_KEY_SECRET }}
@@ -59,5 +61,7 @@ jobs:
         } >> "$GITHUB_OUTPUT"
 
     - name: Post tweet
+      env:
+        TWEET_TEXT: ${{ steps.generate_tweet.outputs.tweet_text }}
       run: |
-        pnpm exec tsx scripts/post-tweet.ts "${{ steps.generate_tweet.outputs.tweet_text }}"
+        pnpm exec tsx scripts/post-tweet.ts "$TWEET_TEXT"
