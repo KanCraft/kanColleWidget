@@ -52,7 +52,9 @@ const server = http.createServer((req, res) => {
       const record = JSON.parse(body);
       out.write(`${JSON.stringify(record)}\n`);
       // live feed: 受信を 1 行で stdout に出す（too の出力に流れる）。
-      process.stdout.write(`[recorder] ${record.method ?? "?"} ${record.path ?? "?"}${record.extId ? ` (ext:${record.extId.slice(0, 8)})` : ""}\n`);
+      // 送信元拡張を頭にラベル表示して grep しやすくする: `[ext:xxxxxxxx] POST /kcsapi/...`
+      const label = record.extId ? `[ext:${record.extId.slice(0, 8)}]` : "[recorder]";
+      process.stdout.write(`${label} ${record.method ?? "?"} ${record.path ?? "?"}\n`);
       res.writeHead(204).end();
     } catch (err) {
       process.stderr.write(`[recorder] failed to parse body: ${err}\n`);
