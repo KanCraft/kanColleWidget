@@ -54,3 +54,6 @@ coverage
 
 # Screenshots (Playwright等)
 .screenshots
+
+# kcsapi リクエスト Recorder の記録出力（ローカル開発専用 / #1790）
+.recorder

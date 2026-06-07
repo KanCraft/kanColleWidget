@@ -71,6 +71,17 @@ export function composeManifest(
   } else {
     delete manifest.version_name;
   }
+  // kcsapi リクエスト Recorder（src/services/RequestRecorder.ts）は Chrome Native
+  // Messaging でローカル host へリクエストを流す。これはローカル開発専用の可観測性機能で、
+  // beta / prod 成果物には絶対に含めない。dev チャンネルのときだけ nativeMessaging 権限を
+  // 注入する（template 本体は破壊しないよう配列を複製する）。
+  if (opts.channel === "dev") {
+    const permissions = Array.isArray(template.permissions)
+      ? [...(template.permissions as string[])]
+      : [];
+    if (!permissions.includes("nativeMessaging")) permissions.push("nativeMessaging");
+    manifest.permissions = permissions;
+  }
   return manifest;
 }
 
