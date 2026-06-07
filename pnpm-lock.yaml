@@ -109,6 +109,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.10
         version: 3.4.10
+      too:
+        specifier: 3.3.0
+        version: 3.3.0
       tsx:
         specifier: ^4.20.6
         version: 4.20.6
@@ -1511,6 +1514,11 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
+  lookpath@1.2.3:
+    resolution: {integrity: sha512-kthRVhf4kH4+HW3anM4UBHxsw/XFESf13euCEldhXr6GpBdmBoa7rDd7WO5G0Mhd4G5XtKTcEy8OR0iRZXpS3Q==}
+    engines: {npm: '>=6.13.4'}
+    hasBin: true
+
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
@@ -1956,6 +1964,10 @@ packages:
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
+
+  too@3.3.0:
+    resolution: {integrity: sha512-32vNdKaAYRR9Us++9EXPZv8AvTjN0ydCgFU68jNQQC/+ghwNXa3Gpz4jmi3ICQY8ofUxaWFpup7c8U9P21JoVg==}
+    hasBin: true
 
   tough-cookie@6.0.0:
     resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
@@ -3413,6 +3425,8 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
+  lookpath@1.2.3: {}
+
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
@@ -3852,6 +3866,11 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  too@3.3.0:
+    dependencies:
+      js-yaml: 4.1.1
+      lookpath: 1.2.3
 
   tough-cookie@6.0.0:
     dependencies:

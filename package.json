@@ -10,7 +10,7 @@
   "scripts": {
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "start": "tsc && pnpm run copy-tesseract && vite build --mode=development --watch",
+    "start": "tsc && pnpm run copy-tesseract && mkdir -p .recorder && touch .recorder/kcsapi.jsonl && too --cmd 'vite build --mode=development --watch' --cmd 'tail -f .recorder/kcsapi.jsonl'",
     "build": "tsc && pnpm run copy-tesseract && vite build --mode=production",
     "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int",
     "release-note": "tsx scripts/build-release-note.ts",
@@ -49,6 +49,7 @@
     "postcss": "^8.4.41",
     "sass": "^1.99.0",
     "tailwindcss": "^3.4.10",
+    "too": "3.3.0",
     "tsx": "^4.20.6",
     "typescript": "^5.0.2",
     "vite": "^6.4.2",
