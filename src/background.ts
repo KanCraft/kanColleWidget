@@ -11,9 +11,9 @@ import { onBeforeRequest, onComplete } from './controllers/WebRequest';
 chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest.listener(), { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);
 chrome.webRequest.onCompleted.addListener(onComplete.listener(), { urls: ["*://*/kcsapi/*"] }, ["responseHeaders"]);
 
-// kcsapi リクエスト Recorder（ローカル開発専用の可観測性機能 / #1790）。
-// dev ビルドで nativeMessaging 権限が注入されているときだけ有効。既存ルーターとは独立に
-// 登録し、ハンドルされない kcsapi も含めて全件を native host 経由で JSONL 記録する。
+// kcsapi リクエスト Recorder（ローカル開発専用の可観測性機能 / #1790, #1793）。
+// dev ビルドで localhost host_permission が注入されているときだけ有効。既存ルーターとは独立に
+// 登録し、ハンドルされない kcsapi も含めて全件を localhost dev サーバへ送って記録する。
 import { RequestRecorder } from './services/RequestRecorder';
 if (RequestRecorder.enabled()) {
   chrome.webRequest.onBeforeRequest.addListener(RequestRecorder.listener(), { urls: ["*://*/kcsapi/*"] }, ["requestBody"]);

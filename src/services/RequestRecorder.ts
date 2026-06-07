@@ -9,19 +9,32 @@ const log = Logger.get("RequestRecorder");
  * 「シーケンス（特定リクエストの連続）＝この出来事」という仮説で組まれている。その仮説を
  * 観測で検証／反証できるよう、実ゲームで流れる kcsapi 全リクエストを記録する。
  * @see https://github.com/KanCraft/kanColleWidget/issues/1790
+ * @see https://github.com/KanCraft/kanColleWidget/issues/1793
  *
- * 設計:
- *  - Chrome Native Messaging で `scripts/request-recorder-host.mjs` へリクエストを流し、
- *    host 側が JSONL ファイルに追記する。コーディングエージェントはその JSONL を必要時に
- *    読む（セッションをブロックしない）。
- *  - 有効化は build-manifest.ts の dev 限定 `nativeMessaging` 権限注入と一対。実行時は
- *    manifest に権限があるか（= dev ビルドか）で判定するので、beta / prod では無効になる。
- *  - 送信は fire-and-forget。host 未起動・送信失敗はすべて握りつぶし、ゲーム機能の傍受
- *    フローを絶対に止めない（非ブロッキング）。
+ * 設計（transport = localhost dev サーバ / #1793）:
+ *  - マスク済みレコードを `http://127.0.0.1:<port>/record` へ fetch POST する。受け側の
+ *    サーバ（`scripts/request-recorder-server.mjs`）は開発者が `pnpm start`(too) で起動し、
+ *    受信レコードを stdout に出し JSONL に追記する。Chrome ではなく開発者がサーバを起動する
+ *    ので、Chrome の最小 PATH ギャップも too 出力への不可視も起きない。
+ *  - payload には `chrome.runtime.id`（ext_id）を含める。サーバ側はこれで送信元拡張を識別
+ *    できる（Native Messaging の allowed_origins を使わないので登録作業ゼロ・冪等）。
+ *  - 有効化は build-manifest.ts の dev 限定 host_permission 注入と一対。実行時は manifest に
+ *    その host_permission があるか（= dev ビルドか）で判定するので、beta / prod では無効。
+ *  - 送信は fire-and-forget。サーバ未起動・失敗はすべて握りつぶし、ゲーム機能の傍受フローを
+ *    絶対に止めない（非ブロッキング）。
  */
 
-/** native messaging host 名（scripts/install-recorder-host.mjs が登録する host manifest と一致させる）。 */
-export const NATIVE_HOST_NAME = "com.kancraft.kancollewidget.recorder";
+/** recorder サーバの既定ポート（サーバ側 KCW_RECORDER_PORT の既定値と一致させること）。 */
+export const RECORDER_PORT = 8799;
+
+/** レコード送信先 URL。 */
+export const RECORDER_URL = `http://127.0.0.1:${RECORDER_PORT}/record`;
+
+/**
+ * dev 限定で注入される host_permission（build-manifest.ts と一致させる）。
+ * これを実行時の有効化フラグの単一の真実源にする（beta/prod には注入されない）。
+ */
+export const LOCALHOST_PERMISSION = "http://127.0.0.1/*";
 
 /** マスク対象の機密フィールド（認証トークン・個人識別子）。 */
 export const MASK_KEYS = ["api_token", "api_serial_cid", "api_verno"];
@@ -37,6 +50,11 @@ export interface RecordedRequest {
   tabId: number;
   frameId: number;
   formData: Record<string, unknown>;
+}
+
+/** サーバへ POST する payload（レコード + 送信元拡張 ID）。 */
+export interface RecorderPayload extends RecordedRequest {
+  extId: string;
 }
 
 /** chrome.webRequest の formData は `{ key: string[] }` 形。 */
@@ -80,50 +98,35 @@ export function buildRecord(
   };
 }
 
-export class RequestRecorder {
-  /** 遅延接続する native messaging ポート。SW 揮発・host 切断時は null に戻して再接続する。 */
-  private static port: chrome.runtime.Port | null = null;
+/** レコードに送信元拡張 ID を付けて POST payload にする純粋関数（ext_id ping）。 */
+export function buildPayload(record: RecordedRequest, extId: string): RecorderPayload {
+  return { ...record, extId };
+}
 
+export class RequestRecorder {
   /**
-   * Recorder を有効化すべきか。dev チャンネルのビルドだけ manifest に nativeMessaging 権限が
-   * 注入されている（build-manifest.ts 参照）ので、それを単一の真実源にする。
+   * Recorder を有効化すべきか。dev チャンネルのビルドだけ manifest に localhost host_permission
+   * が注入されている（build-manifest.ts 参照）ので、それを単一の真実源にする。
    */
   static enabled(): boolean {
     try {
-      return chrome.runtime.getManifest().permissions?.includes("nativeMessaging") ?? false;
+      return chrome.runtime.getManifest().host_permissions?.includes(LOCALHOST_PERMISSION) ?? false;
     } catch {
       return false;
     }
   }
 
-  /** native host への接続を取得（無ければ張る）。失敗時は null を返し、呼び出し側は握りつぶす。 */
-  private static connect(): chrome.runtime.Port | null {
-    if (this.port) return this.port;
-    try {
-      const port = chrome.runtime.connectNative(NATIVE_HOST_NAME);
-      port.onDisconnect.addListener(() => {
-        // host 未起動・クラッシュ時はここに来る。次回送信時に再接続させる。
-        if (chrome.runtime.lastError) log.debug("native host disconnected", chrome.runtime.lastError.message);
-        this.port = null;
-      });
-      this.port = port;
-      return port;
-    } catch (err) {
-      log.debug("connectNative failed", err);
-      return null;
-    }
-  }
-
-  /** 1 レコードを native host へ送る。fire-and-forget。失敗は握りつぶす。 */
+  /** 1 レコードを localhost サーバへ送る。fire-and-forget。失敗は握りつぶす（非ブロッキング）。 */
   private static send(record: RecordedRequest): void {
-    try {
-      const port = this.connect();
-      port?.postMessage(record);
-    } catch (err) {
-      // host 未起動などで postMessage が投げても、ゲーム機能を止めない。
-      log.debug("failed to post record to native host", err);
-      this.port = null;
-    }
+    const payload = buildPayload(record, chrome.runtime.id);
+    // await しない。サーバ未起動・ネットワーク失敗は .catch で握りつぶし、傍受フローを止めない。
+    fetch(RECORDER_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    }).catch((err) => {
+      log.debug("failed to POST record to recorder server", err);
+    });
   }
 
   /**
