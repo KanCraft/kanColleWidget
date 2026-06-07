@@ -7,7 +7,7 @@ vi.hoisted(() => {
   (globalThis as any).chrome = { runtime: { id: "test", onMessage: { addListener: () => {} } } };
 });
 
-import { maskFormData, buildRecord, MASK_VALUE } from "../src/services/RequestRecorder";
+import { maskFormData, buildRecord, buildPayload, MASK_VALUE } from "../src/services/RequestRecorder";
 
 describe("maskFormData", () => {
   it("機密フィールドをマスクし、他は保持する", () => {
@@ -74,5 +74,25 @@ describe("buildRecord", () => {
     const record = buildRecord(noBody, 1);
     expect(record.path).toBe("/kcsapi/api_port/port");
     expect(record.formData).toEqual({});
+  });
+});
+
+describe("buildPayload", () => {
+  it("レコードに送信元拡張 ID(extId) を付与する（ext_id ping）", () => {
+    const record = buildRecord(
+      {
+        url: "https://w14j.kancolle-server.com/kcsapi/api_req_map/start",
+        method: "POST",
+        tabId: 5,
+        frameId: 0,
+        requestBody: { formData: { api_token: ["t"], api_maparea_id: ["1"] } },
+      } as unknown as chrome.webRequest.OnBeforeRequestDetails,
+      1717718400000,
+    );
+    const payload = buildPayload(record, "abcdefghijklmnopabcdefghijklmnop");
+    expect(payload.extId).toBe("abcdefghijklmnopabcdefghijklmnop");
+    // 元レコードのフィールドは保持し、機密はマスク済みのまま
+    expect(payload.path).toBe("/kcsapi/api_req_map/start");
+    expect(payload.formData.api_token).toBe(MASK_VALUE);
   });
 });

@@ -71,16 +71,17 @@ export function composeManifest(
   } else {
     delete manifest.version_name;
   }
-  // kcsapi リクエスト Recorder（src/services/RequestRecorder.ts）は Chrome Native
-  // Messaging でローカル host へリクエストを流す。これはローカル開発専用の可観測性機能で、
-  // beta / prod 成果物には絶対に含めない。dev チャンネルのときだけ nativeMessaging 権限を
-  // 注入する（template 本体は破壊しないよう配列を複製する）。
+  // kcsapi リクエスト Recorder（src/services/RequestRecorder.ts）は localhost の dev サーバへ
+  // リクエストを fetch POST する。これはローカル開発専用の可観測性機能で、beta / prod 成果物には
+  // 絶対に含めない。dev チャンネルのときだけ localhost への host_permission を注入する
+  // （RequestRecorder.enabled() がこの有無を実行時フラグの単一の真実源にする。
+  //   template 本体は破壊しないよう配列を複製する）。
   if (opts.channel === "dev") {
-    const permissions = Array.isArray(template.permissions)
-      ? [...(template.permissions as string[])]
+    const hostPermissions = Array.isArray(template.host_permissions)
+      ? [...(template.host_permissions as string[])]
       : [];
-    if (!permissions.includes("nativeMessaging")) permissions.push("nativeMessaging");
-    manifest.permissions = permissions;
+    if (!hostPermissions.includes("http://127.0.0.1/*")) hostPermissions.push("http://127.0.0.1/*");
+    manifest.host_permissions = hostPermissions;
   }
   return manifest;
 }
