@@ -11,6 +11,7 @@ import {
   onRecoveryStart,
   onMapStart,
   onBattleStarted,
+  onCombinedBattleStarted,
   onCreateShip,
   onBattleResulted,
   onMapNext,
@@ -33,6 +34,7 @@ onBeforeRequest.on(["/kcsapi/api_req_mission/result"], onMissionResult); // 遠�
 onBeforeRequest.on(["/kcsapi/api_req_nyukyo/start"], onRecoveryStart); // 修復用の入渠をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_map/start"], onMapStart); // 出撃をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battle"], onBattleStarted); // 戦闘が開始されたとき
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battle"], onCombinedBattleStarted); // 連合艦隊戦が開始されたとき(#1764)
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battleresult"], onBattleResulted); // 戦闘結果を回収しようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_map/next"], onMapNext); // マップ移動をしたとき
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/battle"], onMidnightBattleStarted); // 夜戦が開始されたとき

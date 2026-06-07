@@ -89,6 +89,15 @@ export async function onBattleStarted([details]: chrome.webRequest.OnBeforeReque
   Logbook.sortie.battle.start(data.api_formation[0]);
 }
 
+// 連合艦隊戦（昼戦）開始時。通常艦隊の onBattleStarted と同様に連戦数をカウントする（#1764）。
+// 連合艦隊では api_req_combined_battle/battle が飛ぶが従来ハンドラが無く連戦数が積まれなかった。
+// formData の形は実データ未観測のため api_formation を防御的に読む（揺らぎは許容）。
+export async function onCombinedBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
+  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
+}
+
 // 夜戦突入時
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {

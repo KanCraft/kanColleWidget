@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DamageSnapshotConfig, DamageSnapshotMode, DamageSnapshotModeDictionary } from "../../../models/configs/DamageSnapshotConfig";
+import type { AreaLabelFormat } from "../../../models/sortieLabel";
 import { FoldableSection } from "../FoldableSection";
 
 export function DamageSnapshotSettingView({
@@ -10,6 +11,7 @@ export function DamageSnapshotSettingView({
   const [config] = useState<DamageSnapshotConfig>(_config);
   const [mode, setMode] = useState<DamageSnapshotMode>(config.mode);
   const [heightRatio, setHeightRatio] = useState<number>(config.heightRatio);
+  const [areaLabelFormat, setAreaLabelFormat] = useState<AreaLabelFormat>(config.areaLabelFormat ?? "number");
 
   return (
     <FoldableSection title="大破進撃防止の設定" id="damage-snapshot">
@@ -61,6 +63,27 @@ export function DamageSnapshotSettingView({
             <span>40% (標準)</span>
             <span>60%</span>
           </div>
+        </div>
+      )}
+
+      {mode !== DamageSnapshotMode.DISABLED && (
+        <div className="mb-4">
+          <label className="block mb-2">
+            <span className="font-bold">海域名の表記</span>
+          </label>
+          <select
+            value={areaLabelFormat}
+            onChange={async (e) => {
+              const next = e.target.value as AreaLabelFormat;
+              await config.update({ areaLabelFormat: next });
+              setAreaLabelFormat(next);
+            }}
+            className="border rounded p-2 w-full max-w-md"
+          >
+            <option value="number">番号で表示（例: 1-1 (2)）</option>
+            <option value="japanese">日本語名で表示（例: 鎮守府正面海域 (2)）</option>
+          </select>
+          <p className="text-xs text-gray-500 mt-1">大破進撃防止窓に「海域 (連戦数)」を表示します。日本語名が未収録の海域は番号で表示されます。</p>
         </div>
       )}
     </FoldableSection>

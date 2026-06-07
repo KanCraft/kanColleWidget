@@ -1,4 +1,5 @@
 import { Model } from "jstorm/chrome/local";
+import type { AreaLabelFormat } from "../sortieLabel";
 
 export enum DamageSnapshotMode {
   DISABLED = "disabled", // 使わない
@@ -26,12 +27,15 @@ export class DamageSnapshotConfig extends Model {
       "position": { left: 0, top: 0 },
       "size": { width: 160, height: 260 },
       "heightRatio": 40,
+      "areaLabelFormat": "number" as AreaLabelFormat,
     },
   }
   public mode: DamageSnapshotMode = DamageSnapshotMode.INAPP;
   public position = { left: 0, top: 0 };
   public size = { width: 160, height: 260};
   public heightRatio: number = 40;
+  // 海域名ラベルの表記（番号 "1-1" / 日本語名）。既定は番号。 @see #1764
+  public areaLabelFormat: AreaLabelFormat = "number";
 
   public static async user(): Promise<DamageSnapshotConfig> {
     return (await DamageSnapshotConfig.find("user"))!;

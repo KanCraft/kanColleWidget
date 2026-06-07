@@ -30,11 +30,11 @@
     /**
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
-    public async show({ uri, heightRatio, /* timestamp */ }: { uri: string; heightRatio?: number; timestamp: number; }) {
+    public async show({ uri, heightRatio, label /* timestamp */ }: { uri: string; heightRatio?: number; label?: string | null; timestamp: number; }) {
       const img = await load(uri);
       img.style.height = "100%";
       if (!this.container) {
-        this.container = this.createContainer(heightRatio);
+        this.container = this.createContainer(heightRatio, label);
         window.document.body.appendChild(this.container);
       }
       this.container.appendChild(img);
@@ -72,7 +72,7 @@
       this.clicked = 0;
       this.canvas?.removeEventListener("mousedown", this.listener);
     }
-    private createContainer(height: number = 40): HTMLDivElement {
+    private createContainer(height: number = 40, label?: string | null): HTMLDivElement {
       const div = window.document.createElement("div");
       div.style.height = `${height}%`;
       div.style.position = "fixed";
@@ -80,6 +80,13 @@
       div.style.left = "0";
       div.style.transition = "all 0.1s";
       div.style.opacity = "1";
+      // 海域 (連戦数) ラベル（#1764）。画像に重ねて左上に小さく表示する。
+      if (label) {
+        const tag = window.document.createElement("div");
+        tag.textContent = label;
+        tag.style.cssText = "position:absolute;top:0;left:0;background:rgba(0,0,0,0.6);color:#fff;font-size:12px;line-height:1.4;padding:2px 6px;pointer-events:none;z-index:1;white-space:nowrap;";
+        div.appendChild(tag);
+      }
       let autoHideTimer: number | null = null;
       const clearAutoHide = () => {
         if (autoHideTimer !== null) {
