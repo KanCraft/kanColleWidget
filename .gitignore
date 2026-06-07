@@ -41,16 +41,16 @@ coverage
 .specify/**/*.cache
 .specify/**/node_modules/
 
-# codex
+# Agents
 .codex/log
 .codex/auth.json
 .codex/config.toml
 .codex/history.jsonl
 .codex/sessions/
 .codex/version.json
-
-# claude
 .claude/settings.local.json
+.claude/worktrees/
+.worktrees/
 
 # Screenshots (Playwright等)
 .screenshots
