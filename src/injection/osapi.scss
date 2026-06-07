@@ -1,4 +1,6 @@
 /* This CSS is injected by KanColleWidget */
+@use "sass:string";
+
 html {
   overflow: hidden;
 }
@@ -33,13 +35,13 @@ body {
 // 縦長の場合
 @media (max-aspect-ratio: 1200/720) {
   #flashWrap {
-    transform: scale(unquote("calc(100vw / 1200px)")) !important;
+    transform: scale(string.unquote("calc(100vw / 1200px)")) !important;
   }
 }
 
 // 横長の場合
 @media (min-aspect-ratio: 1200/720) {
   #flashWrap {
-    transform: scale(unquote("calc(100vh / 720px)")) !important;
+    transform: scale(string.unquote("calc(100vh / 720px)")) !important;
   }
 }
