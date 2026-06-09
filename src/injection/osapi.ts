@@ -30,7 +30,7 @@
     /**
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
-    public async show({ uri, heightRatio, label /* timestamp */ }: { uri: string; heightRatio?: number; label?: string | null; timestamp: number; }) {
+    public async show({ uri, heightRatio, label, timestamp }: { uri: string; heightRatio?: number; label?: string | null; timestamp: number; }) {
       const img = await load(uri);
       // 高さを具体値(vh)にする。height:100% にすると画像の自然解像度幅がコンテナ幅に
       // 採用されて巨大化するため、vh で高さを与えて幅はアスペクト比に委ねる。
@@ -38,8 +38,15 @@
       img.style.width = "auto";
       img.style.display = "inline-block";
       img.style.verticalAlign = "top";
+      // 新しいスナップショット（timestamp が変わった）なら、ここで初めて前回の窓を消して作り直す。
+      // 同じ timestamp（連合艦隊の2ペイン目）は消さずに横へ追記する。これにより「戦闘開始では消さず、
+      // 次の窓を出すこのタイミングで差し替える」が成立する（前の窓を粘らせる設定の実体）。
+      if (this.container && this.shownTimestamp !== timestamp) {
+        this.remove();
+      }
       if (!this.container) {
         this.container = this.createContainer(label);
+        this.shownTimestamp = timestamp;
         window.document.body.appendChild(this.container);
       }
       this.container.appendChild(img);
@@ -60,6 +67,7 @@
     private ignoreMillisecFromBattleResulted = 7800; // 戦闘終了から「次」が登場するまでのミリ秒
     private canvas: HTMLCanvasElement | null = null;
     private container: HTMLDivElement | null = null;
+    private shownTimestamp: number | undefined; // 現在表示中の窓がどの戦闘(timestamp)のものか
     private count: number = 1; // 何回クリックされたらリセットするか
     private timestamp: number = 0; // drawする画像のkey
     private clicked: number = 0; // 何回クリックされたか

@@ -12,6 +12,7 @@ export function DamageSnapshotSettingView({
   const [mode, setMode] = useState<DamageSnapshotMode>(config.mode);
   const [heightRatio, setHeightRatio] = useState<number>(config.heightRatio);
   const [areaLabelFormat, setAreaLabelFormat] = useState<AreaLabelFormat>(config.areaLabelFormat ?? "number");
+  const [keepUntilNextShow, setKeepUntilNextShow] = useState<boolean>(config.keepUntilNextShow ?? false);
 
   return (
     <FoldableSection title="大破進撃防止の設定" id="damage-snapshot">
@@ -84,6 +85,24 @@ export function DamageSnapshotSettingView({
             <option value="japanese">日本語名で表示（例: 鎮守府正面海域 (2)）</option>
           </select>
           <p className="text-xs text-gray-500 mt-1">大破進撃防止窓に「海域 (連戦数)」を表示します。日本語名が未収録の海域は番号で表示されます。</p>
+        </div>
+      )}
+
+      {mode !== DamageSnapshotMode.DISABLED && (
+        <div className="mb-4">
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={keepUntilNextShow}
+              onChange={async (e) => {
+                const next = e.target.checked;
+                await config.update({ keepUntilNextShow: next });
+                setKeepUntilNextShow(next);
+              }}
+            />
+            <span className="font-bold">次の窓が出るまで前の窓を消さない</span>
+          </label>
+          <p className="text-xs text-gray-500 mt-1">通常は次の戦闘開始時に前の大破確認窓を消しますが、ONにすると次の窓が表示されるまで前の窓を残します（母港に戻ると消えます）。</p>
         </div>
       )}
     </FoldableSection>
