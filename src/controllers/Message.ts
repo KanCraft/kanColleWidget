@@ -13,6 +13,8 @@ import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
 import { GameWindowConfig } from "../models/configs/GameWindowConfig";
 import { NotificationService } from "../services/NotificationService";
+import { Logbook } from "../models/Logbook";
+import { formatSortieLabel } from "../models/sortieLabel";
 
 const onMessage = new Router<typeof chrome.runtime.onMessage>();
 
@@ -85,15 +87,18 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   const uri = await (new CropService(img)).crop("damagesnapshot");
 
   const config = await DamageSnapshotConfig.user();
+  // 出撃中の「海域 (連戦数)」ラベルを組み立てる（#1764）。出撃コンテキストが取れない場合は
+  // null になり、表示側はラベルを描画しない（従来どおり画像のみ）。
+  const label = formatSortieLabel(Logbook.sortie.map, Logbook.sortie.battles.length, config.areaLabelFormat);
   switch (config.mode) {
   case DamageSnapshotMode.DISABLED:
     return;
   case DamageSnapshotMode.INAPP:
-    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp, heightRatio: config.heightRatio });
+    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp, heightRatio: config.heightRatio, label });
   case DamageSnapshotMode.SEPARATE: {
     const win = await Launcher.damagesnapshot(config);
     if (!win || !win.tabs || !win.tabs[0].id) throw new Error("Failed to get damage snapshot window");
-    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp });
+    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp, label });
   }
   }
 });
