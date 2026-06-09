@@ -19,33 +19,37 @@ export function DamageSnapshotPage() {
   }, [label]);
   return (
     <div id="damage-snapshot-page-root" style={{
-      position: "relative",
       display: "flex",
-      flexDirection: "row-reverse",
-      width: "max-content",
+      flexDirection: "column",
       height: "100vh",
     }}>
       {label && (
         <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          background: "rgba(0,0,0,0.6)",
+          background: "rgba(0,0,0,0.8)",
           color: "#fff",
           fontSize: 12,
           lineHeight: 1.4,
           padding: "2px 6px",
-          zIndex: 1,
           whiteSpace: "nowrap",
+          flex: "none",
         }}>{label}</div>
       )}
-      {uris.map((uri, i) => (
-        <div key={i} className="snapshot-item">
-          <img src={uri} alt={`Damage Snapshot ${i + 1}`} style={{
-            height: "100%",
+      <div style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "row-reverse",
+        minHeight: 0,
+      }}>
+        {uris.map((uri, i) => (
+          <div key={i} className="snapshot-item" style={{
+            flex: 1,
+            backgroundImage: `url(${uri})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "top center",
           }} />
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
