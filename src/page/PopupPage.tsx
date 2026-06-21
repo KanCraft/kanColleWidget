@@ -1,6 +1,7 @@
 import { useLoaderData } from "react-router-dom"
 import { Launcher } from "../services/Launcher"
 import { type Frame } from "../models/Frame"
+import { GameWindowConfig } from "../models/configs/GameWindowConfig"
 
 import { useState, type ReactNode } from "react";
 import { ClockIcon, SquaresPlusIcon, Cog6ToothIcon, BookOpenIcon } from "@heroicons/react/24/outline";
@@ -18,11 +19,20 @@ function ShortCutIcon({icon, title, action}: {
 }
 
 export function PopupPage() {
-  const { frames } = useLoaderData() as { frames: Frame[] }
-  const [selectedId, selectId] = useState<string>("__memory__");
+  const { frames, defaultFrameId } = useLoaderData() as { frames: Frame[]; defaultFrameId: string }
+  // 前回起動した Frame を初期選択として復元する（#1236）。
+  const [selectedId, selectId] = useState<string>(defaultFrameId);
 
   const openFrame = async (frameId?: string) => {
     if (typeof chrome === "undefined" || !chrome.runtime?.id) return;
+    // 起動した Frame を次回ポップアップの初期選択として記憶する（#1236）。
+    if (frameId) {
+      try {
+        await (await GameWindowConfig.user()).update({ lastSelectedFrameId: frameId });
+      } catch (error) {
+        console.error("lastSelectedFrameId の保存に失敗しました", error);
+      }
+    }
     try {
       await chrome.runtime.sendMessage<
         { action: string; frame_id?: string },
