@@ -1,4 +1,5 @@
 import { Frame } from "../../models/Frame";
+import { resolveDefaultFrameId } from "../../models/popupDefaultFrame";
 import Queue from "../../models/Queue";
 import note from "../../release-note.json"
 import { ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
@@ -59,8 +60,14 @@ export async function options() {
 }
 
 export async function popup() {
+  const frames = await Frame.list();
+  // 前回ポップアップで選択（起動）した Frame を初期選択として復元する（#1236）。
+  // 解決ロジック（削除済みIDのフォールバック含む）は resolveDefaultFrameId に切り出してテストしている。
+  const game = await GameWindowConfig.user();
+  const defaultFrameId = resolveDefaultFrameId(frames.map((f) => f._id!), game.lastSelectedFrameId);
   return {
-    frames: await Frame.list(),
+    frames,
+    defaultFrameId,
   };
 }
 
