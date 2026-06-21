@@ -48,9 +48,11 @@ export default defineConfig({
         // path.resolve(__dirname, 'src/injection/content-script.ts'),
       ],
       output: {
-        entryFileNames: () => {
-          // SCSSエントリーポイントの空のJSラッパーを無視
-          // または適切な場所に配置する
+        entryFileNames: (chunkInfo) => {
+          // SCSSエントリーの空JSラッパーをサブディレクトリに逃がし、TSエントリーとの命名衝突を防ぐ
+          if (chunkInfo.facadeModuleId?.endsWith('.scss')) {
+            return '_stubs/[name].js';
+          }
           return '[name].js';
         },
         assetFileNames: (assetInfo) => {
