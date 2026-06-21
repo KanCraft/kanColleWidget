@@ -42,6 +42,12 @@ export class SortieContext extends Model {
     this.started = Date.now();
     this.deck = deck;
     this.map = map;
+    // 新規出撃は必ず連戦数 0 から始める。通常は onPort→Logbook.record() が _context を
+    // null 化するので不要だが、母港(/api_port/port)を挟まず onMapStart が再度走る異常系
+    // （Service Worker のライフサイクル境界・port イベント取りこぼし等）で前出撃の battles/
+    // cells が持ち越されて連戦数が +1 されるのを防ぐ二重防御（#1367）。
+    this.cells = [];
+    this.battles = [];
   }
 
   public next(cell: string) {
