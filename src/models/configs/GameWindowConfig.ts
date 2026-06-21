@@ -7,7 +7,8 @@ export class GameWindowConfig extends Model {
       alertBeforeClose: true,
       showMuteButton: true,
       showScreenshotButton: true,
-      buttonSize: 100,
+      // 既定は小(4vw)。Issue #1763「ボタンを縮小」に沿い、ORIGINAL 窓(1200px)では現行の 48px と同等の見た目。
+      buttonSize: 50,
     },
   }
   public static async user(): Promise<GameWindowConfig> {
@@ -16,5 +17,5 @@ export class GameWindowConfig extends Model {
   public alertBeforeClose: boolean = true;
   public showMuteButton: boolean = true;
   public showScreenshotButton: boolean = true;
-  public buttonSize: number = 100;
+  public buttonSize: number = 50;
 }
