@@ -28,10 +28,13 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
       return this.self;
     }
     constructor(config: GameWindowConfig) {
-      const sizeRatio = config.buttonSize / 100;
+      // ボタンサイズはゲーム画面に対する倍率（vw）で定義する。
+      // 大(buttonSize>=100)=6vw / 小=4vw（#1177 の「大小=6%:4%」準拠）。
+      // ピクセル固定だと窓を小さくした際にボタンが相対的に肥大化し、基地航空隊の操作 UI に被るため。
+      const sizeVw = config.buttonSize >= 100 ? 6 : 4;
       this.container = this.createContainer();
-      this.muteButton = this.createButton(InAppActionButtons.ICON_SPEAKER_WAVE, () => this.toggleMute(), sizeRatio);
-      this.screenshotButton = this.createButton(InAppActionButtons.ICON_CAMERA, () => this.screenshot(), sizeRatio);
+      this.muteButton = this.createButton(InAppActionButtons.ICON_SPEAKER_WAVE, () => this.toggleMute(), sizeVw);
+      this.screenshotButton = this.createButton(InAppActionButtons.ICON_CAMERA, () => this.screenshot(), sizeVw);
       if (config.showScreenshotButton) {
         this.container.appendChild(this.screenshotButton);
       }
@@ -79,12 +82,13 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
       div.id = "kcw-inapp-action-buttons";
       return div;
     }
-    private createButton(svgContent: string, onclick = () => { }, sizeRatio: number = 1): HTMLButtonElement {
+    private createButton(svgContent: string, onclick = () => { }, sizeVw: number): HTMLButtonElement {
       const button = window.document.createElement("button");
       button.style.backgroundColor = "#fff";
-      button.style.width = `${48 * sizeRatio}px`;
-      button.style.height = `${48 * sizeRatio}px`;
-      button.style.padding = `${8 * sizeRatio}px`;
+      // padding は従来の 8/48=1/6 比を維持する。
+      button.style.width = `${sizeVw}vw`;
+      button.style.height = `${sizeVw}vw`;
+      button.style.padding = `${sizeVw / 6}vw`;
       button.style.cursor = "pointer";
       button.style.border = "none";
       button.style.display = "flex";
