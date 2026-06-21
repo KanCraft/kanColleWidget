@@ -10,8 +10,18 @@ import { CropService } from "../../services/CropService";
 import { NotificationService } from "../../services/NotificationService";
 import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
+import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 
 const log = Logger.get("WebRequest");
+
+// 大破進撃防止窓を「戦闘開始時に」消す。ただしユーザ設定 keepUntilNextShow が有効なら消さず、
+// 次のスナップショット表示時(osapi.show)の差し替えに前の窓の除去を委ねる（前の窓を粘らせる）。
+// 母港帰投(onPort)は設定に関わらず常に消すので、この関数は戦闘開始系ハンドラだけで使う。
+async function clearSnapshotOnBattleStart(details: chrome.webRequest.OnBeforeRequestDetails) {
+  const config = await DamageSnapshotConfig.user();
+  if (config.keepUntilNextShow) return;
+  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+}
 
 export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
@@ -81,7 +91,7 @@ export async function onMapNext([details]: chrome.webRequest.OnBeforeRequestDeta
 
 // 戦闘（昼戦）開始時
 export async function onBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  await clearSnapshotOnBattleStart(details);
   const data = details.requestBody?.formData as {
     api_formation: string[]; // 陣形
     api_recovery_type: string[]; // なんだこれ
@@ -89,9 +99,40 @@ export async function onBattleStarted([details]: chrome.webRequest.OnBeforeReque
   Logbook.sortie.battle.start(data.api_formation[0]);
 }
 
-// 夜戦突入時
+// 連合艦隊戦（昼戦）開始時。通常艦隊の onBattleStarted と同様に連戦数をカウントする（#1764）。
+// 連合艦隊では api_req_combined_battle/battle が飛ぶが従来ハンドラが無く連戦数が積まれなかった。
+// formData の形は実データ未観測のため api_formation を防御的に読む（揺らぎは許容）。
+export async function onCombinedBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  await clearSnapshotOnBattleStart(details);
+  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
+  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
+}
+
+// 夜戦（昼戦マスからの追撃夜戦）突入時。同じマスの戦闘の継続なので連戦数は増やさず、
+// 最後の戦闘に夜戦フラグだけ立てる。開幕夜戦マス（sp_midnight）とは区別する（#1764）。
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  Logbook.sortie.battle.midnight();
+}
+
+// 夜戦突入（開幕夜戦）マスの戦闘開始時。昼戦を経ず api_req_battle_midnight/sp_midnight が飛ぶ
+// 新規マスの戦闘なので、連戦数に算入(push)してから夜戦フラグを立てる（#1764）。戦闘結果は
+// api_req_sortie/battleresult 側で返るため、大破進撃防止窓は既存の onComplete 経路で表示される。
+// 未ハンドルだと remove も push も起きず「前マスの窓が残り横並び増殖」「連戦数の数え漏れ」を招いていた。
+export async function onSpMidnightBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  await clearSnapshotOnBattleStart(details);
+  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
+  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
+  Logbook.sortie.battle.midnight();
+}
+
+// 連合艦隊の開幕夜戦マス。api パス・formData 形ともに未観測（イベント期間外で実データ取得不可）の
+// ため予防的に用意し、通常版 sp_midnight と対にして連戦数漏れを防ぐ。実機で観測できたらパス名と
+// formData の形を確定すること（#1764）。
+export async function onCombinedSpMidnightBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  await clearSnapshotOnBattleStart(details);
+  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
+  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
   Logbook.sortie.battle.midnight();
 }
 

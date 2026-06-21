@@ -30,11 +30,23 @@
     /**
      * 全体のimage URIを受け取るので、それをトリミングして、表示する
     **/
-    public async show({ uri, heightRatio, /* timestamp */ }: { uri: string; heightRatio?: number; timestamp: number; }) {
+    public async show({ uri, heightRatio, label, timestamp }: { uri: string; heightRatio?: number; label?: string | null; timestamp: number; }) {
       const img = await load(uri);
-      img.style.height = "100%";
+      // 高さを具体値(vh)にする。height:100% にすると画像の自然解像度幅がコンテナ幅に
+      // 採用されて巨大化するため、vh で高さを与えて幅はアスペクト比に委ねる。
+      img.style.height = `${heightRatio ?? 40}vh`;
+      img.style.width = "auto";
+      img.style.display = "inline-block";
+      img.style.verticalAlign = "top";
+      // 新しいスナップショット（timestamp が変わった）なら、ここで初めて前回の窓を消して作り直す。
+      // 同じ timestamp（連合艦隊の2ペイン目）は消さずに横へ追記する。これにより「戦闘開始では消さず、
+      // 次の窓を出すこのタイミングで差し替える」が成立する（前の窓を粘らせる設定の実体）。
+      if (this.container && this.shownTimestamp !== timestamp) {
+        this.remove();
+      }
       if (!this.container) {
-        this.container = this.createContainer(heightRatio);
+        this.container = this.createContainer(label);
+        this.shownTimestamp = timestamp;
         window.document.body.appendChild(this.container);
       }
       this.container.appendChild(img);
@@ -55,6 +67,7 @@
     private ignoreMillisecFromBattleResulted = 7800; // 戦闘終了から「次」が登場するまでのミリ秒
     private canvas: HTMLCanvasElement | null = null;
     private container: HTMLDivElement | null = null;
+    private shownTimestamp: number | undefined; // 現在表示中の窓がどの戦闘(timestamp)のものか
     private count: number = 1; // 何回クリックされたらリセットするか
     private timestamp: number = 0; // drawする画像のkey
     private clicked: number = 0; // 何回クリックされたか
@@ -72,14 +85,26 @@
       this.clicked = 0;
       this.canvas?.removeEventListener("mousedown", this.listener);
     }
-    private createContainer(height: number = 40): HTMLDivElement {
+    private createContainer(label?: string | null): HTMLDivElement {
       const div = window.document.createElement("div");
-      div.style.height = `${height}%`;
       div.style.position = "fixed";
       div.style.top = "0";
       div.style.left = "0";
       div.style.transition = "all 0.1s";
       div.style.opacity = "1";
+      div.style.boxSizing = "border-box";
+      div.style.whiteSpace = "nowrap"; // 連合艦隊の複数ペインを横一列に保つ
+      div.style.fontSize = "0";        // inline-block 画像間の余白を消す
+      // v3 と同じく「海域 (連戦数) ラベルを1行 → その下に画像」にする（画像に重ねない）。
+      // 帯は絶対配置で画像幅いっぱい(left:0/right:0)に広げ、画像側は上端に帯ぶんの余白を空けて下げる。
+      // min-width:max-content で、画像が細くても海域名テキストが切れないようにする。
+      if (label) {
+        div.style.paddingTop = "22px";
+        const tag = window.document.createElement("div");
+        tag.textContent = label;
+        tag.style.cssText = "position:absolute;top:0;left:0;right:0;min-width:max-content;box-sizing:border-box;background:rgba(0,0,0,0.8);color:#fff;font-size:12px;line-height:1.4;padding:2px 6px;white-space:nowrap;";
+        div.appendChild(tag);
+      }
       let autoHideTimer: number | null = null;
       const clearAutoHide = () => {
         if (autoHideTimer !== null) {
