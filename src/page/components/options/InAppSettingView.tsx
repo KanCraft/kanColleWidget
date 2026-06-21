@@ -10,7 +10,7 @@ export function InAppSettingView({
   const [config] = useState<GameWindowConfig>(_config);
   const [showMuteButton, setShowMuteButton] = useState<boolean>(config.showMuteButton ?? true);
   const [showScreenshotButton, setShowScreenshotButton] = useState<boolean>(config.showScreenshotButton ?? true);
-  const [buttonSize, setButtonSize] = useState<number>(config.buttonSize ?? 100);
+  const [buttonSize, setButtonSize] = useState<number>(config.buttonSize ?? 50);
 
   return (
     <FoldableSection title="ウィンドウ内表示設定" id="inapp">

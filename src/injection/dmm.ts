@@ -82,10 +82,9 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
       div.id = "kcw-inapp-action-buttons";
       return div;
     }
-    private createButton(svgContent: string, onclick = () => { }, sizeVw: number = 4): HTMLButtonElement {
+    private createButton(svgContent: string, onclick = () => { }, sizeVw: number): HTMLButtonElement {
       const button = window.document.createElement("button");
       button.style.backgroundColor = "#fff";
-      // ゲーム画面横幅基準の倍率（vw）。窓サイズに追従して占有割合を一定に保つ。
       // padding は従来の 8/48=1/6 比を維持する。
       button.style.width = `${sizeVw}vw`;
       button.style.height = `${sizeVw}vw`;
