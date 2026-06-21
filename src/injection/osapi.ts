@@ -71,8 +71,17 @@
     private count: number = 1; // 何回クリックされたらリセットするか
     private timestamp: number = 0; // drawする画像のkey
     private clicked: number = 0; // 何回クリックされたか
+    private lastClickedAt: number = 0; // 直近で capture を登録した時刻（連打デバウンス用 #1262）
+    private ignoreMillisecBetweenClicks = 800; // この間隔内の連打クリックは capture を無視する（#1262）
     private listener: (a: unknown) => unknown = () => { };
     private onClickNext() {
+      // 素早い連打（ダブルクリック相当）だと、画面が第二艦隊へ進む前に2発目が走り、同じ第一艦隊を
+      // 二重キャプチャして連合艦隊の第二艦隊を取りこぼす（#1262）。直近の登録クリックから一定時間内の
+      // クリックは capture 送信をスキップして防ぐ。ゲーム画面へのクリック自体は阻害しない（mousedown は
+      // 観測のみで preventDefault しない）ため、画面進行後の正規の再クリックは第二艦隊として通る。
+      const now = Date.now();
+      if (now - this.lastClickedAt < this.ignoreMillisecBetweenClicks) return;
+      this.lastClickedAt = now;
       chrome.runtime.sendMessage(chrome.runtime.id, {
         action: "/damage-snapshot/capture", after: 1000 + (800 * this.clicked), timestamp: this.timestamp,
       })
@@ -83,6 +92,7 @@
     }
     private reset() {
       this.clicked = 0;
+      this.lastClickedAt = 0;
       this.canvas?.removeEventListener("mousedown", this.listener);
     }
     private createContainer(label?: string | null): HTMLDivElement {
