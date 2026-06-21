@@ -56,4 +56,21 @@ describe("SortieContext 連戦数カウント", () => {
     expect(ctx.battles.length).toBe(4);
     expect(ctx.battles.filter((b) => b.midnight).length).toBe(2);
   });
+
+  it("前出撃の戦闘が残った状態で start() すると連戦数が 0 にリセットされる(#1367)", () => {
+    const ctx = new SortieContext();
+    // 前の出撃で戦闘・マス移動が記録された状態を作る
+    ctx.next("1");
+    ctx.battle.start("1");
+    ctx.battle.start("1");
+    expect(ctx.battles.length).toBe(2);
+    expect(ctx.cells.length).toBe(1);
+    // 母港(/api_port/port)を挟まず次の出撃が始まっても、新規出撃は連戦数 0 から始まる
+    ctx.start("2", { area: "2", info: "2" });
+    expect(ctx.battles.length).toBe(0);
+    expect(ctx.cells.length).toBe(0);
+    // 初手の戦闘で連戦数は 1 から始まる
+    ctx.battle.start("1");
+    expect(ctx.battles.length).toBe(1);
+  });
 });
