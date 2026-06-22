@@ -34,8 +34,8 @@ importers:
         specifier: ^0.3.3
         version: 0.3.3
       jstorm:
-        specifier: ^0.17.0
-        version: 0.17.0
+        specifier: ^0.18.1
+        version: 0.18.1
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1654,8 +1654,8 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  jstorm@0.17.0:
-    resolution: {integrity: sha512-vNRsiB47b5MZjHWJUaj970SHYIbHrNb5L4x6z1unI4AumAzGE1FJhHXpW7zZaYFMz5TBz476AsKQTpp6QP+sSw==}
+  jstorm@0.18.1:
+    resolution: {integrity: sha512-gHA15lmyQfIDmG1vIzAQJujtT/DoVgc2gHY5xXIxDpuZODPM6QTypkLHFh/9I7tfptNmnn26mFkZgyGLonuJOw==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -3682,7 +3682,7 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  jstorm@0.17.0: {}
+  jstorm@0.18.1: {}
 
   keyv@4.5.4:
     dependencies:
