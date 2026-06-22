@@ -38,7 +38,7 @@ jobs:
       GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
       CHROMEWEBSTORE_EXTENSION_ID: egkgleinehaapbpijnlpbllfeejjpceb
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # タグと commit 数を数えるため全履歴を取得
       - name: Use Node.js 22.x
@@ -113,7 +113,7 @@ jobs:
       # ベータ版（限定公開）ストアの直リンク。告知の「詳細」リンクに使う。
       BETA_LISTING_URL: https://chromewebstore.google.com/detail/egkgleinehaapbpijnlpbllfeejjpceb
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 22.x
         uses: actions/setup-node@v6
         with:
