@@ -8,11 +8,28 @@ export function DashboardSettingView({
   config: DashboardConfig;
 }) {
   const [config] = useState<DashboardConfig>(_config);
+  const [openWithGame, setOpenWithGame] = useState<boolean>(config.openWithGame ?? false);
 
   return (
     <FoldableSection title="ダッシュボードの設定" id="dashboard">
       <div className="mb-4">
         <p>ダッシュボード窓を開く際のサイズと位置を設定できます.</p>
+      </div>
+
+      <div className="mb-4">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={openWithGame}
+            onChange={async (e) => {
+              const next = e.target.checked;
+              await config.update({ openWithGame: next });
+              setOpenWithGame(next);
+            }}
+            className="w-4 h-4"
+          />
+          <span className="font-bold">ゲーム起動と同時にダッシュボードを開く</span>
+        </label>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-4 max-w-md">

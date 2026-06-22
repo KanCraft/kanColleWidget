@@ -9,6 +9,8 @@ export class DashboardConfig extends Model {
       "height": 220,
       "left": 10,
       "top": 10,
+      // ゲーム窓を新規に開いたとき、ダッシュボードも同時に開くか（#1216）。既定は false（従来どおり手動）。
+      "openWithGame": false,
     },
   };
 
@@ -16,9 +18,19 @@ export class DashboardConfig extends Model {
   public height: number = 220;
   public left: number = 100;
   public top: number = 100;
+  public openWithGame: boolean = false;
 
   static async user(): Promise<DashboardConfig> {
     return (await this.find("user"))!;
+  }
+
+  /**
+   * ゲーム窓の起動に合わせてダッシュボードを自動で開くべきかを判定する（#1216）。
+   * 設定 ON かつ「新規作成時のみ」が条件。既存ゲーム窓の再フォーカスでは開かない。
+   * @param gameWindowExisted launch 前に既にゲーム窓が存在したか
+   */
+  public shouldOpenOnLaunch(gameWindowExisted: boolean): boolean {
+    return !gameWindowExisted && this.openWithGame;
   }
 
   public toWindowCreateData(): chrome.windows.CreateData {
