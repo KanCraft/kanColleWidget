@@ -22,7 +22,14 @@ onMessage.on("/frame/open-or-focus", async (req) => {
   const launcher = new Launcher();
   const id = req.frame_id;
   const frame = (await Frame.find(id)) ?? (await Frame.memory());
-  return await launcher.launch(frame);
+  // launch() はゲーム窓を新規作成したとき true を返す（#1216）
+  const created = await launcher.launch(frame);
+  // 設定 ON かつ新規作成時のみ、ダッシュボードも同時に開く（#1216）。
+  // Launcher.dashboard() は open-or-focus なので、既にDBが開いていれば focus されるだけ。
+  if ((await DashboardConfig.user()).shouldOpenOnLaunch(created)) {
+    await Launcher.dashboard();
+  }
+  return created;
 });
 
 onMessage.on("/frame/memory:track", async (req) => {

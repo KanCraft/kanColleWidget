@@ -111,10 +111,17 @@ export class Launcher {
    * 既存別窓があればフォーカスのみ行い、無ければ新規作成して活性化する。
    * @param frame 起動対象のフレーム設定
    */
-  public async launch(frame: Frame) {
+  /**
+   * ゲーム窓を開く。既存があれば retouch して focus し、無ければ新規作成して activate する。
+   * @returns ゲーム窓を新規作成したとき true、既存窓を再フォーカスしたとき false（#1216）
+   */
+  public async launch(frame: Frame): Promise<boolean> {
     // すでに存在する場合、retouchして終わる
     const exists = await this.find(frame);
-    if (exists && exists.id) return this.retouch(exists, frame);
+    if (exists && exists.id) {
+      await this.retouch(exists, frame);
+      return false;
+    }
     // ない場合、新規作成してactivateする
     const win = await this.windows.create(frame.toWindowCreateData());
     if (!win) throw new Error("Failed to create game window");
@@ -122,6 +129,7 @@ export class Launcher {
     this.anchor(win, frame);
     this.mute(win.tabs![0].id!, frame.muted);
     await this.activate(win, innerIframe);
+    return true;
   }
 
   /**
