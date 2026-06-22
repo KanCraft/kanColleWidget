@@ -27,10 +27,10 @@ export class DashboardConfig extends Model {
   /**
    * ゲーム窓の起動に合わせてダッシュボードを自動で開くべきかを判定する（#1216）。
    * 設定 ON かつ「新規作成時のみ」が条件。既存ゲーム窓の再フォーカスでは開かない。
-   * @param gameWindowExisted launch 前に既にゲーム窓が存在したか
+   * @param gameWindowCreated launch でゲーム窓を新規作成したか（既存窓の再フォーカスは false）
    */
-  public shouldOpenOnLaunch(gameWindowExisted: boolean): boolean {
-    return !gameWindowExisted && this.openWithGame;
+  public shouldOpenOnLaunch(gameWindowCreated: boolean): boolean {
+    return gameWindowCreated && this.openWithGame;
   }
 
   public toWindowCreateData(): chrome.windows.CreateData {
