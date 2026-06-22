@@ -33,3 +33,17 @@ describe("GameWindowConfig.lastSelectedFrameId", () => {
     expect(GameWindowConfig.default.user.lastSelectedFrameId).toBe(MEMORY_FRAME_ID);
   });
 });
+
+// jstorm/testing の installMemoryStorage（tests/setup.ts で各テスト前に注入）を実際に
+// 経由した storage round-trip。Model 層が拡張外でも動くことを検証する。
+describe("GameWindowConfig storage round-trip (jstorm/testing)", () => {
+  it("user() は既定で __memory__ を返し、update が in-memory storage に永続化される", async () => {
+    const before = await GameWindowConfig.user();
+    expect(before.lastSelectedFrameId).toBe(MEMORY_FRAME_ID);
+
+    await before.update({ lastSelectedFrameId: "__classic__" });
+
+    const after = await GameWindowConfig.user();
+    expect(after.lastSelectedFrameId).toBe("__classic__");
+  });
+});

@@ -22,7 +22,7 @@
     "@heroicons/react": "2.1.5",
     "@tesseract.js-data/eng": "1.0.0",
     "chromite": "^0.3.3",
-    "jstorm": "^0.17.0",
+    "jstorm": "^0.18.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.30.3",
