@@ -35,7 +35,10 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
   const m = new Mission(did, mid, missions[mid]);
-  const q = await Queue.create({ type: EntryType.MISSION, params: m, scheduled: Date.now() + m.time });
+  // 遠征は残り1分を切ると母港復帰で即完了する仕様のため、通知を一律で1分早める（#1811, Mission.EARLY_RETURN_MARGIN）。
+  // 入渠・建造はOCRで実時刻を読むためこの補正は不要。
+  const scheduled = Date.now() + Math.max(0, m.time - Mission.EARLY_RETURN_MARGIN);
+  const q = await Queue.create({ type: EntryType.MISSION, params: m, scheduled });
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);
 }
