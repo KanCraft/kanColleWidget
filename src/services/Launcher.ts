@@ -107,29 +107,54 @@ export class Launcher {
   }
 
   /**
-   * 指定されたフレーム設定でゲーム別窓を起動する。
-   * 既存別窓があればフォーカスのみ行い、無ければ新規作成して活性化する。
+   * ゲーム窓を開く。既存があれば retouch（サイズ調整＋focus）し、無ければ新規作成して activate する。
    * @param frame 起動対象のフレーム設定
-   */
-  /**
-   * ゲーム窓を開く。既存があれば retouch して focus し、無ければ新規作成して activate する。
    * @returns ゲーム窓を新規作成したとき true、既存窓を再フォーカスしたとき false（#1216）
    */
   public async launch(frame: Frame): Promise<boolean> {
-    // すでに存在する場合、retouchして終わる
+    return this.findOrOpen(frame, (win) => this.retouch(win, frame));
+  }
+
+  /**
+   * 既存のゲーム窓があれば focus のみ、無ければ新規作成する。
+   * retouch と違いサイズ調整を行わないため、通知クリックなど
+   * 「単にアクティブ化したいだけ」の用途に使う（#1810）。
+   * @param frame 窓が無いとき新規作成に使うフレーム設定
+   * @returns ゲーム窓を新規作成したとき true、既存窓を再フォーカスしたとき false
+   */
+  public async focusOrLaunch(frame: Frame): Promise<boolean> {
+    return this.findOrOpen(frame, (win) => this.focus(win.id!));
+  }
+
+  /**
+   * 既存のゲーム別窓を探し、あれば onExists で再利用、無ければ新規作成する。
+   * 「既存窓に対する振る舞い」だけが launch と focusOrLaunch の差なので、
+   * find→存在判定→open の共通骨格をここに集約する。
+   * @param frame 検索・新規作成に使うフレーム設定
+   * @param onExists 既存窓が見つかったときの再利用処理
+   * @returns ゲーム窓を新規作成したとき true、既存窓を再利用したとき false
+   */
+  private async findOrOpen(frame: Frame, onExists: (win: chrome.windows.Window) => Promise<unknown>): Promise<boolean> {
     const exists = await this.find(frame);
     if (exists && exists.id) {
-      await this.retouch(exists, frame);
+      await onExists(exists);
       return false;
     }
-    // ない場合、新規作成してactivateする
+    await this.open(frame);
+    return true;
+  }
+
+  /**
+   * フレーム設定からゲーム別窓を新規作成し、注入・ミュート・活性化まで行う。
+   * @param frame 起動対象のフレーム設定
+   */
+  private async open(frame: Frame): Promise<void> {
     const win = await this.windows.create(frame.toWindowCreateData());
     if (!win) throw new Error("Failed to create game window");
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
     this.mute(win.tabs![0].id!, frame.muted);
     await this.activate(win, innerIframe);
-    return true;
   }
 
   /**
