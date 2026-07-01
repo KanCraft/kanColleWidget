@@ -17,7 +17,7 @@ describe("Mission early-return margin (#1811)", () => {
     expect(Mission.EARLY_RETURN_MARGIN).toBe(60_000);
   });
 
-  it("開始通知の終了予定時刻は表示時間より1分早い", () => {
+  it("開始通知の終了予定時刻はゲーム内表示に合わせて補正しない", () => {
     vi.useFakeTimers();
     // 2024-08-25 07:00:00 を基準に、表示30分の「長距離練習航海」を出航させる
     vi.setSystemTime(new KCWDate("August 25, 2024 07:00:00"));
@@ -26,9 +26,8 @@ describe("Mission early-return margin (#1811)", () => {
     const m = new Mission("2", 2, spec);
     const options = m.$n.options(TriggerType.START);
 
-    // 30分後の07:30ではなく、1分早い07:29が終了予定時刻として表示される
-    expect(options.message).toContain("07:29");
-    expect(options.message).not.toContain("07:30");
+    // 開始通知はゲーム内カウントダウンの表示時間(30分後=07:30)をそのまま示す
+    expect(options.message).toContain("07:30");
 
     vi.useRealTimers();
   });
