@@ -6,6 +6,13 @@ import { NotificationEntryBase } from "./Base";
 
 export class Mission extends NotificationEntryBase {
   public override readonly type = "mission";
+
+  // 遠征は「残り時間が1分を切ると母港画面に戻ることで残り時間を待たずに完了する」ゲーム仕様がある。
+  // そのため表示時間そのままで通知すると、実際に回収可能になるタイミング（最大1分前）より遅れる（#1811）。
+  // 完了通知の予定時刻(scheduled)を一律で1分早めて、ゲーム内で帰投できるタイミングに揃える。
+  // なお開始通知の「終了予定時刻」表示は、ゲーム内カウントダウンの表示時間と一致させるため補正しない。
+  public static readonly EARLY_RETURN_MARGIN = 60_000; // [ms]
+
   public deck: number | string = 0; // 艦隊ID [2,3,4]
   public id: number | string = 0; // 遠征ID
 
