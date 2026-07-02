@@ -4,6 +4,8 @@ export function DamageSnapshotPage() {
   const [uris, setURIs] = useState<string[]>([]);
   const [label, setLabel] = useState<string | null>(null);
   // 現在表示中の画像がどの戦闘(timestamp)のものかを保持する（osapi.ts DamageSnapshot.show()と同じ役割）
+  // stellar:debt(scope) osapi.tsのDamageSnapshot.show()と同じtimestamp比較ロジックをここに個別実装している。
+  // upgrade: 両者が使う共有predicate（例: shouldReplaceSnapshot）に統合し、将来の乖離を防ぐ。
   const shownTimestamp = useRef<number | undefined>(undefined);
   useEffect(() => {
     chrome.runtime.onMessage.addListener((msg) => {
