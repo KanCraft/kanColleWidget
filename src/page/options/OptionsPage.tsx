@@ -3,6 +3,7 @@ import { FrameSettingView } from "../components/options/FrameSettingView";
 import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
 import { DamageSnapshotSettingView } from "../components/options/DamageSnapshotSettingView";
+import { BehaviorSettingView } from "../components/options/BehaviorSettingView";
 import { NotificationSettingView } from "../components/options/NotificationSettingView";
 import { InAppSettingView } from "../components/options/InAppSettingView";
 
@@ -10,6 +11,7 @@ import { type Frame } from "../../models/Frame";
 import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { type DashboardConfig } from "../../models/configs/DashboardConfig";
 import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
+import { type BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
 import { type GameWindowConfig } from "../../models/configs/GameWindowConfig";
@@ -26,6 +28,7 @@ export function OptionsPage() {
     filesave,
     dashboard,
     damagesnapshot,
+    behavior,
     notification,
   } = useLoaderData() as {
     frames: Frame[];
@@ -34,6 +37,7 @@ export function OptionsPage() {
     filesave: FileSaveConfig;
     dashboard: DashboardConfig;
     damagesnapshot: DamageSnapshotConfig;
+    behavior: BehaviorConfig;
     notification: {
       defaults: Record<TriggerType.START | TriggerType.END, NotificationConfig>;
       entries: Record<EntryType, Record<TriggerType.START | TriggerType.END, NotificationConfig>>;
@@ -59,6 +63,8 @@ export function OptionsPage() {
       <FileSaveSettingView config={filesave} />
       <Divider />
       <DamageSnapshotSettingView config={damagesnapshot} />
+      <Divider />
+      <BehaviorSettingView config={behavior} />
       <Divider />
       <DevelopmentInfoView releasenote={releasenote} />
     </div>
