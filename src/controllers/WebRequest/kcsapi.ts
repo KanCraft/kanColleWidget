@@ -79,6 +79,8 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
   const map = { area: data.api_maparea_id[0], info: data.api_mapinfo_no[0] };
   const fatigue = new Fatigue(parseInt(deck), map);
   Logbook.sortie.start(deck, map);
+  // 出撃した艦隊の表示中の疲労回復通知を消す（疲労通知はENDでのみ発行される）
+  await NotificationService.new().clear(fatigue.$n.id(TriggerType.END));
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 
