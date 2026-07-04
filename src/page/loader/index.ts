@@ -7,6 +7,7 @@ import { Launcher } from "../../services/Launcher";
 import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
+import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
 import { NotificationConfig } from "../../models/configs/NotificationConfig";
 import { EntryType, TriggerType } from "../../models/entry";
@@ -18,6 +19,7 @@ export async function options() {
   const filesave = await FileSaveConfig.user();
   const dashboard = await DashboardConfig.user();
   const damagesnapshot = await DamageSnapshotConfig.user();
+  const behavior = await BehaviorConfig.user();
   const notificationDefaults = {
     [TriggerType.START]: (await NotificationConfig.find("/default/start"))!,
     [TriggerType.END]: (await NotificationConfig.find("/default/end"))!,
@@ -52,6 +54,7 @@ export async function options() {
     filesave,
     dashboard,
     damagesnapshot,
+    behavior,
     notification: {
       defaults: notificationDefaults,
       entries: notificationEntries,

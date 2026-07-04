@@ -11,6 +11,7 @@ import { NotificationService } from "../../services/NotificationService";
 import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
+import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
 
 const log = Logger.get("WebRequest");
 
@@ -79,6 +80,17 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
   const map = { area: data.api_maparea_id[0], info: data.api_mapinfo_no[0] };
   const fatigue = new Fatigue(parseInt(deck), map);
   Logbook.sortie.start(deck, map);
+  // 出撃した艦隊の表示中の疲労回復通知を消す（疲労通知はENDでのみ発行される）
+  await NotificationService.new().clear(fatigue.$n.id(TriggerType.END));
+  // 設定が有効な場合のみ、同じ艦隊の既存の疲労Queueを削除して最新の1本に積み直す。
+  // 既定では削除せず出撃ごとにタイマーが並ぶ（連続出撃の回数把握に使える）。
+  const behavior = await BehaviorConfig.user();
+  if (behavior.restackFatigueOnSortie) {
+    const queues = await Queue.list();
+    for (const q of queues) {
+      if (q.type === EntryType.FATIGUE && Number(q.entry<Fatigue>().deck) === fatigue.deck) await q.delete();
+    }
+  }
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 
