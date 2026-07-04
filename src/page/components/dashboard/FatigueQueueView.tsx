@@ -17,7 +17,7 @@ export function FatigueQueueView({ queues, edit }: { queues: Queue[], edit: (q: 
           <div>{fatigue.seamap?.area}-{fatigue.seamap?.info}</div>
           <div className="flex-1 bg-gray-100">
             <div className={`pl-1 text-gray-400 ${color}`} style={{width: `${Math.floor(r.progress * 100)}%`}}>
-              {r.minutes}:{r.seconds}
+              {r.minutes}:{r.seconds.toString().padStart(2, "0")}
             </div>
           </div>
         </div>
