@@ -9,7 +9,7 @@ export interface NotificationConfigData {
 }
 
 export class NotificationConfig extends Model {
-  static tableName = "NotificationConfig";
+  static override _namespace_ = "NotificationConfig";
   static override default = {
     "/default/start": {
       enabled: true,
