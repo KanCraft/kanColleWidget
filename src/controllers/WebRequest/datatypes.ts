@@ -9,6 +9,10 @@ export interface MissionStartFormData {
     // api_verno: string[];
 }
 
+export interface MissionResultFormData {
+    api_deck_id: string[];
+}
+
 export interface RecoveryStartFormData {
     api_highspeed: string[];
     api_ndock_id: string[];
@@ -37,4 +41,8 @@ export interface CreateShipFormData {
     // api_item5: string[];
     // api_token: string[];
     // api_verno: string[];
+}
+
+export interface GetShipFormData {
+    api_kdock_id: string[];
 }

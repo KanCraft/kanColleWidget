@@ -232,13 +232,13 @@ DMM popup window (www.dmm.com)
 通知IDにメタデータをエンコード：
 
 ```
-/{type}/{deck_or_dock}/{trigger}
+/{type}/{trigger}/{deck_or_dock}
 
 例:
-/mission/2/end     // 艦隊2の遠征完了
-/recovery/1/start  // ドック1の修復開始
-/shipbuild/3/end   // ドック3の建造完了
-/fatigue/4/end     // 艦隊4の疲労回復
+/mission/end/2     // 艦隊2の遠征完了
+/recovery/start/1  // ドック1の修復開始
+/shipbuild/end/3   // ドック3の建造完了
+/fatigue/end/4     // 艦隊4の疲労回復
 ```
 
 ### Sequential API処理
