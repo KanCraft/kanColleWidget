@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileSaveConfig } from "../../../models/configs/FileSaveConfig";
+import { FileSaveConfig, type ImageFormat } from "../../../models/configs/FileSaveConfig";
 import { FoldableSection } from "../FoldableSection";
 
 export function FileSaveSettingView({
@@ -61,17 +61,31 @@ export function FileSaveSettingView({
         <div className="mb-4">
           <label className="block mb-2">
             <span className="font-bold">ファイル名テンプレート</span>
+            <span className="text-sm text-gray-600 ml-2">(拡張子は保存フォーマットに従う)</span>
           </label>
-          <input
-            type="text"
-            defaultValue={config.filenameTemplate || ""}
-            onChange={async (e) => {
-              await config.update({ filenameTemplate: e.target.value });
-              setPreview(config!.getFilename(new Date()));
-            }}
-            className="border rounded p-2 w-full max-w-md font-mono"
-            placeholder="%Y%m%d_%H%M%S.png"
-          />
+          <div className="flex items-center gap-2 w-full max-w-md">
+            <input
+              type="text"
+              defaultValue={config.filenameTemplate || ""}
+              onChange={async (e) => {
+                await config.update({ filenameTemplate: e.target.value });
+                setPreview(config!.getFilename(new Date()));
+              }}
+              className="border rounded p-2 flex-1 font-mono"
+              placeholder="%Y%m%d_%H%M%S"
+            />
+            <select
+              defaultValue={config.format}
+              onChange={async (e) => {
+                await config.update({ format: e.target.value as ImageFormat });
+                setPreview(config!.getFilename(new Date()));
+              }}
+              className="border rounded p-2 font-mono"
+            >
+              <option value="png">.png</option>
+              <option value="jpeg">.jpeg</option>
+            </select>
+          </div>
           <div className="text-sm text-gray-600 mt-1">
             <div>使用可能な変数 ( %Y: 年(4桁), %m: 月(2桁), %d: 日(2桁) %H: 時(2桁), %M: 分(2桁), %S: 秒(2桁))</div>
             <div className="mt-2">
