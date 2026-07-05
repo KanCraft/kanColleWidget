@@ -13,6 +13,7 @@ import {
   onBattleStarted,
   onCombinedBattleStarted,
   onCreateShip,
+  onGetShip,
   onBattleResulted,
   onMapNext,
   onMidnightBattleStarted,
@@ -48,6 +49,7 @@ onBeforeRequest.on([
   '/kcsapi/api_req_kousyou/createship',
   '/kcsapi/api_get_member/kdock',
 ], onCreateShip); // 新造艦を作成しようとしたとき
+onBeforeRequest.on(["/kcsapi/api_req_kousyou/getship"], onGetShip); // 建造した艦を受け取ったとき
 
 onBeforeRequest.onNotFound(async (details) => {
   requestLogger.debug("-", details);

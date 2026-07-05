@@ -2,7 +2,7 @@ import { Logger } from "../../logger";
 import { missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
-import { CreateShipFormData, MapStartFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
+import { CreateShipFormData, GetShipFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
 import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
@@ -48,14 +48,20 @@ export async function onMissionReturnInstruction([details]: chrome.webRequest.On
   log.debug("onMissionReturnInstruction", details);
 }
 
+// 指定タイプ・指定艦隊(ドック)の通知を全トリガー分消す。
+// 通知IDは /{type}/{trigger}/{deck|dock} 形式（各 entry の $n.id 参照）。
+async function clearNotificationsOf(type: EntryType, target: string) {
+  const service = NotificationService.new();
+  const notifications = await service.getAll();
+  for (const id of Object.keys(notifications)) {
+    if (id.startsWith(`/${type}/`) && id.endsWith(`/${target}`)) await service.clear(id);
+  }
+}
+
+// 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_deck_id: [api_deck_id] } = details.requestBody?.formData as unknown as { api_deck_id: string[], api_mission_id: string[] };
-  // TODO: @types/chrome の chrome.notifications.getAll が Promise を返すようになったら修正
-  await chrome.notifications.getAll((notifications) => {
-    for (const id in notifications) {
-      if (id.match(`/${EntryType.MISSION}/${api_deck_id}`)) chrome.notifications.clear(id);
-    }
-  });
+  const { api_deck_id: [deck] } = details.requestBody?.formData as unknown as MissionResultFormData;
+  await clearNotificationsOf(EntryType.MISSION, deck);
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -155,6 +161,12 @@ export async function onCombinedSpMidnightBattleStarted([details]: chrome.webReq
 export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onBattleResulted", details);
   Logbook.sortie.battle.result();
+}
+
+// 建造した艦を受け取ったとき、そのドックの建造通知（開始・完了）を消す
+export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as GetShipFormData;
+  await clearNotificationsOf(EntryType.SHIPBUILD, dock);
 }
 
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
