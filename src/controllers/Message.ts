@@ -6,7 +6,7 @@ import { H, M, S, sleep, WorkerImage } from "../utils";
 import Queue from "../models/Queue";
 import { TriggerType } from "../models/entry";
 import { Launcher } from "../services/Launcher";
-import { DownloadService } from "../services/DownloadService";
+import { ScreenshotService } from "../services/ScreenshotService";
 import { CropService } from "../services/CropService";
 import { FileSaveConfig } from "../models/configs/FileSaveConfig";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
@@ -60,9 +60,8 @@ onMessage.on("/screenshot", async (_, sender) => {
   if (!sender.tab) return;
   const launcher = new Launcher();
   const config = await FileSaveConfig.user();
-  const s = new DownloadService(config);
   const uri = await launcher.capture(sender.tab.windowId, { format: config.format });
-  return await s.download(uri);
+  return await new ScreenshotService(config).deliver(uri);
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {

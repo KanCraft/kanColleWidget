@@ -11,6 +11,7 @@ import { OptionsPage } from './options/OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
 import { FleetCapturePage } from './fleet-capture/FleetCapturePage';
+import { ScreenshotEditPage } from './screenshot-edit/ScreenshotEditPage';
 import { DamageSnapshotPage } from './snapshot/DamageSnapshotPage';
 import { LogbookPage } from './logbook/LogbookPage';
 
@@ -28,6 +29,10 @@ const router = createHashRouter([
   {
     path: "/fleet-capture",
     element: <FleetCapturePage />,
+  },
+  {
+    path: "/screenshot-edit",
+    element: <ScreenshotEditPage />,
   },
   {
     path: "/dashboard",

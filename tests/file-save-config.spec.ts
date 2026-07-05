@@ -12,6 +12,7 @@ describe("FileSaveConfig", () => {
     const config = await FileSaveConfig.user();
     expect(config.filenameTemplate).toBe("%Y%m%d_%H%M%S");
     expect(config.format).toBe("png");
+    expect(config.editBeforeSave).toBe(false);
     expect(config.getFilename(new Date(2024, 5, 15, 13, 45, 1))).toBe("20240615_134501.png");
   });
 
