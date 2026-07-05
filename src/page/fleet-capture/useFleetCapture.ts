@@ -77,7 +77,7 @@ export function useFleetCapture({
       });
       const config = await FileSaveConfig.user();
       const downloadService = new DownloadService(config);
-      const dataUrl = canvas.toDataURL("image/png");
+      const dataUrl = canvas.toDataURL(`image/${config.format}`);
       await downloadService.download(dataUrl);
     } catch (error) {
       log.error("exportResults failed", error);

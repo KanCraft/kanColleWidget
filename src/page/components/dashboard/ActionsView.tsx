@@ -21,8 +21,7 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
   return (
     <div onClick={async () => {
       const config = await FileSaveConfig.user();
-      const format = "png";
-      const uri = await launcher.capture(tab.windowId, { format });
+      const uri = await launcher.capture(tab.windowId, { format: config.format });
       const s = new DownloadService(config);
       /* const downloadId = */ await s.download(uri);
       // await s.show(downloadId);

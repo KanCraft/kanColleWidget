@@ -13,9 +13,7 @@ onCommand.on("/screenshot", async () => {
   }
   const config = await FileSaveConfig.user();
   const service = new DownloadService(config);
-  // TODO: formatもconfigから取得できるようにする
-  const format = "png"; 
-  const uri = await launcher.capture(win.id, { format });
+  const uri = await launcher.capture(win.id, { format: config.format });
   return await service.download(uri);
 });
 

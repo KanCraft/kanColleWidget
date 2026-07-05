@@ -61,8 +61,7 @@ onMessage.on("/screenshot", async (_, sender) => {
   const launcher = new Launcher();
   const config = await FileSaveConfig.user();
   const s = new DownloadService(config);
-  const format = "png";
-  const uri = await launcher.capture(sender.tab.windowId, { format });
+  const uri = await launcher.capture(sender.tab.windowId, { format: config.format });
   return await s.download(uri);
 });
 

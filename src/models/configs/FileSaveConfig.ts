@@ -1,5 +1,9 @@
 import { Model } from "jstorm/chrome/local";
 
+// スクリーンショットの保存画像フォーマット
+// chrome.tabs.captureVisibleTab の format に渡せる値と一致させる
+export type ImageFormat = "png" | "jpeg";
+
 export class FileSaveConfig extends Model {
   public static readonly _namespace_ = "FileSaveConfig";
 
@@ -7,12 +11,14 @@ export class FileSaveConfig extends Model {
     "user": {
       askAlways: false,
       folder: "艦これ",
-      filenameTemplate: "%Y%m%d_%H%M%S.png",
+      filenameTemplate: "%Y%m%d_%H%M%S",
+      format: "png" as ImageFormat,
     }
   };
 
   static async user(): Promise<FileSaveConfig> {
-    return (await this.find("user"))!;
+    const config = (await this.find("user"))!;
+    return await config.migrateFilenameExtension();
   }
 
   // 保存前に毎回ファイル保存先を指定すべきか
@@ -23,13 +29,31 @@ export class FileSaveConfig extends Model {
   // デフォルト: "艦これ" (= "~/Downloads/艦これ")
   public folder: string = "艦これ";
 
-  // 保存ファイル名テンプレート
+  // 保存ファイル名テンプレート（拡張子なし、拡張子は format から付与される）
   // %Y: 年(4桁), %m: 月(2桁), %d: 日(2桁), %H: 時(2桁), %M: 分(2桁), %S: 秒(2桁)
-  // デフォルト: "%Y%m%d_%H%M%S.png" (例: "20240615_134501.png")
-  public filenameTemplate: string = "%Y%m%d_%H%M%S.png";
+  // デフォルト: "%Y%m%d_%H%M%S" (例: "20240615_134501.png")
+  public filenameTemplate: string = "%Y%m%d_%H%M%S";
+
+  // 保存画像フォーマット。ファイル名の拡張子もこれに従う
+  public format: ImageFormat = "png";
 
   /**
-   * ファイル名を生成する
+   * filenameTemplate 末尾に拡張子を含む設定を、拡張子なしテンプレートと format の組に
+   * 移行して保存し直す。format 導入以前の設定は拡張子込みテンプレートだったため、その互換処理。
+   * @returns 移行後（または移行不要ならそのまま）の設定
+   */
+  private async migrateFilenameExtension(): Promise<FileSaveConfig> {
+    const matched = this.filenameTemplate.match(/\.(png|jpe?g)$/i);
+    if (!matched) return this;
+    const format: ImageFormat = matched[1].toLowerCase() === "png" ? "png" : "jpeg";
+    return await this.update({
+      filenameTemplate: this.filenameTemplate.slice(0, -matched[0].length),
+      format,
+    });
+  }
+
+  /**
+   * ファイル名を生成する（拡張子込み）
    * @param date 日付オブジェクト
    * @returns 生成されたファイル名
    */
@@ -47,6 +71,6 @@ export class FileSaveConfig extends Model {
     filename = filename.replace(/%H/g, H);
     filename = filename.replace(/%M/g, M);
     filename = filename.replace(/%S/g, S);
-    return filename;
+    return `${filename}.${this.format}`;
   }
 }
