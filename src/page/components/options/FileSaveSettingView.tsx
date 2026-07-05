@@ -37,6 +37,25 @@ export function FileSaveSettingView({
         </label>
       </div>
 
+      <div className="mb-6">
+        <label className="flex items-center space-x-3">
+          <input
+            type="checkbox"
+            className="h-4 w-4"
+            defaultChecked={config.editBeforeSave}
+            onChange={async (e) => {
+              await config.update({ editBeforeSave: e.target.checked });
+            }}
+          />
+          <div>
+            <div className="font-bold">保存前に編集画面を開く</div>
+            <div className="text-sm text-gray-600">
+              有効にすると撮影後すぐにはダウンロードせず、切り取りや描き込みができる編集画面を開きます。ダウンロードは編集画面の保存ボタンで行ないます。
+            </div>
+          </div>
+        </label>
+      </div>
+
       <div className="mb-4">
         <div className="mb-4">
           <label className="block mb-2">

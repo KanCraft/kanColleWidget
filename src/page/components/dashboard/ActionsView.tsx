@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
-import { DownloadService } from "../../../services/DownloadService";
+import { ScreenshotService } from "../../../services/ScreenshotService";
 import { CameraIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
 import { FileSaveConfig } from "../../../models/configs/FileSaveConfig";
 
@@ -22,9 +22,7 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
     <div onClick={async () => {
       const config = await FileSaveConfig.user();
       const uri = await launcher.capture(tab.windowId, { format: config.format });
-      const s = new DownloadService(config);
-      /* const downloadId = */ await s.download(uri);
-      // await s.show(downloadId);
+      await new ScreenshotService(config).deliver(uri);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600" title="スクリーンショットを保存">
       <CameraIcon className="w-8 h-8" aria-hidden="true" />
     </div>

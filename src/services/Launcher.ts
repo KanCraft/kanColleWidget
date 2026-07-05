@@ -77,6 +77,16 @@ export class Launcher {
   }
 
   /**
+   * スクショ編集ページを新規タブで開く。
+   * @param key TempStorage に保存した撮影画像の取り出しキー
+   * @returns 作成されたタブの Promise
+   */
+  public static async screenshotEdit(key: string) {
+    const search = new URLSearchParams({ key });
+    return await (new this()).tabs.create({ url: `page/index.html#/screenshot-edit?${search.toString()}` });
+  }
+
+  /**
    * ダメージスナップショットページを新規ウィンドウ（popup）で開く。
    * @returns {Promise<chrome.windows.Window>} 作成されたウィンドウのPromise
    */

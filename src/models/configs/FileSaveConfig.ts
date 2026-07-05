@@ -13,6 +13,7 @@ export class FileSaveConfig extends Model {
       folder: "艦これ",
       filenameTemplate: "%Y%m%d_%H%M%S",
       format: "png" as ImageFormat,
+      editBeforeSave: false,
     }
   };
 
@@ -36,6 +37,9 @@ export class FileSaveConfig extends Model {
 
   // 保存画像フォーマット。ファイル名の拡張子もこれに従う
   public format: ImageFormat = "png";
+
+  // 撮影後すぐダウンロードせず、編集ページを開いてそこの保存操作でダウンロードするか
+  public editBeforeSave: boolean = false;
 
   /**
    * filenameTemplate 末尾に拡張子を含む設定を、拡張子なしテンプレートと format の組に
