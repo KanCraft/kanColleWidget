@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Queue from "../../../models/Queue";
 import { EntryType } from "../../../models/entry";
+import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import { H, M } from "../../../utils";
 
 function clampMinutes(value: number): number {
@@ -13,27 +14,46 @@ function clampHours(value: number): number {
   return Math.max(0, Math.min(9999, value));
 }
 
+// 残り時間を time input (HH:MM) の値文字列にする。time input の上限 23:59 に丸める。
+function toTimeInputValue(remain: { hours: number, minutes: number }): string {
+  if (remain.hours >= 24) return "23:59";
+  return `${String(remain.hours).padStart(2, "0")}:${String(remain.minutes).padStart(2, "0")}`;
+}
+
 export function CustomQueueModal({
-  queue, close, update,
+  queue, close, update, manualTimerInput = "split",
 }: {
   queue: Queue | null,
   close: () => void,
   update: (queue: Queue) => void,
+  manualTimerInput?: ManualTimerInputStyle,
 }) {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [draft, setDraft] = useState("00:00");
 
   useEffect(() => {
     if (!queue) return;
     const remain = queue.remain();
     setHours(clampHours(remain.hours));
     setMinutes(clampMinutes(remain.minutes));
+    setDraft(toTimeInputValue(remain));
   }, [queue]);
 
   const updateSchedule = (nextHours: number, nextMinutes: number) => {
     if (!queue) return;
     queue.scheduled = Date.now() + nextHours * H + nextMinutes * M;
     update(queue);
+  }
+
+  const save = async () => {
+    if (!queue) return;
+    await queue.save();
+    close();
+  }
+
+  const saveOnEnter = (ev: React.KeyboardEvent) => {
+    if (ev.key === "Enter") save();
   }
 
   if (!queue) return null;
@@ -67,37 +87,61 @@ export function CustomQueueModal({
           <div>
             <label>残り</label>
           </div>
-          <div className="flex items-center space-x-2">
-            <input
-              type="number"
-              min={0}
-              max={9999}
-              className="w-20 rounded-md border px-2 py-1 text-right"
-              value={hours}
-              onChange={e => {
-                const value = clampHours(Number(e.target.value));
-                setHours(value);
-                updateSchedule(value, minutes);
-              }}
-            />
-            <span>時間</span>
-            <input
-              type="number"
-              min={0}
-              max={59}
-              className="w-16 rounded-md border px-2 py-1 text-right"
-              value={minutes}
-              onChange={e => {
-                const value = clampMinutes(Number(e.target.value));
-                setMinutes(value);
-                updateSchedule(hours, value);
-              }}
-            />
-            <span>分</span>
-          </div>
+          {manualTimerInput === "time" ? (
+            <div className="flex items-center space-x-2">
+              <input
+                type="time"
+                className="rounded-md border px-2 py-1"
+                value={draft}
+                autoFocus
+                onKeyDown={saveOnEnter}
+                onChange={e => {
+                  const value = e.target.value;
+                  setDraft(value);
+                  const matched = value.match(/^(\d{2}):(\d{2})$/);
+                  if (!matched) return;
+                  updateSchedule(Number(matched[1]), Number(matched[2]));
+                }}
+              />
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min={0}
+                max={9999}
+                className="w-20 rounded-md border px-2 py-1 text-right"
+                value={hours}
+                autoFocus
+                onFocus={e => e.currentTarget.select()}
+                onKeyDown={saveOnEnter}
+                onChange={e => {
+                  const value = clampHours(Number(e.target.value));
+                  setHours(value);
+                  updateSchedule(value, minutes);
+                }}
+              />
+              <span>時間</span>
+              <input
+                type="number"
+                min={0}
+                max={59}
+                className="w-16 rounded-md border px-2 py-1 text-right"
+                value={minutes}
+                onFocus={e => e.currentTarget.select()}
+                onKeyDown={saveOnEnter}
+                onChange={e => {
+                  const value = clampMinutes(Number(e.target.value));
+                  setMinutes(value);
+                  updateSchedule(hours, value);
+                }}
+              />
+              <span>分</span>
+            </div>
+          )}
         </div>
         <div className="flex space-x-2 justify-end">
-          <button onClick={async () => { await queue.save(); close(); }}>保存</button>
+          <button onClick={save}>保存</button>
           <button onClick={async () => { await queue.delete(); close(); }}>削除</button>
           <button onClick={close}>閉じる</button>
         </div>
