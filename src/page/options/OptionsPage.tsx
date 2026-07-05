@@ -3,12 +3,15 @@ import { FrameSettingView } from "../components/options/FrameSettingView";
 import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
 import { DamageSnapshotSettingView } from "../components/options/DamageSnapshotSettingView";
+import { FleetCaptureSettingView } from "../components/options/FleetCaptureSettingView";
 import { BehaviorSettingView } from "../components/options/BehaviorSettingView";
 import { NotificationSettingView } from "../components/options/NotificationSettingView";
 import { InAppSettingView } from "../components/options/InAppSettingView";
 
 import { type Frame } from "../../models/Frame";
+import { type CapturePreset } from "../../models/CapturePreset";
 import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
+import { type FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
 import { type DashboardConfig } from "../../models/configs/DashboardConfig";
 import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { type BehaviorConfig } from "../../models/configs/BehaviorConfig";
@@ -30,6 +33,8 @@ export function OptionsPage() {
     damagesnapshot,
     behavior,
     notification,
+    capturePresets,
+    fleetcapture,
   } = useLoaderData() as {
     frames: Frame[];
     game: GameWindowConfig;
@@ -42,6 +47,8 @@ export function OptionsPage() {
       defaults: Record<TriggerType.START | TriggerType.END, NotificationConfig>;
       entries: Record<EntryType, Record<TriggerType.START | TriggerType.END, NotificationConfig>>;
     };
+    capturePresets: CapturePreset[];
+    fleetcapture: FleetCaptureConfig;
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -63,6 +70,8 @@ export function OptionsPage() {
       <FileSaveSettingView config={filesave} />
       <Divider />
       <DamageSnapshotSettingView config={damagesnapshot} />
+      <Divider />
+      <FleetCaptureSettingView presets={capturePresets} config={fleetcapture} />
       <Divider />
       <BehaviorSettingView config={behavior} />
       <Divider />

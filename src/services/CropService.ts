@@ -1,7 +1,15 @@
 import { GameRawHeight, GameRawWidth } from "../constants";
 import { WorkerImage } from "../utils";
 
-export type Purpose = "game" | "recovery" | "shipbuild" | "damagesnapshot" | "fleet" | "aviation";
+export type Purpose = "game" | "recovery" | "shipbuild" | "damagesnapshot";
+
+// ゲーム描画領域の幅・高さを1とした相対座標で表す矩形
+export interface RelativeRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
 
 /**
  * 画像の切り抜き範囲を表すクラス
@@ -49,22 +57,16 @@ export class Rectangle {
       g.start.y + (g.size.h * (7 / 18)),
     );
   }
-  public fleet(): Rectangle {
+  /**
+   * ゲーム描画領域基準の相対矩形を、この画像上の絶対ピクセル矩形へ変換する
+   */
+  public relative(rect: RelativeRect): Rectangle {
     const g = this.game();
     return new Rectangle(
-      g.size.w * (60 / 100),
-      g.size.h * (78 / 100),
-      g.start.x + (g.size.w * (39 / 100)),
-      g.start.y + (g.size.h * (20 / 100)),
-    );
-  }
-  public aviation(): Rectangle {
-    const g = this.game();
-    return new Rectangle(
-      g.size.w * (27 / 100),
-      g.size.h * (73 / 100),
-      g.start.x + (g.size.w * (72.3 / 100)),
-      g.start.y + (g.size.h * (23 / 100)),
+      g.size.w * rect.w,
+      g.size.h * rect.h,
+      g.start.x + (g.size.w * rect.x),
+      g.start.y + (g.size.h * rect.y),
     );
   }
 
@@ -73,8 +75,6 @@ export class Rectangle {
     case "recovery": return this.recovery();
     case "shipbuild": return this.shipbuild(params.dock as number);
     case "damagesnapshot": return this.damagesnapshot();
-    case "fleet": return this.fleet();
-    case "aviation": return this.aviation();
     case "game": return this.game();
     default: return this.game();
     }
@@ -93,7 +93,20 @@ export class CropService {
    */
   async crop(purpose: Purpose, params: { dock: number | string } = { dock: 0 }): Promise<string> {
     const rect = new Rectangle(this.image.bitmap.width, this.image.bitmap.height);
-    const crop = rect.transform(purpose, params);
+    return this.cut(rect.transform(purpose, params));
+  }
+
+  /**
+   * ゲーム描画領域基準の相対矩形で画像を切り抜いてURLを返す
+   * @param rect 相対矩形
+   * @returns {Promise<string>} URL
+   */
+  async cropRelative(rect: RelativeRect): Promise<string> {
+    const whole = new Rectangle(this.image.bitmap.width, this.image.bitmap.height);
+    return this.cut(whole.relative(rect));
+  }
+
+  private async cut(crop: Rectangle): Promise<string> {
     const canvas = new OffscreenCanvas(crop.size.w, crop.size.h);
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Failed to get 2d context");

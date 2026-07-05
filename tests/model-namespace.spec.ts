@@ -10,11 +10,13 @@ vi.hoisted(() => {
 });
 
 import Queue from "../src/models/Queue";
+import { CapturePreset } from "../src/models/CapturePreset";
 import { Frame } from "../src/models/Frame";
 import { SortieContext } from "../src/models/Logbook";
 import { DashboardConfig } from "../src/models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../src/models/configs/DamageSnapshotConfig";
 import { FileSaveConfig } from "../src/models/configs/FileSaveConfig";
+import { FleetCaptureConfig } from "../src/models/configs/FleetCaptureConfig";
 import { GameWindowConfig } from "../src/models/configs/GameWindowConfig";
 import { NotificationConfig } from "../src/models/configs/NotificationConfig";
 
@@ -24,11 +26,13 @@ import { NotificationConfig } from "../src/models/configs/NotificationConfig";
 // ここでは全モデルが _namespace_ を非空文字列で明示していることを検証する。
 const models = [
   Queue,
+  CapturePreset,
   Frame,
   SortieContext,
   DashboardConfig,
   DamageSnapshotConfig,
   FileSaveConfig,
+  FleetCaptureConfig,
   GameWindowConfig,
   NotificationConfig,
 ] as const;

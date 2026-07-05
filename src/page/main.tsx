@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 // Loaders
-import { popup, options, dashboard, damagesnapshot, logbook } from './loader';
+import { popup, options, dashboard, damagesnapshot, logbook, fleetcapture } from './loader';
 
 // View
 import './index.scss'
@@ -28,6 +28,7 @@ const router = createHashRouter([
   {
     path: "/fleet-capture",
     element: <FleetCapturePage />,
+    loader: fleetcapture,
   },
   {
     path: "/dashboard",
