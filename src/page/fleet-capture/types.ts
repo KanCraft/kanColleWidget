@@ -24,6 +24,7 @@ export interface FleetCaptureController {
   setGridSize: (rows: number, cols: number) => void;
   refreshPreview: () => Promise<void>;
   captureCell: (rowIndex: number, colIndex: number) => Promise<void>;
+  clearCell: (rowIndex: number, colIndex: number) => void;
   updatePreset: () => Promise<void>;
   saveAsNewPreset: () => Promise<void>;
   deletePreset: () => Promise<void>;

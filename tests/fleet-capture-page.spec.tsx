@@ -48,13 +48,16 @@ import { FleetCapturePage } from "../src/page/fleet-capture/FleetCapturePage";
 import { fleetcapture } from "../src/page/loader";
 import { CapturePreset } from "../src/models/CapturePreset";
 
-// 調整セクション（FoldableSection id="adjust"）は ?open=adjust 付きで開いた状態になる
-function renderPage(initialEntries: string[] = ["/"]) {
-  const router = createMemoryRouter(
-    [{ path: "/", element: <FleetCapturePage />, loader: fleetcapture }],
-    { initialEntries },
-  );
+function renderPage() {
+  const router = createMemoryRouter([
+    { path: "/", element: <FleetCapturePage />, loader: fleetcapture },
+  ]);
   return render(<RouterProvider router={router} />);
+}
+
+// キャプチャモードから調整モードへ切り替える
+async function openAdjustMode() {
+  await userEvent.click(screen.getByRole("button", { name: "切り抜き範囲を調整する" }));
 }
 
 // jstorm はストレージが空の間 static default オブジェクトをそのまま返し、create() は
@@ -78,14 +81,6 @@ describe("FleetCapturePage", () => {
     });
   });
 
-  it("組み込みプリセット選択中は「更新」「削除」が無効で「名前を付けて保存」だけ有効", async () => {
-    renderPage();
-    await screen.findByRole("option", { name: "通常艦隊" });
-    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "プリセットを削除" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeEnabled();
-  });
-
   it("連合艦隊を選ぶと3行4列のグリッドになる", async () => {
     renderPage();
     await screen.findByRole("option", { name: "連合艦隊" });
@@ -97,18 +92,35 @@ describe("FleetCapturePage", () => {
     expect(screen.getAllByRole("button", { name: "第六艦" })).toHaveLength(2);
   });
 
-  it("調整セクションは初期状態では閉じていて、見出しクリックで開く", async () => {
+  it("調整モードとキャプチャモードが切り替え表示される", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
+    // 初期はキャプチャモード（調整UIなし）
     expect(screen.queryByLabelText("左位置")).not.toBeInTheDocument();
-    await userEvent.click(screen.getByText("切り抜き範囲の調整"));
+    await openAdjustMode();
+    // 調整モードではグリッドが隠れて調整UIとプリセット操作ボタンが出る
     expect(screen.getByLabelText("左位置")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "旗艦" })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "調整を終える" }));
+    expect(screen.getByRole("button", { name: "旗艦" })).toBeInTheDocument();
+  });
+
+  it("組み込みプリセット選択中は「更新」「削除」が無効で「名前を付けて保存」だけ有効", async () => {
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "プリセットを削除" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeEnabled();
   });
 
   it("行数を増やすと新しいセルに「行-列」形式のラベルが付く", async () => {
-    renderPage(["/?open=adjust"]);
+    renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
     fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
+    await userEvent.click(screen.getByRole("button", { name: "調整を終える" }));
     expect(screen.getByRole("button", { name: "4-1" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "4-2" })).toBeInTheDocument();
     // 既存セルのラベルは保持される
@@ -117,8 +129,9 @@ describe("FleetCapturePage", () => {
 
   it("範囲を変更して「名前を付けて保存」すると新プリセットが作られ、選択・編集可能になる", async () => {
     vi.stubGlobal("prompt", vi.fn().mockReturnValue("マイ範囲"));
-    renderPage(["/?open=adjust"]);
+    renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
     fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "10" } });
     await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
 
@@ -139,6 +152,7 @@ describe("FleetCapturePage", () => {
     vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
     await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
     await screen.findByRole("option", { name: "消すやつ" });
 
@@ -151,7 +165,9 @@ describe("FleetCapturePage", () => {
   });
 
   it("ゲームウィンドウが見つからないときはプレビューに案内を表示する", async () => {
-    renderPage(["/?open=adjust"]);
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
     expect(
       await screen.findByText(/ゲームウィンドウが見つかりません/),
     ).toBeInTheDocument();

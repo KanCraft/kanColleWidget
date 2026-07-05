@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { GameRawHeight, GameRawWidth } from "../../constants";
 import type { CapturePreset } from "../../models/CapturePreset";
-import { FoldableSection } from "../components/FoldableSection";
 import { CapturePreviewThumbnail } from "../components/fleet-capture/CapturePreviewThumbnail";
 import { ExportButton } from "../components/fleet-capture/ExportButton";
 import { PresetActionButtons } from "../components/fleet-capture/PresetActionButtons";
@@ -13,6 +13,8 @@ import { useFleetCapture } from "./useFleetCapture";
 export function FleetCapturePage() {
   const { presets } = useLoaderData() as { presets: CapturePreset[] };
   const controller = useFleetCapture({ presets });
+  // 調整モード（切り抜き範囲・グリッド構成・プリセットの編集）とキャプチャモードの切り替え
+  const [adjusting, setAdjusting] = useState(false);
   const cellAspectRatio = `${GameRawWidth * controller.rect.w} / ${GameRawHeight * controller.rect.h}`;
 
   return (
@@ -31,43 +33,66 @@ export function FleetCapturePage() {
           />
         </label>
         <p className="text-sm text-gray-600">{controller.activePreset.description}</p>
-        <PresetActionButtons
-          canUpdate={!controller.activePreset.protected && controller.modified}
-          canDelete={!controller.activePreset.protected}
-          onUpdate={controller.updatePreset}
-          onSaveAsNew={controller.saveAsNewPreset}
-          onDelete={controller.deletePreset}
-        />
       </section>
-      <section className="space-y-2">
-        <h2 className="text-xl font-bold">キャプチャ</h2>
-        <p className="text-sm text-gray-600">
-          セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
-        </p>
-        <div className="flex gap-6 items-start">
-          <ResultGrid
-            composition={controller.composition}
-            results={controller.results}
-            cellAspectRatio={cellAspectRatio}
-            onRequestCapture={controller.captureCell}
+      {adjusting ? (
+        <section className="space-y-2">
+          <h2 className="text-xl font-bold">切り抜き範囲の調整</h2>
+          <RangeAdjuster
+            preview={controller.preview}
+            rect={controller.rect}
+            rows={controller.composition.length}
+            cols={controller.composition[0]?.length ?? 1}
+            onRectChange={controller.setRect}
+            onGridSizeChange={controller.setGridSize}
+            onRefreshPreview={controller.refreshPreview}
           />
-          {controller.preview ? (
-            <CapturePreviewThumbnail preview={controller.preview} rect={controller.rect} />
-          ) : null}
-        </div>
-        <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
-      </section>
-      <FoldableSection title="切り抜き範囲の調整" id="adjust">
-        <RangeAdjuster
-          preview={controller.preview}
-          rect={controller.rect}
-          rows={controller.composition.length}
-          cols={controller.composition[0]?.length ?? 1}
-          onRectChange={controller.setRect}
-          onGridSizeChange={controller.setGridSize}
-          onRefreshPreview={controller.refreshPreview}
-        />
-      </FoldableSection>
+          <div className="flex items-center space-x-2">
+            <PresetActionButtons
+              canUpdate={!controller.activePreset.protected && controller.modified}
+              canDelete={!controller.activePreset.protected}
+              onUpdate={controller.updatePreset}
+              onSaveAsNew={controller.saveAsNewPreset}
+              onDelete={controller.deletePreset}
+            />
+            <button
+              type="button"
+              className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400 text-white"
+              onClick={() => setAdjusting(false)}
+            >
+              調整を終える
+            </button>
+          </div>
+        </section>
+      ) : (
+        <section className="space-y-2">
+          <h2 className="text-xl font-bold">キャプチャ</h2>
+          <p className="text-sm text-gray-600">
+            セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
+          </p>
+          <div className="flex gap-6 items-start">
+            <ResultGrid
+              composition={controller.composition}
+              results={controller.results}
+              cellAspectRatio={cellAspectRatio}
+              onRequestCapture={controller.captureCell}
+              onRequestClear={controller.clearCell}
+            />
+            {controller.preview ? (
+              <CapturePreviewThumbnail preview={controller.preview} rect={controller.rect} />
+            ) : null}
+          </div>
+          <div className="flex items-center space-x-4">
+            <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
+            <button
+              type="button"
+              className="mt-4 border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
+              onClick={() => setAdjusting(true)}
+            >
+              切り抜き範囲を調整する
+            </button>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

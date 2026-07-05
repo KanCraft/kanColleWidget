@@ -107,6 +107,10 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
     [rect],
   );
 
+  const clearCell = useCallback((rowIndex: number, colIndex: number) => {
+    setResults((prev) => updateResultCell(prev, rowIndex, colIndex, null));
+  }, []);
+
   const updatePreset = useCallback(async () => {
     if (activePreset.protected) return;
     await activePreset.update({ rect, composition });
@@ -190,6 +194,7 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
     setGridSize,
     refreshPreview,
     captureCell,
+    clearCell,
     updatePreset,
     saveAsNewPreset,
     deletePreset,
@@ -206,7 +211,7 @@ function updateResultCell(
   current: ResultSet,
   targetRow: number,
   targetCol: number,
-  value: string,
+  value: string | null,
 ): ResultSet {
   return current.map((row, rowIndex) =>
     rowIndex !== targetRow
