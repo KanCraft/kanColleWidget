@@ -74,7 +74,7 @@ export function CustomQueueModal({
         </div>
         <div className="flex space-x-2">
           <label>{[EntryType.RECOVERY, EntryType.SHIPBUILD].includes(queue.type) ? "ドック" : "艦隊"}</label>
-          <select defaultValue={queue.params["deck"] || queue.params["dock"]} className="flex-1 rounded-md"
+          <select defaultValue={queue.params["deck"] || queue.params["dock"]} className="flex-1 rounded-md bg-slate-100"
             onChange={e => {
               queue.params[[EntryType.RECOVERY, EntryType.SHIPBUILD].includes(queue.type) ? "dock" : "deck"] = e.target.value;
               update(queue);
@@ -141,9 +141,9 @@ export function CustomQueueModal({
           )}
         </div>
         <div className="flex space-x-2 justify-end">
-          <button onClick={save}>保存</button>
-          <button onClick={async () => { await queue.delete(); close(); }}>削除</button>
-          <button onClick={close}>閉じる</button>
+          <button className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm" onClick={save}>保存</button>
+          <button className="px-3 py-1 bg-red-400 text-white rounded-md text-sm" onClick={async () => { await queue.delete(); close(); }}>削除</button>
+          <button className="px-3 py-1 border border-slate-200 bg-slate-100 rounded-md text-sm" onClick={close}>閉じる</button>
         </div>
       </div>
     </div>
