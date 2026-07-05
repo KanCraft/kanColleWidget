@@ -102,7 +102,7 @@ describe("FleetCapturePage", () => {
     expect(screen.getByLabelText("左位置")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "旗艦" })).not.toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "調整を終える" }));
+    await userEvent.click(screen.getByRole("button", { name: "キャプチャに戻る" }));
     expect(screen.getByRole("button", { name: "旗艦" })).toBeInTheDocument();
   });
 
@@ -120,7 +120,7 @@ describe("FleetCapturePage", () => {
     await screen.findByRole("option", { name: "通常艦隊" });
     await openAdjustMode();
     fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
-    await userEvent.click(screen.getByRole("button", { name: "調整を終える" }));
+    await userEvent.click(screen.getByRole("button", { name: "キャプチャに戻る" }));
     expect(screen.getByRole("button", { name: "4-1" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "4-2" })).toBeInTheDocument();
     // 既存セルのラベルは保持される

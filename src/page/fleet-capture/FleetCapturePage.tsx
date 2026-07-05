@@ -59,7 +59,7 @@ export function FleetCapturePage() {
               className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400 text-white"
               onClick={() => setAdjusting(false)}
             >
-              調整を終える
+              キャプチャに戻る
             </button>
           </div>
         </section>
