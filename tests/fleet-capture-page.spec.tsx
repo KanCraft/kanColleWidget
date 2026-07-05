@@ -48,10 +48,12 @@ import { FleetCapturePage } from "../src/page/fleet-capture/FleetCapturePage";
 import { fleetcapture } from "../src/page/loader";
 import { CapturePreset } from "../src/models/CapturePreset";
 
-function renderPage() {
-  const router = createMemoryRouter([
-    { path: "/", element: <FleetCapturePage />, loader: fleetcapture },
-  ]);
+// 調整セクション（FoldableSection id="adjust"）は ?open=adjust 付きで開いた状態になる
+function renderPage(initialEntries: string[] = ["/"]) {
+  const router = createMemoryRouter(
+    [{ path: "/", element: <FleetCapturePage />, loader: fleetcapture }],
+    { initialEntries },
+  );
   return render(<RouterProvider router={router} />);
 }
 
@@ -95,8 +97,16 @@ describe("FleetCapturePage", () => {
     expect(screen.getAllByRole("button", { name: "第六艦" })).toHaveLength(2);
   });
 
-  it("行数を増やすと新しいセルに「行-列」形式のラベルが付く", async () => {
+  it("調整セクションは初期状態では閉じていて、見出しクリックで開く", async () => {
     renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    expect(screen.queryByLabelText("左位置")).not.toBeInTheDocument();
+    await userEvent.click(screen.getByText("切り抜き範囲の調整"));
+    expect(screen.getByLabelText("左位置")).toBeInTheDocument();
+  });
+
+  it("行数を増やすと新しいセルに「行-列」形式のラベルが付く", async () => {
+    renderPage(["/?open=adjust"]);
     await screen.findByRole("option", { name: "通常艦隊" });
     fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
     expect(screen.getByRole("button", { name: "4-1" })).toBeInTheDocument();
@@ -107,7 +117,7 @@ describe("FleetCapturePage", () => {
 
   it("範囲を変更して「名前を付けて保存」すると新プリセットが作られ、選択・編集可能になる", async () => {
     vi.stubGlobal("prompt", vi.fn().mockReturnValue("マイ範囲"));
-    renderPage();
+    renderPage(["/?open=adjust"]);
     await screen.findByRole("option", { name: "通常艦隊" });
     fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "10" } });
     await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
@@ -141,7 +151,7 @@ describe("FleetCapturePage", () => {
   });
 
   it("ゲームウィンドウが見つからないときはプレビューに案内を表示する", async () => {
-    renderPage();
+    renderPage(["/?open=adjust"]);
     expect(
       await screen.findByText(/ゲームウィンドウが見つかりません/),
     ).toBeInTheDocument();

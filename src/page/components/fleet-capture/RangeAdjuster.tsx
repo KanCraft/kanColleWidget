@@ -1,6 +1,7 @@
-import { useState, type CSSProperties } from "react";
-import { Rectangle, type RelativeRect } from "../../../services/CropService";
+import { useEffect, useRef, useState } from "react";
+import { type RelativeRect } from "../../../services/CropService";
 import { MaxGridSize, MinGridSize } from "../../fleet-capture/composition";
+import { getMeshStyle } from "../../fleet-capture/mesh";
 
 interface RangeAdjusterProps {
   preview: string | null;
@@ -60,6 +61,7 @@ export function RangeAdjuster({
           <CountInput label="行数" value={rows} onChange={(next) => onGridSizeChange(next, cols)} />
           <CountInput label="列数" value={cols} onChange={(next) => onGridSizeChange(rows, next)} />
         </div>
+        <p className="text-sm text-gray-600">数値の上でマウスホイールを回しても増減できます。</p>
         <button
           type="button"
           className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
@@ -73,18 +75,25 @@ export function RangeAdjuster({
 }
 
 /**
- * プレビュー画像上で切り抜き範囲を示すオーバーレイのスタイルを返す
- * 巨大な box-shadow で範囲外を暗転させる（親要素の overflow-hidden で画像内に収める）
+ * 入力欄の上でのホイール操作を「値の増減」に割り当てる
+ * React の onWheel は passive 登録で preventDefault が効かないため、
+ * DOM に直接 non-passive リスナーを張ってページスクロールへの貫通を止める
  */
-function getMeshStyle(imageSize: { w: number; h: number }, rect: RelativeRect): CSSProperties {
-  const game = new Rectangle(imageSize.w, imageSize.h).game();
-  return {
-    left: `${((game.start.x + game.size.w * rect.x) / imageSize.w) * 100}%`,
-    top: `${((game.start.y + game.size.h * rect.y) / imageSize.h) * 100}%`,
-    width: `${((game.size.w * rect.w) / imageSize.w) * 100}%`,
-    height: `${((game.size.h * rect.h) / imageSize.h) * 100}%`,
-    boxShadow: "0 0 0 100vmax rgba(0, 0, 20, 0.6)",
-  };
+function useWheelAdjust(onAdjust: (direction: 1 | -1) => void) {
+  const callbackRef = useRef(onAdjust);
+  callbackRef.current = onAdjust;
+  const targetRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const element = targetRef.current;
+    if (!element) return;
+    const listener = (event: WheelEvent) => {
+      event.preventDefault();
+      callbackRef.current(event.deltaY < 0 ? 1 : -1);
+    };
+    element.addEventListener("wheel", listener, { passive: false });
+    return () => element.removeEventListener("wheel", listener);
+  }, []);
+  return targetRef;
 }
 
 function PercentInput({
@@ -96,16 +105,19 @@ function PercentInput({
   value: number;
   onChange: (value: number) => void;
 }) {
+  const percent = Math.round(value * 100);
+  const inputRef = useWheelAdjust((direction) => onChange((percent + direction) / 100));
   return (
     <label className="flex items-center gap-2">
       <span className="w-16">{label}</span>
       <input
+        ref={inputRef}
         type="number"
         min={0}
         max={100}
         step={1}
         className="border rounded p-1 w-20"
-        value={Math.round(value * 100)}
+        value={percent}
         onChange={(event) => onChange(Number(event.target.value) / 100)}
       />
     </label>
@@ -121,10 +133,12 @@ function CountInput({
   value: number;
   onChange: (value: number) => void;
 }) {
+  const inputRef = useWheelAdjust((direction) => onChange(value + direction));
   return (
     <label className="flex items-center gap-2">
       <span className="w-16">{label}</span>
       <input
+        ref={inputRef}
         type="number"
         min={MinGridSize}
         max={MaxGridSize}

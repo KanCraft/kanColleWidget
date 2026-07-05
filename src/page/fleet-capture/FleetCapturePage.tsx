@@ -1,6 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import { GameRawHeight, GameRawWidth } from "../../constants";
 import type { CapturePreset } from "../../models/CapturePreset";
+import { FoldableSection } from "../components/FoldableSection";
+import { CapturePreviewThumbnail } from "../components/fleet-capture/CapturePreviewThumbnail";
 import { ExportButton } from "../components/fleet-capture/ExportButton";
 import { PresetActionButtons } from "../components/fleet-capture/PresetActionButtons";
 import { PresetSelector } from "../components/fleet-capture/PresetSelector";
@@ -38,7 +40,24 @@ export function FleetCapturePage() {
         />
       </section>
       <section className="space-y-2">
-        <h2 className="text-xl font-bold">切り抜き範囲の調整</h2>
+        <h2 className="text-xl font-bold">キャプチャ</h2>
+        <p className="text-sm text-gray-600">
+          セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
+        </p>
+        <div className="flex gap-6 items-start">
+          <ResultGrid
+            composition={controller.composition}
+            results={controller.results}
+            cellAspectRatio={cellAspectRatio}
+            onRequestCapture={controller.captureCell}
+          />
+          {controller.preview ? (
+            <CapturePreviewThumbnail preview={controller.preview} rect={controller.rect} />
+          ) : null}
+        </div>
+        <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
+      </section>
+      <FoldableSection title="切り抜き範囲の調整" id="adjust">
         <RangeAdjuster
           preview={controller.preview}
           rect={controller.rect}
@@ -48,20 +67,7 @@ export function FleetCapturePage() {
           onGridSizeChange={controller.setGridSize}
           onRefreshPreview={controller.refreshPreview}
         />
-      </section>
-      <section className="space-y-2">
-        <h2 className="text-xl font-bold">キャプチャ</h2>
-        <p className="text-sm text-gray-600">
-          セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
-        </p>
-        <ResultGrid
-          composition={controller.composition}
-          results={controller.results}
-          cellAspectRatio={cellAspectRatio}
-          onRequestCapture={controller.captureCell}
-        />
-        <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
-      </section>
+      </FoldableSection>
     </div>
   );
 }
