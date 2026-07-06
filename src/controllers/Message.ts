@@ -69,6 +69,9 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   const dock = req[EntryType.RECOVERY].dock;
   const [h, m, s] = data.text.split(":").map(Number);
   const r = new Recovery(dock, (h * H + m * M + s * S));
+  // 同じドックの既存Queueを削除してから積み直す（speedchange検知漏れ等で古いQueueが
+  // 残っていても、次に同じドックで修復を始めた時点で重複が解消されるようにする保険）。
+  await Queue.deleteSlot(EntryType.RECOVERY, dock);
   const q = await Queue.create({ type: EntryType.RECOVERY, params: r, scheduled: Date.now() + r.time });
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);
@@ -79,6 +82,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   const dock = req[EntryType.SHIPBUILD].dock;
   const [h, m, s] = data.text.split(":").map(Number);
   const sb = new Shipbuild(dock, (h * H + m * M + s * S));
+  await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
   const q = await Queue.create({ type: EntryType.SHIPBUILD, params: sb, scheduled: Date.now() + sb.time });
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);

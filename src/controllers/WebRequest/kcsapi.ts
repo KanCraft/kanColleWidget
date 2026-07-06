@@ -2,7 +2,7 @@ import { Logger } from "../../logger";
 import { missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
-import { CreateShipFormData, GetShipFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData } from "./datatypes";
+import { CreateShipFormData, GetShipFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData, RecoverySpeedchangeFormData, ShipbuildSpeedchangeFormData } from "./datatypes";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
 import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
@@ -39,6 +39,9 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
   // 遠征は残り1分を切ると母港復帰で即完了する仕様のため、通知を一律で1分早める（#1811, Mission.EARLY_RETURN_MARGIN）。
   // 入渠・建造はOCRで実時刻を読むためこの補正は不要。
   const scheduled = Date.now() + Math.max(0, m.time - Mission.EARLY_RETURN_MARGIN);
+  // 同じ艦隊の既存Queueを削除してから積み直す（他端末での帰投操作等、検知できない経路で
+  // 古いQueueが残っていても、同じ艦隊で次の遠征を始めた時点で解消される）。
+  await Queue.deleteSlot(EntryType.MISSION, did);
   const q = await Queue.create({ type: EntryType.MISSION, params: m, scheduled });
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);
@@ -79,6 +82,12 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   });
 }
 
+// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueを削除する
+export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  const { api_ndock_id: [dock] } = details.requestBody?.formData as unknown as RecoverySpeedchangeFormData;
+  await Queue.deleteSlot(EntryType.RECOVERY, dock);
+}
+
 // 出撃開始時
 export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const data = details.requestBody?.formData as unknown as MapStartFormData;
@@ -92,10 +101,7 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
   // 既定では削除せず出撃ごとにタイマーが並ぶ（連続出撃の回数把握に使える）。
   const behavior = await BehaviorConfig.user();
   if (behavior.restackFatigueOnSortie) {
-    const queues = await Queue.list();
-    for (const q of queues) {
-      if (q.type === EntryType.FATIGUE && Number(q.entry<Fatigue>().deck) === fatigue.deck) await q.delete();
-    }
+    await Queue.deleteSlot(EntryType.FATIGUE, fatigue.deck);
   }
   await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
@@ -182,4 +188,10 @@ export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestD
     url, purpose: EntryType.SHIPBUILD,
     [EntryType.SHIPBUILD]: { dock }
   });
+}
+
+// 建造中に高速建造材を使って完了させたとき、そのドックの建造Queueを削除する
+export async function onShipbuildHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as ShipbuildSpeedchangeFormData;
+  await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
 }
