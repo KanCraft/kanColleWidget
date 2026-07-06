@@ -20,6 +20,7 @@ import {
   onSpMidnightBattleStarted,
   onCombinedSpMidnightBattleStarted,
 } from "./kcsapi";
+import { onQuestStart, onQuestStop, onQuestComplete, onPracticePrepare, onSortiePrepare } from "./quest";
 import { ScriptingService } from "../../services/ScriptingService";
 
 const requestLogger = Logger.get("WebRequest");
@@ -50,6 +51,11 @@ onBeforeRequest.on([
   '/kcsapi/api_get_member/kdock',
 ], onCreateShip); // 新造艦を作成しようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_kousyou/getship"], onGetShip); // 建造した艦を受け取ったとき
+
+// 任務
+onBeforeRequest.on(["/kcsapi/api_req_quest/start"], onQuestStart); // 任務を受託したとき
+onBeforeRequest.on(["/kcsapi/api_req_quest/stop"], onQuestStop); // 任務を放棄したとき
+onBeforeRequest.on(["/kcsapi/api_req_quest/clearitemget"], onQuestComplete); // 任務報酬を受け取ったとき
 
 onBeforeRequest.onNotFound(async (details) => {
   requestLogger.debug("-", details);
@@ -91,6 +97,9 @@ onComplete.on(["/kcsapi/api_get_member/ndock"], async () => {
     }
   });
 })
+
+onComplete.on(["/kcsapi/api_get_member/practice"], onPracticePrepare); // 演習画面に遷移したとき
+onComplete.on(["/kcsapi/api_get_member/mapinfo"], onSortiePrepare); // 出撃準備画面に遷移したとき
 
 export {
   onBeforeRequest,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import { FoldableSection } from "../FoldableSection";
-import { NotificationConfig } from "../../../models/configs/NotificationConfig";
+import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../../models/configs/NotificationConfig";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TriggerType } from "../../../models/entry";
 import { NotificationService } from "../../../services/NotificationService";
 
@@ -158,7 +158,7 @@ export function NotificationSettingView({
   );
 }
 
-function NotificationConfigEditor({
+export function NotificationConfigEditor({
   title,
   description,
   config,
@@ -319,6 +319,7 @@ function StaySettingView({
 }
 
 function TestPlayView({
+  config,
   type,
   trigger,
 }: {
@@ -326,6 +327,25 @@ function TestPlayView({
   type: EntryType;
   trigger: TriggerType;
 }) {
+  // 任務未着手通知はQueueのEntry（艦隊・ドック等）を持たない一発通知なので、Entry経由のnotify()ではなくnotifyRaw()でテストする
+  if (config._id === QUEST_ALERT_NOTIFICATION_ID) {
+    return (
+      <button className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm"
+        onClick={async () => {
+          const s = new NotificationService();
+          await s.notifyRaw("/quest-alert/test", QUEST_ALERT_NOTIFICATION_ID, (c) => ({
+            type: "basic",
+            iconUrl: c.icon ?? chrome.runtime.getURL("icons/128.png"),
+            title: "テスト",
+            message: "任務未着手通知のテストです",
+          }));
+        }}
+      >
+        テスト通知を送信
+      </button>
+    );
+  }
+
   const entry: Entry = (() => {
     switch (type) {
     case EntryType.MISSION:

@@ -8,6 +8,10 @@ export interface NotificationConfigData {
   stay: boolean;
 }
 
+// 任務未着手通知は Queue のタイマーEntryを持たないため EntryType には加えず、
+// NotificationConfig の1エントリとして直接キーを持つ（開始/完了のペアが無い一発通知）
+export const QUEST_ALERT_NOTIFICATION_ID = "/quest-alert/start";
+
 export class NotificationConfig extends Model {
   static override _namespace_ = "NotificationConfig";
   static override default = {
@@ -66,6 +70,12 @@ export class NotificationConfig extends Model {
       stay: false,
     },
     [`/${EntryType.FATIGUE}/${TriggerType.END}`]: {
+      enabled: true,
+      sound: null,
+      icon: null,
+      stay: false,
+    },
+    [QUEST_ALERT_NOTIFICATION_ID]: {
       enabled: true,
       sound: null,
       icon: null,

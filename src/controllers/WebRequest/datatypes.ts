@@ -46,3 +46,7 @@ export interface CreateShipFormData {
 export interface GetShipFormData {
     api_kdock_id: string[];
 }
+
+export interface QuestActionFormData {
+    api_quest_id: string[];
+}

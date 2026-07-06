@@ -1,0 +1,119 @@
+{
+    "201": {
+        "title": "敵艦隊を撃破せよ！",
+        "category": "sortie",
+        "requires": []
+    },
+    "210": {
+        "title": "敵艦隊を10回邀撃せよ！",
+        "category": "sortie",
+        "requires": [216]
+    },
+    "211": {
+        "title": "敵空母を3隻撃沈せよ！",
+        "category": "sortie",
+        "requires": [201],
+        "condition": "date037"
+    },
+    "212": {
+        "title": "敵輸送船団を叩け！",
+        "category": "sortie",
+        "requires": [201],
+        "condition": "date28"
+    },
+    "216": {
+        "title": "敵艦隊主力を撃滅せよ！",
+        "category": "sortie",
+        "requires": [201]
+    },
+    "218": {
+        "title": "敵補給艦を3隻撃沈せよ！",
+        "category": "sortie",
+        "requires": [216]
+    },
+    "226": {
+        "title": "南西諸島海域の制海権を握れ！",
+        "category": "sortie",
+        "requires": [218]
+    },
+    "230": {
+        "title": "敵潜水艦を制圧せよ！",
+        "category": "sortie",
+        "requires": [226]
+    },
+    "303": {
+        "title": "「演習」で練度向上！",
+        "category": "practice",
+        "requires": []
+    },
+    "304": {
+        "title": "「演習」で他提督を圧倒せよ！",
+        "category": "practice",
+        "requires": [303]
+    },
+    "402": {
+        "title": "「遠征」を3回成功させよう！",
+        "category": "mission",
+        "requires": []
+    },
+    "403": {
+        "title": "「遠征」を10回成功させよう！",
+        "category": "mission",
+        "requires": [402]
+    },
+    "503": {
+        "title": "艦隊大整備！",
+        "category": "recovery",
+        "requires": []
+    },
+    "504": {
+        "title": "艦隊酒保祭り！",
+        "category": "recovery",
+        "requires": [503]
+    },
+    "605": {
+        "title": "新装備「開発」指令",
+        "category": "createitem",
+        "requires": []
+    },
+    "606": {
+        "title": "新造艦「建造」指令",
+        "category": "shipbuilding",
+        "requires": [605]
+    },
+    "607": {
+        "title": "装備「開発」集中強化！",
+        "category": "createitem",
+        "requires": [606]
+    },
+    "608": {
+        "title": "艦娘「建造」艦隊強化！",
+        "category": "shipbuilding",
+        "requires": [607]
+    },
+    "609": {
+        "title": "軍縮条約対応！",
+        "category": "destroyship",
+        "requires": [608]
+    },
+    "619": {
+        "title": "装備の改修強化",
+        "category": "remodel",
+        "requires": [608]
+    },
+    "673": {
+        "title": "装備開発力の整備",
+        "category": "destroyitem",
+        "requires": [607]
+    },
+    "674": {
+        "title": "工廠環境の整備",
+        "category": "destroyitem",
+        "requires": [673]
+    },
+    "702": {
+        "title": "艦の「近代化改修」を実施せよ！",
+        "category": "shipbuilding",
+        "requires": []
+    }
+}
