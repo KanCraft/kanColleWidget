@@ -9,7 +9,7 @@ import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
-import { NotificationConfig } from "../../models/configs/NotificationConfig";
+import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../models/configs/NotificationConfig";
 import { EntryType, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
 import { CapturePreset } from "../../models/CapturePreset";
@@ -65,6 +65,8 @@ export async function options() {
     },
     capturePresets: await CapturePreset.list(),
     fleetcapture: await FleetCaptureConfig.user(),
+    questAlert: (await NotificationConfig.find(QUEST_ALERT_NOTIFICATION_ID))!,
+    questTracker: await QuestTrackerConfig.user(),
   };
 }
 

@@ -7,6 +7,7 @@ import { FleetCaptureSettingView } from "../components/options/FleetCaptureSetti
 import { BehaviorSettingView } from "../components/options/BehaviorSettingView";
 import { NotificationSettingView } from "../components/options/NotificationSettingView";
 import { InAppSettingView } from "../components/options/InAppSettingView";
+import { QuestTrackerSettingView } from "../components/options/QuestTrackerSettingView";
 
 import { type Frame } from "../../models/Frame";
 import { type CapturePreset } from "../../models/CapturePreset";
@@ -19,6 +20,7 @@ import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/optio
 import { VersionView } from "../components/options/VersionView";
 import { type GameWindowConfig } from "../../models/configs/GameWindowConfig";
 import { NotificationConfig } from "../../models/configs/NotificationConfig";
+import { type QuestTrackerConfig } from "../../models/configs/QuestTrackerConfig";
 import { EntryType, TriggerType } from "../../models/entry";
 
 const KCWidgetChanURL = "https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png";
@@ -35,6 +37,8 @@ export function OptionsPage() {
     notification,
     capturePresets,
     fleetcapture,
+    questAlert,
+    questTracker,
   } = useLoaderData() as {
     frames: Frame[];
     game: GameWindowConfig;
@@ -49,6 +53,8 @@ export function OptionsPage() {
     };
     capturePresets: CapturePreset[];
     fleetcapture: FleetCaptureConfig;
+    questAlert: NotificationConfig;
+    questTracker: QuestTrackerConfig;
   };
   const manifest = chrome.runtime.getManifest();
   return (
@@ -64,6 +70,8 @@ export function OptionsPage() {
         defaults={notification.defaults}
         entries={notification.entries}
       />
+      <Divider />
+      <QuestTrackerSettingView notification={questAlert} tracker={questTracker} />
       <Divider />
       <DashboardSettingView config={dashboard} />
       <Divider />
