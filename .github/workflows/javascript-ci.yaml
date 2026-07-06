@@ -11,6 +11,9 @@ on:
 jobs:
   js-ci:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       matrix:
         node-version: [22.x]
@@ -26,6 +29,24 @@ jobs:
         version: 10
     - run: pnpm install
     - run: pnpm lint
+    - name: Detect code similarity (similarity-ts)
+      if: github.event_name == 'pull_request'
+      env:
+        SIMILARITY_TS_VERSION: v0.5.0
+      run: |
+        curl -sL -o similarity-ts.tar.gz "https://github.com/mizchi/similarity/releases/download/${SIMILARITY_TS_VERSION}/similarity-${SIMILARITY_TS_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+        tar xzf similarity-ts.tar.gz
+        "./similarity-${SIMILARITY_TS_VERSION}-x86_64-unknown-linux-gnu/similarity-ts" src > similarity-raw.txt 2>&1 || true
+        pnpm exec tsx scripts/format-similarity-comment.ts similarity-raw.txt > similarity-comment.md
+    - name: Post similarity report to PR
+      if: github.event_name == 'pull_request'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        gh pr comment "$PR_NUMBER" \
+          --edit-last --create-if-none \
+          --body-file similarity-comment.md
     - run: pnpm build
     - run: pnpm exec vitest run --coverage
     - name: Upload coverage to Codecov

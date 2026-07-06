@@ -1,5 +1,10 @@
 import { Model } from "jstorm/chrome/local";
 
+// タイマー手入力モーダルの残り時間入力欄の形式
+// - "split": 時・分を別々の数値ボックスで入力する（24時間以上も入力できる）
+// - "time": HH:MM の time input 1つで入力する（"0130" のようにキーボードで一括入力できる。上限 23:59）
+export type ManualTimerInputStyle = "split" | "time";
+
 export class DashboardConfig extends Model {
   public static readonly _namespace_ = "DashboardConfig";
 
@@ -11,6 +16,7 @@ export class DashboardConfig extends Model {
       "top": 10,
       // ゲーム窓を新規に開いたとき、ダッシュボードも同時に開くか（#1216）。既定は false（従来どおり手動）。
       "openWithGame": false,
+      "manualTimerInput": "split" as ManualTimerInputStyle,
     },
   };
 
@@ -19,6 +25,7 @@ export class DashboardConfig extends Model {
   public left: number = 100;
   public top: number = 100;
   public openWithGame: boolean = false;
+  public manualTimerInput: ManualTimerInputStyle = "split";
 
   static async user(): Promise<DashboardConfig> {
     return (await this.find("user"))!;

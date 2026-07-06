@@ -92,6 +92,7 @@ export async function dashboard() {
     window: win,
     time: new Date(),
     frameId: game.lastSelectedFrameId,
+    config: await DashboardConfig.user(),
   }
 }
 
