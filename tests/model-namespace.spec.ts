@@ -19,6 +19,7 @@ import { FileSaveConfig } from "../src/models/configs/FileSaveConfig";
 import { FleetCaptureConfig } from "../src/models/configs/FleetCaptureConfig";
 import { GameWindowConfig } from "../src/models/configs/GameWindowConfig";
 import { NotificationConfig } from "../src/models/configs/NotificationConfig";
+import { QuestTrackerConfig } from "../src/models/configs/QuestTrackerConfig";
 import { QuestProgress } from "../src/models/QuestProgress";
 
 // jstorm の Model は _namespace_ が未指定だとクラス名を chrome.storage.local のキーに使う。
@@ -36,6 +37,7 @@ const models = [
   FleetCaptureConfig,
   GameWindowConfig,
   NotificationConfig,
+  QuestTrackerConfig,
   QuestProgress,
 ] as const;
 

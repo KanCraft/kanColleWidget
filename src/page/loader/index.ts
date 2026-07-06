@@ -14,6 +14,8 @@ import { EntryType, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
 import { CapturePreset } from "../../models/CapturePreset";
 import { FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
+import { QuestTrackerConfig } from "../../models/configs/QuestTrackerConfig";
+import { QuestProgress } from "../../models/QuestProgress";
 
 export async function options() {
   const frames = await Frame.list();
@@ -90,6 +92,8 @@ export async function dashboard() {
     queues: await Queue.list(),
     window: win,
     time: new Date(),
+    questTrackerConfig: await QuestTrackerConfig.user(),
+    questProgress: await QuestProgress.user(),
   }
 }
 
@@ -100,5 +104,11 @@ export async function damagesnapshot() {
 export async function logbook() {
   return {
     sorties: await Logbook.list(),
+  };
+}
+
+export async function questTracker() {
+  return {
+    progress: await QuestProgress.user(),
   };
 }

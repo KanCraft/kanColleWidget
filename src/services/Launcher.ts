@@ -77,6 +77,14 @@ export class Launcher {
   }
 
   /**
+   * 任務トラッカーページを新規タブで開く。
+   * @returns 作成されたタブの Promise
+   */
+  public static async questTracker() {
+    return await (new this()).tabs.create({ url: "page/index.html#/quest-tracker" });
+  }
+
+  /**
    * スクショ編集ページを新規タブで開く。
    * @param key TempStorage に保存した撮影画像の取り出しキー
    * @returns 作成されたタブの Promise
