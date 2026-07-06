@@ -1,8 +1,25 @@
-import { expect, describe, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { expect, describe, it, vi, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
+// chrome.downloads はダウンロードボタンのテストでのみ必要。呼び出された
+// filename/url を検証できるよう、DownloadService からの呼び出しをモックする。
+const { downloadMock } = vi.hoisted(() => {
+  const downloadMock = vi.fn((_options: unknown, cb: (id: number) => void) => cb(1));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).chrome = {
+    runtime: { lastError: undefined },
+    downloads: { download: downloadMock },
+  };
+  return { downloadMock };
+});
+
 import { LogbookPage } from "../src/page/logbook/LogbookPage";
+
+beforeEach(() => {
+  downloadMock.mockClear();
+});
 
 // LogbookPage を loader データ付きで単体レンダリングする。
 // loader の非同期初期化を待たずに済むよう、hydrationData で初期データを与える。
@@ -59,5 +76,29 @@ describe("LogbookPage", () => {
     ]);
     expect(await screen.findByText("単縦陣 / 複縦陣(夜)")).toBeInTheDocument();
     expect(screen.getByText("2戦")).toBeInTheDocument();
+  });
+
+  it("出撃記録が無いときはダウンロードボタンが無効", async () => {
+    renderPage([]);
+    expect(await screen.findByRole("button", { name: "CSV" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "JSONL" })).toBeDisabled();
+  });
+
+  it("CSVボタンを押すと .csv ファイルをダウンロードする", async () => {
+    renderPage([sortie()]);
+    await userEvent.click(await screen.findByRole("button", { name: "CSV" }));
+    await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    expect(options.filename).toMatch(/\.csv$/);
+    expect(options.url).toMatch(/^data:text\/csv/);
+  });
+
+  it("JSONLボタンを押すと .jsonl ファイルをダウンロードする", async () => {
+    renderPage([sortie()]);
+    await userEvent.click(await screen.findByRole("button", { name: "JSONL" }));
+    await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    expect(options.filename).toMatch(/\.jsonl$/);
+    expect(options.url).toMatch(/^data:application\/x-ndjson/);
   });
 });
