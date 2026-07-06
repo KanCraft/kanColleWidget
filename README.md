@@ -78,7 +78,9 @@ docker run --rm -it \
 **バージョンの位置** で配信先が決まる、という1つのルールに集約されています。
 
 - **ベータ版** … `main` の `package.json` の version が **直近のタグより先行している間**、
-  `main` への push のたびに自動で BETA リスティングへ公開される（「main は常にベータ版として生きている」）。
+  毎朝 06:30 JST の定期実行で、直近24時間に main へ commit があれば自動で BETA リスティングへ
+  公開される（「main は常にベータ版として生きている」）。緊急時は `workflow_dispatch` で
+  手動公開もできる。
 - **プロダクション版** … **GitHub Release を作成（= タグを打つ）** と、その版が PROD リスティングへ公開される。
 
 バージョンの単一の真実源は **`package.json` の `version`** だけです。
@@ -94,18 +96,21 @@ make version v=4.9.0
 # 生成された release-note.json の message を書く
 vim src/release-note.json
 
-# main に push すると、ベータ版が自動公開される
+# main に push する（毎朝 06:30 JST の定期実行で自動的にベータ公開される）
 git add package.json src/release-note.json
 git commit -m "v4.9.0"
 git push origin main
 ```
 
-- push のたびに `manifest.version = 4.9.0.<直近タグからのcommit数>`（例 `4.9.0.5`）で
-  ベータ版が更新される。表示名は `version_name = 4.9.0-beta.5`。
+- 毎朝 06:30 JST に、直近24時間で main に commit（`**/*.md` / `docs/**` / `design/**` を除く）
+  があれば `manifest.version = 4.9.0.<直近タグからのcommit数>`（例 `4.9.0.5`）でベータ版が
+  更新される。表示名は `version_name = 4.9.0-beta.5`。
 - Chrome Webstore は同じ version を再アップロードできないため、commit 数を第4成分にして
-  単調増加させている（だから push ごとに必ず version が上がる）。
-- `package.json` の version が直近タグと **同じ** 間は、ベータ公開はスキップされる
-  （= 未公開の変更が無い状態）。
+  単調増加させている。
+- `package.json` の version が直近タグと **同じ** 間、または直近24時間に対象 commit が無い間は、
+  ベータ公開はスキップされる。
+- 今すぐベータ公開したい場合は、GitHub Actions の `Release BETA` ワークフローを
+  `workflow_dispatch` で手動実行する。
 
 > BETA リスティング（Chrome拡張ID: `egkgleinehaapbpijnlpbllfeejjpceb`）で動作確認する。
 
@@ -133,7 +138,7 @@ main 1本で開発（develop は廃止）
     │      ↓
     │   commit & push to main
     │      ↓
-    │   🚀 BETA 自動公開（version 4.9.0.N）   ← push のたびに繰り返す
+    │   🚀 BETA 自動公開（version 4.9.0.N）   ← 毎朝06:30 JST、直近24hにcommitがあれば繰り返す
     │      ↓
     │   ベータ版で動作確認
     │

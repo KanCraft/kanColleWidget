@@ -6,15 +6,17 @@ import { QuestTrackerList } from "./components/quest-tracker/QuestTrackerList";
 import type Queue from "../models/Queue";
 import type { QuestTrackerConfig } from "../models/configs/QuestTrackerConfig";
 import type { QuestProgress } from "../models/QuestProgress";
+import type { DashboardConfig } from "../models/configs/DashboardConfig";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time, questTrackerConfig, questProgress } = useLoaderData() as {
+  const { window, queues, time, questTrackerConfig, questProgress, config } = useLoaderData() as {
     window: chrome.windows.Window,
     queues: Queue[],
     time: Date,
     questTrackerConfig: QuestTrackerConfig,
     questProgress: QuestProgress,
+    config: DashboardConfig,
   };
   const revalidater = useRevalidator();
 
@@ -57,7 +59,7 @@ export function DashboardPage() {
         <ClockView time={time} />
         <ActionsView tab={window?.tabs?.[0]} />
       </div>
-      <QueuesView queues={queues} />
+      <QueuesView queues={queues} manualTimerInput={config.manualTimerInput} />
       {questTrackerConfig.showOnDashboard ? (
         <QuestTrackerList progress={questProgress} onChanged={() => revalidater.revalidate()} compact />
       ) : null}

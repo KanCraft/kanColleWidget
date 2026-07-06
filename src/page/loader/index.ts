@@ -96,6 +96,7 @@ export async function dashboard() {
     time: new Date(),
     questTrackerConfig: await QuestTrackerConfig.user(),
     questProgress: await QuestProgress.user(),
+    config: await DashboardConfig.user(),
   }
 }
 
