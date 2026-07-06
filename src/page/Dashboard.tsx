@@ -6,7 +6,7 @@ import type Queue from "../models/Queue";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date };
+  const { window, queues, time, frameId } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date, frameId: string };
   const revalidater = useRevalidator();
 
   // 1秒ごとにデータを再検証
@@ -46,7 +46,7 @@ export function DashboardPage() {
     <div className="p-4">
       <div className="flex space-x-4">
         <ClockView time={time} />
-        <ActionsView tab={window?.tabs?.[0]} />
+        <ActionsView tab={window?.tabs?.[0]} frameId={frameId} />
       </div>
       <QueuesView queues={queues} />
     </div>

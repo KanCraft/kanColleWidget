@@ -29,21 +29,34 @@ function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launch
   )
 }
 
-function LaunchControlButton() {
+function LaunchControlButton({ frameId }: { frameId: string }) {
+  const onClick = async () => {
+    try {
+      await chrome.runtime.sendMessage<
+        { action: string; frame_id?: string },
+        { opened: boolean; frame_id: string | null }
+      >(chrome.runtime.id, {
+        action: "/frame/open-or-focus",
+        frame_id: frameId,
+      });
+    } catch (error) {
+      console.error("/frame/open-or-focus の送信に失敗しました", error);
+    }
+  };
   return (
-    <div>
-      <img src="/anchor.svg" alt="anchor" className="w-12 h-12" />
+    <div onClick={onClick} className="cursor-pointer" title="抜錨！">
+      <img src="/anchor.svg" alt="抜錨！" className="w-12 h-12" />
     </div>
   )
 }
 
-export function ActionsView({tab}: { tab?: chrome.tabs.Tab }) {
+export function ActionsView({tab, frameId}: { tab?: chrome.tabs.Tab, frameId: string }) {
   const launcher = useMemo(() => new Launcher(), []);
   const revalidater = useRevalidator();
   const refresh = () => revalidater.revalidate();
   return (
     <div className="flex-1 flex items-center justify-end space-x-4">
-      <LaunchControlButton />
+      <LaunchControlButton frameId={frameId} />
       <CaptureControlButton tab={tab} launcher={launcher} />
       <MuteControlButton tab={tab} launcher={launcher} refresh={refresh} />
     </div>
