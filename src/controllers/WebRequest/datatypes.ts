@@ -19,6 +19,10 @@ export interface RecoveryStartFormData {
     api_ship_id: string[];
 }
 
+export interface RecoverySpeedchangeFormData {
+    api_ndock_id: string[];
+}
+
 export interface MapStartFormData {
     api_deck_id: string[];
     api_maparea_id: string[];
@@ -41,6 +45,10 @@ export interface CreateShipFormData {
     // api_item5: string[];
     // api_token: string[];
     // api_verno: string[];
+}
+
+export interface ShipbuildSpeedchangeFormData {
+    api_kdock_id: string[];
 }
 
 export interface GetShipFormData {

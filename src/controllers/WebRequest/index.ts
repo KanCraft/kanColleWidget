@@ -9,10 +9,12 @@ import {
   onMissionReturnInstruction,
   onMissionResult,
   onRecoveryStart,
+  onRecoveryHighspeed,
   onMapStart,
   onBattleStarted,
   onCombinedBattleStarted,
   onCreateShip,
+  onShipbuildHighspeed,
   onGetShip,
   onBattleResulted,
   onMapNext,
@@ -36,6 +38,7 @@ onBeforeRequest.on(["/kcsapi/api_req_mission/start"], onMissionStart); // 遠征
 onBeforeRequest.on(["/kcsapi/api_req_mission/return_instruction"], onMissionReturnInstruction); // 遠征帰還命令出したとき
 onBeforeRequest.on(["/kcsapi/api_req_mission/result"], onMissionResult); // 遠征結果の回収をしたとき
 onBeforeRequest.on(["/kcsapi/api_req_nyukyo/start"], onRecoveryStart); // 修復用の入渠をしようとしたとき
+onBeforeRequest.on(["/kcsapi/api_req_nyukyo/speedchange"], onRecoveryHighspeed); // 修復中に高速修復剤を使ったとき
 onBeforeRequest.on(["/kcsapi/api_req_map/start"], onMapStart); // 出撃をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battle"], onBattleStarted); // 戦闘が開始されたとき
 onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battle"], onCombinedBattleStarted); // 連合艦隊戦が開始されたとき(#1764)
@@ -51,6 +54,7 @@ onBeforeRequest.on([
   '/kcsapi/api_get_member/kdock',
 ], onCreateShip); // 新造艦を作成しようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_kousyou/getship"], onGetShip); // 建造した艦を受け取ったとき
+onBeforeRequest.on(["/kcsapi/api_req_kousyou/createship_speedchange"], onShipbuildHighspeed); // 建造中に高速建造材を使ったとき
 
 // 任務
 onBeforeRequest.on(["/kcsapi/api_req_quest/start"], onQuestStart); // 任務を受託したとき
