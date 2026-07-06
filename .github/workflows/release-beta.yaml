@@ -3,9 +3,12 @@ name: Release BETA
 # ベータ版の自動公開。
 #
 # モデル: 「main は常にベータ版として生きている」
-#   - main への push のたびに、package.json の version が直近タグより先行していれば
+#   - 毎朝 06:30 JST に定期実行し、直近24時間に main へ commit（ドキュメント等を除く）が
+#     あり、かつ package.json の version が直近タグより先行していれば
 #     （= まだ本番公開していない未リリース版があれば）ベータ版を BETA リスティングへ公開する。
-#   - version が直近タグと同じ（= 未公開の変更が無い）場合は何もしない。
+#   - 直近24時間に対象 commit が無い、または version が直近タグと同じ（= 未公開の変更が無い）
+#     場合は何もしない。
+#   - 緊急で今すぐベータ公開したい場合は workflow_dispatch で手動実行できる。
 #
 # Chrome Webstore は同一リスティングへ同じ version を再アップロードできないため、
 # manifest.version は「<base>.<直近タグからの commit 数>」で単調増加させる（例 4.9.0.5）。
@@ -14,12 +17,9 @@ name: Release BETA
 # 本番公開は GitHub Release の作成（release-prod.yaml）で行う。
 
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
-      - "design/**"
+  schedule:
+    - cron: "30 21 * * *" # 21:30 UTC = 06:30 JST（毎朝）
+  workflow_dispatch: {}
 
 concurrency:
   group: release-beta
@@ -51,9 +51,17 @@ jobs:
           version: 10
       - run: pnpm install
 
-      - name: ベータ版バージョンを算出（未公開の版が無ければスキップ）
+      - name: ベータ版バージョンを算出（直近24時間に変更が無い／未公開の版が無ければスキップ）
         id: ver
         run: |
+          RECENT=$(git log --since="24 hours ago" --oneline \
+            -- . ':(exclude,glob)**/*.md' ':(exclude)docs' ':(exclude)design' | wc -l | tr -d ' ')
+          if [ "${RECENT}" = "0" ]; then
+            echo "[INFO] 直近24時間に対象パスへの commit が無いため、ベータ公開をスキップします。"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           BASE=$(jq -r .version package.json)
           LASTTAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           LASTVER=${LASTTAG#v}
@@ -74,11 +82,11 @@ jobs:
           echo "version_name=${BASE}-beta.${N}" >> "$GITHUB_OUTPUT"
           echo "base_version=v${BASE}" >> "$GITHUB_OUTPUT"
           echo "[INFO] BETA version=${BASE}.${N} (version_name=${BASE}-beta.${N})"
-          # サイクル開始（=版上げコミット vX.Y.Z の push）の時だけ beta 告知を出す（β1）
-          HEAD_MSG=$(git log -1 --pretty=%s)
-          if echo "${HEAD_MSG}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+          # サイクル開始（=版上げコミット vX.Y.Z が直近24時間以内にある）の時だけ beta 告知を出す（β1）
+          CYCLE_COMMIT=$(git log --since="24 hours ago" --pretty=%s | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1 || true)
+          if [ -n "${CYCLE_COMMIT}" ]; then
             echo "cycle_start=true" >> "$GITHUB_OUTPUT"
-            echo "[INFO] 版上げコミットのため、新バージョンのベータ配信開始を告知します"
+            echo "[INFO] 版上げコミットが直近24時間以内にあるため、新バージョンのベータ配信開始を告知します"
           else
             echo "cycle_start=false" >> "$GITHUB_OUTPUT"
           fi
@@ -98,8 +106,8 @@ jobs:
         if: steps.ver.outputs.skip == 'false'
         run: npx -y tsx scripts/webstore-publish.ts ./release/艦これウィジェット.zip
 
-  # 新バージョンが beta 入りした時（版上げコミットの push）だけ1回告知する（β1）。
-  # 毎 push の beta build では告知しない（ノイズ・コスト抑制）。
+  # 新バージョンが beta 入りした時（版上げコミットが直近24時間以内にあった日次実行）だけ
+  # 1回告知する（β1）。変更の無い日次実行では告知しない（ノイズ・コスト抑制）。
   announce_beta_tweet:
     needs: release_beta
     if: needs.release_beta.outputs.cycle_start == 'true'
