@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QuestCategory } from "../../../catalog";
 import { QuestProgress, QuestStatus, VisibleQuest } from "../../../models/QuestProgress";
 
@@ -83,16 +83,23 @@ export function QuestTrackerList({
 }) {
   const [editing, setEditing] = useState<VisibleQuest | null>(null);
 
+  // onChanged は呼び出し側で毎レンダー新しいクロージャになりうる（ダッシュボードは1秒毎に再レンダー）
+  // ため、ref経由で参照して購読の貼り直しを避ける。
+  const onChangedRef = useRef(onChanged);
+  useEffect(() => {
+    onChangedRef.current = onChanged;
+  }, [onChanged]);
+
   // 他タブ・ダッシュボード・バックグラウンド側での着手/達成をポーリングなしで反映する。
   // 更新頻度は低いので、更新ボタンやインターバルではなくストレージ変更イベントに任せる。
   useEffect(() => {
     const listener = (changes: Record<string, chrome.storage.StorageChange>, areaName: string) => {
       if (areaName !== "local" || !("QuestProgress" in changes)) return;
-      onChanged();
+      onChangedRef.current();
     };
     chrome.storage.onChanged.addListener(listener);
     return () => chrome.storage.onChanged.removeListener(listener);
-  }, [onChanged]);
+  }, []);
 
   const applyStatus = async (id: number, status: QuestStatus) => {
     if (status === QuestStatus.OPEN) await progress.stop(id);
