@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
+import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import Queue from "../../../models/Queue";
 import { KCWDate } from "../../../utils";
 import { FatigueQueueView } from "./FatigueQueueView";
@@ -62,7 +63,7 @@ function QueueTableView({
   )
 }
 
-export function QueuesView({ queues }: { queues: Queue[] }) {
+export function QueuesView({ queues, manualTimerInput }: { queues: Queue[], manualTimerInput?: ManualTimerInputStyle }) {
   const [modalQueue, setModalQueue] = useState<Queue | null>(null);
   return (
     <div>
@@ -75,6 +76,7 @@ export function QueuesView({ queues }: { queues: Queue[] }) {
       <CustomQueueModal
         queue={modalQueue} close={() => setModalQueue(null)}
         update={(q) => setModalQueue(q)}
+        manualTimerInput={manualTimerInput}
       />
     </div>
   )

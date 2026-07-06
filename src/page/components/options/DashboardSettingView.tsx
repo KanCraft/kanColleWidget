@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DashboardConfig } from "../../../models/configs/DashboardConfig";
+import { DashboardConfig, ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import { FoldableSection } from "../FoldableSection";
 
 export function DashboardSettingView({
@@ -9,6 +9,12 @@ export function DashboardSettingView({
 }) {
   const [config] = useState<DashboardConfig>(_config);
   const [openWithGame, setOpenWithGame] = useState<boolean>(config.openWithGame ?? false);
+  const [manualTimerInput, setManualTimerInput] = useState<ManualTimerInputStyle>(config.manualTimerInput ?? "split");
+
+  const selectManualTimerInput = async (style: ManualTimerInputStyle) => {
+    await config.update({ manualTimerInput: style });
+    setManualTimerInput(style);
+  };
 
   return (
     <FoldableSection title="ダッシュボードの設定" id="dashboard">
@@ -96,9 +102,39 @@ export function DashboardSettingView({
         </div>
       </div>
 
-      <div className="text-sm text-gray-600 mt-4">
-        <div>※ 設定は次回ダッシュボードを開く際に反映されます</div>
+      <div className="text-sm text-gray-600 mb-4">
+        <div>※ サイズと位置は次回ダッシュボードを開く際に反映されます</div>
       </div>
+
+      <div className="mb-4">
+        <div className="font-bold mb-1">タイマー手入力欄の形式</div>
+        <div className="flex space-x-6">
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="manual-timer-input"
+              checked={manualTimerInput === "split"}
+              onChange={() => selectManualTimerInput("split")}
+              className="w-4 h-4"
+            />
+            <span>時間と分を分けて入力</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              name="manual-timer-input"
+              checked={manualTimerInput === "time"}
+              onChange={() => selectManualTimerInput("time")}
+              className="w-4 h-4"
+            />
+            <span>HH:MM 形式でまとめて入力</span>
+          </label>
+        </div>
+        <div className="text-sm text-gray-600 mt-1">
+          HH:MM 形式はキーボードで「0130」と打つと 01:30 を入力でき、Enter で保存します。入力できるのは 23:59 まで。24時間以上のタイマーは「時間と分を分けて入力」を使ってください。
+        </div>
+      </div>
+
     </FoldableSection>
   );
 }

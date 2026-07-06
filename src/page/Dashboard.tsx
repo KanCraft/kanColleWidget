@@ -3,10 +3,11 @@ import { ActionsView } from "./components/dashboard/ActionsView";
 import { ClockView } from "./components/dashboard/ClockView";
 import { QueuesView } from "./components/dashboard/QueuesView";
 import type Queue from "../models/Queue";
+import type { DashboardConfig } from "../models/configs/DashboardConfig";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date };
+  const { window, queues, time, config } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date, config: DashboardConfig };
   const revalidater = useRevalidator();
 
   // 1秒ごとにデータを再検証
@@ -48,7 +49,7 @@ export function DashboardPage() {
         <ClockView time={time} />
         <ActionsView tab={window?.tabs?.[0]} />
       </div>
-      <QueuesView queues={queues} />
+      <QueuesView queues={queues} manualTimerInput={config.manualTimerInput} />
     </div>
   )
 }

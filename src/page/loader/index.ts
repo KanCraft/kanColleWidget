@@ -90,6 +90,7 @@ export async function dashboard() {
     queues: await Queue.list(),
     window: win,
     time: new Date(),
+    config: await DashboardConfig.user(),
   }
 }
 
