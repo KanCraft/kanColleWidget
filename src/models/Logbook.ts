@@ -1,4 +1,7 @@
 import { Model } from "jstorm/chrome/local";
+import { BehaviorConfig } from "./configs/BehaviorConfig";
+
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export enum BattleResult {
   SS = "完全勝利S",
@@ -105,13 +108,42 @@ export class Logbook {
 
   public static async record(): Promise<SortieContext | null> {
     if (!this._context) return null;
+    // 記録の有無を見て保存期間を確定するため、必ず保存前に判定する
+    const retentionDays = await this.resolveRetentionDays();
     this._context._id = this._context.started.toString();
     const saved = await this._context.save();
     this._context = null;
+    await this.prune(retentionDays);
     return saved;
   }
 
   public static async list(): Promise<SortieContext[]> {
     return SortieContext.list();
+  }
+
+  /**
+   * 出撃記録の保存期間（日数）を決定する。BehaviorConfig.logbookRetentionDays が
+   * 未設定（null）の場合、既存の出撃記録が1件でもあれば無期限（0）、無ければ
+   * 既定値（7日）として確定し、以降のために保存する。
+   * これにより、自動削除機能の導入以前から使っているユーザーの記録がいきなり
+   * 削除されるのを防ぐ（記録が既にある = 既存ユーザーとみなす）。
+   */
+  private static async resolveRetentionDays(): Promise<number> {
+    const config = await BehaviorConfig.user();
+    if (config.logbookRetentionDays !== null) return config.logbookRetentionDays;
+    const hasExisting = (await this.list()).length > 0;
+    const initial = hasExisting ? 0 : BehaviorConfig.DEFAULT_LOGBOOK_RETENTION_DAYS;
+    await config.update({ logbookRetentionDays: initial });
+    return initial;
+  }
+
+  // 保存期間（日数）より古い出撃記録を削除する。0以下は無期限を意味し、何もしない。
+  private static async prune(retentionDays: number): Promise<void> {
+    if (retentionDays <= 0) return;
+    const threshold = Date.now() - retentionDays * MS_PER_DAY;
+    const sorties = await this.list();
+    await Promise.all(
+      sorties.filter((sortie) => sortie.started < threshold).map((sortie) => sortie.delete()),
+    );
   }
 }
