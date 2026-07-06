@@ -64,7 +64,7 @@ export function LogbookPage() {
             {sorted.map((sortie) => (
               <tr
                 key={sortie._id ?? sortie.started}
-                className="border-b border-slate-100 hover:bg-slate-50"
+                className="border-b border-slate-100 odd:bg-slate-100 hover:bg-slate-200"
               >
                 <td className="py-1.5 pr-4 text-slate-500 whitespace-nowrap">
                   {formatStarted(sortie.started)}

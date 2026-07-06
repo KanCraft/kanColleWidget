@@ -4,7 +4,7 @@ import { type Frame } from "../models/Frame"
 import { GameWindowConfig } from "../models/configs/GameWindowConfig"
 
 import { useState, type ReactNode } from "react";
-import { ClockIcon, SquaresPlusIcon, Cog6ToothIcon, BookOpenIcon } from "@heroicons/react/24/outline";
+import { ClockIcon, SquaresPlusIcon, Cog6ToothIcon, BookOpenIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 
 function ShortCutIcon({icon, title, action}: {
   icon: ReactNode;
@@ -69,6 +69,7 @@ export function PopupPage() {
         <ShortCutIcon icon={<ClockIcon className="w-5 h-5" aria-hidden="true" />} title="ダッシュボードを開く" action={() => Launcher.dashboard()} />
         <ShortCutIcon icon={<SquaresPlusIcon className="w-5 h-5" aria-hidden="true" />} title="編成キャプチャを開く" action={() => Launcher.fleetcapture()} />
         <ShortCutIcon icon={<BookOpenIcon className="w-5 h-5" aria-hidden="true" />} title="出撃記録を開く" action={() => Launcher.logbook()} />
+        <ShortCutIcon icon={<ClipboardDocumentCheckIcon className="w-5 h-5" aria-hidden="true" />} title="任務トラッカーを開く" action={() => Launcher.questTracker()} />
         <ShortCutIcon icon={<Cog6ToothIcon className="w-5 h-5" aria-hidden="true" />} title="設定を開く" action={() => Launcher.options()} />
       </div>
     </div>

@@ -2,12 +2,23 @@ import { useLoaderData, useRevalidator } from "react-router-dom";
 import { ActionsView } from "./components/dashboard/ActionsView";
 import { ClockView } from "./components/dashboard/ClockView";
 import { QueuesView } from "./components/dashboard/QueuesView";
+import { QuestTrackerList } from "./components/quest-tracker/QuestTrackerList";
 import type Queue from "../models/Queue";
+import type { QuestTrackerConfig } from "../models/configs/QuestTrackerConfig";
+import type { QuestProgress } from "../models/QuestProgress";
 import type { DashboardConfig } from "../models/configs/DashboardConfig";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time, frameId, config } = useLoaderData() as { window: chrome.windows.Window, queues: Queue[], time: Date, frameId: string, config: DashboardConfig };
+  const { window, queues, time, frameId, questTrackerConfig, questProgress, config } = useLoaderData() as {
+    window: chrome.windows.Window,
+    queues: Queue[],
+    time: Date,
+    frameId: string,
+    questTrackerConfig: QuestTrackerConfig,
+    questProgress: QuestProgress,
+    config: DashboardConfig,
+  };
   const revalidater = useRevalidator();
 
   // 1秒ごとにデータを再検証
@@ -50,6 +61,9 @@ export function DashboardPage() {
         <ActionsView tab={window?.tabs?.[0]} frameId={frameId} />
       </div>
       <QueuesView queues={queues} manualTimerInput={config.manualTimerInput} />
+      {questTrackerConfig.showOnDashboard ? (
+        <QuestTrackerList progress={questProgress} onChanged={() => revalidater.revalidate()} compact />
+      ) : null}
     </div>
   )
 }

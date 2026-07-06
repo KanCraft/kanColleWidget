@@ -9,11 +9,13 @@ import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
-import { NotificationConfig } from "../../models/configs/NotificationConfig";
+import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../models/configs/NotificationConfig";
 import { EntryType, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
 import { CapturePreset } from "../../models/CapturePreset";
 import { FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
+import { QuestTrackerConfig } from "../../models/configs/QuestTrackerConfig";
+import { QuestProgress } from "../../models/QuestProgress";
 
 export async function options() {
   const frames = await Frame.list();
@@ -63,6 +65,8 @@ export async function options() {
     },
     capturePresets: await CapturePreset.list(),
     fleetcapture: await FleetCaptureConfig.user(),
+    questAlert: (await NotificationConfig.find(QUEST_ALERT_NOTIFICATION_ID))!,
+    questTracker: await QuestTrackerConfig.user(),
   };
 }
 
@@ -92,6 +96,8 @@ export async function dashboard() {
     window: win,
     time: new Date(),
     frameId: game.lastSelectedFrameId,
+    questTrackerConfig: await QuestTrackerConfig.user(),
+    questProgress: await QuestProgress.user(),
     config: await DashboardConfig.user(),
   }
 }
@@ -103,5 +109,11 @@ export async function damagesnapshot() {
 export async function logbook() {
   return {
     sorties: await Logbook.list(),
+  };
+}
+
+export async function questTracker() {
+  return {
+    progress: await QuestProgress.user(),
   };
 }

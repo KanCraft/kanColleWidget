@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 // Loaders
-import { popup, options, dashboard, damagesnapshot, logbook, fleetcapture } from './loader';
+import { popup, options, dashboard, damagesnapshot, logbook, fleetcapture, questTracker } from './loader';
 
 // View
 import './index.scss'
@@ -14,6 +14,7 @@ import { FleetCapturePage } from './fleet-capture/FleetCapturePage';
 import { ScreenshotEditPage } from './screenshot-edit/ScreenshotEditPage';
 import { DamageSnapshotPage } from './snapshot/DamageSnapshotPage';
 import { LogbookPage } from './logbook/LogbookPage';
+import { QuestTrackerPage } from './quest-tracker/QuestTrackerPage';
 
 const router = createHashRouter([
   {
@@ -49,6 +50,11 @@ const router = createHashRouter([
     path: "/logbook",
     element: <LogbookPage />,
     loader: logbook,
+  },
+  {
+    path: "/quest-tracker",
+    element: <QuestTrackerPage />,
+    loader: questTracker,
   }
 ]);
 

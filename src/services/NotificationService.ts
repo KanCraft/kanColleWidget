@@ -1,4 +1,4 @@
-import { NotificationConfig } from "../models/configs/NotificationConfig";
+import { NotificationConfig, NotificationConfigData } from "../models/configs/NotificationConfig";
 import { Entry, TriggerType } from "../models/entry";
 import { SoundPlayer } from "./SoundService";
 
@@ -44,5 +44,30 @@ export class NotificationService {
     }
 
     return entry.$n.id();
+  }
+
+  /**
+   * Queue の Entry（艦隊・ドック等の対象を持つ時限通知）に依らない、単発の通知を送る。
+   * NotificationConfig の設定（有効/アイコン/通知音/消去方式）は entry 版の notify と共通のものを使う。
+   * @param id 通知ID（表示・消去に使う）
+   * @param configId NotificationConfig を引く際のID（例: "/quest-alert/start"）
+   * @param buildOptions 解決済みの設定から通知オプションを組み立てる
+   */
+  public async notifyRaw(
+    id: string,
+    configId: string,
+    buildOptions: (config: NotificationConfigData) => chrome.notifications.NotificationCreateOptions,
+  ): Promise<string> {
+    const config = await NotificationConfig.get(configId);
+    if (!config.enabled) return "";
+    await this.clear(id);
+    await this.create(id, buildOptions(config));
+    await this.sound.play(config.sound);
+
+    if (config.stay === false) {
+      setTimeout(() => this.clear(id), 10 * 1000);
+    }
+
+    return id;
   }
 }
