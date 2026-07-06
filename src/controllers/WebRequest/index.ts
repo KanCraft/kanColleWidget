@@ -83,10 +83,8 @@ onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]
   });
 });
 
-onComplete.on([
-  "/kcsapi/api_port/port",
-  "/kcsapi/api_get_member/ndock"
-], async () => {
+// 入渠画面に遷移したとき、修復の通知を消す
+onComplete.on(["/kcsapi/api_get_member/ndock"], async () => {
   chrome.notifications.getAll((notifications) => {
     for (const id in notifications) {
       if (id.startsWith("/recovery")) chrome.notifications.clear(id);
