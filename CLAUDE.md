@@ -39,7 +39,8 @@ pnpm typecheck        # 型チェックのみ（ビルドなし）
 # package.json の version がバージョンの単一の真実源。manifest.json はビルド時に生成される。
 make version v=4.9.0
 
-# → commit & push to main すると BETA が自動公開される（release-beta.yaml）
+# → main に push すると、毎朝 06:30 JST の定期実行で BETA が自動公開される（release-beta.yaml）
+# → 緊急時は release-beta.yaml を workflow_dispatch で手動実行も可能
 # → 本番公開は GitHub Release を作成する（release-prod.yaml が発火）
 gh release create v4.9.0 --generate-notes
 ```
