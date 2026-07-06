@@ -12,6 +12,8 @@ import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
 import { NotificationConfig } from "../../models/configs/NotificationConfig";
 import { EntryType, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
+import { CapturePreset } from "../../models/CapturePreset";
+import { FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
 
 export async function options() {
   const frames = await Frame.list();
@@ -59,6 +61,14 @@ export async function options() {
       defaults: notificationDefaults,
       entries: notificationEntries,
     },
+    capturePresets: await CapturePreset.list(),
+    fleetcapture: await FleetCaptureConfig.user(),
+  };
+}
+
+export async function fleetcapture() {
+  return {
+    presets: await CapturePreset.list(),
   };
 }
 
