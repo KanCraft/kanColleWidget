@@ -1,5 +1,5 @@
 import { Model } from "jstorm/chrome/local";
-import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild } from "./entry";
+import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, slotKey } from "./entry";
 import { MissionSpec } from "../catalog";
 import { Logger } from "../logger";
 import { H, M, S } from "../utils";
@@ -15,14 +15,19 @@ export default class Queue extends Model {
     const queues = await this.list();
     for (const q of queues) {
       if (q.type !== type) continue;
-      const entry = q.entry<Mission | Recovery | Shipbuild | Fatigue>() as { dock?: string | number, deck?: string | number };
-      if (String(entry.dock ?? entry.deck) === String(slot)) await q.delete();
+      if (String(q.slot) === String(slot)) await q.delete();
     }
   }
 
   public type: EntryType = EntryType.UNKNOWN;
   public params: Record<string, string | number> = {};
   public scheduled: number = 0; // 予定時刻 (Epoch Time) [ms]
+
+  // このQueueのスロット番号（艦隊/ドック）。EntryType に応じた params のキーから取り出す。
+  public get slot(): string | number | undefined {
+    return this.params[slotKey(this.type)];
+  }
+
   public entry<T extends Entry>(): T {
     switch (this.type) {
     case EntryType.MISSION:

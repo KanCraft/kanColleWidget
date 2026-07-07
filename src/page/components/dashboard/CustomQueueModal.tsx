@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Queue from "../../../models/Queue";
-import { EntryType } from "../../../models/entry";
+import { EntryType, slotKey } from "../../../models/entry";
 import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import { H, M } from "../../../utils";
 
@@ -65,10 +65,15 @@ export function CustomQueueModal({
           <label>種別</label>
           <select defaultValue={queue.type} className={`kcw-custom-queue-select kcw-${queue.type} flex-1 rounded-md`}
             onChange={e => {
+              const prev = slotKey(queue.type);
               queue.type = e.target.value as EntryType;
-              // API傍受で作られたQueueは deck / dock の一方しか持たないため、種別切替時にもう一方へ引き継ぐ
-              queue.params["deck"] ??= queue.params["dock"];
-              queue.params["dock"] ??= queue.params["deck"];
+              const next = slotKey(queue.type);
+              // 種別変更でスロットのキー（deck/dock）が変わる場合は値を移し替える
+              if (next !== prev) {
+                const slot = queue.params[prev];
+                delete queue.params[prev];
+                if (slot !== undefined) queue.params[next] = slot;
+              }
               update(queue);
             }}
           >
@@ -79,10 +84,10 @@ export function CustomQueueModal({
           </select>
         </div>
         <div className="flex space-x-2">
-          <label>{[EntryType.RECOVERY, EntryType.SHIPBUILD].includes(queue.type) ? "ドック" : "艦隊"}</label>
-          <select defaultValue={queue.params["deck"] || queue.params["dock"]} className="flex-1 rounded-md bg-slate-100"
+          <label>{slotKey(queue.type) === "dock" ? "ドック" : "艦隊"}</label>
+          <select defaultValue={queue.params[slotKey(queue.type)]} className="flex-1 rounded-md bg-slate-100"
             onChange={e => {
-              queue.params[[EntryType.RECOVERY, EntryType.SHIPBUILD].includes(queue.type) ? "dock" : "deck"] = e.target.value;
+              queue.params[slotKey(queue.type)] = e.target.value;
               update(queue);
             }}
           >
