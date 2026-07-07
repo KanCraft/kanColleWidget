@@ -9,11 +9,12 @@ vi.hoisted(() => {
   };
 });
 
-const { deleteSlot, create } = vi.hoisted(() => ({
+const { deleteSlot, create, restack } = vi.hoisted(() => ({
   deleteSlot: vi.fn().mockResolvedValue(undefined),
   create: vi.fn().mockResolvedValue({ entry: () => ({}) }),
+  restack: vi.fn().mockResolvedValue({ entry: () => ({}) }),
 }));
-vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create } }));
+vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create, restack } }));
 
 const { notify, clear, getAll } = vi.hoisted(() => ({
   notify: vi.fn().mockResolvedValue(""),
@@ -74,17 +75,14 @@ describe("修復・建造の高速化剤使用(speedchange)検知", () => {
 
 describe("遠征開始時の重複排除", () => {
   beforeEach(() => {
-    deleteSlot.mockClear();
-    create.mockClear();
+    restack.mockClear();
   });
 
+  // 削除→作成の順序保証はモデル層(Queue.restack)の契約になったため、ここでは
+  // コントローラが正しい type/slot で restack を呼ぶことだけを検証する（tests/queue-restack.spec.ts参照）。
   it("onMissionStart: 同じ艦隊の既存Queueを削除してから積み直す", async () => {
     await onMissionStart(details({ api_deck_id: ["4"], api_mission_id: ["999"], api_mission: ["93"] }));
-    expect(deleteSlot).toHaveBeenCalledWith("mission", "4");
-    // 削除は新規作成より前に行う（作成後に削除すると新しいQueueごと消える恐れがあるため）
-    const deleteOrder = deleteSlot.mock.invocationCallOrder[0];
-    const createOrder = create.mock.invocationCallOrder[0];
-    expect(deleteOrder).toBeLessThan(createOrder);
+    expect(restack).toHaveBeenCalledWith("mission", "4", expect.anything(), expect.any(Number));
   });
 });
 
@@ -92,6 +90,7 @@ describe("カタログ未収録の遠征ID", () => {
   beforeEach(() => {
     deleteSlot.mockClear();
     create.mockClear();
+    restack.mockClear();
     notify.mockClear();
   });
 
@@ -99,28 +98,30 @@ describe("カタログ未収録の遠征ID", () => {
     await onMissionStart(details({ api_deck_id: ["2"], api_mission_id: ["123"], api_mission: ["93"] }));
     expect(deleteSlot).not.toHaveBeenCalled();
     expect(create).not.toHaveBeenCalled();
+    expect(restack).not.toHaveBeenCalled();
     expect(notify).not.toHaveBeenCalled();
   });
 });
 
 describe("疲労Queueの積み直し設定(restackFatigueOnSortie)", () => {
   beforeEach(() => {
-    deleteSlot.mockClear();
     create.mockClear();
+    restack.mockClear();
     behaviorUser.mockReset();
   });
 
   const mapStartDetails = () => details({ api_deck_id: ["1"], api_maparea_id: ["1"], api_mapinfo_no: ["1"] });
 
-  it("設定が有効なら同じ艦隊の既存の疲労Queueを削除する", async () => {
+  it("設定が有効なら同じ艦隊の既存の疲労Queueを削除して積み直す", async () => {
     behaviorUser.mockResolvedValue({ restackFatigueOnSortie: true });
     await onMapStart(mapStartDetails());
-    expect(deleteSlot).toHaveBeenCalledWith("fatigue", 1);
+    expect(restack).toHaveBeenCalledWith("fatigue", 1, expect.anything(), expect.any(Number));
   });
 
   it("設定が無効なら既存の疲労Queueを削除しない（出撃ごとに積み上がる仕様）", async () => {
     behaviorUser.mockResolvedValue({ restackFatigueOnSortie: false });
     await onMapStart(mapStartDetails());
-    expect(deleteSlot).not.toHaveBeenCalled();
+    expect(restack).not.toHaveBeenCalled();
+    expect(create).toHaveBeenCalledTimes(1);
   });
 });

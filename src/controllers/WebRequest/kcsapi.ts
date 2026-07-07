@@ -47,8 +47,7 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
   const scheduled = Date.now() + Math.max(0, m.time - Mission.EARLY_RETURN_MARGIN);
   // 同じ艦隊の既存Queueを削除してから積み直す（他端末での帰投操作等、検知できない経路で
   // 古いQueueが残っていても、同じ艦隊で次の遠征を始めた時点で解消される）。
-  await Queue.deleteSlot(EntryType.MISSION, did);
-  const q = await Queue.create({ type: EntryType.MISSION, params: m, scheduled });
+  const q = await Queue.restack(EntryType.MISSION, did, m, scheduled);
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);
 }
@@ -114,10 +113,12 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
   // 設定が有効な場合のみ、同じ艦隊の既存の疲労Queueを削除して最新の1本に積み直す。
   // 既定では削除せず出撃ごとにタイマーが並ぶ（連続出撃の回数把握に使える）。
   const behavior = await BehaviorConfig.user();
+  const scheduled = Date.now() + fatigue.time;
   if (behavior.restackFatigueOnSortie) {
-    await Queue.deleteSlot(EntryType.FATIGUE, fatigue.deck);
+    await Queue.restack(EntryType.FATIGUE, fatigue.deck, fatigue, scheduled);
+  } else {
+    await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled });
   }
-  await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled: Date.now() + fatigue.time });
 }
 
 // マップ移動時

@@ -19,6 +19,19 @@ export default class Queue extends Model {
     }
   }
 
+  // 同じ種別・同じスロットの既存Queueを削除してから新しいQueueを作成する（積み直し）。
+  // 削除が作成より先であることが不変条件（逆順だと作成したQueueごと削除されるため、
+  // 呼び出し側に分割せずここで順序を保証する）。
+  public static async restack(
+    type: EntryType,
+    slot: string | number,
+    params: Entry | Record<string, string | number>,
+    scheduled: number,
+  ): Promise<Queue> {
+    await this.deleteSlot(type, slot);
+    return await this.create({ type, params, scheduled });
+  }
+
   public type: EntryType = EntryType.UNKNOWN;
   public params: Record<string, string | number> = {};
   public scheduled: number = 0; // 予定時刻 (Epoch Time) [ms]
