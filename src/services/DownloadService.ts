@@ -13,12 +13,7 @@ export class DownloadService {
       filename,
       saveAs: this.config.askAlways,
     };
-    return new Promise((resolve, reject) => {
-      this.mod.download(options, (id) => {
-        if (chrome.runtime.lastError) return reject(chrome.runtime.lastError);
-        resolve(id);
-      });
-    });
+    return this.mod.download(options);
   }
   public async show(downloadId: number) {
     return this.mod.show(downloadId);

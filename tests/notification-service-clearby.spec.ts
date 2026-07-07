@@ -18,12 +18,10 @@ import { EntryType, TriggerType } from "../src/models/entry";
 const getAll = chrome.notifications.getAll as unknown as ReturnType<typeof vi.fn>;
 const clear = chrome.notifications.clear as unknown as ReturnType<typeof vi.fn>;
 
-// 表示中の通知IDを与えてスタブを構成する（どちらもコールバック形式のAPI）
+// 表示中の通知IDを与えてスタブを構成する
 const displaying = (ids: string[]) => {
-  getAll.mockImplementation((cb: (n: Record<string, boolean>) => void) => {
-    cb(Object.fromEntries(ids.map((id) => [id, true])));
-  });
-  clear.mockImplementation((_id: string, cb?: (wasCleared: boolean) => void) => cb?.(true));
+  getAll.mockResolvedValue(Object.fromEntries(ids.map((id) => [id, true])));
+  clear.mockResolvedValue(true);
 };
 
 const clearedIds = () => clear.mock.calls.map(([id]) => id).sort();

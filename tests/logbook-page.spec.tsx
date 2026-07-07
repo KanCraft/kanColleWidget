@@ -6,7 +6,8 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
 // chrome.downloads はダウンロードボタンのテストでのみ必要。呼び出された
 // filename/url を検証できるよう、DownloadService からの呼び出しをモックする。
 const { downloadMock } = vi.hoisted(() => {
-  const downloadMock = vi.fn((_options: unknown, cb: (id: number) => void) => cb(1));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const downloadMock = vi.fn(async (_options: unknown) => 1);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).chrome = {
     runtime: { lastError: undefined },
