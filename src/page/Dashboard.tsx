@@ -10,10 +10,11 @@ import type { DashboardConfig } from "../models/configs/DashboardConfig";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time, questTrackerConfig, questProgress, config } = useLoaderData() as {
+  const { window, queues, time, frameId, questTrackerConfig, questProgress, config } = useLoaderData() as {
     window: chrome.windows.Window,
     queues: Queue[],
     time: Date,
+    frameId: string,
     questTrackerConfig: QuestTrackerConfig,
     questProgress: QuestProgress,
     config: DashboardConfig,
@@ -57,7 +58,7 @@ export function DashboardPage() {
     <div className="p-4">
       <div className="flex space-x-4">
         <ClockView time={time} />
-        <ActionsView tab={window?.tabs?.[0]} />
+        <ActionsView tab={window?.tabs?.[0]} frameId={frameId} />
       </div>
       <QueuesView queues={queues} manualTimerInput={config.manualTimerInput} />
       {questTrackerConfig.showOnDashboard ? (

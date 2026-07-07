@@ -90,10 +90,12 @@ export async function popup() {
 
 export async function dashboard() {
   const win = await (new Launcher()).find();
+  const game = await GameWindowConfig.user();
   return {
     queues: await Queue.list(),
     window: win,
     time: new Date(),
+    frameId: game.lastSelectedFrameId,
     questTrackerConfig: await QuestTrackerConfig.user(),
     questProgress: await QuestProgress.user(),
     config: await DashboardConfig.user(),
