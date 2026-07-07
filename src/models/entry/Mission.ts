@@ -17,14 +17,16 @@ export class Mission extends NotificationEntryBase {
   public id: number | string = 0; // 遠征ID
 
   // カタログから来る基本情報 (idさえあればcatalogからひける)
-  public title: string = "UNKNOWN"; // 遠征タイトル
+  public title: string = "知らないやつ"; // 遠征タイトル
   public time: number = 0; // 所要時間（ミリ秒）
 
-  constructor(deckId: string, missionId: number | string, mission: MissionSpec) {
+  // specやtitleを持たないQueue（種別切替や過去の手動登録で保存されたもの等）でも
+  // 通知を組み立てられるよう、欠けている値はフィールドの既定値のままにする
+  constructor(deckId: string, missionId: number | string, mission?: MissionSpec) {
     super();
     this.id = missionId;
-    this.title = mission.title;
-    this.time = mission.time;
+    this.title = mission?.title ?? this.title;
+    this.time = mission?.time ?? this.time;
     this.deck = deckId;
   }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
+import { missions } from "../../../catalog";
 import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import Queue from "../../../models/Queue";
 import { KCWDate } from "../../../utils";
@@ -15,8 +16,9 @@ function QueueItemView({
   edit: (q: Queue | null) => void,
 }) {
   if (!queue) {
+    // 手動登録はカタログの遠征ID 0「マニュアル登録されたやつ」として名前を持たせる
     return <div className="flex text-gray-400 cursor-pointer"
-      onClick={() => edit(Queue.new({ type, scheduled: Date.now(), params: { deck: index + 1, dock: index + 1 } }))}>
+      onClick={() => edit(Queue.new({ type, scheduled: Date.now(), params: { deck: index + 1, dock: index + 1, id: 0, title: missions["0"].title } }))}>
       <div className="mr-1">第{index + 1}{label}</div>
       <div>--:--</div>
     </div>
