@@ -1,5 +1,7 @@
 import { Launcher } from "../services/Launcher"
 import { GameWindowConfig } from "../models/configs/GameWindowConfig"
+import { Routes } from "../messages"
+import type { Route } from "../messages"
 import { popup } from "./loader"
 import { useTypedLoaderData } from "./loader/useTypedLoaderData"
 
@@ -35,10 +37,10 @@ export function PopupPage() {
     }
     try {
       await chrome.runtime.sendMessage<
-        { action: string; frame_id?: string },
+        { __action__: Route<"FRAME_OPEN_OR_FOCUS">; frame_id?: string },
         { opened: boolean; frame_id: string | null }
       >(chrome.runtime.id, {
-        action: "/frame/open-or-focus",
+        __action__: Routes.FRAME_OPEN_OR_FOCUS,
         frame_id: frameId,
       });
     } catch (error) {

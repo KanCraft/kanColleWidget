@@ -26,6 +26,8 @@ import { onQuestStart, onQuestStop, onQuestComplete, onPracticePrepare, onSortie
 import { ScriptingService } from "../../services/ScriptingService";
 import { NotificationService } from "../../services/NotificationService";
 import { EntryType, TriggerType } from "../../models/entry";
+import { Routes } from "../../messages";
+import type { Route, DsnapshotPreparePayload } from "../../messages";
 
 const requestLogger = Logger.get("WebRequest");
 const completeLogger = Logger.get("WebRequest:onComplete");
@@ -83,14 +85,14 @@ onComplete.on(["/kcsapi/api_start2/getData"], async ([details]) => {
 onComplete.on(["/kcsapi/api_req_sortie/battleresult"], async ([details]) => {
   const timestamp = Date.now();
   completeLogger.debug("api_req_sortie/battleresult", details);
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 1, timestamp }, {
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_PREPARE, count: 1, timestamp } satisfies { __action__: Route<"DSNAPSHOT_PREPARE"> } & DsnapshotPreparePayload, {
     frameId: details.frameId,
   });
 });
 onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]) => {
   const timestamp = Date.now();
   completeLogger.debug("api_req_combined_battle/battleresult", details);
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:prepare", count: 2, timestamp }, {
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_PREPARE, count: 2, timestamp } satisfies { __action__: Route<"DSNAPSHOT_PREPARE"> } & DsnapshotPreparePayload, {
     frameId: details.frameId,
   });
 });

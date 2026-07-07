@@ -42,7 +42,8 @@ describe("ActionsView の錨アイコン", () => {
 
     expect(chrome.runtime.sendMessage).toHaveBeenCalledTimes(1);
     expect(chrome.runtime.sendMessage).toHaveBeenCalledWith("test", {
-      action: "/frame/open-or-focus",
+      // ルート文字列は受信側(Message.ts)との契約なのでリテラルで固定する
+      __action__: "/frame/open-or-focus",
       frame_id: "__classic__",
     });
   });

@@ -7,6 +7,7 @@ import { KanColleURL } from "../constants";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../models/configs/DamageSnapshotConfig";
 import { sleep } from "../utils";
+import { Routes } from "../messages";
 
 /**
  * 艦これウィジェットがゲーム別窓や関連タブを起動・管理するための制御クラス。
@@ -216,7 +217,7 @@ export class Launcher {
   public async retouch(win: chrome.windows.Window, frame: Frame | null) {
     if (frame) {
       await this.windows.update(win.id!, { ...frame.size });
-      chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: "/injected/dmm/retouch" });
+      chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: Routes.DMM_RETOUCH });
     }
     await this.focus(win.id!);
   }

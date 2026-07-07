@@ -3,6 +3,8 @@ import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
 import { ScreenshotService } from "../../../services/ScreenshotService";
 import { CameraIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
+import { Routes } from "../../../messages";
+import type { Route } from "../../../messages";
 
 function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
@@ -30,10 +32,10 @@ function LaunchControlButton({ frameId }: { frameId: string }) {
   const onClick = async () => {
     try {
       await chrome.runtime.sendMessage<
-        { action: string; frame_id?: string },
+        { __action__: Route<"FRAME_OPEN_OR_FOCUS">; frame_id?: string },
         { opened: boolean; frame_id: string | null }
       >(chrome.runtime.id, {
-        action: "/frame/open-or-focus",
+        __action__: Routes.FRAME_OPEN_OR_FOCUS,
         frame_id: frameId,
       });
     } catch (error) {

@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react"
+import { Routes } from "../../messages";
+import type { DsnapshotSeparatePushPayload } from "../../messages";
 
 export function DamageSnapshotPage() {
   const [uris, setURIs] = useState<string[]>([]);
@@ -9,17 +11,18 @@ export function DamageSnapshotPage() {
   const shownTimestamp = useRef<number | undefined>(undefined);
   useEffect(() => {
     chrome.runtime.onMessage.addListener((msg) => {
-      if (msg.__action__ === "/dsnapshot/separate:push") {
-        const timestamp = msg.timestamp as number;
+      if (msg.__action__ === Routes.DSNAPSHOT_SEPARATE_PUSH) {
+        const push = msg as DsnapshotSeparatePushPayload;
+        const timestamp = push.timestamp;
         // 新しい戦闘（timestampが変わった）なら前回までの画像を消して置き換える。
         // 同じtimestamp（連合艦隊の2ペイン目）は消さずに横へ追記する（#1815）。
         if (shownTimestamp.current !== timestamp) {
-          setURIs([msg.uri as string]);
+          setURIs([push.uri]);
           shownTimestamp.current = timestamp;
         } else {
-          setURIs((prev) => [...prev, msg.uri as string]);
+          setURIs((prev) => [...prev, push.uri]);
         }
-        if (msg.label) setLabel(msg.label as string);
+        if (push.label) setLabel(push.label);
       }
     });
     document.title = "艦隊状況";

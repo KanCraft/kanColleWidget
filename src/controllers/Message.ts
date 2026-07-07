@@ -16,11 +16,13 @@ import { GameWindowConfig } from "../models/configs/GameWindowConfig";
 import { NotificationService } from "../services/NotificationService";
 import { Logbook } from "../models/Logbook";
 import { formatSortieLabel } from "../models/sortieLabel";
+import { Routes, ocrResultRoute } from "../messages";
+import type { Route, DsnapshotShowPayload, DsnapshotSeparatePushPayload } from "../messages";
 
 const onMessage = new Router<typeof chrome.runtime.onMessage>();
 const log = Logger.get("Message");
 
-onMessage.on("/frame/open-or-focus", async (req) => {
+onMessage.on(Routes.FRAME_OPEN_OR_FOCUS, async (req) => {
   const launcher = new Launcher();
   const id = req.frame_id;
   const frame = (await Frame.find(id)) ?? (await Frame.memory());
@@ -34,7 +36,7 @@ onMessage.on("/frame/open-or-focus", async (req) => {
   return created;
 });
 
-onMessage.on("/frame/memory:track", async (req) => {
+onMessage.on(Routes.FRAME_MEMORY_TRACK, async (req) => {
   const frame = await Frame.memory();
   return await frame.update({ position: req.position, size: req.size });
 });
@@ -46,24 +48,24 @@ onMessage.on("/frame/memory:track", async (req) => {
  * @param req.width 幅
  * @param req.height 高さ
  */
-onMessage.on("/dashboard:track", async (req) => {
+onMessage.on(Routes.DASHBOARD_TRACK, async (req) => {
   const dashboard = await DashboardConfig.user();
   return await dashboard.update({ left: req.left, top: req.top, width: req.width, height: req.height });
 });
 
-onMessage.on("/mute:toggle", async (_, sender) => {
+onMessage.on(Routes.MUTE_TOGGLE, async (_, sender) => {
   if (!sender.tab || !sender.tab.mutedInfo) return;
   const muted = !sender.tab.mutedInfo.muted;
   (await Frame.memory()).update({ muted });
   return await chrome.tabs.update(sender.tab!.id!, { muted });
 });
 
-onMessage.on("/screenshot", async (_, sender) => {
+onMessage.on(Routes.SCREENSHOT, async (_, sender) => {
   if (!sender.tab) return;
   return await ScreenshotService.take(sender.tab.windowId);
 });
 
-onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
+onMessage.on(ocrResultRoute(EntryType.RECOVERY), async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.RECOVERY].dock;
   // 同じドックの既存Queueを削除してから積み直す（speedchange検知漏れ等で古いQueueが
@@ -81,7 +83,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   NotificationService.new().notify(e, TriggerType.START);
 });
 
-onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
+onMessage.on(ocrResultRoute(EntryType.SHIPBUILD), async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.SHIPBUILD].dock;
   // 建造が始まった事実に基づく掃除なので、OCR結果の成否に依らず行う。
@@ -97,7 +99,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   NotificationService.new().notify(e, TriggerType.START);
 });
 
-onMessage.on("/damage-snapshot/capture", async (req, sender) => {
+onMessage.on(Routes.DAMAGE_SNAPSHOT_CAPTURE, async (req, sender) => {
   const { after, timestamp } = req;
   await sleep(after || 1000); // 描画待ち
   const raw = await new TabService().capture(sender.tab!.windowId, { format: "jpeg" });
@@ -112,16 +114,16 @@ onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   case DamageSnapshotMode.DISABLED:
     return;
   case DamageSnapshotMode.INAPP:
-    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: "/injected/kcs/dsnapshot:show", uri, timestamp, heightRatio: config.heightRatio, label });
+    return chrome.tabs.sendMessage(sender.tab!.id!, { __action__: Routes.DSNAPSHOT_SHOW, uri, timestamp, heightRatio: config.heightRatio, label } satisfies { __action__: Route<"DSNAPSHOT_SHOW"> } & DsnapshotShowPayload);
   case DamageSnapshotMode.SEPARATE: {
     const win = await Launcher.damagesnapshot(config);
     if (!win || !win.tabs || !win.tabs[0].id) throw new Error("Failed to get damage snapshot window");
-    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: "/dsnapshot/separate:push", uri, timestamp, label });
+    return chrome.tabs.sendMessage(win.tabs[0].id, { __action__: Routes.DSNAPSHOT_SEPARATE_PUSH, uri, timestamp, label } satisfies { __action__: Route<"DSNAPSHOT_SEPARATE_PUSH"> } & DsnapshotSeparatePushPayload);
   }
   }
 });
 
-onMessage.on("/configs", async () => {
+onMessage.on(Routes.CONFIGS, async () => {
   const game = await GameWindowConfig.user();
   return { game };
 });

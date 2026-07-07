@@ -13,6 +13,8 @@ import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
+import { Routes } from "../../messages";
+import type { Route, DmmOcrPayload } from "../../messages";
 
 const log = Logger.get("WebRequest");
 
@@ -22,11 +24,11 @@ const log = Logger.get("WebRequest");
 async function clearSnapshotOnBattleStart(details: chrome.webRequest.OnBeforeRequestDetails) {
   const config = await DamageSnapshotConfig.user();
   if (config.keepUntilNextShow) return;
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_REMOVE }, { frameId: details.frameId });
 }
 
 export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_REMOVE }, { frameId: details.frameId });
   const dsnapshot = await new Launcher().getDsnapshotTab();
   if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
   await Logbook.record();
@@ -67,17 +69,18 @@ export async function onMissionResult([details]: chrome.webRequest.OnBeforeReque
 }
 
 // 現在のゲーム画面をキャプチャし、対象領域を切り出して content script に OCR を依頼する
-async function requestOcr(details: chrome.webRequest.OnBeforeRequestDetails, type: EntryType.RECOVERY | EntryType.SHIPBUILD, dock: string): Promise<void> {
+async function requestOcr<P extends EntryType.RECOVERY | EntryType.SHIPBUILD>(details: chrome.webRequest.OnBeforeRequestDetails, type: P, dock: string): Promise<void> {
   const tabs = new TabService();
   const tab = await tabs.get(details.tabId);
   const raw = await tabs.capture(tab.windowId, { format: "jpeg" });
   const img = await WorkerImage.from(raw);
   const url = await (new CropService(img)).crop(type, { dock });
-  await chrome.tabs.sendMessage(details.tabId, {
-    __action__: "/injected/dmm/ocr",
+  const payload = {
+    __action__: Routes.DMM_OCR,
     url, purpose: type,
-    [type]: { dock }
-  });
+    [type]: { dock },
+  } as { __action__: Route<"DMM_OCR"> } & DmmOcrPayload<P>;
+  await chrome.tabs.sendMessage(details.tabId, payload);
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
