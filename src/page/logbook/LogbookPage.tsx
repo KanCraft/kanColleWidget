@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react";
 import { useLoaderData, useRevalidator } from "react-router-dom";
-import { ArrowPathIcon, BookOpenIcon } from "@heroicons/react/24/outline";
+import { ArrowDownTrayIcon, ArrowPathIcon, BookOpenIcon } from "@heroicons/react/24/outline";
 import { SortieContext } from "../../models/Logbook";
 import { describeBattles, formatStarted } from "./format";
+import { logbookExportFilename, toCSV, toDataUrl, toJSONL } from "./export";
+import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
+import { DownloadService } from "../../services/DownloadService";
 
 // 自動更新オン時の再読込間隔（ミリ秒）
 const RELOAD_INTERVAL_MS = 5 * 1000;
+
+// CSV は Excel で開いたときに文字化けしないよう BOM を付ける
+const CSV_BOM = String.fromCharCode(0xfeff);
+
+// スクリーンショット保存先（FileSaveConfig）とは独立して、システムのダウンロードフォルダ直下に保存する
+async function downloadLogbook(sorties: SortieContext[], format: "csv" | "jsonl") {
+  const content = format === "csv" ? CSV_BOM + toCSV(sorties) : toJSONL(sorties);
+  const mimeType = format === "csv" ? "text/csv" : "application/x-ndjson";
+  await new DownloadService(new FileSaveConfig()).download(
+    toDataUrl(content, mimeType),
+    logbookExportFilename(format),
+  );
+}
 
 export function LogbookPage() {
   const { sorties } = useLoaderData() as { sorties: SortieContext[] };
@@ -43,6 +59,22 @@ export function LogbookPage() {
           />
           <span>自動更新</span>
         </label>
+        <button
+          onClick={() => downloadLogbook(sorted, "csv")}
+          disabled={sorted.length === 0}
+          className="flex items-center space-x-1 border rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
+        >
+          <ArrowDownTrayIcon className="w-4 h-4" />
+          <span>CSV</span>
+        </button>
+        <button
+          onClick={() => downloadLogbook(sorted, "jsonl")}
+          disabled={sorted.length === 0}
+          className="flex items-center space-x-1 border rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-transparent"
+        >
+          <ArrowDownTrayIcon className="w-4 h-4" />
+          <span>JSONL</span>
+        </button>
       </div>
 
       {sorted.length === 0 ? (
