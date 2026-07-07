@@ -58,22 +58,12 @@ export async function onMissionReturnInstruction([details]: chrome.webRequest.On
   log.debug("onMissionReturnInstruction", details);
 }
 
-// 指定タイプ・指定艦隊(ドック)の通知を全トリガー分消す。
-// 通知IDは /{type}/{trigger}/{deck|dock} 形式（各 entry の $n.id 参照）。
-async function clearNotificationsOf(type: EntryType, target: string) {
-  const service = NotificationService.new();
-  const notifications = await service.getAll();
-  for (const id of Object.keys(notifications)) {
-    if (id.startsWith(`/${type}/`) && id.endsWith(`/${target}`)) await service.clear(id);
-  }
-}
-
 // 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const data = formData<MissionResultFormData>(details);
   if (!data) return;
   const deck = data.api_deck_id[0];
-  await clearNotificationsOf(EntryType.MISSION, deck);
+  await NotificationService.new().clearBy({ type: EntryType.MISSION, target: deck });
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -105,7 +95,7 @@ export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeR
   if (!data) return;
   const dock = data.api_ndock_id[0];
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
-  await clearNotificationsOf(EntryType.RECOVERY, dock);
+  await NotificationService.new().clearBy({ type: EntryType.RECOVERY, target: dock });
 }
 
 // 出撃開始時
@@ -192,7 +182,7 @@ export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDeta
   const data = formData<GetShipFormData>(details);
   if (!data) return;
   const dock = data.api_kdock_id[0];
-  await clearNotificationsOf(EntryType.SHIPBUILD, dock);
+  await NotificationService.new().clearBy({ type: EntryType.SHIPBUILD, target: dock });
 }
 
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {

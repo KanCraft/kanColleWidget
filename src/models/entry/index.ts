@@ -25,4 +25,14 @@ export enum TriggerType {
   UNKNOWN = "unknown",
 }
 
+// タイマーQueueのEntryを持つ種別。通知設定レコードの直積生成にも使う。
+export const TIMER_ENTRY_TYPES = [
+  EntryType.MISSION,
+  EntryType.RECOVERY,
+  EntryType.SHIPBUILD,
+  EntryType.FATIGUE,
+] as const;
+
 export { Mission, Recovery, Shipbuild, Fatigue };
+export { NotificationId } from "./NotificationId";
+export type { ParsedNotificationId } from "./NotificationId";

@@ -16,13 +16,14 @@ const { deleteSlot, create, restack } = vi.hoisted(() => ({
 }));
 vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create, restack } }));
 
-const { notify, clear, getAll } = vi.hoisted(() => ({
+const { notify, clear, getAll, clearBy } = vi.hoisted(() => ({
   notify: vi.fn().mockResolvedValue(""),
   clear: vi.fn().mockResolvedValue(true),
   getAll: vi.fn().mockResolvedValue({}),
+  clearBy: vi.fn().mockResolvedValue(undefined),
 }));
 vi.mock("../src/services/NotificationService", () => ({
-  NotificationService: { new: () => ({ notify, clear, getAll }) },
+  NotificationService: { new: () => ({ notify, clear, getAll, clearBy }) },
 }));
 
 vi.mock("../src/models/Logbook", () => ({ Logbook: { sortie: { start: vi.fn() } } }));
@@ -35,6 +36,7 @@ vi.mock("../src/catalog", () => ({
 }));
 
 import { onRecoveryHighspeed, onShipbuildHighspeed, onMissionStart, onMapStart } from "../src/controllers/WebRequest/kcsapi";
+import { EntryType } from "../src/models/entry";
 
 // ハンドラに渡す webRequest details の最小構成
 const details = (formData: Record<string, string[]>) =>
@@ -45,6 +47,7 @@ describe("修復・建造の高速化剤使用(speedchange)検知", () => {
     deleteSlot.mockClear();
     clear.mockClear();
     getAll.mockClear();
+    clearBy.mockClear();
   });
 
   it("onRecoveryHighspeed: 対象ドックの修復Queueを削除する", async () => {
@@ -54,16 +57,12 @@ describe("修復・建造の高速化剤使用(speedchange)検知", () => {
   });
 
   // speedchange 経路では完了通知が出ない（QueueWatcherを通らない）ため、
-  // 表示中の修復通知（開始・完了）の掃除もこのハンドラが担う
-  it("onRecoveryHighspeed: 対象ドックの表示中の修復通知を消し、他は消さない", async () => {
-    getAll.mockResolvedValueOnce({
-      "/recovery/start/2": true,
-      "/recovery/end/2": true,
-      "/recovery/start/1": true,
-      "/mission/end/2": true,
-    });
+  // 表示中の修復通知（開始・完了）の掃除もこのハンドラが担う。ここではハンドラが
+  // 正しい条件（対象ドックの全トリガー）で clearBy を呼ぶことだけを検証し、
+  // 「一致するものだけ消し他を残す」具体挙動は NotificationService.clearBy の単体テストで担保する。
+  it("onRecoveryHighspeed: 対象ドックの修復通知を clearBy で消す", async () => {
     await onRecoveryHighspeed(details({ api_ndock_id: ["2"] }));
-    expect(clear.mock.calls.map(([id]) => id).sort()).toEqual(["/recovery/end/2", "/recovery/start/2"]);
+    expect(clearBy).toHaveBeenCalledWith({ type: EntryType.RECOVERY, target: "2" });
   });
 
   it("onShipbuildHighspeed: 対象ドックの建造Queueを削除する", async () => {

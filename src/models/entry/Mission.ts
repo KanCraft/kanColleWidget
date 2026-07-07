@@ -1,4 +1,4 @@
-import { TriggerType } from ".";
+import { NotificationId, TriggerType } from ".";
 import { MissionSpec } from "../../catalog";
 import { KCWDate } from "../../utils";
 import { NotificationConfigData } from "../configs/NotificationConfig";
@@ -32,7 +32,7 @@ export class Mission extends NotificationEntryBase {
 
   override $n = {
     id: (trigger: TriggerType = TriggerType.END): string => {
-      return `/${this.type}/${trigger}/${this.deck}`;
+      return NotificationId.build(this.type, trigger, this.deck);
     },
     options: (trigger: TriggerType = TriggerType.END, overwrite: Partial<NotificationConfigData> = {}): chrome.notifications.NotificationCreateOptions => {
       if (trigger === TriggerType.START) {
