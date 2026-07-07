@@ -1,5 +1,5 @@
-import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tesseract.js';
 import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
+import { ocr, warmUpOcrWorker } from './ocrWorker';
 // import { Rectangle, load, crop } from './crop';
 
 (async () => {
@@ -151,17 +151,6 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
     });
   }
 
-  async function ocr(url: string, params: Partial<WorkerParams> = { tessedit_char_whitelist: "0123456789:" }): Promise<RecognizeResult> {
-    const worker = await createWorker('eng', OEM.LSTM_ONLY, {
-      workerPath: chrome.runtime.getURL('tessworker.min.js'),
-      langPath: chrome.runtime.getURL('tessdata-4.0.0_best_int'),
-    });
-    worker.setParameters(params);
-    const ret = await worker.recognize(url);
-    worker.terminate();
-    return ret;
-  }
-
   /**
    * ウィンドウを閉じようとしたときに確認ダイアログを表示
    */
@@ -177,6 +166,7 @@ import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
   (async function __main__() {
     resize();
     setInterval(track, 10 * 1000);
+    warmUpOcrWorker();
     const configs = await fetchNecessaryConfig();
     startListeningMessage();
     InAppActionButtons.create(configs.game);
