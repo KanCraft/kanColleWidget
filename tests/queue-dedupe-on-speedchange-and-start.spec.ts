@@ -72,6 +72,21 @@ describe("遠征開始時の重複排除", () => {
   });
 });
 
+describe("カタログ未収録の遠征ID", () => {
+  beforeEach(() => {
+    deleteSlot.mockClear();
+    create.mockClear();
+    notify.mockClear();
+  });
+
+  it("onMissionStart: 所要時間が不明なためタイマーを積まず通知もしない", async () => {
+    await onMissionStart(details({ api_deck_id: ["2"], api_mission_id: ["123"], api_mission: ["93"] }));
+    expect(deleteSlot).not.toHaveBeenCalled();
+    expect(create).not.toHaveBeenCalled();
+    expect(notify).not.toHaveBeenCalled();
+  });
+});
+
 describe("疲労Queueの積み直し設定(restackFatigueOnSortie)", () => {
   beforeEach(() => {
     deleteSlot.mockClear();
