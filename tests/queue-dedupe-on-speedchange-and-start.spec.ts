@@ -15,12 +15,13 @@ const { deleteSlot, create } = vi.hoisted(() => ({
 }));
 vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create } }));
 
-const { notify, clear } = vi.hoisted(() => ({
+const { notify, clear, getAll } = vi.hoisted(() => ({
   notify: vi.fn().mockResolvedValue(""),
   clear: vi.fn().mockResolvedValue(true),
+  getAll: vi.fn().mockResolvedValue({}),
 }));
 vi.mock("../src/services/NotificationService", () => ({
-  NotificationService: { new: () => ({ notify, clear }) },
+  NotificationService: { new: () => ({ notify, clear, getAll }) },
 }));
 
 vi.mock("../src/models/Logbook", () => ({ Logbook: { sortie: { start: vi.fn() } } }));
@@ -41,12 +42,27 @@ const details = (formData: Record<string, string[]>) =>
 describe("修復・建造の高速化剤使用(speedchange)検知", () => {
   beforeEach(() => {
     deleteSlot.mockClear();
+    clear.mockClear();
+    getAll.mockClear();
   });
 
   it("onRecoveryHighspeed: 対象ドックの修復Queueを削除する", async () => {
     await onRecoveryHighspeed(details({ api_ndock_id: ["2"] }));
     expect(deleteSlot).toHaveBeenCalledWith("recovery", "2");
     expect(deleteSlot).toHaveBeenCalledTimes(1);
+  });
+
+  // speedchange 経路では完了通知が出ない（QueueWatcherを通らない）ため、
+  // 表示中の修復通知（開始・完了）の掃除もこのハンドラが担う
+  it("onRecoveryHighspeed: 対象ドックの表示中の修復通知を消し、他は消さない", async () => {
+    getAll.mockResolvedValueOnce({
+      "/recovery/start/2": true,
+      "/recovery/end/2": true,
+      "/recovery/start/1": true,
+      "/mission/end/2": true,
+    });
+    await onRecoveryHighspeed(details({ api_ndock_id: ["2"] }));
+    expect(clear.mock.calls.map(([id]) => id).sort()).toEqual(["/recovery/end/2", "/recovery/start/2"]);
   });
 
   it("onShipbuildHighspeed: 対象ドックの建造Queueを削除する", async () => {

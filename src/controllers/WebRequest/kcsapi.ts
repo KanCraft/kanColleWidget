@@ -88,10 +88,12 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   });
 }
 
-// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueを削除する
+// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueと表示中の修復通知を消す。
+// この経路では完了通知が出ない（QueueWatcherを通らない）ため、開始通知の掃除もここで行う。
 export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_ndock_id: [dock] } = details.requestBody?.formData as unknown as RecoverySpeedchangeFormData;
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
+  await clearNotificationsOf(EntryType.RECOVERY, dock);
 }
 
 // 出撃開始時
