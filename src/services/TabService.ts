@@ -20,8 +20,8 @@ export class TabService {
     return await this.mod.update(tabId, props);
   }
 
-  // TODO: 各所で chrome.tabs.captureVisibleTab を使っているので、ここに集約させたい
-  public async capture(windowId: number, options: chrome.extensionTypes.ImageDetails) {
+  // 可視タブをキャプチャして dataURL を返す
+  public async capture(windowId: number, options: chrome.extensionTypes.ImageDetails): Promise<string> {
     return await this.mod.captureVisibleTab(windowId, options);
   }
 }

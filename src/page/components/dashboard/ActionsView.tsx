@@ -3,7 +3,6 @@ import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
 import { ScreenshotService } from "../../../services/ScreenshotService";
 import { CameraIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
-import { FileSaveConfig } from "../../../models/configs/FileSaveConfig";
 
 function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
@@ -16,13 +15,11 @@ function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, 
   )
 }
 
-function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launcher: Launcher }) {
+function CaptureControlButton({ tab }: { tab?: chrome.tabs.Tab }) {
   if (!tab) return null;
   return (
     <div onClick={async () => {
-      const config = await FileSaveConfig.user();
-      const uri = await launcher.capture(tab.windowId, { format: config.format });
-      await new ScreenshotService(config).deliver(uri);
+      await ScreenshotService.take(tab.windowId);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600" title="スクリーンショットを保存">
       <CameraIcon className="w-8 h-8" aria-hidden="true" />
     </div>
@@ -57,7 +54,7 @@ export function ActionsView({tab, frameId}: { tab?: chrome.tabs.Tab, frameId: st
   return (
     <div className="flex-1 flex items-center justify-end space-x-4">
       <LaunchControlButton frameId={frameId} />
-      <CaptureControlButton tab={tab} launcher={launcher} />
+      <CaptureControlButton tab={tab} />
       <MuteControlButton tab={tab} launcher={launcher} refresh={refresh} />
     </div>
   )

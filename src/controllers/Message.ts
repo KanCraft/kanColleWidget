@@ -9,7 +9,7 @@ import { TriggerType } from "../models/entry";
 import { Launcher } from "../services/Launcher";
 import { ScreenshotService } from "../services/ScreenshotService";
 import { CropService } from "../services/CropService";
-import { FileSaveConfig } from "../models/configs/FileSaveConfig";
+import { TabService } from "../services/TabService";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig, DamageSnapshotMode } from "../models/configs/DamageSnapshotConfig";
 import { GameWindowConfig } from "../models/configs/GameWindowConfig";
@@ -60,10 +60,7 @@ onMessage.on("/mute:toggle", async (_, sender) => {
 
 onMessage.on("/screenshot", async (_, sender) => {
   if (!sender.tab) return;
-  const launcher = new Launcher();
-  const config = await FileSaveConfig.user();
-  const uri = await launcher.capture(sender.tab.windowId, { format: config.format });
-  return await new ScreenshotService(config).deliver(uri);
+  return await ScreenshotService.take(sender.tab.windowId);
 });
 
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
@@ -103,7 +100,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
 onMessage.on("/damage-snapshot/capture", async (req, sender) => {
   const { after, timestamp } = req;
   await sleep(after || 1000); // 描画待ち
-  const raw = await chrome.tabs.captureVisibleTab(sender.tab!.windowId, { format: "jpeg" });
+  const raw = await new TabService().capture(sender.tab!.windowId, { format: "jpeg" });
   const img = await WorkerImage.from(raw);
   const uri = await (new CropService(img)).crop("damagesnapshot");
 

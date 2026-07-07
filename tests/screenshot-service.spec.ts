@@ -38,4 +38,21 @@ describe("ScreenshotService", () => {
     const key = openEditPage.mock.calls[0][0];
     expect(await temp.draw(key)).toBe(URI);
   });
+
+  it("take: launcher.capture で撮影した画像を設定のformatで受け取り、deliverへ渡す", async () => {
+    // 既定引数省略時に ScreenshotService が内部で DownloadService/TempStorage を
+    // 既定構築するため、chrome.downloads / chrome.storage.local の参照先が要る
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (globalThis as any).chrome = { downloads: {}, storage: { local: {} } };
+    const config = await FileSaveConfig.user();
+    const deliverSpy = vi.spyOn(ScreenshotService.prototype, "deliver").mockResolvedValue(undefined);
+    const capture = vi.fn<(windowId: number, options: chrome.extensionTypes.ImageDetails) => Promise<string>>()
+      .mockResolvedValue(URI);
+
+    await ScreenshotService.take(1, { capture });
+
+    expect(capture).toHaveBeenCalledWith(1, { format: config.format });
+    expect(deliverSpy).toHaveBeenCalledWith(URI);
+    deliverSpy.mockRestore();
+  });
 });

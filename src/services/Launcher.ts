@@ -307,15 +307,15 @@ export class Launcher {
   }
 
   /**
-   * 指定タブの可視領域をキャプチャし、Base64 データ URL を返す。
-   * @param tabId 対象タブ ID
+   * 指定ウィンドウの可視領域をキャプチャし、Base64 データ URL を返す。
+   * @param windowId 対象ウィンドウ ID
    * @param options Chrome のキャプチャオプション（既定は JPEG/100）
    * @returns キャプチャ結果の文字列
    */
-  public async capture(tabId: number, options: chrome.extensionTypes.ImageDetails = {
+  public async capture(windowId: number, options: chrome.extensionTypes.ImageDetails = {
     format: "jpeg",
     quality: 100,
   }): Promise<string> {
-    return this.tabs.capture(tabId, options);
+    return this.tabs.capture(windowId, options);
   }
 }

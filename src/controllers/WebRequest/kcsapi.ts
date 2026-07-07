@@ -66,6 +66,20 @@ export async function onMissionResult([details]: chrome.webRequest.OnBeforeReque
   await NotificationService.new().clearBy({ type: EntryType.MISSION, target: deck });
 }
 
+// 現在のゲーム画面をキャプチャし、対象領域を切り出して content script に OCR を依頼する
+async function requestOcr(details: chrome.webRequest.OnBeforeRequestDetails, type: EntryType.RECOVERY | EntryType.SHIPBUILD, dock: string): Promise<void> {
+  const tabs = new TabService();
+  const tab = await tabs.get(details.tabId);
+  const raw = await tabs.capture(tab.windowId, { format: "jpeg" });
+  const img = await WorkerImage.from(raw);
+  const url = await (new CropService(img)).crop(type, { dock });
+  await chrome.tabs.sendMessage(details.tabId, {
+    __action__: "/injected/dmm/ocr",
+    url, purpose: type,
+    [type]: { dock }
+  });
+}
+
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onRecoveryStart", details);
   const data = formData<RecoveryStartFormData>(details);
@@ -77,15 +91,7 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
     await Queue.deleteSlot(EntryType.RECOVERY, dock);
     return;
   }
-  const tab = await new TabService().get(details.tabId);
-  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
-  const img = await WorkerImage.from(raw);
-  const url = await (new CropService(img)).crop(EntryType.RECOVERY);
-  await chrome.tabs.sendMessage(details.tabId, {
-    __action__: "/injected/dmm/ocr",
-    url, purpose: EntryType.RECOVERY,
-    [EntryType.RECOVERY]: { dock }
-  });
+  await requestOcr(details, EntryType.RECOVERY, dock);
 }
 
 // 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueと表示中の修復通知を消す。
@@ -196,16 +202,8 @@ export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestD
     await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
     return;
   }
-  const tab = await new TabService().get(details.tabId);
   await sleep(600); // いったんめんどくさいんでこれで
-  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
-  const img = await WorkerImage.from(raw);
-  const url = await (new CropService(img)).crop(EntryType.SHIPBUILD, { dock });
-  await chrome.tabs.sendMessage(details.tabId, {
-    __action__: "/injected/dmm/ocr",
-    url, purpose: EntryType.SHIPBUILD,
-    [EntryType.SHIPBUILD]: { dock }
-  });
+  await requestOcr(details, EntryType.SHIPBUILD, dock);
 }
 
 // 建造中に高速建造材を使って完了させたとき、そのドックの建造Queueを削除する
