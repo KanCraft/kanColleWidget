@@ -7,9 +7,10 @@ import { NotificationService } from "../../../services/NotificationService";
 import { useConfigField } from "./useConfigField";
 
 type NotificationConfigMap = Record<TriggerType.START | TriggerType.END, NotificationConfig>;
+type NotificationEntryType = Exclude<EntryType, EntryType.TEST_DEFAULT>;
 
 const TRIGGER_ORDER: Array<TriggerType.START | TriggerType.END> = [TriggerType.START, TriggerType.END];
-const ENTRY_ORDER: EntryType[] = [
+const ENTRY_ORDER: NotificationEntryType[] = [
   EntryType.MISSION,
   EntryType.RECOVERY,
   EntryType.SHIPBUILD,
@@ -33,7 +34,7 @@ export function NotificationSettingView({
   entries,
 }: {
   defaults: NotificationConfigMap;
-  entries: Record<EntryType, NotificationConfigMap>;
+  entries: Record<NotificationEntryType, NotificationConfigMap>;
 }) {
   const createInitialEnabledMap = () => {
     const map: Record<string, boolean> = {};

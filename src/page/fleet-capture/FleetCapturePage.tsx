@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import { GameRawHeight, GameRawWidth } from "../../constants";
-import type { CapturePreset } from "../../models/CapturePreset";
 import { CapturePreviewThumbnail } from "../components/fleet-capture/CapturePreviewThumbnail";
 import { ExportButton } from "../components/fleet-capture/ExportButton";
 import { PresetActionButtons } from "../components/fleet-capture/PresetActionButtons";
@@ -9,9 +7,11 @@ import { PresetSelector } from "../components/fleet-capture/PresetSelector";
 import { RangeAdjuster } from "../components/fleet-capture/RangeAdjuster";
 import { ResultGrid } from "../components/fleet-capture/ResultGrid";
 import { useFleetCapture } from "./useFleetCapture";
+import { fleetcapture } from "../loader";
+import { useTypedLoaderData } from "../loader/useTypedLoaderData";
 
 export function FleetCapturePage() {
-  const { presets } = useLoaderData() as { presets: CapturePreset[] };
+  const { presets } = useTypedLoaderData<typeof fleetcapture>();
   const controller = useFleetCapture({ presets });
   // 調整モード（切り抜き範囲・グリッド構成・プリセットの編集）とキャプチャモードの切り替え
   const [adjusting, setAdjusting] = useState(false);

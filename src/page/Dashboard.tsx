@@ -1,24 +1,14 @@
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 import { ActionsView } from "./components/dashboard/ActionsView";
 import { ClockView } from "./components/dashboard/ClockView";
 import { QueuesView } from "./components/dashboard/QueuesView";
 import { QuestTrackerList } from "./components/quest-tracker/QuestTrackerList";
-import type Queue from "../models/Queue";
-import type { QuestTrackerConfig } from "../models/configs/QuestTrackerConfig";
-import type { QuestProgress } from "../models/QuestProgress";
-import type { DashboardConfig } from "../models/configs/DashboardConfig";
+import { dashboard } from "./loader";
+import { useTypedLoaderData } from "./loader/useTypedLoaderData";
 import { useEffect } from "react";
 
 export function DashboardPage() {
-  const { window, queues, time, frameId, questTrackerConfig, questProgress, config } = useLoaderData() as {
-    window: chrome.windows.Window,
-    queues: Queue[],
-    time: Date,
-    frameId: string,
-    questTrackerConfig: QuestTrackerConfig,
-    questProgress: QuestProgress,
-    config: DashboardConfig,
-  };
+  const { window, queues, time, frameId, questTrackerConfig, questProgress, config } = useTypedLoaderData<typeof dashboard>();
   const revalidater = useRevalidator();
 
   // 1秒ごとにデータを再検証
