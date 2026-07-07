@@ -104,11 +104,14 @@ export class NotificationConfig extends Model {
   }
 
   /**
-   * この設定レコードの _id から type セグメントを取り出す（例: /shipbuild/start → "shipbuild"）。
-   * 解析できない場合は UNKNOWN。
+   * この設定レコードの _id から type セグメントを取り出す（例: /shipbuild/start → EntryType.SHIPBUILD）。
+   * 解析できない場合、または EntryType のいずれにも一致しない場合（quest-alert 等）は UNKNOWN。
    */
-  public get type(): string {
-    return NotificationId.parse(this._id ?? "")?.type ?? EntryType.UNKNOWN;
+  public get type(): EntryType {
+    const type = NotificationId.parse(this._id ?? "")?.type;
+    return (Object.values(EntryType) as string[]).includes(type ?? "")
+      ? type as EntryType
+      : EntryType.UNKNOWN;
   }
 
   /**

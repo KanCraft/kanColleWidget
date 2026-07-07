@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import { FoldableSection } from "../FoldableSection";
 import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../../models/configs/NotificationConfig";
-import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TriggerType } from "../../../models/entry";
+import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TIMER_ENTRY_TYPES, TriggerType } from "../../../models/entry";
 import { NotificationService } from "../../../services/NotificationService";
 import { useConfigField } from "./useConfigField";
 
@@ -10,12 +10,6 @@ type NotificationConfigMap = Record<TriggerType.START | TriggerType.END, Notific
 type NotificationEntryType = Exclude<EntryType, EntryType.TEST_DEFAULT>;
 
 const TRIGGER_ORDER: Array<TriggerType.START | TriggerType.END> = [TriggerType.START, TriggerType.END];
-const ENTRY_ORDER: NotificationEntryType[] = [
-  EntryType.MISSION,
-  EntryType.RECOVERY,
-  EntryType.SHIPBUILD,
-  EntryType.FATIGUE,
-];
 const ENTRY_LABELS: Record<EntryType, string> = {
   [EntryType.MISSION]: "遠征",
   [EntryType.RECOVERY]: "入渠",
@@ -41,7 +35,7 @@ export function NotificationSettingView({
     TRIGGER_ORDER.forEach((trigger) => {
       map[`default-${trigger}`] = defaults[trigger].enabled ?? true;
     });
-    ENTRY_ORDER.forEach((type) => {
+    TIMER_ENTRY_TYPES.forEach((type) => {
       TRIGGER_ORDER.forEach((trigger) => {
         map[`${type}-${trigger}`] = entries[type][trigger].enabled ?? true;
       });
@@ -83,7 +77,7 @@ export function NotificationSettingView({
         updatedConfigs.push(config);
       }
     });
-    ENTRY_ORDER.forEach((type) => {
+    TIMER_ENTRY_TYPES.forEach((type) => {
       TRIGGER_ORDER.forEach((trigger) => {
         const config = entries[type][trigger];
         if (!seen.has(config)) {
@@ -135,7 +129,7 @@ export function NotificationSettingView({
           </div>
 
           <div className="space-y-4">
-            {ENTRY_ORDER.map((type) => (
+            {TIMER_ENTRY_TYPES.map((type) => (
               <div key={type} className="grid gap-4 md:grid-cols-2">
                 {TRIGGER_ORDER.map((trigger) => (
                   <NotificationConfigEditor
@@ -175,7 +169,7 @@ export function NotificationConfigEditor({
   configId: string;
   onEnabledChange: (id: string, next: boolean) => void;
 }) {
-  const [type, trigger] = config._id?.split("/").slice(1) as [EntryType, TriggerType];
+  const { type, trigger } = config;
   return (
     <div className="border border-slate-200 rounded-md p-2 space-y-2 bg-white">
       <div className="flex">
@@ -200,7 +194,7 @@ export function NotificationConfigEditor({
         <IconSettingView config={config} configId={configId} />
         <SoundSettingView config={config} configId={configId} />
         <StaySettingView config={config} />
-        {type !== "default" ?
+        {type !== EntryType.TEST_DEFAULT ?
           <div className="flex-1 flex justify-end">
             <TestPlayView config={config} type={type} trigger={trigger} />
           </div>

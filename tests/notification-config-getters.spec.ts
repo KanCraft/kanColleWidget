@@ -22,9 +22,9 @@ describe("NotificationConfig の type / trigger getter", () => {
     expect(config.trigger).toBe(TriggerType.START);
   });
 
-  it("EntryType 外の type セグメント（quest-alert）もそのまま返す", () => {
+  it("EntryType 外の type セグメント（quest-alert）は UNKNOWN に縮退する", () => {
     const config = NotificationConfig.new({}, "/quest-alert/start");
-    expect(config.type).toBe("quest-alert");
+    expect(config.type).toBe(EntryType.UNKNOWN);
     expect(config.trigger).toBe(TriggerType.START);
   });
 
