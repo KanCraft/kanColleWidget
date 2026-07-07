@@ -16,6 +16,7 @@ function fakeWorker(overrides: Record<string, any> = {}) {
   return {
     setParameters: vi.fn().mockResolvedValue(undefined),
     recognize: vi.fn().mockResolvedValue({ data: { text: "00:00:00" } }),
+    terminate: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   };
 }
@@ -60,6 +61,19 @@ describe("ocrWorker", () => {
     await expect(ocr("data:image/png;base64,xxx")).rejects.toThrow("recognize failed");
     await expect(ocr("data:image/png;base64,xxx")).resolves.toEqual({ data: { text: "00:00:00" } });
     expect(createWorker).toHaveBeenCalledTimes(2);
+  });
+
+  it("認識に失敗して作り直すとき、壊れたWorkerはterminateで解放される", async () => {
+    const brokenWorker = fakeWorker({ recognize: vi.fn().mockRejectedValue(new Error("recognize failed")) });
+    const freshWorker = fakeWorker();
+    createWorker.mockResolvedValueOnce(brokenWorker).mockResolvedValueOnce(freshWorker);
+    const { ocr } = await import("../src/injection/ocrWorker");
+
+    await expect(ocr("data:image/png;base64,xxx")).rejects.toThrow("recognize failed");
+    await expect(ocr("data:image/png;base64,xxx")).resolves.toEqual({ data: { text: "00:00:00" } });
+
+    expect(brokenWorker.terminate).toHaveBeenCalledTimes(1);
+    expect(freshWorker.terminate).not.toHaveBeenCalled();
   });
 
   it("warmUpOcrWorkerは呼び出し直後にWorker生成を開始する（完了を待たない）", async () => {

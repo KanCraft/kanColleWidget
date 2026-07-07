@@ -11,11 +11,18 @@ function createOcrWorker(): ReturnType<typeof createWorker> {
   });
 }
 
+function resetWorker(): void {
+  const p = workerPromise;
+  workerPromise = null;
+  // 実体があれば解放する。生成失敗(rejected)やterminate失敗は握りつぶす。
+  p?.then((w) => w.terminate()).catch(() => {});
+}
+
 export function getWorker(): ReturnType<typeof createWorker> {
   if (!workerPromise) {
     workerPromise = createOcrWorker();
     // 生成に失敗したWorkerを使い回さないよう、次回呼び出しで作り直せるようにする。
-    workerPromise.catch(() => { workerPromise = null; });
+    workerPromise.catch(() => resetWorker());
   }
   return workerPromise;
 }
@@ -32,7 +39,7 @@ export async function ocr(url: string, params: Partial<WorkerParams> = { tessedi
     return await worker.recognize(url);
   } catch (e) {
     // 認識自体が失敗したWorkerも壊れている可能性があるため作り直す。
-    workerPromise = null;
+    resetWorker();
     throw e;
   }
 }
