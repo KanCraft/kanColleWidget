@@ -1,4 +1,5 @@
 import { Router } from "chromite";
+import { Logger } from "../logger";
 import { Frame } from "../models/Frame";
 import { type Page } from "tesseract.js";
 import { EntryType, Recovery, Shipbuild } from "../models/entry";
@@ -17,6 +18,16 @@ import { Logbook } from "../models/Logbook";
 import { formatSortieLabel } from "../models/sortieLabel";
 
 const onMessage = new Router<typeof chrome.runtime.onMessage>();
+const log = Logger.get("Message");
+
+// OCRで読み取った "HH:MM:SS" 形式の文字列をミリ秒に変換する。時刻として解釈できなければ null。
+// 不正なまま進めると scheduled が NaN の Queue（発火せず残り続ける）が登録され、
+// 通知生成も例外で失敗するため、呼び出し側は null のとき Queue を作ってはいけない。
+function parseOcrTime(text: string): number | null {
+  const [h, m, s] = text.split(":").map(Number);
+  const time = h * H + m * M + s * S;
+  return Number.isFinite(time) ? time : null;
+}
 
 onMessage.on("/frame/open-or-focus", async (req) => {
   const launcher = new Launcher();
@@ -67,8 +78,12 @@ onMessage.on("/screenshot", async (_, sender) => {
 onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.RECOVERY].dock;
-  const [h, m, s] = data.text.split(":").map(Number);
-  const r = new Recovery(dock, (h * H + m * M + s * S));
+  const time = parseOcrTime(data.text);
+  if (time === null) {
+    log.warn("修復時間のOCR結果を時刻として解釈できないため、タイマーを登録しない", data.text);
+    return;
+  }
+  const r = new Recovery(dock, time);
   // 同じドックの既存Queueを削除してから積み直す（speedchange検知漏れ等で古いQueueが
   // 残っていても、次に同じドックで修復を始めた時点で重複が解消されるようにする保険）。
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
@@ -80,8 +95,12 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
 onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   const data = req.data as Page;
   const dock = req[EntryType.SHIPBUILD].dock;
-  const [h, m, s] = data.text.split(":").map(Number);
-  const sb = new Shipbuild(dock, (h * H + m * M + s * S));
+  const time = parseOcrTime(data.text);
+  if (time === null) {
+    log.warn("建造時間のOCR結果を時刻として解釈できないため、タイマーを登録しない", data.text);
+    return;
+  }
+  const sb = new Shipbuild(dock, time);
   await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
   const q = await Queue.create({ type: EntryType.SHIPBUILD, params: sb, scheduled: Date.now() + sb.time });
   const e = q.entry();
