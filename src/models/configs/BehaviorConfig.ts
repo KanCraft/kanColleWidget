@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 
 // タイマー監視間隔（秒）の選択肢
 export const QueueWatchIntervalOptions = [5, 10, 20, 30] as const;
@@ -23,8 +23,8 @@ const DEFAULTS = {
 };
 
 // 細かい挙動設定。独立したセクションを設けるほどではない挙動の設定をまとめて持つ。
-export class BehaviorConfig extends Model {
-  static override _namespace_ = "BehaviorConfig";
+export class BehaviorConfig extends UserConfig {
+  static override readonly _namespace_ = "BehaviorConfig";
 
   // /cron/queues アラームの周期（秒）。chrome.alarms の periodInMinutes 下限 0.5 に相当する。
   public static readonly ALARM_PERIOD_SECONDS = 30;
@@ -38,10 +38,6 @@ export class BehaviorConfig extends Model {
   public restackFatigueOnSortie: boolean = DEFAULTS.restackFatigueOnSortie;
   public queueWatchIntervalSeconds: number = DEFAULTS.queueWatchIntervalSeconds;
   public logbookRetentionDays: number | null = DEFAULTS.logbookRetentionDays;
-
-  public static async user(): Promise<BehaviorConfig> {
-    return (await this.find("user"))!;
-  }
 
   /**
    * タイマー監視間隔（秒）を選択肢のいずれかに正規化して返す。

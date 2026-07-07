@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 
 // 既定値の単一定義。static default（未保存時のレコード）と
 // プロパティ初期値（保存済みレコードに無いフィールドの補完）は必ずここから導出する。
@@ -13,14 +13,11 @@ const DEFAULTS = {
   lastSelectedFrameId: "__memory__",
 };
 
-export class GameWindowConfig extends Model {
-  static override _namespace_ = "GameWindowConfig";
+export class GameWindowConfig extends UserConfig {
+  static override readonly _namespace_ = "GameWindowConfig";
   static override default = {
     "user": { ...DEFAULTS },
-  }
-  public static async user(): Promise<GameWindowConfig> {
-    return (await GameWindowConfig.find("user"))!;
-  }
+  };
   public alertBeforeClose: boolean = DEFAULTS.alertBeforeClose;
   public showMuteButton: boolean = DEFAULTS.showMuteButton;
   public showScreenshotButton: boolean = DEFAULTS.showScreenshotButton;

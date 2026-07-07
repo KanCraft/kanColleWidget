@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 
 // タイマー手入力モーダルの残り時間入力欄の形式
 // - "split": 時・分を別々の数値ボックスで入力する（24時間以上も入力できる）
@@ -17,10 +17,10 @@ const DEFAULTS = {
   manualTimerInput: "split" as ManualTimerInputStyle,
 };
 
-export class DashboardConfig extends Model {
-  public static readonly _namespace_ = "DashboardConfig";
+export class DashboardConfig extends UserConfig {
+  static override readonly _namespace_ = "DashboardConfig";
 
-  static default = {
+  static override default = {
     "user": { ...DEFAULTS },
   };
 
@@ -30,10 +30,6 @@ export class DashboardConfig extends Model {
   public top: number = DEFAULTS.top;
   public openWithGame: boolean = DEFAULTS.openWithGame;
   public manualTimerInput: ManualTimerInputStyle = DEFAULTS.manualTimerInput;
-
-  static async user(): Promise<DashboardConfig> {
-    return (await this.find("user"))!;
-  }
 
   /**
    * ゲーム窓の起動に合わせてダッシュボードを自動で開くべきかを判定する（#1216）。

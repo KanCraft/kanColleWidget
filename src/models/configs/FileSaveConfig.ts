@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 
 // スクリーンショットの保存画像フォーマット
 // chrome.tabs.captureVisibleTab の format に渡せる値と一致させる
@@ -14,17 +14,12 @@ const DEFAULTS = {
   editBeforeSave: false,
 };
 
-export class FileSaveConfig extends Model {
-  public static readonly _namespace_ = "FileSaveConfig";
+export class FileSaveConfig extends UserConfig {
+  static override readonly _namespace_ = "FileSaveConfig";
 
-  static default = {
+  static override default = {
     "user": { ...DEFAULTS },
   };
-
-  static async user(): Promise<FileSaveConfig> {
-    const config = (await this.find("user"))!;
-    return await config.migrateFilenameExtension();
-  }
 
   // 保存前に毎回ファイル保存先を指定すべきか
   // chrome.downloads API の saveAs オプションに対応
@@ -50,7 +45,7 @@ export class FileSaveConfig extends Model {
    * 移行して保存し直す。format 導入以前の設定は拡張子込みテンプレートだったため、その互換処理。
    * @returns 移行後（または移行不要ならそのまま）の設定
    */
-  private async migrateFilenameExtension(): Promise<FileSaveConfig> {
+  protected override async migrate(): Promise<FileSaveConfig> {
     const matched = this.filenameTemplate.match(/\.(png|jpe?g)$/i);
     if (!matched) return this;
     const format: ImageFormat = matched[1].toLowerCase() === "png" ? "png" : "jpeg";

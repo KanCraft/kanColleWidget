@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 
 // エクスポート画像で空白セルを塗る際の透明指定値
 export const TransparentBackground = "transparent";
@@ -12,18 +12,14 @@ const DEFAULTS = {
 /**
  * 編成キャプチャの設定
  */
-export class FleetCaptureConfig extends Model {
-  public static readonly _namespace_ = "FleetCaptureConfig";
+export class FleetCaptureConfig extends UserConfig {
+  static override readonly _namespace_ = "FleetCaptureConfig";
 
-  static default = {
+  static override default = {
     "user": { ...DEFAULTS },
   };
 
   // エクスポート画像の下地色（CSSカラー）
   // TransparentBackground のときは塗らない（png保存時のみ透明が有効。jpegでは黒になる）
   public background: string = DEFAULTS.background;
-
-  static async user(): Promise<FleetCaptureConfig> {
-    return (await this.find("user"))!;
-  }
 }

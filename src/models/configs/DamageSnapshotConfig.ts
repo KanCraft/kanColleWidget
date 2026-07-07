@@ -1,4 +1,4 @@
-import { Model } from "jstorm/chrome/local";
+import { UserConfig } from "./UserConfig";
 import type { AreaLabelFormat } from "../sortieLabel";
 
 export enum DamageSnapshotMode {
@@ -32,23 +32,19 @@ const DEFAULTS = {
   keepUntilNextShow: false,
 };
 
-export class DamageSnapshotConfig extends Model {
-  static override _namespace_ = "DamageSnapshotConfig";
+export class DamageSnapshotConfig extends UserConfig {
+  static override readonly _namespace_ = "DamageSnapshotConfig";
   static override default = {
     "user": {
       ...DEFAULTS,
       position: { ...DEFAULTS.position },
       size: { ...DEFAULTS.size },
     },
-  }
+  };
   public mode: DamageSnapshotMode = DEFAULTS.mode;
   public position = { ...DEFAULTS.position };
   public size = { ...DEFAULTS.size };
   public heightRatio: number = DEFAULTS.heightRatio;
   public areaLabelFormat: AreaLabelFormat = DEFAULTS.areaLabelFormat;
   public keepUntilNextShow: boolean = DEFAULTS.keepUntilNextShow;
-
-  public static async user(): Promise<DamageSnapshotConfig> {
-    return (await DamageSnapshotConfig.find("user"))!;
-  }
 }
