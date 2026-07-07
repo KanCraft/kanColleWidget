@@ -5,27 +5,31 @@ import { Model } from "jstorm/chrome/local";
 // - "time": HH:MM の time input 1つで入力する（"0130" のようにキーボードで一括入力できる。上限 23:59）
 export type ManualTimerInputStyle = "split" | "time";
 
+// 既定値の単一定義。static default（未保存時のレコード）と
+// プロパティ初期値（保存済みレコードに無いフィールドの補完）は必ずここから導出する。
+const DEFAULTS = {
+  width: 320,
+  height: 220,
+  left: 10,
+  top: 10,
+  // ゲーム窓を新規に開いたとき、ダッシュボードも同時に開くか（#1216）。既定は false（従来どおり手動）。
+  openWithGame: false,
+  manualTimerInput: "split" as ManualTimerInputStyle,
+};
+
 export class DashboardConfig extends Model {
   public static readonly _namespace_ = "DashboardConfig";
 
   static default = {
-    "user": {
-      "width": 320,
-      "height": 220,
-      "left": 10,
-      "top": 10,
-      // ゲーム窓を新規に開いたとき、ダッシュボードも同時に開くか（#1216）。既定は false（従来どおり手動）。
-      "openWithGame": false,
-      "manualTimerInput": "split" as ManualTimerInputStyle,
-    },
+    "user": { ...DEFAULTS },
   };
 
-  public width: number = 320;
-  public height: number = 220;
-  public left: number = 10;
-  public top: number = 10;
-  public openWithGame: boolean = false;
-  public manualTimerInput: ManualTimerInputStyle = "split";
+  public width: number = DEFAULTS.width;
+  public height: number = DEFAULTS.height;
+  public left: number = DEFAULTS.left;
+  public top: number = DEFAULTS.top;
+  public openWithGame: boolean = DEFAULTS.openWithGame;
+  public manualTimerInput: ManualTimerInputStyle = DEFAULTS.manualTimerInput;
 
   static async user(): Promise<DashboardConfig> {
     return (await this.find("user"))!;
