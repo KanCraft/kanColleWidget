@@ -22,8 +22,8 @@ export class DashboardConfig extends Model {
 
   public width: number = 320;
   public height: number = 220;
-  public left: number = 100;
-  public top: number = 100;
+  public left: number = 10;
+  public top: number = 10;
   public openWithGame: boolean = false;
   public manualTimerInput: ManualTimerInputStyle = "split";
 
