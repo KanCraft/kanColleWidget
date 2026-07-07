@@ -38,7 +38,7 @@ const fire = async (path: string) => {
   await new Promise((resolve) => setTimeout(resolve, 0));
 };
 
-// 入渠画面に遷移した（api_get_member/ndock が発行された）とき、修復通知が消えることを検証する。
+// 入渠画面に遷移した（api_get_member/ndock が発行された）とき、修復の完了通知が消えることを検証する。
 // 通知IDは /{type}/{trigger}/{deck|dock} 形式（tests/notification-id.spec.ts 参照）。
 describe("入渠画面遷移時の修復通知クリア", () => {
   beforeEach(() => {
@@ -46,12 +46,20 @@ describe("入渠画面遷移時の修復通知クリア", () => {
     clear.mockReset();
   });
 
-  it("母港以外の画面から入渠画面に遷移しても（直前のAPIが port でなくても）修復通知を消す", async () => {
-    displaying(["/recovery/start/1", "/recovery/end/2"]);
+  it("母港以外の画面から入渠画面に遷移しても（直前のAPIが port でなくても）修復完了通知を消す", async () => {
+    displaying(["/recovery/end/2", "/recovery/end/3"]);
     await fire("/kcsapi/api_req_hensei/change"); // 編成画面での操作
     await fire("/kcsapi/api_get_member/ndock"); // 入渠画面への遷移
-    expect(clearedIds()).toEqual(expect.arrayContaining(["/recovery/start/1", "/recovery/end/2"]));
+    expect(clearedIds()).toEqual(expect.arrayContaining(["/recovery/end/2", "/recovery/end/3"]));
     expect(clearedIds()).toHaveLength(2);
+  });
+
+  // 入渠開始直後にもゲームは ndock を再取得するため、開始通知をクリア対象にすると
+  // OCR経由で出た開始通知がサーバ応答時間次第で即消えてしまう（タイミング依存になる）。
+  it("修復開始通知は消さない（入渠開始直後の ndock 再取得と競合するため）", async () => {
+    displaying(["/recovery/start/1", "/recovery/end/2"]);
+    await fire("/kcsapi/api_get_member/ndock");
+    expect(clearedIds()).toEqual(["/recovery/end/2"]);
   });
 
   it("修復以外の通知は消さない", async () => {
