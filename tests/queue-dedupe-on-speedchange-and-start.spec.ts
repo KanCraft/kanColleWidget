@@ -84,6 +84,11 @@ describe("遠征開始時の重複排除", () => {
     await onMissionStart(details({ api_deck_id: ["4"], api_mission_id: ["999"], api_mission: ["93"] }));
     expect(restack).toHaveBeenCalledWith("mission", "4", expect.anything(), expect.any(Number));
   });
+
+  it("onMissionStart: requestBodyが欠落していても例外を投げず、restackを呼ばない", async () => {
+    await expect(onMissionStart([{ requestBody: undefined }] as unknown as chrome.webRequest.OnBeforeRequestDetails[])).resolves.not.toThrow();
+    expect(restack).not.toHaveBeenCalled();
+  });
 });
 
 describe("カタログ未収録の遠征ID", () => {

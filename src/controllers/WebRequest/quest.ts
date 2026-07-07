@@ -3,21 +3,20 @@ import { QUEST_ALERT_NOTIFICATION_ID } from "../../models/configs/NotificationCo
 import { QuestProgress } from "../../models/QuestProgress";
 import { NotificationService } from "../../services/NotificationService";
 import { QuestActionFormData } from "./datatypes";
+import { formData } from "./formdata";
 
-export async function onQuestStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_quest_id: [id] } = details.requestBody?.formData as unknown as QuestActionFormData;
-  await (await QuestProgress.user()).start(parseInt(id, 10));
+// api_req_quest/{start,stop,clearitemget} 共通: formData の任務IDに
+// QuestProgress の指定メソッドを適用するハンドラを生成する
+function onQuestAction(action: "start" | "stop" | "complete") {
+  return async ([details]: chrome.webRequest.OnBeforeRequestDetails[]) => {
+    const data = formData<QuestActionFormData>(details);
+    if (!data) return;
+    await (await QuestProgress.user())[action](parseInt(data.api_quest_id[0], 10));
+  };
 }
-
-export async function onQuestStop([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_quest_id: [id] } = details.requestBody?.formData as unknown as QuestActionFormData;
-  await (await QuestProgress.user()).stop(parseInt(id, 10));
-}
-
-export async function onQuestComplete([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_quest_id: [id] } = details.requestBody?.formData as unknown as QuestActionFormData;
-  await (await QuestProgress.user()).complete(parseInt(id, 10));
-}
+export const onQuestStart = onQuestAction("start");
+export const onQuestStop = onQuestAction("stop");
+export const onQuestComplete = onQuestAction("complete");
 
 // 指定カテゴリに着手可能なのにまだ着手していない任務があれば、その一覧を通知する
 async function warnIfQuestNotAccepted(category: QuestCategory, notificationId: string, title: string) {

@@ -2,7 +2,8 @@ import { Logger } from "../../logger";
 import { missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
-import { CreateShipFormData, GetShipFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData, RecoverySpeedchangeFormData, ShipbuildSpeedchangeFormData } from "./datatypes";
+import { BattleStartFormData, CreateShipFormData, GetShipFormData, MapNextFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData, RecoverySpeedchangeFormData, ShipbuildSpeedchangeFormData } from "./datatypes";
+import { formData } from "./formdata";
 import { EntryType, Fatigue, Mission } from "../../models/entry";
 import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
@@ -32,7 +33,8 @@ export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails
 }
 
 export async function onMissionStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const data: MissionStartFormData = details.requestBody?.formData as unknown as MissionStartFormData;
+  const data = formData<MissionStartFormData>(details);
+  if (!data) return;
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
   const spec = missions[mid];
@@ -68,13 +70,16 @@ async function clearNotificationsOf(type: EntryType, target: string) {
 
 // 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_deck_id: [deck] } = details.requestBody?.formData as unknown as MissionResultFormData;
+  const data = formData<MissionResultFormData>(details);
+  if (!data) return;
+  const deck = data.api_deck_id[0];
   await clearNotificationsOf(EntryType.MISSION, deck);
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onRecoveryStart", details);
-  const data = details.requestBody?.formData as unknown as RecoveryStartFormData;
+  const data = formData<RecoveryStartFormData>(details);
+  if (!data) return;
   const dock = data.api_ndock_id[0];
   // 高速修復材を同時使用した入渠は即完了するため、タイマーは積まない。
   // 同じドックに古いQueueが残っていた場合に備えて掃除だけ行う（onRecoveryHighspeedと同じ扱い）。
@@ -96,14 +101,17 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
 // 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueと表示中の修復通知を消す。
 // この経路では完了通知が出ない（QueueWatcherを通らない）ため、開始通知の掃除もここで行う。
 export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_ndock_id: [dock] } = details.requestBody?.formData as unknown as RecoverySpeedchangeFormData;
+  const data = formData<RecoverySpeedchangeFormData>(details);
+  if (!data) return;
+  const dock = data.api_ndock_id[0];
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
   await clearNotificationsOf(EntryType.RECOVERY, dock);
 }
 
 // 出撃開始時
 export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const data = details.requestBody?.formData as unknown as MapStartFormData;
+  const data = formData<MapStartFormData>(details);
+  if (!data) return;
   const deck = data.api_deck_id[0];
   const map = { area: data.api_maparea_id[0], info: data.api_mapinfo_no[0] };
   const fatigue = new Fatigue(parseInt(deck), map);
@@ -124,30 +132,31 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
 // マップ移動時
 export async function onMapNext([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onMapNext", details);
-  const data = details.requestBody?.formData as {
-    api_cell_id: string[]; // たぶんここにマスIDが入ってる
-  };
+  const data = formData<MapNextFormData>(details);
   if (!data?.api_cell_id) return log.warn("onMapNext: api_cell_id not found", details);
   Logbook.sortie.next(data.api_cell_id[0]);
 }
 
+// 戦闘開始系ハンドラの共通処理。大破進撃防止窓の除去と Logbook への連戦記録を行い、
+// midnight 指定時は開幕夜戦として夜戦フラグも立てる。api_formation は欠落時
+// 空文字で記録する（欠落してもマス数のカウントは落とさない）。
+async function startBattle(details: chrome.webRequest.OnBeforeRequestDetails, { midnight = false } = {}) {
+  await clearSnapshotOnBattleStart(details);
+  const data = formData<BattleStartFormData>(details);
+  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
+  if (midnight) Logbook.sortie.battle.midnight();
+}
+
 // 戦闘（昼戦）開始時
 export async function onBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  await clearSnapshotOnBattleStart(details);
-  const data = details.requestBody?.formData as {
-    api_formation: string[]; // 陣形
-    api_recovery_type: string[]; // なんだこれ
-  };
-  Logbook.sortie.battle.start(data.api_formation[0]);
+  await startBattle(details);
 }
 
 // 連合艦隊戦（昼戦）開始時。通常艦隊の onBattleStarted と同様に連戦数をカウントする（#1764）。
 // 連合艦隊では api_req_combined_battle/battle が飛ぶが従来ハンドラが無く連戦数が積まれなかった。
 // formData の形は実データ未観測のため api_formation を防御的に読む（揺らぎは許容）。
 export async function onCombinedBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  await clearSnapshotOnBattleStart(details);
-  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
-  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
+  await startBattle(details);
 }
 
 // 夜戦（昼戦マスからの追撃夜戦）突入時。同じマスの戦闘の継続なので連戦数は増やさず、
@@ -162,20 +171,14 @@ export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBe
 // api_req_sortie/battleresult 側で返るため、大破進撃防止窓は既存の onComplete 経路で表示される。
 // 未ハンドルだと remove も push も起きず「前マスの窓が残り横並び増殖」「連戦数の数え漏れ」を招いていた。
 export async function onSpMidnightBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  await clearSnapshotOnBattleStart(details);
-  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
-  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
-  Logbook.sortie.battle.midnight();
+  await startBattle(details, { midnight: true });
 }
 
 // 連合艦隊の開幕夜戦マス。api パス・formData 形ともに未観測（イベント期間外で実データ取得不可）の
 // ため予防的に用意し、通常版 sp_midnight と対にして連戦数漏れを防ぐ。実機で観測できたらパス名と
 // formData の形を確定すること（#1764）。
 export async function onCombinedSpMidnightBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  await clearSnapshotOnBattleStart(details);
-  const data = details.requestBody?.formData as { api_formation?: string[] } | undefined;
-  Logbook.sortie.battle.start(data?.api_formation?.[0] ?? "");
-  Logbook.sortie.battle.midnight();
+  await startBattle(details, { midnight: true });
 }
 
 // 戦闘終了時
@@ -186,12 +189,15 @@ export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequ
 
 // 建造した艦を受け取ったとき、そのドックの建造通知（開始・完了）を消す
 export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as GetShipFormData;
+  const data = formData<GetShipFormData>(details);
+  if (!data) return;
+  const dock = data.api_kdock_id[0];
   await clearNotificationsOf(EntryType.SHIPBUILD, dock);
 }
 
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const data = details.requestBody?.formData as unknown as CreateShipFormData; 
+  const data = formData<CreateShipFormData>(details);
+  if (!data) return;
   const dock = data.api_kdock_id[0];
   // このハンドラは [createship, kdock] のシーケンスマッチで発火し、details には先頭の
   // createship リクエスト（建造開始の formData）が渡される。
@@ -214,6 +220,8 @@ export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestD
 
 // 建造中に高速建造材を使って完了させたとき、そのドックの建造Queueを削除する
 export async function onShipbuildHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as ShipbuildSpeedchangeFormData;
+  const data = formData<ShipbuildSpeedchangeFormData>(details);
+  if (!data) return;
+  const dock = data.api_kdock_id[0];
   await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
 }
