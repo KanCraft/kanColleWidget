@@ -6,7 +6,6 @@ import { Launcher } from "../../services/Launcher";
 import { WorkerImage } from "../../utils";
 import { Logger } from "../../logger";
 import { CapturePreset } from "../../models/CapturePreset";
-import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { FleetCaptureConfig, TransparentBackground } from "../../models/configs/FleetCaptureConfig";
 import {
   createEmptyResultSet,
@@ -179,10 +178,7 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
           ctx.drawImage(img, colIndex * width, rowIndex * height, width, height);
         });
       });
-      const config = await FileSaveConfig.user();
-      const downloadService = new DownloadService(config);
-      const dataUrl = canvas.toDataURL(`image/${config.format}`);
-      await downloadService.download(dataUrl);
+      await DownloadService.saveCanvasAsImage(canvas);
     } catch (error) {
       log.error("exportResults failed", error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");

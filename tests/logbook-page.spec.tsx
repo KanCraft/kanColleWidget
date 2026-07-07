@@ -89,17 +89,19 @@ describe("LogbookPage", () => {
     renderPage([sortie()]);
     await userEvent.click(await screen.findByRole("button", { name: "CSV" }));
     await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
-    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string; saveAs: boolean }];
     expect(options.filename).toMatch(/\.csv$/);
     expect(options.url).toMatch(/^data:text\/csv/);
+    expect(options.saveAs).toBe(false);
   });
 
   it("JSONLボタンを押すと .jsonl ファイルをダウンロードする", async () => {
     renderPage([sortie()]);
     await userEvent.click(await screen.findByRole("button", { name: "JSONL" }));
     await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
-    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string; saveAs: boolean }];
     expect(options.filename).toMatch(/\.jsonl$/);
     expect(options.url).toMatch(/^data:application\/x-ndjson/);
+    expect(options.saveAs).toBe(false);
   });
 });
