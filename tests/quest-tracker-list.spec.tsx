@@ -12,14 +12,12 @@ vi.hoisted(() => {
 
 import { QuestTrackerList } from "../src/page/components/quest-tracker/QuestTrackerList";
 import { QuestProgress, QuestStatus } from "../src/models/QuestProgress";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
 const addListener = chrome.storage.onChanged.addListener as unknown as ReturnType<typeof vi.fn>;
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() はそのオブジェクトへ
-// 書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineDefaults = structuredClone(QuestProgress.default);
+restoreDefaultsBeforeEach(QuestProgress);
 beforeEach(() => {
-  QuestProgress.default = structuredClone(pristineDefaults);
   addListener.mockClear();
 });
 

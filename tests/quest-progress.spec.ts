@@ -3,6 +3,9 @@ import { expect, describe, it, vi } from "vitest";
 import { QuestProgress, QuestStatus } from "../src/models/QuestProgress";
 import { quests } from "../src/catalog";
 import { KCWDate } from "../src/utils";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
+
+restoreDefaultsBeforeEach(QuestProgress);
 
 describe("QuestProgress 初期状態", () => {
   it.each([303, 201])("前提任務のない任務(id=%i)はOPENで始まる", async (id) => {

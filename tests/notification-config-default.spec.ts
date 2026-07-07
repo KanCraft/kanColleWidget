@@ -10,6 +10,9 @@ vi.hoisted(() => {
 });
 
 import { NotificationConfig } from "../src/models/configs/NotificationConfig";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
+
+restoreDefaultsBeforeEach(NotificationConfig);
 
 // static default のキー集合は jstorm の find() フォールバックの根拠となる。1文字でも欠けると
 // 保存済み設定が読めなくなるため、直積生成の結果を固定キー集合として検証する。

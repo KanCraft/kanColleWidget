@@ -1,4 +1,4 @@
-import { expect, describe, it, vi, beforeEach } from "vitest";
+import { expect, describe, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
@@ -12,13 +12,9 @@ vi.hoisted(() => {
 
 import { QuestTrackerPage } from "../src/page/quest-tracker/QuestTrackerPage";
 import { QuestProgress } from "../src/models/QuestProgress";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() はそのオブジェクトへ
-// 書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineDefaults = structuredClone(QuestProgress.default);
-beforeEach(() => {
-  QuestProgress.default = structuredClone(pristineDefaults);
-});
+restoreDefaultsBeforeEach(QuestProgress);
 
 // QuestTrackerPage を loader データ付きで単体レンダリングする。
 // loader の非同期初期化を待たずに済むよう、hydrationData で初期データを与える。

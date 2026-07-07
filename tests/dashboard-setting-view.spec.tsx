@@ -1,18 +1,13 @@
-import { expect, describe, it, beforeEach } from "vitest";
+import { expect, describe, it } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
 import { DashboardSettingView } from "../src/page/components/options/DashboardSettingView";
 import { DashboardConfig } from "../src/models/configs/DashboardConfig";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() は
-// そのオブジェクトへ書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineDefaults = structuredClone(DashboardConfig.default);
-
-beforeEach(() => {
-  DashboardConfig.default = structuredClone(pristineDefaults);
-});
+restoreDefaultsBeforeEach(DashboardConfig);
 
 async function renderView() {
   const config = await DashboardConfig.user();
