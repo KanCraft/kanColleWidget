@@ -186,9 +186,10 @@ export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDeta
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const data = details.requestBody?.formData as unknown as CreateShipFormData; 
   const dock = data.api_kdock_id[0];
+  // このハンドラは [createship, kdock] のシーケンスマッチで発火し、details には先頭の
+  // createship リクエスト（建造開始の formData）が渡される。
   // 高速建造材を同時使用した建造は即完了するため、タイマーは積まない。
-  // api_get_member/kdock 経由でも呼ばれ、その場合 api_highspeed は無いので防御的に見る。
-  if (data.api_highspeed?.[0] === "1") {
+  if (data.api_highspeed[0] === "1") {
     await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
     return;
   }

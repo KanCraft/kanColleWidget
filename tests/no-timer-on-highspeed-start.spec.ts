@@ -84,13 +84,4 @@ describe("建造開始時の高速建造材同時使用(api_highspeed)", () => {
     }));
     expect(deleteSlot).not.toHaveBeenCalled();
   });
-
-  it("api_highspeed が無いformData（api_get_member/kdock経由）でもOCR依頼を送る", async () => {
-    await onCreateShip(details({ api_kdock_id: ["1"] }));
-    expect(sendMessage).toHaveBeenCalledWith(10, expect.objectContaining({
-      __action__: "/injected/dmm/ocr",
-      purpose: "shipbuild",
-    }));
-    expect(deleteSlot).not.toHaveBeenCalled();
-  });
 });
