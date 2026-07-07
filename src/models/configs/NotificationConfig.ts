@@ -77,8 +77,9 @@ export class NotificationConfig extends Model {
    * この通知が画面に表示され続けるかどうか
    * trueの場合、ユーザーが手動で閉じるまで表示され続ける
    * falseの場合、一定時間後に自動的に閉じられる
+   * nullの場合、default.stayが使われる
    */
-  public stay: boolean = false;
+  public stay: boolean | null = false;
 
   /**
    * NotificationConfigを $n.id 形式から取得する
@@ -98,7 +99,7 @@ export class NotificationConfig extends Model {
       enabled: config?.enabled ?? def.enabled,
       sound: config?.sound ?? def.sound,
       icon: config?.icon ?? def.icon,
-      stay: config?.stay ?? def.stay,
+      stay: config?.stay ?? def.stay ?? false,
     };
   }
 

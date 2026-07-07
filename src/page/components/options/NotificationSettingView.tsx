@@ -4,6 +4,7 @@ import { FoldableSection } from "../FoldableSection";
 import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../../models/configs/NotificationConfig";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TriggerType } from "../../../models/entry";
 import { NotificationService } from "../../../services/NotificationService";
+import { useConfigField } from "./useConfigField";
 
 type NotificationConfigMap = Record<TriggerType.START | TriggerType.END, NotificationConfig>;
 
@@ -299,14 +300,11 @@ function StaySettingView({
 }: {
   config: NotificationConfig;
 }) {
-  const [stay, setStay] = useState<boolean | null>(config.stay);
+  const [stay, saveStay] = useConfigField(config, "stay", config.stay);
   return (
     <CycleButton
       value={stay}
-      onChange={async (next) => {
-        setStay(next);
-        await config.update({ stay: next });
-      }}
+      onChange={(next) => void saveStay(next)}
       label={<span className="font-bold">通知消去</span>}
       buttonClassName="bg-white hover:bg-slate-50"
       options={[

@@ -3,17 +3,17 @@ import { NotificationConfig } from "../../../models/configs/NotificationConfig";
 import { QuestTrackerConfig } from "../../../models/configs/QuestTrackerConfig";
 import { FoldableSection } from "../FoldableSection";
 import { NotificationConfigEditor } from "./NotificationSettingView";
+import { useConfigField } from "./useConfigField";
 
 export function QuestTrackerSettingView({
-  notification: _notification, tracker: _tracker,
+  notification,
+  tracker,
 }: {
   notification: NotificationConfig;
   tracker: QuestTrackerConfig;
 }) {
-  const [notification] = useState<NotificationConfig>(_notification);
   const [enabled, setEnabled] = useState<boolean>(notification.enabled);
-  const [tracker] = useState<QuestTrackerConfig>(_tracker);
-  const [showOnDashboard, setShowOnDashboard] = useState<boolean>(tracker.showOnDashboard);
+  const [showOnDashboard, saveShowOnDashboard] = useConfigField(tracker, "showOnDashboard", tracker.showOnDashboard);
 
   return (
     <FoldableSection title="任務トラッカーの設定" id="quest-tracker">
@@ -35,11 +35,7 @@ export function QuestTrackerSettingView({
           <input
             type="checkbox"
             checked={showOnDashboard}
-            onChange={async (e) => {
-              const next = e.target.checked;
-              await tracker.update({ showOnDashboard: next });
-              setShowOnDashboard(next);
-            }}
+            onChange={(e) => void saveShowOnDashboard(e.target.checked)}
             className="w-4 h-4"
           />
           <span className="font-bold">ダッシュボードにも任務トラッカーを表示する</span>

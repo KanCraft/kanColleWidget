@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { useNavigate, useRevalidator } from "react-router-dom";
 import { Frame } from "../../../models/Frame";
 import { GameWindowConfig } from "../../../models/configs/GameWindowConfig";
 import { Launcher } from "../../../services/Launcher";
 import { ScriptingService } from "../../../services/ScriptingService";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function FrameSettingView({
   frames,
@@ -17,7 +17,7 @@ export function FrameSettingView({
   const scripts = new ScriptingService();
   const navigate = useNavigate();
   const revalidator = useRevalidator();
-  const [alertBeforeClose, setAlertBeforeClose] = useState<boolean>(config.alertBeforeClose ?? true);
+  const [alertBeforeClose, saveAlertBeforeClose] = useConfigField(config, "alertBeforeClose", config.alertBeforeClose ?? true);
   return (
     <FoldableSection title="別窓化の設定" id="frames">
       <div className="mb-4">
@@ -25,11 +25,7 @@ export function FrameSettingView({
           <input
             type="checkbox"
             checked={alertBeforeClose}
-            onChange={async (event) => {
-              const next = event.target.checked;
-              await config.update({ alertBeforeClose: next });
-              setAlertBeforeClose(next);
-            }}
+            onChange={(event) => void saveAlertBeforeClose(event.target.checked)}
             className="w-4 h-4"
           />
           <span className="font-bold">閉じる前に確認ダイアログを表示する</span>

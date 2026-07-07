@@ -1,18 +1,17 @@
-import { useState } from "react";
 import { DamageSnapshotConfig, DamageSnapshotMode, DamageSnapshotModeDictionary } from "../../../models/configs/DamageSnapshotConfig";
 import type { AreaLabelFormat } from "../../../models/sortieLabel";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function DamageSnapshotSettingView({
-  config: _config,
+  config,
 }: {
   config: DamageSnapshotConfig;
 }) {
-  const [config] = useState<DamageSnapshotConfig>(_config);
-  const [mode, setMode] = useState<DamageSnapshotMode>(config.mode);
-  const [heightRatio, setHeightRatio] = useState<number>(config.heightRatio);
-  const [areaLabelFormat, setAreaLabelFormat] = useState<AreaLabelFormat>(config.areaLabelFormat ?? "number");
-  const [keepUntilNextShow, setKeepUntilNextShow] = useState<boolean>(config.keepUntilNextShow ?? false);
+  const [mode, saveMode] = useConfigField(config, "mode", config.mode);
+  const [heightRatio, saveHeightRatio] = useConfigField(config, "heightRatio", config.heightRatio);
+  const [areaLabelFormat, saveAreaLabelFormat] = useConfigField(config, "areaLabelFormat", config.areaLabelFormat ?? "number");
+  const [keepUntilNextShow, saveKeepUntilNextShow] = useConfigField(config, "keepUntilNextShow", config.keepUntilNextShow ?? false);
 
   return (
     <FoldableSection title="大破進撃防止の設定" id="damage-snapshot">
@@ -26,16 +25,12 @@ export function DamageSnapshotSettingView({
         </label>
         <select
           value={mode}
-          onChange={async (e) => {
-            const newMode = e.target.value as DamageSnapshotMode;
-            await config.update({ mode: newMode });
-            setMode(newMode);
-          }}
+          onChange={(e) => void saveMode(e.target.value as DamageSnapshotMode)}
           className="border rounded p-2 w-full max-w-md"
         >
-          {Object.entries(DamageSnapshotModeDictionary).map(([key, config]) => (
+          {Object.entries(DamageSnapshotModeDictionary).map(([key, entry]) => (
             <option key={key} value={key}>
-              {config.label}
+              {entry.label}
             </option>
           ))}
         </select>
@@ -52,11 +47,7 @@ export function DamageSnapshotSettingView({
             min="10"
             max="60"
             value={heightRatio}
-            onChange={async (e) => {
-              const newHeightRatio = Number(e.target.value);
-              await config.update({ heightRatio: newHeightRatio });
-              setHeightRatio(newHeightRatio);
-            }}
+            onChange={(e) => void saveHeightRatio(Number(e.target.value))}
             className="w-full max-w-md"
           />
           <div className="flex justify-between text-xs text-gray-500 max-w-md mt-1">
@@ -74,11 +65,7 @@ export function DamageSnapshotSettingView({
           </label>
           <select
             value={areaLabelFormat}
-            onChange={async (e) => {
-              const next = e.target.value as AreaLabelFormat;
-              await config.update({ areaLabelFormat: next });
-              setAreaLabelFormat(next);
-            }}
+            onChange={(e) => void saveAreaLabelFormat(e.target.value as AreaLabelFormat)}
             className="border rounded p-2 w-full max-w-md"
           >
             <option value="number">番号で表示（例: 1-1 (2)）</option>
@@ -94,11 +81,7 @@ export function DamageSnapshotSettingView({
             <input
               type="checkbox"
               checked={keepUntilNextShow}
-              onChange={async (e) => {
-                const next = e.target.checked;
-                await config.update({ keepUntilNextShow: next });
-                setKeepUntilNextShow(next);
-              }}
+              onChange={(e) => void saveKeepUntilNextShow(e.target.checked)}
             />
             <span className="font-bold">次の窓が出るまで前の窓を消さない</span>
           </label>
