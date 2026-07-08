@@ -10,8 +10,8 @@ vi.hoisted(() => {
   };
 });
 
-const { start, midnight } = vi.hoisted(() => ({ start: vi.fn(), midnight: vi.fn() }));
-vi.mock("../src/models/Logbook", () => ({ Logbook: { sortie: { battle: { start, midnight } } } }));
+const { start, midnight, next } = vi.hoisted(() => ({ start: vi.fn(), midnight: vi.fn(), next: vi.fn() }));
+vi.mock("../src/models/Logbook", () => ({ Logbook: { sortie: { battle: { start, midnight }, next } } }));
 
 const { damageSnapshotUser } = vi.hoisted(() => ({ damageSnapshotUser: vi.fn() }));
 vi.mock("../src/models/configs/DamageSnapshotConfig", () => ({
@@ -22,6 +22,7 @@ import {
   onBattleStarted,
   onCombinedBattleStarted,
   onSpMidnightBattleStarted,
+  onMapNext,
 } from "../src/controllers/WebRequest/kcsapi";
 
 // ハンドラに渡す webRequest details の最小構成。formData を省略すると requestBody 欠落を表す
@@ -62,5 +63,28 @@ describe("戦闘開始系ハンドラ", () => {
     damageSnapshotUser.mockResolvedValue({ keepUntilNextShow: true });
     await onBattleStarted(details({ api_formation: ["1"] }));
     expect(sendMessage).not.toHaveBeenCalled();
+  });
+});
+
+// マップ移動時のマスID記録。api_cell_id はゲーム側の都合で欠落することがあるため、
+// 欠落時は Logbook に記録せず警告のみで抜ける契約を検証する。
+describe("onMapNext", () => {
+  beforeEach(() => {
+    next.mockClear();
+  });
+
+  it("api_cell_id があれば Logbook にマス移動を記録する", async () => {
+    await onMapNext(details({ api_cell_id: ["5"] }));
+    expect(next).toHaveBeenCalledWith("5");
+  });
+
+  it("api_cell_id が欠落していれば記録しない", async () => {
+    await onMapNext(details({ api_recovery_type: ["0"] }));
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it("requestBody が欠落していても例外にならない", async () => {
+    await expect(onMapNext(details())).resolves.not.toThrow();
+    expect(next).not.toHaveBeenCalled();
   });
 });
