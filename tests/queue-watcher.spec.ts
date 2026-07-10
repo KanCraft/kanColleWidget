@@ -8,13 +8,14 @@ vi.hoisted(() => {
   };
 });
 
-const { list, notify } = vi.hoisted(() => ({
+const { list, notify, clear } = vi.hoisted(() => ({
   list: vi.fn(),
   notify: vi.fn().mockResolvedValue(""),
+  clear: vi.fn().mockResolvedValue(true),
 }));
 vi.mock("../src/models/Queue", () => ({ default: { list } }));
 vi.mock("../src/services/NotificationService", () => ({
-  NotificationService: vi.fn(() => ({ notify })),
+  NotificationService: vi.fn(() => ({ notify, clear })),
 }));
 
 import { Once } from "../src/controllers/Cron/QueueWatcher";
@@ -22,7 +23,7 @@ import { Once } from "../src/controllers/Cron/QueueWatcher";
 // 期限判定に使う Queue の最小構成
 const queue = (scheduled: number) => ({
   scheduled,
-  entry: () => ({ type: "mission" }),
+  entry: () => ({ type: "mission", $n: { id: (trigger: string) => `/mission/${trigger}/1` } }),
   delete: vi.fn().mockResolvedValue(undefined),
 });
 
@@ -30,6 +31,7 @@ describe("QueueWatcher.Once", () => {
   beforeEach(() => {
     list.mockReset();
     notify.mockClear();
+    clear.mockClear();
   });
 
   it("期限を過ぎた Queue は通知して削除し、期限前の Queue には触らない", async () => {
@@ -40,6 +42,15 @@ describe("QueueWatcher.Once", () => {
     expect(notify).toHaveBeenCalledTimes(1);
     expect(due.delete).toHaveBeenCalledTimes(1);
     expect(pending.delete).not.toHaveBeenCalled();
+  });
+
+  // 「手動で消すまで残す」設定の開始通知には他に自動で消える経路がないため、
+  // 完了通知の発行と同時に同じ対象の開始通知を片付けることを検証する
+  it("完了通知を出したら、同じ対象の開始通知を消す", async () => {
+    const due = queue(Date.now() - 1000);
+    list.mockResolvedValueOnce([due]);
+    await Once();
+    expect(clear).toHaveBeenCalledWith("/mission/start/1");
   });
 
   it("実行は直列化され、前の実行が完了するまで次のチェックは始まらない", async () => {

@@ -1,5 +1,6 @@
 import { Logger } from "../../logger";
 import Queue from "../../models/Queue";
+import { TriggerType } from "../../models/entry";
 import { NotificationService } from "../../services/NotificationService";
 
 // Once の実行を直列化するための Promise チェーン。
@@ -19,8 +20,12 @@ async function check() {
   for (const queue of queues) {
     if (queue.scheduled > Date.now()) continue;
     try {
-      notification.notify(queue.entry());
+      const entry = queue.entry();
+      notification.notify(entry);
       await queue.delete();
+      // 完了通知を出したら、同じ対象の開始通知は役目を終えたので消す
+      // （「手動で消すまで残す」設定の開始通知には、他に自動で消える経路がない）。
+      notification.clear(entry.$n.id(TriggerType.START));
     } catch (e) {
       log.warn("Once:", e);
     }

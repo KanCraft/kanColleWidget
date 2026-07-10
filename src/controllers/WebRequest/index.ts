@@ -93,11 +93,14 @@ onComplete.on(["/kcsapi/api_req_combined_battle/battleresult"], async ([details]
   });
 });
 
-// 入渠画面に遷移したとき、修復の通知を消す
+// 入渠画面に遷移したとき、修復の完了通知を消す。
+// 開始通知は対象にしない：入渠開始直後にもゲームは ndock を再取得するため、OCR経由で出る
+// 開始通知とこのクリアが競合し、サーバ応答時間次第で開始通知が出た直後に消えてしまう。
+// 開始通知の後始末は NotificationService の自己消去（stay=false は10秒で消える）に任せる。
 onComplete.on(["/kcsapi/api_get_member/ndock"], async () => {
   chrome.notifications.getAll((notifications) => {
     for (const id in notifications) {
-      if (id.startsWith("/recovery")) chrome.notifications.clear(id);
+      if (id.startsWith("/recovery/end/")) chrome.notifications.clear(id);
     }
   });
 })

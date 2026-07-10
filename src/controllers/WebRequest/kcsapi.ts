@@ -71,6 +71,12 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   log.debug("onRecoveryStart", details);
   const data = details.requestBody?.formData as unknown as RecoveryStartFormData;
   const dock = data.api_ndock_id[0];
+  // 高速修復材を同時使用した入渠は即完了するため、タイマーは積まない。
+  // 同じドックに古いQueueが残っていた場合に備えて掃除だけ行う（onRecoveryHighspeedと同じ扱い）。
+  if (data.api_highspeed[0] === "1") {
+    await Queue.deleteSlot(EntryType.RECOVERY, dock);
+    return;
+  }
   const tab = await new TabService().get(details.tabId);
   const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
   const img = await WorkerImage.from(raw);
@@ -82,10 +88,12 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   });
 }
 
-// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueを削除する
+// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueと表示中の修復通知を消す。
+// この経路では完了通知が出ない（QueueWatcherを通らない）ため、開始通知の掃除もここで行う。
 export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_ndock_id: [dock] } = details.requestBody?.formData as unknown as RecoverySpeedchangeFormData;
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
+  await clearNotificationsOf(EntryType.RECOVERY, dock);
 }
 
 // 出撃開始時
@@ -178,6 +186,13 @@ export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDeta
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const data = details.requestBody?.formData as unknown as CreateShipFormData; 
   const dock = data.api_kdock_id[0];
+  // このハンドラは [createship, kdock] のシーケンスマッチで発火し、details には先頭の
+  // createship リクエスト（建造開始の formData）が渡される。
+  // 高速建造材を同時使用した建造は即完了するため、タイマーは積まない。
+  if (data.api_highspeed[0] === "1") {
+    await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
+    return;
+  }
   const tab = await new TabService().get(details.tabId);
   await sleep(600); // いったんめんどくさいんでこれで
   const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
