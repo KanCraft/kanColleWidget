@@ -64,7 +64,13 @@ export function CustomQueueModal({
         <div className="flex space-x-2">
           <label>種別</label>
           <select defaultValue={queue.type} className={`kcw-custom-queue-select kcw-${queue.type} flex-1 rounded-md`}
-            onChange={e => { queue.type = e.target.value as EntryType; update(queue) }}
+            onChange={e => {
+              queue.type = e.target.value as EntryType;
+              // API傍受で作られたQueueは deck / dock の一方しか持たないため、種別切替時にもう一方へ引き継ぐ
+              queue.params["deck"] ??= queue.params["dock"];
+              queue.params["dock"] ??= queue.params["deck"];
+              update(queue);
+            }}
           >
             <option value={EntryType.MISSION}>遠征</option>
             <option value={EntryType.RECOVERY}>修復</option>

@@ -35,7 +35,13 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
   const data: MissionStartFormData = details.requestBody?.formData as unknown as MissionStartFormData;
   const did = data.api_deck_id[0];
   const mid = data.api_mission_id[0];
-  const m = new Mission(did, mid, missions[mid]);
+  const spec = missions[mid];
+  // カタログ未収録の遠征は所要時間が不明で終了時刻を算出できないため、タイマーを積まない
+  if (!spec) {
+    log.warn("onMissionStart: カタログ未収録の遠征ID", mid);
+    return;
+  }
+  const m = new Mission(did, mid, spec);
   // 遠征は残り1分を切ると母港復帰で即完了する仕様のため、通知を一律で1分早める（#1811, Mission.EARLY_RETURN_MARGIN）。
   // 入渠・建造はOCRで実時刻を読むためこの補正は不要。
   const scheduled = Date.now() + Math.max(0, m.time - Mission.EARLY_RETURN_MARGIN);

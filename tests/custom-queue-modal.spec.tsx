@@ -60,6 +60,17 @@ describe("CustomQueueModal (split)", () => {
   });
 });
 
+// 種別切替: params のスロットキー（deck / dock）の引き継ぎ。
+describe("CustomQueueModal 種別切替", () => {
+  it("dock しか持たないQueue（API傍受由来）を遠征へ切り替えると deck に引き継がれる", () => {
+    const queue = Queue.new({ type: EntryType.RECOVERY, scheduled: Date.now(), params: { dock: 3 } });
+    render(<CustomQueueModal queue={queue} close={() => {}} update={() => {}} />);
+    const [typeSelect] = screen.getAllByRole("combobox");
+    fireEvent.change(typeSelect, { target: { value: EntryType.MISSION } });
+    expect(queue.params["deck"]).toBe(3);
+  });
+});
+
 // time モード: HH:MM の time input 1つで入力する。
 describe("CustomQueueModal (time)", () => {
   function renderTimeMode(queue: Queue, close: () => void = () => {}) {
