@@ -67,14 +67,20 @@ async function clearNotificationsOf(type: EntryType, target: string) {
   }
 }
 
-// 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す。
-// 完了通知の表示前（Queue 未発火のタイミング）に回収した場合は、Queue を消さないと
-// 後から回収済み遠征の完了通知が出て、手動消去設定では残り続けてしまう（#1844）。
-// 通知表示後の回収では QueueWatcher が削除済みなので deleteSlot は何もしない。
+// スロット（艦隊/ドック）のタイマーの生涯を終える: 未発火の Queue と表示中の通知を両方消す。
+// 回収・即完了などスロットの用事が済んだハンドラは必ずこれを呼ぶこと。片方だけ消すと、
+// 通知表示前の回収では後から完了通知が出て残り続け（#1844）、即完了経路（QueueWatcher を
+// 通らず完了通知が出ない）では開始通知に自動で消える機会がなくなる。
+// 通知表示後の回収では QueueWatcher が Queue を削除済みなので、通知の掃除だけが効く。
+async function retireSlot(type: EntryType, slot: string) {
+  await Queue.deleteSlot(type, slot);
+  await clearNotificationsOf(type, slot);
+}
+
+// 遠征結果を回収したとき、その艦隊の遠征タイマー（Queue・通知）を終える（#1844）
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_deck_id: [deck] } = details.requestBody?.formData as unknown as MissionResultFormData;
-  await Queue.deleteSlot(EntryType.MISSION, deck);
-  await clearNotificationsOf(EntryType.MISSION, deck);
+  await retireSlot(EntryType.MISSION, deck);
 }
 
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -98,12 +104,10 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
   });
 }
 
-// 修復中に高速修復剤を使って完了させたとき、そのドックの修復Queueと表示中の修復通知を消す。
-// この経路では完了通知が出ない（QueueWatcherを通らない）ため、開始通知の掃除もここで行う。
+// 修復中に高速修復剤を使って完了させたとき、そのドックの修復タイマー（Queue・通知）を終える
 export async function onRecoveryHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_ndock_id: [dock] } = details.requestBody?.formData as unknown as RecoverySpeedchangeFormData;
-  await Queue.deleteSlot(EntryType.RECOVERY, dock);
-  await clearNotificationsOf(EntryType.RECOVERY, dock);
+  await retireSlot(EntryType.RECOVERY, dock);
 }
 
 // 出撃開始時
@@ -187,12 +191,10 @@ export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequ
   Logbook.sortie.battle.result();
 }
 
-// 建造した艦を受け取ったとき、そのドックの建造通知（開始・完了）を消す。
-// 遠征の回収と同様、完了通知の表示前に受け取った場合に備えて Queue も消す（#1844）。
+// 建造した艦を受け取ったとき、そのドックの建造タイマー（Queue・通知）を終える（#1844）
 export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as GetShipFormData;
-  await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
-  await clearNotificationsOf(EntryType.SHIPBUILD, dock);
+  await retireSlot(EntryType.SHIPBUILD, dock);
 }
 
 export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -217,8 +219,9 @@ export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestD
   });
 }
 
-// 建造中に高速建造材を使って完了させたとき、そのドックの建造Queueを削除する
+// 建造中に高速建造材を使って完了させたとき、そのドックの建造タイマー（Queue・通知）を終える。
+// 従来は Queue 削除のみで、修復側（onRecoveryHighspeed）と非対称に開始通知が残り得た
 export async function onShipbuildHighspeed([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as ShipbuildSpeedchangeFormData;
-  await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
+  await retireSlot(EntryType.SHIPBUILD, dock);
 }

@@ -38,8 +38,8 @@ const details = (formData: Record<string, string[]>) =>
 const clearedIds = () => clear.mock.calls.map(([id]) => id);
 
 // 回収操作（遠征結果回収・建造艦受取）で、対象の艦隊/ドックの通知だけが消えることと、
-// 未発火の Queue も削除されること（#1844: 通知表示前に回収すると後から完了通知が出て
-// 残り続ける問題の再発防止）を検証する。
+// 未発火の Queue も削除されることを検証する（#1844 の再発防止。機構は kcsapi.ts の
+// retireSlot のコメント参照）。
 // 通知IDは /{type}/{trigger}/{deck|dock} 形式（tests/notification-id.spec.ts 参照）。
 describe("onMissionResult", () => {
   let deleteSlot: ReturnType<typeof vi.spyOn>;

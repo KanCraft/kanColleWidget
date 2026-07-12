@@ -70,6 +70,17 @@ describe("修復・建造の高速化剤使用(speedchange)検知", () => {
     expect(deleteSlot).toHaveBeenCalledWith("shipbuild", "3");
     expect(deleteSlot).toHaveBeenCalledTimes(1);
   });
+
+  // 修復側と同様、この経路も完了通知が出ないため通知の掃除まで担う（従来は非対称に漏れていた）
+  it("onShipbuildHighspeed: 対象ドックの表示中の建造通知を消し、他は消さない", async () => {
+    getAll.mockResolvedValueOnce({
+      "/shipbuild/start/3": true,
+      "/shipbuild/start/1": true,
+      "/recovery/start/3": true,
+    });
+    await onShipbuildHighspeed(details({ api_kdock_id: ["3"] }));
+    expect(clear.mock.calls.map(([id]) => id)).toEqual(["/shipbuild/start/3"]);
+  });
 });
 
 describe("遠征開始時の重複排除", () => {
