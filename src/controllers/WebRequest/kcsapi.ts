@@ -67,9 +67,13 @@ async function clearNotificationsOf(type: EntryType, target: string) {
   }
 }
 
-// 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す
+// 遠征結果を回収したとき、その艦隊の遠征通知（開始・完了）を消す。
+// 完了通知の表示前（Queue 未発火のタイミング）に回収した場合は、Queue を消さないと
+// 後から回収済み遠征の完了通知が出て、手動消去設定では残り続けてしまう（#1844）。
+// 通知表示後の回収では QueueWatcher が削除済みなので deleteSlot は何もしない。
 export async function onMissionResult([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_deck_id: [deck] } = details.requestBody?.formData as unknown as MissionResultFormData;
+  await Queue.deleteSlot(EntryType.MISSION, deck);
   await clearNotificationsOf(EntryType.MISSION, deck);
 }
 
@@ -183,9 +187,11 @@ export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequ
   Logbook.sortie.battle.result();
 }
 
-// 建造した艦を受け取ったとき、そのドックの建造通知（開始・完了）を消す
+// 建造した艦を受け取ったとき、そのドックの建造通知（開始・完了）を消す。
+// 遠征の回収と同様、完了通知の表示前に受け取った場合に備えて Queue も消す（#1844）。
 export async function onGetShip([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   const { api_kdock_id: [dock] } = details.requestBody?.formData as unknown as GetShipFormData;
+  await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
   await clearNotificationsOf(EntryType.SHIPBUILD, dock);
 }
 
