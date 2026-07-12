@@ -87,4 +87,13 @@ describe("WebNavigation onCommitted", () => {
     await new Promise((r) => setTimeout(r, 10));
     expect(reactivate).not.toHaveBeenCalled();
   });
+
+  it("reactivate の失敗（iframe 待ちタイムアウト等）は警告ログを出して握りつぶす", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    find.mockResolvedValue({ id: 10, tabs: [{ id: 1 }] });
+    reactivate.mockRejectedValue(new Error("Timeout waiting for inner iframe loaded"));
+    fire();
+    await vi.waitFor(() => expect(warn).toHaveBeenCalled());
+    warn.mockRestore();
+  });
 });

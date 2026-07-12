@@ -108,9 +108,10 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
 
   /**
    * BazelというかAeroというか、を考慮して、ウィンドウのリサイズを行う。
-   * 外形(outer)と内寸(inner)の差分＝ウィンドウ装飾ぶんを足す非冪等な補正なので、
-   * 「外形がフレーム設定どおりに整えられた直後」に一度だけ呼ぶこと。
-   * 既に補正済みの窓に対して再実行すると、そのたびに装飾ぶん窓が拡大する（#1810, #1813）。
+   * 外形(outer)と内寸(inner)の差分＝ウィンドウ装飾ぶんを足す非冪等な補正で、
+   * 再実行のたびに窓が装飾ぶん拡大してしまう（#1810, #1813）。呼び出してよいのは
+   * __main__（sessionStorage ガード付き）と retouch ハンドラ（Launcher.retouch が
+   * 外形を戻した直後）の2箇所だけ。詳細は ADR 0002。
    */
   function resize() {
     window.resizeBy(window.outerWidth - window.innerWidth, window.outerHeight - window.innerHeight);
@@ -168,10 +169,9 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
   }
 
   (async function __main__() {
-    // resize() は「外形と内寸の差分を足す」非冪等な補正なので、同じタブで一度だけ実行する。
-    // sessionStorage はリロードを跨いで残るため、リロード後の再注入（#1784 対応の経路）では
-    // スキップされ、リロードのたびにタイトルバー分だけ窓が縦に伸びる累積を防ぐ（#1813）。
-    // ユーザーが手動調整した窓サイズもリロードで失われない。
+    // resize は1タブにつき1回だけ。sessionStorage はリロードを跨いで残るため、
+    // リロード再注入時はスキップされ、窓サイズの累積（#1813）も手動リサイズの
+    // 巻き戻しも起きない。
     if (!sessionStorage.getItem("kcw_resized")) {
       resize();
       sessionStorage.setItem("kcw_resized", "1");

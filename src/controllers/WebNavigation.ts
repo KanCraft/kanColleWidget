@@ -3,17 +3,11 @@ import { Launcher } from "../services/Launcher";
 import { KanColleURL } from "../constants";
 
 /**
- * ゲーム画面のナビゲーションを検知し、失われたコンテンツスクリプトを再注入する。
- *
- * MV3 では scripting.executeScript で注入した dmm.js はリロードで失われ、
- * 窓のサイズ調整（resize）・操作ボタン・OCR リスナーがすべて停止する（Issue #1784）。
- *
- * かつては初回ロードとの二重注入を避けるため transitionType === "reload" のみを
- * 対象にしていたが、PC 休止からの復帰などブラウザ主導の再読み込みでは
- * transitionType が "reload" にならないことがあり、再注入が発火せず
- * 窓ずれ・スクロールバーが残るケースがあった（Issue #1845）。
- * 二重注入は Launcher.activate() の check-and-set で防がれるようになったため、
- * トップフレームのゲーム URL へのコミット全般を対象にして取りこぼしを無くす。
+ * ゲーム画面のナビゲーションを検知し、リロードで失われたコンテンツスクリプトを再注入する（#1784）。
+ * ブラウザ主導の再読み込みでは transitionType が "reload" にならないことがあるため、
+ * 種別では絞らずトップフレームのゲーム URL へのコミット全般を対象にする（#1845）。
+ * 初回ロードと重なっても、二重注入は Launcher.activate() の check-and-set が防ぐ。
+ * 経緯の詳細は ADR 0002。
  */
 const onCommitted = new Router<typeof chrome.webNavigation.onCommitted>(async (details) => {
   const isGameNavigation = details.frameId === 0

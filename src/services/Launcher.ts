@@ -209,6 +209,8 @@ export class Launcher {
 
   /**
    * 既存のゲーム別窓を前面に出し、サイズをフレーム設定に合わせて調整する。
+   * dmm.ts の retouch ハンドラは resize()（非冪等な装飾ぶん補正）を無条件に呼ぶため、
+   * その直前に必ず windows.update で外形をフレーム設定へ戻すこと（ADR 0002）。
    * @param win 対象ウィンドウ
    */
   public async retouch(win: chrome.windows.Window, frame: Frame | null) {
@@ -221,9 +223,9 @@ export class Launcher {
 
   /**
    * 起動直後の別窓タブにスクリプトやスタイルを注入し、必要なら劇場モード用 CSS も適用する。
-   * window 上のフラグを check-and-set し、同じ document への二重注入
-   * （リスナー・ボタン・track タイマーの多重化）を防ぐ。フラグはナビゲーションで
-   * 消えるため、リロード後の document には改めて注入される。
+   * window フラグの check-and-set で同一 document への二重注入を防ぐ（ADR 0002）。
+   * 初回起動時は open() と WebNavigation の onCommitted から並走で呼ばれうるが、
+   * このガードにより注入は1回に収束する。
    * @param win 対象ウィンドウ
    * @param frame 劇場モードなどの設定を含むフレーム情報
    */
@@ -236,9 +238,20 @@ export class Launcher {
       return activated;
     });
     if (results?.[0]?.result === true) return;
-    this.scriptings.js(tab.id!, ["dmm.js"]);
-    this.scriptings.css(tab.id!, ["assets/dmm.css"]);
-    this.scriptings.css({ tabId: tab.id!, frameIds: [innerIframe.frameId] }, ["assets/osapi.css"]);
+    try {
+      await Promise.all([
+        this.scriptings.js(tab.id!, ["dmm.js"]),
+        this.scriptings.css(tab.id!, ["assets/dmm.css"]),
+        this.scriptings.css({ tabId: tab.id!, frameIds: [innerIframe.frameId] }, ["assets/osapi.css"]),
+      ]);
+    } catch (err) {
+      // フラグが立ったまま注入だけ失敗すると、以降の再注入がすべて短絡して
+      // 自己回復できなくなるため、フラグを戻して次回の reactivate で再試行させる
+      await this.scriptings.func(tab.id!, () => {
+        (window as unknown as { __kancolleWidgetActivated?: boolean }).__kancolleWidgetActivated = false;
+      }).catch(() => { /* タブごと消えている場合は戻す必要もない */ });
+      throw err;
+    }
     // if (frame.theater.enabled) setTimeout(() => {
     //   this.scriptings.css({ tabId: tab.id!, allFrames: true }, ["assets/theater.css"]);
     // }, 5 * 1000);

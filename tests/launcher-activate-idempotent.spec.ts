@@ -1,4 +1,4 @@
-import { expect, describe, it, vi, beforeEach } from "vitest";
+import { expect, describe, it, vi, beforeEach, afterEach } from "vitest";
 
 // Launcher が参照するグローバル chrome を import より前にスタブする
 vi.hoisted(() => {
@@ -6,11 +6,7 @@ vi.hoisted(() => {
   (globalThis as any).chrome = {
     runtime: { id: "test", onMessage: { addListener: () => {} } },
     tabs: { sendMessage: vi.fn() },
-    webNavigation: {
-      getAllFrames: vi.fn().mockResolvedValue([
-        { frameId: 1, url: "https://osapi.dmm.com/gadgets/ifr?game" },
-      ]),
-    },
+    webNavigation: { getAllFrames: vi.fn() },
   };
 });
 
@@ -21,17 +17,18 @@ import { ScriptingService } from "../src/services/ScriptingService";
 
 const win = { id: 10, tabs: [{ id: 1 }] } as unknown as chrome.windows.Window;
 const innerIframe = { frameId: 1 } as unknown as chrome.webNavigation.GetAllFrameResultDetails;
+const osapiFrame = { frameId: 1, url: "https://osapi.dmm.com/gadgets/ifr?game" };
 
-// activate() の check-and-set（scripting.func）の返り値を注入済みフラグとして表現する
-function build(funcResults: boolean[]) {
+// scripting.func に渡されたコールバックを jsdom の window 上で実際に実行するスタブ。
+// これにより check-and-set（__kancolleWidgetActivated の読み書き）の実挙動を検証できる。
+function build() {
   const scriptings = {
-    func: vi.fn(),
-    js: vi.fn(),
-    css: vi.fn(),
+    func: vi.fn(async (_target: unknown, fn: (...args: unknown[]) => unknown, args?: unknown[]) => [
+      { result: args ? fn(...args) : fn() },
+    ]),
+    js: vi.fn().mockResolvedValue(undefined),
+    css: vi.fn().mockResolvedValue(undefined),
   };
-  for (const activated of funcResults) {
-    scriptings.func.mockResolvedValueOnce([{ result: activated }]);
-  }
   const launcher = new Launcher(
     {} as unknown as WindowService,
     {} as unknown as TabService,
@@ -43,10 +40,16 @@ function build(funcResults: boolean[]) {
 describe("Launcher.activate の冪等性（#1813 / #1845）", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(chrome.webNavigation.getAllFrames).mockResolvedValue([osapiFrame]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (window as any).__kancolleWidgetActivated;
+  });
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it("未注入の document には dmm.js と CSS 一式を注入する", async () => {
-    const { launcher, scriptings } = build([false]);
+    const { launcher, scriptings } = build();
 
     await launcher.activate(win, innerIframe);
 
@@ -57,7 +60,7 @@ describe("Launcher.activate の冪等性（#1813 / #1845）", () => {
   });
 
   it("同じ document への2回目の activate では何も注入しない（二重注入防止）", async () => {
-    const { launcher, scriptings } = build([false, true]);
+    const { launcher, scriptings } = build();
 
     await launcher.activate(win, innerIframe);
     await launcher.activate(win, innerIframe);
@@ -68,11 +71,38 @@ describe("Launcher.activate の冪等性（#1813 / #1845）", () => {
     expect(scriptings.css).toHaveBeenCalledTimes(2);
   });
 
+  it("注入に失敗したらフラグを戻し、次回の activate で再試行できる", async () => {
+    const { launcher, scriptings } = build();
+    scriptings.js.mockRejectedValueOnce(new Error("injection failed"));
+
+    await expect(launcher.activate(win, innerIframe)).rejects.toThrow("injection failed");
+    // フラグが戻っているので、次の activate は短絡せず再注入する
+    await launcher.activate(win, innerIframe);
+
+    expect(scriptings.js).toHaveBeenCalledTimes(2);
+  });
+
   it("reactivate は内側 iframe を待ってから activate と同じ注入を行う", async () => {
-    const { launcher, scriptings } = build([false]);
+    const { launcher, scriptings } = build();
 
     await launcher.reactivate(win);
 
     expect(scriptings.js).toHaveBeenCalledWith(1, ["dmm.js"]);
+  });
+
+  it("内側 iframe が現れない場合はタイムアウトで reject し、ポーリングも止まる", async () => {
+    vi.useFakeTimers();
+    vi.mocked(chrome.webNavigation.getAllFrames).mockResolvedValue([]);
+    const { launcher, scriptings } = build();
+
+    const rejection = expect(launcher.reactivate(win)).rejects.toThrow("Timeout");
+    await vi.advanceTimersByTimeAsync(30 * 1000);
+    await rejection;
+    expect(scriptings.js).not.toHaveBeenCalled();
+
+    // reject 後はポーリングが止まっている（決着後も回り続ける旧バグの再発防止）
+    const polled = vi.mocked(chrome.webNavigation.getAllFrames).mock.calls.length;
+    await vi.advanceTimersByTimeAsync(5 * 1000);
+    expect(vi.mocked(chrome.webNavigation.getAllFrames).mock.calls.length).toBe(polled);
   });
 });
