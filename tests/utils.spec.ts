@@ -1,6 +1,6 @@
 import { expect, describe, it } from "vitest";
 
-import { KCWDate } from "../src/utils";
+import { KCWDate, parseHMS } from "../src/utils";
 
 describe("format", () => {
   it("should format date correctly", () => {
@@ -47,5 +47,27 @@ describe("dayOfMonth", () => {
   it("朝5時より前は前日の日付を返す", () => {
     const epoch = new KCWDate("August 8, 2024 04:59:59").getTime();
     expect(KCWDate.dayOfMonth(epoch)).toBe(7);
+  });
+});
+
+describe("parseHMS", () => {
+  it("h:m:s形式の時刻文字列をミリ秒に換算する", () => {
+    expect(parseHMS("01:23:45")).toBe(5025000);
+  });
+
+  it("0埋めの時刻文字列もミリ秒に換算する", () => {
+    expect(parseHMS("00:30:00")).toBe(1800000);
+  });
+
+  it("数値として解釈できない文字列を渡すとnullを返す", () => {
+    expect(parseHMS("xx:30:00")).toBeNull();
+  });
+
+  it("空文字を渡すとnullを返す", () => {
+    expect(parseHMS("")).toBeNull();
+  });
+
+  it("分・秒が範囲外(60以上)の場合はnullを返す", () => {
+    expect(parseHMS("0:99:99")).toBeNull();
   });
 });

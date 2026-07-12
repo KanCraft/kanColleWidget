@@ -3,7 +3,7 @@ import { Logger } from "../logger";
 import { Frame } from "../models/Frame";
 import { type Page } from "tesseract.js";
 import { EntryType, Recovery, Shipbuild } from "../models/entry";
-import { H, M, S, sleep, WorkerImage } from "../utils";
+import { parseHMS, sleep, WorkerImage } from "../utils";
 import Queue from "../models/Queue";
 import { TriggerType } from "../models/entry";
 import { Launcher } from "../services/Launcher";
@@ -19,17 +19,6 @@ import { formatSortieLabel } from "../models/sortieLabel";
 
 const onMessage = new Router<typeof chrome.runtime.onMessage>();
 const log = Logger.get("Message");
-
-// OCRで読み取った "HH:MM:SS" 形式の文字列をミリ秒に変換する。時刻として解釈できなければ null。
-// Number() は空文字を 0 と解釈するため（"::" が 0ms になる等）、正規表現で形式を固定し、
-// 分・秒の範囲外も不正として弾く。呼び出し側は null のとき Queue を作ってはいけない。
-function parseOcrTime(text: string): number | null {
-  const matched = text.trim().match(/^(\d+):(\d+):(\d+)$/);
-  if (!matched) return null;
-  const [h, m, s] = matched.slice(1).map(Number);
-  if (m > 59 || s > 59) return null;
-  return h * H + m * M + s * S;
-}
 
 onMessage.on("/frame/open-or-focus", async (req) => {
   const launcher = new Launcher();
@@ -84,7 +73,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.RECOVERY}:result`, async (req) => {
   // 残っていても、次に同じドックで修復を始めた時点で重複が解消されるようにする保険）。
   // 修復が始まった事実に基づく掃除なので、OCR結果の成否に依らず行う。
   await Queue.deleteSlot(EntryType.RECOVERY, dock);
-  const time = parseOcrTime(data.text);
+  const time = parseHMS(data.text);
   if (time === null) {
     log.warn("修復時間のOCR結果を時刻として解釈できないため、タイマーを登録しない", data.text);
     return;
@@ -100,7 +89,7 @@ onMessage.on(`/injected/dmm/ocr/${EntryType.SHIPBUILD}:result`, async (req) => {
   const dock = req[EntryType.SHIPBUILD].dock;
   // 建造が始まった事実に基づく掃除なので、OCR結果の成否に依らず行う。
   await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
-  const time = parseOcrTime(data.text);
+  const time = parseHMS(data.text);
   if (time === null) {
     log.warn("建造時間のOCR結果を時刻として解釈できないため、タイマーを登録しない", data.text);
     return;

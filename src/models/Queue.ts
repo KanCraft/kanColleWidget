@@ -1,5 +1,5 @@
 import { Model } from "jstorm/chrome/local";
-import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild } from "./entry";
+import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, slotKey } from "./entry";
 import { MissionSpec } from "../catalog";
 import { Logger } from "../logger";
 import { H, M, S } from "../utils";
@@ -15,14 +15,32 @@ export default class Queue extends Model {
     const queues = await this.list();
     for (const q of queues) {
       if (q.type !== type) continue;
-      const entry = q.entry<Mission | Recovery | Shipbuild | Fatigue>() as { dock?: string | number, deck?: string | number };
-      if (String(entry.dock ?? entry.deck) === String(slot)) await q.delete();
+      if (String(q.slot) === String(slot)) await q.delete();
     }
+  }
+
+  // 同じ種別・同じスロットの既存Queueを削除してから新しいQueueを作成する（積み直し）。
+  // 削除が作成より先であることが不変条件（逆順だと作成したQueueごと削除されるため、
+  // 呼び出し側に分割せずここで順序を保証する）。
+  public static async restack(
+    type: EntryType,
+    slot: string | number,
+    params: Entry | Record<string, string | number>,
+    scheduled: number,
+  ): Promise<Queue> {
+    await this.deleteSlot(type, slot);
+    return await this.create({ type, params, scheduled });
   }
 
   public type: EntryType = EntryType.UNKNOWN;
   public params: Record<string, string | number> = {};
   public scheduled: number = 0; // 予定時刻 (Epoch Time) [ms]
+
+  // このQueueのスロット番号（艦隊/ドック）。EntryType に応じた params のキーから取り出す。
+  public get slot(): string | number | undefined {
+    return this.params[slotKey(this.type)];
+  }
+
   public entry<T extends Entry>(): T {
     switch (this.type) {
     case EntryType.MISSION:

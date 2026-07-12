@@ -9,12 +9,12 @@ vi.hoisted(() => {
 import Queue from "../src/models/Queue";
 import { EntryType } from "../src/models/entry";
 
-// Queue.deleteSlot が読む entry() の戻り値だけを持つ疑似Queue
-const fakeQueue = (type: EntryType, key: "dock" | "deck", slot: string | number) => ({
-  type,
-  entry: () => ({ [key]: slot }),
-  delete: vi.fn().mockResolvedValue(undefined),
-});
+// Queue.deleteSlot の判定対象となる type と params だけを持つ Queue
+const fakeQueue = (type: EntryType, key: "dock" | "deck", slot: string | number) => {
+  const q = Queue.new({ type, params: { [key]: slot } });
+  vi.spyOn(q, "delete").mockResolvedValue(undefined);
+  return q;
+};
 
 // 同じスロット（艦隊/ドック）は同時に1件しか進行しないため、Queue.deleteSlot は
 // 「同じ種別・同じスロット」の既存Queueだけを削除し、他は一切触らない契約であることを検証する。
@@ -27,7 +27,7 @@ describe("Queue.deleteSlot", () => {
     const target = fakeQueue(EntryType.RECOVERY, "dock", "2");
     const otherDock = fakeQueue(EntryType.RECOVERY, "dock", "3");
     const otherType = fakeQueue(EntryType.SHIPBUILD, "dock", "2");
-    vi.spyOn(Queue, "list").mockResolvedValue([target, otherDock, otherType] as unknown as Queue[]);
+    vi.spyOn(Queue, "list").mockResolvedValue([target, otherDock, otherType]);
 
     await Queue.deleteSlot(EntryType.RECOVERY, "2");
 
@@ -39,7 +39,7 @@ describe("Queue.deleteSlot", () => {
   it("deck系（遠征・疲労）のスロットも同様に判定できる", async () => {
     const target = fakeQueue(EntryType.MISSION, "deck", "4");
     const other = fakeQueue(EntryType.MISSION, "deck", "1");
-    vi.spyOn(Queue, "list").mockResolvedValue([target, other] as unknown as Queue[]);
+    vi.spyOn(Queue, "list").mockResolvedValue([target, other]);
 
     await Queue.deleteSlot(EntryType.MISSION, "4");
 
@@ -49,7 +49,7 @@ describe("Queue.deleteSlot", () => {
 
   it("保存されている値が数値でも文字列指定と同一スロットとして判定する", async () => {
     const target = fakeQueue(EntryType.SHIPBUILD, "dock", 2);
-    vi.spyOn(Queue, "list").mockResolvedValue([target] as unknown as Queue[]);
+    vi.spyOn(Queue, "list").mockResolvedValue([target]);
 
     await Queue.deleteSlot(EntryType.SHIPBUILD, "2");
 
@@ -58,7 +58,7 @@ describe("Queue.deleteSlot", () => {
 
   it("該当するQueueが無ければ何も削除しない", async () => {
     const other = fakeQueue(EntryType.RECOVERY, "dock", "3");
-    vi.spyOn(Queue, "list").mockResolvedValue([other] as unknown as Queue[]);
+    vi.spyOn(Queue, "list").mockResolvedValue([other]);
 
     await Queue.deleteSlot(EntryType.RECOVERY, "2");
 

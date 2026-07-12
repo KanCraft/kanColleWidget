@@ -1,5 +1,5 @@
 import { Model } from "jstorm/chrome/local";
-import { EntryType, TriggerType } from "../entry";
+import { EntryType, NotificationId, TIMER_ENTRY_TYPES, TriggerType } from "../entry";
 
 export interface NotificationConfigData {
   enabled: boolean;
@@ -12,69 +12,40 @@ export interface NotificationConfigData {
 // NotificationConfig の1エントリとして直接キーを持つ（開始/完了のペアが無い一発通知）
 export const QUEST_ALERT_NOTIFICATION_ID = "/quest-alert/start";
 
+// タイマー系通知（種別×トリガー）の既定値。生成時はキーごとに spread で複製し共有参照を避ける。
+const TIMER_NOTIFICATION_DEFAULT: NotificationConfigData = {
+  enabled: true,
+  sound: null,
+  icon: null,
+  stay: false,
+};
+
 export class NotificationConfig extends Model {
   static override _namespace_ = "NotificationConfig";
   static override default = {
-    "/default/start": {
+    [NotificationId.configKey("default", TriggerType.START)]: {
       enabled: true,
       sound: null,
       icon: chrome.runtime.getURL("icons/128.png"),
       stay: false,
     },
-    "/default/end": {
+    [NotificationId.configKey("default", TriggerType.END)]: {
       enabled: true,
       sound: null,
       icon: chrome.runtime.getURL("icons/128.png"),
       stay: false,
     },
-    [`/${EntryType.MISSION}/${TriggerType.START}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.MISSION}/${TriggerType.END}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.RECOVERY}/${TriggerType.START}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.RECOVERY}/${TriggerType.END}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.SHIPBUILD}/${TriggerType.START}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.SHIPBUILD}/${TriggerType.END}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.FATIGUE}/${TriggerType.START}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
-    [`/${EntryType.FATIGUE}/${TriggerType.END}`]: {
-      enabled: true,
-      sound: null,
-      icon: null,
-      stay: false,
-    },
+    // タイマーEntryを持つ4種別 × [開始, 完了] の設定レコードを直積で生成する。
+    ...Object.fromEntries(
+      TIMER_ENTRY_TYPES.flatMap((type) =>
+        [TriggerType.START, TriggerType.END].map(
+          (trigger): [string, NotificationConfigData] => [
+            NotificationId.configKey(type, trigger),
+            { ...TIMER_NOTIFICATION_DEFAULT },
+          ],
+        ),
+      ),
+    ),
     [QUEST_ALERT_NOTIFICATION_ID]: {
       enabled: true,
       sound: null,
@@ -116,11 +87,11 @@ export class NotificationConfig extends Model {
    * @returns 指定されたIDに対応するNotificationConfigを返す
    */
   public static async get(id: string): Promise<NotificationConfigData> {
-    const [, type, trigger] = id.split("/");
-    const triggerKey = (Object.values(TriggerType) as string[]).includes(trigger ?? "")
-      ? trigger as TriggerType
+    const parsed = NotificationId.parse(id);
+    const triggerKey = (Object.values(TriggerType) as string[]).includes(parsed?.trigger ?? "")
+      ? parsed!.trigger as TriggerType
       : TriggerType.END;
-    const configKey = type ? `/${type}/${triggerKey}` : null;
+    const configKey = parsed ? NotificationId.configKey(parsed.type, triggerKey) : null;
     const config = configKey ? await this.find(configKey) as NotificationConfig | null : null;
     const def = (await this.user(triggerKey))!;
     return {
@@ -129,6 +100,25 @@ export class NotificationConfig extends Model {
       icon: config?.icon ?? def.icon,
       stay: config?.stay ?? def.stay,
     };
+  }
+
+  /**
+   * この設定レコードの _id から type セグメントを取り出す（例: /shipbuild/start → "shipbuild"）。
+   * 解析できない場合は UNKNOWN。
+   */
+  public get type(): string {
+    return NotificationId.parse(this._id ?? "")?.type ?? EntryType.UNKNOWN;
+  }
+
+  /**
+   * この設定レコードの _id から trigger セグメントを取り出す。
+   * TriggerType の値でない場合は END にフォールバックする。
+   */
+  public get trigger(): TriggerType {
+    const trigger = NotificationId.parse(this._id ?? "")?.trigger;
+    return (Object.values(TriggerType) as string[]).includes(trigger ?? "")
+      ? trigger as TriggerType
+      : TriggerType.END;
   }
 
   public static async user(trigger: TriggerType = TriggerType.START): Promise<NotificationConfig> {

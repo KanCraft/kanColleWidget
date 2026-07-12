@@ -58,3 +58,13 @@ export interface GetShipFormData {
 export interface QuestActionFormData {
     api_quest_id: string[];
 }
+
+// 戦闘開始系 API の formData。パスにより形が揺らぐ（連合艦隊系は実データ未観測）ため
+// api_formation は optional で防御的に読む。
+export interface BattleStartFormData {
+    api_formation?: string[]; // 陣形
+}
+
+export interface MapNextFormData {
+    api_cell_id?: string[]; // たぶんここにマスIDが入ってる
+}
