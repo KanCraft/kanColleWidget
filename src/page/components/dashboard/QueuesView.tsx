@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EntryType, Fatigue, Mission, Recovery, Shipbuild } from "../../../models/entry";
+import { EntryType, slotKey } from "../../../models/entry";
 import { missions } from "../../../catalog";
 import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
 import Queue from "../../../models/Queue";
@@ -18,7 +18,7 @@ function QueueItemView({
   if (!queue) {
     // 手動登録はカタログの遠征ID 0「マニュアル登録されたやつ」として名前を持たせる
     return <div className="flex text-gray-400 cursor-pointer"
-      onClick={() => edit(Queue.new({ type, scheduled: Date.now(), params: { deck: index + 1, dock: index + 1, id: 0, title: missions["0"].title } }))}>
+      onClick={() => edit(Queue.new({ type, scheduled: Date.now(), params: { [slotKey(type)]: index + 1, id: 0, title: missions["0"].title } }))}>
       <div className="mr-1">第{index + 1}{label}</div>
       <div>--:--</div>
     </div>
@@ -39,13 +39,18 @@ function QueueTableView({
   queues: Queue[],
   edit: (q: Queue | null) => void,
 }) {
+  const slots = (type: EntryType): (Queue | null)[] =>
+    queues.filter(q => q.type === type).reduce<(Queue | null)[]>((acc, q) => {
+      acc[Number(q.slot ?? 1) - 1] = q;
+      return acc;
+    }, new Array(4).fill(null));
   const table: { [key in EntryType]: (Queue | null)[] } = {
-    mission: queues.filter(q => q.type === "mission").reduce((acc, q) => { const entry = q.entry<Mission>(); acc[Number(entry.deck ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
-    recovery: queues.filter(q => q.type === "recovery").reduce((acc, q) => { const entry = q.entry<Recovery>(); acc[Number(entry.dock ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
-    shipbuild: queues.filter(q => q.type === "shipbuild").reduce((acc, q) => { const entry = q.entry<Shipbuild>(); acc[Number(entry.dock ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
-    fatigue: queues.filter(q => q.type === "fatigue").reduce((acc, q) => { const entry = q.entry<Fatigue>(); acc[Number(entry.deck ?? 1) - 1] = q; return acc }, new Array(4).fill(null)),
-    "unknown": [],
-    "default": [],
+    mission: slots(EntryType.MISSION),
+    recovery: slots(EntryType.RECOVERY),
+    shipbuild: slots(EntryType.SHIPBUILD),
+    fatigue: slots(EntryType.FATIGUE),
+    unknown: [],
+    default: [],
   }
   return (
     <div className="flex space-x-4">

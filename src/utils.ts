@@ -72,6 +72,17 @@ export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// "h:m:s" 形式の時刻文字列をミリ秒に換算する（OCR結果の時刻パース用）。
+// 時刻として解釈できない場合は null。Number("") が 0 になる罠を避けるため正規表現で形式を固定し、
+// 分・秒の範囲外も弾く。呼び出し側は null のとき Queue を作ってはいけない。
+export function parseHMS(text: string): number | null {
+  const matched = text.trim().match(/^(\d+):(\d+):(\d+)$/);
+  if (!matched) return null;
+  const [h, m, s] = matched.slice(1).map(Number);
+  if (m > 59 || s > 59) return null;
+  return h * H + m * M + s * S;
+}
+
 export {
   S, M, H, D
 }

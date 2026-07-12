@@ -1,5 +1,5 @@
 import { NotificationConfig, NotificationConfigData } from "../models/configs/NotificationConfig";
-import { Entry, TriggerType } from "../models/entry";
+import { Entry, NotificationId, TriggerType } from "../models/entry";
 import { SoundPlayer } from "./SoundService";
 
 export class NotificationService {
@@ -23,6 +23,15 @@ export class NotificationService {
 
   public clear(id: string): Promise<boolean> {
     return new Promise((resolve) => this.mod.clear(id, (wasCleared) => resolve(wasCleared)));
+  }
+
+  // 表示中の通知のうち条件に一致するものをすべて消す。
+  // 通知IDは /{type}/{trigger}/{target} 形式で、NotificationId.matches でセグメント照合する。
+  public async clearBy(cond: { type: string; trigger?: TriggerType; target?: string }): Promise<void> {
+    const all = await this.getAll();
+    for (const id of Object.keys(all)) {
+      if (NotificationId.matches(id, cond)) await this.clear(id);
+    }
   }
 
   public create(id: string, options: chrome.notifications.NotificationCreateOptions): Promise<string> {

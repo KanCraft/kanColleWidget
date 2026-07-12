@@ -60,14 +60,15 @@ describe("CustomQueueModal (split)", () => {
   });
 });
 
-// 種別切替: params のスロットキー（deck / dock）の引き継ぎ。
+// 種別切替: params のスロットキー（deck / dock）の移し替え（旧キーは残さない）。
 describe("CustomQueueModal 種別切替", () => {
-  it("dock しか持たないQueue（API傍受由来）を遠征へ切り替えると deck に引き継がれる", () => {
+  it("dock しか持たないQueue（API傍受由来）を遠征へ切り替えると deck に移し替えられる", () => {
     const queue = Queue.new({ type: EntryType.RECOVERY, scheduled: Date.now(), params: { dock: 3 } });
     render(<CustomQueueModal queue={queue} close={() => {}} update={() => {}} />);
     const [typeSelect] = screen.getAllByRole("combobox");
     fireEvent.change(typeSelect, { target: { value: EntryType.MISSION } });
     expect(queue.params["deck"]).toBe(3);
+    expect(queue.params["dock"]).toBeUndefined();
   });
 });
 

@@ -26,6 +26,9 @@ const displaying = (ids: string[]) => {
   getAll.mockImplementation((cb: (n: Record<string, boolean>) => void) => {
     cb(Object.fromEntries(ids.map((id) => [id, true])));
   });
+  // clearBy は NotificationService.clear（コールバックを Promise 解決に使う）経由で消すため、
+  // コールバックを呼ばないと await が解決せずテストがタイムアウトする。
+  clear.mockImplementation((_id: string, cb?: (wasCleared: boolean) => void) => cb?.(true));
 };
 
 const clearedIds = () => clear.mock.calls.map(([id]) => id);

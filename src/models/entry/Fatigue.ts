@@ -1,4 +1,4 @@
-import { TriggerType } from ".";
+import { NotificationId, TriggerType } from ".";
 import { M } from "../../utils";
 import { NotificationConfigData } from "../configs/NotificationConfig";
 import { NotificationEntryBase } from "./Base";
@@ -16,7 +16,7 @@ export class Fatigue extends NotificationEntryBase {
   // 疲労の場合は、STARTはたぶん使わないけど
   override $n = {
     id: (trigger: TriggerType = TriggerType.END): string => {
-      return `/${this.type}/${trigger}/${this.deck}`;
+      return NotificationId.build(this.type, trigger, this.deck);
     },
     options: (
       trigger: TriggerType = TriggerType.END,

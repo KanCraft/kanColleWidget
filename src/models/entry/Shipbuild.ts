@@ -1,4 +1,4 @@
-import { TriggerType } from ".";
+import { NotificationId, TriggerType } from ".";
 import { KCWDate } from "../../utils";
 import { NotificationConfigData } from "../configs/NotificationConfig";
 import { NotificationEntryBase } from "./Base";
@@ -12,7 +12,7 @@ export class Shipbuild extends NotificationEntryBase {
 
   override $n = {
     id: (trigger: TriggerType = TriggerType.END): string => {
-      return `/${this.type}/${trigger}/${this.dock}`;
+      return NotificationId.build(this.type, trigger, this.dock);
     },
     options: (
       trigger: TriggerType = TriggerType.END,
