@@ -32,7 +32,7 @@ import { onCommand } from "./controllers/Commands";
 chrome.commands.onCommand.addListener(onCommand.listener());
 
 import { onCommitted } from "./controllers/WebNavigation";
-// ゲーム画面のリロード時にコンテンツスクリプトを再注入する
+// ゲーム画面へのナビゲーション（リロード含む）時にコンテンツスクリプトを再注入する
 chrome.webNavigation.onCommitted.addListener(onCommitted.listener(), { url: [{ urlPrefix: KanColleURL }] });
 
 // import { Launcher } from "./services/Launcher";

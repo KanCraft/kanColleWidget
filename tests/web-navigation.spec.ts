@@ -50,9 +50,15 @@ describe("WebNavigation onCommitted", () => {
     await vi.waitFor(() => expect(reactivate).toHaveBeenCalledTimes(1));
   });
 
-  it("リロード以外のナビゲーション（link）では何もしない", async () => {
+  it("リロード以外のナビゲーションでも自分の窓なら再活性化する（#1845: ブラウザ主導の再読み込みでは transitionType が reload にならないことがある）", async () => {
     find.mockResolvedValue({ id: 10, tabs: [{ id: 1 }] });
     fire({ transitionType: "link" });
+    await vi.waitFor(() => expect(reactivate).toHaveBeenCalledTimes(1));
+  });
+
+  it("ゲーム画面以外の URL では何もしない", async () => {
+    find.mockResolvedValue({ id: 10, tabs: [{ id: 1 }] });
+    fire({ url: "https://example.com/" });
     // ルーティング対象外なので find すら呼ばれない
     await new Promise((r) => setTimeout(r, 10));
     expect(find).not.toHaveBeenCalled();

@@ -107,10 +107,12 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
   }
 
   /**
-   * BazelというかAeroというか、を考慮して、ウィンドウのリサイズを行う
+   * BazelというかAeroというか、を考慮して、ウィンドウのリサイズを行う。
+   * 外形(outer)と内寸(inner)の差分＝ウィンドウ装飾ぶんを足す非冪等な補正なので、
+   * 「外形がフレーム設定どおりに整えられた直後」に一度だけ呼ぶこと。
+   * 既に補正済みの窓に対して再実行すると、そのたびに装飾ぶん窓が拡大する（#1810, #1813）。
    */
   function resize() {
-    // TODO: これだとなんか問題ありそう
     window.resizeBy(window.outerWidth - window.innerWidth, window.outerHeight - window.innerHeight);
   }
 
@@ -146,6 +148,8 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
         });
       }
       if (msg.__action__ === "/injected/dmm/retouch") {
+        // retouch は Launcher 側で windows.update により外形をフレーム設定へ
+        // 戻した直後に届くため、ここでは無条件に補正してよい
         resize();
       }
     });
@@ -164,7 +168,14 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
   }
 
   (async function __main__() {
-    resize();
+    // resize() は「外形と内寸の差分を足す」非冪等な補正なので、同じタブで一度だけ実行する。
+    // sessionStorage はリロードを跨いで残るため、リロード後の再注入（#1784 対応の経路）では
+    // スキップされ、リロードのたびにタイトルバー分だけ窓が縦に伸びる累積を防ぐ（#1813）。
+    // ユーザーが手動調整した窓サイズもリロードで失われない。
+    if (!sessionStorage.getItem("kcw_resized")) {
+      resize();
+      sessionStorage.setItem("kcw_resized", "1");
+    }
     setInterval(track, 10 * 1000);
     warmUpOcrWorker();
     const configs = await fetchNecessaryConfig();
