@@ -181,13 +181,15 @@ export class Launcher {
    * @param timeout 
    * @returns 
    */
-  private async waitForInnerIframeLoaded(tabId: number, timeout: number = 8 * 1000) {
+  private async waitForInnerIframeLoaded(tabId: number, timeout: number = 30 * 1000) {
+    // タイムアウトは PC 休止からの復帰直後などネットワーク回復が遅いケース（#1845）を
+    // 考慮して 30 秒とする。決着後は return してポーリングを確実に止める。
     return new Promise<chrome.webNavigation.GetAllFrameResultDetails>((resolve, reject) => {
       const check = async (timeoutMilliseconds: number) => {
         const all_webframes = (await chrome.webNavigation.getAllFrames({ tabId }) || []);
         const found = all_webframes.find(f => f.url.includes("osapi.dmm.com/gadgets/ifr"));
-        if (found) resolve(found);
-        if (timeoutMilliseconds <= 0) reject(new Error("Timeout waiting for inner iframe loaded"));
+        if (found) return resolve(found);
+        if (timeoutMilliseconds <= 0) return reject(new Error("Timeout waiting for inner iframe loaded"));
         setTimeout(() => check(timeoutMilliseconds - 500), 500);
       };
       check(timeout);
@@ -207,6 +209,8 @@ export class Launcher {
 
   /**
    * 既存のゲーム別窓を前面に出し、サイズをフレーム設定に合わせて調整する。
+   * dmm.ts の retouch ハンドラは resize()（非冪等な装飾ぶん補正）を無条件に呼ぶため、
+   * その直前に必ず windows.update で外形をフレーム設定へ戻すこと（ADR 0002）。
    * @param win 対象ウィンドウ
    */
   public async retouch(win: chrome.windows.Window, frame: Frame | null) {
@@ -219,14 +223,35 @@ export class Launcher {
 
   /**
    * 起動直後の別窓タブにスクリプトやスタイルを注入し、必要なら劇場モード用 CSS も適用する。
+   * window フラグの check-and-set で同一 document への二重注入を防ぐ（ADR 0002）。
+   * 初回起動時は open() と WebNavigation の onCommitted から並走で呼ばれうるが、
+   * このガードにより注入は1回に収束する。
    * @param win 対象ウィンドウ
    * @param frame 劇場モードなどの設定を含むフレーム情報
    */
   public async activate(win: chrome.windows.Window, innerIframe: chrome.webNavigation.GetAllFrameResultDetails) {
     const tab = win.tabs![0];
-    this.scriptings.js(tab.id!, ["dmm.js"]);
-    this.scriptings.css(tab.id!, ["assets/dmm.css"]);
-    this.scriptings.css({ tabId: tab.id!, frameIds: [innerIframe.frameId] }, ["assets/osapi.css"]);
+    const results = await this.scriptings.func(tab.id!, () => {
+      const w = window as unknown as { __kancolleWidgetActivated?: boolean };
+      const activated = w.__kancolleWidgetActivated === true;
+      w.__kancolleWidgetActivated = true;
+      return activated;
+    });
+    if (results?.[0]?.result === true) return;
+    try {
+      await Promise.all([
+        this.scriptings.js(tab.id!, ["dmm.js"]),
+        this.scriptings.css(tab.id!, ["assets/dmm.css"]),
+        this.scriptings.css({ tabId: tab.id!, frameIds: [innerIframe.frameId] }, ["assets/osapi.css"]),
+      ]);
+    } catch (err) {
+      // フラグが立ったまま注入だけ失敗すると、以降の再注入がすべて短絡して
+      // 自己回復できなくなるため、フラグを戻して次回の reactivate で再試行させる
+      await this.scriptings.func(tab.id!, () => {
+        (window as unknown as { __kancolleWidgetActivated?: boolean }).__kancolleWidgetActivated = false;
+      }).catch(() => { /* タブごと消えている場合は戻す必要もない */ });
+      throw err;
+    }
     // if (frame.theater.enabled) setTimeout(() => {
     //   this.scriptings.css({ tabId: tab.id!, allFrames: true }, ["assets/theater.css"]);
     // }, 5 * 1000);
