@@ -70,6 +70,13 @@ describe("修復・建造の高速化剤使用(speedchange)検知", () => {
     expect(deleteSlot).toHaveBeenCalledWith("shipbuild", "3");
     expect(deleteSlot).toHaveBeenCalledTimes(1);
   });
+
+  // 修復側と同様、この経路も完了通知が出ないため通知の掃除まで担う（従来は非対称に漏れていた）。
+  // 「一致するものだけ消し他を残す」具体挙動は NotificationService.clearBy の単体テストで担保する。
+  it("onShipbuildHighspeed: 対象ドックの建造通知を clearBy で消す", async () => {
+    await onShipbuildHighspeed(details({ api_kdock_id: ["3"] }));
+    expect(clearBy).toHaveBeenCalledWith({ type: EntryType.SHIPBUILD, target: "3" });
+  });
 });
 
 describe("遠征開始時の重複排除", () => {
