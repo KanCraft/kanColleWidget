@@ -17,6 +17,8 @@ vi.hoisted(() => {
 });
 
 import { onMissionResult, onGetShip } from "../src/controllers/WebRequest/kcsapi";
+import Queue from "../src/models/Queue";
+import { EntryType } from "../src/models/entry";
 
 const getAll = chrome.notifications.getAll as unknown as ReturnType<typeof vi.fn>;
 const clear = chrome.notifications.clear as unknown as ReturnType<typeof vi.fn>;
@@ -33,12 +35,16 @@ const details = (formData: Record<string, string[]>) =>
 
 const clearedIds = () => clear.mock.calls.map(([id]) => id);
 
-// 回収操作（遠征結果回収・建造艦受取）で、対象の艦隊/ドックの通知だけが消えることを検証する。
+// 回収操作（遠征結果回収・建造艦受取）で、対象の艦隊/ドックの通知だけが消えることと、
+// 未発火の Queue も削除されることを検証する（#1844 の再発防止。機構は kcsapi.ts の
+// retireSlot のコメント参照）。
 // 通知IDは /{type}/{trigger}/{deck|dock} 形式（tests/notification-id.spec.ts 参照）。
 describe("onMissionResult", () => {
+  let deleteSlot: ReturnType<typeof vi.spyOn>;
   beforeEach(() => {
     getAll.mockReset();
     clear.mockReset();
+    deleteSlot = vi.spyOn(Queue, "deleteSlot").mockResolvedValue(undefined);
   });
 
   it("回収した艦隊の遠征通知（開始・完了）を消す", async () => {
@@ -53,12 +59,20 @@ describe("onMissionResult", () => {
     await onMissionResult(details({ api_deck_id: ["2"] }));
     expect(clearedIds()).toEqual(["/mission/end/2"]);
   });
+
+  it("回収した艦隊の未発火Queueを削除する（#1844: 通知表示前の回収）", async () => {
+    displaying([]);
+    await onMissionResult(details({ api_deck_id: ["2"] }));
+    expect(deleteSlot).toHaveBeenCalledWith(EntryType.MISSION, "2");
+  });
 });
 
 describe("onGetShip", () => {
+  let deleteSlot: ReturnType<typeof vi.spyOn>;
   beforeEach(() => {
     getAll.mockReset();
     clear.mockReset();
+    deleteSlot = vi.spyOn(Queue, "deleteSlot").mockResolvedValue(undefined);
   });
 
   it("受け取ったドックの建造通知（開始・完了）を消す", async () => {
@@ -72,5 +86,11 @@ describe("onGetShip", () => {
     displaying(["/shipbuild/end/3", "/shipbuild/end/1", "/recovery/end/3"]);
     await onGetShip(details({ api_kdock_id: ["3"] }));
     expect(clearedIds()).toEqual(["/shipbuild/end/3"]);
+  });
+
+  it("受け取ったドックの未発火Queueを削除する（#1844）", async () => {
+    displaying([]);
+    await onGetShip(details({ api_kdock_id: ["3"] }));
+    expect(deleteSlot).toHaveBeenCalledWith(EntryType.SHIPBUILD, "3");
   });
 });
