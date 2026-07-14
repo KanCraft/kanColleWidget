@@ -1,4 +1,4 @@
-import { expect, describe, it, vi, beforeEach } from "vitest";
+import { expect, describe, it, vi, beforeEach, afterEach } from "vitest";
 
 // Launcher のメソッドは chrome.tabs.sendMessage / chrome.webNavigation などを参照するため、
 // import より前にグローバル chrome をスタブする。
@@ -13,6 +13,15 @@ vi.hoisted(() => {
         { frameId: 1, url: "https://osapi.dmm.com/gadgets/ifr?game" },
       ]),
     },
+    // find() が所有権レジストリ（GameWindowRegistry）を参照するため、
+    // 空のセッションストレージとしてスタブする（#1848）
+    storage: {
+      session: {
+        get: vi.fn().mockResolvedValue({}),
+        set: vi.fn().mockResolvedValue(undefined),
+        remove: vi.fn().mockResolvedValue(undefined),
+      },
+    },
   };
 });
 
@@ -21,11 +30,14 @@ import { Frame } from "../src/models/Frame";
 import { WindowService } from "../src/services/WindowService";
 import { TabService } from "../src/services/TabService";
 import { ScriptingService } from "../src/services/ScriptingService";
+import { GameWindowRegistry } from "../src/services/GameWindowRegistry";
 import { KanColleURL } from "../src/constants";
+import { installMemoryStorage } from "jstorm/testing";
 
 // find() が既存ゲーム窓を見つけられる状態のフェイク群を組み立てる。
 // existingTabs を空にすると「ゲーム窓なし」を表現できる。
-function build(existingTabs: chrome.tabs.Tab[]) {
+// registry を渡さない場合は既定（グローバルにスタブした空の chrome.storage.session）を使う。
+function build(existingTabs: chrome.tabs.Tab[], registry?: GameWindowRegistry) {
   const windows = {
     create: vi.fn().mockResolvedValue({ id: 20, tabs: [{ id: 2 }] }),
     update: vi.fn().mockResolvedValue({}),
@@ -36,11 +48,14 @@ function build(existingTabs: chrome.tabs.Tab[]) {
     query: vi.fn().mockResolvedValue(existingTabs),
     update: vi.fn().mockResolvedValue({}),
   };
-  const scriptings = { func: vi.fn(), js: vi.fn(), css: vi.fn() };
+  // func() は実際の ScriptingService.func() と同様に常に Promise を返す
+  // （activate() は失敗時にこの戻り値へ .catch() を連鎖するため）
+  const scriptings = { func: vi.fn().mockResolvedValue([{ result: false }]), js: vi.fn(), css: vi.fn() };
   const launcher = new Launcher(
     windows as unknown as WindowService,
     tabs as unknown as TabService,
     scriptings as unknown as ScriptingService,
+    registry,
   );
   return { launcher, windows, tabs, scriptings };
 }
@@ -94,5 +109,88 @@ describe("Launcher.launch（既存窓では従来通り retouch する）", () =
     expect(windows.update).toHaveBeenCalledWith(10, { focused: true });
     // retouch のサイズ調整メッセージが飛ぶ
     expect(chrome.tabs.sendMessage).toHaveBeenCalledWith(1, { __action__: "/injected/dmm/retouch" });
+  });
+});
+
+describe("Launcher.find の所有権判定（#1848）", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("registry に生きている windowId の記録があれば、URL一致ヒューリスティックより優先して返す", async () => {
+    const registry = new GameWindowRegistry(installMemoryStorage());
+    await registry.remember(55);
+    const { launcher, windows, tabs } = build([], registry);
+    windows.get.mockResolvedValue({ id: 55, tabs: [{ id: 7 }] });
+
+    const win = await launcher.find();
+
+    expect(win?.id).toBe(55);
+    // ヒューリスティック検索（URL一致でのtabs.query）は呼ばれない
+    expect(tabs.query).not.toHaveBeenCalled();
+  });
+
+  it("記録された窓が既に閉じられていれば、記録を掃除してヒューリスティックへフォールバックする", async () => {
+    const registry = new GameWindowRegistry(installMemoryStorage());
+    await registry.remember(999); // 実体の無い windowId
+    const { launcher, windows, tabs } = build(existingGameTab, registry);
+    windows.get.mockImplementation((id: number) =>
+      id === 999
+        ? Promise.reject(new Error("No window with id: 999."))
+        : Promise.resolve({ id: 10, tabs: [{ id: 1 }] })
+    );
+
+    const win = await launcher.find();
+
+    expect(win?.id).toBe(10);
+    expect(tabs.query).toHaveBeenCalled();
+    expect(await registry.current()).toBeUndefined(); // 死んだ記録は掃除される
+  });
+
+  it("記録が無ければ従来どおりヒューリスティックで探す", async () => {
+    const registry = new GameWindowRegistry(installMemoryStorage());
+    const { launcher, tabs } = build(existingGameTab, registry);
+
+    const win = await launcher.find();
+
+    expect(win?.id).toBe(10);
+    expect(tabs.query).toHaveBeenCalled();
+  });
+});
+
+describe("Launcher.open の注入リトライ（#1848）", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("activate() の初回注入が失敗しても、500ms後にリトライして最終的に成功する", async () => {
+    vi.useFakeTimers();
+    const { launcher, scriptings } = build([]);
+    scriptings.js.mockRejectedValueOnce(new Error("transient failure")).mockResolvedValue(undefined);
+
+    const promise = launcher.launch(new Frame());
+    await vi.advanceTimersByTimeAsync(500);
+    const created = await promise;
+
+    expect(created).toBe(true);
+    expect(scriptings.js).toHaveBeenCalledTimes(2);
+  });
+
+  it("最大2回リトライしても失敗し続ければ、最後のエラーを投げる", async () => {
+    vi.useFakeTimers();
+    const { launcher, scriptings } = build([]);
+    scriptings.js.mockRejectedValue(new Error("permanent failure"));
+
+    const rejection = expect(launcher.launch(new Frame())).rejects.toThrow("permanent failure");
+    await vi.advanceTimersByTimeAsync(500);
+    await vi.advanceTimersByTimeAsync(500);
+    await rejection;
+
+    // 初回 + リトライ2回 = 3回試行する
+    expect(scriptings.js).toHaveBeenCalledTimes(3);
   });
 });

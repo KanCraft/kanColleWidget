@@ -40,6 +40,14 @@ export function FrameSettingView({
           <div key={frame._id} className="border rounded p-2 mb-2 flex items-center">
             <div><h3 className="text-lg">{frame.name}</h3></div>
             <div className="grow"></div>
+            {frame._id === "__memory__" && <div>
+              <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
+                onClick={async () => {
+                  await chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/frame/memory:reset" });
+                  navigate("/options?open=frames");
+                }}
+              >ウィンドウサイズをリセット</button>
+            </div>}
             {frame.protected ? null : <div>
               <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
                 onClick={async () => { await frame.delete(); navigate("/options?open=frames"); }}
