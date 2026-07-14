@@ -1,6 +1,7 @@
 import { TabService } from "./TabService";
 import { WindowService } from "./WindowService";
 import { ScriptingService } from "./ScriptingService";
+import { GameWindowRegistry } from "./GameWindowRegistry";
 
 import { Frame } from "../models/Frame";
 import { KanColleURL } from "../constants";
@@ -20,11 +21,13 @@ export class Launcher {
    * @param windows Chrome ウィンドウ操作を担うサービス
    * @param tabs Chrome タブ操作を担うサービス
    * @param scriptings コンテンツスクリプトや CSS の注入を担うサービス
+   * @param registry 自身が開いたゲーム別窓の windowId を記録する所有権レジストリ（#1848）
    */
   constructor(
         private readonly windows: WindowService = new WindowService(),
         private readonly tabs: TabService = new TabService(),
         private readonly scriptings: ScriptingService = new ScriptingService(),
+        private readonly registry: GameWindowRegistry = new GameWindowRegistry(),
   ) { }
 
   /**
@@ -170,10 +173,34 @@ export class Launcher {
   private async open(frame: Frame): Promise<void> {
     const win = await this.windows.create(frame.toWindowCreateData());
     if (!win) throw new Error("Failed to create game window");
+    // 「確実に自分が開いた窓」の証跡として windowId を記録する（#1848 ADR 0001の将来課題）。
+    // find() はこの記録を URL/tabId 一致ヒューリスティックより優先して参照する。
+    await this.registry.remember(win.id!);
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
     this.anchor(win, frame);
     this.mute(win.tabs![0].id!, frame.muted);
-    await this.activate(win, innerIframe);
+    await this.activateWithRetry(win, innerIframe);
+  }
+
+  /**
+   * activate() の注入失敗を、次のナビゲーションイベント任せにせず即座にリトライする（#1848）。
+   * 500ms間隔で最大2回まで再試行し、それでも失敗すれば最後のエラーを投げる。
+   * @param win 対象ウィンドウ
+   * @param innerIframe 内側 iframe の情報
+   * @param retriesLeft 残りリトライ回数
+   */
+  private async activateWithRetry(
+    win: chrome.windows.Window,
+    innerIframe: chrome.webNavigation.GetAllFrameResultDetails,
+    retriesLeft: number = 2,
+  ): Promise<void> {
+    try {
+      await this.activate(win, innerIframe);
+    } catch (err) {
+      if (retriesLeft <= 0) throw err;
+      await sleep(500);
+      await this.activateWithRetry(win, innerIframe, retriesLeft - 1);
+    }
   }
 
   /**
@@ -273,10 +300,21 @@ export class Launcher {
 
   /**
    * 既存タブから対象 URL のゲーム別窓を検索する。
+   * 「自分が開いた」という強い証跡（registry に記録された windowId）が生きていればそれを
+   * 優先し、記録が無い・実体が消えている場合のみ URL/tabId 一致ヒューリスティックへ
+   * フォールバックする（#1848）。
    * @param frame 検索対象のフレーム（未指定時は既定 URL）
    * @returns 見つかったウィンドウ、存在しない場合は undefined
    */
   public async find(frame?: Frame): Promise<chrome.windows.Window | undefined> {
+    const remembered = await this.registry.current();
+    if (remembered !== undefined) {
+      const win = await this.windows.get(remembered, { populate: true, windowTypes: ["popup"] }).catch(() => undefined);
+      if (win?.tabs?.length === 1) return win;
+      // 記録はあるが実体が無い（既に閉じられた等）→ 掃除してヒューリスティックへフォールバック
+      await this.registry.forget(remembered);
+    }
+
     const url = frame ? frame.url : KanColleURL;
     const pattern = url.endsWith("*") ? url : `${url}*`;
     const tabs = await this.tabs.query({ url: [pattern], windowType: "popup" });

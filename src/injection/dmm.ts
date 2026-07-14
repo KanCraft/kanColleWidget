@@ -137,6 +137,23 @@ import type { Route, OcrResultRoute, OcrPurpose, DmmOcrPayload } from '../messag
       position: { left: window.screenX, top: window.screenY },
       size: { width: window.innerWidth, height: window.innerHeight },
     });
+    selfCheck();
+  }
+
+  /**
+   * #game_frame が実際にウィンドウ全体（100vw/100vh）を占めているかを軽く確認する。
+   * activate() の注入失敗などで assets/dmm.css が当たっていないと #game_frame がネイティブ
+   * サイズのまま残り、白い余白付きの縮小表示になる（#1848）。ズレを検知したら、次の
+   * ナビゲーションイベントを待たずに再注入を要求する。
+   */
+  function selfCheck() {
+    const frame = document.querySelector<HTMLIFrameElement>("#game_frame");
+    if (!frame) return;
+    const rect = frame.getBoundingClientRect();
+    const fits = Math.abs(rect.width - window.innerWidth) < 2 && Math.abs(rect.height - window.innerHeight) < 2;
+    if (!fits) {
+      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/frame/self-check:mismatch" });
+    }
   }
 
   function fetchNecessaryConfig(): Promise<{

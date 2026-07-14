@@ -42,6 +42,26 @@ onMessage.on(Routes.FRAME_MEMORY_TRACK, async (req) => {
 });
 
 /**
+ * __memory__ の記憶（位置・サイズ）を削除し、次回参照時に既定値へフォールバックさせる。
+ * アスペクト比や絶対サイズでの自動判定は、ユーザーが意図的にゲームのネイティブ比率と異なる
+ * 形へ窓をカスタマイズする正規のユースケースと区別できないため採用しない（#1848）。
+ * ユーザーが能動的に選んだときだけ実行される、安全な手動リセット導線とする。
+ */
+onMessage.on("/frame/memory:reset", async () => {
+  return await (await Frame.memory()).delete();
+});
+
+/**
+ * dmm.ts の自己診断（#game_frame の実寸が100vw/100vh相当かのチェック）でズレを検知した際に、
+ * 次のナビゲーションイベントを待たずにゲーム別窓を再活性化する（#1848）。
+ */
+onMessage.on("/frame/self-check:mismatch", async (_, sender) => {
+  if (!sender.tab?.windowId) return;
+  const win = await chrome.windows.get(sender.tab.windowId, { populate: true });
+  return await (new Launcher()).reactivate(win);
+});
+
+/**
  * ダッシュボードウィンドウの位置・サイズを保存する
  * @param req.left 左位置
  * @param req.top 上位置
