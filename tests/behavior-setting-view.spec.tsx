@@ -1,18 +1,13 @@
-import { expect, describe, it, beforeEach } from "vitest";
+import { expect, describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
 import { BehaviorSettingView } from "../src/page/components/options/BehaviorSettingView";
 import { BehaviorConfig } from "../src/models/configs/BehaviorConfig";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() は
-// そのオブジェクトへ書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineDefaults = structuredClone(BehaviorConfig.default);
-
-beforeEach(() => {
-  BehaviorConfig.default = structuredClone(pristineDefaults);
-});
+restoreDefaultsBeforeEach(BehaviorConfig);
 
 async function renderView() {
   const config = await BehaviorConfig.user();

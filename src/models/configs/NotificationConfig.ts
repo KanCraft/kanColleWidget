@@ -77,8 +77,9 @@ export class NotificationConfig extends Model {
    * この通知が画面に表示され続けるかどうか
    * trueの場合、ユーザーが手動で閉じるまで表示され続ける
    * falseの場合、一定時間後に自動的に閉じられる
+   * nullの場合、default.stayが使われる
    */
-  public stay: boolean = false;
+  public stay: boolean | null = false;
 
   /**
    * NotificationConfigを $n.id 形式から取得する
@@ -98,16 +99,19 @@ export class NotificationConfig extends Model {
       enabled: config?.enabled ?? def.enabled,
       sound: config?.sound ?? def.sound,
       icon: config?.icon ?? def.icon,
-      stay: config?.stay ?? def.stay,
+      stay: config?.stay ?? def.stay ?? false,
     };
   }
 
   /**
-   * この設定レコードの _id から type セグメントを取り出す（例: /shipbuild/start → "shipbuild"）。
-   * 解析できない場合は UNKNOWN。
+   * この設定レコードの _id から type セグメントを取り出す（例: /shipbuild/start → EntryType.SHIPBUILD）。
+   * 解析できない場合、または EntryType のいずれにも一致しない場合（quest-alert 等）は UNKNOWN。
    */
-  public get type(): string {
-    return NotificationId.parse(this._id ?? "")?.type ?? EntryType.UNKNOWN;
+  public get type(): EntryType {
+    const type = NotificationId.parse(this._id ?? "")?.type;
+    return (Object.values(EntryType) as string[]).includes(type ?? "")
+      ? type as EntryType
+      : EntryType.UNKNOWN;
   }
 
   /**

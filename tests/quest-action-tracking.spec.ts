@@ -10,6 +10,9 @@ vi.hoisted(() => {
 
 import { onQuestStart, onQuestStop, onQuestComplete } from "../src/controllers/WebRequest/quest";
 import { QuestProgress, QuestStatus } from "../src/models/QuestProgress";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
+
+restoreDefaultsBeforeEach(QuestProgress);
 
 // api_req_quest/{start,stop,clearitemget} の formData から任務IDを取り出し、
 // QuestProgress へ反映できているかを検証する（連鎖解放そのものは quest-progress.spec.ts 側で検証済み）。

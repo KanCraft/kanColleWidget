@@ -1,20 +1,30 @@
-import { useState } from "react";
-import { DashboardConfig, ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
+import { DashboardConfig } from "../../../models/configs/DashboardConfig";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function DashboardSettingView({
-  config: _config,
+  config,
 }: {
   config: DashboardConfig;
 }) {
-  const [config] = useState<DashboardConfig>(_config);
-  const [openWithGame, setOpenWithGame] = useState<boolean>(config.openWithGame ?? false);
-  const [manualTimerInput, setManualTimerInput] = useState<ManualTimerInputStyle>(config.manualTimerInput ?? "split");
-
-  const selectManualTimerInput = async (style: ManualTimerInputStyle) => {
-    await config.update({ manualTimerInput: style });
-    setManualTimerInput(style);
-  };
+  const [openWithGame, saveOpenWithGame] = useConfigField(config, "openWithGame", config.openWithGame ?? false);
+  const [manualTimerInput, saveManualTimerInput] = useConfigField(
+    config,
+    "manualTimerInput",
+    config.manualTimerInput ?? "split",
+  );
+  const [width, saveWidth] = useConfigField(config, "width", config.width, {
+    normalize: (v) => (Number.isFinite(v) ? Math.trunc(v) : 600),
+  });
+  const [height, saveHeight] = useConfigField(config, "height", config.height, {
+    normalize: (v) => (Number.isFinite(v) ? Math.trunc(v) : 400),
+  });
+  const [left, saveLeft] = useConfigField(config, "left", config.left, {
+    normalize: (v) => (Number.isFinite(v) ? Math.trunc(v) : 100),
+  });
+  const [top, saveTop] = useConfigField(config, "top", config.top, {
+    normalize: (v) => (Number.isFinite(v) ? Math.trunc(v) : 100),
+  });
 
   return (
     <FoldableSection title="ダッシュボードの設定" id="dashboard">
@@ -27,11 +37,7 @@ export function DashboardSettingView({
           <input
             type="checkbox"
             checked={openWithGame}
-            onChange={async (e) => {
-              const next = e.target.checked;
-              await config.update({ openWithGame: next });
-              setOpenWithGame(next);
-            }}
+            onChange={(e) => void saveOpenWithGame(e.target.checked)}
             className="w-4 h-4"
           />
           <span className="font-bold">ゲーム起動と同時にダッシュボードを開く</span>
@@ -45,10 +51,8 @@ export function DashboardSettingView({
           </label>
           <input
             type="number"
-            defaultValue={config.width}
-            onChange={async (e) => {
-              await config.update({ width: parseInt(e.target.value, 10) });
-            }}
+            value={width}
+            onChange={(e) => void saveWidth(parseInt(e.target.value, 10))}
             className="border rounded p-2 w-full"
             placeholder="600"
             min="200"
@@ -61,10 +65,8 @@ export function DashboardSettingView({
           </label>
           <input
             type="number"
-            defaultValue={config.height}
-            onChange={async (e) => {
-              await config.update({ height: parseInt(e.target.value, 10) });
-            }}
+            value={height}
+            onChange={(e) => void saveHeight(parseInt(e.target.value, 10))}
             className="border rounded p-2 w-full"
             placeholder="400"
             min="150"
@@ -77,10 +79,8 @@ export function DashboardSettingView({
           </label>
           <input
             type="number"
-            defaultValue={config.left}
-            onChange={async (e) => {
-              await config.update({ left: parseInt(e.target.value, 10) });
-            }}
+            value={left}
+            onChange={(e) => void saveLeft(parseInt(e.target.value, 10))}
             className="border rounded p-2 w-full"
             placeholder="100"
           />
@@ -92,10 +92,8 @@ export function DashboardSettingView({
           </label>
           <input
             type="number"
-            defaultValue={config.top}
-            onChange={async (e) => {
-              await config.update({ top: parseInt(e.target.value, 10) });
-            }}
+            value={top}
+            onChange={(e) => void saveTop(parseInt(e.target.value, 10))}
             className="border rounded p-2 w-full"
             placeholder="100"
           />
@@ -114,7 +112,7 @@ export function DashboardSettingView({
               type="radio"
               name="manual-timer-input"
               checked={manualTimerInput === "split"}
-              onChange={() => selectManualTimerInput("split")}
+              onChange={() => void saveManualTimerInput("split")}
               className="w-4 h-4"
             />
             <span>時間と分を分けて入力</span>
@@ -124,7 +122,7 @@ export function DashboardSettingView({
               type="radio"
               name="manual-timer-input"
               checked={manualTimerInput === "time"}
-              onChange={() => selectManualTimerInput("time")}
+              onChange={() => void saveManualTimerInput("time")}
               className="w-4 h-4"
             />
             <span>HH:MM 形式でまとめて入力</span>

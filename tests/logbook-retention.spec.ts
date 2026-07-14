@@ -1,17 +1,12 @@
-import { expect, describe, it, beforeEach } from "vitest";
+import { expect, describe, it } from "vitest";
 
 import { Logbook, SortieContext } from "../src/models/Logbook";
 import { BehaviorConfig } from "../src/models/configs/BehaviorConfig";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() は
-// そのオブジェクトへ書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineBehaviorDefaults = structuredClone(BehaviorConfig.default);
-
-beforeEach(() => {
-  BehaviorConfig.default = structuredClone(pristineBehaviorDefaults);
-});
+restoreDefaultsBeforeEach(BehaviorConfig);
 
 async function saveSortieAt(id: string, started: number): Promise<void> {
   const ctx = new SortieContext();

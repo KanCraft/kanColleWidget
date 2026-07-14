@@ -1,4 +1,4 @@
-import { expect, describe, it, vi, beforeEach } from "vitest";
+import { expect, describe, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
@@ -22,14 +22,9 @@ vi.mock("../src/services/Launcher", () => ({
 import { FleetCaptureSettingView } from "../src/page/components/options/FleetCaptureSettingView";
 import { CapturePreset } from "../src/models/CapturePreset";
 import { FleetCaptureConfig, TransparentBackground } from "../src/models/configs/FleetCaptureConfig";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、update() は
-// そのオブジェクトへ書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineConfigDefaults = structuredClone(FleetCaptureConfig.default);
-
-beforeEach(() => {
-  FleetCaptureConfig.default = structuredClone(pristineConfigDefaults);
-});
+restoreDefaultsBeforeEach(FleetCaptureConfig);
 
 async function renderView() {
   const presets = await CapturePreset.list();

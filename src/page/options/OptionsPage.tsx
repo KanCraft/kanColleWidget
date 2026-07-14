@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router-dom";
 import { FrameSettingView } from "../components/options/FrameSettingView";
 import { FileSaveSettingView } from "../components/options/FileSaveSettingView";
 import { DashboardSettingView } from "../components/options/DashboardSettingView";
@@ -9,19 +8,10 @@ import { NotificationSettingView } from "../components/options/NotificationSetti
 import { InAppSettingView } from "../components/options/InAppSettingView";
 import { QuestTrackerSettingView } from "../components/options/QuestTrackerSettingView";
 
-import { type Frame } from "../../models/Frame";
-import { type CapturePreset } from "../../models/CapturePreset";
-import { type FileSaveConfig } from "../../models/configs/FileSaveConfig";
-import { type FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
-import { type DashboardConfig } from "../../models/configs/DashboardConfig";
-import { type DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
-import { type BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { DevelopmentInfoView, type ReleaseNoteObject } from "../components/options/DevelopmentInfoView";
 import { VersionView } from "../components/options/VersionView";
-import { type GameWindowConfig } from "../../models/configs/GameWindowConfig";
-import { NotificationConfig } from "../../models/configs/NotificationConfig";
-import { type QuestTrackerConfig } from "../../models/configs/QuestTrackerConfig";
-import { EntryType, TriggerType } from "../../models/entry";
+import { options } from "../loader";
+import { useTypedLoaderData } from "../loader/useTypedLoaderData";
 
 const KCWidgetChanURL = "https://cloud.githubusercontent.com/assets/931554/26664134/361ee756-46ca-11e7-98f5-d99e95dd90b8.png";
 
@@ -39,23 +29,7 @@ export function OptionsPage() {
     fleetcapture,
     questAlert,
     questTracker,
-  } = useLoaderData() as {
-    frames: Frame[];
-    game: GameWindowConfig;
-    releasenote: ReleaseNoteObject;
-    filesave: FileSaveConfig;
-    dashboard: DashboardConfig;
-    damagesnapshot: DamageSnapshotConfig;
-    behavior: BehaviorConfig;
-    notification: {
-      defaults: Record<TriggerType.START | TriggerType.END, NotificationConfig>;
-      entries: Record<EntryType, Record<TriggerType.START | TriggerType.END, NotificationConfig>>;
-    };
-    capturePresets: CapturePreset[];
-    fleetcapture: FleetCaptureConfig;
-    questAlert: NotificationConfig;
-    questTracker: QuestTrackerConfig;
-  };
+  } = useTypedLoaderData<typeof options>();
   const manifest = chrome.runtime.getManifest();
   return (
     <div className="p-8">

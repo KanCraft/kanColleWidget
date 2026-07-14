@@ -1,7 +1,7 @@
-import { useLoaderData } from "react-router-dom"
 import { Launcher } from "../services/Launcher"
-import { type Frame } from "../models/Frame"
 import { GameWindowConfig } from "../models/configs/GameWindowConfig"
+import { popup } from "./loader"
+import { useTypedLoaderData } from "./loader/useTypedLoaderData"
 
 import { useState, type ReactNode } from "react";
 import { ClockIcon, SquaresPlusIcon, Cog6ToothIcon, BookOpenIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
@@ -19,7 +19,7 @@ function ShortCutIcon({icon, title, action}: {
 }
 
 export function PopupPage() {
-  const { frames, defaultFrameId } = useLoaderData() as { frames: Frame[]; defaultFrameId: string }
+  const { frames, defaultFrameId } = useTypedLoaderData<typeof popup>()
   // 前回起動した Frame を初期選択として復元する（#1236）。
   const [selectedId, selectId] = useState<string>(defaultFrameId);
 

@@ -47,6 +47,7 @@ vi.mock("../src/services/Launcher", () => ({
 import { FleetCapturePage } from "../src/page/fleet-capture/FleetCapturePage";
 import { fleetcapture } from "../src/page/loader";
 import { CapturePreset } from "../src/models/CapturePreset";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
 function renderPage() {
   const router = createMemoryRouter([
@@ -60,13 +61,10 @@ async function openAdjustMode() {
   await userEvent.click(screen.getByRole("button", { name: "切り抜き範囲を調整する" }));
 }
 
-// jstorm はストレージが空の間 static default オブジェクトをそのまま返し、create() は
-// そのオブジェクトへ新規エントリを書き込む。テスト間の汚染を防ぐため毎回復元する。
-const pristineDefaults = structuredClone(CapturePreset.default);
+restoreDefaultsBeforeEach(CapturePreset);
 
 beforeEach(() => {
   vi.unstubAllGlobals();
-  CapturePreset.default = structuredClone(pristineDefaults);
 });
 
 describe("FleetCapturePage", () => {

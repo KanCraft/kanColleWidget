@@ -1,10 +1,11 @@
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 import { ArrowPathIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
-import { QuestProgress } from "../../models/QuestProgress";
 import { QuestTrackerList } from "../components/quest-tracker/QuestTrackerList";
+import { questTracker } from "../loader";
+import { useTypedLoaderData } from "../loader/useTypedLoaderData";
 
 export function QuestTrackerPage() {
-  const { progress } = useLoaderData() as { progress: QuestProgress };
+  const { progress } = useTypedLoaderData<typeof questTracker>();
   const revalidator = useRevalidator();
 
   return (

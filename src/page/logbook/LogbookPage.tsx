@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useRevalidator } from "react-router-dom";
 import { ArrowDownTrayIcon, ArrowPathIcon, BookOpenIcon } from "@heroicons/react/24/outline";
 import { SortieContext } from "../../models/Logbook";
 import { describeBattles, formatStarted } from "./format";
 import { logbookExportFilename, toCSV, toDataUrl, toJSONL } from "./export";
 import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DownloadService } from "../../services/DownloadService";
+import { logbook } from "../loader";
+import { useTypedLoaderData } from "../loader/useTypedLoaderData";
 
 // 自動更新オン時の再読込間隔（ミリ秒）
 const RELOAD_INTERVAL_MS = 5 * 1000;
@@ -24,7 +26,7 @@ async function downloadLogbook(sorties: SortieContext[], format: "csv" | "jsonl"
 }
 
 export function LogbookPage() {
-  const { sorties } = useLoaderData() as { sorties: SortieContext[] };
+  const { sorties } = useTypedLoaderData<typeof logbook>();
   const revalidator = useRevalidator();
   const [autoReload, setAutoReload] = useState(false);
 

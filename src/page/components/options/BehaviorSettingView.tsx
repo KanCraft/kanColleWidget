@@ -1,17 +1,30 @@
-import { useState } from "react";
 import { BehaviorConfig, QueueWatchIntervalOptions, QueueWatchIntervalSeconds } from "../../../models/configs/BehaviorConfig";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function BehaviorSettingView({
-  config: _config,
+  config,
 }: {
   config: BehaviorConfig;
 }) {
-  const [config] = useState<BehaviorConfig>(_config);
-  const [restackFatigueOnSortie, setRestackFatigueOnSortie] = useState<boolean>(config.restackFatigueOnSortie ?? false);
-  const [queueWatchIntervalSeconds, setQueueWatchIntervalSeconds] = useState<QueueWatchIntervalSeconds>(config.normalizedQueueWatchIntervalSeconds());
-  const [logbookRetentionDays, setLogbookRetentionDays] = useState<number>(
+  const [restackFatigueOnSortie, saveRestackFatigueOnSortie] = useConfigField(
+    config,
+    "restackFatigueOnSortie",
+    config.restackFatigueOnSortie ?? false,
+  );
+  const [queueWatchIntervalSeconds, saveQueueWatchIntervalSeconds] = useConfigField(
+    config,
+    "queueWatchIntervalSeconds",
+    config.normalizedQueueWatchIntervalSeconds(),
+  );
+  const [logbookRetentionDays, saveLogbookRetentionDays] = useConfigField(
+    config,
+    "logbookRetentionDays",
     config.logbookRetentionDays ?? BehaviorConfig.DEFAULT_LOGBOOK_RETENTION_DAYS,
+    {
+      // 0（無期限）が有効値のため NaN は 0 に落とし、負数は 0 にクランプする
+      normalize: (v) => (Number.isFinite(v) ? Math.max(0, Math.trunc(v)) : 0),
+    },
   );
 
   return (
@@ -21,11 +34,7 @@ export function BehaviorSettingView({
           <input
             type="checkbox"
             checked={restackFatigueOnSortie}
-            onChange={async (e) => {
-              const next = e.target.checked;
-              await config.update({ restackFatigueOnSortie: next });
-              setRestackFatigueOnSortie(next);
-            }}
+            onChange={(e) => void saveRestackFatigueOnSortie(e.target.checked)}
             className="w-4 h-4"
           />
           <span className="font-bold">出撃時に同じ艦隊の疲労タイマーを積み直す</span>
@@ -40,11 +49,7 @@ export function BehaviorSettingView({
         </label>
         <select
           value={queueWatchIntervalSeconds}
-          onChange={async (e) => {
-            const next = Number(e.target.value) as QueueWatchIntervalSeconds;
-            await config.update({ queueWatchIntervalSeconds: next });
-            setQueueWatchIntervalSeconds(next);
-          }}
+          onChange={(e) => void saveQueueWatchIntervalSeconds(Number(e.target.value) as QueueWatchIntervalSeconds)}
           className="border rounded p-2"
         >
           {QueueWatchIntervalOptions.map((seconds) => (
@@ -67,11 +72,7 @@ export function BehaviorSettingView({
             min={0}
             aria-label="出撃記録の保存期間"
             value={logbookRetentionDays}
-            onChange={async (e) => {
-              const next = Math.max(0, Math.trunc(Number(e.target.value) || 0));
-              await config.update({ logbookRetentionDays: next });
-              setLogbookRetentionDays(next);
-            }}
+            onChange={(e) => void saveLogbookRetentionDays(Number(e.target.value))}
             className="border rounded p-2 w-24"
           />
           <span>日（0で無期限）</span>

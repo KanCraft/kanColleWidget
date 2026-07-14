@@ -20,9 +20,12 @@ vi.hoisted(() => {
 import { onPracticePrepare, onSortiePrepare } from "../src/controllers/WebRequest/quest";
 import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../src/models/configs/NotificationConfig";
 import { QuestProgress } from "../src/models/QuestProgress";
+import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
 const create = chrome.notifications.create as unknown as ReturnType<typeof vi.fn>;
 const clear = chrome.notifications.clear as unknown as ReturnType<typeof vi.fn>;
+
+restoreDefaultsBeforeEach(NotificationConfig, QuestProgress);
 
 // 消去方式(stay)が既定のfalse(自動)だと10秒後に自動でclearされる。fake timerで固定し、
 // 実時間の待ちタイマーをテストプロセスに残さないようにする。
@@ -53,26 +56,15 @@ describe("onPracticePrepare", () => {
   it("演習任務に着手済みなら通知を出さない", async () => {
     const progress = await QuestProgress.user();
     await progress.start(303);
-    try {
-      await onPracticePrepare();
-      expect(create).not.toHaveBeenCalled();
-    } finally {
-      // QuestProgress も default が書き換わる同種の問題があるため、着手状態を戻しておく
-      await progress.stop(303);
-    }
+    await onPracticePrepare();
+    expect(create).not.toHaveBeenCalled();
   });
 
   it("設定が無効なら通知を出さない", async () => {
     const config = (await NotificationConfig.find(QUEST_ALERT_NOTIFICATION_ID))!;
     await config.update({ enabled: false });
-    try {
-      await onPracticePrepare();
-      expect(create).not.toHaveBeenCalled();
-    } finally {
-      // jstorm は保存先が空のとき static default をその場で書き換えるため、
-      // ここで false のまま残すと他テストの既定値に波及する。明示的に戻す
-      await config.update({ enabled: true });
-    }
+    await onPracticePrepare();
+    expect(create).not.toHaveBeenCalled();
   });
 
   it("消去方式が既定(自動)なら10秒後に自動でclearされる", async () => {
@@ -85,13 +77,9 @@ describe("onPracticePrepare", () => {
   it("消去方式を手動にすると自動では消えない", async () => {
     const config = (await NotificationConfig.find(QUEST_ALERT_NOTIFICATION_ID))!;
     await config.update({ stay: true });
-    try {
-      await onPracticePrepare();
-      vi.advanceTimersByTime(10_000);
-      expect(clear).toHaveBeenCalledTimes(1); // 発火直前のclearのみ
-    } finally {
-      await config.update({ stay: false });
-    }
+    await onPracticePrepare();
+    vi.advanceTimersByTime(10_000);
+    expect(clear).toHaveBeenCalledTimes(1); // 発火直前のclearのみ
   });
 });
 
@@ -108,11 +96,7 @@ describe("onSortiePrepare", () => {
   it("出撃任務に着手済みなら通知を出さない", async () => {
     const progress = await QuestProgress.user();
     await progress.start(201);
-    try {
-      await onSortiePrepare();
-      expect(create).not.toHaveBeenCalled();
-    } finally {
-      await progress.stop(201);
-    }
+    await onSortiePrepare();
+    expect(create).not.toHaveBeenCalled();
   });
 });

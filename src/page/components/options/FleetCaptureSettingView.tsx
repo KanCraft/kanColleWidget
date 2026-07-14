@@ -4,6 +4,7 @@ import { CapturePreset } from "../../../models/CapturePreset";
 import { FleetCaptureConfig, TransparentBackground } from "../../../models/configs/FleetCaptureConfig";
 import { Launcher } from "../../../services/Launcher";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function FleetCaptureSettingView({
   presets,
@@ -13,15 +14,10 @@ export function FleetCaptureSettingView({
   config: FleetCaptureConfig;
 }) {
   const revalidator = useRevalidator();
-  const [background, setBackground] = useState<string>(config.background);
+  const [background, applyBackground] = useConfigField(config, "background", config.background);
   const transparent = background === TransparentBackground;
   // 透明を解除したときに戻す色
   const [lastColor, setLastColor] = useState<string>(transparent ? "#ffffff" : config.background);
-
-  const applyBackground = async (next: string) => {
-    await config.update({ background: next });
-    setBackground(next);
-  };
 
   return (
     <FoldableSection title="編成キャプチャの設定" id="fleet-capture">

@@ -1,15 +1,18 @@
-import { useState } from "react";
 import { FileSaveConfig, type ImageFormat } from "../../../models/configs/FileSaveConfig";
 import { FoldableSection } from "../FoldableSection";
+import { useConfigField } from "./useConfigField";
 
 export function FileSaveSettingView({
-  config: _config,
+  config,
 }: {
   config: FileSaveConfig;
 }) {
-  const [config] = useState<FileSaveConfig>(_config);
-  const [folder, setFolder] = useState<string>(_config.folder);
-  const [preview, setPreview] = useState<string>(_config.getFilename(new Date()));
+  const [askAlways, saveAskAlways] = useConfigField(config, "askAlways", config.askAlways);
+  const [editBeforeSave, saveEditBeforeSave] = useConfigField(config, "editBeforeSave", config.editBeforeSave);
+  const [folder, saveFolder] = useConfigField(config, "folder", config.folder || "");
+  const [filenameTemplate, saveFilenameTemplate] = useConfigField(config, "filenameTemplate", config.filenameTemplate || "");
+  const [format, saveFormat] = useConfigField(config, "format", config.format);
+  const preview = config.getFilename(new Date());
 
   return (
     <FoldableSection title="スクショ保存の設定" id="file-save">
@@ -22,11 +25,8 @@ export function FileSaveSettingView({
           <input
             type="checkbox"
             className="h-4 w-4"
-            defaultChecked={config.askAlways}
-            onChange={async (e) => {
-              const next = e.target.checked;
-              await config.update({ askAlways: next });
-            }}
+            checked={askAlways}
+            onChange={(e) => void saveAskAlways(e.target.checked)}
           />
           <div>
             <div className="font-bold">毎回保存先を確認する</div>
@@ -42,10 +42,8 @@ export function FileSaveSettingView({
           <input
             type="checkbox"
             className="h-4 w-4"
-            defaultChecked={config.editBeforeSave}
-            onChange={async (e) => {
-              await config.update({ editBeforeSave: e.target.checked });
-            }}
+            checked={editBeforeSave}
+            onChange={(e) => void saveEditBeforeSave(e.target.checked)}
           />
           <div>
             <div className="font-bold">保存前に編集画面を開く</div>
@@ -64,11 +62,8 @@ export function FileSaveSettingView({
           </label>
           <input
             type="text"
-            defaultValue={config.folder || ""}
-            onChange={async (e) => {
-              await config.update({ folder: e.target.value });
-              setFolder(e.target.value);
-            }}
+            value={folder}
+            onChange={(e) => void saveFolder(e.target.value)}
             className="border rounded p-2 w-full max-w-md"
             placeholder="艦これ"
           />
@@ -85,20 +80,14 @@ export function FileSaveSettingView({
           <div className="flex items-center gap-2 w-full max-w-md">
             <input
               type="text"
-              defaultValue={config.filenameTemplate || ""}
-              onChange={async (e) => {
-                await config.update({ filenameTemplate: e.target.value });
-                setPreview(config!.getFilename(new Date()));
-              }}
+              value={filenameTemplate}
+              onChange={(e) => void saveFilenameTemplate(e.target.value)}
               className="border rounded p-2 flex-1 font-mono"
               placeholder="%Y%m%d_%H%M%S"
             />
             <select
-              defaultValue={config.format}
-              onChange={async (e) => {
-                await config.update({ format: e.target.value as ImageFormat });
-                setPreview(config!.getFilename(new Date()));
-              }}
+              value={format}
+              onChange={(e) => void saveFormat(e.target.value as ImageFormat)}
               className="border rounded p-2 font-mono"
             >
               <option value="png">.png</option>
