@@ -35,6 +35,12 @@ import { onCommitted } from "./controllers/WebNavigation";
 // ゲーム画面へのナビゲーション（リロード含む）時にコンテンツスクリプトを再注入する
 chrome.webNavigation.onCommitted.addListener(onCommitted.listener(), { url: [{ urlPrefix: KanColleURL }] });
 
+import { GameWindowRegistry } from "./services/GameWindowRegistry";
+// 閉じた窓が「自分が開いたゲーム別窓」として記録されていれば、所有権レジストリから消す（#1848）
+chrome.windows.onRemoved.addListener((windowId) => {
+  new GameWindowRegistry().forget(windowId);
+});
+
 // import { Launcher } from "./services/Launcher";
 // import { Frame } from "./models/Frame";
 // (async () => {

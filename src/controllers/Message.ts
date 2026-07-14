@@ -40,6 +40,16 @@ onMessage.on("/frame/memory:track", async (req) => {
 });
 
 /**
+ * dmm.ts の自己診断（#game_frame の実寸が100vw/100vh相当かのチェック）でズレを検知した際に、
+ * 次のナビゲーションイベントを待たずにゲーム別窓を再活性化する（#1848）。
+ */
+onMessage.on("/frame/self-check:mismatch", async (_, sender) => {
+  if (!sender.tab?.windowId) return;
+  const win = await chrome.windows.get(sender.tab.windowId, { populate: true });
+  return await (new Launcher()).reactivate(win);
+});
+
+/**
  * ダッシュボードウィンドウの位置・サイズを保存する
  * @param req.left 左位置
  * @param req.top 上位置
