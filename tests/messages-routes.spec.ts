@@ -16,6 +16,8 @@ describe("メッセージルート定数の契約", () => {
       DSNAPSHOT_SEPARATE_PUSH: "/dsnapshot/separate:push",
       FRAME_OPEN_OR_FOCUS: "/frame/open-or-focus",
       FRAME_MEMORY_TRACK: "/frame/memory:track",
+      FRAME_MEMORY_RESET: "/frame/memory:reset",
+      FRAME_SELF_CHECK_MISMATCH: "/frame/self-check:mismatch",
       DASHBOARD_TRACK: "/dashboard:track",
       MUTE_TOGGLE: "/mute:toggle",
       SCREENSHOT: "/screenshot",

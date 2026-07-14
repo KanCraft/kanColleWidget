@@ -11,6 +11,7 @@ import type { Route, OcrResultRoute, OcrPurpose, DmmOcrPayload } from '../messag
   const SCREENSHOT: Route<"SCREENSHOT"> = "/screenshot";
   const MUTE_TOGGLE: Route<"MUTE_TOGGLE"> = "/mute:toggle";
   const FRAME_MEMORY_TRACK: Route<"FRAME_MEMORY_TRACK"> = "/frame/memory:track";
+  const FRAME_SELF_CHECK_MISMATCH: Route<"FRAME_SELF_CHECK_MISMATCH"> = "/frame/self-check:mismatch";
   const CONFIGS: Route<"CONFIGS"> = "/configs";
   const DMM_OCR: Route<"DMM_OCR"> = "/injected/dmm/ocr";
   const DMM_RETOUCH: Route<"DMM_RETOUCH"> = "/injected/dmm/retouch";
@@ -152,7 +153,7 @@ import type { Route, OcrResultRoute, OcrPurpose, DmmOcrPayload } from '../messag
     const rect = frame.getBoundingClientRect();
     const fits = Math.abs(rect.width - window.innerWidth) < 2 && Math.abs(rect.height - window.innerHeight) < 2;
     if (!fits) {
-      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/frame/self-check:mismatch" });
+      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: FRAME_SELF_CHECK_MISMATCH });
     }
   }
 

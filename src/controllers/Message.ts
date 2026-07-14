@@ -47,7 +47,7 @@ onMessage.on(Routes.FRAME_MEMORY_TRACK, async (req) => {
  * 形へ窓をカスタマイズする正規のユースケースと区別できないため採用しない（#1848）。
  * ユーザーが能動的に選んだときだけ実行される、安全な手動リセット導線とする。
  */
-onMessage.on("/frame/memory:reset", async () => {
+onMessage.on(Routes.FRAME_MEMORY_RESET, async () => {
   return await (await Frame.memory()).delete();
 });
 
@@ -55,7 +55,7 @@ onMessage.on("/frame/memory:reset", async () => {
  * dmm.ts の自己診断（#game_frame の実寸が100vw/100vh相当かのチェック）でズレを検知した際に、
  * 次のナビゲーションイベントを待たずにゲーム別窓を再活性化する（#1848）。
  */
-onMessage.on("/frame/self-check:mismatch", async (_, sender) => {
+onMessage.on(Routes.FRAME_SELF_CHECK_MISMATCH, async (_, sender) => {
   if (!sender.tab?.windowId) return;
   const win = await chrome.windows.get(sender.tab.windowId, { populate: true });
   return await (new Launcher()).reactivate(win);
