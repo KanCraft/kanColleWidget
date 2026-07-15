@@ -21,11 +21,13 @@ async function check() {
     if (queue.scheduled > Date.now()) continue;
     try {
       const entry = queue.entry();
-      notification.notify(entry);
+      await notification.notify(entry);
       await queue.delete();
       // 完了通知を出したら、同じ対象の開始通知は役目を終えたので消す
       // （「手動で消すまで残す」設定の開始通知には、他に自動で消える経路がない）。
-      notification.clear(entry.$n.id(TriggerType.START));
+      // 他のQueueのcron処理を止めないよう、失敗してもawaitはせずログだけ残す。
+      void notification.clear(entry.$n.id(TriggerType.START))
+        .catch((e) => log.warn("開始通知の消去に失敗", e));
     } catch (e) {
       log.warn("Once:", e);
     }

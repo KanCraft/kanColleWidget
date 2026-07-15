@@ -10,9 +10,8 @@ vi.hoisted(() => {
       getURL: (path: string) => `chrome-extension://test/${path}`,
     },
     notifications: {
-      // NotificationService.create/clear はコールバック経由でPromiseを解決するため、素の vi.fn() だとawaitがハングする
-      create: vi.fn((id: string, _options: unknown, cb?: (id: string) => void) => cb?.(id)),
-      clear: vi.fn((id: string, cb?: (wasCleared: boolean) => void) => cb?.(true)),
+      create: vi.fn(async (id: string) => id),
+      clear: vi.fn(async () => true),
     },
   };
 });
@@ -30,7 +29,7 @@ restoreDefaultsBeforeEach(NotificationConfig, QuestProgress);
 // 消去方式(stay)が既定のfalse(自動)だと10秒後に自動でclearされる。fake timerで固定し、
 // 実時間の待ちタイマーをテストプロセスに残さないようにする。
 beforeEach(() => {
-  // mockReset() だとコールバックを呼ぶ実装（hoisted側で設定）まで消えてPromiseがハングするので、
+  // mockReset() だと hoisted 側で設定した実装（Promise解決）まで消えてしまうので、
   // 呼び出し履歴だけ消す mockClear() を使う
   create.mockClear();
   clear.mockClear();
@@ -45,7 +44,7 @@ afterEach(() => {
 describe("onPracticePrepare", () => {
   it("演習任務が未着手なら通知を出し、アイコンは他の通知と同じ既定値を使う", async () => {
     await onPracticePrepare();
-    expect(clear).toHaveBeenCalledWith("/quest-alert/practice", expect.any(Function));
+    expect(clear).toHaveBeenCalledWith("/quest-alert/practice");
     expect(create).toHaveBeenCalledTimes(1);
     const [id, options] = create.mock.calls[0] as [string, chrome.notifications.NotificationCreateOptions];
     expect(id).toBe("/quest-alert/practice");
@@ -86,7 +85,7 @@ describe("onPracticePrepare", () => {
 describe("onSortiePrepare", () => {
   it("出撃任務が未着手なら通知を出す", async () => {
     await onSortiePrepare();
-    expect(clear).toHaveBeenCalledWith("/quest-alert/sortie", expect.any(Function));
+    expect(clear).toHaveBeenCalledWith("/quest-alert/sortie");
     expect(create).toHaveBeenCalledTimes(1);
     const [id, options] = create.mock.calls[0] as [string, chrome.notifications.NotificationCreateOptions];
     expect(id).toBe("/quest-alert/sortie");

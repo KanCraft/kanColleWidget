@@ -13,6 +13,8 @@ import { Launcher } from "../../services/Launcher";
 import { Logbook } from "../../models/Logbook";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
+import { Routes } from "../../messages";
+import type { Route, DmmOcrPayload } from "../../messages";
 
 const log = Logger.get("WebRequest");
 
@@ -22,11 +24,11 @@ const log = Logger.get("WebRequest");
 async function clearSnapshotOnBattleStart(details: chrome.webRequest.OnBeforeRequestDetails) {
   const config = await DamageSnapshotConfig.user();
   if (config.keepUntilNextShow) return;
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_REMOVE }, { frameId: details.frameId });
 }
 
 export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
-  chrome.tabs.sendMessage(details.tabId, { __action__: "/injected/kcs/dsnapshot:remove" }, { frameId: details.frameId });
+  chrome.tabs.sendMessage(details.tabId, { __action__: Routes.DSNAPSHOT_REMOVE }, { frameId: details.frameId });
   const dsnapshot = await new Launcher().getDsnapshotTab();
   if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
   await Logbook.record();
@@ -76,6 +78,21 @@ export async function onMissionResult([details]: chrome.webRequest.OnBeforeReque
   await retireSlot(EntryType.MISSION, deck);
 }
 
+// 現在のゲーム画面をキャプチャし、対象領域を切り出して content script に OCR を依頼する
+async function requestOcr<P extends EntryType.RECOVERY | EntryType.SHIPBUILD>(details: chrome.webRequest.OnBeforeRequestDetails, type: P, dock: string): Promise<void> {
+  const tabs = new TabService();
+  const tab = await tabs.get(details.tabId);
+  const raw = await tabs.capture(tab.windowId, { format: "jpeg" });
+  const img = await WorkerImage.from(raw);
+  const url = await (new CropService(img)).crop(type, { dock });
+  const payload = {
+    __action__: Routes.DMM_OCR,
+    url, purpose: type,
+    [type]: { dock },
+  } as { __action__: Route<"DMM_OCR"> } & DmmOcrPayload<P>;
+  await chrome.tabs.sendMessage(details.tabId, payload);
+}
+
 export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onRecoveryStart", details);
   const data = formData<RecoveryStartFormData>(details);
@@ -87,15 +104,7 @@ export async function onRecoveryStart([details]: chrome.webRequest.OnBeforeReque
     await Queue.deleteSlot(EntryType.RECOVERY, dock);
     return;
   }
-  const tab = await new TabService().get(details.tabId);
-  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
-  const img = await WorkerImage.from(raw);
-  const url = await (new CropService(img)).crop(EntryType.RECOVERY);
-  await chrome.tabs.sendMessage(details.tabId, {
-    __action__: "/injected/dmm/ocr",
-    url, purpose: EntryType.RECOVERY,
-    [EntryType.RECOVERY]: { dock }
-  });
+  await requestOcr(details, EntryType.RECOVERY, dock);
 }
 
 // 修復中に高速修復剤を使って完了させたとき、そのドックの修復タイマー（Queue・通知）を終える
@@ -204,16 +213,8 @@ export async function onCreateShip([details]: chrome.webRequest.OnBeforeRequestD
     await Queue.deleteSlot(EntryType.SHIPBUILD, dock);
     return;
   }
-  const tab = await new TabService().get(details.tabId);
   await sleep(600); // いったんめんどくさいんでこれで
-  const raw = await chrome.tabs.captureVisibleTab(tab.windowId, { format: "jpeg" });
-  const img = await WorkerImage.from(raw);
-  const url = await (new CropService(img)).crop(EntryType.SHIPBUILD, { dock });
-  await chrome.tabs.sendMessage(details.tabId, {
-    __action__: "/injected/dmm/ocr",
-    url, purpose: EntryType.SHIPBUILD,
-    [EntryType.SHIPBUILD]: { dock }
-  });
+  await requestOcr(details, EntryType.SHIPBUILD, dock);
 }
 
 // 建造中に高速建造材を使って完了させたとき、そのドックの建造タイマー（Queue・通知）を終える。

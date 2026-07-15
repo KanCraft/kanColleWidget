@@ -4,7 +4,6 @@ import { ArrowDownTrayIcon, ArrowPathIcon, BookOpenIcon } from "@heroicons/react
 import { SortieContext } from "../../models/Logbook";
 import { describeBattles, formatStarted } from "./format";
 import { logbookExportFilename, toCSV, toDataUrl, toJSONL } from "./export";
-import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { DownloadService } from "../../services/DownloadService";
 import { logbook } from "../loader";
 import { useTypedLoaderData } from "../loader/useTypedLoaderData";
@@ -19,10 +18,7 @@ const CSV_BOM = String.fromCharCode(0xfeff);
 async function downloadLogbook(sorties: SortieContext[], format: "csv" | "jsonl") {
   const content = format === "csv" ? CSV_BOM + toCSV(sorties) : toJSONL(sorties);
   const mimeType = format === "csv" ? "text/csv" : "application/x-ndjson";
-  await new DownloadService(new FileSaveConfig()).download(
-    toDataUrl(content, mimeType),
-    logbookExportFilename(format),
-  );
+  await DownloadService.direct(toDataUrl(content, mimeType), logbookExportFilename(format));
 }
 
 export function LogbookPage() {

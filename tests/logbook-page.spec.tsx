@@ -6,7 +6,8 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
 // chrome.downloads はダウンロードボタンのテストでのみ必要。呼び出された
 // filename/url を検証できるよう、DownloadService からの呼び出しをモックする。
 const { downloadMock } = vi.hoisted(() => {
-  const downloadMock = vi.fn((_options: unknown, cb: (id: number) => void) => cb(1));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const downloadMock = vi.fn(async (_options: unknown) => 1);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (globalThis as any).chrome = {
     runtime: { lastError: undefined },
@@ -88,17 +89,19 @@ describe("LogbookPage", () => {
     renderPage([sortie()]);
     await userEvent.click(await screen.findByRole("button", { name: "CSV" }));
     await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
-    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string; saveAs: boolean }];
     expect(options.filename).toMatch(/\.csv$/);
     expect(options.url).toMatch(/^data:text\/csv/);
+    expect(options.saveAs).toBe(false);
   });
 
   it("JSONLボタンを押すと .jsonl ファイルをダウンロードする", async () => {
     renderPage([sortie()]);
     await userEvent.click(await screen.findByRole("button", { name: "JSONL" }));
     await waitFor(() => expect(downloadMock).toHaveBeenCalledTimes(1));
-    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string }];
+    const [options] = downloadMock.mock.calls[0] as [{ filename: string; url: string; saveAs: boolean }];
     expect(options.filename).toMatch(/\.jsonl$/);
     expect(options.url).toMatch(/^data:application\/x-ndjson/);
+    expect(options.saveAs).toBe(false);
   });
 });

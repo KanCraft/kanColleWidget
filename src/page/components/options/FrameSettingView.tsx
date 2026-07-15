@@ -5,6 +5,7 @@ import { Launcher } from "../../../services/Launcher";
 import { ScriptingService } from "../../../services/ScriptingService";
 import { FoldableSection } from "../FoldableSection";
 import { useConfigField } from "./useConfigField";
+import { Routes } from "../../../messages";
 
 export function FrameSettingView({
   frames,
@@ -43,7 +44,7 @@ export function FrameSettingView({
             {frame._id === "__memory__" && <div>
               <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
                 onClick={async () => {
-                  await chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/frame/memory:reset" });
+                  await chrome.runtime.sendMessage(chrome.runtime.id, { __action__: Routes.FRAME_MEMORY_RESET });
                   navigate("/options?open=frames");
                 }}
               >ウィンドウサイズをリセット</button>

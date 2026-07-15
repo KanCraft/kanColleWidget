@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { TempStorage } from "../../services/TempStorage";
 import { DownloadService } from "../../services/DownloadService";
-import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 
 // 編集ツール種別。crop: ドラッグ範囲で切り取り、rect: ドラッグ範囲に矩形を描く
 export type ToolType = "crop" | "rect";
@@ -149,9 +148,7 @@ export function useScreenshotEditor(key: string | null): ScreenshotEditorControl
   const save = useCallback(async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const config = await FileSaveConfig.user();
-    const uri = canvas.toDataURL(`image/${config.format}`);
-    await new DownloadService(config).download(uri);
+    await DownloadService.saveCanvasAsImage(canvas);
   }, []);
 
   return {

@@ -1,7 +1,16 @@
 /**
  * iframeの中のゲーム画面に対するinjection
  */
+import type { Route } from '../messages';
+
 (() => {
+
+  // 拡張内メッセージのルート文字列。src/messages.ts の Routes と値を一致させる（型注釈で乖離を tsc が検出）。
+  // content script は classic script として注入されるため src/messages.ts を実行時 import できない。
+  const PREPARE: Route<"DSNAPSHOT_PREPARE"> = "/injected/kcs/dsnapshot:prepare";
+  const SHOW: Route<"DSNAPSHOT_SHOW"> = "/injected/kcs/dsnapshot:show";
+  const REMOVE: Route<"DSNAPSHOT_REMOVE"> = "/injected/kcs/dsnapshot:remove";
+  const CAPTURE: Route<"DAMAGE_SNAPSHOT_CAPTURE"> = "/damage-snapshot/capture";
 
   function load(uri: string): Promise<HTMLImageElement> {
     return new Promise(resolve => {
@@ -83,7 +92,7 @@
       if (now - this.lastClickedAt < this.ignoreMillisecBetweenClicks) return;
       this.lastClickedAt = now;
       chrome.runtime.sendMessage(chrome.runtime.id, {
-        action: "/damage-snapshot/capture", after: 1000 + (800 * this.clicked), timestamp: this.timestamp,
+        __action__: CAPTURE, after: 1000 + (800 * this.clicked), timestamp: this.timestamp,
       })
       this.clicked += 1;
       if (this.count <= this.clicked) {
@@ -162,11 +171,11 @@
   const ds = new DamageSnapshot();
   chrome.runtime.onMessage.addListener(async (msg) => {
     switch (msg.__action__) {
-    case "/injected/kcs/dsnapshot:prepare":
+    case PREPARE:
       return ds.prepare(msg);
-    case "/injected/kcs/dsnapshot:show":
+    case SHOW:
       return ds.show(msg);
-    case "/injected/kcs/dsnapshot:remove":
+    case REMOVE:
       return ds.remove();
     }
   });

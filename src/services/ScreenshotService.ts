@@ -17,6 +17,17 @@ export class ScreenshotService {
   ) { }
 
   /**
+   * 指定ウィンドウの可視領域を撮影し、ユーザー設定に応じて保存または編集ページへ渡す。
+   * @param windowId 撮影対象のウィンドウ ID
+   * @param launcher キャプチャを担うサービス（既定は新規 Launcher）
+   */
+  public static async take(windowId: number, launcher: Pick<Launcher, "capture"> = new Launcher()): Promise<void> {
+    const config = await FileSaveConfig.user();
+    const uri = await launcher.capture(windowId, { format: config.format });
+    return new ScreenshotService(config).deliver(uri);
+  }
+
+  /**
    * 撮影画像を設定に応じて処理する
    * @param uri 撮影画像の dataURL
    */

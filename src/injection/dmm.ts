@@ -1,9 +1,20 @@
 import { type GameWindowConfig } from '../models/configs/GameWindowConfig';
 import { ocr, warmUpOcrWorker } from './ocrWorker';
+import type { Route, OcrResultRoute, OcrPurpose, DmmOcrPayload } from '../messages';
 // import { Rectangle, load, crop } from './crop';
 
 (async () => {
   // const GameIFrame = "iframe#game_frame";
+
+  // 拡張内メッセージのルート文字列。src/messages.ts の Routes と値を一致させる（型注釈で乖離を tsc が検出）。
+  // content script は classic script として注入されるため src/messages.ts を実行時 import できない。
+  const SCREENSHOT: Route<"SCREENSHOT"> = "/screenshot";
+  const MUTE_TOGGLE: Route<"MUTE_TOGGLE"> = "/mute:toggle";
+  const FRAME_MEMORY_TRACK: Route<"FRAME_MEMORY_TRACK"> = "/frame/memory:track";
+  const FRAME_SELF_CHECK_MISMATCH: Route<"FRAME_SELF_CHECK_MISMATCH"> = "/frame/self-check:mismatch";
+  const CONFIGS: Route<"CONFIGS"> = "/configs";
+  const DMM_OCR: Route<"DMM_OCR"> = "/injected/dmm/ocr";
+  const DMM_RETOUCH: Route<"DMM_RETOUCH"> = "/injected/dmm/retouch";
 
 
   /**
@@ -54,7 +65,7 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
       parent.removeChild(this.container);
       await this.waitNextFrame(InAppActionButtons.FRAME_WAIT_FOR_CAPTURE);
       try {
-        await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/screenshot" });
+        await chrome.runtime.sendMessage<{ __action__: Route<"SCREENSHOT"> }, chrome.tabs.Tab>(chrome.runtime.id, { __action__: SCREENSHOT });
       } finally {
         parent.appendChild(this.container);
       }
@@ -67,7 +78,7 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
     }
 
     private async toggleMute() {
-      const tab = await chrome.runtime.sendMessage<{ action: string }, chrome.tabs.Tab>(chrome.runtime.id, { action: "/mute:toggle" })
+      const tab = await chrome.runtime.sendMessage<{ __action__: Route<"MUTE_TOGGLE"> }, chrome.tabs.Tab>(chrome.runtime.id, { __action__: MUTE_TOGGLE })
       this.muteButton.innerHTML = tab.mutedInfo?.muted ? InAppActionButtons.ICON_SPEAKER_X_MARK : InAppActionButtons.ICON_SPEAKER_WAVE;
     }
     private createContainer(): HTMLDivElement {
@@ -123,7 +134,7 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
    */
   function track() {
     chrome.runtime.sendMessage(chrome.runtime.id, {
-      __action__: "/frame/memory:track",
+      __action__: FRAME_MEMORY_TRACK,
       position: { left: window.screenX, top: window.screenY },
       size: { width: window.innerWidth, height: window.innerHeight },
     });
@@ -142,7 +153,7 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
     const rect = frame.getBoundingClientRect();
     const fits = Math.abs(rect.width - window.innerWidth) < 2 && Math.abs(rect.height - window.innerHeight) < 2;
     if (!fits) {
-      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/frame/self-check:mismatch" });
+      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: FRAME_SELF_CHECK_MISMATCH });
     }
   }
 
@@ -150,22 +161,24 @@ import { ocr, warmUpOcrWorker } from './ocrWorker';
     game: GameWindowConfig;
   }> {
     return new Promise(resolve => {
-      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: "/configs" }, resolve);
+      chrome.runtime.sendMessage(chrome.runtime.id, { __action__: CONFIGS }, resolve);
     });
   }
 
   function startListeningMessage() {
     chrome.runtime.onMessage.addListener(async (msg) => {
-      if (msg.__action__ === "/injected/dmm/ocr" && msg.url) {
-        const url = msg.url;
+      if (msg.__action__ === DMM_OCR && msg.url) {
+        const request = msg as DmmOcrPayload<OcrPurpose>;
+        const url = request.url;
         const i = document.createElement("img"); i.src = url; document.body.appendChild(i);
         const ret = await ocr(url);
+        const route: OcrResultRoute = `/injected/dmm/ocr/${request.purpose}:result`;
         chrome.runtime.sendMessage(chrome.runtime.id, {
-          __action__: `/injected/dmm/ocr/${msg.purpose}:result`, data: ret.data,
-          purpose: msg.purpose, [msg.purpose]: msg[msg.purpose],
+          __action__: route, data: ret.data,
+          purpose: request.purpose, [request.purpose]: request[request.purpose],
         });
       }
-      if (msg.__action__ === "/injected/dmm/retouch") {
+      if (msg.__action__ === DMM_RETOUCH) {
         // retouch は Launcher 側で windows.update により外形をフレーム設定へ
         // 戻した直後に届くため、ここでは無条件に補正してよい
         resize();

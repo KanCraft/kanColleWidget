@@ -8,6 +8,7 @@ import { KanColleURL } from "../constants";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../models/configs/DamageSnapshotConfig";
 import { sleep } from "../utils";
+import { Routes } from "../messages";
 
 /**
  * 艦これウィジェットがゲーム別窓や関連タブを起動・管理するための制御クラス。
@@ -243,7 +244,7 @@ export class Launcher {
   public async retouch(win: chrome.windows.Window, frame: Frame | null) {
     if (frame) {
       await this.windows.update(win.id!, { ...frame.size });
-      chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: "/injected/dmm/retouch" });
+      chrome.tabs.sendMessage(win.tabs![0].id!, { __action__: Routes.DMM_RETOUCH });
     }
     await this.focus(win.id!);
   }
@@ -345,15 +346,15 @@ export class Launcher {
   }
 
   /**
-   * 指定タブの可視領域をキャプチャし、Base64 データ URL を返す。
-   * @param tabId 対象タブ ID
+   * 指定ウィンドウの可視領域をキャプチャし、Base64 データ URL を返す。
+   * @param windowId 対象ウィンドウ ID
    * @param options Chrome のキャプチャオプション（既定は JPEG/100）
    * @returns キャプチャ結果の文字列
    */
-  public async capture(tabId: number, options: chrome.extensionTypes.ImageDetails = {
+  public async capture(windowId: number, options: chrome.extensionTypes.ImageDetails = {
     format: "jpeg",
     quality: 100,
   }): Promise<string> {
-    return this.tabs.capture(tabId, options);
+    return this.tabs.capture(windowId, options);
   }
 }

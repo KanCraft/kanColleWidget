@@ -3,7 +3,8 @@ import { Launcher } from "../../../services/Launcher";
 import { useRevalidator } from "react-router-dom";
 import { ScreenshotService } from "../../../services/ScreenshotService";
 import { CameraIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/outline";
-import { FileSaveConfig } from "../../../models/configs/FileSaveConfig";
+import { Routes } from "../../../messages";
+import type { Route } from "../../../messages";
 
 function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, launcher: Launcher, refresh: () => void }) {
   if (!tab) return null;
@@ -16,13 +17,11 @@ function MuteControlButton({ tab, launcher, refresh }: { tab?: chrome.tabs.Tab, 
   )
 }
 
-function CaptureControlButton({ tab, launcher }: { tab?: chrome.tabs.Tab, launcher: Launcher }) {
+function CaptureControlButton({ tab }: { tab?: chrome.tabs.Tab }) {
   if (!tab) return null;
   return (
     <div onClick={async () => {
-      const config = await FileSaveConfig.user();
-      const uri = await launcher.capture(tab.windowId, { format: config.format });
-      await new ScreenshotService(config).deliver(uri);
+      await ScreenshotService.take(tab.windowId);
     }} className="cursor-pointer text-slate-400 hover:text-slate-600" title="スクリーンショットを保存">
       <CameraIcon className="w-8 h-8" aria-hidden="true" />
     </div>
@@ -33,10 +32,10 @@ function LaunchControlButton({ frameId }: { frameId: string }) {
   const onClick = async () => {
     try {
       await chrome.runtime.sendMessage<
-        { action: string; frame_id?: string },
+        { __action__: Route<"FRAME_OPEN_OR_FOCUS">; frame_id?: string },
         { opened: boolean; frame_id: string | null }
       >(chrome.runtime.id, {
-        action: "/frame/open-or-focus",
+        __action__: Routes.FRAME_OPEN_OR_FOCUS,
         frame_id: frameId,
       });
     } catch (error) {
@@ -57,7 +56,7 @@ export function ActionsView({tab, frameId}: { tab?: chrome.tabs.Tab, frameId: st
   return (
     <div className="flex-1 flex items-center justify-end space-x-4">
       <LaunchControlButton frameId={frameId} />
-      <CaptureControlButton tab={tab} launcher={launcher} />
+      <CaptureControlButton tab={tab} />
       <MuteControlButton tab={tab} launcher={launcher} refresh={refresh} />
     </div>
   )

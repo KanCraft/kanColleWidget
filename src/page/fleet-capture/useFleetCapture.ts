@@ -6,7 +6,6 @@ import { Launcher } from "../../services/Launcher";
 import { WorkerImage } from "../../utils";
 import { Logger } from "../../logger";
 import { CapturePreset } from "../../models/CapturePreset";
-import { FileSaveConfig } from "../../models/configs/FileSaveConfig";
 import { FleetCaptureConfig, TransparentBackground } from "../../models/configs/FleetCaptureConfig";
 import {
   createEmptyResultSet,
@@ -79,8 +78,13 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
       setPreview(null);
       return;
     }
-    setPreview(await launcher.capture(win.id!));
-  }, []);
+    try {
+      setPreview(await launcher.capture(win.id!));
+    } catch (error) {
+      log.error("refreshPreview failed", error);
+      setPreview(null);
+    }
+  }, [log]);
 
   // 初回表示時にプレビューを取得する（StrictModeの二重実行で連続キャプチャしないようガード）
   const previewRequested = useRef(false);
@@ -98,13 +102,18 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
         alert("ゲームウィンドウを検出できませんでした。");
         return;
       }
-      const whole = await launcher.capture(win.id!);
-      const workerImage = await WorkerImage.from(whole);
-      const cropper = new CropService(workerImage);
-      const cropped = await cropper.cropRelative(rect);
-      setResults((prev) => updateResultCell(prev, rowIndex, colIndex, cropped));
+      try {
+        const whole = await launcher.capture(win.id!);
+        const workerImage = await WorkerImage.from(whole);
+        const cropper = new CropService(workerImage);
+        const cropped = await cropper.cropRelative(rect);
+        setResults((prev) => updateResultCell(prev, rowIndex, colIndex, cropped));
+      } catch (error) {
+        log.error("captureCell failed", error);
+        alert("ゲームウィンドウのキャプチャに失敗しました。");
+      }
     },
-    [rect],
+    [rect, log],
   );
 
   const clearCell = useCallback((rowIndex: number, colIndex: number) => {
@@ -169,10 +178,7 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
           ctx.drawImage(img, colIndex * width, rowIndex * height, width, height);
         });
       });
-      const config = await FileSaveConfig.user();
-      const downloadService = new DownloadService(config);
-      const dataUrl = canvas.toDataURL(`image/${config.format}`);
-      await downloadService.download(dataUrl);
+      await DownloadService.saveCanvasAsImage(canvas);
     } catch (error) {
       log.error("exportResults failed", error);
       alert("画像の結合に失敗しました。コンソールログを確認してください。");

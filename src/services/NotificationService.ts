@@ -17,12 +17,12 @@ export class NotificationService {
     return all[id];
   }
 
-  public getAll(): Promise<Record<string, boolean>> {
-    return new Promise((resolve) => this.mod.getAll(obj => resolve(obj as Record<string, boolean>)));
+  public async getAll(): Promise<Record<string, boolean>> {
+    return await this.mod.getAll() as Record<string, boolean>;
   }
 
   public clear(id: string): Promise<boolean> {
-    return new Promise((resolve) => this.mod.clear(id, (wasCleared) => resolve(wasCleared)));
+    return this.mod.clear(id);
   }
 
   // 表示中の通知のうち条件に一致するものをすべて消す。
@@ -35,7 +35,7 @@ export class NotificationService {
   }
 
   public create(id: string, options: chrome.notifications.NotificationCreateOptions): Promise<string> {
-    return new Promise((resolve) => this.mod.create(id, options, (notificationId) => resolve(notificationId)));
+    return this.mod.create(id, options);
   }
 
   public async notify(entry: Entry, trigger: TriggerType = TriggerType.END): Promise<string> {

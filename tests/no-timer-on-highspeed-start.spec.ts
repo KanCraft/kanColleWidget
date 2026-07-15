@@ -22,6 +22,7 @@ vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create } }));
 vi.mock("../src/services/TabService", () => ({
   TabService: class {
     get = vi.fn().mockResolvedValue({ windowId: 1 });
+    capture = vi.fn().mockResolvedValue("data:image/jpeg;base64,stub");
   },
 }));
 vi.mock("../src/services/CropService", () => ({

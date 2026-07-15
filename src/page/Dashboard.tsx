@@ -6,6 +6,7 @@ import { QuestTrackerList } from "./components/quest-tracker/QuestTrackerList";
 import { dashboard } from "./loader";
 import { useTypedLoaderData } from "./loader/useTypedLoaderData";
 import { useEffect } from "react";
+import { Routes } from "../messages";
 
 export function DashboardPage() {
   const { window, queues, time, frameId, questTrackerConfig, questProgress, config } = useTypedLoaderData<typeof dashboard>();
@@ -25,7 +26,7 @@ export function DashboardPage() {
         if (!currentWindow.left || !currentWindow.top || !currentWindow.width || !currentWindow.height) return;
 
         await chrome.runtime.sendMessage({
-          __action__: "/dashboard:track",
+          __action__: Routes.DASHBOARD_TRACK,
           left: currentWindow.left,
           top: currentWindow.top,
           width: currentWindow.width,

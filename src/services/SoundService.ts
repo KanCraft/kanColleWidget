@@ -1,3 +1,5 @@
+import { Routes } from "../messages";
+
 /**
  * 通知音の再生を担うサービス。
  * 実行環境に応じて適切なドライバーを選択し、呼び出し側は単一のAPIで扱えるようにする。
@@ -36,7 +38,7 @@ interface SoundDriver {
 }
 
 const OFFSCREEN_DOCUMENT_PATH = "offscreen/index.html";
-export const SOUND_PLAY_ACTION = "/sound/play";
+export const SOUND_PLAY_ACTION = Routes.SOUND_PLAY;
 
 function resolveDriver(): SoundDriver {
   if (typeof globalThis.Audio === "function") {
