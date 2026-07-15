@@ -17,6 +17,10 @@ vi.mock("../src/models/Queue", () => ({ default: { list } }));
 vi.mock("../src/services/NotificationService", () => ({
   NotificationService: vi.fn(() => ({ notify, clear })),
 }));
+const { badgeUpdate } = vi.hoisted(() => ({ badgeUpdate: vi.fn().mockResolvedValue(undefined) }));
+vi.mock("../src/services/BadgeService", () => ({
+  BadgeService: vi.fn(() => ({ update: badgeUpdate })),
+}));
 
 import { Once } from "../src/controllers/Cron/QueueWatcher";
 
@@ -32,6 +36,8 @@ describe("QueueWatcher.Once", () => {
     list.mockReset();
     notify.mockClear();
     clear.mockClear();
+    badgeUpdate.mockClear();
+    badgeUpdate.mockResolvedValue(undefined);
   });
 
   it("期限を過ぎた Queue は通知して削除し、期限前の Queue には触らない", async () => {
@@ -51,6 +57,21 @@ describe("QueueWatcher.Once", () => {
     list.mockResolvedValueOnce([due]);
     await Once();
     expect(clear).toHaveBeenCalledWith("/mission/start/1");
+  });
+
+  it("チェックの最後に全Queueを渡してバッジ表示を更新する", async () => {
+    const due = queue(Date.now() - 1000);
+    const pending = queue(Date.now() + 60 * 1000);
+    list.mockResolvedValueOnce([due, pending]);
+    await Once();
+    expect(badgeUpdate).toHaveBeenCalledTimes(1);
+    expect(badgeUpdate).toHaveBeenCalledWith([due, pending]);
+  });
+
+  it("バッジ更新の失敗はチェック全体を失敗させない", async () => {
+    list.mockResolvedValueOnce([queue(Date.now() + 60 * 1000)]);
+    badgeUpdate.mockRejectedValueOnce(new Error("action unavailable"));
+    await expect(Once()).resolves.toBeUndefined();
   });
 
   it("実行は直列化され、前の実行が完了するまで次のチェックは始まらない", async () => {
