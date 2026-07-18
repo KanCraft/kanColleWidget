@@ -2,6 +2,7 @@ import { Logger } from "../../logger";
 import Queue from "../../models/Queue";
 import { TriggerType } from "../../models/entry";
 import { NotificationService } from "../../services/NotificationService";
+import { BadgeService } from "../../services/BadgeService";
 
 // Once の実行を直列化するための Promise チェーン。
 // 多重起動で同一 Queue を並行チェックすると二重通知の恐れがあるため、前回の実行完了を待ってから次を実行する。
@@ -31,5 +32,12 @@ async function check() {
     } catch (e) {
       log.warn("Once:", e);
     }
+  }
+  // 完了処理を終えた残りのQueueをバッジ表示に反映する。
+  // バッジ更新の失敗が通知処理の結果を壊さないよう、ここで握ってログだけ残す。
+  try {
+    await new BadgeService().update(queues);
+  } catch (e) {
+    log.warn("バッジ更新に失敗", e);
   }
 }
