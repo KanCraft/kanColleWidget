@@ -56,7 +56,6 @@ onBeforeRequest.on(["/kcsapi/api_req_combined_battle/sp_midnight"], onCombinedSp
 onBeforeRequest.on(["/kcsapi/api_req_sortie/airbattle"], onAirBattleStarted); // 航空戦マスの戦闘が開始されたとき(#1854)
 onBeforeRequest.on(["/kcsapi/api_req_sortie/ld_airbattle"], onAirBattleStarted); // 空襲戦マス（通常艦隊）の戦闘が開始されたとき(#1854)
 onBeforeRequest.on(["/kcsapi/api_req_combined_battle/ld_airbattle"], onAirBattleStarted); // 空襲戦マス（連合艦隊）の戦闘が開始されたとき(#1854)
-onBeforeRequest.on(["/kcsapi/api_req_map/start_air_base"], onAirBattleStarted); // イベント海域の基地航空戦が開始されたとき(#1854)
 
 onBeforeRequest.on([
   '/kcsapi/api_req_kousyou/createship',
