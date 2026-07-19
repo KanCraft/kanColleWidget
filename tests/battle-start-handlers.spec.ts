@@ -22,6 +22,7 @@ import {
   onBattleStarted,
   onCombinedBattleStarted,
   onSpMidnightBattleStarted,
+  onAirBattleStarted,
   onMapNext,
 } from "../src/controllers/WebRequest/kcsapi";
 
@@ -63,6 +64,17 @@ describe("戦闘開始系ハンドラ", () => {
     damageSnapshotUser.mockResolvedValue({ keepUntilNextShow: true });
     await onBattleStarted(details({ api_formation: ["1"] }));
     expect(sendMessage).not.toHaveBeenCalled();
+  });
+
+  it("onAirBattleStarted: 航空戦・空襲戦マスでも通常戦闘と同様にLogbookへ戦闘開始を記録する", async () => {
+    await onAirBattleStarted(details({ api_formation: ["1"] }));
+    expect(start).toHaveBeenCalledWith("1");
+    expect(midnight).not.toHaveBeenCalled();
+  });
+
+  it("onAirBattleStarted: formData欠落時は空文字でstartを呼び、例外にならない", async () => {
+    await expect(onAirBattleStarted(details())).resolves.not.toThrow();
+    expect(start).toHaveBeenCalledWith("");
   });
 });
 

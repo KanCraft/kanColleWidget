@@ -188,6 +188,12 @@ export async function onCombinedSpMidnightBattleStarted([details]: chrome.webReq
   await startBattle(details, { midnight: true });
 }
 
+// 航空戦マス（1-6等）・空襲戦マス（通常/連合艦隊、7-5・5-2・E1等）・イベント海域の基地航空戦の
+// 戦闘開始時。昼戦と同じく連戦数に算入する。夜戦に継続するマスではないため midnight は立てない（#1854）。
+export async function onAirBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
+  await startBattle(details);
+}
+
 // 戦闘終了時
 export async function onBattleResulted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   log.debug("onBattleResulted", details);
