@@ -189,11 +189,8 @@ export async function onCombinedSpMidnightBattleStarted([details]: chrome.webReq
 }
 
 // 航空戦マス（1-6等）・空襲戦マス（7-5・5-2・E1等）・イベント海域の基地航空戦の戦闘開始時。
-// 昼戦と同じく連戦数に算入する。夜戦に継続するマスではないため midnight は立てない（#1854）。
-// 通常艦隊の航空戦・空襲戦（api_req_sortie/airbattle・ld_airbattle）は kcsapi Recorder の実データで
-// 裏取り済み：どちらも1回のみ発火し api_formation を持ち、結果は api_req_sortie/battleresult に乗る。
-// 連合艦隊の空襲戦（api_req_combined_battle/ld_airbattle）とイベント基地航空戦（api_req_map/start_air_base）
-// は実データ未観測（v3実装のパス名を踏襲した防御的登録）。実機で観測できたら本コメントを更新すること。
+// 昼戦と同じく連戦数に算入する。夜戦に継続するマスではないため midnight は立てない。結果は他の
+// 戦闘同様 api_req_sortie/battleresult で返るため専用の result ハンドラは不要（#1854）。
 export async function onAirBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   await startBattle(details);
 }
