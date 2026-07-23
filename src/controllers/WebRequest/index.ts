@@ -21,6 +21,7 @@ import {
   onMidnightBattleStarted,
   onSpMidnightBattleStarted,
   onCombinedSpMidnightBattleStarted,
+  onAirBattleStarted,
 } from "./kcsapi";
 import { onQuestStart, onQuestStop, onQuestComplete, onPracticePrepare, onSortiePrepare } from "./quest";
 import { ScriptingService } from "../../services/ScriptingService";
@@ -52,6 +53,9 @@ onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/battle"], onMidnightBattleS
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/sp_midnight"], onSpMidnightBattleStarted); // 開幕夜戦マスの戦闘が開始されたとき(#1764)
 // 連合艦隊の開幕夜戦。パス未観測のため予防的登録（実機確認まで挙動は未保証）(#1764)
 onBeforeRequest.on(["/kcsapi/api_req_combined_battle/sp_midnight"], onCombinedSpMidnightBattleStarted);
+onBeforeRequest.on(["/kcsapi/api_req_sortie/airbattle"], onAirBattleStarted); // 航空戦マスの戦闘が開始されたとき(#1854)
+onBeforeRequest.on(["/kcsapi/api_req_sortie/ld_airbattle"], onAirBattleStarted); // 空襲戦マス（通常艦隊）の戦闘が開始されたとき(#1854)
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/ld_airbattle"], onAirBattleStarted); // 空襲戦マス（連合艦隊）の戦闘が開始されたとき(#1854)
 
 onBeforeRequest.on([
   '/kcsapi/api_req_kousyou/createship',

@@ -22,6 +22,7 @@ import {
   onBattleStarted,
   onCombinedBattleStarted,
   onSpMidnightBattleStarted,
+  onAirBattleStarted,
   onMapNext,
 } from "../src/controllers/WebRequest/kcsapi";
 
@@ -63,6 +64,25 @@ describe("戦闘開始系ハンドラ", () => {
     damageSnapshotUser.mockResolvedValue({ keepUntilNextShow: true });
     await onBattleStarted(details({ api_formation: ["1"] }));
     expect(sendMessage).not.toHaveBeenCalled();
+  });
+
+  // formation値は kcsapi Recorder で実際に観測した航空戦(1-6)のformDataを反映（#1854）
+  it("onAirBattleStarted: 航空戦マスでも通常戦闘と同様にLogbookへ戦闘開始を記録する", async () => {
+    await onAirBattleStarted(details({ api_formation: ["3"], api_recovery_type: ["0"] }));
+    expect(start).toHaveBeenCalledWith("3");
+    expect(midnight).not.toHaveBeenCalled();
+  });
+
+  // formation値は kcsapi Recorder で実際に観測した空襲戦(5-2)のformDataを反映（#1854）
+  it("onAirBattleStarted: 空襲戦マスでも通常戦闘と同様にLogbookへ戦闘開始を記録する", async () => {
+    await onAirBattleStarted(details({ api_formation: ["6"], api_recovery_type: ["0"] }));
+    expect(start).toHaveBeenCalledWith("6");
+    expect(midnight).not.toHaveBeenCalled();
+  });
+
+  it("onAirBattleStarted: formData欠落時は空文字でstartを呼び、例外にならない", async () => {
+    await expect(onAirBattleStarted(details())).resolves.not.toThrow();
+    expect(start).toHaveBeenCalledWith("");
   });
 });
 
