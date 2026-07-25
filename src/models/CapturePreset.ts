@@ -23,6 +23,9 @@ export class CapturePreset extends Model {
   // 削除・上書き禁止フラグ（組み込みプリセット用）
   public protected = false;
 
+  // 一覧に並べる順序。小さいものから先に並べ、同値なら保存順を保つ
+  public order = 0;
+
   public static override default = {
     __fleet__: {
       name: "通常艦隊",
@@ -34,6 +37,7 @@ export class CapturePreset extends Model {
         ["第五艦", "第六艦"],
       ],
       protected: true,
+      order: 0,
     },
     __combined__: {
       name: "連合艦隊",
@@ -45,6 +49,7 @@ export class CapturePreset extends Model {
         ["第五艦", "第六艦", "第五艦", "第六艦"],
       ],
       protected: true,
+      order: 1,
     },
     __aviation__: {
       name: "基地航空隊",
@@ -54,6 +59,7 @@ export class CapturePreset extends Model {
         ["第一航空隊", "第二航空隊", "第三航空隊"],
       ],
       protected: true,
+      order: 2,
     },
   };
 }

@@ -6,6 +6,7 @@ import { Launcher } from "../../services/Launcher";
 import { WorkerImage } from "../../utils";
 import { Logger } from "../../logger";
 import { CapturePreset } from "../../models/CapturePreset";
+import { nextOrder } from "../../models/capturePresetOrder";
 import { FleetCaptureConfig, TransparentBackground } from "../../models/configs/FleetCaptureConfig";
 import {
   createEmptyResultSet,
@@ -135,10 +136,11 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
       rect,
       composition,
       protected: false,
+      order: nextOrder(presets),
     });
     setActivePresetId(created._id!);
     revalidator.revalidate();
-  }, [rect, composition, revalidator]);
+  }, [rect, composition, presets, revalidator]);
 
   const deletePreset = useCallback(async () => {
     if (activePreset.protected) return;
