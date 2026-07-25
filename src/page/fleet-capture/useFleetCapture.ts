@@ -23,8 +23,13 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
   const log = Logger.get("FleetCapture");
   const revalidator = useRevalidator();
 
-  const [activePresetId, setActivePresetId] = useState<string>(presets[0]._id!);
-  const activePreset = presets.find((preset) => preset._id === activePresetId) ?? presets[0];
+  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
+  // 削除済みのプリセットが presets に残る。id を失ったものは一覧から除いて扱う
+  const availablePresets = presets.filter((preset) => preset._id);
+
+  const [activePresetId, setActivePresetId] = useState<string>(availablePresets[0]._id!);
+  const activePreset =
+    availablePresets.find((preset) => preset._id === activePresetId) ?? availablePresets[0];
 
   const [rect, setRectState] = useState<RelativeRect>(activePreset.rect);
   const [composition, setComposition] = useState<string[][]>(activePreset.composition);
@@ -136,18 +141,18 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
       rect,
       composition,
       protected: false,
-      order: nextOrder(presets),
+      order: nextOrder(availablePresets),
     });
     setActivePresetId(created._id!);
     revalidator.revalidate();
-  }, [rect, composition, presets, revalidator]);
+  }, [rect, composition, availablePresets, revalidator]);
 
   const deletePreset = useCallback(async () => {
     if (activePreset.protected) return;
     if (!window.confirm(`プリセット「${activePreset.name}」を削除します。よろしいですか？`)) return;
     await activePreset.delete();
     // 組み込みプリセットは削除できないため、残りの先頭が必ず存在する
-    const remaining = presets.filter((preset) => preset._id !== activePreset._id);
+    const remaining = presets.filter((preset) => preset._id);
     applyPreset(remaining[0]);
     revalidator.revalidate();
   }, [activePreset, presets, applyPreset, revalidator]);
@@ -190,7 +195,7 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
   const isExportDisabled = useMemo(() => !hasAnyResult(results), [results]);
 
   return {
-    presets,
+    presets: availablePresets,
     activePreset,
     rect,
     composition,
