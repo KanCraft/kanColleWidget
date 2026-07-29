@@ -1,5 +1,5 @@
 import { Logger } from "../../logger";
-import { missions } from "../../catalog";
+import { isSupportMission, missions } from "../../catalog";
 import { sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
 import { BattleStartFormData, CreateShipFormData, GetShipFormData, MapNextFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData, RecoverySpeedchangeFormData, ShipbuildSpeedchangeFormData } from "./datatypes";
@@ -32,6 +32,7 @@ export async function onPort([details]: chrome.webRequest.OnBeforeRequestDetails
   const dsnapshot = await new Launcher().getDsnapshotTab();
   if (dsnapshot) chrome.windows.remove(dsnapshot.windowId!);
   await Logbook.record();
+  await retireSortiedSupportMissions();
 }
 
 export async function onMissionStart([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
@@ -68,6 +69,16 @@ export async function onMissionReturnInstruction([details]: chrome.webRequest.On
 async function retireSlot(type: EntryType, slot: string) {
   await Queue.deleteSlot(type, slot);
   await NotificationService.new().clearBy({ type, target: slot });
+}
+
+// 出撃を跨いだ支援遠征のタイマーを、本隊の母港帰投で終える（#1857）。支援艦隊は本隊とともに
+// 帰投するため、残り時間や帰投予定時刻の経過に関わらず、完了通知を出さずに畳む。
+async function retireSortiedSupportMissions() {
+  const queues = await Queue.list();
+  for (const q of queues) {
+    if (!q.sortied) continue;
+    await retireSlot(q.type, String(q.slot));
+  }
 }
 
 // 遠征結果を回収したとき、その艦隊の遠征タイマー（Queue・通知）を終える（#1844）
@@ -133,6 +144,19 @@ export async function onMapStart([details]: chrome.webRequest.OnBeforeRequestDet
     await Queue.restack(EntryType.FATIGUE, fatigue.deck, fatigue, scheduled);
   } else {
     await Queue.create({ type: EntryType.FATIGUE, params: fatigue, scheduled });
+  }
+  await markSupportMissionsSortied();
+}
+
+// 進行中の支援遠征のQueueに、本隊が出撃したことを記録する（#1857）。支援艦隊は本隊が帰投する
+// まで戦域に留まるため、この記録を持つQueueは QueueWatcher が完了通知の対象から外し、
+// 母港帰投時に retireSortiedSupportMissions が畳む。
+async function markSupportMissionsSortied() {
+  const queues = await Queue.list();
+  for (const q of queues) {
+    if (q.type !== EntryType.MISSION) continue;
+    if (!isSupportMission(q.params.id)) continue;
+    await q.update({ sortied: true });
   }
 }
 

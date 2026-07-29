@@ -25,8 +25,9 @@ vi.mock("../src/services/BadgeService", () => ({
 import { Once } from "../src/controllers/Cron/QueueWatcher";
 
 // 期限判定に使う Queue の最小構成
-const queue = (scheduled: number) => ({
+const queue = (scheduled: number, sortied = false) => ({
   scheduled,
+  sortied,
   entry: () => ({ type: "mission", $n: { id: (trigger: string) => `/mission/${trigger}/1` } }),
   delete: vi.fn().mockResolvedValue(undefined),
 });
@@ -48,6 +49,17 @@ describe("QueueWatcher.Once", () => {
     expect(notify).toHaveBeenCalledTimes(1);
     expect(due.delete).toHaveBeenCalledTimes(1);
     expect(pending.delete).not.toHaveBeenCalled();
+  });
+
+  // 支援艦隊は本隊が帰投するまで戦域に留まるため、出撃を跨いだ支援遠征（sortied）は
+  // 帰投予定時刻を過ぎても完了通知を出さず、残り時間の目安としてタイマーを残す。
+  // このQueueは本隊の母港帰投時に kcsapi.ts の onPort が畳む。
+  it("出撃を跨いだ支援遠征のQueueは、期限を過ぎても通知せず削除もしない", async () => {
+    const sortied = queue(Date.now() - 1000, true);
+    list.mockResolvedValueOnce([sortied]);
+    await Once();
+    expect(notify).not.toHaveBeenCalled();
+    expect(sortied.delete).not.toHaveBeenCalled();
   });
 
   // 「手動で消すまで残す」設定の開始通知には他に自動で消える経路がないため、

@@ -36,6 +36,11 @@ export default class Queue extends Model {
   public params: Record<string, string | number> = {};
   public scheduled: number = 0; // 予定時刻 (Epoch Time) [ms]
 
+  // 本隊の出撃を跨いでいる支援遠征のQueueに立つ。出撃中は帰投予定時刻を過ぎても完了通知を
+  // 出さずタイマーを残し、本隊の母港帰投でこのQueueを畳む
+  // （@see Cron/QueueWatcher, WebRequest/kcsapi.ts の onMapStart / onPort）。
+  public sortied: boolean = false;
+
   // このQueueのスロット番号（艦隊/ドック）。EntryType に応じた params のキーから取り出す。
   public get slot(): string | number | undefined {
     return this.params[slotKey(this.type)];

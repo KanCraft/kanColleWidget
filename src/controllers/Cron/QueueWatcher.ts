@@ -20,6 +20,9 @@ async function check() {
   const notification = new NotificationService();
   for (const queue of queues) {
     if (queue.scheduled > Date.now()) continue;
+    // 出撃を跨いだ支援遠征は、本隊が帰投するまで支援艦隊も帰投しない。帰投予定時刻を過ぎても
+    // 完了通知は出さず、残り時間の目安としてタイマーを残す（本隊の母港帰投で畳まれる）。
+    if (queue.sortied) continue;
     try {
       const entry = queue.entry();
       await notification.notify(entry);

@@ -56,7 +56,9 @@ vi.mock("../src/utils", async (importOriginal) => ({
 
 // Message.ts の他ルートが参照する依存はこのテストの対象外なので、最小スタブに差し替える
 vi.mock("../src/models/Frame", () => ({ Frame: { find: vi.fn(), memory: vi.fn() } }));
-vi.mock("../src/models/Queue", () => ({ default: { deleteSlot: vi.fn(), create: vi.fn() } }));
+vi.mock("../src/models/Queue", () => ({
+  default: { deleteSlot: vi.fn(), create: vi.fn(), list: vi.fn().mockResolvedValue([]) },
+}));
 vi.mock("../src/services/ScreenshotService", () => ({ ScreenshotService: vi.fn() }));
 vi.mock("../src/models/configs/DashboardConfig", () => ({ DashboardConfig: { user: vi.fn() } }));
 vi.mock("../src/models/configs/GameWindowConfig", () => ({ GameWindowConfig: { user: vi.fn() } }));
