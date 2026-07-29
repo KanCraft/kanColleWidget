@@ -79,6 +79,16 @@ describe("FleetCapturePage", () => {
     });
   });
 
+  // 初期選択は並び順の先頭。オプション画面でプリセットを並べ替えるとここに反映される
+  it("並び順の先頭のプリセットが初期選択になる", async () => {
+    CapturePreset.default.__aviation__.order = 0;
+    CapturePreset.default.__fleet__.order = 2;
+    renderPage();
+    await screen.findByRole("option", { name: "基地航空隊" });
+    expect((screen.getByRole("combobox") as HTMLSelectElement).value).toBe("__aviation__");
+    expect(screen.getByRole("button", { name: "第一航空隊" })).toBeInTheDocument();
+  });
+
   it("連合艦隊を選ぶと3行4列のグリッドになる", async () => {
     renderPage();
     await screen.findByRole("option", { name: "連合艦隊" });
@@ -143,6 +153,47 @@ describe("FleetCapturePage", () => {
     const created = saved.find((preset) => preset.name === "マイ範囲")!;
     expect(created.rect.x).toBeCloseTo(0.1);
     expect(created.protected).toBe(false);
+  });
+
+  it("「名前を付けて保存」したプリセットは選択肢の末尾に並ぶ", async () => {
+    vi.stubGlobal("prompt", vi.fn().mockReturnValue("あとから足した編成"));
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
+    await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
+
+    await screen.findByRole("option", { name: "あとから足した編成" });
+    expect(screen.getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "通常艦隊",
+      "連合艦隊",
+      "基地航空隊",
+      "あとから足した編成",
+    ]);
+  });
+
+  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
+  // key を失った選択肢が描画されることがあった。
+  // React は同じ警告を一度しか出さないため、他の削除操作より先に検証する
+  it("自作プリセットを削除しても key を欠いた選択肢を描画しない", async () => {
+    vi.stubGlobal("prompt", vi.fn().mockReturnValue("消すやつ"));
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
+    const messages: string[] = [];
+    const consoleError = vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
+      messages.push(args.map(String).join(" "));
+    });
+
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openAdjustMode();
+    await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
+    await screen.findByRole("option", { name: "消すやつ" });
+    await userEvent.click(screen.getByRole("button", { name: "プリセットを削除" }));
+    await waitFor(() => {
+      expect(screen.queryByRole("option", { name: "消すやつ" })).not.toBeInTheDocument();
+    });
+
+    consoleError.mockRestore();
+    expect(messages.filter((message) => message.includes('unique "key"'))).toEqual([]);
   });
 
   it("自作プリセットを削除すると組み込みプリセットの選択に戻る", async () => {

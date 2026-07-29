@@ -1,5 +1,6 @@
 import { Logger } from "../logger";
 import Queue from "../models/Queue";
+import { CapturePreset } from "../models/CapturePreset";
 import { Frame } from "../models/Frame";
 import { SortieContext } from "../models/Logbook";
 import { DashboardConfig } from "../models/configs/DashboardConfig";
@@ -13,6 +14,11 @@ export async function onInstalled() {
     await migrateNotificationConfig();
   } catch (e) {
     Logger.get("Runtime").warn("NotificationConfig の移行に失敗:", e);
+  }
+  try {
+    await migrateCapturePresetOrder();
+  } catch (e) {
+    Logger.get("Runtime").warn("CapturePreset の並び順の移行に失敗:", e);
   }
 }
 
@@ -64,6 +70,44 @@ export async function migrateNotificationConfig(
   }
   await area.set({ [NotificationConfig._namespace_]: merged });
   await area.remove(strayKeys);
+}
+
+/**
+ * order を持たない過去ビルドの CapturePreset に並び順を与える。
+ *
+ * chrome.storage はレコードを ID の昇順で返すため、並び順を保存していないプリセットは
+ * 一覧でも編成キャプチャ画面の選択肢でも基地航空隊が先頭になってしまう。組み込み
+ * プリセットには既定の並び順を、それ以外にはその後ろの順番を振って保存し直す。
+ *
+ * - 全レコードが order を持っていれば移行済みとみなし、何もしない。
+ * - 一部にしか order が無い場合は、組み込みを既定順・それ以外を現在の順で振り直す。
+ */
+export async function migrateCapturePresetOrder(
+  area: chrome.storage.StorageArea = chrome.storage.local,
+): Promise<void> {
+  const namespace = CapturePreset._namespace_;
+  const stored = (await area.get(namespace))[namespace];
+  if (!isPlainObject(stored)) return;
+
+  const records = Object.entries(stored).filter(([, record]) => isPlainObject(record));
+  if (records.length === 0) return;
+  if (records.every(([, record]) => typeof (record as { order?: unknown }).order === "number")) return;
+
+  const builtins: Record<string, { order: number }> = CapturePreset.default;
+  const ordered = records
+    .map(([id, record], index) => ({
+      id,
+      record,
+      rank: builtins[id] ? builtins[id].order : Number.MAX_SAFE_INTEGER,
+      index,
+    }))
+    .sort((a, b) => a.rank - b.rank || a.index - b.index);
+
+  await area.set({
+    [namespace]: Object.fromEntries(
+      ordered.map(({ id, record }, order) => [id, { ...(record as object), order }]),
+    ),
+  });
 }
 
 function isPlainObject(value: unknown): value is { [key: string]: unknown } {

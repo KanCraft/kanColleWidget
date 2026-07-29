@@ -13,6 +13,7 @@ import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../models/co
 import { EntryType, NotificationId, TIMER_ENTRY_TYPES, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
 import { CapturePreset } from "../../models/CapturePreset";
+import { sortByOrder } from "../../models/capturePresetOrder";
 import { FleetCaptureConfig } from "../../models/configs/FleetCaptureConfig";
 import { QuestTrackerConfig } from "../../models/configs/QuestTrackerConfig";
 import { QuestProgress } from "../../models/QuestProgress";
@@ -57,7 +58,7 @@ export async function options() {
       defaults: notificationDefaults,
       entries: notificationEntries,
     },
-    capturePresets: await CapturePreset.list(),
+    capturePresets: sortByOrder(await CapturePreset.list()),
     fleetcapture: await FleetCaptureConfig.user(),
     questAlert: (await NotificationConfig.find(QUEST_ALERT_NOTIFICATION_ID))!,
     questTracker: await QuestTrackerConfig.user(),
@@ -66,7 +67,7 @@ export async function options() {
 
 export async function fleetcapture() {
   return {
-    presets: await CapturePreset.list(),
+    presets: sortByOrder(await CapturePreset.list()),
   };
 }
 
