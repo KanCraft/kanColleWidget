@@ -9,12 +9,13 @@ vi.hoisted(() => {
   };
 });
 
-const { deleteSlot, create, restack } = vi.hoisted(() => ({
+const { deleteSlot, create, restack, list } = vi.hoisted(() => ({
   deleteSlot: vi.fn().mockResolvedValue(undefined),
   create: vi.fn().mockResolvedValue({ entry: () => ({}) }),
   restack: vi.fn().mockResolvedValue({ entry: () => ({}) }),
+  list: vi.fn().mockResolvedValue([]),
 }));
-vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create, restack } }));
+vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create, restack, list } }));
 
 const { notify, clear, getAll, clearBy } = vi.hoisted(() => ({
   notify: vi.fn().mockResolvedValue(""),

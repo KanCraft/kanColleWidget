@@ -14,11 +14,16 @@ export interface MissionSpec {
     title: string;
     category: MissionCategory;
     time: number; // かかる時間;ミリ秒
+    support?: boolean; // 支援艦隊の遠征（前衛支援・決戦支援）かどうか
 }
 export interface MissionCatalog {
     [id: string]: MissionSpec;
 }
 export const missions = missiondata as unknown as MissionCatalog;
+
+// 支援艦隊の遠征かどうか。支援艦隊は本隊の出撃が終わると帰投予定時刻を待たずに
+// 帰投するため、通常の遠征とタイマーの畳み方が異なる（@see #1857）。
+export const isSupportMission = (id: string | number): boolean => missions[String(id)]?.support === true;
 
 // サーバカタログ
 export interface ServerEntry {
