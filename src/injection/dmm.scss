@@ -11,6 +11,14 @@ body {
     overflow: hidden !important;
 }
 
+// 計測タグは「文書内の最初の script の親の直前」へ自身を挿す実装が多く、その基点が
+// <html> 直下にあると <head> より前へ積み上がる。中に含まれる幅ゼロの iframe は
+// display: inline のため行ボックスを作り、body ごとゲーム画面を押し下げる。
+// 正常な文書では <html> 直下に iframe は存在しない。
+html > iframe {
+    display: none !important;
+}
+
 // DMM Game Platform が React SPA 化され、
 // div#root > div.gamesResetStyle でラップされるようになったため、
 // ラッパー要素もビューポート全体に広げる
