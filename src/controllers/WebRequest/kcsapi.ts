@@ -183,9 +183,10 @@ export async function onBattleStarted([details]: chrome.webRequest.OnBeforeReque
   await startBattle(details);
 }
 
-// 連合艦隊戦（昼戦）開始時。通常艦隊の onBattleStarted と同様に連戦数をカウントする（#1764）。
-// 連合艦隊では api_req_combined_battle/battle が飛ぶが従来ハンドラが無く連戦数が積まれなかった。
-// formData の形は実データ未観測のため api_formation を防御的に読む（揺らぎは許容）。
+// 連合艦隊戦（昼戦）開始時。通常艦隊の onBattleStarted と同様に連戦数をカウントする（#1764, #1864）。
+// 艦隊編成と敵の連合有無によって battle / battle_water / each_battle / each_battle_water /
+// ec_battle にパスが分かれるが、いずれも1戦として数えるため同じ処理で扱う。
+// api_formation には連合艦隊の警戒航行序列（11〜14）が入る。
 export async function onCombinedBattleStarted([details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   await startBattle(details);
 }
