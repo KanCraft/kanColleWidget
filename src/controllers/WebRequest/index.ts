@@ -46,8 +46,14 @@ onBeforeRequest.on(["/kcsapi/api_req_nyukyo/start"], onRecoveryStart); // 修復
 onBeforeRequest.on(["/kcsapi/api_req_nyukyo/speedchange"], onRecoveryHighspeed); // 修復中に高速修復剤を使ったとき
 onBeforeRequest.on(["/kcsapi/api_req_map/start"], onMapStart); // 出撃をしようとしたとき
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battle"], onBattleStarted); // 戦闘が開始されたとき
-onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battle"], onCombinedBattleStarted); // 連合艦隊戦が開始されたとき(#1764)
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battle"], onCombinedBattleStarted); // 連合艦隊（機動部隊）戦が開始されたとき(#1764)
+// 連合艦隊の戦闘は艦隊編成と敵の連合有無でパスが分岐する。いずれも1戦として数える(#1864)
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battle_water"], onCombinedBattleStarted); // 水上打撃部隊
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/each_battle"], onCombinedBattleStarted); // 機動部隊 vs 敵連合艦隊
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/each_battle_water"], onCombinedBattleStarted); // 水上打撃部隊 vs 敵連合艦隊
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/ec_battle"], onCombinedBattleStarted); // 通常艦隊 vs 敵連合艦隊
 onBeforeRequest.on(["/kcsapi/api_req_sortie/battleresult"], onBattleResulted); // 戦闘結果を回収しようとしたとき
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battleresult"], onBattleResulted); // 連合艦隊の戦闘結果を回収しようとしたとき(#1864)
 onBeforeRequest.on(["/kcsapi/api_req_map/next"], onMapNext); // マップ移動をしたとき
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/battle"], onMidnightBattleStarted); // 昼戦マスからの追撃夜戦に突入したとき
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/sp_midnight"], onSpMidnightBattleStarted); // 開幕夜戦マスの戦闘が開始されたとき(#1764)
