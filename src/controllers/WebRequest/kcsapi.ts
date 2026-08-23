@@ -193,6 +193,7 @@ export async function onCombinedBattleStarted([details]: chrome.webRequest.OnBef
 
 // 夜戦（昼戦マスからの追撃夜戦）突入時。同じマスの戦闘の継続なので連戦数は増やさず、
 // 最後の戦闘に夜戦フラグだけ立てる。開幕夜戦マス（sp_midnight）とは区別する（#1764）。
+// 敵が連合艦隊の場合は api_req_combined_battle/ec_midnight_battle に分かれるが、扱いは同じ。
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function onMidnightBattleStarted([_details]: chrome.webRequest.OnBeforeRequestDetails[]) {
   Logbook.sortie.battle.midnight();
