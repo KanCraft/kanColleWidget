@@ -19,17 +19,15 @@ interface UseFleetCaptureOptions {
   presets: CapturePreset[];
 }
 
+// 保存を知らせる表示を出しておく時間
+const NoticeDurationMs = 3000;
+
 export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptureController {
   const log = Logger.get("FleetCapture");
   const revalidator = useRevalidator();
 
-  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
-  // 削除済みのプリセットが presets に残る。id を失ったものは一覧から除いて扱う
-  const availablePresets = presets.filter((preset) => preset._id);
-
-  const [activePresetId, setActivePresetId] = useState<string>(availablePresets[0]._id!);
-  const activePreset =
-    availablePresets.find((preset) => preset._id === activePresetId) ?? availablePresets[0];
+  const [activePresetId, setActivePresetId] = useState<string>(presets[0]._id!);
+  const activePreset = presets.find((preset) => preset._id === activePresetId) ?? presets[0];
 
   const [rect, setRectState] = useState<RelativeRect>(activePreset.rect);
   const [composition, setComposition] = useState<string[][]>(activePreset.composition);
@@ -37,6 +35,21 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
     createEmptyResultSet(activePreset.composition),
   );
   const [preview, setPreview] = useState<string | null>(null);
+
+  // 保存の完了を一定時間だけ知らせる
+  const [notice, setNotice] = useState<string | null>(null);
+  const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const showNotice = useCallback((message: string) => {
+    setNotice(message);
+    if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    noticeTimer.current = setTimeout(() => setNotice(null), NoticeDurationMs);
+  }, []);
+  useEffect(
+    () => () => {
+      if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    },
+    [],
+  );
 
   const applyPreset = useCallback((preset: CapturePreset) => {
     setActivePresetId(preset._id!);
@@ -129,8 +142,9 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
   const updatePreset = useCallback(async () => {
     if (activePreset.protected) return;
     await activePreset.update({ rect, composition });
+    showNotice(`「${activePreset.name}」に保存しました`);
     revalidator.revalidate();
-  }, [activePreset, rect, composition, revalidator]);
+  }, [activePreset, rect, composition, showNotice, revalidator]);
 
   const saveAsNewPreset = useCallback(async () => {
     const name = window.prompt("新しいプリセットの名前を入力してください。");
@@ -141,21 +155,12 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
       rect,
       composition,
       protected: false,
-      order: nextOrder(availablePresets),
+      order: nextOrder(presets),
     });
     setActivePresetId(created._id!);
+    showNotice(`「${name}」を保存しました`);
     revalidator.revalidate();
-  }, [rect, composition, availablePresets, revalidator]);
-
-  const deletePreset = useCallback(async () => {
-    if (activePreset.protected) return;
-    if (!window.confirm(`プリセット「${activePreset.name}」を削除します。よろしいですか？`)) return;
-    await activePreset.delete();
-    // 組み込みプリセットは削除できないため、残りの先頭が必ず存在する
-    const remaining = presets.filter((preset) => preset._id);
-    applyPreset(remaining[0]);
-    revalidator.revalidate();
-  }, [activePreset, presets, applyPreset, revalidator]);
+  }, [rect, composition, presets, showNotice, revalidator]);
 
   const exportResults = useCallback(async () => {
     if (!hasAnyResult(results)) return;
@@ -195,12 +200,13 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
   const isExportDisabled = useMemo(() => !hasAnyResult(results), [results]);
 
   return {
-    presets: availablePresets,
+    presets,
     activePreset,
     rect,
     composition,
     modified,
     preview,
+    notice,
     results,
     selectPreset,
     setRect,
@@ -210,7 +216,6 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
     clearCell,
     updatePreset,
     saveAsNewPreset,
-    deletePreset,
     exportResults,
     isExportDisabled,
   };

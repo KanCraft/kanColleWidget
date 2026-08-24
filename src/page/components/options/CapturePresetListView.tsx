@@ -14,7 +14,11 @@ export function CapturePresetListView({ presets }: { presets: CapturePreset[] })
   // ドラッグ中の仮の並び。掴んでいない間は null
   const [preview, setPreview] = useState<CapturePreset[] | null>(null);
 
-  const shown = preview ?? presets;
+  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
+  // 削除済みのプリセットが presets に残る。id を失ったものは一覧から除いて扱う
+  const available = presets.filter((preset) => preset._id);
+
+  const shown = preview ?? available;
 
   const endDrag = () => {
     setDraggingId(null);
@@ -25,7 +29,7 @@ export function CapturePresetListView({ presets }: { presets: CapturePreset[] })
   const previewMoveTo = (index: number) => {
     if (!draggingId) return;
     setPreview((current) => {
-      const list = current ?? presets;
+      const list = current ?? available;
       const from = list.findIndex((preset) => preset._id === draggingId);
       if (from < 0 || from === index) return list;
       return moveItem(list, from, index);
@@ -36,7 +40,7 @@ export function CapturePresetListView({ presets }: { presets: CapturePreset[] })
     const reordered = preview;
     endDrag();
     if (!reordered) return;
-    if (reordered.every((preset, index) => preset._id === presets[index]._id)) return;
+    if (reordered.every((preset, index) => preset._id === available[index]._id)) return;
     // 並び順を保存していないプリセットにも order を書き込むため、差分ではなく全件を保存する。
     // jstorm の保存はレコード全体を読み書きするため、並行させると更新が取りこぼされる
     for (const [order, preset] of reordered.entries()) {
@@ -61,7 +65,7 @@ export function CapturePresetListView({ presets }: { presets: CapturePreset[] })
             draggable
             onDragStart={() => {
               setDraggingId(preset._id!);
-              setPreview(presets);
+              setPreview(available);
             }}
             onDragOver={(event) => {
               event.preventDefault();

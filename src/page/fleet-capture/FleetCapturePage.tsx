@@ -1,7 +1,9 @@
+import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { GameRawHeight, GameRawWidth } from "../../constants";
-import { CapturePreviewThumbnail } from "../components/fleet-capture/CapturePreviewThumbnail";
+import { CapturePreview } from "../components/fleet-capture/CapturePreview";
 import { ExportButton } from "../components/fleet-capture/ExportButton";
+import { GridSizeFields } from "../components/fleet-capture/GridSizeFields";
 import { PresetActionButtons } from "../components/fleet-capture/PresetActionButtons";
 import { PresetSelector } from "../components/fleet-capture/PresetSelector";
 import { RangeAdjuster } from "../components/fleet-capture/RangeAdjuster";
@@ -13,8 +15,8 @@ import { useTypedLoaderData } from "../loader/useTypedLoaderData";
 export function FleetCapturePage() {
   const { presets } = useTypedLoaderData<typeof fleetcapture>();
   const controller = useFleetCapture({ presets });
-  // 調整モード（切り抜き範囲・グリッド構成・プリセットの編集）とキャプチャモードの切り替え
-  const [adjusting, setAdjusting] = useState(false);
+  // 切り抜き範囲の調整は撮るたびには要らないため、既定では畳んでおく
+  const [adjustingRange, setAdjustingRange] = useState(false);
   const cellAspectRatio = `${GameRawWidth * controller.rect.w} / ${GameRawHeight * controller.rect.h}`;
 
   return (
@@ -24,52 +26,38 @@ export function FleetCapturePage() {
         「編成キャプチャ」とは、艦隊編成画面のスクリーンショットを手動で取得し、統合し、一枚の画像として保存する機能です。
       </p>
       <section className="space-y-2">
-        <label className="flex flex-col gap-2">
-          <span className="font-semibold">プリセット</span>
-          <PresetSelector
-            presets={controller.presets}
-            selectedId={controller.activePreset._id!}
-            onSelect={controller.selectPreset}
+        <div className="flex items-end gap-4">
+          <label className="flex flex-col gap-2">
+            <span className="font-semibold">プリセット</span>
+            <PresetSelector
+              presets={controller.presets}
+              selectedId={controller.activePreset._id!}
+              onSelect={controller.selectPreset}
+            />
+          </label>
+          <PresetActionButtons
+            modified={controller.modified}
+            builtin={controller.activePreset.protected}
+            notice={controller.notice}
+            onUpdate={controller.updatePreset}
+            onSaveAsNew={controller.saveAsNewPreset}
           />
-        </label>
+        </div>
         <p className="text-sm text-gray-600">{controller.activePreset.description}</p>
       </section>
-      {adjusting ? (
-        <section className="space-y-2">
-          <h2 className="text-xl font-bold">切り抜き範囲の調整</h2>
-          <RangeAdjuster
-            preview={controller.preview}
-            rect={controller.rect}
-            rows={controller.composition.length}
-            cols={controller.composition[0]?.length ?? 1}
-            onRectChange={controller.setRect}
-            onGridSizeChange={controller.setGridSize}
-            onRefreshPreview={controller.refreshPreview}
-          />
-          <div className="flex items-center space-x-2">
-            <PresetActionButtons
-              canUpdate={!controller.activePreset.protected && controller.modified}
-              canDelete={!controller.activePreset.protected}
-              onUpdate={controller.updatePreset}
-              onSaveAsNew={controller.saveAsNewPreset}
-              onDelete={controller.deletePreset}
-            />
-            <button
-              type="button"
-              className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400 text-white"
-              onClick={() => setAdjusting(false)}
-            >
-              キャプチャに戻る
-            </button>
-          </div>
-        </section>
-      ) : (
-        <section className="space-y-2">
-          <h2 className="text-xl font-bold">キャプチャ</h2>
-          <p className="text-sm text-gray-600">
-            セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
-          </p>
-          <div className="flex gap-6 items-start">
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold">キャプチャ</h2>
+        <p className="text-sm text-gray-600">
+          セルをクリックするとゲーム画面をキャプチャします。撮影済みのセルはクリックで撮り直せます。
+        </p>
+        <GridSizeFields
+          rows={controller.composition.length}
+          cols={controller.composition[0]?.length ?? 1}
+          onChange={controller.setGridSize}
+        />
+        {/* 横幅が足りないときはグリッドを切らず、プレビュー側を下へ折り返す */}
+        <div className="flex flex-wrap gap-6 items-start">
+          <div className="max-w-full overflow-x-auto">
             <ResultGrid
               composition={controller.composition}
               results={controller.results}
@@ -77,22 +65,36 @@ export function FleetCapturePage() {
               onRequestCapture={controller.captureCell}
               onRequestClear={controller.clearCell}
             />
-            {controller.preview ? (
-              <CapturePreviewThumbnail preview={controller.preview} rect={controller.rect} />
-            ) : null}
           </div>
-          <div className="flex items-center space-x-4">
-            <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
-            <button
-              type="button"
-              className="mt-4 border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
-              onClick={() => setAdjusting(true)}
-            >
-              切り抜き範囲を調整する
-            </button>
+          <div className="space-y-2">
+            <CapturePreview
+              preview={controller.preview}
+              rect={controller.rect}
+              expanded={adjustingRange}
+              onRefresh={controller.refreshPreview}
+            />
+            <div className="space-y-1">
+              <button
+                type="button"
+                className="flex items-center gap-1 text-gray-700 hover:text-gray-900 cursor-pointer"
+                aria-expanded={adjustingRange}
+                onClick={() => setAdjustingRange((open) => !open)}
+              >
+                {adjustingRange ? (
+                  <ChevronDownIcon className="w-4 h-4" aria-hidden="true" />
+                ) : (
+                  <ChevronRightIcon className="w-4 h-4" aria-hidden="true" />
+                )}
+                切り抜き範囲を調整する
+              </button>
+              {adjustingRange ? (
+                <RangeAdjuster rect={controller.rect} onRectChange={controller.setRect} />
+              ) : null}
+            </div>
           </div>
-        </section>
-      )}
+        </div>
+        <ExportButton disabled={controller.isExportDisabled} onExport={controller.exportResults} />
+      </section>
     </div>
   );
 }
