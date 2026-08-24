@@ -163,6 +163,25 @@ describe("FleetCapturePage", () => {
     expect(created.protected).toBe(false);
   });
 
+  // chrome.storage は保存したオブジェクトのキーを並べ替えて返すため、保存済みプリセットの
+  // rect は編集中の値と違うキー順で読み出される。文字列化して比べていた頃は、値を戻しても
+  // 「変更あり」が消えなかった
+  it("値を変えてから元に戻すと変更ありの表示が消える", async () => {
+    CapturePreset.default.__fleet__.protected = false;
+    CapturePreset.default.__fleet__.rect = { h: 0.78, w: 0.6, x: 0.39, y: 0.2 };
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openRangeAdjuster();
+
+    fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "10" } });
+    expect(screen.getByText("変更あり")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeEnabled();
+
+    fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "39" } });
+    expect(screen.queryByText("変更あり")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
+  });
+
   it("プリセットを保存すると保存できた旨を知らせる", async () => {
     vi.stubGlobal("prompt", vi.fn().mockReturnValue("マイ編成"));
     renderPage();

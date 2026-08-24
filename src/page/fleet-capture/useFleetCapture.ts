@@ -85,8 +85,8 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
 
   const modified = useMemo(
     () =>
-      JSON.stringify(rect) !== JSON.stringify(activePreset.rect) ||
-      JSON.stringify(composition) !== JSON.stringify(activePreset.composition),
+      !sameRect(rect, activePreset.rect) ||
+      !sameComposition(composition, activePreset.composition),
     [rect, composition, activePreset],
   );
 
@@ -223,6 +223,20 @@ export function useFleetCapture({ presets }: UseFleetCaptureOptions): FleetCaptu
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
+}
+
+// chrome.storage は保存したオブジェクトのキーを並べ替えて返すため、
+// 保存済みプリセットと編集中の値は文字列化して比べられない
+function sameRect(a: RelativeRect, b: RelativeRect): boolean {
+  return a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
+}
+
+function sameComposition(a: string[][], b: string[][]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((row, rowIndex) => {
+    const other = b[rowIndex];
+    return row.length === other.length && row.every((label, colIndex) => label === other[colIndex]);
+  });
 }
 
 function updateResultCell(
