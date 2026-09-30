@@ -7,7 +7,7 @@ import { KanColleURL } from "../constants";
  * ブラウザ主導の再読み込みでは transitionType が "reload" にならないことがあるため、
  * 種別では絞らずトップフレームのゲーム URL へのコミット全般を対象にする（#1845）。
  * 初回ロードと重なっても、二重注入は Launcher.activate() の check-and-set が防ぐ。
- * 経緯の詳細は ADR 0002。
+ * 経緯の詳細は docs/history/20260712_idempotent-injection-and-resize.md。
  */
 const onCommitted = new Router<typeof chrome.webNavigation.onCommitted>(async (details) => {
   const isGameNavigation = details.frameId === 0

@@ -122,7 +122,7 @@ import type { Route, OcrResultRoute, OcrPurpose, DmmOcrPayload } from '../messag
    * 外形(outer)と内寸(inner)の差分＝ウィンドウ装飾ぶんを足す非冪等な補正で、
    * 再実行のたびに窓が装飾ぶん拡大してしまう（#1810, #1813）。呼び出してよいのは
    * __main__（sessionStorage ガード付き）と retouch ハンドラ（Launcher.retouch が
-   * 外形を戻した直後）の2箇所だけ。詳細は ADR 0002。
+   * 外形を戻した直後）の2箇所だけ。詳細は docs/history/20260712_idempotent-injection-and-resize.md。
    */
   function resize() {
     window.resizeBy(window.outerWidth - window.innerWidth, window.outerHeight - window.innerHeight);
