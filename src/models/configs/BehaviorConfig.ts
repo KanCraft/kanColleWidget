@@ -6,6 +6,12 @@ export type QueueWatchIntervalSeconds = (typeof QueueWatchIntervalOptions)[numbe
 
 const DEFAULT_QUEUE_WATCH_INTERVAL_SECONDS: QueueWatchIntervalSeconds = 30;
 
+// 遠征帰投予告（#935）を完了通知の何分前に出すかの選択肢
+export const MissionRemindMinutesOptions = [3, 5, 10, 15] as const;
+export type MissionRemindMinutes = (typeof MissionRemindMinutesOptions)[number];
+
+const DEFAULT_MISSION_REMIND_MINUTES: MissionRemindMinutes = 3;
+
 // 出撃記録（Logbook）の既定保存期間（日数）。未設定(null)時に自動確定する値。
 const DEFAULT_LOGBOOK_RETENTION_DAYS = 7;
 
@@ -20,6 +26,8 @@ const DEFAULTS = {
   // 出撃記録（Logbook）の保存期間（日数）。0は無期限。null は未設定を表し、
   // Logbook.record() が初回に既存記録の有無を見て自動確定する（Logbook.ts 参照）。
   logbookRetentionDays: null as number | null,
+  // 遠征帰投予告を完了通知の何分前に出すか。予告自体の有効/無効は NotificationConfig の /mission/remind が持つ。
+  missionRemindMinutes: DEFAULT_MISSION_REMIND_MINUTES as number,
 };
 
 // 細かい挙動設定。独立したセクションを設けるほどではない挙動の設定をまとめて持つ。
@@ -38,6 +46,7 @@ export class BehaviorConfig extends UserConfig {
   public restackFatigueOnSortie: boolean = DEFAULTS.restackFatigueOnSortie;
   public queueWatchIntervalSeconds: number = DEFAULTS.queueWatchIntervalSeconds;
   public logbookRetentionDays: number | null = DEFAULTS.logbookRetentionDays;
+  public missionRemindMinutes: number = DEFAULTS.missionRemindMinutes;
 
   /**
    * タイマー監視間隔（秒）を選択肢のいずれかに正規化して返す。
@@ -46,5 +55,14 @@ export class BehaviorConfig extends UserConfig {
   public normalizedQueueWatchIntervalSeconds(): QueueWatchIntervalSeconds {
     const found = QueueWatchIntervalOptions.find((v) => v === this.queueWatchIntervalSeconds);
     return found ?? DEFAULT_QUEUE_WATCH_INTERVAL_SECONDS;
+  }
+
+  /**
+   * 遠征帰投予告の分数を選択肢のいずれかに正規化して返す。
+   * 保存値が選択肢にない場合は既定の3分として扱う。
+   */
+  public normalizedMissionRemindMinutes(): MissionRemindMinutes {
+    const found = MissionRemindMinutesOptions.find((v) => v === this.missionRemindMinutes);
+    return found ?? DEFAULT_MISSION_REMIND_MINUTES;
   }
 }

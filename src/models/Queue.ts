@@ -41,6 +41,10 @@ export default class Queue extends Model {
   // （@see Cron/QueueWatcher, WebRequest/kcsapi.ts の onMapStart / onPort）。
   public sortied: boolean = false;
 
+  // 遠征帰投予告（#935）を出し終えた、または出す必要がない（登録時点で既に予告の時間帯だった）印。
+  // QueueWatcher はこの印が無い遠征Queueにだけ予告を出す。
+  public reminded: boolean = false;
+
   // このQueueのスロット番号（艦隊/ドック）。EntryType に応じた params のキーから取り出す。
   public get slot(): string | number | undefined {
     return this.params[slotKey(this.type)];
@@ -59,6 +63,11 @@ export default class Queue extends Model {
     }
     Logger.get("Queue").warn("Unknown EntryType", this.type, this.params);
     return {} as T;
+  }
+
+  // 予告の時間帯（完了通知の lead ミリ秒前以降）に入っているか
+  public inRemindWindow(lead: number, now: number = Date.now()): boolean {
+    return this.scheduled - lead <= now;
   }
 
   public remain(max: number): { hours: number, minutes: number, seconds: number, progress: number };

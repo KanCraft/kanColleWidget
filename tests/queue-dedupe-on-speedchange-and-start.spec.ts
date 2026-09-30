@@ -12,7 +12,7 @@ vi.hoisted(() => {
 const { deleteSlot, create, restack, list } = vi.hoisted(() => ({
   deleteSlot: vi.fn().mockResolvedValue(undefined),
   create: vi.fn().mockResolvedValue({ entry: () => ({}) }),
-  restack: vi.fn().mockResolvedValue({ entry: () => ({}) }),
+  restack: vi.fn().mockResolvedValue({ entry: () => ({}), inRemindWindow: () => false }),
   list: vi.fn().mockResolvedValue([]),
 }));
 vi.mock("../src/models/Queue", () => ({ default: { deleteSlot, create, restack, list } }));
@@ -29,7 +29,10 @@ vi.mock("../src/services/NotificationService", () => ({
 
 vi.mock("../src/models/Logbook", () => ({ Logbook: { sortie: { start: vi.fn() } } }));
 
-const { behaviorUser } = vi.hoisted(() => ({ behaviorUser: vi.fn() }));
+// 遠征開始時は帰投予告（#935）の分数も読むため、既定では3分を返す
+const { behaviorUser } = vi.hoisted(() => ({
+  behaviorUser: vi.fn().mockResolvedValue({ normalizedMissionRemindMinutes: () => 3 }),
+}));
 vi.mock("../src/models/configs/BehaviorConfig", () => ({ BehaviorConfig: { user: behaviorUser } }));
 
 vi.mock("../src/catalog", () => ({
@@ -90,6 +93,19 @@ describe("遠征開始時の重複排除", () => {
   it("onMissionStart: 同じ艦隊の既存Queueを削除してから積み直す", async () => {
     await onMissionStart(details({ api_deck_id: ["4"], api_mission_id: ["999"], api_mission: ["93"] }));
     expect(restack).toHaveBeenCalledWith("mission", "4", expect.anything(), expect.any(Number));
+  });
+
+  // 所要時間が予告の分数以下の遠征は、開始直後に予告が出ないよう予告済みにしておく（#935）
+  it("onMissionStart: 登録時点で帰投予告の時間帯なら予告済みの印を付け、そうでなければ付けない", async () => {
+    const update = vi.fn().mockResolvedValue(undefined);
+    restack.mockResolvedValueOnce({ entry: () => ({}), inRemindWindow: () => true, update });
+    await onMissionStart(details({ api_deck_id: ["4"], api_mission_id: ["999"], api_mission: ["93"] }));
+    expect(update).toHaveBeenCalledWith({ reminded: true });
+
+    update.mockClear();
+    restack.mockResolvedValueOnce({ entry: () => ({}), inRemindWindow: () => false, update });
+    await onMissionStart(details({ api_deck_id: ["4"], api_mission_id: ["999"], api_mission: ["93"] }));
+    expect(update).not.toHaveBeenCalled();
   });
 
   it("onMissionStart: requestBodyが欠落していても例外を投げず、restackを呼ばない", async () => {

@@ -17,7 +17,7 @@ restoreDefaultsBeforeEach(NotificationConfig);
 // static default のキー集合は jstorm の find() フォールバックの根拠となる。1文字でも欠けると
 // 保存済み設定が読めなくなるため、直積生成の結果を固定キー集合として検証する。
 describe("NotificationConfig.default のキー集合", () => {
-  it("/default/{start,end} + 4種別×2 + /quest-alert/start の11キーちょうどを持つ", () => {
+  it("/default/{start,end} + 4種別×2 + /mission/remind + /quest-alert/start の12キーちょうどを持つ", () => {
     const keys = Object.keys(NotificationConfig.default!).sort();
     expect(keys).toEqual([
       "/default/end",
@@ -25,6 +25,7 @@ describe("NotificationConfig.default のキー集合", () => {
       "/fatigue/end",
       "/fatigue/start",
       "/mission/end",
+      "/mission/remind",
       "/mission/start",
       "/quest-alert/start",
       "/recovery/end",

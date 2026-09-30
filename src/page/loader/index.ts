@@ -9,7 +9,7 @@ import { DashboardConfig } from "../../models/configs/DashboardConfig";
 import { DamageSnapshotConfig } from "../../models/configs/DamageSnapshotConfig";
 import { BehaviorConfig } from "../../models/configs/BehaviorConfig";
 import { GameWindowConfig } from "../../models/configs/GameWindowConfig";
-import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../models/configs/NotificationConfig";
+import { MISSION_REMIND_CONFIG_KEY, NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../models/configs/NotificationConfig";
 import { EntryType, NotificationId, TIMER_ENTRY_TYPES, TriggerType } from "../../models/entry";
 import { Logbook } from "../../models/Logbook";
 import { CapturePreset } from "../../models/CapturePreset";
@@ -57,6 +57,7 @@ export async function options() {
     notification: {
       defaults: notificationDefaults,
       entries: notificationEntries,
+      missionRemind: (await NotificationConfig.find(MISSION_REMIND_CONFIG_KEY))!,
     },
     capturePresets: sortByOrder(await CapturePreset.list()),
     fleetcapture: await FleetCaptureConfig.user(),
