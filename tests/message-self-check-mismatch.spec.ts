@@ -10,7 +10,7 @@ vi.hoisted(() => {
 });
 
 const { reactivate } = vi.hoisted(() => ({ reactivate: vi.fn().mockResolvedValue(undefined) }));
-vi.mock("../src/services/Launcher", () => ({ Launcher: vi.fn(() => ({ reactivate })) }));
+vi.mock("../src/services/Launcher", () => ({ Launcher: vi.fn(function () { return { reactivate }; }) }));
 
 vi.mock("../src/models/Frame", () => ({ Frame: { find: vi.fn(), memory: vi.fn() } }));
 

@@ -15,7 +15,7 @@ const { focusOrLaunch, launch } = vi.hoisted(() => ({
   launch: vi.fn(),
 }));
 vi.mock("../src/services/Launcher", () => ({
-  Launcher: vi.fn(() => ({ focusOrLaunch, launch })),
+  Launcher: vi.fn(function () { return { focusOrLaunch, launch }; }),
 }));
 vi.mock("../src/models/Frame", () => ({
   Frame: { memory: vi.fn().mockResolvedValue({ url: "https://example.test" }) },
