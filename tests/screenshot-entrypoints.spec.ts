@@ -14,7 +14,7 @@ vi.mock("../src/services/ScreenshotService", () => ({ ScreenshotService: { take 
 
 const { launcherFind, LauncherCtor } = vi.hoisted(() => {
   const launcherFind = vi.fn();
-  const LauncherCtor = vi.fn().mockImplementation(() => ({ find: launcherFind }));
+  const LauncherCtor = vi.fn().mockImplementation(function () { return { find: launcherFind }; });
   return { launcherFind, LauncherCtor };
 });
 vi.mock("../src/services/Launcher", () => ({ Launcher: LauncherCtor }));

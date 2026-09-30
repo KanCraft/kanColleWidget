@@ -30,7 +30,7 @@ vi.mock("../src/services/NotificationService", () => ({
 
 const { getDsnapshotTab } = vi.hoisted(() => ({ getDsnapshotTab: vi.fn().mockResolvedValue(undefined) }));
 vi.mock("../src/services/Launcher", () => ({
-  Launcher: vi.fn().mockImplementation(() => ({ getDsnapshotTab })),
+  Launcher: vi.fn().mockImplementation(function () { return { getDsnapshotTab }; }),
 }));
 
 vi.mock("../src/models/Logbook", () => ({

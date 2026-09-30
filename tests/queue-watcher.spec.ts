@@ -15,11 +15,11 @@ const { list, notify, clear } = vi.hoisted(() => ({
 }));
 vi.mock("../src/models/Queue", () => ({ default: { list } }));
 vi.mock("../src/services/NotificationService", () => ({
-  NotificationService: vi.fn(() => ({ notify, clear })),
+  NotificationService: vi.fn(function () { return { notify, clear }; }),
 }));
 const { badgeUpdate } = vi.hoisted(() => ({ badgeUpdate: vi.fn().mockResolvedValue(undefined) }));
 vi.mock("../src/services/BadgeService", () => ({
-  BadgeService: vi.fn(() => ({ update: badgeUpdate })),
+  BadgeService: vi.fn(function () { return { update: badgeUpdate }; }),
 }));
 
 import { Once } from "../src/controllers/Cron/QueueWatcher";

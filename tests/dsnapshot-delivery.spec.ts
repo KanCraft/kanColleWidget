@@ -16,12 +16,12 @@ const { sendMessage, removeWindow } = vi.hoisted(() => {
 
 const { capture } = vi.hoisted(() => ({ capture: vi.fn().mockResolvedValue("data:image/jpeg;base64,raw") }));
 vi.mock("../src/services/TabService", () => ({
-  TabService: vi.fn().mockImplementation(() => ({ capture })),
+  TabService: vi.fn().mockImplementation(function () { return { capture }; }),
 }));
 
 const { crop } = vi.hoisted(() => ({ crop: vi.fn().mockResolvedValue("cropped-uri") }));
 vi.mock("../src/services/CropService", () => ({
-  CropService: vi.fn().mockImplementation(() => ({ crop })),
+  CropService: vi.fn().mockImplementation(function () { return { crop }; }),
 }));
 
 const { getDsnapshotTab, damagesnapshot } = vi.hoisted(() => ({
@@ -30,7 +30,7 @@ const { getDsnapshotTab, damagesnapshot } = vi.hoisted(() => ({
 }));
 vi.mock("../src/services/Launcher", () => ({
   Launcher: Object.assign(
-    vi.fn().mockImplementation(() => ({ getDsnapshotTab })),
+    vi.fn().mockImplementation(function () { return { getDsnapshotTab }; }),
     { damagesnapshot },
   ),
 }));

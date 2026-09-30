@@ -15,7 +15,7 @@ const { memory, deleteMock } = vi.hoisted(() => ({
 }));
 vi.mock("../src/models/Frame", () => ({ Frame: { find: vi.fn(), memory } }));
 
-vi.mock("../src/services/Launcher", () => ({ Launcher: vi.fn(() => ({ reactivate: vi.fn() })) }));
+vi.mock("../src/services/Launcher", () => ({ Launcher: vi.fn(function () { return { reactivate: vi.fn() }; }) }));
 
 // このルート以外が参照する依存はテスト対象外なので、import 時の副作用を避けるため
 // 最小スタブに差し替える（queue-dedupe-on-ocr-result.spec.ts と同じ方針）。

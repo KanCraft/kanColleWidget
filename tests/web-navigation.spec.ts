@@ -12,7 +12,7 @@ const { find, reactivate } = vi.hoisted(() => ({
   reactivate: vi.fn(),
 }));
 vi.mock("../src/services/Launcher", () => ({
-  Launcher: vi.fn(() => ({ find, reactivate })),
+  Launcher: vi.fn(function () { return { find, reactivate }; }),
 }));
 
 import { onCommitted } from "../src/controllers/WebNavigation";
