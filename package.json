@@ -15,7 +15,7 @@
     "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int && rm -rf src/public/tesseract-core && mkdir -p src/public/tesseract-core && cp node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js src/public/tesseract-core/",
     "release-note": "tsx scripts/build-release-note.ts",
     "remove-remote-code": "sed -i.bak 's#\"https://cdn.jsdelivr.net/[^\"]*\"#\"FILTERED_BY_KCWIDGET\"#g' dist/tessworker.min.js && sed -i.bak 's#`https://cdn.jsdelivr.net/[^`]*`#`FILTERED_BY_KCWIDGET`#g' dist/dmm.js && rm dist/*.bak",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "tesseract.js-core": "^5.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",
@@ -37,22 +38,22 @@
     "@types/node": "^20.8.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^4.3.0",
     "@vitest/coverage-v8": "^4.1.11",
     "autoprefixer": "^10.4.20",
     "dotenv": "^17.2.3",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
     "jsdom": "^27.1.0",
     "postcss": "^8.5.23",
     "sass": "^1.99.0",
     "tailwindcss": "^3.4.10",
     "too": "3.3.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.0.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
     "vite": "^6.4.3",
     "vitest": "^4.1.11"
   }
