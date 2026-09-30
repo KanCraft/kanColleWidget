@@ -37,11 +37,6 @@ src/public/tesseract-core*
 # Tests
 coverage
 
-# Specify
-.specify/**/*.tmp
-.specify/**/*.cache
-.specify/**/node_modules/
-
 # Agents
 .codex/log
 .codex/auth.json
