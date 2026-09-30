@@ -40,14 +40,14 @@ export function CapturePreview({ preview, rect, expanded, onRefresh }: CapturePr
             ) : null}
           </>
         ) : (
-          <div className="w-full aspect-[1200/720] bg-gray-200 flex items-center justify-center text-gray-600 text-sm p-4 text-center">
+          <div className="w-full aspect-1200/720 bg-gray-200 flex items-center justify-center text-gray-600 text-sm p-4 text-center">
             ゲームウィンドウが見つかりません。ゲームを開いてから「プレビューを更新」を押してください。
           </div>
         )}
       </div>
       <button
         type="button"
-        className="border rounded p-2 text-sm cursor-pointer border-slate-200 bg-slate-100"
+        className="border rounded-sm p-2 text-sm cursor-pointer border-slate-200 bg-slate-100"
         onClick={onRefresh}
       >
         プレビューを更新

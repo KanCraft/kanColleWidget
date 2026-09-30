@@ -50,7 +50,7 @@ export function BehaviorSettingView({
         <select
           value={queueWatchIntervalSeconds}
           onChange={(e) => void saveQueueWatchIntervalSeconds(Number(e.target.value) as QueueWatchIntervalSeconds)}
-          className="border rounded p-2"
+          className="border rounded-sm p-2"
         >
           {QueueWatchIntervalOptions.map((seconds) => (
             <option key={seconds} value={seconds}>
@@ -73,7 +73,7 @@ export function BehaviorSettingView({
             aria-label="出撃記録の保存期間"
             value={logbookRetentionDays}
             onChange={(e) => void saveLogbookRetentionDays(Number(e.target.value))}
-            className="border rounded p-2 w-24"
+            className="border rounded-sm p-2 w-24"
           />
           <span>日（0で無期限）</span>
         </div>

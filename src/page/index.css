@@ -1,7 +1,21 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss';
 
+/* v4 でボーダーの既定色が currentcolor になったため、v3 と同じ gray-200 に戻す */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* v4 でボタンの既定カーソルが default になったため、v3 と同じ pointer に戻す */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 h1.fold {
     &::after {

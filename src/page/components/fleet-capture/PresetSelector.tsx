@@ -11,7 +11,7 @@ export function PresetSelector({ presets, selectedId, onSelect }: PresetSelector
     <select
       value={selectedId}
       onChange={(event) => onSelect(event.target.value)}
-      className="border p-2 rounded"
+      className="border p-2 rounded-sm"
     >
       {presets.map((preset) => (
         <option key={preset._id} value={preset._id!}>

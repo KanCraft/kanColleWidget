@@ -59,7 +59,7 @@ export function CustomQueueModal({
   if (!queue) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-lg">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center text-lg">
       <div className="bg-white p-4 flex flex-col space-y-4 rounded-md">
         <div className="flex space-x-2">
           <label>種別</label>

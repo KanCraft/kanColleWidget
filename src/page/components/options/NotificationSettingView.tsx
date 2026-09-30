@@ -389,7 +389,7 @@ function CycleButton<T>({
       {label}
       <button
         onClick={() => onChange(options[nextIndex].value)}
-        className={`px-3 py-1 border border-slate-200 rounded text-sm ${buttonClassName || ""}`}
+        className={`px-3 py-1 border border-slate-200 rounded-sm text-sm ${buttonClassName || ""}`}
       >
         {currentLabel}
       </button>

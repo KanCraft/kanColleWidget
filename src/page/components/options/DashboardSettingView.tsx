@@ -53,7 +53,7 @@ export function DashboardSettingView({
             type="number"
             value={width}
             onChange={(e) => void saveWidth(parseInt(e.target.value, 10))}
-            className="border rounded p-2 w-full"
+            className="border rounded-sm p-2 w-full"
             placeholder="600"
             min="200"
           />
@@ -67,7 +67,7 @@ export function DashboardSettingView({
             type="number"
             value={height}
             onChange={(e) => void saveHeight(parseInt(e.target.value, 10))}
-            className="border rounded p-2 w-full"
+            className="border rounded-sm p-2 w-full"
             placeholder="400"
             min="150"
           />
@@ -81,7 +81,7 @@ export function DashboardSettingView({
             type="number"
             value={left}
             onChange={(e) => void saveLeft(parseInt(e.target.value, 10))}
-            className="border rounded p-2 w-full"
+            className="border rounded-sm p-2 w-full"
             placeholder="100"
           />
         </div>
@@ -94,7 +94,7 @@ export function DashboardSettingView({
             type="number"
             value={top}
             onChange={(e) => void saveTop(parseInt(e.target.value, 10))}
-            className="border rounded p-2 w-full"
+            className="border rounded-sm p-2 w-full"
             placeholder="100"
           />
         </div>

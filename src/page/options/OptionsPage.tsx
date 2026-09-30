@@ -76,7 +76,7 @@ function Header({ releasenote, manifest }: { releasenote: ReleaseNoteObject, man
           </a>
         </div>
         <div className="">
-          <div className="p-2 rounded bg-slate-100 text-orange-600">
+          <div className="p-2 rounded-sm bg-slate-100 text-orange-600">
             <div className="font-bold">[{latestver}]</div>
             <span>{announce.message}</span>
           </div>

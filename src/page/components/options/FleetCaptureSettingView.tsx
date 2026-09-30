@@ -54,7 +54,7 @@ export function FleetCaptureSettingView({
         </p>
         <CapturePresetListView presets={presets} />
         <button
-          className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400"
+          className="border rounded-sm p-2 cursor-pointer border-slate-200 bg-blue-400"
           onClick={() => Launcher.fleetcapture()}
         >プリセットの追加・編集は編成キャプチャ画面から</button>
       </div>

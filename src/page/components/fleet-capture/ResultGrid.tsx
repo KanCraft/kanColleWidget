@@ -40,7 +40,7 @@ export function ResultGrid({
                         type="button"
                         title="このセルのキャプチャを削除"
                         aria-label={`${label}のキャプチャを削除`}
-                        className="absolute top-1 right-1 rounded bg-white/80 p-1 opacity-0 group-hover:opacity-100 transition cursor-pointer"
+                        className="absolute top-1 right-1 rounded-sm bg-white/80 p-1 opacity-0 group-hover:opacity-100 transition cursor-pointer"
                         onClick={() => onRequestClear(rowIndex, colIndex)}
                       >
                         <TrashIcon className="w-5 h-5 text-red-500" aria-hidden="true" />
