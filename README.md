@@ -23,7 +23,6 @@
 ```sh
 git clone git@github.com:KanCraft/kanColleWidget.git
 cd kanColleWidget
-git checkout develop
 pnpm install
 pnpm test run
 pnpm build
