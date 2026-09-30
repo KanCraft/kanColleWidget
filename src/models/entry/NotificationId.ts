@@ -1,7 +1,7 @@
 import { TriggerType } from ".";
 
 // 通知ID /{type}/{trigger}/{target} と設定レコードキー /{type}/{trigger} のコーデック。
-// CLAUDE.md 通知ID規約の単一実装。
+// AGENTS.md「通知ID規約」の単一実装。
 // type は "default"（EntryType.TEST_DEFAULT）や "quest-alert"（EntryType 外の単発通知）も
 // 通すため string で受ける。
 

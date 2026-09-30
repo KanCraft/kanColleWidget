@@ -13,7 +13,7 @@ interface StorageAreaLike {
  * 同じURLの窓を開くケースと区別できないため、記録があればそちらを優先する。
  * chrome.storage.session は Service Worker の再起動を跨いで残るが、ブラウザ終了で消える
  * 揮発ストレージなので、記録が無い場合は Launcher.find() のヒューリスティックへフォールバックする
- * （0001-game-window-resize-on-reload.md が将来課題として明記していた方式）。
+ * （docs/history/20260604_game-window-resize-on-reload.md が将来課題として明記していた方式）。
  */
 export class GameWindowRegistry {
 

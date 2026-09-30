@@ -3,7 +3,7 @@ import { expect, describe, it } from "vitest";
 import { missions } from "../src/catalog";
 import { Fatigue, Mission, Recovery, Shipbuild, TriggerType } from "../src/models/entry";
 
-// 通知IDは /{type}/{trigger}/{deck|dock} 形式（CLAUDE.md「通知ID規約」）。
+// 通知IDは /{type}/{trigger}/{deck|dock} 形式（AGENTS.md「通知ID規約」）。
 // WebRequest 側の消去処理はこの形式への prefix/suffix 照合に依存しているため、形式を契約として固定する。
 describe("通知IDの形式", () => {
   it("Mission は /mission/{trigger}/{deck}", () => {

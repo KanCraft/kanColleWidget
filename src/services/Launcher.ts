@@ -173,7 +173,7 @@ export class Launcher {
   private async open(frame: Frame): Promise<void> {
     const win = await this.windows.create(frame.toWindowCreateData());
     if (!win) throw new Error("Failed to create game window");
-    // 「確実に自分が開いた窓」の証跡として windowId を記録する（#1848 ADR 0001の将来課題）。
+    // 「確実に自分が開いた窓」の証跡として windowId を記録する（#1848。docs/history/20260604_game-window-resize-on-reload.md）。
     // find() はこの記録を URL/tabId 一致ヒューリスティックより優先して参照する。
     await this.registry.remember(win.id!);
     const innerIframe = await this.waitForInnerIframeLoaded(win.tabs![0].id!);
@@ -238,7 +238,7 @@ export class Launcher {
   /**
    * 既存のゲーム別窓を前面に出し、サイズをフレーム設定に合わせて調整する。
    * dmm.ts の retouch ハンドラは resize()（非冪等な装飾ぶん補正）を無条件に呼ぶため、
-   * その直前に必ず windows.update で外形をフレーム設定へ戻すこと（ADR 0002）。
+   * その直前に必ず windows.update で外形をフレーム設定へ戻すこと（docs/history/20260712_idempotent-injection-and-resize.md）。
    * @param win 対象ウィンドウ
    */
   public async retouch(win: chrome.windows.Window, frame: Frame | null) {
@@ -251,7 +251,7 @@ export class Launcher {
 
   /**
    * 起動直後の別窓タブにスクリプトやスタイルを注入し、必要なら劇場モード用 CSS も適用する。
-   * window フラグの check-and-set で同一 document への二重注入を防ぐ（ADR 0002）。
+   * window フラグの check-and-set で同一 document への二重注入を防ぐ（docs/history/20260712_idempotent-injection-and-resize.md）。
    * 初回起動時は open() と WebNavigation の onCommitted から並走で呼ばれうるが、
    * このガードにより注入は1回に収束する。
    * @param win 対象ウィンドウ
