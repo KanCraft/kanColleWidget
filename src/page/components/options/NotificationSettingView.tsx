@@ -4,6 +4,7 @@ import { FoldableSection } from "../FoldableSection";
 import { NotificationConfig, QUEST_ALERT_NOTIFICATION_ID } from "../../../models/configs/NotificationConfig";
 import { Entry, EntryType, Fatigue, Mission, Recovery, Shipbuild, TIMER_ENTRY_TYPES, TriggerType } from "../../../models/entry";
 import { NotificationService } from "../../../services/NotificationService";
+import { BehaviorConfig, MissionRemindMinutes, MissionRemindMinutesOptions } from "../../../models/configs/BehaviorConfig";
 import { useConfigField } from "./useConfigField";
 
 type NotificationConfigMap = Record<TriggerType.START | TriggerType.END, NotificationConfig>;
@@ -23,12 +24,19 @@ const TRIGGER_LABELS: Record<TriggerType.START | TriggerType.END, string> = {
   [TriggerType.END]: "完了時",
 };
 
+// 遠征帰投予告（#935）の枠の enabledMap キー
+const MISSION_REMIND_ID = `${EntryType.MISSION}-${TriggerType.REMIND}`;
+
 export function NotificationSettingView({
   defaults,
   entries,
+  missionRemind,
+  behavior,
 }: {
   defaults: NotificationConfigMap;
   entries: Record<NotificationEntryType, NotificationConfigMap>;
+  missionRemind: NotificationConfig;
+  behavior: BehaviorConfig;
 }) {
   const createInitialEnabledMap = () => {
     const map: Record<string, boolean> = {};
@@ -40,6 +48,7 @@ export function NotificationSettingView({
         map[`${type}-${trigger}`] = entries[type][trigger].enabled ?? true;
       });
     });
+    map[MISSION_REMIND_ID] = missionRemind.enabled ?? false;
     return map;
   };
   const initialEnabledMap = createInitialEnabledMap();
@@ -86,6 +95,7 @@ export function NotificationSettingView({
         }
       });
     });
+    updatedConfigs.push(missionRemind);
     try {
       await Promise.all(updatedConfigs.map(async (config) => {
         await config.update({ enabled: next });
@@ -141,6 +151,17 @@ export function NotificationSettingView({
                     onEnabledChange={handleEnabledChange}
                   />
                 ))}
+                {type === EntryType.MISSION ? (
+                  <NotificationConfigEditor
+                    title={`${ENTRY_LABELS[type]} 帰投予告`}
+                    config={missionRemind}
+                    configId={MISSION_REMIND_ID}
+                    enabled={enabledMap[MISSION_REMIND_ID]}
+                    onEnabledChange={handleEnabledChange}
+                  >
+                    <MissionRemindMinutesView config={behavior} />
+                  </NotificationConfigEditor>
+                ) : null}
               </div>
             ))}
           </div>
@@ -161,6 +182,7 @@ export function NotificationConfigEditor({
   enabled,
   configId,
   onEnabledChange,
+  children,
 }: {
   title: string;
   description?: string;
@@ -168,6 +190,7 @@ export function NotificationConfigEditor({
   enabled: boolean;
   configId: string;
   onEnabledChange: (id: string, next: boolean) => void;
+  children?: ReactNode;
 }) {
   const { type, trigger } = config;
   return (
@@ -200,7 +223,32 @@ export function NotificationConfigEditor({
           </div>
           : null}
       </div>
+      {children}
     </div>
+  );
+}
+
+// 遠征帰投予告を完了通知の何分前に出すか（#935）。保存先は BehaviorConfig
+function MissionRemindMinutesView({ config }: { config: BehaviorConfig }) {
+  const [minutes, saveMinutes] = useConfigField(
+    config,
+    "missionRemindMinutes",
+    config.normalizedMissionRemindMinutes() as number,
+  );
+  return (
+    <label className="flex items-center space-x-2">
+      <span className="font-bold">予告のタイミング</span>
+      <span>完了通知の</span>
+      <select
+        value={minutes}
+        onChange={(e) => void saveMinutes(Number(e.target.value) as MissionRemindMinutes)}
+        className="border rounded-sm p-1"
+      >
+        {MissionRemindMinutesOptions.map((m) => (
+          <option key={m} value={m}>{m}分前</option>
+        ))}
+      </select>
+    </label>
   );
 }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Queue from "../../../models/Queue";
 import { EntryType, slotKey } from "../../../models/entry";
 import { ManualTimerInputStyle } from "../../../models/configs/DashboardConfig";
+import { BehaviorConfig } from "../../../models/configs/BehaviorConfig";
 import { H, M } from "../../../utils";
 
 function clampMinutes(value: number): number {
@@ -48,6 +49,10 @@ export function CustomQueueModal({
 
   const save = async () => {
     if (!queue) return;
+    // 帰投予告（#935）の印を、保存する時刻で付け直す。既に予告の時間帯なら予告せず、
+    // 時間帯より後ろへずらしたなら予告済みの印を外して、改めて予告が出るようにする
+    const minutes = (await BehaviorConfig.user()).normalizedMissionRemindMinutes();
+    queue.reminded = queue.inRemindWindow(minutes * M);
     await queue.save();
     close();
   }

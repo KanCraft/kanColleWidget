@@ -58,6 +58,26 @@ describe("CustomQueueModal (split)", () => {
     await waitFor(() => expect(close).toHaveBeenCalled());
     expect(await Queue.list()).toHaveLength(1);
   });
+
+  // 帰投予告（#935）の印は保存する時刻で付け直す。予告の時間帯（既定3分前）に入っていれば予告済み、
+  // 時間帯より後ろへずらせば印を外して改めて予告が出るようにする
+  it("保存時に、帰投予告の時間帯に入っていれば予告済み、入っていなければ未予告にする", async () => {
+    const soon = newQueue(2 * M);
+    const close = vi.fn();
+    const { unmount } = render(<CustomQueueModal queue={soon} close={close} update={() => {}} />);
+    fireEvent.keyDown(screen.getAllByRole("spinbutton")[0], { key: "Enter" });
+    await waitFor(() => expect(close).toHaveBeenCalled());
+    expect(soon.reminded).toBe(true);
+    unmount();
+
+    const later = newQueue(1 * H);
+    later.reminded = true;
+    const close2 = vi.fn();
+    render(<CustomQueueModal queue={later} close={close2} update={() => {}} />);
+    fireEvent.keyDown(screen.getAllByRole("spinbutton")[0], { key: "Enter" });
+    await waitFor(() => expect(close2).toHaveBeenCalled());
+    expect(later.reminded).toBe(false);
+  });
 });
 
 // 種別切替: params のスロットキー（deck / dock）の移し替え（旧キーは残さない）。

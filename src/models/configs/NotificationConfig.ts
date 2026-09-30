@@ -12,6 +12,9 @@ export interface NotificationConfigData {
 // NotificationConfig の1エントリとして直接キーを持つ（開始/完了のペアが無い一発通知）
 export const QUEST_ALERT_NOTIFICATION_ID = "/quest-alert/start";
 
+// 遠征帰投予告（#935）の設定レコードキー。予告は遠征だけが持つため、直積生成には含めず個別に持つ
+export const MISSION_REMIND_CONFIG_KEY = NotificationId.configKey(EntryType.MISSION, TriggerType.REMIND);
+
 // タイマー系通知（種別×トリガー）の既定値。生成時はキーごとに spread で複製し共有参照を避ける。
 const TIMER_NOTIFICATION_DEFAULT: NotificationConfigData = {
   enabled: true,
@@ -46,6 +49,13 @@ export class NotificationConfig extends Model {
         ),
       ),
     ),
+    // 予告は既定で使わない（#935: 「defaultで通知OFF」）
+    [MISSION_REMIND_CONFIG_KEY]: {
+      enabled: false,
+      sound: null,
+      icon: null,
+      stay: false,
+    },
     [QUEST_ALERT_NOTIFICATION_ID]: {
       enabled: true,
       sound: null,
@@ -94,7 +104,8 @@ export class NotificationConfig extends Model {
       : TriggerType.END;
     const configKey = parsed ? NotificationId.configKey(parsed.type, triggerKey) : null;
     const config = configKey ? await this.find(configKey) as NotificationConfig | null : null;
-    const def = (await this.user(triggerKey))!;
+    // 予告には /default/remind を持たないので、完了時のデフォルトに寄せる
+    const def = (await this.user(triggerKey === TriggerType.REMIND ? TriggerType.END : triggerKey))!;
     return {
       enabled: config?.enabled ?? def.enabled,
       sound: config?.sound ?? def.sound,

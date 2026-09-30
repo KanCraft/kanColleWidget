@@ -13,6 +13,9 @@ export class Mission extends NotificationEntryBase {
   // なお開始通知の「終了予定時刻」表示は、ゲーム内カウントダウンの表示時間と一致させるため補正しない。
   public static readonly EARLY_RETURN_MARGIN = 60_000; // [ms]
 
+  // 分数を渡されずに REMIND の通知文を組み立てるとき（テスト通知等）に使う分数
+  public static readonly DEFAULT_REMIND_MINUTES = 3;
+
   public deck: number | string = 0; // 艦隊ID [2,3,4]
   public id: number | string = 0; // 遠征ID
 
@@ -44,6 +47,9 @@ export class Mission extends NotificationEntryBase {
           requireInteraction: overwrite.stay ?? false,
         }
       }
+      if (trigger === TriggerType.REMIND) {
+        return this.$n.remind(Mission.DEFAULT_REMIND_MINUTES, overwrite);
+      }
       return {
         iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
         title: "遠征完了",
@@ -51,6 +57,16 @@ export class Mission extends NotificationEntryBase {
         type: "basic",
         requireInteraction: overwrite.stay ?? false,
       }
-    }
+    },
+    // 帰投予告（#935）。予告の分数は設定値なので、呼び出し側が渡す
+    remind: (minutes: number, overwrite: Partial<NotificationConfigData> = {}): chrome.notifications.NotificationCreateOptions => {
+      return {
+        iconUrl: overwrite.icon ?? chrome.runtime.getURL("icons/128.png"),
+        title: `遠征帰投予告 ${this.title}`,
+        message: `約${minutes}分後、第${this.deck}艦隊が「${this.title}」から帰投する予定です`,
+        type: "basic",
+        requireInteraction: overwrite.stay ?? false,
+      }
+    },
   };
 }

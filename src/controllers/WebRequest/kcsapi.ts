@@ -1,10 +1,10 @@
 import { Logger } from "../../logger";
 import { isSupportMission, missions } from "../../catalog";
-import { sleep, WorkerImage } from "../../utils";
+import { M, sleep, WorkerImage } from "../../utils";
 import Queue from "../../models/Queue";
 import { BattleStartFormData, CreateShipFormData, GetShipFormData, MapNextFormData, MapStartFormData, MissionResultFormData, MissionStartFormData, RecoveryStartFormData, RecoverySpeedchangeFormData, ShipbuildSpeedchangeFormData } from "./datatypes";
 import { formData } from "./formdata";
-import { EntryType, Fatigue, Mission } from "../../models/entry";
+import { EntryType, Fatigue, Mission, NotificationId } from "../../models/entry";
 import { TriggerType } from "../../models/entry";
 import { TabService } from "../../services/TabService";
 import { CropService } from "../../services/CropService";
@@ -53,6 +53,9 @@ export async function onMissionStart([details]: chrome.webRequest.OnBeforeReques
   // 同じ艦隊の既存Queueを削除してから積み直す（他端末での帰投操作等、検知できない経路で
   // 古いQueueが残っていても、同じ艦隊で次の遠征を始めた時点で解消される）。
   const q = await Queue.restack(EntryType.MISSION, did, m, scheduled);
+  // 所要時間が予告の分数以下の遠征は、開始直後に予告が出てしまうので予告しない（#935）
+  const minutes = (await BehaviorConfig.user()).normalizedMissionRemindMinutes();
+  if (q.inRemindWindow(minutes * M)) await q.update({ reminded: true });
   const e = q.entry();
   NotificationService.new().notify(e, TriggerType.START);
 }
@@ -157,6 +160,8 @@ async function markSupportMissionsSortied() {
     if (q.type !== EntryType.MISSION) continue;
     if (!isSupportMission(q.params.id)) continue;
     await q.update({ sortied: true });
+    // 出撃を跨ぐと帰投時刻が読めなくなるので、表示中の帰投予告も消す（#935）
+    await NotificationService.new().clear(NotificationId.build(EntryType.MISSION, TriggerType.REMIND, String(q.slot)));
   }
 }
 

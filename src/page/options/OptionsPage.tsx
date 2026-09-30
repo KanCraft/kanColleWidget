@@ -43,6 +43,8 @@ export function OptionsPage() {
       <NotificationSettingView
         defaults={notification.defaults}
         entries={notification.entries}
+        missionRemind={notification.missionRemind}
+        behavior={behavior}
       />
       <Divider />
       <QuestTrackerSettingView notification={questAlert} tracker={questTracker} />

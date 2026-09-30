@@ -22,6 +22,8 @@ export function slotKey(type: EntryType): "dock" | "deck" {
 export enum TriggerType {
   START = "start",
   END = "end",
+  // 完了の少し前に出す予告（#935）。現状は遠征のみが使う
+  REMIND = "remind",
   UNKNOWN = "unknown",
 }
 

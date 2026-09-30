@@ -45,12 +45,15 @@ describe("Config の static default とプロパティ初期値の一致", () =>
 
   // /default/{start,end} の icon だけは意図的な差分: 旧ビルド保存のレコードに icon が
   // 無い場合は null（Chrome 既定アイコン）にフォールバックするのが現行挙動のため除外する。
-  it("NotificationConfig は全レコードで一致（/default/* の icon を除く）", () => {
+  // /mission/remind の enabled も意図的な差分: 帰投予告（#935）は既定で使わない。
+  // このレコードは今回のビルドから保存されるので、enabled を欠いた旧レコードは存在しない。
+  it("NotificationConfig は全レコードで一致（/default/* の icon と /mission/remind の enabled を除く）", () => {
     const instance = new NotificationConfig() as unknown as Record<string, unknown>;
     const defaults = NotificationConfig.default as Record<string, Record<string, unknown>>;
     for (const [id, record] of Object.entries(defaults)) {
       for (const [key, value] of Object.entries(record)) {
         if (id.startsWith("/default/") && key === "icon") continue;
+        if (id === "/mission/remind" && key === "enabled") continue;
         expect(instance[key], `${id} ${key}`).toEqual(value);
       }
     }

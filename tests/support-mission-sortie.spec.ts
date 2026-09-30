@@ -79,6 +79,16 @@ describe("出撃開始時の支援遠征Queueへの記録(onMapStart)", () => {
     expect(support.update).toHaveBeenCalledWith({ sortied: true });
   });
 
+  // 出撃を跨ぐと帰投時刻が読めなくなるため、表示中の帰投予告（#935）も消す
+  it("出撃した支援遠征の艦隊の帰投予告通知を消す", async () => {
+    const support = queue({ type: EntryType.MISSION, id: 34, slot: "2" });
+    list.mockResolvedValue([support]);
+
+    await onMapStart(mapStartDetails());
+
+    expect(clear).toHaveBeenCalledWith("/mission/remind/2");
+  });
+
   it("複数の支援艦隊を出していれば、そのすべてに記録する", async () => {
     const escort = queue({ type: EntryType.MISSION, id: 301, slot: "3" }); // 前衛支援任務(イベント海域)
     const decisive = queue({ type: EntryType.MISSION, id: 302, slot: "4" }); // 決戦支援任務(イベント海域)
