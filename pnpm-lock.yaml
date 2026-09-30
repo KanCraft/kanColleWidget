@@ -48,6 +48,9 @@ importers:
       tesseract.js:
         specifier: ^5.1.1
         version: 5.1.1
+      tesseract.js-core:
+        specifier: ^5.1.1
+        version: 5.1.1
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^6.9.1

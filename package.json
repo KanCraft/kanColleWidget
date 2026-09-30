@@ -12,7 +12,7 @@
     "test:ui": "vitest --ui",
     "start": "tsc && pnpm run copy-tesseract && too --cmd 'vite build --mode=development --watch' --cmd 'node scripts/request-recorder-server.mjs'",
     "build": "tsc && pnpm run copy-tesseract && vite build --mode=production",
-    "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int",
+    "copy-tesseract": "cp node_modules/tesseract.js/dist/worker.min.js src/public/tessworker.min.js && rm -rf src/public/tessdata-* && cp -r node_modules/@tesseract.js-data/eng/4.0.0_best_int src/public/tessdata-4.0.0_best_int && rm -rf src/public/tesseract-core && mkdir -p src/public/tesseract-core && cp node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js src/public/tesseract-core/",
     "release-note": "tsx scripts/build-release-note.ts",
     "remove-remote-code": "sed -i.bak 's#\"https://cdn.jsdelivr.net/[^\"]*\"#\"FILTERED_BY_KCWIDGET\"#g' dist/tessworker.min.js && sed -i.bak 's#`https://cdn.jsdelivr.net/[^`]*`#`FILTERED_BY_KCWIDGET`#g' dist/dmm.js && rm dist/*.bak",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -26,7 +26,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.30.3",
-    "tesseract.js": "^5.1.1"
+    "tesseract.js": "^5.1.1",
+    "tesseract.js-core": "^5.1.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

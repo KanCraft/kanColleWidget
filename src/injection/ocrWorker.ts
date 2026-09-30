@@ -4,10 +4,13 @@ import { createWorker, OEM, type RecognizeResult, type WorkerParams } from 'tess
 // OCRの都度作り直さずページ滞在中は使い回す。
 let workerPromise: ReturnType<typeof createWorker> | null = null;
 
+// Worker・言語データ・WASMコアはいずれも拡張に同梱したものを使う。パスを渡さない項目は
+// tesseract.jsがCDNから取得しようとするため、3つとも明示する。
 function createOcrWorker(): ReturnType<typeof createWorker> {
   return createWorker('eng', OEM.LSTM_ONLY, {
     workerPath: chrome.runtime.getURL('tessworker.min.js'),
     langPath: chrome.runtime.getURL('tessdata-4.0.0_best_int'),
+    corePath: chrome.runtime.getURL('tesseract-core'),
   });
 }
 

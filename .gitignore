@@ -29,6 +29,7 @@ dist-ssr
 # Application src
 src/public/tessdata*
 src/public/tessworker*
+src/public/tesseract-core*
 
 # Release (ビルド出力のみ。`.claude/skills/release/` 等を巻き込まないようルート直下に限定)
 /release/

@@ -29,6 +29,20 @@ describe("ocrWorker", () => {
     createWorker.mockReset();
   });
 
+  // パスを渡さない項目はtesseract.jsがCDNから取得しようとするため、3つとも指定されている必要がある。
+  it("Workerの生成では、Worker・言語データ・WASMコアのパスをすべて拡張内のURLで指定する", async () => {
+    createWorker.mockResolvedValue(fakeWorker());
+    const { getWorker } = await import("../src/injection/ocrWorker");
+
+    await getWorker();
+
+    expect(createWorker).toHaveBeenCalledWith("eng", "lstm_only", {
+      workerPath: "tessworker.min.js",
+      langPath: "tessdata-4.0.0_best_int",
+      corePath: "tesseract-core",
+    });
+  });
+
   it("getWorkerを複数回呼んでも、Workerの生成は1回だけ行われる", async () => {
     const worker = fakeWorker();
     createWorker.mockResolvedValue(worker);
