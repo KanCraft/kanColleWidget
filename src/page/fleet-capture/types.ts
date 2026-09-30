@@ -17,6 +17,9 @@ export interface FleetCaptureController {
   // 範囲調整用のゲーム画面プレビュー（未取得なら null）
   preview: string | null;
 
+  // 保存の完了を知らせる一時的な表示（出していない間は null）
+  notice: string | null;
+
   results: ResultSet;
 
   selectPreset: (presetId: string) => void;
@@ -27,7 +30,6 @@ export interface FleetCaptureController {
   clearCell: (rowIndex: number, colIndex: number) => void;
   updatePreset: () => Promise<void>;
   saveAsNewPreset: () => Promise<void>;
-  deletePreset: () => Promise<void>;
   exportResults: () => Promise<void>;
   isExportDisabled: boolean;
 }

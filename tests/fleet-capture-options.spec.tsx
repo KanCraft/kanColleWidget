@@ -1,5 +1,5 @@
-import { expect, describe, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { expect, describe, it, vi, beforeEach } from "vitest";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
@@ -47,6 +47,10 @@ import { restoreDefaultsBeforeEach } from "./helpers/jstorm-defaults";
 
 restoreDefaultsBeforeEach(FleetCaptureConfig, CapturePreset);
 
+beforeEach(() => {
+  vi.unstubAllGlobals();
+});
+
 async function renderView() {
   // 画面は loader と同じく並び順を解決した一覧を受け取る
   const presets = sortByOrder(await CapturePreset.list());
@@ -63,6 +67,10 @@ async function renderView() {
 const presetNames = () =>
   screen.getAllByRole("listitem").map((row) => row.querySelector("h4")?.textContent);
 
+// 名前で一覧の行を引く
+const presetRow = (name: string) =>
+  screen.getAllByRole("listitem").find((row) => row.querySelector("h4")?.textContent === name)!;
+
 describe("FleetCaptureSettingView", () => {
   // 「透明にする」テストより先に検証する（jstorm はストレージが空の間 static default を
   // そのまま返すため、後続テストでの update が先行すると既定値の観測が汚染される）
@@ -76,6 +84,43 @@ describe("FleetCaptureSettingView", () => {
     const deleteButtons = screen.getAllByRole("button", { name: "削除" });
     expect(deleteButtons).toHaveLength(3);
     deleteButtons.forEach((button) => expect(button).toBeDisabled());
+  });
+
+  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
+  // key を失った行が描画されることがあった。
+  // React は同じ警告を一度しか出さないため、他の削除操作より先に検証する
+  it("自作プリセットを削除しても key を欠いた行を描画しない", async () => {
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
+    await CapturePreset.create({ name: "消すやつ", description: "", protected: false, order: 3 });
+    const messages: string[] = [];
+    const consoleError = vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
+      messages.push(args.map(String).join(" "));
+    });
+    await renderView();
+
+    await userEvent.click(within(presetRow("消すやつ")).getByRole("button", { name: "削除" }));
+    await waitFor(() => {
+      expect(screen.queryByText("消すやつ")).not.toBeInTheDocument();
+    });
+
+    consoleError.mockRestore();
+    expect(messages.filter((message) => message.includes('unique "key"'))).toEqual([]);
+  });
+
+  // プリセットの削除はこの画面に集約している（編成キャプチャ画面には削除の導線を持たない）
+  it("自作プリセットは削除ボタンでストレージから消える", async () => {
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
+    await CapturePreset.create({ name: "マイ編成", description: "", protected: false, order: 3 });
+    await renderView();
+
+    const deleteButton = within(presetRow("マイ編成")).getByRole("button", { name: "削除" });
+    expect(deleteButton).toBeEnabled();
+    await userEvent.click(deleteButton);
+
+    await waitFor(async () => {
+      const remaining = await CapturePreset.list();
+      expect(remaining.map((preset) => preset.name)).not.toContain("マイ編成");
+    });
   });
 
   it("プリセットは並び順どおりに一覧表示される", async () => {

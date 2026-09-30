@@ -56,8 +56,8 @@ function renderPage() {
   return render(<RouterProvider router={router} />);
 }
 
-// キャプチャモードから調整モードへ切り替える
-async function openAdjustMode() {
+// 畳まれている切り抜き範囲の調整を開く
+async function openRangeAdjuster() {
   await userEvent.click(screen.getByRole("button", { name: "切り抜き範囲を調整する" }));
 }
 
@@ -100,52 +100,60 @@ describe("FleetCapturePage", () => {
     expect(screen.getAllByRole("button", { name: "第六艦" })).toHaveLength(2);
   });
 
-  it("調整モードとキャプチャモードが切り替え表示される", async () => {
+  // 調整を開いてもグリッドが視界から消えないことが、この画面を1枚にまとめた狙い
+  it("切り抜き範囲の調整は開閉でき、開いている間もグリッドは見えたまま", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    // 初期はキャプチャモード（調整UIなし）
+    const toggle = screen.getByRole("button", { name: "切り抜き範囲を調整する" });
+    // 既定では畳まれている
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(screen.queryByLabelText("左位置")).not.toBeInTheDocument();
-    await openAdjustMode();
-    // 調整モードではグリッドが隠れて調整UIとプリセット操作ボタンが出る
+
+    await openRangeAdjuster();
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByLabelText("左位置")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: "旗艦" })).not.toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "キャプチャに戻る" }));
+    expect(screen.getByRole("button", { name: "旗艦" })).toBeInTheDocument();
+
+    await userEvent.click(toggle);
+    expect(screen.queryByLabelText("左位置")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "旗艦" })).toBeInTheDocument();
   });
 
-  it("組み込みプリセット選択中は「更新」「削除」が無効で「名前を付けて保存」だけ有効", async () => {
+  // 組み込みプリセットは上書きできないため、変更の受け皿は「名前を付けて保存」だけになる
+  it("組み込みプリセット選択中は「更新」が無効のまま、その理由を添える", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
     expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "プリセットを削除" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "名前を付けて保存" })).toBeEnabled();
+    expect(screen.getByText("組み込みプリセットは上書きできません")).toBeInTheDocument();
+
+    // 変更しても組み込みプリセットには上書きできない
+    fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
   });
 
-  it("行数を増やすと新しいセルに「行-列」形式のラベルが付く", async () => {
+  it("行数は調整を開かずに変更でき、増えたセルには「行-列」形式のラベルが付く", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
     fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
-    await userEvent.click(screen.getByRole("button", { name: "キャプチャに戻る" }));
     expect(screen.getByRole("button", { name: "4-1" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "4-2" })).toBeInTheDocument();
     // 既存セルのラベルは保持される
     expect(screen.getByRole("button", { name: "旗艦" })).toBeInTheDocument();
   });
 
-  it("範囲を変更して「名前を付けて保存」すると新プリセットが作られ、選択・編集可能になる", async () => {
+  it("範囲を変更して「名前を付けて保存」すると新プリセットが作られ、それが選択される", async () => {
     vi.stubGlobal("prompt", vi.fn().mockReturnValue("マイ範囲"));
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
+    await openRangeAdjuster();
     fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "10" } });
     await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
 
     expect(await screen.findByRole("option", { name: "マイ範囲" })).toBeInTheDocument();
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: "プリセットを削除" })).toBeEnabled();
+      expect((screen.getByRole("combobox") as HTMLSelectElement).selectedOptions[0].textContent)
+        .toBe("マイ範囲");
     });
     // ストレージにも永続化されている（組み込み3件＋新規1件）
     const saved = await CapturePreset.list();
@@ -155,11 +163,49 @@ describe("FleetCapturePage", () => {
     expect(created.protected).toBe(false);
   });
 
+  // chrome.storage は保存したオブジェクトのキーを並べ替えて返すため、保存済みプリセットの
+  // rect は編集中の値と違うキー順で読み出される。文字列化して比べていた頃は、値を戻しても
+  // 「変更あり」が消えなかった
+  it("値を変えてから元に戻すと変更ありの表示が消える", async () => {
+    CapturePreset.default.__fleet__.protected = false;
+    CapturePreset.default.__fleet__.rect = { h: 0.78, w: 0.6, x: 0.39, y: 0.2 };
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    await openRangeAdjuster();
+
+    fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "10" } });
+    expect(screen.getByText("変更あり")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeEnabled();
+
+    fireEvent.change(screen.getByLabelText("左位置"), { target: { value: "39" } });
+    expect(screen.queryByText("変更あり")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
+  });
+
+  it("プリセットを保存すると保存できた旨を知らせる", async () => {
+    vi.stubGlobal("prompt", vi.fn().mockReturnValue("マイ編成"));
+    renderPage();
+    await screen.findByRole("option", { name: "通常艦隊" });
+    // 組み込みプリセットは上書きできないため、まず自作プリセットを作る
+    fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
+    await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
+    expect(await screen.findByText("「マイ編成」を保存しました")).toBeInTheDocument();
+    await screen.findByRole("option", { name: "マイ編成" });
+
+    fireEvent.change(screen.getByLabelText("行数"), { target: { value: "5" } });
+    await userEvent.click(screen.getByRole("button", { name: "プリセットを更新" }));
+    expect(await screen.findByText("「マイ編成」に保存しました")).toBeInTheDocument();
+    // 保存した内容が編集中の値と一致するので、更新ボタンは押せない状態に戻る
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "プリセットを更新" })).toBeDisabled();
+    });
+  });
+
   it("「名前を付けて保存」したプリセットは選択肢の末尾に並ぶ", async () => {
     vi.stubGlobal("prompt", vi.fn().mockReturnValue("あとから足した編成"));
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
+    fireEvent.change(screen.getByLabelText("行数"), { target: { value: "4" } });
     await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
 
     await screen.findByRole("option", { name: "あとから足した編成" });
@@ -171,52 +217,17 @@ describe("FleetCapturePage", () => {
     ]);
   });
 
-  // jstorm の delete は保存後にインスタンスから _id を落とすため、loader が読み直すまでの間
-  // key を失った選択肢が描画されることがあった。
-  // React は同じ警告を一度しか出さないため、他の削除操作より先に検証する
-  it("自作プリセットを削除しても key を欠いた選択肢を描画しない", async () => {
-    vi.stubGlobal("prompt", vi.fn().mockReturnValue("消すやつ"));
-    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
-    const messages: string[] = [];
-    const consoleError = vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
-      messages.push(args.map(String).join(" "));
-    });
-
+  // プリセットの削除はオプション画面に集約しているため、この画面には削除の導線を持たない
+  it("プリセットを削除するボタンは置かない", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
-    await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
-    await screen.findByRole("option", { name: "消すやつ" });
-    await userEvent.click(screen.getByRole("button", { name: "プリセットを削除" }));
-    await waitFor(() => {
-      expect(screen.queryByRole("option", { name: "消すやつ" })).not.toBeInTheDocument();
-    });
-
-    consoleError.mockRestore();
-    expect(messages.filter((message) => message.includes('unique "key"'))).toEqual([]);
-  });
-
-  it("自作プリセットを削除すると組み込みプリセットの選択に戻る", async () => {
-    vi.stubGlobal("prompt", vi.fn().mockReturnValue("消すやつ"));
-    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
-    renderPage();
-    await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
-    await userEvent.click(screen.getByRole("button", { name: "名前を付けて保存" }));
-    await screen.findByRole("option", { name: "消すやつ" });
-
-    await userEvent.click(screen.getByRole("button", { name: "プリセットを削除" }));
-    await waitFor(() => {
-      expect(screen.queryByRole("option", { name: "消すやつ" })).not.toBeInTheDocument();
-    });
-    expect((screen.getByRole("combobox") as HTMLSelectElement).value).toBe("__fleet__");
-    expect(await CapturePreset.list()).toHaveLength(3);
+    await openRangeAdjuster();
+    expect(screen.queryByRole("button", { name: "プリセットを削除" })).not.toBeInTheDocument();
   });
 
   it("ゲームウィンドウが見つからないときはプレビューに案内を表示する", async () => {
     renderPage();
     await screen.findByRole("option", { name: "通常艦隊" });
-    await openAdjustMode();
     expect(
       await screen.findByText(/ゲームウィンドウが見つかりません/),
     ).toBeInTheDocument();
