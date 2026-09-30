@@ -6,7 +6,7 @@ import { RouterProvider, createHashRouter } from "react-router-dom";
 import { popup, options, dashboard, damagesnapshot, logbook, fleetcapture, questTracker } from './loader';
 
 // View
-import './index.scss'
+import './index.css'
 import { OptionsPage } from './options/OptionsPage';
 import { PopupPage } from './PopupPage';
 import { DashboardPage } from './Dashboard';
