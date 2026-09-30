@@ -64,7 +64,7 @@ export function FileSaveSettingView({
             type="text"
             value={folder}
             onChange={(e) => void saveFolder(e.target.value)}
-            className="border rounded p-2 w-full max-w-md"
+            className="border rounded-sm p-2 w-full max-w-md"
             placeholder="艦これ"
           />
           <div className="text-sm text-gray-600 mt-1">
@@ -82,13 +82,13 @@ export function FileSaveSettingView({
               type="text"
               value={filenameTemplate}
               onChange={(e) => void saveFilenameTemplate(e.target.value)}
-              className="border rounded p-2 flex-1 font-mono"
+              className="border rounded-sm p-2 flex-1 font-mono"
               placeholder="%Y%m%d_%H%M%S"
             />
             <select
               value={format}
               onChange={(e) => void saveFormat(e.target.value as ImageFormat)}
-              className="border rounded p-2 font-mono"
+              className="border rounded-sm p-2 font-mono"
             >
               <option value="png">.png</option>
               <option value="jpeg">.jpeg</option>

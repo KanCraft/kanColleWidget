@@ -52,20 +52,20 @@ function StatusEditModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-lg">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center text-lg">
       <div className="bg-white p-4 flex flex-col space-y-4 rounded-md max-w-sm">
         <div className="font-bold">{quest.title}</div>
         <div className="flex space-x-2 justify-end">
           {([QuestStatus.OPEN, QuestStatus.ONGOING, QuestStatus.COMPLETED] as const).map((status) => (
             <button
               key={status}
-              className={`px-3 py-1 rounded text-sm ${STATUS_COLORS[status]}`}
+              className={`px-3 py-1 rounded-sm text-sm ${STATUS_COLORS[status]}`}
               onClick={() => onSelect(status)}
             >
               {STATUS_LABELS[status]}
             </button>
           ))}
-          <button className="px-3 py-1 rounded text-sm bg-slate-50" onClick={onClose}>閉じる</button>
+          <button className="px-3 py-1 rounded-sm text-sm bg-slate-50" onClick={onClose}>閉じる</button>
         </div>
       </div>
     </div>
@@ -123,13 +123,13 @@ export function QuestTrackerList({
           className={`flex items-center space-x-2 px-1 odd:bg-slate-100 ${compact ? "text-xs py-0.5" : "text-sm py-1"}`}
         >
           <span
-            className={`text-white text-center shrink-0 rounded ${CATEGORY_COLORS[quest.category]} ${compact ? "text-[10px] px-1 w-10" : "text-xs px-1.5 py-0.5 w-12"}`}
+            className={`text-white text-center shrink-0 rounded-sm ${CATEGORY_COLORS[quest.category]} ${compact ? "text-[10px] px-1 w-10" : "text-xs px-1.5 py-0.5 w-12"}`}
           >
             {CATEGORY_LABELS[quest.category]}
           </span>
           <span className="flex-1">{quest.title}</span>
           <button
-            className={`rounded ${STATUS_COLORS[quest.status]} ${compact ? "text-[10px] px-1.5" : "px-2 py-0.5"}`}
+            className={`rounded-sm ${STATUS_COLORS[quest.status]} ${compact ? "text-[10px] px-1.5" : "px-2 py-0.5"}`}
             onClick={() => setEditing(quest)}
           >
             {STATUS_LABELS[quest.status]}

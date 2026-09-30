@@ -26,7 +26,7 @@ export function DamageSnapshotSettingView({
         <select
           value={mode}
           onChange={(e) => void saveMode(e.target.value as DamageSnapshotMode)}
-          className="border rounded p-2 w-full max-w-md"
+          className="border rounded-sm p-2 w-full max-w-md"
         >
           {Object.entries(DamageSnapshotModeDictionary).map(([key, entry]) => (
             <option key={key} value={key}>
@@ -66,7 +66,7 @@ export function DamageSnapshotSettingView({
           <select
             value={areaLabelFormat}
             onChange={(e) => void saveAreaLabelFormat(e.target.value as AreaLabelFormat)}
-            className="border rounded p-2 w-full max-w-md"
+            className="border rounded-sm p-2 w-full max-w-md"
           >
             <option value="number">番号で表示（例: 1-1 (2)）</option>
             <option value="japanese">日本語名で表示（例: 鎮守府正面海域 (2)）</option>

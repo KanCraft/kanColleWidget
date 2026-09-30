@@ -38,11 +38,11 @@ export function FrameSettingView({
       </div>
       <div className="mb-4">
         {frames.map((frame) => (
-          <div key={frame._id} className="border rounded p-2 mb-2 flex items-center">
+          <div key={frame._id} className="border rounded-sm p-2 mb-2 flex items-center">
             <div><h3 className="text-lg">{frame.name}</h3></div>
             <div className="grow"></div>
             {frame._id === "__memory__" && <div>
-              <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
+              <button className="border rounded-sm p-2 cursor-pointer border-slate-200 bg-slate-100"
                 onClick={async () => {
                   await chrome.runtime.sendMessage(chrome.runtime.id, { __action__: Routes.FRAME_MEMORY_RESET });
                   navigate("/options?open=frames");
@@ -50,7 +50,7 @@ export function FrameSettingView({
               >ウィンドウサイズをリセット</button>
             </div>}
             {frame.protected ? null : <div>
-              <button className="border rounded p-2 cursor-pointer border-slate-200 bg-slate-100"
+              <button className="border rounded-sm p-2 cursor-pointer border-slate-200 bg-slate-100"
                 onClick={async () => { await frame.delete(); navigate("/options?open=frames"); }}
               >削除</button>
             </div>}
@@ -59,12 +59,12 @@ export function FrameSettingView({
       </div>
       <div className="mb-4 flex space-x-4">
         <div className="">
-          <button className="border rounded p-2 cursor-pointer border-slate-200 bg-red-400 text-white"
+          <button className="border rounded-sm p-2 cursor-pointer border-slate-200 bg-red-400 text-white"
             onClick={async () => { await Frame.drop(); revalidator.revalidate(); }}
           >窓設定を全部消して初期化する</button>
         </div>
         <div className="">
-          <button className="border rounded p-2 cursor-pointer border-slate-200 bg-blue-400"
+          <button className="border rounded-sm p-2 cursor-pointer border-slate-200 bg-blue-400"
             onClick={async () => {
               const win = await launcher.find();
               if (!win) return window.alert("艦これウィジェットが開いている別窓が見つかりませんでした。");

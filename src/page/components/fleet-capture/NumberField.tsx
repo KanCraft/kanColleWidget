@@ -31,7 +31,7 @@ export function NumberField({
         min={min}
         max={max}
         step={1}
-        className="border rounded p-1 w-20"
+        className="border rounded-sm p-1 w-20"
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
       />

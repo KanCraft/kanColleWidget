@@ -101,7 +101,7 @@ export function ScreenshotEditPage() {
         onMouseMove={editor.onMouseMove}
         onMouseUp={editor.onMouseUp}
         onMouseLeave={editor.onMouseLeave}
-        className={`max-w-full border shadow ${editor.tool ? "cursor-crosshair" : ""}`}
+        className={`max-w-full border shadow-sm ${editor.tool ? "cursor-crosshair" : ""}`}
       />
     </div>
   );
