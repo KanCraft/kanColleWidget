@@ -1,8 +1,8 @@
 # 必ず尊重すること
 
-保守性・拡張性・可読性を重視する。
-単一責任の原則に則り、変更しやすく、置換しやすく、理解しやすい設計を徹底する。
-多少冗長になっても、責務分離の観点からなるべくシンプルかつエレガントな設計になるよう心がける。
+保守性・拡張性・可読性を重視する。単一責任の原則に則り、変更しやすく、置換しやすく、理解しやすい設計を徹底する。多少冗長になっても、責務分離の観点からなるべくシンプルかつエレガントな設計になるよう心がける。
+
+設計判断の前に [`docs/constitution.md`](docs/constitution.md)（憲章）を読むこと。
 
 # 最重要な指示
 
@@ -26,28 +26,52 @@
 - ドキュメントは別に書いているので、ドキュメトに付いては考慮しないこと
 - 変更点とリリースノートの整合性を確認すること
 
-# Repository Guidelines
+# 艦これウィジェット
 
-以下の項目は、今後変更しうるため、現時点での目安と考えること
+艦隊これくしょん（艦これ）のプレイヤー向け Chrome 拡張（Manifest V3）。遠征・入渠・建造・疲労のタイマーと通知、ゲーム窓の起動とリサイズ、スクリーンショット、大破進撃防止窓を提供する。TypeScript（strict）、React + React Router、Vite、Tailwind CSS、Vitest。Node と pnpm の版は `package.json` の `engines` に従う。
 
-## プロジェクト構成とモジュール運用
-本リポジトリ は 艦これウィジェット Chrome 拡張 を 管理 します。主コード は `src/`、UI は `src/components/`、状態 や サービス は `src/features/` に 置きます。テスト は `tests/`、ビルド成果 は `dist/` に 保存 します。進行 セッション は `sessions/`、完了 記録 は `archived_sessions/` と `log/` に 移し、MCP ツール は `mcp/`、エディタ 設定 は `.vscode/` に 保管 します。共有 設定 は `config.toml` に 集約 し、機密 `auth.json` `internal_storage.json` `version.json` は ローカル 専用 で `.gitignore` を 確認 してください。
+## コマンド
 
-## ビルド・テスト・開発コマンド
-- `pnpm install` Node 20 と pnpm 9 系 前提 で 依存 を 取得 します。
-- `pnpm start` TypeScript ビルド と Vite ウォッチ で 開発 dist を 更新 します。
-- `pnpm build` 本番 dist を 生成 し 拡張 に 読み込み ます。
-- `pnpm test` / `pnpm test:ui` Vitest を 実行 し 必要 に 応じ `--coverage` を 追加 します。
-- `pnpm lint` で ESLint を 実行 し、併せて `codex --help` `codex resume --last` `codex mcp --list` を スモーク 確認 します。
+```bash
+pnpm install          # 依存関係のインストール
+pnpm build            # プロダクションビルド（tsc → copy-tesseract → vite）
+pnpm start            # ウォッチビルドと kcsapi Recorder サーバを並走（docs/kcsapi-recorder.md）
+pnpm test             # Vitest（ウォッチ。1 回だけなら pnpm exec vitest run）
+pnpm lint             # ESLint（警告 0 件が条件）
+pnpm typecheck        # 型チェックのみ
+```
 
-## コーディングスタイルと命名規則
-TypeScript と React の コンポーネント は パスカルケース、カスタム フック は `useXxx` 命名 を 推奨 します。ディレクトリ は ケバブケース、JSON キー は スネークケース、TOML と JSON の インデント は 2 スペース を 守ります。Tailwind クラス は 意味 単位 で まとめ、Markdown は おおむね 80 文字 で 改行 してください。
+## リリース
 
-## テスト指針
-テスト フレームワーク は Vitest で `@testing-library/react` を 用い UI 振る舞い を 検証 します。コンポーネント ごと に `ComponentName.test.tsx` を 置き、主要 パス と エッジ ケース を カバー します。`pnpm test -- --coverage` で レポート を 生成 し `coverage/` と Codecov バッジ を 監視、閾値 を 下げない よう 留意 します。セッション 処理 を 変更 した 場合 は マスク 済み `sessions/` 抜粋 を 添付 し 手順 を 証明 してください。
+- バージョンの単一の真実源は `package.json` の `version`。上げるのは `make version v=X.Y.Z` だけ（`release-note.json` の未公開エントリも再生成される）。`manifest.json` はビルド時に生成される成果物なので直接編集しない（編集するのは `src/public/manifest.template.json`）。
+- BETA は、version が直近タグより先行している間、毎朝 06:30 JST の定期実行（`.github/workflows/release-beta.yaml`）で自動公開される。急ぐときは同ワークフローを `workflow_dispatch` で手動実行する。
+- 本番は GitHub Release を作ると `release-prod.yaml` が走る（`gh release create vX.Y.Z --generate-notes`）。
+- 手順の詳細は `.claude/skills/release/SKILL.md` と README.md の「リリースフロー」。
 
-## コミットとプルリクエストのルール
-コミット メッセージ は 日本語 Conventional Commits を 用い `feat: 任務 タイマー の 自動 更新` の ように 種別 と 要約 を 明示 します。PR は スカッシュ マージ 前提 で テンプレート の 概要、手動 検証、言語 チェック、リスク、関連 リンク を 必ず 埋めます。`config.toml` を 変更 した 場合 は 対象 プロファイル、更新 キー、期待 結果 を 表形式 で 記述 し、必要 に 応じ スクリーンショット や ログ を 添付 してください。レビュアー が 手順 を 追える よう 実施 コマンド を 箇条書き で 残します。
+## 構成
 
-## セキュリティ と 設定 の 注意点
-`pnpm build` 後 は `pnpm remove-remote-code` を 実行 し 外部 CDN 参照 を 除去 します。権限 拡張 前 に `config.toml` の `trust_level` を 見直し 最小 権限 を 保ちます。共有 不可 ファイル は リポジトリ 外 に 留め、追加 環境 変数 は `.env.local` 等 無視 対象 に 記述 します。`.gitignore` の 保護 状態 を 定期 確認 し 問題 が あれば 速やか に Issue を 起票 してください。
+イベント駆動。`src/background.ts`（Service Worker）が各 Chrome イベントを `src/controllers/` のルーター（chromite の `Router`）へ流し、コントローラが `src/services/`（Chrome API ラッパー）と `src/models/`（jstorm で `chrome.storage.local` に永続化）を使う。UI は `src/page/`（React）、ゲーム窓への注入は `src/injection/`（`dmm.ts` は外側、`osapi.ts` はゲーム iframe）。
+
+- メッセージは `{ __action__: "/path/like/url", ...payload }` の形で、ルート名は `src/messages.ts` にまとめる。
+- 艦これ API の傍受は `SequentialRouter`（最大 2 並列）で処理し、競合を防ぐ。
+- タイマーは Queue（`scheduled` は epoch ミリ秒）に積み、30 秒ごとのアラームで `QueueWatcher` が確認して通知する。
+- 入渠・建造の残り時間は、API 検知時に画面を撮影して切り抜き、ゲーム窓の content script で Tesseract.js による OCR をして得る。
+- Chrome Web Store の審査対応のため、ビルド後に `pnpm run remove-remote-code` で CDN への参照を潰す。
+
+### 通知ID規約
+
+通知 ID は `/{type}/{trigger}/{target}`（例: `/mission/end/2`、`/mission/remind/3`、`/recovery/start/1`）。設定レコードのキーは `/{type}/{trigger}`。回収時などの消去処理はこの形式への前方・後方一致に依存しているので、形式を変えない。実装は `src/models/entry/NotificationId.ts`、契約は `tests/notification-id.spec.ts` が固定している。
+
+## MV3 の制約
+
+- Service Worker は idle で止まるので、永続的なグローバル変数を使わない。
+- `localStorage` は Service Worker で使えない。ストレージは `chrome.storage.local`（一時的なものは `chrome.storage.session`）。
+- `scripting.executeScript` で注入したスクリプトはリロードで消える（docs/history/20260604_game-window-resize-on-reload.md）。
+
+## コード規約
+
+- コメントは日本語。コミットメッセージは日本語の平文（例: `遠征の帰投予告通知を追加する (#935)`）。
+- クラスは PascalCase、関数は camelCase、定数は UPPER_SNAKE_CASE。
+- `any` は最小限にする。
+- テストは `tests/` に kebab-case の `*.spec.ts(x)` で置く。
+- 文書の置き場は `docs/README.md` に従う。
