@@ -47,7 +47,7 @@ export class NotificationService {
 
     // XXX: macOSでは、requireInteractionに関わらずOSの設定に引っ張られるため
     //      stay === false であれば明示的に消すようにする
-    //      @see https://github.com/KanCraft/kanColleWidget/blob/develop/spec/features/notification-stay-on-display.md
+    //      @see docs/history/20251108_notification-require-interaction.md
     if (config.stay === false) {
       setTimeout(() => this.clear(entry.$n.id(trigger)), 10 * 1000);
     }
