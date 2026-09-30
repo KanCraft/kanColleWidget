@@ -56,6 +56,7 @@ onBeforeRequest.on(["/kcsapi/api_req_sortie/battleresult"], onBattleResulted); /
 onBeforeRequest.on(["/kcsapi/api_req_combined_battle/battleresult"], onBattleResulted); // 連合艦隊の戦闘結果を回収しようとしたとき(#1864)
 onBeforeRequest.on(["/kcsapi/api_req_map/next"], onMapNext); // マップ移動をしたとき
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/battle"], onMidnightBattleStarted); // 昼戦マスからの追撃夜戦に突入したとき
+onBeforeRequest.on(["/kcsapi/api_req_combined_battle/ec_midnight_battle"], onMidnightBattleStarted); // 敵連合艦隊との追撃夜戦に突入したとき
 onBeforeRequest.on(["/kcsapi/api_req_battle_midnight/sp_midnight"], onSpMidnightBattleStarted); // 開幕夜戦マスの戦闘が開始されたとき(#1764)
 // 連合艦隊の開幕夜戦。パス未観測のため予防的登録（実機確認まで挙動は未保証）(#1764)
 onBeforeRequest.on(["/kcsapi/api_req_combined_battle/sp_midnight"], onCombinedSpMidnightBattleStarted);

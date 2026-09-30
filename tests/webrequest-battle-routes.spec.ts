@@ -74,6 +74,17 @@ describe("連合艦隊の戦闘 API ルーティング", () => {
     expect(battleStart).toHaveBeenCalledWith("1");
   });
 
+  // 追撃夜戦は同じマスの戦闘の継続なので、連戦数は増やさず夜戦フラグだけを立てる。
+  // 敵の連合有無でパスが分かれるが、いずれも同じ扱いになることを固定する。
+  it.each([
+    ["/kcsapi/api_req_battle_midnight/battle", "敵通常艦隊"],
+    ["/kcsapi/api_req_combined_battle/ec_midnight_battle", "敵連合艦隊"],
+  ])("%s（%s との追撃夜戦）は連戦数を増やさず夜戦フラグだけ立てる", async (path) => {
+    await dispatch(path);
+    expect(battleStart).not.toHaveBeenCalled();
+    expect(battleMidnight).toHaveBeenCalledTimes(1);
+  });
+
   it.each([
     ["/kcsapi/api_req_sortie/battleresult"],
     ["/kcsapi/api_req_combined_battle/battleresult"],
