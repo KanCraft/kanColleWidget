@@ -2,11 +2,11 @@
 argument-hint: '[status|beta|prod] [<version>|major|minor|patch]'
 description: |
     艦これウィジェットのリリースを駆動する。リリースモデルは「main の version が
-    直近タグより先行している間は push のたびに BETA 自動公開 / GitHub Release を作ると
+    直近タグより先行している間は毎朝の定期実行で BETA 自動公開 / GitHub Release を作ると
     PROD 公開申請」の1ルール。バージョンの真実源は package.json のみ、manifest.json は
     ビルド生成物。このスキルは (1) 現在のリリース状態の診断、(2) コミット履歴からの
     次バージョン・release-note メッセージの起草、(3) beta サイクル開始（make version →
-    commit → push）、(4) prod 出荷（gh release create）を、外向き操作（push＝beta公開、
+    commit → push）、(4) prod 出荷（gh release create）を、外向き操作（push＝翌朝のbeta公開対象、
     Release作成＝prod公開）の承認ゲート付きで行う。`/release [status|beta|prod] [bump]`
     で呼び出す。引数なしは status（診断のみ）。
 name: release
@@ -23,9 +23,11 @@ name: release
 - 開発は **`main` 1本**（develop は廃止済み）。
 - **バージョンの単一の真実源 = `package.json` の `version`**。`manifest.json` はビルド時に
   channel 別生成される成果物なので手で触らない。
-- **BETA**: `package.json` の version が直近タグより**先行している間**、`main` への push の
-  たびに自動公開（`release-beta.yaml`）。`manifest.version = <base>.<直近タグからのcommit数>`、
-  `version_name = <base>-beta.<N>`。
+- **BETA**: `package.json` の version が直近タグより**先行している間**、毎朝 06:30 JST
+  （cron `30 21 * * *`）に `release-beta.yaml` が走り、直近24時間に main へ対象 commit
+  （`**/*.md`・`docs/`・`design/` を除く）があれば BETA を自動公開する。push は公開の即時
+  トリガではない。今すぐ出すには `Release BETA` を `workflow_dispatch` で手動実行する。
+  `manifest.version = <base>.<直近タグからのcommit数>`、`version_name = <base>-beta.<N>`。
 - **PROD**: **GitHub Release を作成（= タグ `vX.Y.Z` を打つ）**と公開申請（`release-prod.yaml`、
   `release:published` かつ `prerelease == false`）。tag は `package.json` の version と一致必須。
 - 唯一の管理コマンドは **`make version v=X.Y.Z`**（package.json 更新 ＋ release-note 再生成）。
@@ -34,7 +36,7 @@ name: release
 
 外向き・不可逆な操作は **必ず承認ゲートを通す**。承認なしに実行しない:
 
-- `git push origin main` … BETA への公開申請を引き起こす（外向き）。
+- `git push origin main` … 次回の定期実行（毎朝 06:30 JST）で BETA 公開の対象になる（外向き）。
 - `gh release create` … PROD への公開申請を引き起こす（外向き・本番）。
 
 以下に該当したら実行を止め、理由を述べて指示を仰ぐ（BLOCKED）:
@@ -76,8 +78,9 @@ jq -r '.releases[0]' src/release-note.json      # 先頭 release-note エント�
 - `BASE == LASTTAG(v除去)` → **「タグに追いついている。未公開の変更なし」**。
   次の一手: `/release beta <bump>` で新サイクル開始。
 - `BASE != LASTTAG` → **「未公開サイクル中」**。
-  - 次に main へ push すると BETA `BASE.N`（version_name `BASE-beta.N`）が公開申請される。
-  - 既に push 済みなら BETA は申請済み。PROD に出すには `/release prod`。
+  - main へ push した commit が直近24時間以内にあれば、翌朝 06:30 JST の定期実行で BETA
+    `BASE.N`（version_name `BASE-beta.N`）が公開される。急ぐなら `workflow_dispatch`。
+  - PROD に出すには `/release prod`。
   - release-note 先頭エントリの `message` が空なら警告（prod 前に要記入）。
 
 最後に「現状サマリ＋推奨アクション1つ」を提示して終了（変更はしない）。
@@ -89,7 +92,7 @@ jq -r '.releases[0]' src/release-note.json      # 先頭 release-note エント�
 ### ケース A: 既に未公開サイクル中（`BASE != LASTTAG`）で、追加コミットを beta に出すだけ
 
 version 変更は不要（push すれば `BASE.N` が自動で上がる）。
-未 push の commit があるなら「push すると BETA が更新されます」と述べ、**push の承認ゲート**へ。
+未 push の commit があるなら「push すると翌朝 06:30 JST の定期実行で BETA が更新されます」と述べ、**push の承認ゲート**へ。
 
 ### ケース B: タグに追いついている（`BASE == LASTTAG`）＝ 新バージョンが必要
 
@@ -102,8 +105,10 @@ version 変更は不要（push すれば `BASE.N` が自動で上がる）。
 3. **release-note メッセージの起草**: 再生成された `releases[0]` の `message` は空なので、
    `commits` 配列を要約してユーザー向けの1〜2文を起草し、`message` に書き込む（diff を見せる）。
 4. ここまでの差分（`package.json` と `src/release-note.json`）を提示して**コミット承認**を取り、
-   `git commit`（メッセージは日本語、例 `vX.Y.Z`）。
-5. **push 承認ゲート** → 承認後 `git push origin main`。これで BETA が公開申請される旨を伝える。
+   `git commit`。メッセージは必ず `vX.Y.Z`（完全一致）にする。`release-beta.yaml` は直近24時間の
+   commit 件名からこの形式を探し、見つかったときだけ beta 告知ツイートを出す。
+5. **push 承認ゲート** → 承認後 `git push origin main`。翌朝 06:30 JST の定期実行で BETA が公開される旨を伝える
+   （急ぐなら `workflow_dispatch`）。
 
 ビルドが通るかローカル確認したい場合は、push 前に
 `KCW_CHANNEL=beta KCW_VERSION=X.Y.Z.N KCW_VERSION_NAME=X.Y.Z-beta.N pnpm build` で
