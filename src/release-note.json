@@ -4,37 +4,129 @@
   },
   "releases": [
     {
-      "date": "2026-06-05",
-      "version": "v4.8.3",
-      "message": "ゲーム別窓のリロード時にサイズ調整が効かなくなる不具合を修正しました。",
+      "date": "2026-10-01",
+      "version": "v4.9.0",
+      "message": "遠征の帰投予告、任務トラッカー、出撃記録の一覧とエクスポートなどを追加し、ゲーム窓や通知まわりの不具合を多数修正しました。",
       "commits": [
         {
-          "hash": "8ae47c0c0829c9525858e65c7ea3a0c333503712",
-          "title": "リリース駆動スキル /release を追加"
+          "hash": "ee492b5e3009f94cc46034a92f2d330666485bc0",
+          "title": "Dockerfile を Node 22・pnpm 10 に合わせ、README の develop 手順を消す"
         },
         {
-          "hash": "29208b2a1008618ee24355fbb8b25b6ae55716ab",
-          "title": ".gitignore の release パターンをルート直下のビルド出力に限定"
+          "hash": "423b29c2ce941b9e2675923332b2327c9349379b",
+          "title": "release スキルの BETA 公開タイミングを定期実行に合わせて直す"
         },
         {
-          "hash": "8a0f7053b7425b477d129944ab74509a660049c2",
-          "title": "リリースサイクルをGitHub完結型に再設計"
+          "hash": "4977652eaec5b3e89b744f5c8ef29000eb71a2b8",
+          "title": "入口を AGENTS.md に一本化し、CLAUDE.md はその読み込みだけにする"
         },
         {
-          "hash": "8693c0db16887677c2b0de4f8712f8e64baf3401",
-          "title": "リロード時にゲーム別窓のコンテンツスクリプトを再注入する"
+          "hash": "226dcb71070565b841cc92adb80dea70cb551381",
+          "title": "spec/features の記録を docs/history と手順書へ圧縮して移す"
         },
         {
-          "hash": "a5bd168fc43d97d2974bdba5e7201bfa3f658723",
-          "title": "ゲーム別窓のサイズ調整とリロード耐性に関する設計判断記録を追加"
+          "hash": "e7d2ef3db37d64a583c6ff1a7d78c54dba98a570",
+          "title": "ゲーム窓の ADR 2本を決定と理由に圧縮して docs/history へ移す"
         },
         {
-          "hash": "f55ec8792914915b69d9a6e3f6ef9be6a8d2964e",
-          "title": "ajvのoverrideを除去（eslint 8との非互換を修正）"
+          "hash": "fc8913009f7a962e3fe76682e6722b3fa01472ce",
+          "title": "設計原則を docs/constitution.md に憲章として立て、古い機能一覧とビジョン文書を畳む"
         },
         {
-          "hash": "953a93589119f08e33738315e62c32e8a9cbcb4c",
-          "title": "依存パッケージの脆弱性を修正（pnpm audit 全件解消）"
+          "hash": "b92fc1ae26d98f8e129614ef0857b6749ad72368",
+          "title": "使われていない speckit 一式と空の entry README を削除する"
+        },
+        {
+          "hash": "cb0301cb4fc905f006af26af767e4e3553b20545",
+          "title": "遠征の帰投予告通知を追加する (#935)"
+        },
+        {
+          "hash": "3718b7812cecc1e7806db899fa59c6142b330c35",
+          "title": "ESLint 10・typescript-eslint 8・TypeScript 6 に上げる"
+        },
+        {
+          "hash": "2382254588d100b8a07fd208051a336f98fe240a",
+          "title": "Tailwind CSS を 4 に上げる"
+        },
+        {
+          "hash": "ad03db4700fad523c55c62917f5c8f9a34f4778c",
+          "title": "ポップアップ等のスタイルをSCSSからCSSに書き換える"
+        },
+        {
+          "hash": "519f6c68e35e93b479428f4ebc466afaa735ecd6",
+          "title": "vitest を 4 に上げる"
+        },
+        {
+          "hash": "22d7ce08bc49c27dd74eb3fec63b7ad3d9be6a53",
+          "title": "脆弱性アラートの出ている間接依存を更新する"
+        },
+        {
+          "hash": "b493e42e37ab655b488cbf472e2dc3eb41b139b1",
+          "title": "pnpm設定をpnpm-workspace.yamlに移し、minimumReleaseAgeを3日に設定"
+        },
+        {
+          "hash": "3d41baf2a6f1b647cb7d321cec36985c0ef4529c",
+          "title": "TesseractのWASMコアを拡張に同梱する"
+        },
+        {
+          "hash": "fb452e3d1213dc1098b686a7938b432f7dbb996c",
+          "title": "切り抜き範囲を元に戻したときに変更ありの表示を消す"
+        },
+        {
+          "hash": "64b440ac5676d85e3d081b4bc8bfee652a08662e",
+          "title": "編成キャプチャの導線を見直す"
+        },
+        {
+          "hash": "a7793b0e4b6bb5f6cd27658ac7ff9bd9d13e40f9",
+          "title": "敵連合艦隊との追撃夜戦を夜戦として記録する"
+        },
+        {
+          "hash": "0a0d19e3c5da20d79e0daa45cc4a48e638dcf67b",
+          "title": "連合艦隊の編成別戦闘APIを連戦数に算入する"
+        },
+        {
+          "hash": "6baa2f893b4420b17b8d2fd4b3c655652b680b70",
+          "title": "<html> 直下の iframe を隠してゲーム画面の位置ずれを防ぐ"
+        },
+        {
+          "hash": "ccac16a1ef0079bc0ce5b2a94880e4c49c40056a",
+          "title": "海域名カタログの誤りを訂正し未収録の海域を追加"
+        },
+        {
+          "hash": "8829d2aac02ee165bd9e03c52309a0c14fa7c871",
+          "title": "出撃を跨いだ支援遠征のタイマーを母港帰投で畳む"
+        },
+        {
+          "hash": "1247b849e4846e82b92af2b9aceef7481f0d92c6",
+          "title": "削除済みのプリセットを編成キャプチャ画面の選択肢から除く"
+        },
+        {
+          "hash": "37370a261b51562f444dece8b0a7987f61647861",
+          "title": "保存済みの編成キャプチャプリセットに並び順を移行する"
+        },
+        {
+          "hash": "7b4f6a429dbc44a8d51e08099cbbeb610edc6e3e",
+          "title": "編成キャプチャのプリセットに並び順を導入する"
+        },
+        {
+          "hash": "3277b17fdd1cbbd9b8ab59afed3e8991bcad8c6b",
+          "title": "基地航空隊出撃(start_air_base)を交戦回数カウント対象から外す"
+        },
+        {
+          "hash": "c40e008717bb4f1d77387538cfe2d31e79377307",
+          "title": "コード内コメントから未検証範囲の説明を削る"
+        },
+        {
+          "hash": "74201a2156453fc319b9dba5be735225904cfeae",
+          "title": "kcsapi Recorderの実データで航空戦・空襲戦(通常艦隊)のエンドポイントを裏取り"
+        },
+        {
+          "hash": "9cab15772fff618803f96a5320c8b4858ad66d09",
+          "title": "大破進撃防止窓の交戦回数に航空戦・空襲戦マスを含める"
+        },
+        {
+          "hash": "d60a4855a1662b7224a8ecb637286f22b4d42097",
+          "title": "完了が最も近いタイマーの残り時間を拡張アイコンのバッジに表示する"
         }
       ]
     },
