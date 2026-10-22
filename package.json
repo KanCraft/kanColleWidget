@@ -4,7 +4,7 @@
   "version": "4.9.0",
   "type": "module",
   "engines": {
-    "node": "v22.20.0",
+    "node": "v22.23.4",
     "pnpm": ">=10"
   },
   "scripts": {
