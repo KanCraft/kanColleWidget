@@ -1,3 +1,9 @@
+allowBuilds:
+  '@parcel/watcher': false
+  '@swc/core': false
+  esbuild: false
+  tesseract.js: false
+
 minimumReleaseAge: 4320
 
 overrides:
