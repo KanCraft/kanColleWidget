@@ -99,7 +99,6 @@ jobs:
           KCW_VERSION_NAME: ${{ steps.ver.outputs.version_name }}
         run: |
           pnpm build
-          pnpm run remove-remote-code
           make package
 
       - name: Webstore へ公開（BETA）

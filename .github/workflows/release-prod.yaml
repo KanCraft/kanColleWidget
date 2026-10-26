@@ -67,7 +67,6 @@ jobs:
           KCW_VERSION: ${{ steps.ver.outputs.version }}
         run: |
           pnpm build
-          pnpm run remove-remote-code
           make package
 
       - name: Webstore へ公開申請提出（PROD）
