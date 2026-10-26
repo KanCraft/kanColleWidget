@@ -27,7 +27,7 @@ clean:
 # ビルド時に Vite プラグイン(scripts/build-manifest.ts)が dist へ反映済みなので、
 # ここでは zip するだけ。旧 release / beta-release のような切替ロジックは持ちません。
 #
-# 前提: 先に `KCW_CHANNEL=beta|prod KCW_VERSION=... pnpm build && pnpm run remove-remote-code`
+# 前提: 先に `KCW_CHANNEL=beta|prod KCW_VERSION=... pnpm build`
 #       でチャンネル別の dist を作っておくこと。
 # 注意: manifest.json が zip のルートに来るよう、dist の「中身」を zip します。
 package:
