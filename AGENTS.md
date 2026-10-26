@@ -2,7 +2,9 @@
 
 保守性・拡張性・可読性を重視する。単一責任の原則に則り、変更しやすく、置換しやすく、理解しやすい設計を徹底する。多少冗長になっても、責務分離の観点からなるべくシンプルかつエレガントな設計になるよう心がける。
 
-設計判断の前に [`docs/constitution.md`](docs/constitution.md)（憲章）を読むこと。
+設計判断の前に憲章（`docs/constitution.md`）を読むこと。
+
+@docs/constitution.md
 
 # 最重要な指示
 
@@ -56,7 +58,7 @@ pnpm typecheck        # 型チェックのみ
 - 艦これ API の傍受は `SequentialRouter`（最大 2 並列）で処理し、競合を防ぐ。
 - タイマーは Queue（`scheduled` は epoch ミリ秒）に積み、30 秒ごとのアラームで `QueueWatcher` が確認して通知する。
 - 入渠・建造の残り時間は、API 検知時に画面を撮影して切り抜き、ゲーム窓の content script で Tesseract.js による OCR をして得る。
-- Chrome Web Store の審査対応のため、ビルド後に `pnpm run remove-remote-code` で CDN への参照を潰す。
+- Chrome Web Store の審査対応のため、`pnpm build` の最後に `remove-remote-code` が CDN への参照を潰す（動作には影響しない）。
 
 ### 通知ID規約
 
@@ -75,3 +77,4 @@ pnpm typecheck        # 型チェックのみ
 - `any` は最小限にする。
 - テストは `tests/` に kebab-case の `*.spec.ts(x)` で置く。
 - 文書の置き場は `docs/README.md` に従う。
+- ファイルを編集したあと、IDE の診断（`mcp__ide__getDiagnostics` など）が使える環境では確認し、エラーや警告を直してから報告する。
