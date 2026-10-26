@@ -15,7 +15,7 @@ interface Position {
 }
 
 export interface ScreenshotEditorController {
-  canvasRef: RefObject<HTMLCanvasElement>;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   status: EditorStatus;
   tool: ToolType | null;
   color: string;
