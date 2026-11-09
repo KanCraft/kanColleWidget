@@ -25,7 +25,7 @@
     "jstorm": "^0.18.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-router-dom": "^7.18.4",
+    "react-router-dom": "^7.18.5",
     "tesseract.js": "^7.0.0",
     "tesseract.js-core": "^7.0.0"
   },
