@@ -1,12 +1,12 @@
-FROM node:22-bookworm
+FROM node:26.13.1-bookworm
 
 ENV PNPM_HOME=/root/.local/share/pnpm \
     CHOKIDAR_USEPOLLING=1 \
     WATCHPACK_POLLING=true
 ENV PATH="$PNPM_HOME:$PATH"
 
-# CI（pnpm/action-setup version: 10）と同じ pnpm 10 系に固定する。未指定だと corepack が最新版を取る
-RUN corepack enable pnpm && corepack prepare pnpm@10 --activate
+# Node.js 26 には Corepack が同梱されないため、CI と同じ pnpm 11 系を明示導入する。
+RUN npm install --global pnpm@11.12.0
 
 WORKDIR /workspace
 
