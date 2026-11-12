@@ -16,7 +16,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [26.13.1]
     steps:
     - uses: actions/checkout@v7
     - name: Use Node.js ${{ matrix.node-version }}
