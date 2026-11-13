@@ -46,7 +46,7 @@ jobs:
           node-version: '26'
           check-latest: true
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6.1.0
+        uses: pnpm/action-setup@v6.1.1
         with:
           version: 11
       - run: pnpm install
@@ -102,7 +102,7 @@ jobs:
           node-version: '26'
           check-latest: true
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6.1.0
+        uses: pnpm/action-setup@v6.1.1
         with:
           version: 11
       - run: pnpm install
